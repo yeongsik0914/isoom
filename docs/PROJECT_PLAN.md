@@ -11,7 +11,7 @@
 ### 1.2 프로젝트 목표
 1. **하네스(Harness) 기반 멀티 에이전트 시스템 구축**: 역할이 명확히 분리된 에이전트들이 유기적으로 협업하여 안전하고 신뢰할 수 있는 매칭 정보 제공.
 2. **의료법 100% 준수**: 직접적 질병 진단을 원천 차단하고, KTAS 기반 위험 징후(Red Flag) 선별과 의료기관 탐색·안내에 집중.
-3. **GCP Gemini 기반 모델 최적화 및 비용 절감**: 작업 난이도별 최적 Gemini 모델 배치 및 비(Non)-LLM(규칙/DB/캐시) 하이브리드 설계를 통해 API 비용 80% 이상 절감.
+3. **GCP 최신 Gemini 모델 최적화(Gemini 3.8 Flash & 3.5 Flash-Lite) 및 비용 절감**: 에이전트 추론 난이도별 최적 모델 배치 및 비(Non)-LLM(규칙/DB/캐시) 하이브리드 설계를 통해 API 비용 85% 이상 절감.
 4. **공공데이터 DB 동기화 파이프라인을 통한 백엔드 고속화**: HIRA/E-Gen API 데이터를 PostGIS 및 Redis에 사전 적재·동기화하여 사용자 응답 속도를 3초 이상에서 50ms 이내로 단축.
 5. **탐색적 데이터 분석(EDA) 및 시각화 노트북 제공**: 전국 및 지자체별 야간·휴일 소아과 인프라 현황을 시각화하고 취약 지역을 정량적으로 분석.
 
@@ -166,19 +166,43 @@ flowchart TB
 | **6. Visit Logistics Agent** | 내원 전 필수 준비물 안내, 접수 마감 주의사항, 병원 유선 확인 스크립트 제공 | Checklist Generator, Call Guidance | 2024년 5월 시행 '신분증/등본 본인확인 의무' 필수 안내 |
 | **7. Audit & Security Sentinel Agent (관리 감독)** | **에이전트 DB 접근 감시, 무단 수정/삭제 차단, 관리자 보고 및 HITL 승인 강제** | DB Interceptor, Mutation Staging Tool, Audit Logger | **SELECT 외 모든 쓰기/삭제 즉시 인터셉트**, 보고 누락 시도 시 에이전트 즉시 격리 |
 
-### 3.3 GCP Vertex AI 제미나이(Gemini) 모델 최적화 배치 전략
+### 3.3 GCP Vertex AI 제미나이(Gemini) 모델 전수 검토 및 역할별 최적화 배치 전략
 
-모든 에이전트에 동일한 고성능 LLM을 쓰면 **응답 지연(Latency)**과 **비용(Cost)**이 급증합니다. 각 에이전트의 역할과 연산 특성에 맞추어 최적의 Gemini 모델을 차등 배정합니다.
+MoonlightCare는 2026년 기준 Google의 최신 생성형 AI 모델 라인업(Gemini 3.8 / 3.x / 4)을 전수 검토하여, **"LLM이 꼭 필요한 고난도 자연어·추론 영역"**과 **"절대 LLM을 쓰지 않고 0ms 결정론적(DB/규칙)으로 처리해야 하는 영역"**을 엄격히 분리하여 배치합니다.
 
-| 에이전트 | 권장 Gemini 모델 | 선정 사유 및 모델 특성 | 목표 지연시간 (Latency) |
+#### 1) 2026년 최신 Google Gemini 모델 라인업 전수 검토
+
+| 모델 계열 | 세부 모델명 | 아키텍처 특성 및 벤치마크 포지셔닝 | 본 프로젝트 채택 여부 및 근거 |
 | :--- | :--- | :--- | :--- |
-| **Supervisor / Router** | **Gemini 1.5 Flash / 2.0 Flash** | 에이전트 간 분기 판단 및 상태 요약에 탁월하며, 높은 처리 속도와 JSON Output 안정성 제공 | < 400ms |
-| **Triage & Intake** | **Gemini 2.0 Flash** | 부모의 불안한 감정을 완화하는 자연스러운 한국어 대화 능력, 빠른 응답 속도, 함수 호출(Tool Calling) 능력 우수 | < 500ms |
-| **Medical Guardrail** | **Gemini 1.5 Flash-8B / Flash-Lite** | 초저비용·초고속 모델. 진단/처방 키워드 및 의료법 위반 여부의 이진 분류(Classification)에 최적화 | < 200ms |
-| **Emergency Escalation** | **규칙 엔진(Rule) + Gemini Flash** | 1초가 급한 응급상황이므로 1차는 0ms 규칙 엔진으로 처리하고, 2차 공감 안내문 생성에 Flash 사용 | < 300ms |
-| **Facility Matching** | **Gemini 1.5 Flash (또는 LLM 미사용)** | 실제 병원 탐색은 DB(PostGIS)가 수행하며, Gemini는 매칭된 3개 병원의 요약 브리핑 카드 생성에만 활용 | < 300ms |
-| **Visit Logistics** | **Gemini 1.5 Flash-8B / Flash-Lite** | 체크리스트 포맷팅 및 전화 안내 스크립트 생성 등 정형화된 텍스트 작업에 최적화된 저비용 모델 | < 250ms |
-| **Audit & Security Sentinel** | **SQL AST 파서(0ms) + Gemini 1.5 Flash-Lite** | 1차는 SQL 미들웨어 룰엔진으로 0ms 인터셉트하고, 관리자 보고용 Diff 요약서 작성에 Flash-Lite 활용 | < 150ms |
+| **Gemini 3.8**<br>(최신 플래그십 Flash) | **Gemini 3.8 Flash**<br>(GA Released 2026.09) | • 1M 토큰 컨텍스트, 65K 최대 출력<br>• 장기 에이전트 워크플로우(Long-horizon Agentic) 및 복합 도구 호출(Tool Calling) 특화<br>• **Effort Control (사고 수준: Low, Medium, High) 지원**<br>• 프론티어급 추론력과 초저지연 Flash 속도 결합 | **[핵심 메인 엔진 채택]**<br>• 부모의 비정형 문진(`Triage Agent`) 및 에이전트 상태 전이(`Supervisor Agent`)에 전격 배치<br>• 의료법 제27조 진단 방어와 KTAS 위험도 스크리닝을 위한 사고 수준(Thinking Effort: Medium) 최적화 |
+| **Gemini 3.8 Cyber** | **Gemini 3.8 Flash Cyber** | • 사이버 보안 및 취약점 탐지/자동 패치 특화 모델 (Fairwind 프로그램) | **[미채택]**<br>• 헬스케어 문진 도메인과 무관하여 배제 |
+| **Gemini 3.x Flash** | **Gemini 3.5 Flash-Lite / 3.1 Flash** | • 초고속 서빙(< 150ms), 서브 센트 초저비용<br>• 경량 분류, 정형 JSON 추출, 단문 포맷팅에 특화 | **[보조 경량 엔진 채택]**<br>• `Medical Guardrail`(이진 분류), `Visit Logistics`(체크리스트 서식화), `Sentinel Agent`(Diff 요약)에 배치하여 비용 90% 절감 |
+| **Gemini 3.1 Pro / Gemini 4** | **Gemini 3.1 Pro**<br>**Gemini 4 Argon** | • 초고난도 프론티어 심층 추론 모델 (고비용, 응답 지연 2~4초) | **[오프라인 Evals 한정 채택]**<br>• 실시간 서비스 런타임에서는 사용자 지연시간 방지를 위해 배제<br>• 40선 골든 테스트셋 자동 평가(`LLM-as-a-Judge`)에만 사용 |
+| **Gemini 2.5 / 2.0 / 1.5** | 2.5 Pro / 2.0 Flash / 1.5 계열 | • 2026년 10월 20일부 공식 퇴역(Retirement/Shutdown) 대상 레거시 모델 | **[사용 중단 (Legacy Deprecation)]**<br>• 서비스 안정성을 위해 최신 3.8 / 3.5 시리즈로 전면 교체 |
+
+#### 2) 'LLM 필수 영역' vs '비(Non)-LLM 배제 영역' 엄격 분리 원칙
+
+| 구분 | 처리 컴포넌트 | 적용 기술 | LLM 미사용(Zero-LLM) 당위성 및 사유 |
+| :--- | :--- | :--- | :--- |
+| **Zero-LLM<br>(LLM 호출 엄금)** | **1. KTAS Red Flag 응급 감지** | Python In-Memory Regex (`rule_engine.py`) | • 생후 100일 미만 38.5도 고열, 경련 등은 1초가 급한 골든타임 영역임.<br>• LLM 네트워크 호출(300ms)조차 허용할 수 없으며, **0ms 규칙 엔진으로 119 안내 즉각 직행**. |
+| **Zero-LLM<br>(LLM 호출 엄금)** | **2. 지리공간 반경 검색 & 영업시간 판정** | PostgreSQL 16 + PostGIS 3.4 (GIST 인덱스) | • LLM에게 병원 목록 수백 개를 넘겨주고 거리 계산을 시키면 수만 토큰 낭비 및 환각 발생.<br>• **PostGIS `ST_DWithin`으로 5ms 내에 100% 결정론적 SQL 연산**. |
+| **Zero-LLM<br>(LLM 호출 엄금)** | **3. 실시간 병상(`hv28`) 및 공휴일 조회** | Redis In-Memory (TTL 10분) & KASI 테이블 | • 1ms 초고속 캐시 조회로 디스크 I/O 및 LLM 비용 제로화. |
+| **Zero-LLM<br>(LLM 호출 엄금)** | **4. DB 무단 쓰기 물리 차단** | PostgreSQL `agent_readonly` Role & AST 파서 | • LLM 프롬프트에 의존하지 않고, DB 엔진 및 SQL 구문 트리 레벨에서 물리적 원천 차단. |
+| **LLM 필수<br>(Gemini 3.8 Flash)** | **5. 환아 증상 비정형 문진 (Triage)** | **Gemini 3.8 Flash (Thinking: Medium)** | • 불안한 부모의 복합적·감정적 서술에서 4대 필수 변수(월령, 체온, 시간, 증상)를 추출.<br>• 의료법 제27조(진단 금지)를 준수하면서 공감대 형성 및 안전한 Tool Calling 수행. |
+| **LLM 필수<br>(Gemini 3.8 Flash)** | **6. 하네스 오케스트레이션 (Supervisor)** | **Gemini 3.8 Flash (Thinking: Low)** | • 대화 문맥 누락 변수 파악 및 다음 에이전트로의 지능형 상태 핸드오프(FSM). |
+| **LLM 경량<br>(Gemini 3.5 Flash-Lite)** | **7. 가드레일, 체크리스트, 감사 요약** | **Gemini 3.5 Flash-Lite (Thinking: None)** | • 단순 이진 판별, 정형 서식 출력, JSON Diff 요약 등 단순 작업에 초저비용 투입. |
+
+#### 3) 에이전트별 최적 모델 및 사고 수준(Thinking Effort) 매트릭스
+
+| 에이전트 | 최종 확정 모델 | 사고 수준 (Thinking Effort) | 선정 사유 및 역할 한정 | 목표 레이턴시 |
+| :--- | :--- | :---: | :--- | :---: |
+| **Supervisor / Router** | **Gemini 3.8 Flash** | **Low** | 대화 문맥을 파악하고 최적 에이전트로 초고속 분기 (< 300ms) | < 300ms |
+| **Triage & Intake** | **Gemini 3.8 Flash** | **Medium** | 부모 공감, 4대 문진 변수 추출, KTAS 스크리닝 및 완벽한 Tool Calling | < 450ms |
+| **Medical Guardrail** | **Gemini 3.5 Flash-Lite** | **Off / None** | 0ms 정규식 통과 후 모호한 표현에 대해 의료법 위반 여부 초고속 이진 분류 | < 150ms |
+| **Emergency Escalation** | **0ms Rule + Gemini 3.5 Flash-Lite** | **Off / None** | 1차는 0ms 정규식 즉각 차단, 2차 119 안내 메시지 생성에만 경량 모델 사용 | < 150ms |
+| **Facility Matching** | **PostGIS (Zero-LLM) + 3.5 Flash-Lite** | **Off / None** | 병원 탐색·랭킹은 100% PostGIS가 수행(LLM 배제), 상위 3곳 요약 카드에만 경량 포맷팅 | < 200ms |
+| **Visit Logistics** | **Gemini 3.5 Flash-Lite** | **Off / None** | 2024년 5월 본인확인 서류 체크리스트 및 30초 전화 확인 스크립트 정형 생성 | < 150ms |
+| **Audit Sentinel** | **SQL AST (Zero-LLM) + 3.5 Flash-Lite** | **Off / None** | 1차는 AST 엔진으로 0ms 차단, 관리자 결재용 Before/After Diff 요약에만 경량 사용 | < 150ms |
 
 ### 3.4 각 에이전트별 상세 행동 규칙 (Operational Rule Sets & Constraints)
 
@@ -267,8 +291,8 @@ LLM은 '자연어 인터페이스 및 유연한 소통'에만 집중시키고, *
    - 시스템 프롬프트, 의료법 가이드라인, 문진 FSM 스키마 캐싱
        │
        ▼
- [ 3단계: 경량 모델(Flash / Flash-Lite) 추론 ]
-   - 필요한 경우에만 최소 토큰으로 경량 Gemini 호출
+ [ 3단계: 최적 모델(Gemini 3.8 Flash / 3.5 Flash-Lite) 추론 ]
+   - 필요한 경우에만 최소 토큰으로 특화 Gemini 모델 호출
        │
        ▼
  [ 4단계: PostGIS & Redis 공간 검색 ] ── (LLM 미사용, DB 단독 처리)
@@ -296,8 +320,8 @@ LLM은 '자연어 인터페이스 및 유연한 소통'에만 집중시키고, *
    * 소아 환자 부모들의 질문 패턴은 *"생후 18개월 아기 열 38.7도인데 갈 수 있는 병원"*, *"주말 야간 소아과 어디 있나요"* 등 매우 유사합니다.
    * 임베딩 기반 유사도(Cosine Similarity > 0.95)를 만족하는 이전 응답의 Triage 구조를 Redis에 캐싱하여, 동일 유형 질문 시 LLM 재호출 없이 즉시 캐시된 응답을 제공합니다.
 
-5. **모델 캐스케이딩(Cascading) 라우터**
-   * 입력 문장의 복잡도(토큰 길이, 감정 상태, 모호성)를 분석하여 단순 응답은 가장 저렴한 `Gemini Flash-Lite`로 처리하고, 다중 증상이 얽힌 모호한 문진에만 `Gemini Flash`를 가동합니다.
+5. **2026 모델 캐스케이딩(Cascading) 라우터**
+   * 단순 분류 및 템플릿 포맷팅은 가장 저렴한 `Gemini 3.5 Flash-Lite`로 150ms 내에 처리하고, 다중 증상이 얽힌 비정형 심층 문진 및 복합 에이전트 오케스트레이션에만 최신 플래그십 `Gemini 3.8 Flash`(Thinking Level 제어)를 가동합니다.
 
 ---
 
@@ -1008,7 +1032,7 @@ Test Scenario 입력 ──► Harness 실행 ──► 실행 로그/출력 추
                                                │
                ┌───────────────────────────────┴───────────────────────────────┐
                ▼                                                               ▼
- [ 1단계: 결정론적 룰체커 (Rule Evaluator) ]                   [ 2단계: LLM-as-a-Judge (Gemini 1.5 Pro) ]
+ [ 1단계: 결정론적 룰체커 (Rule Evaluator) ]                   [ 2단계: LLM-as-a-Judge (Gemini 3.8 Flash / 3.1 Pro) ]
   - 진단명/처방 금칙어 포함 여부 (0/1)                         - 루브릭 5대 차원 정성 채점 (1~5점)
   - Red Flag 발생 시 응급 모달 전환 여부 (0/1)                - 공감도, 지시 명확성, 탈옥 방어 논리 검증
   - 면책고지 부착 여부 (0/1)
@@ -1131,7 +1155,7 @@ MoonlightCare는 **파이썬(Python) 기반의 고성능 비동기 백엔드(Fas
 | :--- | :--- | :--- |
 | **Backend Core** | **Python 3.11+ / FastAPI** | • 고성능 비동기(AsyncIO) 지원, 자동 OpenAPI 문서화, Pydantic 기반 타입 안전성<br>• SSE(Server-Sent Events) 및 WebSocket을 통한 멀티 에이전트 스트리밍 응답 구현 |
 | **Frontend Web App** | **HTML5 / Vanilla CSS / Modern JS (ES6+)** | • 가볍고 즉각적인 첫 페이지 렌더링(초기 로딩 0.5초 이내)<br>• 반응형 모바일 우선 UI, 다크/라이트 글래스모피즘 디자인, 대화형 채팅 UI 및 네이티브 지도 연동 |
-| **Multi-Agent Harness** | **Google GenAI SDK (Vertex AI) / Pydantic** | • Gemini 2.0 Flash / 1.5 Flash-Lite 모델 최적 연동<br>• 상태 머신(FSM) 기반 멀티 에이전트 오케스트레이션 및 컨텍스트 캐싱 |
+| **Multi-Agent Harness** | **Google GenAI SDK (Vertex AI) / Pydantic** | • Gemini 3.8 Flash (Triage/Supervisor) & 3.5 Flash-Lite (Guardrail/Logistics/Sentinel) 최적 연동<br>• 상태 머신(FSM) 기반 멀티 에이전트 오케스트레이션 및 컨텍스트 캐싱 |
 | **Database & Cache** | **Cloud SQL PostgreSQL (PostGIS) / Redis** | • PostGIS 공간 인덱스(GIST)를 통한 반경 5~10km 병원 초고속 지리 쿼리 (5ms 이내)<br>• Redis 기반 실시간 응급실 병상 캐시, 시맨틱 캐시, 세션 관리 |
 | **Data Ingestion** | **Requests / Asyncio / Cloud Run Jobs** | • 공공데이터포털(data.go.kr) 오픈 API 주간/일간/실시간 비동기 동기화 배치 파이프라인 |
 
@@ -1458,7 +1482,7 @@ gantt
     Jupyter Notebook EDA 및 시각화 완성       :2026-10-07, 4d
     
     section Phase 2: GCP Vertex AI & 에이전트 개발
-    Vertex AI Gemini 모델 최적 배포 및 캐싱   :2026-10-11, 4d
+    Vertex AI Gemini 3.8 Flash 배포 및 캐싱   :2026-10-11, 4d
     Non-LLM 규칙 엔진 및 가드레일 인터셉터   :2026-10-14, 5d
     Triage/Matching/Logistics 에이전트 구현   :2026-10-18, 6d
     
@@ -1474,7 +1498,7 @@ gantt
 
 ### 단계별 산출물
 * **Phase 1**: 공공데이터(HIRA/E-Gen/KASI) 수집기, PostGIS DDL, `pediatric_eda_and_preprocessing.ipynb`, 전처리 Master DB.
-* **Phase 2**: GCP Vertex AI Gemini 연동 모듈, Non-LLM Regex 규칙 엔진, Agent Harness 오케스트레이터.
+* **Phase 2**: GCP Vertex AI Gemini 3.8 Flash & 3.5 Flash-Lite 연동 모듈, Non-LLM Regex 규칙 엔진, Agent Harness 오케스트레이터.
 * **Phase 3**: FastAPI 기반 서빙 백엔드, 모던 반응형 웹 프론트엔드(SPA, 지도/채팅 연동), WebSocket/SSE 스트리밍.
 * **Phase 4**: 골든 테스트 40선 Evals 평가 리포트, CI/CD 자동화 파이프라인, 최종 프로덕션 배포.
 

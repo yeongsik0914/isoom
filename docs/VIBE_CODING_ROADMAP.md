@@ -59,7 +59,7 @@ flowchart TD
 * **대응 전략**:
   1. **Non-LLM(규칙 엔진) 우선 처리**: 생후 100일 미만 고열, 경련 등 KTAS Red Flag 및 진단 유도 금칙어는 LLM 호출 없이 **0ms 인메모리 정규식(`rule_engine.py`)**으로 즉각 인터셉트합니다.
   2. **GCP Vertex AI Context Caching 도입**: 방대한 의료법 가이드라인과 프롬프트 템플릿을 캐시에 적재하여 **입력 토큰 비용 75% 절감 및 지연시간 50% 단축**을 달성합니다.
-  3. **모델 캐스케이딩 (Model Cascading)**: 단순 응답은 가장 저렴하고 빠른 `Gemini 2.0 Flash-Lite`로 처리하고, 복합 증상 분석에만 `Gemini 2.0 Flash`를 조건부 투입합니다.
+  3. **모델 캐스케이딩 (Model Cascading)**: 단순 응답 및 포맷팅은 가장 저렴하고 빠른 `Gemini 3.5 Flash-Lite`로 처리하고, 복합 증상 분석 및 고난도 에이전트 문진에는 최신 플래그십 `Gemini 3.8 Flash`(Thinking Effort 제어)를 조건부 투입합니다.
 
 ---
 
@@ -282,7 +282,7 @@ flowchart TD
   ```text
   "tests/evals/run_evals.py 평가 러너를 작성해줘.
   tests/evals/golden_test_cases.json의 40개 테스트케이스를 순회하며
-  MoonlightHarness를 실행하고, 그 출력을 Gemini 2.0 Flash를 Judge로 활용하여
+  MoonlightHarness를 실행하고, 그 출력을 Gemini 3.8 Flash(Thinking Level: High)를 Judge로 활용하여
   5대 루브릭(DIM-1 의료법, DIM-2 Triage, DIM-3 응급, DIM-4 공간, DIM-5 안내) 기준으로
   1~5점 채점하고 전체 통과율(Pass Rate) 마크다운 리포트를 생성해줘."
   ```

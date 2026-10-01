@@ -190,10 +190,10 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "docs/PROJECT_PLAN.md",
+    "docs/VIBE_CODING_ROADMAP.md",
     "docs/DATA_CONSIDERATIONS.md",
     "docs/DATABASE_DESIGN.md",
-    "docs/VIBE_CODING_ROADMAP.md",
-    "docs/PROJECT_PLAN.md",
     "Reamme.md",
     "log.md",
     "tests/evals/golden_test_cases.json",

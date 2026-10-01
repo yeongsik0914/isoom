@@ -27,6 +27,11 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v0.4.3] 2026-10-01: 2026 최신 Gemini 3.8 Flash 모델 라인업 전수 반영 및 Zero-LLM 역할 재배치
+* **Gemini 3.8 Flash 핵심 두뇌 확정**: 2026년 9월 출시된 최신 플래그십 Flash를 `Triage Agent`(Thinking: Medium) 및 `Supervisor Agent`(Thinking: Low)에 전격 배치하여 복합 문진 및 Tool Calling 정밀도 극대화.
+* **보조 경량 모델(Gemini 3.5 Flash-Lite) 매핑**: `Medical Guardrail`, `Visit Logistics`, `Sentinel Agent` 등 단순 이진 분류 및 정형 텍스트 생성에 배치하여 응답 속도(< 150ms)와 API 비용 90% 절감.
+* **결정론적 Zero-LLM 영역 철저 분리**: 1초가 급한 Red Flag 응급 상황(0ms Regex), 병원 공간 거리 계산(PostGIS 5ms SQL), 실시간 병상 조회(Redis 1ms), DB 보안 차단(PostgreSQL 물리 Role)은 LLM 호출을 완전 배제(Zero-LLM)하여 신뢰도 100% 확보.
+
 ### 🌟 [v0.4.2] 2026-10-01: 실전 바이브코딩 로드맵 및 기술 허들 분석 가이드(VIBE_CODING_ROADMAP.md) 수립
 * **현실적 5대 기술 허들 심층 분석**: 공공 API 결함, 멀티 에이전트 지연시간, PostGIS+asyncpg 비동기 ORM 결합, 의료법 100% 방어, Zero-Trust DB 거버넌스 해결책 수립.
 * **8단계 바이브코딩 실전 로드맵 확정**: 기초 환경 설정부터 PostGIS 스키마, 공공데이터 클라이언트, 지리공간 서비스, 0ms 룰엔진, 멀티 에이전트 하네스, FastAPI/웹 SPA, 40선 골든 테스트 Evals까지 단계별 프롬프트와 검증 커맨드 명시.

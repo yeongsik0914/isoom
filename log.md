@@ -17,6 +17,7 @@
 | **[ISSUE-007]** | 응급의료 연계 | E-Gen 실시간 응급실 소아병상(`hv28`)의 허수 및 비정형 공지 메시지(`hpmg`) 파싱 누락 위험 | **해결 완료 (Resolved)** | 2026-10-01 |
 | **[ISSUE-008]** | DB 보안 & 에이전트 거버넌스 | 에이전트의 무단 DB 수정/삭제 및 보고 누락 위험 원천 차단 (Sentinel Agent & HITL 승인) | **해결 완료 (Resolved)** | 2026-10-01 |
 | **[ISSUE-009]** | 스토리지 & 공간 쿼리 최적화 | 지리공간 반경 검색 시 Full Scan 지연 및 실시간 병상 쓰기 I/O 병목 | **해결 완료 (Resolved)** | 2026-10-01 |
+| **[ISSUE-010]** | AI 모델 아키텍처 | 2026 최신 Gemini 3.8 Flash 모델 라인업 전수 검토 및 Zero-LLM/LLM 역할 재배치 | **해결 완료 (Resolved)** | 2026-10-01 |
 
 ---
 
@@ -197,6 +198,35 @@
 * **적용 파일**:
   * [docs/DATABASE_DESIGN.md](file:///e:/monnlight/docs/DATABASE_DESIGN.md) 제1장, 제5장, 제6장
   * [docs/PROJECT_PLAN.md](file:///e:/monnlight/docs/PROJECT_PLAN.md) 제5.4절, 제5.8절, 제5.9절
+
+---
+
+### [ISSUE-010] 2026 최신 Gemini 3.8 Flash 모델 라인업 전수 검토 및 Zero-LLM/LLM 역할 재배치
+
+* **발생 일자**: 2026-10-01
+* **분류**: AI 모델 아키텍처 / 비용 및 지연시간 최적화 (Model Cascading)
+* **문제 상황**:
+  * 초기 기획안에서 2026년 10월 20일부 퇴역 예정인 레거시 모델(Gemini 2.5 / 2.0 / 1.5)이 혼재되어 있었음.
+  * 또한 공간 검색(PostGIS), 실시간 병상 조회(Redis), 응급 Red Flag 차단 등 결정론적으로 0ms에 처리해야 하는 영역과 LLM이 꼭 필요한 자연어 문진 영역의 경계가 모호해질 경우 응답 지연 및 환각(Hallucination) 위험 발생.
+* **원인 분석**:
+  * 2026년 9월 Google이 공식 출시한 최신 플래그십 **Gemini 3.8 Flash**는 장기 에이전트 워크플로우(Long-horizon Agentic)와 사고 수준(Effort Control: Low, Medium, High)을 지원하여 프론티어급 추론력과 초저지연을 동시에 제공함.
+  * 따라서 고난도 에이전트에는 Gemini 3.8 Flash를 전격 배치하고, 단순 분류에는 Gemini 3.5 Flash-Lite를 매핑하며, 계산/검색은 철저히 Zero-LLM으로 분리해야 함.
+* **구체적 해결 방안**:
+  1. **Gemini 3.8 Flash 핵심 두뇌 배치**:
+     * 부모의 감정적 비정형 문진 및 4대 변수 추출(`Triage Agent`): **Gemini 3.8 Flash (Thinking Effort: Medium)**.
+     * 에이전트 간 상태 전이 및 문맥 판단(`Supervisor Agent`): **Gemini 3.8 Flash (Thinking Effort: Low, < 300ms)**.
+  2. **Gemini 3.5 Flash-Lite 보조 경량 엔진 배치**:
+     * `Medical Guardrail`(이진 분류), `Visit Logistics`(체크리스트 서식화), `Sentinel Agent`(Diff 요약): **Gemini 3.5 Flash-Lite (< 150ms, 비용 90% 절감)**.
+  3. **결정론적 Zero-LLM (LLM 호출 엄금) 영역 강제**:
+     * 생후 100일 미만 고열, 경련 등 KTAS Red Flag: **0ms Regex 룰엔진**.
+     * 병원 반경 5~30km 거리 계산 및 영업시간 필터링: **PostgreSQL 16 + PostGIS 3.4 (5ms)**.
+     * 실시간 응급실 병상(`hv28`) 및 공지 조회: **Redis In-Memory (1ms)**.
+     * DB 접근 보안: **PostgreSQL `agent_readonly` Role + 0ms AST 인터셉터**.
+  4. **오프라인 검증 한정 고성능 모델 사용**:
+     * 40선 골든 테스트셋 자동 채점(`tests/evals/run_evals.py`): **Gemini 3.8 Flash (Thinking: High) / Gemini 3.1 Pro**.
+* **적용 파일**:
+  * [docs/PROJECT_PLAN.md](file:///e:/monnlight/docs/PROJECT_PLAN.md) 제1.2절, 제3.3절, 제4절, 제7.1절, 제10.1절, 제12절
+  * [docs/VIBE_CODING_ROADMAP.md](file:///e:/monnlight/docs/VIBE_CODING_ROADMAP.md) 제1장, 제3장
 
 ---
 

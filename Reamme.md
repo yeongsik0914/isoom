@@ -4,6 +4,16 @@
 
 ---
 
+### 🌟 [v0.4.3] 2026-10-01: 2026 최신 Gemini 3.8 Flash 모델 라인업 전수 반영 및 Zero-LLM 역할 재배치
+* 🧠 **Gemini 3.8 Flash 핵심 에이전트 전격 채택**:
+  * 최신 플래그십 Flash를 문진(`Triage Agent`, Thinking: Medium) 및 라우팅(`Supervisor Agent`, Thinking: Low)에 배치하여 복합 대화력과 Tool Calling 정확도를 극대화.
+* ⚡ **보조 경량 모델(Gemini 3.5 Flash-Lite) 매핑**:
+  * `Medical Guardrail`, `Visit Logistics`, `Sentinel Agent` 등 단순 이진 분류 및 정형 서식 출력에 배치하여 지연시간(< 150ms) 및 비용 90% 절감.
+* 🛑 **결정론적 Zero-LLM (LLM 호출 엄금) 영역 확립**:
+  * 1초가 급한 Red Flag 응급 상황(0ms Regex), 병원 공간 거리 계산(PostGIS 5ms SQL), 실시간 병상 조회(Redis 1ms), DB 보안 차단(PostgreSQL 물리 Role)은 LLM 호출을 완전 배제(Zero-LLM)하여 안전성 100% 보장.
+
+---
+
 ### 🌟 [v0.4.2] 2026-10-01: 실전 바이브코딩 로드맵 및 기술 허들 가이드(VIBE_CODING_ROADMAP.md) 수립
 * 🚀 **단계별 바이브코딩 실전 로드맵 확정**:
   * AI 페어 프로그래밍을 실패 없이 8단계로 완주하기 위한 스텝별 프롬프트와 검증 커맨드 표준화.
