@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/DATA_CONSIDERATIONS.md",
+                "file": "docs/VIBE_CODING_ROADMAP.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "DATA_CONSIDERATIONS"
+              "title": "VIBE_CODING_ROADMAP"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/DATA_CONSIDERATIONS.md",
+                "file": "docs/VIBE_CODING_ROADMAP.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/DATA_CONSIDERATIONS.md",
+                "file": "docs/VIBE_CODING_ROADMAP.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/DATA_CONSIDERATIONS.md",
+                "file": "docs/VIBE_CODING_ROADMAP.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -190,8 +190,12 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
-    "docs/PROJECT_PLAN.md",
     "docs/DATA_CONSIDERATIONS.md",
+    "docs/DATABASE_DESIGN.md",
+    "docs/VIBE_CODING_ROADMAP.md",
+    "docs/PROJECT_PLAN.md",
+    "Reamme.md",
+    "log.md",
     "tests/evals/golden_test_cases.json",
     "tests/evals",
     "tests",
