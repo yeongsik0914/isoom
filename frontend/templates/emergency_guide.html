@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>아이숨 (Aisum) - 응급실 통합 가이드 (사진 가이드 &amp; 통화 스크립트)</title>
+  <meta name="description" content="소아 야간 위급 증상별 시각 포토 응급처치, 지참물 체크리스트 및 실시간 소아응급실 병상 통합 가이드" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Pure Vanilla CSS Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+
+  <!-- Mobile Viewport Canvas -->
+  <div class="mobile-viewport" id="app">
+
+    <!-- 1. Top Emergency Header Bar -->
+    <header class="guide-header">
+      <div class="guide-header-left">
+        <a href="index.html" class="back-link-btn" aria-label="메인 홈으로 이동">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+        <h1 class="guide-header-title">응급실 가이드</h1>
+        <span class="guide-header-sub">통합 케어</span>
+      </div>
+
+      <!-- Quick Dial 119 Hotline -->
+      <a href="tel:119" class="btn-119-quick" aria-label="119 즉시 전화 연결">
+        <span class="material-symbols-outlined">emergency</span>
+        <span>119 연결</span>
+      </a>
+    </header>
+
+    <!-- 2. Red-Flag Urgent Callout Banner -->
+    <aside class="redflag-banner" role="alert" aria-live="assertive" style="margin-top: 14px;">
+      <div class="redflag-content">
+        <div class="redflag-icon-wrap" aria-hidden="true">
+          <span class="material-symbols-outlined">warning</span>
+        </div>
+        <div>
+          <div class="redflag-title">경련 5분 지속 or 의식 저하 시</div>
+          <div class="redflag-desc">지체 없이 119를 호출하세요. 이동 중 구급대원의 지시를 따르세요.</div>
+        </div>
+      </div>
+      <a href="tel:119" class="redflag-action-btn">
+        <span class="material-symbols-outlined">call</span>
+        <span>119</span>
+      </a>
+    </aside>
+
+    <!-- 3. Category Tabs: [사진 가이드] vs [응급실 통화 스크립트] -->
+    <nav class="guide-category-nav" role="tablist" aria-label="응급실 가이드 카테고리">
+      <button type="button" class="guide-category-btn active" id="btn-tab-photo" role="tab" aria-selected="true" onclick="switchGuideCategory('photo')">
+        <span class="material-symbols-outlined">photo_library</span>
+        <span>사진 가이드</span>
+      </button>
+      <button type="button" class="guide-category-btn" id="btn-tab-script" role="tab" aria-selected="false" onclick="switchGuideCategory('script')">
+        <span class="material-symbols-outlined">phone_in_talk</span>
+        <span>응급실 통화 스크립트</span>
+      </button>
+    </nav>
+
+    <!-- 4. Main Content Area -->
+    <main class="guide-section">
+
+      <!-- ================================================================= -->
+      <!-- TAB PANEL 1: [사진 가이드] (Horizontal Swipe Photo Carousel)       -->
+      <!-- ================================================================= -->
+      <section class="guide-tab-panel active" id="panel-photo-guide" role="tabpanel" aria-labelledby="btn-tab-photo">
+
+        <!-- Section Intro & Swipe Hint -->
+        <div class="carousel-header-bar">
+          <div class="carousel-title-wrap">
+            <h2 class="carousel-heading">시각 포토 가이드</h2>
+            <span class="carousel-count-pill" id="slide-counter-badge">1 / 6</span>
+          </div>
+          <div class="swipe-hint" aria-hidden="true">
+            <span class="material-symbols-outlined">swipe</span>
+            <span>옆으로 넘겨서 확인</span>
+          </div>
+        </div>
+
+        <!-- Quick Jump Category Chips (Click to scroll carousel) -->
+        <div class="guide-chips-scroll" role="tablist" aria-label="가이드 바로가기">
+          <button type="button" class="guide-chip active" onclick="scrollToSlide(0)">🔥 열성경련</button>
+          <button type="button" class="guide-chip" onclick="scrollToSlide(1)">💧 미온수 마사지</button>
+          <button type="button" class="guide-chip" onclick="scrollToSlide(2)">⚠️ 영아 하임리히</button>
+          <button type="button" class="guide-chip" onclick="scrollToSlide(3)">📄 등본·신분증</button>
+          <button type="button" class="guide-chip" onclick="scrollToSlide(4)">💊 복용 약병 지참</button>
+          <button type="button" class="guide-chip" onclick="scrollToSlide(5)">📸 환부 촬영 팁</button>
+        </div>
+
+        <!-- Horizontal Swipe Photo Carousel -->
+        <div class="photo-carousel-wrapper">
+
+          <!-- Desktop Navigation Arrows -->
+          <button type="button" class="carousel-nav-btn carousel-prev-btn" aria-label="이전 사진 보기" onclick="scrollSlideBy(-1)">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <button type="button" class="carousel-nav-btn carousel-next-btn" aria-label="다음 사진 보기" onclick="scrollSlideBy(1)">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+
+          <!-- Carousel Track (CSS Scroll Snap) -->
+          <div class="photo-carousel-track" id="guideCarouselTrack">
+
+            <!-- Slide 1: Febrile Seizure -->
+            <article class="carousel-slide-card" id="slide-1">
+              <div class="photo-container">
+                <img src="../assets/images/guide_seizure_care.jpg" alt="소아 열성경련 시 기도를 확보하고 옆으로 눕힌 올바른 회복 자세 사진" class="guide-photo" />
+                <div class="photo-badge-top-left">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#38bdf8;">verified</span>
+                  <span>소아응급의학회 권장 자세</span>
+                </div>
+                <div class="photo-badge-top-right photo-badge-coral">
+                  <span>위급도: 상 (경련 시)</span>
+                </div>
+                <span class="slide-index-badge">1 / 6</span>
+              </div>
+              <div class="photo-card-body">
+                <div class="photo-card-header">
+                  <h3 class="photo-card-title">열성경련 시 올바른 회복 자세 (기도 확보)</h3>
+                  <span class="tag-urgent-status">핵심 응급처치</span>
+                </div>
+                <div class="action-steps-list">
+                  <div class="step-item">
+                    <span class="step-num">1</span>
+                    <p class="step-text"><strong>옷과 기저귀를 느슨하게 풀기:</strong> 목과 가슴을 조이는 옷을 풀고 위험한 물건을 즉시 치워 안전한 바닥에 눕힙니다.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">2</span>
+                    <p class="step-text"><strong>고개를 옆으로 돌려 눕히기:</strong> 사진처럼 옆으로 눕혀 침이나 토사물이 기도를 막지 않게 밖으로 흘러나오게 합니다.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">3</span>
+                    <p class="step-text"><strong>경련 시간 스마트폰으로 촬영:</strong> 시작 시각을 계측하고 10초간 영상을 촬영하면 의사 진료 시 결정적 단서가 됩니다.</p>
+                  </div>
+                </div>
+                <div class="prohibition-box">
+                  <span class="material-symbols-outlined">block</span>
+                  <p class="prohibition-text">
+                    <strong>절대 금지:</strong> 억지로 입을 벌려 손가락이나 숟가락을 넣지 마세요. 물이나 약을 억지로 먹이면 흡인성 폐렴 위험이 있습니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Slide 2: Cooling Sponge Bath -->
+            <article class="carousel-slide-card" id="slide-2">
+              <div class="photo-container">
+                <img src="../assets/images/guide_cooling_sponge.jpg" alt="38.5도 이상 고열 시 30도 미온수 수건으로 목과 겨드랑이를 부드럽게 닦아주는 사진" class="guide-photo" />
+                <div class="photo-badge-top-left">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#38bdf8;">thermostat</span>
+                  <span>체온 38.5°C 이상 권장</span>
+                </div>
+                <div class="photo-badge-top-right">
+                  <span>열 발산 쿨링 케어</span>
+                </div>
+                <span class="slide-index-badge">2 / 6</span>
+              </div>
+              <div class="photo-card-body">
+                <div class="photo-card-header">
+                  <h3 class="photo-card-title">38.5°C 이상 고열 시 미온수 마사지 부위</h3>
+                  <span class="tag-urgent-status" style="background:#ecfdf5;color:#059669;">가정 대처</span>
+                </div>
+                <div class="action-steps-list">
+                  <div class="step-item">
+                    <span class="step-num">1</span>
+                    <p class="step-text"><strong>30~33°C 미온수 준비:</strong> 만졌을 때 미지근한 물을 준비하고, 해열제 복용 30분 후에도 열이 내리지 않을 때 시작합니다.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">2</span>
+                    <p class="step-text"><strong>혈관 모인 주요 부위 닦기:</strong> 목, 겨드랑이, 사타구니 위주로 살살 문지르며 닦아 물방울 증발로 체열을 발산시킵니다.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">3</span>
+                    <p class="step-text"><strong>오한 발생 시 즉시 중단:</strong> 아이가 덜덜 떨면 혈관이 수축해 체온이 더 오르므로 즉시 중단하고 얇은 이불을 덮어줍니다.</p>
+                  </div>
+                </div>
+                <div class="prohibition-box">
+                  <span class="material-symbols-outlined">block</span>
+                  <p class="prohibition-text">
+                    <strong>절대 금지:</strong> 찬물이나 알코올 마사지는 절대 금지! 급격한 혈관 수축으로 오한·경련을 유발하거나 알코올 중독 위험이 있습니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Slide 3: Infant Heimlich Choking -->
+            <article class="carousel-slide-card" id="slide-3">
+              <div class="photo-container">
+                <img src="../assets/images/guide_infant_choking.jpg" alt="1세 미만 영아 기도 폐쇄 시 허벅지에 엎드려 눕히고 손바닥 밑동으로 등 두드리기 사진" class="guide-photo" />
+                <div class="photo-badge-top-left">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#f87171;">warning</span>
+                  <span>골든타임 4분 응급처치</span>
+                </div>
+                <div class="photo-badge-top-right photo-badge-coral">
+                  <span>1세 미만 영아 전용</span>
+                </div>
+                <span class="slide-index-badge">3 / 6</span>
+              </div>
+              <div class="photo-card-body">
+                <div class="photo-card-header">
+                  <h3 class="photo-card-title">영아(1세 미만) 기도 폐쇄 시 하임리히법</h3>
+                  <span class="tag-urgent-status">생명 직결</span>
+                </div>
+                <div class="action-steps-list">
+                  <div class="step-item">
+                    <span class="step-num">1</span>
+                    <p class="step-text"><strong>머리를 낮추고 턱 받치기:</strong> 팔 위에 아이를 엎드리게 한 뒤 머리가 몸통보다 낮도록 허벅지에 안전하게 지지합니다.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">2</span>
+                    <p class="step-text"><strong>등 두드리기 5회:</strong> 양쪽 날개뼈 사이를 손바닥 밑동으로 빠르고 강하게 5회 두드립니다.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">3</span>
+                    <p class="step-text"><strong>돌려 눕혀 가슴 압박 5회:</strong> 두 손가락으로 양 젖꼭지 사이 흉골 아래를 5회 깊게 압박하며 교대로 반복합니다.</p>
+                  </div>
+                </div>
+                <div class="prohibition-box">
+                  <span class="material-symbols-outlined">block</span>
+                  <p class="prohibition-text">
+                    <strong>절대 금지:</strong> 1세 미만 영아에게 성인용 복부 밀쳐올리기를 하면 내장 파열 위험이 있습니다. 반드시 등 두드리기와 흉부 압박만 시행하세요.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Slide 4: Official ID & Certificate -->
+            <article class="carousel-slide-card" id="slide-4">
+              <div class="photo-container">
+                <img src="../assets/images/guide_er_documents.jpg" alt="주민등록등본, 부모 신분증 및 모바일 건강보험증 실물 사진" class="guide-photo" />
+                <div class="photo-badge-top-left">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#38bdf8;">badge</span>
+                  <span>2024년 5월 본인확인 의무화</span>
+                </div>
+                <div class="photo-badge-top-right">
+                  <span>필수 지참 1순위</span>
+                </div>
+                <span class="slide-index-badge">4 / 6</span>
+              </div>
+              <div class="photo-card-body">
+                <div class="photo-card-header">
+                  <h3 class="photo-card-title">본인확인 증빙 (등본 or 모바일 건강보험증)</h3>
+                  <span class="tag-urgent-status" style="background:#eff6ff;color:#0066ff;">출발 전 서류</span>
+                </div>
+                <div class="action-steps-list">
+                  <div class="step-item">
+                    <span class="step-num">1</span>
+                    <p class="step-text"><strong>미성년자 등본 지참 필수:</strong> 19세 미만 소아 진료 시에도 보호자 신분증과 주민등록등본(가족관계증명서)이 필수입니다.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">2</span>
+                    <p class="step-text"><strong>스마트폰 정부24/모바일 건강보험증 가능:</strong> 종이 서류가 없다면 스마트폰 정부24 전자문서 지갑이나 모바일 건강보험증 앱으로 즉시 증빙 가능합니다.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Slide 5: Medicine Bottle & Handbook -->
+            <article class="carousel-slide-card" id="slide-5">
+              <div class="photo-container">
+                <img src="../assets/images/guide_cooling_sponge.jpg" alt="복용 중인 어린이 해열제 시럽제와 체온계 준비 사진" class="guide-photo" />
+                <div class="photo-badge-top-left">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#38bdf8;">medication</span>
+                  <span>중복 투약 방지</span>
+                </div>
+                <div class="photo-badge-top-right">
+                  <span>의사 문진 필수</span>
+                </div>
+                <span class="slide-index-badge">5 / 6</span>
+              </div>
+              <div class="photo-card-body">
+                <div class="photo-card-header">
+                  <h3 class="photo-card-title">복용 중인 해열제 약병 &amp; 아기 건강수첩</h3>
+                  <span class="tag-urgent-status" style="background:#eff6ff;color:#0066ff;">투약 안전</span>
+                </div>
+                <div class="action-steps-list">
+                  <div class="step-item">
+                    <span class="step-num">1</span>
+                    <p class="step-text"><strong>약병 자체 지참:</strong> 의사가 "몇 시에 무슨 약을 몇 ml 먹였는지" 가장 먼저 묻습니다. 약병 라벨을 보여주는 것이 가장 정확합니다.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">2</span>
+                    <p class="step-text"><strong>아기 건강수첩 지참:</strong> 예방접종 이력과 과거 병력 확인을 통해 불필요한 중복 검사와 과다 투약을 방지합니다.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Slide 6: Smartphone Photo & Video Tip -->
+            <article class="carousel-slide-card" id="slide-6">
+              <div class="photo-container">
+                <img src="../assets/images/guide_seizure_care.jpg" alt="아이의 호흡 상태와 발열 경과를 관찰하고 기록하는 사진" class="guide-photo" />
+                <div class="photo-badge-top-left">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#38bdf8;">photo_camera</span>
+                  <span>문진 시간 5분 단축</span>
+                </div>
+                <div class="photo-badge-top-right">
+                  <span>오진 방지 팁</span>
+                </div>
+                <span class="slide-index-badge">6 / 6</span>
+              </div>
+              <div class="photo-card-body">
+                <div class="photo-card-header">
+                  <h3 class="photo-card-title">환부 발진 / 경련 영상 / 대변 상태 스마트폰 촬영</h3>
+                  <span class="tag-urgent-status" style="background:#ecfdf5;color:#059669;">진료 꿀팁</span>
+                </div>
+                <div class="action-steps-list">
+                  <div class="step-item">
+                    <span class="step-num">1</span>
+                    <p class="step-text"><strong>도착 전 증상 호전 대비:</strong> 병원에 도착하면 열이 내리거나 경련이 멈출 수 있으므로, 가정에서 발생한 증상을 10초간 스마트폰으로 찍어두세요.</p>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-num">2</span>
+                    <p class="step-text"><strong>피부 발진 및 기저귀 변 상태:</strong> 말로 설명하기보다 찍어둔 사진을 의사에게 보여주면 진료 대기시간이 단축되고 정확한 처방이 이뤄집니다.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- Carousel Pagination Dots -->
+        <div class="carousel-dots-wrap" id="carouselDots" aria-hidden="true">
+          <span class="carousel-dot active"></span>
+          <span class="carousel-dot"></span>
+          <span class="carousel-dot"></span>
+          <span class="carousel-dot"></span>
+          <span class="carousel-dot"></span>
+          <span class="carousel-dot"></span>
+        </div>
+
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- TAB PANEL 2: [응급실 통화 스크립트] (30-Sec Script & Live Beds)     -->
+      <!-- ================================================================= -->
+      <section class="guide-tab-panel" id="panel-script-guide" role="tabpanel" aria-labelledby="btn-tab-script">
+
+        <!-- 30-Second ER Call Script Box -->
+        <div class="script-card" aria-labelledby="script-heading">
+          <div class="script-title-row">
+            <div class="script-title" id="script-heading">
+              <span class="material-symbols-outlined">phone_in_talk</span>
+              <span>응급실 출발 전 30초 당직의 통화 스크립트</span>
+            </div>
+            <button type="button" class="script-copy-btn" id="copy-script-btn" onclick="copyScript()">
+              <span class="material-symbols-outlined" style="font-size:14px;">content_copy</span>
+              <span>복사</span>
+            </button>
+          </div>
+          <div class="script-body" id="scriptText">
+            "안녕하세요, 지금 <mark>생후 18개월</mark> 아이가 <mark>39.2°C 고열</mark> 상태인데, 현재 소아응급실 접수 및 <mark>소아청소년과 전문의 진료</mark>가 즉시 가능한가요?"
+          </div>
+        </div>
+
+        <!-- Live ER Pediatric Beds Dashboard -->
+        <div class="section-header" style="margin:20px 0 12px 0;">
+          <div class="section-title-wrap">
+            <h3 class="section-title" style="font-size:16px;">내 주변 소아응급실 실시간 병상 현황</h3>
+            <span class="count-badge" style="background:#ecfdf5;color:#059669;">E-Gen 실시간 연동</span>
+          </div>
+        </div>
+
+        <div class="er-status-grid">
+          <!-- Hospital 1 -->
+          <article class="er-bed-card">
+            <div class="er-bed-header">
+              <div>
+                <span class="er-hospital-name">서울아산병원 소아전문응급센터</span>
+                <div style="font-size:11px;color:#64748b;margin-top:2px;">송파구 올림픽로 · 3.2km (차량 10분)</div>
+              </div>
+              <span class="bed-count-badge">
+                <span class="material-symbols-outlined" style="font-size:14px;">airline_seat_flat</span>
+                <span>가용병상 4석</span>
+              </span>
+            </div>
+            <div class="er-meta-row">
+              <span class="er-pediatric-doctor">🟢 소아청소년과 전문의 야간 상주</span>
+              <span>예상 대기: 15분</span>
+            </div>
+          </article>
+
+          <!-- Hospital 2 -->
+          <article class="er-bed-card">
+            <div class="er-bed-header">
+              <div>
+                <span class="er-hospital-name">삼성서울병원 응급의료센터 (소아)</span>
+                <div style="font-size:11px;color:#64748b;margin-top:2px;">강남구 일원로 · 4.1km (차량 12분)</div>
+              </div>
+              <span class="bed-count-badge caution">
+                <span class="material-symbols-outlined" style="font-size:14px;">airline_seat_flat</span>
+                <span>가용병상 2석 (혼잡)</span>
+              </span>
+            </div>
+            <div class="er-meta-row">
+              <span class="er-pediatric-doctor">🟢 소아응급 세부전문의 진료중</span>
+              <span>예상 대기: 35분</span>
+            </div>
+          </article>
+
+          <!-- Hospital 3 -->
+          <article class="er-bed-card">
+            <div class="er-bed-header">
+              <div>
+                <span class="er-hospital-name">강남세브란스병원 응급의료센터</span>
+                <div style="font-size:11px;color:#64748b;margin-top:2px;">강남구 언주로 · 2.1km (차량 7분)</div>
+              </div>
+              <span class="bed-count-badge">
+                <span class="material-symbols-outlined" style="font-size:14px;">airline_seat_flat</span>
+                <span>가용병상 3석</span>
+              </span>
+            </div>
+            <div class="er-meta-row">
+              <span class="er-pediatric-doctor">🟢 소아 진료 구역 분리 운영</span>
+              <span>예상 대기: 20분</span>
+            </div>
+          </article>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- 5. Floating Action Button (Sticky above Bottom Nav) -->
+    <div class="guide-sticky-cta">
+      <a href="tel:02-3010-3114" class="guide-cta-btn" id="guideStickyCta">
+        <span class="material-symbols-outlined" id="stickyCtaIcon">phone_in_talk</span>
+        <span id="stickyCtaLabel">응급실 출발 전 30초 통화 스크립트 확인</span>
+      </a>
+    </div>
+
+    <!-- 6. Fixed Bottom Navigation Bar (GNB) -->
+    <nav class="bottom-nav" aria-label="주요 메뉴">
+      <!-- Tab 1: 홈 -->
+      <a href="index.html" class="nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span class="nav-label">홈</span>
+      </a>
+
+      <!-- Tab 2: 응급실 가이드 (Active) -->
+      <a href="emergency_guide.html" class="nav-item active" aria-current="page">
+        <span class="material-symbols-outlined">emergency</span>
+        <span class="nav-label">응급실 가이드</span>
+      </a>
+
+      <!-- Tab 3: 설정 -->
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="nav-label">설정</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Pure Vanilla Client Category Switcher & Carousel Controller -->
+  <script>
+    // Tab Switching Logic: [사진 가이드] vs [응급실 통화 스크립트]
+    function switchGuideCategory(category) {
+      const btnPhoto = document.getElementById('btn-tab-photo');
+      const btnScript = document.getElementById('btn-tab-script');
+      const panelPhoto = document.getElementById('panel-photo-guide');
+      const panelScript = document.getElementById('panel-script-guide');
+      const ctaLabel = document.getElementById('stickyCtaLabel');
+      const ctaIcon = document.getElementById('stickyCtaIcon');
+      const ctaBtn = document.getElementById('guideStickyCta');
+
+      if (category === 'photo') {
+        btnPhoto.classList.add('active');
+        btnPhoto.setAttribute('aria-selected', 'true');
+        btnScript.classList.remove('active');
+        btnScript.setAttribute('aria-selected', 'false');
+
+        panelPhoto.classList.add('active');
+        panelScript.classList.remove('active');
+
+        if (ctaLabel && ctaIcon && ctaBtn) {
+          ctaIcon.textContent = 'phone_in_talk';
+          ctaLabel.textContent = '응급실 출발 전 30초 통화 스크립트 확인';
+          ctaBtn.onclick = (e) => {
+            e.preventDefault();
+            switchGuideCategory('script');
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+          };
+        }
+      } else {
+        btnScript.classList.add('active');
+        btnScript.setAttribute('aria-selected', 'true');
+        btnPhoto.classList.remove('active');
+        btnPhoto.setAttribute('aria-selected', 'false');
+
+        panelScript.classList.add('active');
+        panelPhoto.classList.remove('active');
+
+        if (ctaLabel && ctaIcon && ctaBtn) {
+          ctaIcon.textContent = 'directions_car';
+          ctaLabel.textContent = '서울아산병원 소아응급실 통화 후 길안내';
+          ctaBtn.onclick = null;
+          ctaBtn.href = 'tel:02-3010-3114';
+        }
+      }
+    }
+
+    // Carousel Track Scroll & Dots Sync
+    const track = document.getElementById('guideCarouselTrack');
+    const counterBadge = document.getElementById('slide-counter-badge');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const chips = document.querySelectorAll('.guide-chip');
+
+    function scrollToSlide(index) {
+      if (!track) return;
+      const slide = document.getElementById(`slide-${index + 1}`);
+      if (slide) {
+        track.scrollTo({
+          left: slide.offsetLeft - 18,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    function scrollSlideBy(direction) {
+      if (!track) return;
+      const cardWidth = track.firstElementChild ? track.firstElementChild.offsetWidth + 14 : 360;
+      track.scrollBy({
+        left: direction * cardWidth,
+        behavior: 'smooth'
+      });
+    }
+
+    if (track) {
+      track.addEventListener('scroll', () => {
+        const scrollLeft = track.scrollLeft;
+        const cardWidth = track.firstElementChild ? track.firstElementChild.offsetWidth + 14 : 360;
+        const activeIdx = Math.min(5, Math.max(0, Math.round(scrollLeft / cardWidth)));
+
+        if (counterBadge) {
+          counterBadge.textContent = `${activeIdx + 1} / 6`;
+        }
+
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === activeIdx);
+        });
+
+        chips.forEach((chip, idx) => {
+          chip.classList.toggle('active', idx === activeIdx);
+        });
+      }, { passive: true });
+    }
+
+    // Copy ER Call Script
+    function copyScript() {
+      const text = "안녕하세요, 지금 생후 18개월 아이가 39.2°C 고열 상태인데, 현재 소아응급실 접수 및 소아청소년과 전문의 진료가 즉시 가능한가요?";
+      navigator.clipboard.writeText(text).then(() => {
+        alert("30초 통화 스크립트가 복사되었습니다!");
+      }).catch(() => {
+        alert("스크립트: " + text);
+      });
+    }
+
+    // Initialize photo CTA trigger
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctaBtn = document.getElementById('guideStickyCta');
+      if (ctaBtn) {
+        ctaBtn.onclick = (e) => {
+          e.preventDefault();
+          switchGuideCategory('script');
+          window.scrollTo({ top: 120, behavior: 'smooth' });
+        };
+      }
+    });
+  </script>
+</body>
+
+</html>

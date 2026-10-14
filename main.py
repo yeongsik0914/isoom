@@ -154,6 +154,31 @@ async def get_aisum_home():
     return FileResponse("app/static/index.html", media_type="text/html")
 
 
+@app.get("/guide", tags=["Frontend"], response_class=FileResponse)
+@app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
+async def get_guide_unified():
+    """Serves the unified Aisum Emergency Guide with horizontal swipe photo carousel."""
+    if os.path.exists("frontend/templates/emergency_guide.html"):
+        return FileResponse("frontend/templates/emergency_guide.html", media_type="text/html")
+    return FileResponse("app/templates/emergency_guide.html", media_type="text/html")
+
+
+@app.get("/guide/symptoms", tags=["Frontend"], response_class=FileResponse)
+async def get_guide_symptoms():
+    """Serves the Aisum Emergency Guide (Recommendation 1: Symptoms Photo Guide)."""
+    if os.path.exists("frontend/templates/emergency_guide_symptoms.html"):
+        return FileResponse("frontend/templates/emergency_guide_symptoms.html", media_type="text/html")
+    return FileResponse("app/templates/emergency_guide_symptoms.html", media_type="text/html")
+
+
+@app.get("/guide/checklist", tags=["Frontend"], response_class=FileResponse)
+async def get_guide_checklist():
+    """Serves the Aisum Emergency Guide (Recommendation 2: ER Departure Checklist)."""
+    if os.path.exists("frontend/templates/emergency_guide_checklist.html"):
+        return FileResponse("frontend/templates/emergency_guide_checklist.html", media_type="text/html")
+    return FileResponse("app/templates/emergency_guide_checklist.html", media_type="text/html")
+
+
 @app.get("/css/style.css", include_in_schema=False)
 @app.get("/style.css", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_style():
@@ -161,6 +186,7 @@ async def get_aisum_style():
     if os.path.exists("frontend/css/style.css"):
         return FileResponse("frontend/css/style.css", media_type="text/css")
     return FileResponse("app/static/css/style.css", media_type="text/css")
+
 
 
 @app.get("/js/main.js", include_in_schema=False)

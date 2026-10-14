@@ -41,6 +41,9 @@
 | **[ISSUE-031]** | 프론트엔드 퍼블리싱 & 서빙 | Stitch 생성 코드의 외부 CDN 종속 탈피, 순수 Vanilla HTML5/CSS3 웹 퍼블리싱 및 FastAPI `/home` 정적 서빙 구축 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-032]** | 프론트엔드 워크스페이스 아키텍처 | 프로젝트 루트에 위치하던 임시 HTML/CSS 파일을 정규 프론트엔드 전용 워크스페이스(`frontend/`)로 모듈화 이관 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-033]** | 프론트엔드 템플릿 아키텍처 | `frontend/templates/` 하위 계층 생성, `index.html` 보관 및 상대경로(`../css/style.css`, `../js/main.js`)·정적 마운트 최적화 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-034]** | 프론트엔드 UI/UX 확장 | 응급실 가이드 페이지 부재 및 시각 포토 기반 응급처치 vs 출발 전 체크리스트 추천 웹페이지 2종 순수 HTML/CSS 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-035]** | 프론트엔드 모바일 UX | 응급실 가이드 페이지 분리에 따른 인지 피로 해소 및 CSS Scroll Snap 기반 좌우 스와이프 포토 캐러셀 단일 통합 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-036]** | 프론트엔드 컴포넌트 모듈화 | 응급실 가이드 페이지 내 포토 캐러셀과 통화 스크립트·병상의 시각적 혼재 해소 (2대 카테고리 세그먼트 탭 분리) | **해결 완료 (Resolved)** | 2026-10-14 |
 
 ---
 
@@ -879,6 +882,103 @@
   * [frontend/README.md](file:///e:/monnlight/frontend/README.md)
   * [app/templates/index.html](file:///e:/monnlight/app/templates/index.html)
   * [main.py](file:///e:/monnlight/main.py)
+
+---
+
+### [ISSUE-034] 응급실 가이드 페이지 부재 및 시각 포토 기반 응급처치 vs 출발 전 체크리스트 추천 웹페이지 2종 순수 HTML/CSS 구현
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 UI/UX 설계 / 웹 퍼블리싱 / 멀티미디어 에셋 통합 / 모바일 최적화
+* **문제 상황**:
+  * 메인 홈(`index.html`)의 하단 내비게이션 바(GNB)에 `응급실 가이드` 메뉴가 자리잡고 있었으나, 실제 연결되는 상세 웹페이지가 부재한 상태였음.
+  * 소아 야간 응급 상황에서 부모는 텍스트만 읽기 어려워 시각적인 사진 가이드가 절실하며, "가정 내 즉각적 처치"와 "응급실 출발 전 헛걸음 방지 및 서류 지참"이라는 두 가지 핵심 니즈가 공존함.
+* **원인 분석**:
+  * 단일 페이지에 모든 정보를 압축하기보다는, 부모의 위급 상황에 맞춰 **[추천 1: 증상별 시각 포토 응급처치]**와 **[추천 2: 출발 전 필수 포토 체크리스트 & 실시간 병상]**으로 명확히 콘셉트를 분리하고 상호 전환할 수 있는 UX가 요구됨.
+  * 또한 실제 사진이 들어갈 16:9 전용 포토 뷰포트, 글래스모피즘 오버레이 배지, 주의/금기 박스 스타일이 CSS에 마련되어야 함.
+* **구체적 해결 방안**:
+  1. **추천 페이지 1 구축 ([emergency_guide_symptoms.html](file:///e:/monnlight/frontend/templates/emergency_guide_symptoms.html))**:
+     - 상단 119 긴급 통화 캡슐 버튼 및 경련 5분 지속 알림 배너.
+     - 4대 핵심 포토 가이드 카드: 열성경련 회복자세(`guide_seizure_care.jpg`), 38.5°C 미온수 마사지 부위(`guide_cooling_sponge.jpg`), 1세 미만 영아 하임리히법(`guide_infant_choking.jpg`), 흉부함몰 및 응급실 지참물(`guide_er_documents.jpg`).
+     - 절대 금기 사항(손가락 숟가락 넣기 금지, 찬물/알코올 금지) 강조 박스.
+  2. **추천 페이지 2 구축 ([emergency_guide_checklist.html](file:///e:/monnlight/frontend/templates/emergency_guide_checklist.html))**:
+     - 30초 당직의 통화 스크립트 카드 (원터치 복사 및 통화).
+     - 서울 주요 소아응급실 실시간 가용병상(hv28) 대시보드 (서울아산, 삼성서울, 강남세브란스).
+     - 포토 체크리스트 카드: 2024년 5월 본인확인 의무화 증빙 사진, 해열제 약병 지참 사진, 문진 단축 환부 촬영 사진.
+  3. **스타일 및 라우팅 통합**:
+     - `frontend/css/style.css`에 포토 컨테이너 16:9, 호버 줌, 스위처 탭, 스크립트 박스, 플로팅 CTA 클래스 추가.
+     - `main.py`에 `GET /guide`, `GET /guide/symptoms`, `GET /guide/checklist`, `GET /assets/images/*` 서빙 등록.
+     - TestClient 기반 9개 엔드포인트 전수 HTTP 200 검증 완료.
+* **적용 파일**:
+  * [frontend/templates/emergency_guide_symptoms.html](file:///e:/monnlight/frontend/templates/emergency_guide_symptoms.html)
+  * [frontend/templates/emergency_guide_checklist.html](file:///e:/monnlight/frontend/templates/emergency_guide_checklist.html)
+  * [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/assets/images/](file:///e:/monnlight/frontend/assets/images/)
+  * [app/templates/](file:///e:/monnlight/app/templates/)
+  * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
+  * [main.py](file:///e:/monnlight/main.py)
+
+---
+
+### [ISSUE-035] 응급실 가이드 페이지 분리에 따른 인지 피로 해소 및 CSS Scroll Snap 기반 좌우 스와이프 포토 캐러셀 단일 통합
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 모바일 UI/UX / 모바일 제스처 최적화 / 인터랙션 디자인
+* **문제 상황**:
+  * 증상별 대처법과 출발 전 준비물이 서로 다른 2개 웹페이지(`symptoms.html`, `checklist.html`)로 분리되어 있어, 위급한 보호자가 탭을 전환해야 하는 불필요한 인지 부하가 발생함.
+  * 모바일 환경에서 위아래로만 긴 스크롤은 사진 가이드 탐색 시 피로도를 가중시킴.
+* **원인 분석**:
+  * 모바일 사용자(보호자)의 멘탈 모델은 사진을 한 장씩 옆으로 가볍게 넘겨보는(Flick / Swipe) 패턴에 가장 친숙함.
+  * 단일 페이지(`emergency_guide.html`)로 통합하되, 사진 가이드 6종을 가로 스크롤 스냅 트랙으로 배치하고 하단에 전화 스크립트와 실시간 병상 현황을 순차적으로 배치하는 유기적 구조가 적합함.
+* **구체적 해결 방안**:
+  1. **단일 통합 페이지 구축 ([emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html))**:
+     - 상단 119 긴급 통화 버튼 및 경련 5분 지속 알림 배너.
+     - 6대 핵심 포토 가이드 카드 가로 스크롤 캐러셀: 열성경련 회복자세, 38.5°C 미온수 마사지, 1세 미만 영아 하임리히법, 2024년 5월 본인확인 증빙 서류, 복용 해열제 약병/아기수첩 지참, 환부 사진 촬영 팁.
+     - 30초 당직의 통화 스크립트 (원터치 복사) & 실시간 소아응급실 병상 대시보드(서울아산, 삼성서울, 강남세브란스).
+  2. **순수 CSS Scroll Snap 가로 캐러셀 (`frontend/css/style.css`)**:
+     - `.photo-carousel-track`: `scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none;`
+     - `.carousel-slide-card`: `scroll-snap-align: center; scroll-snap-stop: always;`
+     - 데스크톱 화살표 컨트롤(`<`, `>`) 및 상단 퀵점프 칩 클릭 시 스무스 스크롤 연동.
+     - 슬라이드 인덱스 배지(`1 / 6`) 및 하단 인디케이터 점(Dot) 동기화.
+  3. **FastAPI 라우팅 동기화 (`main.py`)**:
+     - `GET /guide` 및 `GET /guide/emergency`가 통합 페이지를 1순위로 반환하도록 매핑.
+     - `frontend/templates/index.html` 하단 GNB `응급실 가이드` 링크를 `emergency_guide.html`로 업데이트.
+     - TestClient 전수 검증: `/guide` (200), `/guide/emergency` (200), `/home` (200) 전수 통과.
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [app/templates/emergency_guide.html](file:///e:/monnlight/app/templates/emergency_guide.html)
+  * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
+  * [main.py](file:///e:/monnlight/main.py)
+
+---
+
+### [ISSUE-036] 응급실 가이드 페이지 내 포토 캐러셀과 통화 스크립트·병상의 시각적 혼재 해소 (2대 카테고리 세그먼트 탭 분리)
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 모듈화 / UI 세그먼트 탭 / 컴포넌트 격리
+* **문제 상황**:
+  * 단일 통합 페이지 내에서 '시각 포토 가이드'와 '출발 전 30초 통화 스크립트 & 실시간 병상'이 상하로 연속 노출되어 스크롤이 길어지고, 두 기능의 역할 구분이 한눈에 들어오지 않음.
+* **원인 분석**:
+  * 환아의 응급 상태에 따라 "가정 내 즉각적 처치법(사진 가이드)"을 보고 싶은 보호자와, "응급실로 출발하기 전 통화 스크립트와 가용 병상"을 바로 확인하고 싶은 보호자의 니즈가 명확히 분리됨.
+  * 메인 홈(`index.html`)의 카테고리 필터 탭(`전체`, `달빛병원`, `심야약국`)과 같은 직관적인 2대 상단 카테고리 탭 도입이 필요함.
+* **구체적 해결 방안**:
+  1. `frontend/css/style.css`에 `.guide-category-nav`, `.guide-category-btn`, `.guide-tab-panel` 및 `@keyframes tabFadeIn` 애니메이션 클래스 구축.
+  2. `emergency_guide.html` 상단에 2대 카테고리 탭 배치:
+     - `[📸 사진 가이드]`: 6대 슬라이드 가로 스와이프 캐러셀 및 도트 인디케이터.
+     - `[📞 응급실 통화 스크립트]`: 30초 당직의 통화 스크립트(복사 버튼) + 실시간 소아응급실 병상 대시보드(아산/삼성/세브란스).
+  3. 탭 전환 스크립트(`switchGuideCategory`)를 구현하여 탭 선택에 따라 하단 고정 CTA 버튼의 역할(사진 가이드 ➔ 스크립트 탭 이동, 스크립트 탭 ➔ 병원 통화 및 길안내)도 유기적으로 변경되도록 설계.
+  4. `app/templates/emergency_guide.html` 동기화 및 TestClient `/guide` 200 검증 완료.
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [app/templates/emergency_guide.html](file:///e:/monnlight/app/templates/emergency_guide.html)
+  * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
+
+
+
 
 
 

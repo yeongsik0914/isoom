@@ -30,7 +30,61 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
-### 🌟 [v2.4.0-isoom-web] 2026-10-14 (Current): '아이숨(Aisum)' 프론트엔드 워크스페이스(`frontend/templates/`) 구축 및 순수 웹 퍼블리싱 완성
+### 🌟 [v2.7.0-isoom-category-tabs] 2026-10-14 (Current): '아이숨(Aisum)' 응급실 가이드 화면 내 [📸 사진 가이드] vs [📞 응급실 통화 스크립트] 2대 카테고리 탭 분리 구현
+* **응급실 가이드 상단 2대 핵심 카테고리 탭(`guide-category-nav`) 신설**:
+  - 기존 세로 스크롤에 길게 혼재되어 있던 "시각 포토 응급처치 가이드"와 "응급실 통화 스크립트 & 실시간 병상 현황"을 사용자의 현장 목적에 따라 2대 카테고리 탭으로 분리하여 인지 과부하 원천 해소.
+  - **[📸 사진 가이드] 탭 (기본 활성)**:
+    - 6대 핵심 포토 슬라이드 CSS Scroll Snap 좌우 스와이프 캐러셀 (`photo-carousel-track`) 완비.
+    - 슬라이드 인덱스 배지(`1 / 6`), 상단 퀵점프 칩(`경련 대처`, `미온수`, `하임리히`, `신분증/등본`, `약병`, `촬영팁`), Do-Not 금기사항 경고 박스.
+  - **[📞 응급실 통화 스크립트] 탭**:
+    - "응급실 출발 전 30초 당직의 통화 스크립트" 클립보드 원터치 복사 카드 (`copyCallScript()`).
+    - 실시간 서울 주요 소아응급실 가용병상(hv28) 대시보드 (서울아산 4석, 삼성서울 2석, 강남세브란스 3석 및 전문의 상주 현황).
+* **바텀 플로팅 CTA 동적 상황 전환**:
+  - 사진 가이드 탭: `[📞 응급실 출발 전 30초 통화 스크립트 확인]` 클릭 시 즉시 스크립트 탭으로 전환.
+  - 스크립트 탭: `[🚗 서울아산병원 소아응급실 통화 후 길안내]` 원터치 전화 연결 (`tel:02-3010-3114`).
+* **순수 CSS 탭 전환 애니메이션 & 제로 외부 의존성**:
+  - `@keyframes tabFadeIn` (0.22s 부드러운 페이드인), 440px 모바일 뷰포트 완벽 대응.
+  - [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html), [app/templates/emergency_guide.html](file:///e:/monnlight/app/templates/emergency_guide.html), [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css), [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css) 동기화 완료.
+
+### 🌟 [v2.6.0-isoom-swipe-guide] 2026-10-14: '아이숨(Aisum)' 응급실 가이드 단일 페이지 통합 및 CSS Scroll Snap 기반 좌우 스와이프 포토 캐러셀 완성
+* **응급실 가이드 단일 통합 페이지([emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)) 구축**:
+  - 기존 2개 페이지(증상별 가이드, 체크리스트)를 단일 페이지로 통합하여 탭 전환 인지 피로를 완전히 해소.
+  - 상단 119 긴급 통화 캡슐 및 경련 5분 지속 골든타임 알림 배너 배치.
+* **CSS Scroll Snap 기반 좌우 스와이프 포토 캐러셀 (`photo-carousel-track`)**:
+  - `scroll-snap-type: x mandatory` 기반으로 60fps 네이티브 터치 스와이프 제스처 지원.
+  - 6대 핵심 포토 슬라이드 카드:
+    1. 열성경련 안전 회복 자세 (측와위, 기도확보)
+    2. 38.5°C 고열 시 미온수 마사지 적정 부위 (목, 겨드랑이, 사타구니)
+    3. 1세 미만 영아 기도 폐쇄 하임리히법 (등 두드리기 5회 & 가슴 압박 5회)
+    4. 2024년 5월 본인확인 의무화 지참 서류 (주민등록등본, 모바일 건강보험증)
+    5. 복용 중인 해열제 약병 & 아기 건강수첩 지참 가이드
+    6. 의사 문진 시간 단축을 위한 환부/발진/경련 스마트폰 촬영 팁
+  - 데스크톱 화살표 컨트롤(`<`, `>`), 상단 카테고리 퀵점프 칩, 슬라이드 인덱스 배지(`1 / 6`), 하단 점(Dot) 인디케이터 연동.
+* **원스톱 의료 연계 기능**:
+  - "응급실 출발 전 30초 당직의 통화 스크립트" 클립보드 원터치 복사 카드.
+  - 실시간 서울 주요 소아응급실 가용병상(hv28) 대시보드 (서울아산, 삼성서울, 강남세브란스).
+  - 하단 고정 플로팅 길안내 CTA 및 하단 GNB `응급실 가이드` 링크 동기화.
+* **FastAPI 라우팅 연동**:
+  - `GET /guide` 및 `GET /guide/emergency`: [emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html) 서빙 (HTTP 200).
+
+### 🌟 [v2.5.0-isoom-emergency-guide] 2026-10-14: '아이숨(Aisum)' 응급실 가이드 추천 웹페이지 2종(증상별 시각 포토 응급처치 vs 출발 전 체크리스트 & 실시간 병상) 순수 HTML5/CSS3 완성
+* **시각 포토 중심 응급실 가이드 추천 웹페이지 2종 퍼블리싱**:
+  1. **추천 1: 증상별 시각 포토 응급처치 ([emergency_guide_symptoms.html](file:///e:/monnlight/frontend/templates/emergency_guide_symptoms.html))**:
+     - 상단 119 긴급 통화 캡슐 버튼 및 경련 5분 지속 골든타임 알림 배너.
+     - 4대 핵심 포토 가이드 카드: 열성경련 회복자세(측와위, 기도확보), 38.5°C 고열 미온수 마사지 적정 부위, 1세 미만 영아 하임리히법(등 두드리기 5회 & 가슴 압박 5회), 흉부함몰 및 응급실 지참물.
+     - 소아응급의학회 권장 인증 배지 및 Do-Not 금기사항(손가락/숟가락 넣기 금지, 찬물/알코올 마사지 금지) 경고 박스.
+  2. **추천 2: 출발 전 필수 포토 체크리스트 & 실시간 병상 ([emergency_guide_checklist.html](file:///e:/monnlight/frontend/templates/emergency_guide_checklist.html))**:
+     - 응급실 헛걸음(뺑뺑이) 방지 "출발 전 30초 당직의 통화 스크립트" (원터치 클립보드 복사).
+     - 서울 주요 소아응급실 실시간 가용병상(hv28) 대시보드 (서울아산, 삼성서울, 강남세브란스).
+     - 필수 지참 포토 체크리스트: 2024년 5월 본인확인 의무화 증빙 서류(등본, 모바일 건강보험증), 복용 중인 해열제 약병/아기수첩, 문진 단축 환부 사진 촬영 팁.
+* **상호 전환 스위처 & GNB 연동**:
+  - 화면 상단에 `[추천 1. 증상별 포토 가이드]` ↔ `[추천 2. 출발 전 체크리스트]` 세그먼트 스위처 탭 배치.
+  - 메인 홈(`index.html`)의 하단 GNB `응급실 가이드` 탭을 해당 페이지로 즉시 연결.
+* **고화질 의료 포토 에셋 탑재 및 FastAPI 라우팅**:
+  - `frontend/assets/images/` 내 `guide_seizure_care.jpg`, `guide_cooling_sponge.jpg`, `guide_infant_choking.jpg`, `guide_er_documents.jpg` 탑재.
+  - `main.py`에 `GET /guide`, `GET /guide/symptoms`, `GET /guide/checklist` 엔드포인트 추가 (TestClient HTTP 200 검증 완료).
+
+### 🌟 [v2.4.0-isoom-web] 2026-10-14: '아이숨(Aisum)' 프론트엔드 워크스페이스(`frontend/templates/`) 구축 및 순수 웹 퍼블리싱 완성
 * **프론트엔드 전용 모듈형 디렉터리(`frontend/`) 구축**:
   - `frontend/templates/index.html`: 메인 홈 화면 SPA 템플릿 진입점 (`<link href="../css/style.css">`)
   - `frontend/css/style.css`: Calm Harbor 디자인 시스템 Vanilla CSS (CSS 변수, 440px 모바일 프리뷰, 글래스모피즘, 펄스 애니메이션)

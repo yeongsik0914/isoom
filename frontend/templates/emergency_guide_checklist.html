@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>아이숨 (Aisum) - 응급실 가이드 (출발 전 필수 체크리스트 &amp; 실시간 병상)</title>
+  <meta name="description" content="응급실 출발 전 필수 지참물 포토 체크리스트 및 실시간 소아전문응급센터 병상 대시보드" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Pure Vanilla CSS Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+
+  <!-- Mobile Viewport Canvas -->
+  <div class="mobile-viewport" id="app">
+
+    <!-- 1. Top Emergency Header Bar -->
+    <header class="guide-header">
+      <div class="guide-header-left">
+        <a href="index.html" class="back-link-btn" aria-label="메인 홈으로 이동">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+        <h1 class="guide-header-title">응급실 가이드</h1>
+        <span class="guide-header-sub">출발 전 준비</span>
+      </div>
+
+      <!-- Quick Dial 119 Hotline -->
+      <a href="tel:119" class="btn-119-quick" aria-label="119 즉시 전화 연결">
+        <span class="material-symbols-outlined">emergency</span>
+        <span>119 연결</span>
+      </a>
+    </header>
+
+    <!-- 2. Dual Recommendation Switcher (추천 1 vs 추천 2 탭) -->
+    <nav class="recommendation-switcher" aria-label="응급실 가이드 추천 화면 전환">
+      <a href="emergency_guide_symptoms.html" class="switcher-tab">
+        <span class="material-symbols-outlined">photo_library</span>
+        <span>추천 1. 증상별 포토 가이드</span>
+      </a>
+      <a href="emergency_guide_checklist.html" class="switcher-tab active" aria-current="page">
+        <span class="material-symbols-outlined">checklist</span>
+        <span>추천 2. 출발 전 체크리스트</span>
+      </a>
+    </nav>
+
+    <!-- 3. Main Content Section -->
+    <main class="guide-section">
+
+      <!-- Section Intro Heading -->
+      <div class="guide-section-intro">
+        <h2 class="guide-main-heading">출발 전 필수 체크 &amp; 실시간 병상</h2>
+        <p class="guide-main-desc">소아과 전문의 부재로 인한 헛걸음(응급실 뺑뺑이)을 막기 위해 가용 병상과 지참물을 3분 만에 확인하세요.</p>
+      </div>
+
+      <!-- 30-Second ER Call Script Box -->
+      <section class="script-card" aria-labelledby="script-heading">
+        <div class="script-title-row">
+          <div class="script-title" id="script-heading">
+            <span class="material-symbols-outlined">phone_in_talk</span>
+            <span>응급실 출발 전 30초 당직의 통화 스크립트</span>
+          </div>
+          <button type="button" class="script-copy-btn" id="copy-script-btn" onclick="navigator.clipboard.writeText('안녕하세요, 생후 18개월 아기 39.2도 고열 증상인데 현재 소아응급실 접수 및 소아청소년과 전문의 진료 가능한가요?'); alert('스크립트가 복사되었습니다!');">
+            <span class="material-symbols-outlined" style="font-size:14px;">content_copy</span>
+            <span>복사</span>
+          </button>
+        </div>
+        <div class="script-body">
+          "안녕하세요, 지금 <mark>생후 18개월</mark> 아이가 <mark>39.2°C 고열</mark> 상태인데, 현재 소아응급실 접수 및 <mark>소아청소년과 전문의 진료</mark>가 즉시 가능한가요?"
+        </div>
+      </section>
+
+      <!-- Real-Time Pediatric ER Beds Dashboard -->
+      <div class="section-header" style="margin-bottom:12px;">
+        <div class="section-title-wrap">
+          <h3 class="section-title" style="font-size:16px;">내 주변 소아응급실 실시간 현황</h3>
+          <span class="count-badge" style="background:#ecfdf5;color:#059669;">E-Gen 실시간 연동</span>
+        </div>
+      </div>
+
+      <div class="er-status-grid">
+        <!-- Hospital 1 -->
+        <article class="er-bed-card">
+          <div class="er-bed-header">
+            <div>
+              <span class="er-hospital-name">서울아산병원 소아전문응급센터</span>
+              <div style="font-size:11px;color:#64748b;margin-top:2px;">송파구 올림픽로 · 3.2km (차량 10분)</div>
+            </div>
+            <span class="bed-count-badge">
+              <span class="material-symbols-outlined" style="font-size:14px;">airline_seat_flat</span>
+              <span>가용병상 4석</span>
+            </span>
+          </div>
+          <div class="er-meta-row">
+            <span class="er-pediatric-doctor">🟢 소아청소년과 전문의 야간 상주</span>
+            <span>예상 대기: 15분</span>
+          </div>
+        </article>
+
+        <!-- Hospital 2 -->
+        <article class="er-bed-card">
+          <div class="er-bed-header">
+            <div>
+              <span class="er-hospital-name">삼성서울병원 응급의료센터 (소아)</span>
+              <div style="font-size:11px;color:#64748b;margin-top:2px;">강남구 일원로 · 4.1km (차량 12분)</div>
+            </div>
+            <span class="bed-count-badge caution">
+              <span class="material-symbols-outlined" style="font-size:14px;">airline_seat_flat</span>
+              <span>가용병상 2석 (혼잡)</span>
+            </span>
+          </div>
+          <div class="er-meta-row">
+            <span class="er-pediatric-doctor">🟢 소아응급 세부전문의 진료중</span>
+            <span>예상 대기: 35분</span>
+          </div>
+        </article>
+
+        <!-- Hospital 3 -->
+        <article class="er-bed-card">
+          <div class="er-bed-header">
+            <div>
+              <span class="er-hospital-name">강남세브란스병원 응급의료센터</span>
+              <div style="font-size:11px;color:#64748b;margin-top:2px;">강남구 언주로 · 2.1km (차량 7분)</div>
+            </div>
+            <span class="bed-count-badge">
+              <span class="material-symbols-outlined" style="font-size:14px;">airline_seat_flat</span>
+              <span>가용병상 3석</span>
+            </span>
+          </div>
+          <div class="er-meta-row">
+            <span class="er-pediatric-doctor">🟢 소아 진료 구역 분리 운영</span>
+            <span>예상 대기: 20분</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Checklist Items with Visual Photo Demonstrations -->
+      <div class="section-header" style="margin:24px 0 12px 0;">
+        <div class="section-title-wrap">
+          <h3 class="section-title" style="font-size:16px;">출발 전 필수 지참 포토 체크리스트</h3>
+          <span class="count-badge" style="background:#eff6ff;color:#0066ff;">지참률 100% 필수</span>
+        </div>
+      </div>
+
+      <!-- Checklist Card 1: Official Documents -->
+      <article class="checklist-card">
+        <div class="checklist-header">
+          <div class="check-icon-box">
+            <span class="material-symbols-outlined">check_circle</span>
+          </div>
+          <h4 class="checklist-title">1. 본인확인 증빙 (등본 or 모바일 건강보험증)</h4>
+        </div>
+        <div class="photo-container">
+          <img src="../assets/images/guide_er_documents.jpg" alt="주민등록등본, 부모 신분증 및 모바일 건강보험증 실물 사진" class="guide-photo" />
+          <div class="photo-badge-top-left">
+            <span>2024년 5월 본인확인 의무화법 적용</span>
+          </div>
+        </div>
+        <div class="checklist-body">
+          <p class="checklist-desc" style="margin-top:12px;">
+            19세 미만 소아 진료 시에도 <strong>주민등록등본, 가족관계증명서</strong> 또는 스마트폰 <strong>모바일 건강보험증</strong>이 필수입니다. 미지참 시 전액 본인부담(비급여) 청구 후 사후 정산해야 하므로 반드시 스마트폰 사진이나 서류를 챙기세요.
+          </p>
+        </div>
+      </article>
+
+      <!-- Checklist Card 2: Medicine Bottle & Handbook -->
+      <article class="checklist-card">
+        <div class="checklist-header">
+          <div class="check-icon-box">
+            <span class="material-symbols-outlined">medication</span>
+          </div>
+          <h4 class="checklist-title">2. 복용 중인 해열제 병 &amp; 아기수첩</h4>
+        </div>
+        <div class="photo-container">
+          <img src="../assets/images/guide_cooling_sponge.jpg" alt="복용 중인 어린이 시럽제와 체온계 준비 사진" class="guide-photo" />
+          <div class="photo-badge-top-left">
+            <span>중복 투약 방지</span>
+          </div>
+        </div>
+        <div class="checklist-body">
+          <p class="checklist-desc" style="margin-top:12px;">
+            의사가 가장 먼저 묻는 질문은 <strong>"최근 몇 시에 무슨 해열제를 몇 ml 먹였는지"</strong>입니다. 약병 자체를 들고 가거나 라벨을 보여주면 교차복용 오류와 과다복용 부작용을 완벽히 방지합니다.
+          </p>
+        </div>
+      </article>
+
+      <!-- Checklist Card 3: Photo of Symptoms -->
+      <article class="checklist-card">
+        <div class="checklist-header">
+          <div class="check-icon-box">
+            <span class="material-symbols-outlined">photo_camera</span>
+          </div>
+          <h4 class="checklist-title">3. 환부 발진 / 경련 영상 / 대변 상태 스마트폰 촬영</h4>
+        </div>
+        <div class="photo-container">
+          <img src="../assets/images/guide_seizure_care.jpg" alt="아이의 호흡 상태와 발열 경과를 관찰하고 기록하는 사진" class="guide-photo" />
+          <div class="photo-badge-top-left">
+            <span>문진 시간 5분 단축</span>
+          </div>
+        </div>
+        <div class="checklist-body">
+          <p class="checklist-desc" style="margin-top:12px;">
+            응급실에 도착하면 열이 일시적으로 내리거나 경련이 멈춰 의사가 육안으로 확인하지 못할 수 있습니다. <strong>발진 사진, 기저귀 변 상태, 10초간의 경련 영상</strong>을 미리 찍어가면 오진 없는 신속한 처방이 가능합니다.
+          </p>
+        </div>
+      </article>
+
+    </main>
+
+    <!-- 4. Floating Action Button (Sticky above Bottom Nav) -->
+    <div class="guide-sticky-cta">
+      <a href="tel:02-3010-3114" class="guide-cta-btn">
+        <span class="material-symbols-outlined">directions_car</span>
+        <span>서울아산병원 소아응급실 통화 후 길안내</span>
+      </a>
+    </div>
+
+    <!-- 5. Fixed Bottom Navigation Bar (GNB) -->
+    <nav class="bottom-nav" aria-label="주요 메뉴">
+      <!-- Tab 1: 홈 -->
+      <a href="index.html" class="nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span class="nav-label">홈</span>
+      </a>
+
+      <!-- Tab 2: 응급실 가이드 (Active) -->
+      <a href="emergency_guide_checklist.html" class="nav-item active" aria-current="page">
+        <span class="material-symbols-outlined">emergency</span>
+        <span class="nav-label">응급실 가이드</span>
+      </a>
+
+      <!-- Tab 3: 설정 -->
+      <a href="#" class="nav-item">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="nav-label">설정</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <script src="../js/main.js"></script>
+</body>
+
+</html>

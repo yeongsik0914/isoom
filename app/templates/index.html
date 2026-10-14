@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,14 +10,18 @@
   <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <!-- Material Symbols Outlined -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
 
-  <!-- Pure Vanilla CSS Stylesheet -->
+  <!-- Pure Vanilla CSS Stylesheet (Relative path from templates/ to css/) -->
   <link rel="stylesheet" href="../css/style.css" />
 </head>
+
 <body>
 
   <!-- Mobile Viewport Canvas (Centered Preview Container) -->
@@ -42,10 +47,6 @@
           <span class="badge-dot" aria-hidden="true"></span>
         </button>
 
-        <!-- User Profile Avatar -->
-        <button type="button" class="user-avatar-btn" aria-label="내 정보 / 환아 관리">
-          <span class="material-symbols-outlined">person</span>
-        </button>
       </div>
     </header>
 
@@ -54,27 +55,15 @@
 
       <!-- 1. Symptom Triage Hero Section -->
       <section class="hero-card" aria-labelledby="hero-title-heading">
-        <!-- Live Medical Sync Badge -->
-        <div class="live-sync-banner">
-          <span class="pulse-dot" aria-hidden="true"></span>
-          <span class="live-sync-text">소아 전문 의료 데이터 실시간 동기화</span>
-        </div>
+
 
         <!-- Headline & Toddler Care Badge Art -->
         <div class="hero-body">
           <h1 class="hero-title" id="hero-title-heading">
-            아이가 어디가<br />아픈가요?
+            아이가 어디가 아픈가요?
           </h1>
-          <div class="hero-badge-art" aria-hidden="true">
-            <span class="material-symbols-outlined">child_care</span>
-          </div>
         </div>
-
-        <!-- Guidance Subtext -->
-        <p class="hero-subtext">
-          체온, 증상 부위를 터치하면 가까운 야간 병원과 예상 대기 시간을 즉시 안내해 드려요.
-        </p>
-
+        <br>
         <!-- Primary High-Contrast Full-Width CTA -->
         <button type="button" class="primary-cta-btn" id="start-triage-btn">
           <span class="material-symbols-outlined">add</span>
@@ -82,21 +71,6 @@
           <span class="material-symbols-outlined cta-arrow">arrow_forward</span>
         </button>
 
-        <!-- Quick Symptom Filter Tags (Chips) -->
-        <div class="quick-tags-container" role="group" aria-label="빠른 증상 선택">
-          <a href="#" class="symptom-chip red">
-            <span># 열나요(고열)</span>
-          </a>
-          <a href="#" class="symptom-chip amber">
-            <span># 구토/설사</span>
-          </a>
-          <a href="#" class="symptom-chip blue">
-            <span># 기침/호흡</span>
-          </a>
-          <a href="#" class="symptom-chip mint">
-            <span># 발진/두드러기</span>
-          </a>
-        </div>
       </section>
 
       <!-- 2. Real-Time Nighttime Medical Facilities Section -->
@@ -106,10 +80,6 @@
           <div class="section-title-wrap">
             <h2 class="section-title" id="facility-heading">실시간 야간 의료시설</h2>
             <span class="count-badge">10곳 운영중</span>
-          </div>
-          <div class="sync-status-indicator">
-            <span class="micro-dot" aria-hidden="true"></span>
-            <span>E-Gen 연동 1분 전</span>
           </div>
         </div>
 
@@ -247,7 +217,7 @@
       </a>
 
       <!-- Tab 2: 응급실 가이드 (Inactive) -->
-      <a href="#" class="nav-item">
+      <a href="emergency_guide.html" class="nav-item">
         <span class="material-symbols-outlined">emergency</span>
         <span class="nav-label">응급실 가이드</span>
       </a>
@@ -264,4 +234,5 @@
   <!-- Optional Client Interaction Script -->
   <script src="../js/main.js"></script>
 </body>
+
 </html>
