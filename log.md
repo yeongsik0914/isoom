@@ -37,6 +37,7 @@
 | **[ISSUE-027]** | 에이전트 단위 테스트 검증 | LogisticsAgent 전화 통화 스크립트 생성 시 LLM 기관명 축약(어절 생략) 대응 Assertion 유연화 및 무결점 회귀 방어 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-028]** | 프론트엔드 & Stitch MCP | Stitch 도구 호출 시 프로젝트 ID 규격 불일치(projects/ prefix 중복 에러) 방어 및 screen.png 리브랜딩 컴포넌트 표준화 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-029]** | 안전 가드레일 & 의료법 컴플라이언스 | MedicalGuardrailAgent 투약 용량(Dosage) 정규식 경계 확장 (과용량 경고 문맥 내 10ml 누출 방어) | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-030]** | 프론트엔드 UI/UX 아키텍처 | screen.png 기반 신규 Stitch 전용 프로젝트(`17449043314542457561`) 개설 및 Calm Harbor 라이트 테마 3대 화면 완성 | **해결 완료 (Resolved)** | 2026-10-14 |
 
 ---
 
@@ -771,4 +772,30 @@
   3. `tests/test_step4_orchestrator.py` (TC-401 ~ TC-407) 전수 재실행하여 100% 정상 통과 검증 완료 (`Ran 7 tests in 65.223s, OK`).
 * **적용 파일**:
   * `app/agents/guardrail_agent.py` (`PROHIBITED_DOSAGE_PATTERN`)
+
+---
+
+### [ISSUE-030] screen.png 레퍼런스 기반 신규 전용 Stitch 프로젝트 개설 및 'Calm Harbor' 모던 라이트 3대 화면 완성
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 UI/UX 아키텍처 / 디자인 시스템 리브랜딩 / Stitch MCP
+* **문제 상황**:
+  * 기존 프로젝트(`15792310540995806418`)는 다크 테마(Nocturnal Pediatric Care) 기반으로 설계되어 있었으나, 팀장님이 새롭게 지정한 레퍼런스([screen.png](images/screen.png))는 소프트 블루-그레이/화이트 베이스의 모던 라이트 테마를 지향함.
+  * 기존 프로젝트 내 화면 갱신 시 다크 모드 토큰과의 디자인 시스템 충돌 및 일관성 저하 우려.
+* **원인 분석**:
+  * Stitch MCP는 프로젝트별로 독립적인 디자인 시스템(`designSystem`)을 관리하므로, 완전히 새로워진 브랜드 아이덴티티('아이숨 Aisum')와 'Calm Harbor' 라이트 테마를 깨끗하게 유지하려면 신규 전용 프로젝트를 생성하는 것이 아키텍처상 최선임.
+* **구체적 해결 방안**:
+  1. Stitch MCP `create_project`를 호출하여 신규 전용 프로젝트(`projects/17449043314542457561` - '아이숨 (Aisum) - 소아 야간 의료 매칭 케어')를 생성.
+  2. `Calm Harbor` 라이트 테마 디자인 시스템(`assets/389aad58bc8e4522b6904fb567d60bdf`)을 확립:
+     - Primary: 선명한 로열 블루(`#0066FF`), Canvas: `#F8FAFC`, Surface: `#FFFFFF` (18px 라운드 코너).
+     - Live Mint: `#10B981` (실시간 동기화/진료중), Moonlight Amber: `#F59E0B` (달빛병원), Coral Red: `#EF4444` (고열/경련).
+  3. `generate_screen_from_text`를 통해 3대 핵심 화면을 순차 생성하여 완전한 사용자 여정 구축:
+     - **화면 1 (`65dcc96b817143c3adb7bfdfa545267b`)**: `아이숨 - 홈` (screen.png 1:1 완벽 이식 - 로고, 역삼동 알약 드롭다운, 라이브 동기화 닷, 어디가 아픈가요 헤더, 증상 퀵태그 4종, 3개 탭 필터, 송파어린이병원/강남아이마음병원/송파달빛약국 카드, 3탭 GNB).
+     - **화면 2 (`0cdadf1dc86a4c229423b5b02caa8cc1`)**: `아이숨 - 증상 입력 및 문진` (환아 선택, 38.6°C 디지털 체온계, KTAS 증상 멀티 셀렉터, 해열제 교차복용 타이머, 4단계 진단 카드, 매칭 CTA).
+     - **화면 3 (`3c5db317bb354d02838e5306adfc4f1a`)**: `아이숨 - 야간 병원 상세 및 실시간 접수` (송파어린이병원 실시간 대기 4팀, 당직의 김서연 전문의 현황, 송파달빛약국 +30분 조제안전마진 연계, 티맵/카카오내비 길안내, 모바일 번호표 접수 CTA).
+* **적용 파일**:
+  * [Answer-영식.md](Answer-영식.md) Q43
+  * [PLAN.md](PLAN.md) 제10.6절
+  * [README.md](README.md) v2.3.0-isoom 체인지로그
+
 

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/FRONTEND_UI_UX_SPECIFICATION.md",
+                "file": "PLAN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "FRONTEND_UI_UX_SPECIFICATION"
+              "title": "PLAN"
             }
           }
         ]
@@ -190,11 +190,12 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "docs/FRONTEND_UI_UX_SPECIFICATION.md",
+    "AISUM_STITCH_DESIGN_REPORT.md",
     "images/screen.png",
     "images",
     "새 폴더",
     "PLAN.md",
-    "docs/FRONTEND_UI_UX_SPECIFICATION.md",
     "tests/__pycache__/test_step7_circuit_breaker.cpython-312.pyc",
     "tests/__pycache__/test_redflag_v2_upgrade.cpython-312.pyc",
     "app/services/__pycache__/circuit_breaker.cpython-312.pyc",
@@ -234,7 +235,6 @@
     "DS/lib/python3.11/site-packages/jupyterlab/static/cd7322bf5a6e6fcf.svg",
     "DS/lib/python3.11/site-packages/jupyterlab/static/a76d53bf993d73a2.svg",
     "DS/lib/python3.11/site-packages/matplotlib/mpl-data/sample_data/logo2.png",
-    "DS/lib/python3.11/site-packages/matplotlib/mpl-data/sample_data/grace_hopper.jpg",
-    "DS/lib/python3.11/site-packages/matplotlib/mpl-data/sample_data/Minduka_Present_Blue_Pack.png"
+    "DS/lib/python3.11/site-packages/matplotlib/mpl-data/sample_data/grace_hopper.jpg"
   ]
 }
