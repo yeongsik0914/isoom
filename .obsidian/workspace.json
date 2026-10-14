@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PLAN.md",
+                "file": "AISUM_STITCH_DESIGN_REPORT.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PLAN"
+              "title": "AISUM_STITCH_DESIGN_REPORT"
             }
           }
         ]
@@ -190,22 +190,25 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "__pycache__/main.cpython-312.pyc.2568585208112",
+    "app/static/css/style.css",
+    "app/static/css",
+    "frontend/README.md",
+    "frontend/assets/README.md",
+    "frontend/assets",
+    "frontend/js/main.js",
+    "frontend/js",
+    "frontend/index.html",
+    "frontend/css/style.css",
+    "frontend/css",
+    "frontend",
+    "새 폴더",
+    "PLAN.md",
     "docs/FRONTEND_UI_UX_SPECIFICATION.md",
     "AISUM_STITCH_DESIGN_REPORT.md",
     "images/screen.png",
-    "images",
-    "새 폴더",
-    "PLAN.md",
-    "tests/__pycache__/test_step7_circuit_breaker.cpython-312.pyc",
-    "tests/__pycache__/test_redflag_v2_upgrade.cpython-312.pyc",
-    "app/services/__pycache__/circuit_breaker.cpython-312.pyc",
     "q_a.md",
     "docs/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md",
-    "notebooks/semantic_embedding_ktas_triage_pipeline.ipynb",
-    "notebooks/create_knn_notebook.py",
-    "notebooks/test_direct_llm_triage.py",
-    "notebooks/gemini_ktas_pediatric_redflag_pipeline.ipynb",
-    "notebooks/create_notebook.py",
     "Answer.md",
     "tests/evals/eval_report.md",
     "CONNECTIVITY_MAP.md",
@@ -227,9 +230,6 @@
     "DS/lib/python3.11/site-packages/sklearn/datasets/images/flower.jpg",
     "DS/lib/python3.11/site-packages/sklearn/datasets/images/china.jpg",
     "DS/lib/python3.11/site-packages/scipy/ndimage/tests/dots.png",
-    "DS/lib/python3.11/site-packages/scipy/fft/_pocketfft/LICENSE.md",
-    "DS/lib/python3.11/site-packages/narwhals-2.27.1.dist-info/licenses/LICENSE.md",
-    "DS/lib/python3.11/site-packages/nbconvert/templates/skeleton/README.md",
     "DS/lib/python3.11/site-packages/jupyter_server/static/logo/logo.png",
     "DS/lib/python3.11/site-packages/jupyterlab/static/ee37fbccfd7cfca6.svg",
     "DS/lib/python3.11/site-packages/jupyterlab/static/cd7322bf5a6e6fcf.svg",

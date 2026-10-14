@@ -38,6 +38,8 @@
 | **[ISSUE-028]** | 프론트엔드 & Stitch MCP | Stitch 도구 호출 시 프로젝트 ID 규격 불일치(projects/ prefix 중복 에러) 방어 및 screen.png 리브랜딩 컴포넌트 표준화 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-029]** | 안전 가드레일 & 의료법 컴플라이언스 | MedicalGuardrailAgent 투약 용량(Dosage) 정규식 경계 확장 (과용량 경고 문맥 내 10ml 누출 방어) | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-030]** | 프론트엔드 UI/UX 아키텍처 | screen.png 기반 신규 Stitch 전용 프로젝트(`17449043314542457561`) 개설 및 Calm Harbor 라이트 테마 3대 화면 완성 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-031]** | 프론트엔드 퍼블리싱 & 서빙 | Stitch 생성 코드의 외부 CDN 종속 탈피, 순수 Vanilla HTML5/CSS3 웹 퍼블리싱 및 FastAPI `/home` 정적 서빙 구축 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-032]** | 프론트엔드 워크스페이스 아키텍처 | 프로젝트 루트에 위치하던 임시 HTML/CSS 파일을 정규 프론트엔드 전용 워크스페이스(`frontend/`)로 모듈화 이관 | **해결 완료 (Resolved)** | 2026-10-14 |
 
 ---
 
@@ -797,5 +799,61 @@
   * [Answer-영식.md](Answer-영식.md) Q43
   * [PLAN.md](PLAN.md) 제10.6절
   * [README.md](README.md) v2.3.0-isoom 체인지로그
+
+---
+
+### [ISSUE-031] Stitch 생성 코드의 외부 CDN 종속 탈피, 순수 Vanilla HTML5/CSS3 웹 퍼블리싱 및 FastAPI `/home` 정적 서빙 구축
+
+* **발생 일자**: 2026-10-14
+* **분류**: 웹 프론트엔드 퍼블리싱 / Vanilla CSS3 / FastAPI 정적 서빙
+* **문제 상황**:
+  * Stitch에서 자동 생성된 프로토타입 HTML 코드는 `cdn.tailwindcss.com` 스크립트에 런타임 종속되어 있어 외부 CDN 장애 시 레이아웃이 붕괴될 수 있으며, 사용자의 "기능 없이 순수 HTML, CSS만으로 구현해달라"는 요구 조건에 완벽히 부합하지 않음.
+* **원인 분석**:
+  * 상용 배포 및 가벼운 단독 구동(Standalone)을 위해서는 외부 라이브러리 및 자바스크립트 없이 구동되는 순수 HTML5 시맨틱 마크업과 독립 CSS 파일 구조가 필요함.
+* **구체적 해결 방안**:
+  1. `AISUM_STITCH_DESIGN_REPORT.md`의 Calm Harbor 디자인 토큰 명세를 바탕으로 순수 바닐라 CSS 파일 [style.css](file:///e:/monnlight/style.css)를 신규 구축:
+     - `:root`에 로열 블루(`#0066FF`), 에메랄드 그린(`#10B981`), 달빛 앰버(`#F59E0B`), 코랄 레드(`#EF4444`) 변수 지정.
+     - 440px 모바일 뷰포트 프리뷰 프레임 및 반응형 레이아웃 구현.
+     - `@keyframes pulse-ring` 실시간 동기화 펄스 애니메이션 및 글래스모피즘(`backdrop-filter: blur(14px)`) 적용.
+  2. [index.html](file:///e:/monnlight/index.html) 및 [app/static/index.html](file:///e:/monnlight/app/static/index.html)을 생성하여 상단 앱바, 증상 탐색 히어로, 4대 증상 칩, 실시간 야간 의료시설 3대 카드, 고정 GNB 하단바를 시맨틱 구조로 1:1 완벽 구현.
+  3. [main.py](file:///e:/monnlight/main.py)에 `GET /home` 및 `GET /style.css` 엔드포인트를 추가하여 FastAPI 서버에서도 로컬 파일 브라우징과 동일하게 즉시 서빙되도록 라우팅 결합.
+* **적용 파일**:
+  * [index.html](file:///e:/monnlight/index.html)
+  * [style.css](file:///e:/monnlight/style.css)
+  * [app/static/index.html](file:///e:/monnlight/app/static/index.html)
+  * [app/static/style.css](file:///e:/monnlight/app/static/style.css)
+  * [main.py](file:///e:/monnlight/main.py)
+
+---
+
+### [ISSUE-032] 프로젝트 루트에 위치하던 임시 HTML/CSS 파일을 정규 프론트엔드 전용 워크스페이스(`frontend/`)로 모듈화 이관
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 워크스페이스 아키텍처 / 웹 리소스 모듈화 / FastAPI 라우팅
+* **문제 상황**:
+  * Step 7 이후 백엔드와 데이터 파이프라인은 `app/`, `data/`, `docs/`, `scripts/`, `tests/` 등 최상위 디렉터리별로 엄격히 모듈화되어 있었으나, 퍼블리싱된 `index.html`과 `style.css`가 프로젝트 루트에 평면(Flat)하게 위치하여 응집도가 떨어지고 CSS/JS/Assets 계층 분리가 이루어지지 않음.
+* **원인 분석**:
+  * 프로토타입 작성 시 루트에 직접 파일을 생성하여 발생한 일시적 배치 결함으로, 상용 웹 아키텍처 및 팀 협업 표준에 따라 독립된 `frontend/` 워크스페이스 구축이 필요함.
+* **구체적 해결 방안**:
+  1. 프로젝트 루트에 **`frontend/`** 최상위 디렉터리를 신규 생성하고 표준 웹 하위 구조 구축:
+     - `frontend/index.html`: 메인 웹 진입점 (스타일시트 링크: `css/style.css`).
+     - `frontend/css/style.css`: Calm Harbor 디자인 시스템 Vanilla CSS.
+     - `frontend/js/main.js`: 클라이언트 인터랙션 및 향후 SSE 챗봇 연동 모듈.
+     - `frontend/assets/`: `icons/`, `images/` 하위 에셋 디렉터리.
+     - `frontend/README.md`: 프론트엔드 워크스페이스 가이드 문서.
+  2. 기존 루트의 `e:\monnlight\index.html` 및 `e:\monnlight\style.css`를 완전 삭제하여 루트 디렉터리의 청결성 회복.
+  3. 백엔드 패키징 디렉터리인 `app/static/` 내부도 `app/static/index.html`, `app/static/css/style.css` 계층으로 동기화.
+  4. `main.py`에 `app.mount("/frontend", ...)` 및 `app.mount("/css", ...)`를 등록하고, `GET /home`, `GET /style.css`, `GET /css/style.css` 엔드포인트가 `frontend/` 경로를 1순위로 서빙하도록 라우팅 업데이트 및 HTTP 200 검증 완료.
+* **적용 파일**:
+  * [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/assets/README.md](file:///e:/monnlight/frontend/assets/README.md)
+  * [frontend/README.md](file:///e:/monnlight/frontend/README.md)
+  * [app/static/index.html](file:///e:/monnlight/app/static/index.html)
+  * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
+  * [main.py](file:///e:/monnlight/main.py)
+
+
 
 

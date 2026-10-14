@@ -30,7 +30,22 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
-### 🌟 [v2.3.0-isoom-stitch] 2026-10-14 (Current): [screen.png 1:1 완벽 이식] '아이숨(Aisum)' 신규 전용 Stitch 프로젝트 개설 및 모던 라이트 3대 화면 완성
+### 🌟 [v2.4.0-isoom-web] 2026-10-14 (Current): '아이숨(Aisum)' 프론트엔드 전용 워크스페이스(`frontend/`) 구축 및 순수 HTML5/CSS3 웹 퍼블리싱 완성
+* **프론트엔드 전용 모듈형 디렉터리(`frontend/`) 구축**:
+  - `frontend/index.html`: 메인 홈 화면 SPA 진입점
+  - `frontend/css/style.css`: Calm Harbor 디자인 시스템 Vanilla CSS (CSS 변수, 440px 모바일 프리뷰, 글래스모피즘, 펄스 애니메이션)
+  - `frontend/js/main.js`: 클라이언트 인터랙션 및 향후 SSE 챗봇 연동 모듈
+  - `frontend/assets/`: `icons/`, `images/` 정적 그래픽 에셋 디렉터리
+  - `frontend/README.md`: 프론트엔드 워크스페이스 가이드 문서
+* **에셋 이동 및 루트 디렉터리 정리**:
+  - 루트 경로의 임시 `index.html`과 `style.css`를 `frontend/`로 물리적 이관 및 루트 파일 삭제.
+  - `app/static/` 내부도 `app/static/index.html` 및 `app/static/css/style.css` 계층으로 동기화.
+* **FastAPI 라우팅 및 정적 파일 마운트 연동**:
+  - `app.mount("/frontend", ...)` 및 `app.mount("/css", ...)` 마운트 등록.
+  - `GET /home`: `frontend/index.html` 서빙 (Fallback: `app/static/index.html`)
+  - `GET /style.css` 및 `GET /css/style.css`: `frontend/css/style.css` 서빙
+
+### 🌟 [v2.3.0-isoom-stitch] 2026-10-14: [screen.png 1:1 완벽 이식] '아이숨(Aisum)' 신규 전용 Stitch 프로젝트 개설 및 모던 라이트 3대 화면 완성
 * **신규 Stitch 전용 프로젝트 공식 개설**: `projects/17449043314542457561` ('아이숨 (Aisum) - 소아 야간 의료 매칭 케어')
 * **'Calm Harbor' 모던 클린 라이트 디자인 시스템 확립**:
   - Primary Brand: 신뢰의 로열 코발트 블루 (`#0066FF`), Canvas: `#F8FAFC`, Cards: `#FFFFFF` (18px 라운드 코너).

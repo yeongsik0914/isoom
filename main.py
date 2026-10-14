@@ -13,12 +13,14 @@ from __future__ import annotations
 import contextlib
 import datetime
 import logging
+import os
 from typing import AsyncGenerator
 
 import uvicorn
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.api import api_v1_router
 from app.api.v1.chat import get_supervisor
@@ -99,6 +101,15 @@ app.add_middleware(
 # Mount API Routers
 app.include_router(api_v1_router, prefix="/api/v1")
 
+# Mount Static and Frontend Directories
+if os.path.exists("frontend"):
+    app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
+    if os.path.exists("frontend/css"):
+        app.mount("/css", StaticFiles(directory="frontend/css"), name="css")
+
+if os.path.exists("app/static"):
+    app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
 
 @app.get("/", tags=["System"])
 async def root():
@@ -116,6 +127,7 @@ async def root():
             "emergency_pairings": "/api/v1/emergency/pairings",
             "emergency_sync": "/api/v1/emergency/sync",
             "scheduler_status": "/api/v1/emergency/status",
+            "aisum_home": "/home",
         },
     }
 
@@ -124,6 +136,23 @@ async def root():
 async def get_ktas_viewer():
     """Serves the interactive KTAS 2021 guideline HTML viewer."""
     return FileResponse("ktas_viewer.html", media_type="text/html")
+
+
+@app.get("/home", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_home():
+    """Serves the Aisum mobile web main page."""
+    if os.path.exists("frontend/index.html"):
+        return FileResponse("frontend/index.html", media_type="text/html")
+    return FileResponse("app/static/index.html", media_type="text/html")
+
+
+@app.get("/css/style.css", include_in_schema=False)
+@app.get("/style.css", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_style():
+    """Serves the Aisum CSS stylesheet."""
+    if os.path.exists("frontend/css/style.css"):
+        return FileResponse("frontend/css/style.css", media_type="text/css")
+    return FileResponse("app/static/css/style.css", media_type="text/css")
 
 
 @app.get("/health", tags=["System"])
