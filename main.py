@@ -106,6 +106,10 @@ if os.path.exists("frontend"):
     app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
     if os.path.exists("frontend/css"):
         app.mount("/css", StaticFiles(directory="frontend/css"), name="css")
+    if os.path.exists("frontend/js"):
+        app.mount("/js", StaticFiles(directory="frontend/js"), name="js")
+    if os.path.exists("frontend/assets"):
+        app.mount("/assets", StaticFiles(directory="frontend/assets"), name="assets")
 
 if os.path.exists("app/static"):
     app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -141,8 +145,12 @@ async def get_ktas_viewer():
 @app.get("/home", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_home():
     """Serves the Aisum mobile web main page."""
+    if os.path.exists("frontend/templates/index.html"):
+        return FileResponse("frontend/templates/index.html", media_type="text/html")
     if os.path.exists("frontend/index.html"):
         return FileResponse("frontend/index.html", media_type="text/html")
+    if os.path.exists("app/templates/index.html"):
+        return FileResponse("app/templates/index.html", media_type="text/html")
     return FileResponse("app/static/index.html", media_type="text/html")
 
 
@@ -153,6 +161,14 @@ async def get_aisum_style():
     if os.path.exists("frontend/css/style.css"):
         return FileResponse("frontend/css/style.css", media_type="text/css")
     return FileResponse("app/static/css/style.css", media_type="text/css")
+
+
+@app.get("/js/main.js", include_in_schema=False)
+async def get_aisum_js():
+    """Serves the Aisum JS module."""
+    if os.path.exists("frontend/js/main.js"):
+        return FileResponse("frontend/js/main.js", media_type="application/javascript")
+    return JSONResponse(status_code=404, content={"detail": "JS not found"})
 
 
 @app.get("/health", tags=["System"])

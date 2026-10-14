@@ -11,7 +11,8 @@
 
 ```
 frontend/
-├── index.html              # 아이숨 메인 홈 화면 (SPA 진입점)
+├── templates/
+│   └── index.html          # 아이숨 메인 홈 화면 템플릿 (SPA 진입점, 상대경로: ../css/style.css)
 ├── css/
 │   └── style.css           # Calm Harbor 디자인 토큰 및 반응형 Vanilla CSS
 ├── js/
@@ -27,6 +28,7 @@ frontend/
 ## 🚀 로컬 실행 및 확인 방법
 
 1. **로컬 파일 브라우징**:
-   - 브라우저(Chrome, Edge 등)에서 [index.html](index.html)을 직접 열어 확인합니다.
+   - 브라우저(Chrome, Edge 등)에서 [templates/index.html](templates/index.html)을 직접 열어 확인합니다.
 2. **FastAPI 서버 연동 브라우징**:
    - `python main.py` 실행 후 `http://localhost:8000/home` 접속.
+

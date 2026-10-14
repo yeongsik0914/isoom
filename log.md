@@ -40,6 +40,7 @@
 | **[ISSUE-030]** | 프론트엔드 UI/UX 아키텍처 | screen.png 기반 신규 Stitch 전용 프로젝트(`17449043314542457561`) 개설 및 Calm Harbor 라이트 테마 3대 화면 완성 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-031]** | 프론트엔드 퍼블리싱 & 서빙 | Stitch 생성 코드의 외부 CDN 종속 탈피, 순수 Vanilla HTML5/CSS3 웹 퍼블리싱 및 FastAPI `/home` 정적 서빙 구축 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-032]** | 프론트엔드 워크스페이스 아키텍처 | 프로젝트 루트에 위치하던 임시 HTML/CSS 파일을 정규 프론트엔드 전용 워크스페이스(`frontend/`)로 모듈화 이관 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-033]** | 프론트엔드 템플릿 아키텍처 | `frontend/templates/` 하위 계층 생성, `index.html` 보관 및 상대경로(`../css/style.css`, `../js/main.js`)·정적 마운트 최적화 | **해결 완료 (Resolved)** | 2026-10-14 |
 
 ---
 
@@ -845,7 +846,7 @@
   3. 백엔드 패키징 디렉터리인 `app/static/` 내부도 `app/static/index.html`, `app/static/css/style.css` 계층으로 동기화.
   4. `main.py`에 `app.mount("/frontend", ...)` 및 `app.mount("/css", ...)`를 등록하고, `GET /home`, `GET /style.css`, `GET /css/style.css` 엔드포인트가 `frontend/` 경로를 1순위로 서빙하도록 라우팅 업데이트 및 HTTP 200 검증 완료.
 * **적용 파일**:
-  * [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
   * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
   * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
   * [frontend/assets/README.md](file:///e:/monnlight/frontend/assets/README.md)
@@ -853,6 +854,32 @@
   * [app/static/index.html](file:///e:/monnlight/app/static/index.html)
   * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
   * [main.py](file:///e:/monnlight/main.py)
+
+---
+
+### [ISSUE-033] `frontend/templates/` 하위 계층 생성, `index.html` 보관 및 상대경로·FastAPI 마운트 최적화
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 템플릿 아키텍처 / 웹 리소스 상대경로 정합성 / FastAPI 서빙
+* **문제 상황**:
+  * `frontend/` 디렉터리 내에 `index.html`이 루트에 위치하고 있어 HTML 템플릿 파일과 정적 리소스(CSS, JS, Assets)의 계층적 분리가 명확하지 않았음.
+  * 템플릿 폴더(`templates/`)로 이동 시 스타일시트 및 스크립트 상대경로(`../css/style.css`, `../js/main.js`) 불일치로 인한 리소스 404 위험 존재.
+* **원인 분석**:
+  * 진입점 HTML 문서를 전용 템플릿 디렉터리로 격리하고, 파일 시스템 직접 열람 및 웹 서버 라우팅 환경 모두에서 리소스가 유실되지 않도록 경로를 정밀 재설정할 필요가 있음.
+* **구체적 해결 방안**:
+  1. `frontend/` 하위에 **`frontend/templates/`** 디렉터리를 생성하고 `index.html`을 안전하게 이동 보관.
+  2. `frontend/templates/index.html` 내부의 리소스 경로를 상위 디렉터리 기준 상대경로로 정밀 수정:
+     - 스타일시트: `<link rel="stylesheet" href="../css/style.css" />`
+     - 스크립트: `<script src="../js/main.js"></script>`
+  3. 백엔드 서빙 정합성을 위해 `app/templates/index.html`도 동일하게 생성 동기화.
+  4. `main.py`에 `/js`, `/assets` 정적 마운트를 추가하고, `GET /home` 엔드포인트가 `frontend/templates/index.html`을 1순위로 서빙하도록 라우팅 최적화.
+  5. TestClient 기반 전수 검증: `/home` (200), `/style.css` (200), `/css/style.css` (200), `/js/main.js` (200) 전수 무결점 통과.
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/README.md](file:///e:/monnlight/frontend/README.md)
+  * [app/templates/index.html](file:///e:/monnlight/app/templates/index.html)
+  * [main.py](file:///e:/monnlight/main.py)
+
 
 
 

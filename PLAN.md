@@ -458,19 +458,19 @@ flowchart TD
      - 하단 듀얼 액션 바: `[📞 전화상담]` & `[모바일 야간진료 번호표 접수하기 (대기 4번째) →]`.
 * **공식 화면 명세서 보고서**: [AISUM_STITCH_DESIGN_REPORT.md](AISUM_STITCH_DESIGN_REPORT.md) (디자인 토큰, 화면별 세부 스펙, 스크린샷 뷰어 링크 및 백엔드 매핑 집대성)
 
-### 10.7 '아이숨 (Aisum)' 프론트엔드 전용 워크스페이스(`frontend/`) 구축 및 HTML/CSS 모듈화 이관 (2026-10-14 완결)
+### 10.7 '아이숨 (Aisum)' 프론트엔드 전용 워크스페이스(`frontend/templates/`) 구축 및 HTML/CSS 모듈화 이관 (2026-10-14 완결)
 * **프론트엔드 모듈화 아키텍처 원칙**:
   - `app/`(백엔드), `data/`(데이터셋), `docs/`(명세서), `scripts/`(스크립트), `tests/`(테스트)와 정합성을 이루는 최상위 전용 **`frontend/`** 디렉터리 구축.
   - 외부 프레임워크나 Tailwind CDN 런타임 종속성 없이 완전히 단독(Standalone) 구동 가능한 순수 시맨틱 HTML5 및 바닐라 CSS3(Vanilla CSS) 구조.
-  - 웹 표준 규격에 따라 `css/`, `js/`, `assets/` 하위 모듈 계층화.
+  - 웹 표준 규격에 따라 `templates/`, `css/`, `js/`, `assets/` 하위 모듈 계층화 및 상대 경로(`../css/`, `../js/`) 정합성 보장.
 * **구축 산출물**:
-  1. [frontend/index.html](frontend/index.html): 메인 홈 화면 SPA 진입점 (`<link href="css/style.css">`).
+  1. [frontend/templates/index.html](frontend/templates/index.html): 메인 홈 화면 SPA 템플릿 진입점 (`<link href="../css/style.css">`).
   2. [frontend/css/style.css](frontend/css/style.css): Calm Harbor 디자인 토큰 Vanilla CSS (로열 블루 `#0066FF`, 에메랄드 `#10B981`, 앰버 `#F59E0B`, 코랄 `#EF4444`, 440px 모바일 프리뷰, 글래스모피즘, 펄스 애니메이션).
-  3. [frontend/js/main.js](frontend/js/main.js): 클라이언트 인터랙션 및 향후 SSE 챗봇 연동 진입점.
+  3. [frontend/js/main.js](frontend/js/main.js): 클라이언트 인터랙션 및 향후 SSE 챗봇 연동 진입점 (`<script src="../js/main.js">`).
   4. [frontend/assets/](frontend/assets/): `icons/`, `images/` 정적 그래픽 에셋 디렉터리.
   5. [frontend/README.md](frontend/README.md): 프론트엔드 워크스페이스 가이드 문서.
-  6. [app/static/](app/static/): FastAPI 백엔드 패키징 동기화 (`index.html`, `css/style.css`).
-  7. [main.py](main.py): `app.mount("/frontend", ...)`, `app.mount("/css", ...)`, `GET /home`, `GET /style.css` 등록 및 HTTP 200 검증 완료.
+  6. [app/templates/index.html](app/templates/index.html) 및 [app/static/](app/static/): FastAPI 백엔드 패키징 동기화.
+  7. [main.py](main.py): `app.mount("/frontend", ...)`, `/css`, `/js`, `/assets`, `GET /home`, `GET /style.css`, `GET /js/main.js` 등록 및 HTTP 200 검증 완료.
 
 ---
 

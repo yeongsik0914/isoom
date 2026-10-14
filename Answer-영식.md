@@ -52,6 +52,7 @@
 52. [Q44. [산출물 문서화] '아이숨(Aisum)' Stitch 화면 디자인 및 컴포넌트 명세 종합 보고서(AISUM_STITCH_DESIGN_REPORT.md) 작성 보고](#q44-산출물-문서화-아이숨aisum-stitch-화면-디자인-및-컴포넌트-명세-종합-보고서aisum_stitch_design_reportmd-작성-보고)
 53. [Q45. [screen.png & AISUM_STITCH_DESIGN_REPORT.md 기반] '아이숨(Aisum)' 메인 홈 화면 순수 HTML5/CSS3 웹 퍼블리싱 및 FastAPI 서빙 구현 보고](#q45-screenpng--aisum_stitch_design_reportmd-기반-아이숨aisum-메인-홈-화면-순수-html5css3-웹-퍼블리싱-및-fastapi-서빙-구현-보고)
 54. [Q46. 프로젝트 폴더 구조 정합형 프론트엔드 워크스페이스(frontend/) 구축 및 HTML/CSS 모듈화 이관 보고](#q46-프로젝트-폴더-구조-정합형-프론트엔드-워크스페이스frontend-구축-및-htmlcss-모듈화-이관-보고)
+55. [Q47. frontend/templates/ 하위 폴더 생성, HTML 보관 및 상대경로·FastAPI 마운트 전면 최적화 보고](#q47-frontendtemplates-하위-폴더-생성-html-보관-및-상대경로fastapi-마운트-전면-최적화-보고)
 
 ---
 
@@ -2862,7 +2863,76 @@ e:\monnlight\frontend\
 #### 4. 요약 결론
 
 * 정영식 팀장님의 요청대로 현재 모듈화된 프로젝트 구조와 일관성을 이루는 **`frontend/`** 전용 폴더 구조가 완성되었으며, HTML 및 CSS 파일이 계층적으로 이동 및 재배치되었습니다.
-* 로컬 파일 시스템에서 [frontend/index.html](file:///e:/monnlight/frontend/index.html)을 더블 클릭하여 바로 확인할 수 있을 뿐 아니라, FastAPI 서버 구동 시에도 `http://localhost:8000/home`을 통해 완벽하게 서빙됩니다.
+* 로컬 파일 시스템에서 [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)을 더블 클릭하여 바로 확인할 수 있을 뿐 아니라, FastAPI 서버 구동 시에도 `http://localhost:8000/home`을 통해 완벽하게 서빙됩니다.
+
+---
+
+### Q47. frontend/templates/ 하위 폴더 생성, HTML 보관 및 상대경로·FastAPI 마운트 전면 최적화 보고
+
+* **기록 일시**: 2026-10-14 19:22 (KST)
+* **질문 내용**:
+  > 프론트엔드 폴더 밑에 템플릿 폴더를 만들어서 html 보관해줘 파일들 경로 설정 잘 잡아줘
+
+---
+
+#### 💡 답변 내용
+
+#### 1. 디렉터리 구조 개편 및 템플릿 분리
+
+정영식 팀장님의 요청에 따라, `frontend/` 워크스페이스 내에 웹 템플릿 표준 계층인 **`frontend/templates/`** 디렉터리를 신규 생성하고, `index.html` 파일을 해당 폴더로 이동·보관하였습니다.
+
+```
+e:\monnlight\frontend\
+├── templates/                  <-- [신규 생성] HTML 템플릿 전용 보관 폴더
+│   └── index.html              <-- [이동 완료] 상대 경로 재설정 (<link href="../css/style.css">)
+├── css/
+│   └── style.css               <-- Calm Harbor 디자인 시스템 Vanilla CSS
+├── js/
+│   └── main.js                 <-- 클라이언트 인터랙션 스크립트 (<script src="../js/main.js">)
+├── assets/                     <-- 정적 그래픽 에셋 디렉터리 (icons, images)
+│   ├── icons/
+│   └── images/
+└── README.md                   <-- 갱신된 프론트엔드 아키텍처 가이드 문서
+```
+
+---
+
+#### 2. 리소스 상대 경로(Relative Path) 정밀 설정
+
+`index.html`이 `templates/` 하위 폴더로 이동함에 따라, 로컬 파일 직접 열람 및 웹 서버 서빙 환경 모두에서 CSS와 JS가 깨짐 없이 100% 정상 로드되도록 상대 경로를 정밀 보정하였습니다:
+
+1. **CSS 스타일시트 연결**:
+   - 변경 전: `<link rel="stylesheet" href="css/style.css" />`
+   - **변경 후**: `<link rel="stylesheet" href="../css/style.css" />`
+   - *로컬 직접 열람 시 `../css/style.css`로 정확히 상위 디렉터리의 CSS를 참조하며, 웹 서버(`/home`) 접속 시 브라우저가 `/css/style.css`로 자동 매핑.*
+2. **JS 스크립트 연결**:
+   - **적용**: `<script src="../js/main.js"></script>`
+
+---
+
+#### 3. FastAPI 백엔드 라우팅 및 정적 마운트 동기화 (`main.py`)
+
+1. **정적 디렉터리 마운트 확장**:
+   - `app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")`
+   - `app.mount("/css", StaticFiles(directory="frontend/css"), name="css")`
+   - `app.mount("/js", StaticFiles(directory="frontend/js"), name="js")`
+   - `app.mount("/assets", StaticFiles(directory="frontend/assets"), name="assets")`
+2. **엔드포인트 서빙 우선순위 갱신**:
+   - `GET /home`: `frontend/templates/index.html`을 1순위로 탐색하여 반환 (Fallback: `frontend/index.html`, `app/templates/index.html`).
+   - `GET /style.css` 및 `GET /css/style.css`: `frontend/css/style.css` 반환.
+   - `GET /js/main.js`: `frontend/js/main.js` 반환.
+3. **E2E 테스트 검증 완료**:
+   - `GET /home` ➔ **HTTP 200 OK**
+   - `GET /style.css` ➔ **HTTP 200 OK**
+   - `GET /css/style.css` ➔ **HTTP 200 OK**
+   - `GET /js/main.js` ➔ **HTTP 200 OK**
+
+---
+
+#### 4. 요약 결론
+
+* `frontend/templates/` 디렉터리가 성공적으로 구축되었으며, `index.html`이 템플릿 폴더로 안전하게 이관되었습니다.
+* CSS 및 JS 상대 경로와 FastAPI 정적 마운트가 완벽히 결합되어, [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html) 로컬 직접 열람 및 `http://localhost:8000/home` 브라우징 모두에서 100% 무결점 렌더링이 보장됩니다.
 
 
 
