@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Builder script to extract and assemble the dedicated Pediatric KTAS Dataset from PPTX and full bundle."""
 
 import json
@@ -11,9 +11,10 @@ import sys
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-PPTX_PATH = r"e:\monnlight\2021_KTAS_guideline_ver1.6.pptx"
-BUNDLE_PATH = r"e:\monnlight\data\ktas_full_bundle.json"
-OUTPUT_PATH = r"e:\monnlight\data\ktas_pediatric_dataset.json"
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+PPTX_PATH = os.path.join(PROJECT_ROOT, "2021_KTAS_guideline_ver1.6.pptx")
+BUNDLE_PATH = os.path.join(PROJECT_ROOT, "data", "ktas_full_bundle.json")
+OUTPUT_PATH = os.path.join(PROJECT_ROOT, "data", "ktas_pediatric_dataset.json")
 
 NS = {'a': 'http://schemas.openxmlformats.org/drawingml/2006/main'}
 

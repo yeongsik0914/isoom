@@ -1,4 +1,4 @@
-"""Script to update and execute notebooks/gemini_ktas_v2.ipynb with the 50-scenario 12-rule benchmark.
+﻿"""Script to update and execute notebooks/gemini_ktas_v2.ipynb with the 50-scenario 12-rule benchmark.
 """
 
 import base64
@@ -9,7 +9,7 @@ import time
 import uuid
 from pathlib import Path
 
-PROJECT_ROOT = Path("e:/monnlight").resolve()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOK_PATH = PROJECT_ROOT / "notebooks" / "gemini_ktas_v2.ipynb"
 
 if str(PROJECT_ROOT) not in sys.path:

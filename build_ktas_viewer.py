@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Generator for KTAS Interactive HTML Viewer from 2021_KTAS_guideline_ver1.6.pptx data."""
 
 import json
@@ -7,7 +7,7 @@ import re
 
 def main():
     print("[1/4] Loading compiled KTAS dataset and slides...")
-    with open(r"e:\monnlight\scratch_ktas_slides.json", "r", encoding="utf-8") as f:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "scratch_ktas_slides.json"), "r", encoding="utf-8") as f:
         slides = json.load(f)
 
     # 1. Map categories
@@ -146,8 +146,8 @@ def main():
     }
 
     # Save to data directory
-    os.makedirs(r"e:\monnlight\data", exist_ok=True)
-    with open(r"e:\monnlight\data\ktas_full_bundle.json", "w", encoding="utf-8") as f:
+    os.makedirs(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data"), exist_ok=True)
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "ktas_full_bundle.json"), "w", encoding="utf-8") as f:
         json.dump(full_bundle, f, ensure_ascii=False, indent=2)
 
     print("[3/4] Generating ktas_viewer.html...")
@@ -1643,10 +1643,10 @@ def main():
 </html>
 """
 
-    with open(r"e:\monnlight\ktas_viewer.html", "w", encoding="utf-8") as f:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "ktas_viewer.html"), "w", encoding="utf-8") as f:
         f.write(html_content)
 
-    print("[4/4] Successfully generated e:\monnlight\ktas_viewer.html!")
+    print("[4/4] Successfully generated ktas_viewer.html!")
 
 if __name__ == "__main__":
     main()

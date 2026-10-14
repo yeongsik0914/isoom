@@ -1,4 +1,4 @@
-"""Script to build and execute the upgraded Jupyter Notebook: notebooks/gemini_ktas_v2.ipynb
+﻿"""Script to build and execute the upgraded Jupyter Notebook: notebooks/gemini_ktas_v2.ipynb
 Applies all improvements:
 1. Direct Full Dataset Context Grounding (eliminates the Top-K retriever bottleneck)
 2. Gemini 3.8 Flash Thinking High (budget=1024) for deep clinical reasoning
@@ -19,7 +19,7 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-PROJECT_ROOT = Path("e:/monnlight").resolve()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOK_PATH = PROJECT_ROOT / "notebooks" / "gemini_ktas_v2.ipynb"
 
 cells = [
@@ -68,7 +68,7 @@ cells = [
             "elif (cwd.parent / \"data\" / \"ktas_pediatric_dataset.json\").exists():\n",
             "    PROJECT_ROOT = cwd.parent\n",
             "else:\n",
-            "    PROJECT_ROOT = Path(\"e:/monnlight\").resolve()\n",
+            "    # ?꾨줈?앺듃 猷⑦듃 ?숈쟻 ?먮룞 ?먯깋`n",`n    def get_project_root() -> Path:`n        cur = Path.cwd().resolve()`n        for cand in [cur, cur.parent, *cur.parents]:`n            if (cand / \"app\" / \"config.py\").exists() or (cand / \"requirements.txt\").exists():`n                return cand`n        return cur.parent if cur.name == \"notebooks\" else cur`n`n    PROJECT_ROOT = get_project_root()\n",
             "\n",
             "if str(PROJECT_ROOT) not in sys.path:\n",
             "    sys.path.insert(0, str(PROJECT_ROOT))\n",

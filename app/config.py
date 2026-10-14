@@ -87,10 +87,12 @@ def resolve_firebase_key_path() -> Optional[str]:
     env_path = os.getenv("FIREBASE_KEY_PATH")
     candidates = [
         env_path,
-        r"E:\FIREBASE_API_KEY\serviceAccountKey.json",
+        r"C:\AI-Native-Agent\key\serviceAccountKey.json",
+        r"C:\AI-Native-Agent\key\serviceAccountKey.json.json",
         str(PROJECT_ROOT / "serviceAccountKey.json"),
         "serviceAccountKey.json",
         "../serviceAccountKey.json",
+        r"E:\FIREBASE_API_KEY\serviceAccountKey.json",
     ]
 
     for p in candidates:
@@ -105,6 +107,34 @@ def resolve_firebase_key_path() -> Optional[str]:
     return None
 
 
+def resolve_firestore_database_id(key_path: Optional[str] = None) -> Optional[str]:
+    """Resolves Firestore database ID from FIRESTORE_DATABASE_ID env or auto-detects from GCP project."""
+    env_db = os.getenv("FIRESTORE_DATABASE_ID")
+    if env_db:
+        return env_db.strip()
+
+    # If key_path is valid, attempt auto-detect via FirestoreAdminClient
+    target_key = key_path or resolve_firebase_key_path()
+    if target_key and os.path.exists(target_key):
+        try:
+            from google.cloud import firestore_admin_v1
+            from google.oauth2 import service_account
+
+            creds = service_account.Credentials.from_service_account_file(target_key)
+            admin_client = firestore_admin_v1.FirestoreAdminClient(credentials=creds)
+            parent = f"projects/{creds.project_id}"
+            resp = admin_client.list_databases(parent=parent)
+            db_names = [db.name.split("/")[-1] for db in resp.databases]
+            if "(default)" in db_names:
+                return "(default)"
+            if db_names:
+                return db_names[0]
+        except Exception:
+            pass
+
+    return "data-test01"
+
+
 class Settings:
     """Application runtime settings."""
 
@@ -113,6 +143,7 @@ class Settings:
         self.data_go_api_key: Optional[str] = resolve_public_data_api_key()
         self.gemini_api_key: Optional[str] = resolve_gemini_api_key()
         self.firebase_key_path: Optional[str] = resolve_firebase_key_path()
+        self.firestore_database_id: Optional[str] = resolve_firestore_database_id(self.firebase_key_path)
         self.gemini_triage_model: str = os.getenv("GEMINI_TRIAGE_MODEL", "gemini-3.8-flash")
         self.gemini_logistics_model: str = os.getenv("GEMINI_LOGISTICS_MODEL", "gemini-3.5-flash-lite")
 
@@ -143,7 +174,7 @@ def get_firestore_client():
     if not key_path or not os.path.exists(key_path):
         raise FileNotFoundError(
             f"Firebase service account key not found at {key_path}. "
-            "Please ensure FIREBASE_KEY_PATH is set in .env or serviceAccountKey.json is placed in E:\\FIREBASE_API_KEY."
+            "Please ensure FIREBASE_KEY_PATH is set in .env or serviceAccountKey.json is placed in C:\\AI-Native-Agent\\key."
         )
 
     settings.firebase_key_path = key_path
@@ -152,5 +183,10 @@ def get_firestore_client():
         cred = credentials.Certificate(key_path)
         firebase_admin.initialize_app(cred)
 
-    _firestore_client = firestore.client()
+    db_id = settings.firestore_database_id or resolve_firestore_database_id(key_path)
+    if db_id and db_id != "(default)":
+        _firestore_client = firestore.client(database_id=db_id)
+    else:
+        _firestore_client = firestore.client()
+
     return _firestore_client

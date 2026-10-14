@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Script to build and execute the Fast KTAS Classification Only notebook with Context-Aware Up-triage."""
 
 import json
@@ -10,7 +10,7 @@ from nbclient import NotebookClient
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-PROJECT_ROOT = Path(r"e:\monnlight")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOK_PATH = str(PROJECT_ROOT / "notebooks" / "gemini_ktas_pediatric_redflag_pipeline.ipynb")
 
 def build_classification_only_notebook():
@@ -84,7 +84,7 @@ if (cwd / "data" / "ktas_pediatric_dataset.json").exists():
 elif (cwd.parent / "data" / "ktas_pediatric_dataset.json").exists():
     PROJECT_ROOT = cwd.parent
 else:
-    PROJECT_ROOT = Path("e:/monnlight").resolve()
+    PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))

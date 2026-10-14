@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Script to build and execute the Zero-LLM Semantic Embedding k-NN KTAS Pediatric Triage notebook."""
 
 import json
@@ -10,7 +10,7 @@ from nbclient import NotebookClient
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-PROJECT_ROOT = Path(r"e:\monnlight")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOK_PATH = str(PROJECT_ROOT / "notebooks" / "semantic_embedding_ktas_triage_pipeline.ipynb")
 
 def build_knn_notebook():
@@ -99,7 +99,7 @@ if (cwd / "data" / "ktas_pediatric_dataset.json").exists():
 elif (cwd.parent / "data" / "ktas_pediatric_dataset.json").exists():
     PROJECT_ROOT = cwd.parent
 else:
-    PROJECT_ROOT = Path("e:/monnlight").resolve()
+    PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 print(f"✅ 프로젝트 루트: {PROJECT_ROOT}")
 print(f"✅ 구동 모드: Zero-LLM In-Memory k-NN Classifier (외부 API 미호출)")"""))

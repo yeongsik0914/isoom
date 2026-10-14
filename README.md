@@ -281,7 +281,8 @@ uv pip install -r requirements.txt
 ```ini
 DATA_GO_API_KEY=발급받은_공공데이터포털_디코딩키
 GEMINI_API_KEY=Google_AI_Studio_발급_키
-FIREBASE_KEY_PATH=serviceAccountKey.json
+FIREBASE_KEY_PATH=C:\AI-Native-Agent\key\serviceAccountKey.json
+FIRESTORE_DATABASE_ID=data-test01
 ```
 
 ### 3. 메인 오케스트레이터 실시간 통합 데모 실행
