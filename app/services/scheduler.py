@@ -52,7 +52,7 @@ class BackgroundDaemon:
 
     def is_running(self) -> bool:
         """Returns True if scheduler is active and running."""
-        return bool(self.scheduler and self.scheduler.running)
+        return self._is_running and bool(self.scheduler and self.scheduler.running)
 
     async def evict_expired_sessions(self, max_idle_seconds: int = 1800) -> dict[str, Any]:
         """Purges inactive patient consultation sessions from memory (30-min TTL)."""
@@ -92,7 +92,12 @@ class BackgroundDaemon:
             holiday_info = self.holiday_service.get_holiday_info(date_str)
 
             # 1. Collect real-time beds with NLP filtering (force_refresh=True to refresh TTL cache)
-            beds = fetch_emergency_beds(stage1="서울특별시", force_refresh=True)
+            beds, freshness = fetch_emergency_beds(stage1="서울특별시", force_refresh=True, return_meta=True)
+            if not freshness.is_realtime:
+                logger.warning(
+                    f"[Scheduler] Public API Circuit is {freshness.circuit_status} ({freshness.source_tier}). "
+                    f"Isolating background polling; serving fallback dataset."
+                )
 
             stats: dict[str, Any]
             # 2. Synchronize to Firestore if credentials exist
@@ -130,6 +135,8 @@ class BackgroundDaemon:
                     "note": "Local mock/in-memory diffing executed",
                 }
 
+            stats["circuit_status"] = freshness.circuit_status
+            stats["source_tier"] = freshness.source_tier
             self.last_bed_poll_stats = stats
             logger.info(
                 f"[Scheduler] Bed poll #{self.poll_count} complete: "

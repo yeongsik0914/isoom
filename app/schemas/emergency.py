@@ -76,3 +76,18 @@ class EmergencySummary(BaseModel):
         default_factory=list, description="가용 소아병상 상위 병원 요약 리스트"
     )
     updated_at: Optional[Any] = Field(default=None, description="최종 갱신 시각")
+
+
+class DataFreshnessMeta(BaseModel):
+    """실시간 공공 API 연동 및 서킷 브레이커 폴백 신선도 메타데이터."""
+
+    is_realtime: bool = Field(default=True, description="실시간 공공 API 정상 통신 여부")
+    source_tier: str = Field(
+        default="PUBLIC_API_LIVE",
+        description="데이터 소스 계층 (PUBLIC_API_LIVE | TIER_1_MEMORY_STALE | TIER_2_FIRESTORE_SNAPSHOT | TIER_3_IMMUTABLE_DISK_BASELINE)",
+    )
+    last_synced_at: Optional[str] = Field(default=None, description="데이터 최종 수집 일시 (ISO-8601)")
+    elapsed_minutes: int = Field(default=0, description="데이터 수집 경과 시간 (분)")
+    circuit_status: str = Field(default="CLOSED", description="서킷 브레이커 상태 (CLOSED | OPEN | HALF_OPEN)")
+    warning_message: Optional[str] = Field(default=None, description="사용자 안내 및 안심 대체/전화 확인 권고 경고 배지")
+

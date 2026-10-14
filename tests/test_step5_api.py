@@ -35,6 +35,8 @@ class TestStep5API(unittest.IsolatedAsyncioTestCase):
 
     async def asyncTearDown(self) -> None:
         await self.client.aclose()
+        if background_daemon.is_running():
+            background_daemon.shutdown(wait=False)
 
     async def test_01_root_and_health_check_tc501(self) -> None:
         """TC-501: Validates root metadata and health check endpoints."""
@@ -246,6 +248,10 @@ class TestStep5API(unittest.IsolatedAsyncioTestCase):
         self.assertIn("total_count", stats)
         self.assertGreater(background_daemon.poll_count, 0)
         self.assertIsNotNone(background_daemon.last_bed_poll_time)
+
+        # Clean shutdown so background threads don't linger across test cases
+        background_daemon.shutdown(wait=False)
+        self.assertFalse(background_daemon.is_running())
 
 
 if __name__ == "__main__":

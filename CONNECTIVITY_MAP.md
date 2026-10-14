@@ -1,6 +1,6 @@
 # 🗺️ MoonlightCare 모듈 & 에이전트 상호 연결도 (CONNECTIVITY_MAP.md)
 
-> **문서 버전**: `v2.0.0` (공식 소아 KTAS Direct Grounding & 2계층 안전 방어망 통합)  
+> **문서 버전**: `v2.1.0` (공공 API 서킷 브레이커 & 3단계 Fallback 고가용성 통합)  
 > **최종 갱신 일자**: 2026-10-14  
 > **문서 목적**: 시스템을 구성하는 모든 백엔드 모듈, 데이터베이스, AI 에이전트들이 **어떤 인터페이스로 데이터를 주고받고, 어떤 흐름으로 연계 동작하는지 표(Table)와 다이어그램으로 한눈에 파악**할 수 있도록 지속 관리하는 공식 연결도 문서입니다. 앞으로 기능이 추가될 때마다 단계별로 이 문서가 갱신됩니다.
 
@@ -13,7 +13,7 @@
 3. [E2E 파이프라인 단계별 세부 동작 및 데이터 입출력 표](#3-e2e-파이프라인-단계별-세부-동작-및-데이터-입출력-표)
 4. [공유 메모리(`PatientSessionState`) 읽기/쓰기 권한 매트릭스](#4-공유-메모리patientsessionstate-읽기쓰기-권한-매트릭스)
 5. [대표 시나리오별 실제 컴포넌트 호출 트레이스 (Scenario Traces)](#5-대표-시나리오별-실제-컴포넌트-호출-트레이스-scenario-traces)
-6. [향후 확장 연결 로드맵 (Upcoming Steps 5~6 Integration)](#6-향후-확장-연결-로드맵-upcoming-steps-56-integration)
+6. [향후 확장 연결 로드맵 (Upcoming Steps 5~7 Integration)](#6-향후-확장-연결-로드맵-upcoming-steps-57-integration)
 
 ---
 
@@ -40,6 +40,11 @@ flowchart TD
         Triage[🤖 Triage Agent<br/>Gemini 3.8 Flash Thinking High<br/>Pass 2: KTAS Direct Grounding]
         Matching[🤖 Matching Agent<br/>Zero-LLM 도구 결합기]
         Logistics[🤖 Logistics Agent<br/>Gemini 3.5 Flash-Lite]
+    end
+
+    subgraph Step7_High_Availability [Step 7: 서킷 브레이커 & 고가용성 Layer]
+        CircuitBreaker[⚡ AsyncCircuitBreaker<br/>CLOSED / OPEN / HALF_OPEN<br/>0ms 즉시 차단 & 자가치유]
+        MultiTierFallback[🛡️ 3-Tier Multi-Storage Fallback<br/>Tier 1: Stale Memory (0.1ms)<br/>Tier 2: Firestore Snapshot (15ms)<br/>Tier 3: Disk Baseline JSON (0.5ms)]
     end
 
     subgraph Step1_Domain_Services [결정론적 백엔드 도구 Layer (Zero-LLM)]

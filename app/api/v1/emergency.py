@@ -55,8 +55,8 @@ async def get_nearby_emergency_departments(
     today_str = datetime.datetime.now(KST).strftime("%Y%m%d")
     holiday_info = holiday_service.get_holiday_info(today_str)
 
-    # 2. Fetch real-time beds (with memory/disk cache)
-    all_beds = fetch_emergency_beds(stage1="서울특별시")
+    # 2. Fetch real-time beds (with memory/disk cache and circuit breaker)
+    all_beds, freshness_meta = fetch_emergency_beds(stage1="서울특별시", return_meta=True)
 
     # 3. Spatial Haversine ranking
     ranked = rank_emergency_hospitals(
@@ -82,6 +82,7 @@ async def get_nearby_emergency_departments(
         total_found=len(ranked),
         acceptable_count=acceptable_count,
         latency_ms=elapsed_ms,
+        data_freshness=freshness_meta,
     )
 
 

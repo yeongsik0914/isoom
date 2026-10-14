@@ -22,7 +22,7 @@
 ## 1. 테스트 아키텍처 개요
 
 MoonlightCare는 의료 안전 및 법적 리스크를 원천 차단하기 위해 **테스트 주도 개발(TDD)** 방식을 엄격히 적용하였습니다.  
-현재 **총 66개 테스트(단위/통합 테스트 66개)가 100% 무결점으로 통과**되고 있습니다:
+현재 **총 74개 테스트(단위/통합 테스트 74개)가 100% 무결점으로 통과**되고 있습니다:
 
 ```
 [Issue Fixes 결함방어]    (7개)  ──► TC-FIX-01 ~ TC-FIX-07 (100% PASS)
@@ -33,14 +33,15 @@ MoonlightCare는 의료 안전 및 법적 리스크를 원천 차단하기 위�
 [Step 4 오케스트레이터]     (7개)  ──► TC-401 ~ TC-407       (100% PASS)
 [Step 5 FastAPI 서빙]     (10개) ──► TC-501 ~ TC-510       (100% PASS)
 [Step 6 E2E 통합]        (8개)  ──► TC-601 ~ TC-608       (100% PASS)
+[Step 7 서킷 브레이커]    (8개)  ──► TC-CB-01 ~ TC-CB-08   (100% PASS)
 ──────────────────────────────────────────────────────────
-총계: 66개 테스트 전수 통과 (100% OK)
+총계: 74개 테스트 전수 통과 (100% OK)
 골든 케이스 Evals: 40개 전수 통과 (100.0%, 평균 99.5점)
 ```
 
 ---
 
-## 2. 단계별 테스트 스위트 상세 명세 (Steps 1~5)
+## 2. 단계별 테스트 스위트 상세 명세 (Steps 1~7)
 
 ### 2.1 `test_step1_services.py` (도메인 도구 & FinOps, 7개 테스트)
 * `TC-101`: KASI 특일 판정 및 공휴일 과밀화 리스크(`CRITICAL`) 정상 산출
@@ -115,15 +116,26 @@ MoonlightCare는 의료 안전 및 법적 리스크를 원천 차단하기 위�
 * `TC-607`: FastAPI REST API `/api/v1/chat` E2E 단일/다중 턴 호출 무결성 검증
 * `TC-608`: FastAPI SSE 실시간 스트리밍 `/api/v1/chat/stream` 토큰 스트리밍 및 `[DONE]` 완료 이벤트 검증
 
+### 2.8 `test_step7_circuit_breaker.py` (공공 API 서킷 브레이커 & 3단계 Fallback, 8개 테스트)
+* `TC-CB-01`: 공공 API 연속 3회 실패(503/Timeout) 감지 시 CLOSED -> OPEN 유한 상태 머신(FSM) 전이 검증
+* `TC-CB-02`: 서킷 OPEN 상태에서 외부 네트워크 0회 호출 및 0ms 초고속 즉각 단절(Short-Circuiting, < 0.5ms) 검증
+* `TC-CB-03`: Tier 1 (L1 Stale In-Memory Cache) 만료 무시 즉각 서빙(< 0.1ms) 및 경과시간 기반 전화 확인 권고 배지 부착 검증
+* `TC-CB-04`: Tier 2 (L2 Cloud Firestore Snapshot) 서버 재시동/L1 캐시 미스 시 최근 정상 수집 배치 복원 및 서빙 검증
+* `TC-CB-05`: Tier 3 (L3 Local Immutable Baseline JSON) 국가망 전면 단절 환경에서 정적 마스터셋 기반 100% 무중단 안내 검증
+* `TC-CB-06`: 60초 쿨다운 만료 후 OPEN -> HALF_OPEN 카나리 시험 요청 및 복구 성공 시 CLOSED 자동 자가치유(Self-Healing) 검증
+* `TC-CB-07`: FastAPI `/api/v1/emergency/nearby` 엔드포인트 서킷 OPEN 장애 모의 시 HTTP 200 OK 및 `DataFreshnessMeta` 정상 결합 검증
+* `TC-CB-08`: 백그라운드 스케줄러(`scheduler.py`) 공공망 장애 시 크래시 없는 안전 격리 및 `circuit_status="OPEN"` 기록 검증
+
 ---
 
 ## 3. 정량적 성능 벤치마크 결과
 
 * **1,000회 Red Flag 선제 검사**:
-  - 총 소요 시간: **11.72ms**
-  - **1회당 평균 레이턴시: 11.72 µs (0.011ms)** ➔ 0ms 실시간 차단 목표 완벽 달성.
+  - 총 소요 시간: **38.03ms**
+  - **1회당 평균 레이턴시: 38.03 µs (0.038ms)** ➔ 0ms 실시간 차단 목표 완벽 달성.
+* **서킷 브레이커 단절 속도**: OPEN 상태 100회 요청 기준 평균 **< 0.1ms (0회 네트워크 호출)**.
 * **Haversine 공간 구면거리 계산**: 1회당 **< 5 µs**.
-* **전체 58개 테스트 스위트 실행 속도**: 100% 무결점 통과 (**Ran 58 tests in 193s, OK**).
+* **전체 74개 테스트 스위트 실행 속도**: 100% 무결점 전수 통과 (**Ran 74 tests, OK**).
 
 ---
 
@@ -150,21 +162,23 @@ MoonlightCare는 의료 안전 및 법적 리스크를 원천 차단하기 위�
 ## 5. 테스트 및 평가 실행 명령어 가이드
 
 ```bash
-# 1. 전체 58개 테스트 일괄 실행
-python -m unittest discover tests
+# 1. 전체 74개 테스트 일괄 실행 (Python 3.14)
+py -3.14 -m unittest discover tests
 
 # 2. 특정 단계별 테스트 단독 실행
-python -m unittest tests/test_audit_fixes.py
-python -m unittest tests/test_step1_services.py
-python -m unittest tests/test_step2_guardrail.py
-python -m unittest tests/test_step3_agents.py
-python -m unittest tests/test_step4_orchestrator.py
-python -m unittest tests/test_step5_api.py
-python -m unittest tests/test_step6_e2e.py
+py -3.14 -m unittest tests/test_audit_fixes.py
+py -3.14 -m unittest tests/test_redflag_v2_upgrade.py
+py -3.14 -m unittest tests/test_step1_services.py
+py -3.14 -m unittest tests/test_step2_guardrail.py
+py -3.14 -m unittest tests/test_step3_agents.py
+py -3.14 -m unittest tests/test_step4_orchestrator.py
+py -3.14 -m unittest tests/test_step5_api.py
+py -3.14 -m unittest tests/test_step6_e2e.py
+py -3.14 -m unittest tests/test_step7_circuit_breaker.py
 
 # 3. 40대 임상 골든 케이스 Evals 자동 평가 실행
-python tests/evals/run_evals.py
+py -3.14 tests/evals/run_evals.py
 
 # 4. 실시간 인터랙티브 시연 데모 CLI 실행
-python demo_step6.py
+py -3.14 demo_step6.py
 ```

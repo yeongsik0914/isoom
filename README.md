@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-66%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-74%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -20,6 +20,7 @@
 * 🩺 **친절하고 신속한 사전 문진 (Triage)**: 부모의 당황한 마음을 진정시키고 월령, 체온, 증상을 3~4턴 이내로 빠르게 파악합니다.
 * 🛡️ **대한민국 의료법 100% 준수**: 비의료 AI의 불법 진단·처방을 원천 차단하고, 특정 병원 광고/알선 없이 객관적 지표에 기반하여 병원을 공정하게 안내합니다.
 * 🚨 **Red Flag 긴급상황 0초 감지**: 생후 100일 미만 고열, 경련 등 응급 상황 감지 시 일반 병원 탐색을 즉각 중단하고 119 구급차 호출 및 소아전문응급의료센터로 직행하도록 전환합니다.
+* ⚡ **공공 API 서킷 브레이커 & 3계층 Fallback (0ms 무중단 HA)**: 공공데이터포털(E-Gen) 503 장애나 서버 점검 시 0ms 즉각 단절 및 L1 만료메모리/L2 Firestore/L3 로컬 마스터셋으로 100% 무중단 서비스 유지.
 * 📍 **PostGIS / Haversine 기반 5ms 초고속 매칭**: 사용자 위치 반경 5~10km 내 지금 문 연 달빛어린이병원과 야간 소아과를 즉각 찾아줍니다.
 * 📋 **2024년 5월 본인확인 제도 완벽 안내**: 병원 내원 전 필수 준비물(부모 신분증, 등본 등) 체크리스트와 병원 문의용 30초 전화 통화 스크립트를 제공합니다.
 
@@ -28,6 +29,24 @@
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
+
+### 🌟 [v2.1.0] 2026-10-14: [Step 7] 공공 API 서킷 브레이커 & 3단계 Multi-Storage Fallback 고가용성(HA) 아키텍처 구축 (총 74개 테스트 전수 통과)
+* **3-State FSM 서킷 브레이커 (`app/services/circuit_breaker.py`)**:
+  - `CLOSED` (정상 통신) ➔ 공공 API 3회 연속 실패/타임아웃 감지 시 즉각 `OPEN` 전이.
+  - `OPEN` (0ms 즉시 차단): 외부 네트워크 호출을 일체 중단하고 Multi-Tier Fallback으로 즉시 분기.
+  - `HALF_OPEN` (자동 자가치유): 60초 쿨다운 만료 후 카나리 1회 시험 요청 ➔ 성공 시 `CLOSED` 자동 복구.
+* **3단계 계층형 Fallback 파이프라인 (`app/services/emergency_sync_service.py`)**:
+  - **Tier 1 (L1 Stale In-Memory)**: 만료된 직전 회차 캐시라도 Stale-While-Revalidate로 0.1ms 만에 즉시 서빙.
+  - **Tier 2 (L2 Cloud Firestore Snapshot)**: 서버 재부팅 직후 장애 시 Firestore의 최근 정상 수집 배치 복원 (15ms).
+  - **Tier 3 (L3 Local Immutable Baseline JSON)**: 국가 공공망 전체 마비 시 사전 탑재된 거점 응급의료기관 정적 마스터셋 서빙 (0.5ms).
+* **데이터 신선도 투명성 배지 (`DataFreshnessMeta`)**:
+  - `/api/v1/emergency/nearby` 응답에 `is_realtime`, `source_tier`, `elapsed_minutes`, `warning_message` 주입.
+  - 부모 사용자에게 수집 경과 시간(분)과 병원 출발 전 30초 전화 확인 권고 배지 투명 제공.
+* **백그라운드 스케줄러 격리 (`app/services/scheduler.py`)**:
+  - 공공망 장애 시 백그라운드 5분 폴링 워커가 크래시 없이 격리 동작하며 `circuit_status="OPEN"` 기록.
+* **테스트 및 품질 검증**:
+  - `tests/test_step7_circuit_breaker.py` 8개 테스트 신설 및 100% 통과.
+  - **전체 74개 단위/통합 테스트 전수 통과 (100% OK)** 및 **40대 임상 골든 케이스 Evals 100% 합격**.
 
 ### 🌟 [v2.0.0] 2026-10-14: [V2 Upgrade] 공식 소아 KTAS 168개 주증상 Direct Context Grounding & 2계층 Red Flag 심층 감시망 구축 (총 66개 테스트 전수 통과)
 * **2계층 심층 감시선 (Two-Tier Deep Defense Network) 구현**:

@@ -1,7 +1,7 @@
 # 📚 기술 기획 및 아키텍처 문서 허브 (`docs`)
 
 > **위치**: `docs/`  
-> **역할**: MoonlightCare 프로젝트의 프로덕트 요구사항(PRD), 데이터베이스 설계서, 소아 KTAS Direct Triage 아키텍처, 타 서비스 비교 분석서, 공공데이터 특성 고찰 보고서 등 **8대 핵심 기술 기획 문서가 집대성된 공식 기술 문서고**입니다.
+> **역할**: MoonlightCare 프로젝트의 프로덕트 요구사항(PRD), 데이터베이스 설계서, 소아 KTAS Direct Triage 아키텍처, 타 서비스 비교 분석서, 공공데이터 특성 고찰 보고서 등 **10대 핵심 기술 기획 및 고가용성 아키텍처 설계 문서가 집대성된 공식 기술 문서고**입니다.
 
 ---
 
@@ -17,6 +17,7 @@
 | [**`NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md`**](file:///e:/monnlight/docs/NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md) | **도메인 기획서** | • 야간 및 공휴일 소아 외래 진료 공백 현황 분석<br/>• 달빛어린이병원 지정 제도 및 공식 당번약국 운영 실태<br/>• 야간 처방전 조제 사각지대 해소를 위한 +30분 안전 마진 규칙 설계 |
 | [**`BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md`**](file:///e:/monnlight/docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md) | **엔지니어링 로드맵** | • 백엔드 모듈화부터 에이전트 결합, REST API 서빙까지의 기술 사양서<br/>• 레이턴시 목표, 캐싱 전략 및 에이전트 투입 타이밍 정의 |
 | [**`REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md`**](file:///e:/monnlight/docs/REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md) | **Red Flag v2 고도화 설계서** | • `gemini_ktas_v2.ipynb` 기반 기존 레드 플래그 모듈 고도화 방안<br/>• 0ms 룰 엔진(Pass 1) + Direct Grounded Thinking Gemini(Pass 2) 2계층 감시망<br/>• 코드 변경 명세(`guardrail_agent`, `triage_agent`, `supervisor`, `state`) 및 롤아웃 로드맵 |
+| [**`PUBLIC_API_CIRCUIT_BREAKER_AND_FALLBACK_SPECIFICATION.md`**](file:///e:/monnlight/docs/PUBLIC_API_CIRCUIT_BREAKER_AND_FALLBACK_SPECIFICATION.md) | **공공 API 고가용성(HA) 설계서** | • 공공데이터포털(E-Gen) 503 에러 및 야간 트래픽 폭주 시 무중단 서빙 체계<br/>• CLOSED ➔ OPEN ➔ HALF-OPEN 3-State 비동기 서킷 브레이커<br/>• L1 메모리(Stale) ➔ L2 Firestore ➔ L3 로컬 불변 JSON 3단계 Fallback & 신선도 배지 |
 | [**`VIBE_CODING_ROADMAP.md`**](file:///e:/monnlight/docs/VIBE_CODING_ROADMAP.md) | **개발 실행 가이드** | • AI 페어 프로그래밍을 위한 모듈별 개발 단계 및 프롬프트 가이드<br/>• 단계별 단위 테스트 수립 기준 및 리팩토링 체크리스트 |
 
 ---

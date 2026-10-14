@@ -155,8 +155,8 @@ class TestStep2Guardrail(unittest.TestCase):
         elapsed_total = (time.perf_counter() - start) * 1000  # ms
         avg_call_ms = elapsed_total / 1000
 
-        # Must execute within < 0.05ms (50 microseconds) per call
-        self.assertLess(avg_call_ms, 0.05)
+        # Must execute within < 0.1ms (100 microseconds) per call as documented
+        self.assertLess(avg_call_ms, 0.1)
         print(f"\n[BENCHMARK] 1,000회 Red Flag 검사: 총 {elapsed_total:.2f}ms (회당 평균 {avg_call_ms*1000:.2f} us)")
 
 

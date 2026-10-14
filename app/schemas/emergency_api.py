@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, Optional
 from pydantic import BaseModel, Field
 
-from app.schemas.emergency import RankedEmergencyHospital
+from app.schemas.emergency import DataFreshnessMeta, RankedEmergencyHospital
 
 
 class NearbyEmergencyResponse(BaseModel):
@@ -23,6 +23,9 @@ class NearbyEmergencyResponse(BaseModel):
     total_found: int = Field(..., description="탐색 반경 내 총 검색 병원 수")
     acceptable_count: int = Field(..., description="즉시 소아 수용 가능 병원 수")
     latency_ms: float = Field(..., description="API 내부 연산 소요 시간 (ms)")
+    data_freshness: Optional[DataFreshnessMeta] = Field(
+        default=None, description="공공데이터 연동 상태 및 다계층 폴백 신선도 메타데이터"
+    )
 
 
 class PairingSearchResponse(BaseModel):

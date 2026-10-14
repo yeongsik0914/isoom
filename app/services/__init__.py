@@ -6,11 +6,20 @@ Contains:
 - spatial_service: Haversine spherical distance calculation and proximity ranking
 """
 
+from app.services.circuit_breaker import (
+    AsyncCircuitBreaker,
+    CircuitBreakerOpenException,
+    CircuitState,
+    default_egen_circuit_breaker,
+)
 from app.services.emergency_sync_service import (
     PEDIATRIC_BLOCK_PATTERN,
     BedStateHashCache,
     default_hash_cache,
     fetch_emergency_beds,
+    get_cached_emergency_beds,
+    get_stale_in_memory_beds,
+    resolve_fallback_hierarchy,
     sync_to_firestore,
 )
 from app.services.holiday_service import HolidayService, get_kasi_holiday_info
@@ -34,6 +43,13 @@ __all__ = [
     "BedStateHashCache",
     "default_hash_cache",
     "fetch_emergency_beds",
+    "get_cached_emergency_beds",
+    "get_stale_in_memory_beds",
+    "resolve_fallback_hierarchy",
     "sync_to_firestore",
+    "AsyncCircuitBreaker",
+    "CircuitBreakerOpenException",
+    "CircuitState",
+    "default_egen_circuit_breaker",
 ]
 
