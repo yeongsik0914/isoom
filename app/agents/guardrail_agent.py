@@ -57,6 +57,32 @@ BILIOUS_VOMITING_PATTERN = re.compile(
     r"(초록색.*(토|구토|액체|뿜)|담즙|분수(처럼|성)?.*(토|구토|뿜))"
 )
 
+# Rule 8: Traumatic Amputation (외상성 사지/수지 절단)
+AMPUTATION_PATTERN = re.compile(
+    r"(절단|잘렸|잘려|전기톱|베여서\s*절단|날아갔)"
+)
+
+# Rule 9: Sudden Collapse / Syncope with Fever or Ill-Appearing (돌발 실신 + 발열/처짐)
+SYNCOPE_COLLAPSE_PATTERN = re.compile(
+    r"(쓰러졌|실신|주저앉|기절|쓰러진)"
+)
+
+# Rule 10: Intussusception (소아 급성 장중첩증: 주기적 복통 + 딸기잼 혈변)
+INTUSSUSCEPTION_PATTERN = re.compile(
+    r"((배를?\s*쥐어짜|주기적.*복통|울다.*잠들|15분.*(간격|마다)).*(피똥|혈변|딸기잼|빨간\s*변))|(딸기잼.*(변|똥)|혈변.*(복통|보채))"
+)
+
+# Rule 11: Acute Croup / Stridor (급성 후두염/협착음: 컹컹 기침 + 쇳소리 + 침흘림)
+CROUP_STRIDOR_PATTERN = re.compile(
+    r"((개\s*짖는|컹컹|쇳소리|흡기.*천명|협착음).*(기침|숨|침.*흘))|(침.*못\s*삼키.*흘|발성\s*불가)"
+)
+
+# Rule 12: Severe Burns (얼굴, 손, 발, 회음부 등 특수 부위 2도 화상)
+SEVERE_BURN_PATTERN = re.compile(
+    r"((화상|뜨거운\s*(?:물|국|찌개|기름|냄비|솥)?|물집|껍질.*벗겨|피부.*벗겨|데였|데인).*(얼굴|손|발|회음|생식기))|"
+    r"((얼굴|손|발|회음|생식기).*(화상|물집|데였|데인|껍질.*벗겨|피부.*벗겨))"
+)
+
 
 # ============================================================================
 # 2. Adversarial & Medical Ethics Safety Regex Patterns
@@ -201,18 +227,72 @@ def check_red_flag_instant(
     text: str,
     state: Optional[PatientSessionState] = None,
 ) -> bool:
-    """Pre-execution zero-latency interceptor for pediatric KTAS Red Flag emergencies.
+    """Pre-execution zero-latency interceptor for pediatric KTAS Red Flag emergencies (v2 Enhanced).
 
     Execution time: < 0.1ms (In-Memory Regex & State Verification).
     If Red Flag is detected, state is immediately transitioned to 'EMERGENCY_ESCALATION'.
     """
     clean_text = text.strip() if text else ""
+    clean_lower = clean_text.lower()
+    temp_match = re.search(r'(\d{2}(?:\.\d+)?)\s*도', clean_lower)
+
     detected = False
     reason: Optional[str] = None
     guide: Optional[str] = None
+    ktas_level: int = 2
+    ktas_level_name: str = "2단계(긴급)"
+    matched_nacrs_code: str = "000"
+    matched_symptom_name: str = "응급 징후"
+    time_trajectory: str = "급성 진행형"
 
-    # Check 1: Infant < 100 days with Fever
-    if (
+    # Check 1: Traumatic Amputation (사지 vs 수지 절단 감별)
+    if AMPUTATION_PATTERN.search(clean_lower):
+        detected = True
+        if any(k in clean_lower for k in ["발목", "손목", "팔", "다리", "무릎", "정강이", "사지"]):
+            ktas_level = 1
+            ktas_level_name = "1단계(소생)"
+            matched_nacrs_code = "553"
+            matched_symptom_name = "절단"
+            reason = "외상성 사지 절단 및 대량 출혈 (저혈량성 쇼크 위험 Red Flag)"
+            guide = (
+                "1. 지체 없이 즉시 119 구급차를 호출하십시오.\n"
+                "2. 절단 부위를 깨끗한 거즈나 수건으로 직접 강하게 압박하여 지혈하십시오.\n"
+                "3. 절단편은 마른 거즈로 싸서 비닐봉지에 밀봉한 뒤, 얼음물에 담가 차갑게 보관하여 이송하십시오 (얼음에 직접 닿지 않게 주의)."
+            )
+            time_trajectory = "급성 외상성 쇼크 임박"
+        else:
+            ktas_level = 2
+            ktas_level_name = "2단계(긴급)"
+            matched_nacrs_code = "553"
+            matched_symptom_name = "절단"
+            reason = "수지(손가락/발가락) 외상성 절단 (재접합 골든타임 Red Flag)"
+            guide = (
+                "1. 즉시 119에 신고하거나 수지접합 전문 병원 응급실로 직행하십시오.\n"
+                "2. 절단 부위를 거즈로 단단히 압박하여 지혈하십시오.\n"
+                "3. 절단편은 밀봉하여 얼음물에 차갑게 보관하여 지참하십시오."
+            )
+            time_trajectory = "골든타임(12시간) 내 재접합 요망"
+
+    # Check 2: Sudden Syncope / Collapse with Fever or Ill-Appearing (돌발 실신 + 발열/처짐 완독)
+    elif SYNCOPE_COLLAPSE_PATTERN.search(clean_lower) and (
+        (temp_match and float(temp_match.group(1)) >= 37.8)
+        or any(k in clean_lower for k in ["열", "체온", "아파보", "처져", "쳐져", "늘어져", "멍하"])
+    ):
+        detected = True
+        ktas_level = 2
+        ktas_level_name = "2단계(긴급)"
+        matched_nacrs_code = "008"
+        matched_symptom_name = "실신 / 전실신"
+        reason = "돌발 실신 후 발열/Ill-appearing 동반 (무긴장 열성경련/심인성 실신/급성 패혈증 의심 Red Flag)"
+        guide = (
+            "1. 즉시 119 구급차를 호출하거나 가장 가까운 소아전문응급의료센터로 직행하십시오.\n"
+            "2. 아이를 평평한 곳에 눕히고 기도를 유지하십시오.\n"
+            "3. 억지로 물이나 약을 먹이지 마십시오 (기도 흡인 위험)."
+        )
+        time_trajectory = "일시적 회복 후 잔존 위험 동반"
+
+    # Check 3: Infant < 100 days with Fever
+    elif (
         INFANT_FEVER_PATTERN_1.search(clean_text)
         or INFANT_FEVER_PATTERN_2.search(clean_text)
         or (
@@ -229,16 +309,25 @@ def check_red_flag_instant(
         )
     ):
         detected = True
+        ktas_level = 2
+        ktas_level_name = "2단계(긴급)"
+        matched_nacrs_code = "852"
+        matched_symptom_name = "열"
         reason = "생후 100일 미만 38도 이상 고열 (신생아 패혈증/세균성 뇌수막염 위험 Red Flag)"
         guide = (
             "1. 즉시 119 구급차를 호출하거나 가장 가까운 대학병원/소아전문응급의료센터로 직행하십시오.\n"
             "2. 의료진 진찰 전 해열제를 임의로 투약하지 마십시오.\n"
             "3. 체온계 및 마지막 수유 시각을 기록해 두십시오."
         )
+        time_trajectory = "급성 세균 감염 의심 진행"
 
-    # Check 2: Seizure / Convulsion
+    # Check 4: Seizure / Convulsion (활동성 경련)
     elif SEIZURE_PATTERN.search(clean_text):
         detected = True
+        ktas_level = 1
+        ktas_level_name = "1단계(소생)"
+        matched_nacrs_code = "405"
+        matched_symptom_name = "발작"
         reason = "소아 경련/열성경련 응급 상황 (기도 확보 및 뇌 손상 방지 급선무)"
         guide = (
             "1. 즉시 119에 신고하십시오.\n"
@@ -246,55 +335,131 @@ def check_red_flag_instant(
             "3. 혀 깨물림 방지를 핑계로 입에 손가락, 숟가락 등 어떤 물건도 절대 넣지 마십시오.\n"
             "4. 경련 지속 시간(분)을 시계로 정확히 기록하십시오."
         )
+        time_trajectory = "급성 경련 진행형"
 
-    # Check 3: Unresponsiveness / Severe Lethargy
+    # Check 5: Unresponsiveness / Severe Lethargy (무반응/혼수)
     elif UNRESPONSIVE_PATTERN.search(clean_text):
         detected = True
+        ktas_level = 1
+        ktas_level_name = "1단계(소생)"
+        matched_nacrs_code = "402"
+        matched_symptom_name = "의식 변화"
         reason = "중증 의식 저하 및 무반응 (신경계/대사 응급 질환 의심 Red Flag)"
         guide = (
             "1. 지체 없이 즉시 119 구급차를 호출하십시오.\n"
             "2. 아이의 어깨를 가볍게 두드리며 이름을 부르고 호흡 여부를 확인하십시오.\n"
             "3. 물이나 음료를 억지로 먹이지 마십시오 (기도 흡인 위험)."
         )
+        time_trajectory = "급성 의식 소실 지속"
 
-    # Check 4: Respiratory Distress / Cyanosis
+    # Check 6: Respiratory Distress / Cyanosis (흉벽 함몰, 비익 호흡, 청색증)
     elif RESPIRATORY_CYANOSIS_PATTERN.search(clean_text):
         detected = True
+        ktas_level = 1
+        ktas_level_name = "1단계(소생)"
+        matched_nacrs_code = "651"
+        matched_symptom_name = "숨참"
         reason = "중증 호흡곤란 및 청색증 (저산소증 위험 Red Flag)"
         guide = (
             "1. 즉시 119에 구조를 요청하십시오.\n"
             "2. 조이는 옷과 기저귀를 풀고 상체를 비스듬히 세워 기도를 유지하십시오.\n"
             "3. 산소 공급 및 응급 처치가 가능한 상급 응급실 이송이 필수적입니다."
         )
+        time_trajectory = "급성 저산소증 진행형"
 
-    # Check 5: Severe Dehydration (8+ hours no urine)
+    # Check 7: Acute Intussusception (소아 장중첩증: 주기적 복통 + 딸기잼 혈변)
+    elif INTUSSUSCEPTION_PATTERN.search(clean_lower):
+        detected = True
+        ktas_level = 2
+        ktas_level_name = "2단계(긴급)"
+        matched_nacrs_code = "260"
+        matched_symptom_name = "혈변 / 흑색변"
+        reason = "소아 급성 장중첩증 의심 (주기적 복통 및 딸기잼 혈변 Red Flag)"
+        guide = (
+            "1. 장 괴사 방지를 위해 즉각적인 응급 초음파 및 정복술이 필요합니다. 즉시 소아외과 진료 가능 응급실로 직행하십시오.\n"
+            "2. 추가 음식물이나 물 섭취를 일체 중단(금식)하십시오."
+        )
+        time_trajectory = "급성 진행형 장폐색 위험"
+
+    # Check 8: Acute Croup / Stridor (급성 후두염/협착음: 쇳소리, 침흘림)
+    elif CROUP_STRIDOR_PATTERN.search(clean_lower):
+        detected = True
+        ktas_level = 2
+        ktas_level_name = "2단계(긴급)"
+        matched_nacrs_code = "610"
+        matched_symptom_name = "협착음"
+        reason = "급성 후두염(크룹) 또는 후두개염 상기도 폐쇄 의심 Red Flag"
+        guide = (
+            "1. 즉시 119에 구조를 요청하십시오.\n"
+            "2. 아이를 차분히 안아 안심시키고 상체를 세워 숨쉬기 편하게 해 주십시오.\n"
+            "3. 즉각적인 기도 확보 및 응급실 이송이 최우선입니다."
+        )
+        time_trajectory = "급성 상기도 협착 진행형"
+
+    # Check 9: Severe Burns (얼굴, 손 등 특수 부위 2도 화상)
+    elif SEVERE_BURN_PATTERN.search(clean_lower):
+        detected = True
+        ktas_level = 2
+        ktas_level_name = "2단계(긴급)"
+        matched_nacrs_code = "705"
+        matched_symptom_name = "화상"
+        reason = "안면 및 특수 부위 2도 이상 중증 화상 Red Flag"
+        guide = (
+            "1. 즉시 119를 호출하고 흐르는 시원한 물로 15~20분간 화상 부위를 식혀주십시오.\n"
+            "2. 얼음을 직접 대거나 물집을 터뜨리지 마십시오.\n"
+            "3. 화상 부위를 깨끗한 거즈로 느슨하게 감싸고 병원으로 이동하십시오."
+        )
+        time_trajectory = "급성 열상 진행형"
+
+    # Check 10: Severe Dehydration (8+ hours no urine)
     elif DEHYDRATION_PATTERN.search(clean_text):
         detected = True
+        ktas_level = 2
+        ktas_level_name = "2단계(긴급)"
+        matched_nacrs_code = "007"
+        matched_symptom_name = "전신 쇠약"
         reason = "소아 중증 탈수 (8시간 이상 무뇨, 정맥 수액 처치 급선무)"
         guide = (
             "1. 급성 신손상 및 순환기 쇼크 위험이 있으므로 즉시 응급실로 이동하십시오.\n"
             "2. 많은 양의 물을 억지로 먹이지 마시고 정맥 수액 처치가 가능한 병원을 방문하십시오."
         )
+        time_trajectory = "중증 체액 결핍 진행형"
 
-    # Check 6: Head Trauma with Vomiting / Lethargy
+    # Check 11: Head Trauma with Vomiting / Lethargy
     elif HEAD_TRAUMA_PATTERN.search(clean_text):
         detected = True
+        ktas_level = 2
+        ktas_level_name = "2단계(긴급)"
+        matched_nacrs_code = "407"
+        matched_symptom_name = "두부 손상"
         reason = "두부 외상 후 뇌압 상승 및 두개내 출혈 의심 Red Flag"
         guide = (
             "1. 즉시 119를 호출하고 소아 CT 촬영이 가능한 응급의료센터로 이송하십시오.\n"
             "2. 아이의 목을 무리하게 꺾지 마시고 구토 시 고개만 옆으로 돌려주십시오."
         )
+        time_trajectory = "지연성 뇌손상 악화(응급)"
 
-    # Check 7: Bilious Vomiting (Green bile / projectile)
+    # Check 12: Bilious Vomiting (Green bile / projectile)
     elif BILIOUS_VOMITING_PATTERN.search(clean_text):
         detected = True
+        ktas_level = 2
+        ktas_level_name = "2단계(긴급)"
+        matched_nacrs_code = "407"
+        matched_symptom_name = "구토"
         reason = "담즙성 구토 및 장폐색/장중첩증 의심 Red Flag"
         guide = (
             "1. 초록색 담즙 구토는 소아 외과 처치가 필요한 응급 상황입니다. 즉시 종합병원 응급실로 직행하십시오.\n"
             "2. 추가 음식물이나 물 섭취를 일체 중단(금식)하십시오."
         )
+        time_trajectory = "급성 장폐색 진행형"
 
     if detected and state is not None:
+        state.ktas_level = ktas_level
+        state.ktas_level_name = ktas_level_name
+        state.matched_nacrs_code = matched_nacrs_code
+        state.matched_symptom_name = matched_symptom_name
+        state.clinical_rationale = reason
+        state.time_trajectory_assessment = time_trajectory
         state.escalate_to_emergency(
             reason=reason or "KTAS 소아 응급 징후 감지",
             guide=guide or "즉시 119에 연락하십시오.",

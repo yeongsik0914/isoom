@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-58%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-66%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -28,6 +28,17 @@
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
+
+### 🌟 [v2.0.0] 2026-10-14: [V2 Upgrade] 공식 소아 KTAS 168개 주증상 Direct Context Grounding & 2계층 Red Flag 심층 감시망 구축 (총 66개 테스트 전수 통과)
+* **2계층 심층 감시선 (Two-Tier Deep Defense Network) 구현**:
+  - **Pass 1 (0ms 정규식 인터셉터)**: 5대 신규 위급 룰 추가(외상성 절단 `NACRS 553`, 돌발 실신+발열 `NACRS 008`, 소아 장중첩증 `NACRS 260`, 크룹 협착음 `NACRS 610`, 양방향 특수부위 중증화상 `NACRS 705`) ➔ 12대 절대적 Red Flag 26µs 초고속 119 격상.
+  - **Pass 2 (Direct Grounded Thinking Gemini)**: 2021 공식 소아 KTAS 168개 주증상/841개 세부기준 지식 베이스(~8,500 토큰)를 인메모리 싱글톤 캐싱하여 프롬프트에 직접 주입. Gemini 3.8 Flash Thinking High(`budget=1024`)를 통해 비정형 문맥 완독 및 시간차 가역성(해열 후 컨디션 정상화 vs 악화) 감별.
+* **오케스트레이터 및 세션 DTO 연동**:
+  - `PatientSessionState`에 KTAS 정밀 메타데이터(`ktas_level`, `matched_nacrs_code`, `clinical_rationale` 등) 저장 및 직렬화.
+  - `SupervisorOrchestrator`에서 Step 2뿐만 아니라 Step 3(Triage 실행 직후)에도 Tier 2 Red Flag를 즉시 감지하여 119 비상 격상으로 전환.
+* **테스트 및 검증**:
+  - `tests/test_redflag_v2_upgrade.py` 8개 테스트 신설 및 전수 통과.
+  - **전체 단위/통합 테스트 66개 전수 통과 (Ran 66 tests, 100% OK)** 및 **40대 임상 골든 케이스 Evals 100.0% 합격**.
 
 ### 🌟 [v1.4.0] 2026-10-13: [Step 6] E2E 통합 테스트 완수 및 40대 임상 골든 케이스 Evals 100% 합격 (전체 58개 테스트 전수 통과)
 * **8대 E2E 핵심 시나리오 자동 검증 스위트 (`tests/test_step6_e2e.py`)**:

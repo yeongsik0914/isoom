@@ -40,6 +40,47 @@ class SupervisorOrchestrator:
         self.logistics_agent = logistics_agent or LogisticsAgent()
         self.session_manager = session_manager or SessionManager()
 
+    async def _handle_emergency_escalation(
+        self,
+        state: PatientSessionState,
+        user_message: str,
+    ) -> SupervisorResponse:
+        """Handles immediate 119 emergency escalation for Tier 1 or Tier 2 Red Flags."""
+        logger.warning(
+            f"[Supervisor] Red Flag detected on turn {state.turn_count}: {state.red_flag_reason}"
+        )
+        # Fast clinical matching for nearest emergency centers
+        try:
+            await self.matching_agent.match_destinations(state)
+        except Exception as e:
+            logger.error(f"[Supervisor] Emergency facility matching error: {e}")
+
+        escalation_msg = (
+            f"🚨 [긴급 119 즉시 이송 권고]\n"
+            f"환아에게 생명 위급 응급 징후({state.red_flag_reason or '중증 응급 증상'})가 감지되었습니다. "
+            f"지체 없이 119에 즉각 신고하시고 아래 응급처치 요령에 따라 구급차를 대기해 주세요."
+        )
+        safety_viol = check_safety_violations(user_message)
+        if safety_viol:
+            escalation_msg = f"{safety_viol['safe_response']}\n\n{escalation_msg}"
+
+        sanitized_escalation = sanitize_output(escalation_msg)
+        state.add_message(role="assistant", content=sanitized_escalation)
+        await self.session_manager.save_session(state)
+
+        return SupervisorResponse(
+            session_id=state.session_id,
+            current_step="EMERGENCY_ESCALATION",
+            turn_count=state.turn_count,
+            is_emergency=True,
+            message=sanitized_escalation,
+            emergency_guide=state.emergency_action_guide,
+            hospitals=state.matched_hospitals,
+            pharmacies=[],
+            call_script=None,
+            checklist=["주민등록등본 또는 모바일 건강보험증", "보호자 신분증"],
+        )
+
     async def process_turn(
         self,
         user_message: str,
@@ -76,45 +117,12 @@ class SupervisorOrchestrator:
         if state.current_step == "COMPLETED":
             state.current_step = "TRIAGE"
 
-        # Step 2: 0ms Red Flag Pre-Interceptor (Checked Every Turn)
+        # Step 2: 0ms Red Flag Pre-Interceptor (Checked Every Turn - Tier 1)
         is_red = check_red_flag_instant(user_message, state)
         if is_red or state.is_red_flag:
-            logger.warning(
-                f"[Supervisor] Red Flag detected on turn {state.turn_count}: {state.red_flag_reason}"
-            )
-            # Fast clinical matching for nearest emergency centers
-            try:
-                await self.matching_agent.match_destinations(state)
-            except Exception as e:
-                logger.error(f"[Supervisor] Emergency facility matching error: {e}")
+            return await self._handle_emergency_escalation(state, user_message)
 
-            escalation_msg = (
-                f"🚨 [긴급 119 즉시 이송 권고]\n"
-                f"환아에게 생명 위급 응급 징후({state.red_flag_reason or '중증 응급 증상'})가 감지되었습니다. "
-                f"지체 없이 119에 즉각 신고하시고 아래 응급처치 요령에 따라 구급차를 대기해 주세요."
-            )
-            safety_viol = check_safety_violations(user_message)
-            if safety_viol:
-                escalation_msg = f"{safety_viol['safe_response']}\n\n{escalation_msg}"
-
-            sanitized_escalation = sanitize_output(escalation_msg)
-            state.add_message(role="assistant", content=sanitized_escalation)
-            await self.session_manager.save_session(state)
-
-            return SupervisorResponse(
-                session_id=state.session_id,
-                current_step="EMERGENCY_ESCALATION",
-                turn_count=state.turn_count,
-                is_emergency=True,
-                message=sanitized_escalation,
-                emergency_guide=state.emergency_action_guide,
-                hospitals=state.matched_hospitals,
-                pharmacies=[],
-                call_script=None,
-                checklist=["주민등록등본 또는 모바일 건강보험증", "보호자 신분증"],
-            )
-
-        # Step 3: Triage & Deadlock Guard
+        # Step 3: Triage & Deadlock Guard (Tier 2 KTAS Grounding)
         empathy_msg = "아이가 열이 나서 보호자님께서도 많이 걱정되시겠습니다."
         if state.current_step in ("INIT", "TRIAGE"):
             try:
@@ -123,6 +131,10 @@ class SupervisorOrchestrator:
             except Exception as e:
                 logger.error(f"[Supervisor] TriageAgent error (using fallback): {e}")
                 empathy_msg = "아이가 많이 힘들어해서 많이 놀라셨겠습니다. 안전한 진료 시설을 신속히 확인해 드리겠습니다."
+
+            # Check if Tier 2 (Triage Agent KTAS Grounding) triggered Red Flag
+            if state.is_red_flag:
+                return await self._handle_emergency_escalation(state, user_message)
 
             # Check Triage Completion or 3-Turn Upper Bound (Deadlock Guard)
             is_complete = state.is_triage_complete()

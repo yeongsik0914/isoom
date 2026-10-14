@@ -16,6 +16,7 @@
 | [**`EMERGENCY_DDK_COMPARISON_AND_IMPROVEMENT.md`**](file:///e:/monnlight/docs/EMERGENCY_DDK_COMPARISON_AND_IMPROVEMENT.md) | **경쟁 서비스 벤치마킹** | • 기존 대표 상용 서비스(똑닥 응급실 찾기 등) 한계점 분석<br/>• MoonlightCare의 3대 차별점: ① 0ms Red Flag 가드레일, ② 달빛병원-약국 30분 마진 페어링, ③ 비정형 공지 NLP 필터링 |
 | [**`NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md`**](file:///e:/monnlight/docs/NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md) | **도메인 기획서** | • 야간 및 공휴일 소아 외래 진료 공백 현황 분석<br/>• 달빛어린이병원 지정 제도 및 공식 당번약국 운영 실태<br/>• 야간 처방전 조제 사각지대 해소를 위한 +30분 안전 마진 규칙 설계 |
 | [**`BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md`**](file:///e:/monnlight/docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md) | **엔지니어링 로드맵** | • 백엔드 모듈화부터 에이전트 결합, REST API 서빙까지의 기술 사양서<br/>• 레이턴시 목표, 캐싱 전략 및 에이전트 투입 타이밍 정의 |
+| [**`REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md`**](file:///e:/monnlight/docs/REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md) | **Red Flag v2 고도화 설계서** | • `gemini_ktas_v2.ipynb` 기반 기존 레드 플래그 모듈 고도화 방안<br/>• 0ms 룰 엔진(Pass 1) + Direct Grounded Thinking Gemini(Pass 2) 2계층 감시망<br/>• 코드 변경 명세(`guardrail_agent`, `triage_agent`, `supervisor`, `state`) 및 롤아웃 로드맵 |
 | [**`VIBE_CODING_ROADMAP.md`**](file:///e:/monnlight/docs/VIBE_CODING_ROADMAP.md) | **개발 실행 가이드** | • AI 페어 프로그래밍을 위한 모듈별 개발 단계 및 프롬프트 가이드<br/>• 단계별 단위 테스트 수립 기준 및 리팩토링 체크리스트 |
 
 ---

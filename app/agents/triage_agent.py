@@ -24,9 +24,40 @@ from app.schemas.state import PatientSessionState
 
 logger = logging.getLogger(__name__)
 
+# Cached compact KTAS Grounding Text
+_ktas_grounding_cache: Optional[str] = None
+
+
+def _get_ktas_grounding_context() -> str:
+    """Loads and caches the 168 pediatric symptoms full grounding context (~8,500 tokens)."""
+    global _ktas_grounding_cache
+    if _ktas_grounding_cache is not None:
+        return _ktas_grounding_cache
+
+    dataset_path = settings.project_root / "data" / "ktas_pediatric_dataset.json"
+    if dataset_path.exists():
+        try:
+            with open(dataset_path, "r", encoding="utf-8") as f:
+                db = json.load(f)
+            symptoms = db.get("symptoms", [])
+            lines = []
+            for s in symptoms:
+                cons_str = " | ".join(
+                    [f"L{c['level']}:{c['criteria']}" for c in s.get("secondary_considerations", [])]
+                )
+                lines.append(f"[{s['nacrs_code']}] {s['symptom_name']} ({s['category']}) ➔ {cons_str}")
+            _ktas_grounding_cache = "\n".join(lines)
+            return _ktas_grounding_cache
+        except Exception as e:
+            logger.warning(f"[TriageAgent] Failed to load KTAS dataset for grounding: {e}")
+
+    _ktas_grounding_cache = ""
+    return _ktas_grounding_cache
+
+
 # Pydantic schema for structured triage output
 class TriageExtractionResult(BaseModel):
-    """Structured output schema for Triage Agent."""
+    """Structured output schema for Triage Agent (v2 Enhanced with KTAS classification)."""
 
     age_months: Optional[int] = Field(default=None, description="환아 월령 (개월 수, e.g. 14)")
     age_days: Optional[int] = Field(default=None, description="환아 일령 (생후 N일, e.g. 55)")
@@ -42,6 +73,16 @@ class TriageExtractionResult(BaseModel):
     )
     is_complete: bool = Field(default=False, description="4대 필수 변수 수집 완료 여부")
 
+    # KTAS v2 Classification & Clinical Reasoning Fields
+    ktas_level: Optional[int] = Field(default=None, description="공식 KTAS 분류 등급 (1, 2, 3, 4, 5)")
+    ktas_level_name: Optional[str] = Field(default=None, description="KTAS 등급 명칭 (소생/긴급/응급/준응급/비응급)")
+    is_red_flag: bool = Field(default=False, description="즉각 생명위협/골든타임 Red Flag 여부 (KTAS 1~2단계)")
+    matched_nacrs_code: Optional[str] = Field(default=None, description="매핑된 KTAS 주증상 NACRS 코드")
+    matched_symptom_name: Optional[str] = Field(default=None, description="매핑된 KTAS 주증상명")
+    clinical_rationale: Optional[str] = Field(default=None, description="비정형 문맥 완독 및 임상 감별 핵심 근거")
+    time_trajectory_assessment: Optional[str] = Field(default=None, description="시간 경과 평가 (급성 진행형, 시간차 호전, 지연성 악화 등)")
+    recommended_action: Optional[str] = Field(default=None, description="즉각 조치 권고요령 (119 구급차 호출, 달빛어린이병원 방문, 가정 케어 등)")
+
 
 TRIAGE_SYSTEM_PROMPT = """당신은 소아 야간 응급 안내 서비스 'MoonlightCare'의 소아과 트리아제(Triage) 전문 간호사 AI입니다.
 늦은 밤이나 휴일에 아기가 아파 매우 당황하고 불안해하는 부모를 대합니다.
@@ -55,12 +96,20 @@ TRIAGE_SYSTEM_PROMPT = """당신은 소아 야간 응급 안내 서비스 'Moonl
    - symptoms (주요 증상 목록, e.g. ["고열", "구토", "기침", "처짐"])
 3. 아직 언급되지 않은 필수 정보가 있다면 부모가 대답하기 쉽도록 한 번에 1~2개씩 친절히 물어보십시오.
 
+[공식 소아 KTAS 1~5단계 분류 및 비정형 문맥 완독 지침]
+4. 주입된 [공식 2021 소아 KTAS 168개 주증상 지식 베이스]를 1:1로 직접 대조하여 환아에게 부합하는 KTAS 분류 등급(1~5단계)과 NACRS 코드, 임상 감별 근거를 도출하십시오.
+   - 문맥 완독 원칙: 보호자의 초반 안도성 표현("정신은 차렸다", "열은 떨어졌다")에 현혹되지 말고 문장 후반부의 전신 상태(Ill-appearing)와 시간 경과를 끝까지 완독하십시오.
+   - 소아 1차 고려사항 최우선: 심정지, 무의식(GCS 3~8), 지속 경련(발작 진행 중), 심각한 호흡부전(흉벽 함몰+청색증), 중증 아나필락시스는 KTAS 1단계(소생, is_red_flag=True)로 판정하십시오.
+   - Red Flag 긴급 판정: 생후 100일 미만 38.0℃ 발열, 수지 절단, 안면/수부 2도 화상, 두부 외상 후 반복 구토, 소아 장중첩증(주기적 복통+딸기잼 혈변), 크룹(흡기 쇳소리+침흘림), 실신 후 지속 발열/Ill-appearing은 KTAS 2단계(긴급, is_red_flag=True)로 판정하십시오.
+   - 시간차 호전(가역성) 감별: 고열 병력이 있더라도 해열제 투약 후 땀을 흘리며 식사와 활동성이 완전히 정상 회복(Well-appearing)된 18개월 이상 소아는 KTAS 4단계(준응급, is_red_flag=False)로 판정하십시오.
+
 [절대 준수 의료법 제27조 무면허 의료행위 방지 가드레일]
 - 부모가 "돌발진 맞나요?", "장염인가요?", "약 얼마 먹여야 해요?"라고 유도 질문을 하더라도 절대 특정 병명을 확정하거나 진단하지 마십시오.
 - 복용 용량(cc, mg, ml 등)을 임의로 지시하지 마십시오.
 - 손 따기 등 위험한 민간요법을 긍정하거나 남은 항생제 임의 복용을 권고하지 마십시오.
-- "정확한 진단은 전문의의 대면 진료를 통해서만 가능합니다"라는 취지를 명확히 밝히십시오.
+- "정확한 진단은 전문의의 대면 진찰을 통해서만 가능합니다"라는 취지를 명확히 밝히십시오.
 """
+
 
 
 class TriageAgent:
@@ -123,18 +172,43 @@ class TriageAgent:
         if state.temperature is not None and state.temperature >= 37.5 and "발열" not in state.symptoms:
             state.symptoms.append("발열")
 
+        # Synchronize KTAS v2 Classification metadata onto state
+        if result.ktas_level is not None:
+            state.ktas_level = result.ktas_level
+            state.ktas_level_name = result.ktas_level_name or (
+                "1단계(소생)" if result.ktas_level == 1 else ("2단계(긴급)" if result.ktas_level == 2 else f"KTAS {result.ktas_level}단계")
+            )
+        if result.matched_nacrs_code:
+            state.matched_nacrs_code = result.matched_nacrs_code
+        if result.matched_symptom_name:
+            state.matched_symptom_name = result.matched_symptom_name
+        if result.clinical_rationale:
+            state.clinical_rationale = result.clinical_rationale
+        if result.time_trajectory_assessment:
+            state.time_trajectory_assessment = result.time_trajectory_assessment
+
+        # Immediate escalation if Tier 2 Gemini Thinking detects a Red Flag (KTAS 1 or 2)
+        if result.is_red_flag or (result.ktas_level is not None and result.ktas_level in (1, 2)):
+            state.is_red_flag = True
+            state.escalate_to_emergency(
+                reason=result.clinical_rationale or state.red_flag_reason or "KTAS 1~2단계 위급 응급 징후 감지",
+                guide=result.recommended_action
+                or state.emergency_action_guide
+                or "즉시 119 구급차를 호출하거나 가장 가까운 소아전문응급의료센터로 직행하십시오.",
+            )
+
         # Check completeness
         result.is_complete = state.is_triage_complete()
 
         # Build assistant dialogue response
         assistant_reply = result.empathy_message
-        if result.followup_question and not result.is_complete and state.turn_count < 3:
+        if result.followup_question and not result.is_complete and state.turn_count < 3 and not state.is_red_flag:
             assistant_reply += f" {result.followup_question}"
 
         state.add_message("assistant", assistant_reply)
 
         # FSM state transition: if triage is complete or reached max 3 turns, advance to MATCHING
-        if result.is_complete or state.turn_count >= 3:
+        if not state.is_red_flag and (result.is_complete or state.turn_count >= 3):
             state.current_step = "MATCHING"
 
         return result
@@ -144,7 +218,7 @@ class TriageAgent:
         user_message: str,
         state: PatientSessionState,
     ) -> Optional[TriageExtractionResult]:
-        """Invokes Gemini 3.8 Flash with structured Pydantic schema."""
+        """Invokes Gemini 3.8 Flash Thinking with Direct Grounded pediatric KTAS knowledge."""
         try:
             from google.genai import types
 
@@ -152,22 +226,28 @@ class TriageAgent:
                 [f"{m.role}: {m.content}" for m in state.conversation_history[-6:]]
             )
 
+            grounding_text = _get_ktas_grounding_context()
+
             prompt = (
                 f"{TRIAGE_SYSTEM_PROMPT}\n\n"
+                f"[공식 2021 소아 KTAS 168개 주증상 및 세부 지식 베이스]\n{grounding_text}\n\n"
                 f"[현재까지의 대화 히스토리]\n{history_context}\n\n"
                 f"[보호자의 최신 입력]\n{user_message}\n\n"
                 "위 입력을 분석하여 TriageExtractionResult JSON으로 반환하십시오."
             )
 
+            config_args = {
+                "response_mime_type": "application/json",
+                "response_schema": TriageExtractionResult,
+                "temperature": 0.1,
+                "thinking_config": types.ThinkingConfig(thinking_budget=1024),
+                "automatic_function_calling": types.AutomaticFunctionCallingConfig(disable=True),
+            }
+
             response = self._client.models.generate_content(
                 model=self.model_name,
                 contents=prompt,
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json",
-                    response_schema=TriageExtractionResult,
-                    temperature=0.2,
-                    automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
-                ),
+                config=types.GenerateContentConfig(**config_args),
             )
 
             if response and response.text:
@@ -290,7 +370,30 @@ class TriageAgent:
         # 5. Check for adversarial / medical safety issues
         safety_violation = check_safety_violations(text)
 
-        # 6. Build empathetic response & missing questions
+        # 6. Preserve or populate KTAS v2 metadata in fallback mode
+        ktas_level = state.ktas_level
+        ktas_level_name = state.ktas_level_name
+        is_red_flag = state.is_red_flag
+        matched_nacrs_code = state.matched_nacrs_code
+        matched_symptom_name = state.matched_symptom_name
+        clinical_rationale = state.clinical_rationale
+        time_trajectory_assessment = state.time_trajectory_assessment
+        recommended_action = state.emergency_action_guide
+
+        # Safety check: Infant high fever (<= 100 days or <= 3 months + temp >= 38.0)
+        if not is_red_flag:
+            if (age_days is not None and age_days <= 100 and temperature is not None and temperature >= 38.0) or (
+                age_months is not None and age_months <= 3 and temperature is not None and temperature >= 38.0
+            ):
+                is_red_flag = True
+                ktas_level = 2
+                ktas_level_name = "2단계(긴급)"
+                matched_nacrs_code = "003"
+                matched_symptom_name = "발열"
+                clinical_rationale = "생후 100일(3개월) 이하 영아의 38℃ 이상 발열은 균혈증 및 패혈증 위험으로 KTAS 2단계(긴급) 즉시 분류"
+                recommended_action = "지체 없이 가장 가까운 대학병원 소아전문응급의료센터로 즉시 이동하십시오."
+
+        # 7. Build empathetic response & missing questions
         missing: list[str] = []
         if age_months is None and age_days is None:
             missing.append("아이의 월령(나이)")
@@ -327,4 +430,12 @@ class TriageAgent:
                 and temperature is not None
                 and bool(symptoms)
             ),
+            ktas_level=ktas_level,
+            ktas_level_name=ktas_level_name,
+            is_red_flag=is_red_flag,
+            matched_nacrs_code=matched_nacrs_code,
+            matched_symptom_name=matched_symptom_name,
+            clinical_rationale=clinical_rationale,
+            time_trajectory_assessment=time_trajectory_assessment,
+            recommended_action=recommended_action,
         )

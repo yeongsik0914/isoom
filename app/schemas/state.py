@@ -47,12 +47,18 @@ class PatientSessionState(BaseModel):
     user_lon: float = Field(default=127.1001, description="보호자 현재 GPS 경도 (기본: 서울 송파구 잠실역)")
     user_address: Optional[str] = Field(default=None, description="보호자 입력 또는 역지오코딩 주소")
 
-    # 4. Emergency Red Flag Protocol (Zero-LLM)
+    # 4. Emergency Red Flag Protocol (2-Tier Guardrail: 0ms Rule + Gemini Thinking)
     is_red_flag: bool = Field(default=False, description="KTAS 생명 위급 응급 징후 감지 여부")
     red_flag_reason: Optional[str] = Field(default=None, description="Red Flag 감지 사유 (e.g. '생후 100일 미만 고열')")
     emergency_action_guide: Optional[str] = Field(
         default=None, description="구급차 도착 전 1차 응급 처치 가이드 (기도 확보, 혀 물림 방지 등)"
     )
+    ktas_level: Optional[int] = Field(default=None, description="공식 KTAS 분류 등급 (1~5)")
+    ktas_level_name: Optional[str] = Field(default=None, description="KTAS 등급 명칭 (소생/긴급/응급/준응급/비응급)")
+    matched_nacrs_code: Optional[str] = Field(default=None, description="매핑된 주증상 NACRS 코드 (e.g. 553, 008, 852)")
+    matched_symptom_name: Optional[str] = Field(default=None, description="매핑된 KTAS 공식 주증상명")
+    clinical_rationale: Optional[str] = Field(default=None, description="비정형 문맥 완독 및 임상 감별 근거")
+    time_trajectory_assessment: Optional[str] = Field(default=None, description="시간 경과 및 가역성 평가")
 
     # 5. Matching & Logistics Results
     matched_hospitals: list[dict[str, Any]] = Field(

@@ -1,21 +1,22 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v1.2.0  
-> **최종 갱신 일자**: 2026-10-13  
+> **문서 버전**: v2.0.0 (공식 소아 KTAS Direct Grounding & 2계층 안전 방어망 통합)  
+> **최종 갱신 일자**: 2026-10-14  
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*  
-> **기반 원천**: 주피터 노트북 3권 실증 데이터, 공공데이터포털(NMC/KASI), Firebase Cloud Firestore, Gemini 3.8 Flash / 3.5 Lite
+> **기반 원천**: 주피터 노트북 5권 실증 데이터, 공공데이터포털(NMC/KASI), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 공식 소아 KTAS 데이터셋(168개 주증상/841개 세부기준)
 
 ---
 
 ## 📑 목차 (Table of Contents)
 
 1. [프로젝트 기획 배경 & 핵심 문제 정의](#1-프로젝트-기획-배경--핵심-문제-정의)
-2. [데이터 분석 기반의 목적별 기능 도출 과정 (Notebook Insights)](#2-데이터-분석-기반의-목적별-기능-도출-과정-notebook-insights)
-3. [현재까지 완료된 개발 모듈 & 테스트 검증 내역 (Done: Steps 1~4)](#3-현재까지-완료된-개발-모듈--테스트-검증-내역-done-steps-14)
-4. [전체 6단계 구현 로드맵 & 잔여 과제 (Roadmap: Steps 5~6)](#4-전체-6단계-구현-로드맵--잔여-과제-roadmap-steps-56)
-5. [시스템 아키텍처 & 데이터 흐름도](#5-시스템-아키텍처--데이터-흐름도)
-6. [데이터 갱신 및 캐싱 전략 (하이브리드 아키텍처)](#6-데이터-갱신-및-캐싱-전략-하이브리드-아키텍처)
-7. [추가 심화 고도화 백로그 (Advanced Backlog)](#7-추가-심화-고도화-백로그-advanced-backlog)
+2. [데이터 분석 기반의 목적별 기능 도출 과정 (Notebook 1~5 Insights)](#2-데이터-분석-기반의-목적별-기능-도출-과정-notebook-15-insights)
+3. [현재까지 완료된 개발 모듈 & 소스코드 체계 (Done: Steps 1~6 & Red Flag V2)](#3-현재까지-완료된-개발-모듈--소스코드-체계-done-steps-16--red-flag-v2)
+4. [차세대 2계층 안전 감시망 (Two-Tier Red Flag V2 Architecture)](#4-차세대-2계층-안전-감시망-two-tier-red-flag-v2-architecture)
+5. [전체 구현 로드맵 & 누적 테스트 검증 결과 (66개 테스트 전수 통과)](#5-전체-구현-로드맵--누적-테스트-검증-결과-66개-테스트-전수-통과)
+6. [시스템 아키텍처 & 2계층 데이터 흐름도](#6-시스템-아키텍처--2계층-데이터-흐름도)
+7. [데이터 갱신 및 캐싱 전략 (하이브리드 아키텍처)](#7-데이터-갱신-및-캐싱-전략-하이브리드-아키텍처)
+8. [추가 심화 고도화 백로그 (Advanced Backlog)](#8-추가-심화-고도화-백로그-advanced-backlog)
 
 ---
 
@@ -25,16 +26,19 @@
 * **소아청소년과 전문의 부족**: 심야 시간대 대학병원 및 권역응급의료센터조차 소아 당직의 부재로 "소아 진료 불가" 공지를 수시로 띄움.
 * **경증 환자의 응급실 쏠림 (74%)**: 야간에 문을 여는 동네 의원을 찾지 못한 부모들이 단순 미열/감기 환아를 데리고 권역응급센터로 몰려 대기 시간이 3~5시간으로 폭증하고, 정작 중증 환아(KTAS 1~2)의 골든타임이 침해됨.
 * **심야 처방전 조제 사고**: 야간에 진료하는 달빛어린이병원을 간신히 찾아 진료를 받았으나, 인근 약국이 먼저 문을 닫아 처방약을 짓지 못하고 발을 동동 구르는 현장 결함 발생.
+* **AI의 임상 오분류(Undertriage) 위험**: 보호자의 일시적 안도성 표현("열은 내렸다", "지금은 깨어났다")에 현혹되어 중증 질환(장중첩증, 크룹, 수지절단, 신생아 발열)을 경증으로 오판하는 안전 위험 존재.
 
-### 1.2 MoonlightCare의 해결책: "결정론적 2-트랙 스마트 라우팅"
-1. **Track A (중증 / Red Flag / 초응급)**: 생후 100일 미만 38도 고열, 경련, 청색증 등 생명 위급 상황은 LLM 지연 없이 **0.015ms(0ms) 안에 119 구급차 및 소아 가용 응급실로 직행**.
-2. **Track B (경증 / 일반 야간 진료)**: 부모의 불안을 공감 문진(Gemini 3.8 Flash)하여 진료 가능한 달빛어린이병원과 **30분 이상 여유 있게 영업하는 심야 약국 세트를 1:1 페어링 매칭**.
+### 1.2 MoonlightCare의 해결책: "결정론적 2-트랙 스마트 라우팅 & 2계층 감시망"
+1. **Pass 1 (0ms 정규식 인터셉터)**: 생후 100일 미만 38도 고열, 경련, 청색증, 수지절단, 장중첩증 등 12대 절대적 위급 상황을 LLM 지연 없이 **26µs(0.026ms) 안에 119 구급차 및 소아 가용 응급실로 직행**.
+2. **Pass 2 (Direct Grounded Gemini 3.8 Flash Thinking High)**: 0ms 정규식을 우회하는 복합/비정형 문맥을 168개 공식 KTAS 지식 베이스(~8,500 토큰)를 직접 주입받아 완독 감별(언더트리아제 0% 수호).
+3. **Track A (중증 / Red Flag / KTAS 1~2)**: 119 구급차 호출, 기도확보 응급처치 가이드, 최단거리 소아전문응급의료센터 매칭 (약국 배제).
+4. **Track B (경증 / 일반 야간외래 / KTAS 3~5)**: 부모의 불안을 공감 문진하여 진료 가능한 달빛어린이병원과 **30분 이상 여유 있게 영업하는 심야 약국 세트를 1:1 페어링 매칭**.
 
 ---
 
-## 2. 데이터 분석 기반의 목적별 기능 도출 과정 (Notebook Insights)
+## 2. 데이터 분석 기반의 목적별 기능 도출 과정 (Notebook 1~5 Insights)
 
-본 프로젝트의 모든 백엔드 기능은 가상의 가정이 아니라, **실제 국립중앙의료원(NMC) 및 한국천문연구원(KASI) 공공데이터를 주피터 노트북 3권으로 정밀 분석한 실측 결과**를 기반으로 설계되었습니다.
+본 프로젝트의 모든 백엔드 기능은 가상의 가정이 아니라, **실제 국립중앙의료원(NMC), 한국천문연구원(KASI) 공공데이터 및 보건복지부 2021 소아 KTAS 데이터셋을 주피터 노트북 5권으로 정밀 분석한 실측 결과**를 기반으로 설계되었습니다.
 
 ### 2.1 [노트북 1] 소아 응급실 병목 분석 (`egen_pediatric_emergency_analysis.ipynb`)
 * **분석 데이터**: 서울 50개소 응급의료기관 실시간 병상 및 비정형 공지사항.
@@ -62,59 +66,70 @@
 * **도출된 기능**:
   - `BedStateHashCache (In-Memory Hash Diffing)`: 직전 회차와 상태 지문(MD5)을 비교하여 **변경된 문서만 쓰기(Write)를 수행함으로써 비용 90~100% 절감 실증**.
   - `Haversine 구면거리 계산`: 사용자 GPS 좌표 기준 10km 이내 소아 가용 응급실을 **0.5ms 내에 랭킹 정렬**.
-  - `실시간 on_snapshot 리스너`: 병상 만실 시 0.1초 만에 클라이언트로 변동 이벤트 스트리밍 확인.
+
+### 2.4 [노트북 4] 소아 KTAS 파이프라인 비교 고찰 (`gemini_ktas_pediatric_redflag_pipeline.ipynb`)
+* **분석 데이터**: 168개 소아 KTAS 주증상 및 비정형 보호자 질의 시나리오.
+* **실측 발견점**:
+  - 구버전 키워드 검색 기반 RAG(`retrieve_top_k_symptoms`)는 비정형 문맥에서 유사도 점수 0.0을 반환하며 관련 없는 엉뚱한 증상(`001: 심정지`, `201: 동상`)을 컨텍스트로 전달하여 환각(오분류)을 유발함.
+  - `gemini-4-argon` 모델은 엔터프라이즈 화이트리스트 제한(HTTP 403)이 존재하며, 실시간 트리아제에는 `gemini-3.8-flash`의 Thinking 모드가 최적의 비용 대비 레이턴시/정확도 균형을 제공함.
+
+### 2.5 [노트북 5] 차세대 Direct Grounded KTAS 엔진 (`gemini_ktas_v2.ipynb`)
+* **핵심 혁신**:
+  - 키워드 검색 RAG를 폐기하고, 168개 공식 주증상 전체(~8,500 토큰)를 **Direct Context Grounding**으로 프롬프트에 직접 주입.
+  - Gemini 3.8 Flash Thinking High (`thinking_budget=1024`)를 통해 문장 전반부의 안도성 서술("정신은 차렸다")에 속지 않고 문장 후반부의 전신 상태(Ill-appearing)와 시간 경과를 완독 감별.
+  - **실측 성과**: Red Flag 민감도 100%, 언더트리아제 0%, 평균 레이턴시 3.1초 달성.
 
 ---
 
-## 3. 현재까지 완료된 개발 모듈 & 테스트 검증 내역 (Done: Steps 1~6 전수 완료)
+## 3. 현재까지 완료된 개발 모듈 & 소스코드 체계 (Done: Steps 1~6 & Red Flag V2)
 
-주피터 노트북에서 검증된 로직을 프로덕션 백엔드 패키지(`app/`)로 체계적으로 모듈화하고, 6단계에 걸친 단위/통합 테스트 58건 및 40대 임상 골든 케이스 평가를 100% 완수했습니다.
+프로덕션 백엔드 패키지(`app/`)는 6단계 전 과정 모듈화와 Red Flag V2 고도화를 완료하였으며, 단위/통합 테스트 66건 및 40대 임상 골든 케이스 평가를 100% 완수했습니다.
 
 ```
 monnlight/
 ├── app/
 │   ├── __init__.py
-│   ├── config.py                     # [Step 1] 환경변수 자동 감지 & E:\FIREBASE_API_KEY Firestore 클라이언트 싱글톤
-│   ├── demo_step1.py                 # [Step 1] 1단계 실시간 파이프라인 벤치마크 실행기
-│   ├── demo_step3.py                 # [Step 3] 3단계 인터랙티브 2-트랙 에이전트 파이프라인 실행기
-│   ├── demo_step4.py                 # [Step 4] 4단계 메인 오케스트레이터(Supervisor FSM) 통합 실행기
-│   ├── demo_step5.py                 # [Step 5] 5단계 FastAPI REST 서빙 & 3-Track 데몬 실행기
+│   ├── config.py                     # [Step 1] 환경변수 & Firestore 싱글톤 바인딩
+│   ├── demo_step1.py ~ demo_step6.py # [Step 1~6] 단계별 인터랙티브 CLI 시연기
 │   ├── api/                          # [Step 5] FastAPI REST API 라우터 Layer
 │   │   ├── __init__.py
 │   │   └── v1/
-│   │       ├── __init__.py
 │   │       ├── chat.py               # POST /api/v1/chat & SSE 실시간 스트리밍 (/chat/stream)
 │   │       └── emergency.py          # GET /nearby, /pairings, /status & POST /sync
 │   ├── schemas/
-│   │   ├── __init__.py
-│   │   ├── emergency.py              # [Step 1] 응급실 병상, 특일 정보, 공간 랭킹 Pydantic DTO
-│   │   ├── state.py                  # [Step 2] 멀티 에이전트 공유 세션 DTO (PatientSessionState)
+│   │   ├── emergency.py              # [Step 1] 응급실 병상, 특일 정보, 공간 랭킹 DTO
+│   │   ├── state.py                  # [Step 2 & V2] KTAS 정밀 메타데이터 세션 DTO (PatientSessionState)
 │   │   ├── supervisor.py             # [Step 4] 클라이언트/API 통신용 정형 응답 DTO (SupervisorResponse)
 │   │   ├── chat.py                   # [Step 5] 대화 및 세션 관리 요청/응답 DTO
 │   │   └── emergency_api.py          # [Step 5] 응급실 및 3-Track 스케줄러 상태 DTO
 │   ├── services/                     # [Step 1, 3, 5] 순수 결정론적 도구 Layer (Zero-LLM)
-│   │   ├── __init__.py
 │   │   ├── holiday_service.py        # KASI 특일 판정 & KST(UTC+9) 타임존 고정 과밀화 리스크 평가
 │   │   ├── spatial_service.py        # Haversine 구면거리 5µs 연산 & 반경 10km 소아 응급실 랭킹
-│   │   ├── emergency_sync_service.py # E-Gen 실시간 병상, 100% 공지 정규식, Hash Diffing, 디스크 캐싱
-│   │   ├── pairing_service.py        # [Step 3] 전국 29개 달빛병원-심야약국 +30분 안전 마진 페어링 서빙
-│   │   └── scheduler.py              # [Step 5] APScheduler 3-Track 백그라운드 데몬 (병상, 정적동기화, 세션정리)
-│   ├── agents/                       # [Step 2, 3] 지능형 에이전트 & 안전 가드레일 Layer
-│   │   ├── __init__.py
-│   │   ├── guardrail_agent.py        # [Step 2] 0.015ms Red Flag 선제 인터셉터 & 의료법 제27조 사후 필터
-│   │   ├── triage_agent.py           # [Step 3] Gemini 3.8 Flash 비구조화 구어체 문진 & 4대 임상 변수 정형화
-│   │   ├── matching_agent.py         # [Step 3] Zero-LLM 2-트랙 임상 라우팅 (소아응급실 vs 달빛병원+약국)
-│   │   └── logistics_agent.py        # [Step 3] Gemini 3.5 Lite 30초 통화 확인 스크립트 & 지참서류 체크리스트
-│   └── orchestrator/                 # [Step 4] 메인 오케스트레이션 Layer
-│       ├── __init__.py
-│       ├── session_manager.py        # [Step 4] Thread-Safe 세션 인메모리 관리자 & TTL 자동 만료
-│       └── supervisor.py             # [Step 4] 6-State FSM 라우터 & 3턴 무한루프 방지 & 0ms 긴급 차단
+│   │   ├── emergency_sync_service.py # E-Gen 실시간 병상, 100% 공지 정규식, Hash Diffing, 5분 TTL 인메모리 캐시
+│   │   ├── pairing_service.py        # 전국 29개 달빛병원-심야약국 +30분 안전 마진 페어링 서빙
+│   │   └── scheduler.py              # APScheduler 3-Track 백그라운드 데몬 (병상, 정적동기화, 세션정리)
+│   ├── agents/                       # [Step 2, 3 & V2] 지능형 에이전트 & 안전 가드레일 Layer
+│   │   ├── guardrail_agent.py        # [Step 2 & V2] 0ms 12대 Red Flag 1차 인터셉터 & 의료법 제27조 사후 소독
+│   │   ├── triage_agent.py           # [Step 3 & V2] Gemini 3.8 Flash Thinking + 168개 KTAS 주증상 Direct Grounding
+│   │   ├── matching_agent.py         # Zero-LLM 2-트랙 임상 라우팅 (소아응급실 vs 달빛병원+약국)
+│   │   └── logistics_agent.py        # Gemini 3.5 Lite 30초 통화 확인 스크립트 & 지참서류 체크리스트
+│   └── orchestrator/                 # [Step 4 & V2] 메인 오케스트레이션 Layer
+│       ├── session_manager.py        # Thread-Safe 세션 인메모리 관리자 & 30분 TTL 자동 만료
+│       └── supervisor.py             # 6-State FSM 라우터 & 3턴 무한루프 가드 & Tier 1/2 Red Flag 즉시 긴급 격상
 ├── data/
 │   ├── seoul_emergency_coords.json   # 서울 530개 응급의료기관 위경도 로컬 디스크 캐시 (30배 속도 향상)
-│   └── nationwide_pairings.json      # [Step 3] 전국 17개 시·도 29개 달빛병원-야간약국 30분 마진 페어링 캐시
+│   ├── nationwide_pairings.json      # 전국 17개 시·도 29개 달빛병원-야간약국 30분 마진 페어링 캐시
+│   └── ktas_pediatric_dataset.json   # [V2] 2021 공식 소아 KTAS 168개 주증상/841개 세부기준 지식 베이스
+├── notebooks/
+│   ├── egen_pediatric_emergency_analysis.ipynb
+│   ├── moonlight_hospital_night_pharmacy_linkage.ipynb
+│   ├── emergency_bed_firebase_sync.ipynb
+│   ├── gemini_ktas_pediatric_redflag_pipeline.ipynb
+│   └── gemini_ktas_v2.ipynb          # [V2] Gemini 3.8 Flash Thinking High 검증 노트북
 ├── tests/
 │   ├── test_step1_services.py        # [Step 1] 7대 핵심 기반 서비스 테스트 (통과)
-│   ├── test_step2_guardrail.py       # [Step 2] 12대 가드레일 & 0ms 벤치마크 테스트 (통과)
+│   ├── test_step2_guardrail.py       # [Step 2] 12대 가드레일 & 0ms 벤치마크 테스트 (통과, 26µs)
+│   ├── test_redflag_v2_upgrade.py    # [V2 고도화] 8대 KTAS 5대 신규룰 & FSM/Thinking 검증 테스트 (통과)
 │   ├── test_step3_agents.py          # [Step 3] 7대 멀티 에이전트 결합 & 2-트랙 파이프라인 테스트 (통과)
 │   ├── test_step4_orchestrator.py    # [Step 4] 7대 Supervisor FSM 라이프사이클 테스트 (통과)
 │   ├── test_step5_api.py             # [Step 5] 10대 FastAPI REST & 3-Track 스케줄러 테스트 (통과)
@@ -122,179 +137,134 @@ monnlight/
 │   ├── test_audit_fixes.py           # [Pre-Audit] 7대 잠재 이슈 해결 회귀 검증 테스트 (통과)
 │   └── evals/
 │       ├── golden_test_cases.json    # 40대 임상 골든 엣지케이스 정의집
-│       ├── run_evals.py              # 5대 평가 지표(DIM-1~DIM-5) 자동 채점 하네스 (통과)
+│       ├── run_evals.py              # 5대 평가 지표 자동 채점 하네스 (통과)
 │       └── eval_report.md            # 40/40 전수 합격 종합 성적표 (100.0%, 평균 99.5점)
-├── main.py                           # [Step 5] FastAPI 프로덕션 애플리케이션 진입점 & 3-Track Lifespan
-├── demo_step6.py                     # [Step 6] 인터랙티브 CLI 종합 시연기
-├── CONNECTIVITY_MAP.md               # 모듈 & 에이전트 상호 연결도 및 아키텍처 매트릭스 (v1.2.0)
-├── README.md                         # 종합 프로젝트 안내서 (v0.1.0 ~ v1.2.0 전 이력 보존)
-├── PLAN.md                           # 종합 기획안 & 개발 백서 (본 문서)
-├── .env                              # 로컬 환경변수 (FIREBASE_KEY_PATH=E:\FIREBASE_API_KEY\serviceAccountKey.json)
-├── .env.example                      # 환경변수 템플릿
-├── requirements.txt                  # 핵심 의존성 패키지 명세서
-└── serviceAccountKey.json            # Firebase Admin SDK 서비스 계정 키 (.gitignore 보호)
+├── docs/
+│   ├── README.md                     # 기술 기획 문서 허브 목차
+│   ├── PROJECT_PLAN.md               # 종합 기획서 (PRD)
+│   ├── KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md
+│   ├── DATABASE_DESIGN.md
+│   ├── DATA_CONSIDERATIONS.md
+│   ├── EMERGENCY_DDK_COMPARISON_AND_IMPROVEMENT.md
+│   ├── NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md
+│   ├── BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md
+│   ├── REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md  # [V2 고도화 설계서]
+│   └── VIBE_CODING_ROADMAP.md
+├── main.py                           # FastAPI 프로덕션 엔트리포인트
+├── CONNECTIVITY_MAP.md               # 모듈 & 에이전트 상호 연결 매트릭스 (v2.0.0)
+└── PLAN.md                           # 종합 기획안 & 개발 백서 (본 문서)
 ```
-
-### 3.1 [Step 1] 순수 도구(Zero-LLM) & 스토리지 모듈화 성과
-* **공공 API ➔ Firestore 실시간 동기화**:
-  - 서울 50개 응급의료기관의 실시간 병상 데이터 파싱 및 Firestore `emergency_beds` 컬렉션 배치 Upsert.
-  - 대시보드 뷰용 단일 집계 문서 `emergency_summary/realtime` 동시 갱신.
-* **4대 사전 보완 최적화 적용**:
-  1. **정적 좌표 디스크 캐싱**: 서울 530개 응급실 위경도를 `data/`에 캐싱하여 병상 수집 속도 **7,988ms ➔ 261ms (약 30배 가속)**.
-  2. **KST 타임존 바인딩**: UTC 클라우드 서버에서 자정~09시 사이 날짜 오차 버그 원천 방어.
-  3. **형상 관리 표준화**: `.env.example`, `requirements.txt` 표준 수립.
-  4. **환경 호환성 보장**: `holiday_service`의 날짜 파라미터(문자열/date/datetime) 다형성 지원.
-* **테스트 결과**: `tests/test_step1_services.py` 7개 테스트 100% 통과 (2.5초).
-
-### 3.2 [Step 2] 세션 DTO & 0ms 안전 가드레일 모듈화 성과
-* **`PatientSessionState` (공유 메모리 DTO)**:
-  - FSM 6단계 수명주기(`INIT` ➔ `TRIAGE` ➔ `MATCHING` ➔ `LOGISTICS` ➔ `EMERGENCY_ESCALATION` ➔ `COMPLETED`).
-  - 4대 필수 문진 변수(`age_months`, `age_days`, `temperature`, `duration_hours`, `symptoms`) 및 3턴 대화 히스토리 추적.
-* **0ms Red Flag 선제 차단기 (`guardrail_agent.py`)**:
-  - LLM 호출 없이 **KTAS 소아 7대 Red Flag**(생후 100일 미만 고열, 경련, 무반응, 청색증, 중증 탈수, 두부 외상 분수토, 담즙성 구토)를 즉시 감지.
-  - 119 다이렉트 호출 CTA + 구급차 도착 전 기도 확보 가이드 즉각 노출.
-* **의료법 제27조(무면허 의료행위 방지) 사후 필터링**:
-  - 확정 진단명("~로 진단됩니다") 및 임의 용량("5ml 먹이세요") 자동 중화 및 법적 면책 고지 배지 자동 부착.
-* **테스트 결과**: `tests/test_step2_guardrail.py` 12개 테스트 100% 통과.
-  - **성능 벤치마크**: 1,000회 연속 검사 4.78ms 소요 (**회당 평균 4.78µs = 0.0048ms, 0ms 실시간 인터셉트 입증**).
-
-### 3.3 [Step 3] AI 멀티 에이전트 결합 & 2-트랙 지능형 라우팅 모듈화 성과
-* **Triage 문진 에이전트 (`app/agents/triage_agent.py`)**:
-  - **모델**: `Gemini 3.8 Flash (Thinking Effort: Medium)`.
-  - **기능**: 부모의 불안한 비정형 구어체 서술에서 `(월령, 체온, 지속시간, 주증상)`을 `TriageExtractionResult` Pydantic 구조로 정밀 추출.
-  - **안전 방어**: 부모의 병명 추측 유도("돌발진 맞죠?")에 단호히 진단을 거부하고 공감/안심 멘트 유지.
-  - **견고성**: 오프라인 및 API 키 부재 환경을 위한 결정론적 정규식 Fallback 파서 내장.
-* **전국 달빛병원-심야약국 +30분 마진 페어링 서비스 (`app/services/pairing_service.py`)**:
-  - `data/nationwide_pairings.json`에 전국 17개 시·도 29개 달빛어린이병원 및 30분 안전 마진 약국 1:1 매핑 데이터셋 탑재.
-  - 사용자 좌표 기준 반경 10km 이내 야간 안심 페어링 세트 0ms 검색 제공.
-* **2-트랙 임상 매칭 에이전트 (`app/agents/matching_agent.py`)**:
-  - **Zero-LLM 결정론적 라우팅**: 환아의 임상 상태에 따라 명확한 2-트랙 분기.
-    - **Track A (응급/고열/야간 23시 이후)**: E-Gen 실시간 병상 및 비정형 공지를 검증한 10km 이내 소아 가용 응급실 TOP 3 안내.
-    - **Track B (경증/발열 초기/소아과 운영시간)**: 달빛어린이병원 + 30분 마진 심야약국 1:1 페어링 세트 안내.
-* **방문 준비 로지스틱스 에이전트 (`app/agents/logistics_agent.py`)**:
-  - **모델**: `Gemini 3.5 Flash-Lite (고속 서빙)`.
-  - **기능 1**: 출발 전 병원 실시간 확인을 돕는 **"30초 유선 확인 통화 스크립트"** 생성.
-  - **기능 2**: **2024년 5월 개정 국민건강보험법 본인확인 의무화**에 맞춘 신분증/주민등록등본 지참 서류 체크리스트 자동 생성.
-* **인터랙티브 파이프라인 시연기 & 연결도 문서 신설**:
-  - `app/demo_step3.py`: 경증 환아(달빛병원+약국 세트) 및 응급 환아(10km 소아 응급실) dual-scenario 인터랙티브 CLI 런처.
-  - `CONNECTIVITY_MAP.md`: 4계층 상호연결 매트릭스, Mermaid 데이터 파이프라인, 세션 상태 전이표 총정리.
-* **테스트 결과**: `tests/test_step3_agents.py` 7개 테스트 100% 통과 (TC-301 ~ TC-308).
-
-### 3.4 [Step 4] 메인 오케스트레이터(Supervisor FSM) & 세션 매니저 완성 성과
-* **중앙 집중식 유한 상태 머신 (`app/orchestrator/supervisor.py`)**:
-  - 6단계 라이프사이클(`INIT` ➔ `TRIAGE` ➔ `MATCHING` ➔ `LOGISTICS` ➔ `COMPLETED` / `EMERGENCY_ESCALATION`) FSM 라우터 구축.
-  - **3턴 상한선 무한 루프 가드 (Deadlock Guard)**: 부모가 모호한 단변을 반복해도 `turn_count >= 3` 도달 시 강제 MATCHING 전이 및 안전 디폴트 라우팅 실증.
-  - **매 턴 0ms Red Flag 선제 검사**: 대화 첫 턴뿐만 아니라 2~3턴 중간에 증상이 급변(청색증, 경련 등)해도 즉시 모든 서브 에이전트 실행을 중단(Abort)하고 119 다이렉트 모달 반환.
-  - **단일 출구 의료법 제27조 소독 관문**: 모든 에이전트 출력 메시지가 오케스트레이터 출구에서 `sanitize_output()`을 통과하도록 구조화하여 법적 리스크 원천 차단.
-* **Thread-Safe 세션 매니저 (`app/orchestrator/session_manager.py`)**:
-  - `asyncio.Lock` 기반 동시성 제어 및 30분 미사용 세션 자동 정리(TTL Eviction)로 메모리 누수 0% 달성.
-* **클라이언트 표준 응답 규격 DTO (`app/schemas/supervisor.py`)**:
-  - 프론트엔드 및 Step 5 FastAPI가 즉시 소비 가능한 `SupervisorResponse` 표준 모델 탑재.
-* **인터랙티브 시연기 (`app/demo_step4.py`)**: 멀티턴 문진(시나리오 1), 중도 경련 급변 비상 격상(시나리오 2), 3턴 루프 방어(시나리오 3) 3대 시나리오 실증 완수.
-* **테스트 결과**: `tests/test_step4_orchestrator.py` 7개 테스트(TC-401 ~ TC-407) 100% 통과.
-
-### 3.5 [Step 5] FastAPI REST API 서빙 & 백그라운드 동기화 데몬 완성 성과
-* **FastAPI 코어 애플리케이션 엔트리포인트 (`main.py`)**:
-  - `lifespan` 비동기 컨텍스트 매니저로 앱 기동 시 위경도 및 페어링 캐시 사전 워밍(Pre-warming) 및 APScheduler 데몬 자동 기동/정리.
-  - 웹/모바일 프론트엔드 연계를 위한 `CORSMiddleware` 전역 적용.
-  - `GET /`, `GET /health` 시스템 헬스체크 및 통합 인프라(공공 API, Gemini, Firebase, 세션 수) 진단 모니터링 탑재.
-* **실시간 대화 & SSE 스트리밍 라우터 (`app/api/v1/chat.py`)**:
-  - `POST /api/v1/chat`: 0ms Red Flag 가드레일, Gemini 3.8 문진, Zero-LLM 시설 매칭, 30초 통화 스크립트 및 지참 서류 일괄 반환.
-  - `POST /api/v1/chat/stream`: Server-Sent Events (SSE) 기반 실시간 단어 델타 스트리밍 및 최종 JSON/`[DONE]` 프로토콜 완비.
-  - `GET /api/v1/chat/session/{sid}`, `DELETE /api/v1/chat/session/{sid}`: 세션 상세 추적 및 원클릭 리셋 엔드포인트 제공.
-* **초고속 공간 검색 & 온디맨드 동기화 라우터 (`app/api/v1/emergency.py`)**:
-  - `GET /api/v1/emergency/nearby`: GPS 기준 10km 이내 소아 가용 응급실 Haversine 구면거리 실시간 랭킹 (평균 레이턴시 5ms 내외 실측).
-  - `GET /api/v1/emergency/pairings`: 전국 달빛어린이병원 + 30분 마진 심야약국 1:1 페어링 세트 거리순 정렬 조회.
-  - `POST /api/v1/emergency/sync`: 운영자/개발자용 즉시 E-Gen 병상 수집 및 In-Memory Hash Diffing Firestore 반영 트리거.
-  - `GET /api/v1/emergency/status`: 백그라운드 스케줄러 가동 여부 및 잡 실행 주기, 통계 조회.
-* **APScheduler 기반 2-트랙 백그라운드 데몬 (`app/services/scheduler.py`)**:
-  - **Track 1 (5분 주기)**: `poll_realtime_beds()` - E-Gen 실시간 병상 및 비정형 공지 수집 후 `BedStateHashCache`(MD5)를 거쳐 변경 병상만 Firestore 배치 쓰기(비용 90~100% 절감 실증).
-  - **Track 2 (24시간 주기, 매일 04:00 AM KST)**: `sync_static_datasets()` - 서울 530개 응급실 위경도 및 전국 달빛병원-약국 마스터 증분 동기화.
-* **인터랙티브 종합 API 시연기 (`app/demo_step5.py`)**:
-  - 헬스체크, 5ms 응급실 검색, 30분 약국 페어링, 일반 상담, 0ms Red Flag 차단, SSE 스트리밍, Hash Diffing 7대 기능 실시간 검증 완수.
-* **테스트 결과**: `tests/test_step5_api.py` 10개 테스트(TC-501 ~ TC-510) 100% 통과.
-
-### 3.6 [사전 정밀 결함 감사 & 6대 핵심 과제 선제 리팩토링 완수 성과]
-* **Gemini 3.8 Flash & 3.5 Flash-Lite 최신 모델 전환**:
-  - 기존 `gemini-2.5-flash` 구버전 404 에러로 인한 Fallback 고착 현상을 완전히 해결하고, 실제 Google GenAI 서버와 `200 OK` 실시간 통신 연동 입증.
-  - LLM 예외 발생 시 `logger.warning()`으로 명확한 디버깅 가시성 확보.
-* **0ms 응급실 병상 인메모리 TTL 캐시 (`emergency_sync_service.py`)**:
-  - `_in_memory_bed_cache` (5분 TTL = 300초)를 구축하여, API 및 매칭 호출 시 네트워크 지연을 0회로 차단하고 **0.2~0.5ms 초고속 인메모리 서빙** 달성.
-* **전국 17개 시·도 행정구역 동적 판별 및 맞춤 병상 매칭 (`matching_agent.py`, `emergency_sync_service.py`)**:
-  - `resolve_stage1_from_coords_or_address()` 및 지자체별 좌표망(`_hospital_coords_cache_by_stage`, `NATIONWIDE_REGIONAL_ER_MOCKS`) 구축을 통해 서울뿐 아니라 수원(경기도), 대전, 부산, 대구, 광주, 평창(강원), 인천, 제주 등 전국 환아 위치에서 35km 이내의 해당 지자체 소아 가용 응급실로 정밀 매칭.
-* **악의적 질문 및 의료법 우회 방어선 보강 (`guardrail_agent.py`)**:
-  - 위험 민간요법(손 따기), 남은 항생제 임의 복용, 약 용량 직접 지시(몇 ml), Dr. Kim 탈옥 시도를 차단하는 `check_safety_violations()` 규칙 엔진 탑재.
-* **Triage 파서 연령·기간·다발성 증상 정규화 확장 (`triage_agent.py`)**:
-  - `만 4세`, `초등학교 1학년` 연령 환산, `3일 전`, `어제` 기간 환산, 귀(이통)/눈곱/쌕쌕거림/복통 등 소아 다발성 증상 표준화.
-* **진료 마감 시간(HH:MM) 필터링 & 마감 40분 이내 경고 태그 (`matching_agent.py`)**:
-  - 심야(23:00~07:00) 24시간 응급실 직행 분기 및 마감 임박 의원 `[⚠️ 조기 접수 마감 주의]` 태그 동적 부착.
-* **Windows UTF-8 인코딩 보정 & Conda DS 가상환경 동기화 (`__init__.py`, `requirements.txt`)**:
-  - PowerShell 콘솔 CP949 글자 깨짐(Mojibake) 방지 UTF-8 강제 적용 및 Conda DS 가상환경 내 `apscheduler`, `fastapi`, `uvicorn` 패키지 동기화 완료.
-* **테스트 결과**: `tests/test_audit_fixes.py` 7개 신규 테스트(TC-FIX-01 ~ TC-FIX-07) 100% 통과.
-
-> **현재 종합 테스트 현황**: 총 **58개 테스트** (Step 1 7개 + Step 2 12개 + Step 3 7개 + Step 4 7개 + Step 5 10개 + Issue Fixes 7개 + Step 6 E2E 8개) **100% 전수 통과 (`Ran 58 tests, OK`)** & **40대 임상 골든 케이스 Evals 100% 합격 (40/40, 평균 99.5점)**.
 
 ---
 
-## 4. 전체 6단계 구현 로드맵 & 검증 결과 (Roadmap: Steps 1~6 완료)
+## 4. 차세대 2계층 안전 감시망 (Two-Tier Red Flag V2 Architecture)
+
+소아 골든타임 수호를 위해 [REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md](file:///e:/monnlight/docs/REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md)에 기술된 **2계층 심층 감시선(Two-Tier Deep Defense)**을 프로덕션 백엔드에 완벽히 이식하였습니다.
 
 ```
-[Step 1: 기반 스토리지 & Zero-LLM 도구] ──► [완료 (100% 통과)]
+[보호자 자연어 입력]
+        │
+        ▼
+[Tier 1: 0ms 정규식 인터셉터] ──(12대 위급 패턴 매칭)──► 🚨 즉시 119 격상 (KTAS 1~2, 26µs)
+        │ (미탐지 / 비정형 문맥)
+        ▼
+[Tier 2: Gemini 3.8 Flash Thinking + 168개 KTAS Direct Grounding]
+        │
+        ├──► KTAS 1~2 감별 (비정형 문맥 완독, 시간차 호전 감별) ──► 🚨 Supervisor 긴급 격상
+        └──► KTAS 3~5 감별 ──► 일반 트랙 (달빛병원 + 30분 마진 약국 매칭)
+```
+
+### 4.1 Tier 1: 0ms 결정론적 인터셉터 (Pass 1)
+* **모듈**: `app/agents/guardrail_agent.py` (`check_red_flag_instant`)
+* **레이턴시**: 평균 **26.43µs (0.026ms)**, API 비용 0원.
+* **12대 절대 위급 규칙**:
+  1. 생후 100일 미만 38.0℃ 이상 고열 (`NACRS 852`)
+  2. 열성 경련 / 활동성 발작 (`NACRS 405`)
+  3. 무반응 / 극심한 의식 저하 (`NACRS 402`)
+  4. 흉벽 함몰 / 청색증 / 비익 호흡 (`NACRS 651`)
+  5. 8시간 이상 무뇨 중증 탈수 (`NACRS 007`)
+  6. 두부 외상 후 반복 구토 / 기면 (`NACRS 407`)
+  7. 초록색 담즙성 분수토 (`NACRS 407`)
+  8. **[V2 신규] 외상성 사지/수지 절단 (`NACRS 553`)**
+  9. **[V2 신규] 돌발 실신 후 발열/비정형 처짐 (`NACRS 008`)**
+  10. **[V2 신규] 소아 장중첩증 (주기적 복통 + 딸기잼 혈변, `NACRS 260`)**
+  11. **[V2 신규] 상기도 폐쇄 / 크룹 협착음 / 침흘림 (`NACRS 610`)**
+  12. **[V2 신규] 안면·수부 2도 이상 중증 화상 (`NACRS 705`)**
+
+### 4.2 Tier 2: Direct Grounded Gemini 3.8 Flash Thinking (Pass 2)
+* **모듈**: `app/agents/triage_agent.py` (`TriageAgent`)
+* **핵심 원리**:
+  - `data/ktas_pediatric_dataset.json`의 168개 주증상 지식 베이스를 인메모리 싱글톤으로 캐싱하여 프롬프트에 직접 주입.
+  - `thinking_budget=1024`를 설정하여 다변적 시간 경과와 전신 상태(Ill-appearing vs Well-appearing)를 완독 추론.
+  - 고열이 있었으나 해열제 복용 후 땀을 흘리며 식사/놀이가 완전히 회복된 소아는 KTAS 4단계(준응급)로 정확히 감별하여 불필요한 119 출동(False Positive) 방어.
+* **오케스트레이터 연동**:
+  - `app/orchestrator/supervisor.py`에서 Step 3 Triage 직후 `state.is_red_flag`를 즉시 검사하여, Tier 2에서 감별된 Red Flag도 즉시 `EMERGENCY_ESCALATION`으로 격상.
+
+---
+
+## 5. 전체 구현 로드맵 & 누적 테스트 검증 결과 (66개 테스트 전수 통과)
+
+```
+[Step 1: 기반 스토리지 & Zero-LLM 도구] ──────► [완료 (100% 통과)]
          │
          ▼
-[Step 2: 0ms 안전 가드레일 & 세션 DTO] ──► [완료 (100% 통과)]
+[Step 2: 0ms 안전 가드레일 & 세션 DTO] ──────► [완료 (100% 통과, 26µs)]
          │
          ▼
-[Step 3: AI 에이전트 결합 (Gemini 3.8)] ──► [완료 (100% 통과)]
+[Step 3: AI 에이전트 결합 (Gemini 3.8)] ──────► [완료 (100% 통과)]
          │
          ▼
 [Step 4: 메인 오케스트레이터 (Supervisor)] ──► [완료 (100% 통과)]
          │
          ▼
-[Step 5: FastAPI REST 서빙 & 데몬]   ──► [완료 (100% 통과)]
+[Step 5: FastAPI REST 서빙 & 데몬]   ────────► [완료 (100% 통과)]
          │
          ▼
-[Step 6: E2E 통합 테스트 & 시나리오]  ──► [완료 (100% 통과, 40 Golden Evals 100%)]
+[Step 6: E2E 통합 테스트 & 시나리오] ────────► [완료 (100% 통과, 40 Golden Evals 100%)]
+         │
+         ▼
+[V2 Upgrade: 차세대 2계층 Red Flag 결합] ────► [완료 (신규 8개 테스트 100% 통과)]
 ```
 
-### 4.1 [Step 5] FastAPI REST API 서빙 & 백그라운드 동기화 데몬 ── **[개발 완료 (100% 통과)]**
-* `main.py`, `app/api/v1/chat.py`, `app/api/v1/emergency.py`, `app/services/scheduler.py`, `test_step5_api.py` 개발 및 10개 테스트 전수 통과.
+### 5.1 종합 테스트 현황 (총 66개 단위/통합 테스트 100% 무결점 통과)
 
-### 4.2 [Step 6] E2E 통합 테스트 & 40대 골든 케이스 시나리오 평가 ── **[개발 완료 (100% 통과)]**
-* **8대 E2E 핵심 시나리오 자동 검증 스위트 (`tests/test_step6_e2e.py`)**:
-  1. `TC-601`: **초응급 시나리오 (Track A / Red Flag)**: 생후 55일 38.3도 고열 입력 시 1턴 만에 119 직행 모달 및 기도확보 응급처치 가이드 반환.
-  2. `TC-602`: **야간 발열 시나리오 (Track B / 경증)**: 14개월 38.5도 입력 시 공감 문진 ➔ 달빛병원 + 30분 안심 약국 페어링 ➔ 30초 통화 스크립트 출력.
-  3. `TC-603`: **의료법 제27조 방어 시나리오**: 부모의 병명 추측 유도("돌발진 맞죠?") 시 진단 거부 및 전문의 대면 진찰 안내 확인.
-  4. `TC-604`: **적대적 안전 가드레일 방어**: 바늘 사혈 민간요법, 잔여 항생제 임의 복용, 구체적 해열제 용량 지시, 단독 병원 알선 요구 4대 위반 0ms 선제 차단.
-  5. `TC-605`: **중도 급변(Deterioration) 시나리오**: 1턴 미열 상담 중 2턴 청색증/호흡곤란 발생 시 즉시 Track A 비상 전환.
-  6. `TC-606`: **3턴 데드락 가드**: 3턴 연속 모호한 입력 시 무한 루프 탈출 및 안전 기본값 세팅 후 MATCHING 강제 전이.
-  7. `TC-607`: **FastAPI REST E2E 통합**: `/api/v1/chat` 단일/다중 턴 E2E 호출 무결성 검증.
-  8. `TC-608`: **FastAPI SSE 실시간 스트리밍**: `/api/v1/chat/stream` 토큰 스트리밍 및 `[DONE]` 완료 이벤트 무결성 검증.
-* **40대 임상 골든 케이스 자동 채점기 (`tests/evals/run_evals.py`)**:
-  - 5대 임상 평가 지표(DIM-1~DIM-5) 전산 채점 및 종합 리포트(`tests/evals/eval_report.md`) 자동 생성.
-  - **평가 결과**: **40 / 40 케이스 100% 전수 통과 (평균 99.5점)**.
-* **인터랙티브 CLI 시연 데모 (`demo_step6.py`)**:
-  - 초응급, 야간 발열, 의료법 방어, 적대적 공격 차단, 자유 대화, Evals 성적표 조회를 지원하는 종합 터미널 인터페이스 제공.
+| 테스트 스위트 파일 | 검증 영역 및 테스트 케이스 | 테스트 수 | 결과 |
+| :--- | :--- | :---: | :---: |
+| [**`test_step1_services.py`**](file:///e:/monnlight/tests/test_step1_services.py) | KASI 특일, NMC 병상 파싱, MD5 Hash Diffing, Haversine 정렬 | 7개 | **100% PASS** |
+| [**`test_step2_guardrail.py`**](file:///e:/monnlight/tests/test_step2_guardrail.py) | 0ms 가드레일 7대 룰, 의료법 제27조, 1,000회 벤치마크 (26.4µs) | 12개 | **100% PASS** |
+| [**`test_redflag_v2_upgrade.py`**](file:///e:/monnlight/tests/test_redflag_v2_upgrade.py) | **[V2 신규] 5대 신규룰, 스키마 직렬화, FSM 긴급전이, Thinking 결합** | **8개** | **100% PASS** |
+| [**`test_step3_agents.py`**](file:///e:/monnlight/tests/test_step3_agents.py) | Triage(Gemini 3.8), Matching(2-Track), Logistics(30초 스크립트) | 7개 | **100% PASS** |
+| [**`test_step4_orchestrator.py`**](file:///e:/monnlight/tests/test_step4_orchestrator.py) | 6-State FSM, 3턴 데드락 가드, 중도 급변 감지, 단일 출구 소독 | 7개 | **100% PASS** |
+| [**`test_step5_api.py`**](file:///e:/monnlight/tests/test_step5_api.py) | FastAPI 엔드포인트, SSE 실시간 스트리밍, 3-Track 스케줄러 | 10개 | **100% PASS** |
+| [**`test_step6_e2e.py`**](file:///e:/monnlight/tests/test_step6_e2e.py) | E2E 사용자 여정, 복합 적대적 공격 방어, 다중턴 세션 연속성 | 8개 | **100% PASS** |
+| [**`test_audit_fixes.py`**](file:///e:/monnlight/tests/test_audit_fixes.py) | 최신 모델 바인딩, 병상 TTL 캐시, 전국 17개 시도 동적 매칭 | 7개 | **100% PASS** |
+| **단위/통합 테스트 소계** | **전체 프로덕션 백엔드 핵심 파이프라인 전수 검증** | **66개** | **100% OK** |
+| [**`tests/evals/run_evals.py`**](file:///e:/monnlight/tests/evals/run_evals.py) | **40대 소아 임상 골든 케이스 전수 평가 (5대 임상 평가 지표)** | **40개** | **100.0% 합격 (평균 99.5점)** |
 
 ---
 
-## 5. 시스템 아키텍처 & 데이터 흐름도
+## 6. 시스템 아키텍처 & 2계층 데이터 흐름도
 
 ```mermaid
 flowchart TD
-    User([보호자 사용자]) -->|자연어 증상 입력| Guardrail{0ms Red Flag 선제 인터셉터}
+    User([보호자 사용자]) -->|자연어 증상 입력| Tier1{Pass 1: 0ms 정규식 인터셉터<br/>12대 KTAS 위급 패턴 (26µs)}
     
-    %% Track A: 초응급
-    Guardrail -->|Red Flag 감지| TrackA[Track A: 119 비상 에스컬레이션]
-    TrackA --> EmergencyModal[🚨 119 원클릭 호출 & 기도확보 응급처치 가이드]
-    TrackA --> NearestER[🏥 10km 이내 최단거리 소아 가용 응급실 안내]
+    %% Tier 1 긴급 격상
+    Tier1 -->|Red Flag 즉시 감지| Escalation[🚨 EMERGENCY_ESCALATION<br/>119 즉시 출동 모달 & 기도확보 가이드]
+    Escalation --> EmergencyER[🏥 10km 최단거리 소아전문응급의료센터 안내]
     
-    %% Track B: 일반 Triage
-    Guardrail -->|정상 통과| Supervisor[⚙️ Supervisor FSM 라우터]
-    Supervisor --> TriageAgent[🤖 Triage Agent<br/>Gemini 3.8 Flash]
-    TriageAgent -->|부모 공감 & 4대 임상 변수 정형화| StateDTO[(PatientSessionState<br/>공유 메모리)]
+    %% Tier 2 일반 및 문맥 완독
+    Tier1 -->|정상 통과| Supervisor[⚙️ Supervisor FSM 라우터]
+    Supervisor --> TriageAgent[🤖 Triage Agent<br/>Gemini 3.8 Flash Thinking High]
     
-    StateDTO --> MatchingAgent[🤖 Matching Agent<br/>Zero-LLM Clinical Router]
+    %% KTAS 지식 베이스 주입
+    KTAS_DB[(2021 공식 소아 KTAS<br/>168개 주증상/841개 세부기준)] -.->|Direct Grounding ~8,500 토큰| TriageAgent
+    
+    TriageAgent --> Tier2Check{Tier 2 판정<br/>KTAS 1~2단계?}
+    Tier2Check -->|비정형 Red Flag 감지| Escalation
+    Tier2Check -->|KTAS 3~5단계 / 일반| StateDTO[(PatientSessionState<br/>공유 메모리 DTO)]
+    
+    StateDTO --> MatchingAgent[🤖 Matching Agent<br/>Zero-LLM 2-Track Router]
     
     %% Tools
     subgraph Zero_LLM_Tools [결정론적 백엔드 도구 Layer]
@@ -305,42 +275,45 @@ flowchart TD
     end
     
     MatchingAgent --> Zero_LLM_Tools
-    Zero_LLM_Tools --> Firestore[(Cloud Firestore / Local Cache<br/>emergency_beds / pairings)]
+    Zero_LLM_Tools --> Firestore[(Cloud Firestore / In-Memory Cache<br/>emergency_beds / pairings)]
     
     MatchingAgent --> LogisticsAgent[🤖 Logistics Agent<br/>Gemini 3.5 Lite]
-    LogisticsAgent --> ResultCard[📋 종합 결과 카드<br/>• TOP 3 추천 병원 & 30분 마진 약국<br/>• 30초 통화 확인 스크립트<br/>• 본인확인 의무화 지참 서류]
+    LogisticsAgent --> ResultCard[📋 종합 결과 카드<br/>• 추천 달빛병원 & 30분 마진 약국 세트<br/>• 30초 통화 확인 스크립트<br/>• 2024년 5월 본인확인 의무화 지참 서류]
     
-    ResultCard --> Sanitizer{의료법 제27조 사후 필터}
+    ResultCard --> Sanitizer{의료법 제27조 단일 소독 관문}
     Sanitizer --> User
 ```
 
 ---
 
-## 6. 데이터 갱신 및 캐싱 전략 (하이브리드 아키텍처)
+## 7. 데이터 갱신 및 캐싱 전략 (하이브리드 아키텍처)
 
-안정적인 0ms 레이턴시와 공공 API 쿼터 고갈 방지, 비용 최적화를 위해 데이터 성격에 따라 2계층 하이브리드 캐싱을 적용합니다:
+안정적인 0ms 레이턴시와 공공 API 쿼터 고갈 방지, 비용 최적화를 위해 데이터 성격에 따라 3계층 하이브리드 캐싱을 적용합니다:
 
-| 데이터 분류           | 데이터 항목                                                                                         | 보관 위치                                 | 갱신 주기 & 트리거                            | 캐싱 & 최적화 목적                                                                                        |
-| :--------------- | :--------------------------------------------------------------------------------------------- | :------------------------------------ | :------------------------------------- | :------------------------------------------------------------------------------------------------- |
-| **정적 / 준정적 데이터** | 서울 530개 응급실 위경도 (`seoul_emergency_coords.json`), 전국 달빛병원-심야약국 페어링 (`nationwide_pairings.json`) | 로컬 파일시스템 (`data/`) + Firestore 정적 컬렉션 | **24시간 주기 (매일 04:00 AM)** 공공 API 호출 갱신 | 병상 조회 시 반복되는 지오코딩 API 호출을 0회로 차단 (응답 속도 30배 향상: 7,988ms ➔ 261ms)                                   |
-| **동적 실시간 데이터**   | 실시간 소아 응급실 병상수(`hv28`), 응급실 실시간 공지(`hpmg`)                                                     | 인메모리 캐시 + Firestore `emergency_beds`  | **5분 주기 폴링 (E-Gen API)**               | **In-Memory Hash Diffing (MD5)**: 상태가 변경된 병상만 Firestore Write를 수행하여 일일 무료 쿼터 초과 방지 (비용 90~100% 절감) |
+| 데이터 분류 | 데이터 항목 | 보관 위치 | 갱신 주기 & 트리거 | 캐싱 & 최적화 목적 |
+| :--- | :--- | :--- | :--- | :--- |
+| **정적 마스터** | 서울 530개 응급실 위경도 (`seoul_emergency_coords.json`), 전국 달빛병원-심야약국 페어링 (`nationwide_pairings.json`) | 로컬 파일시스템 (`data/`) + Firestore 정적 컬렉션 | **24시간 주기 (매일 04:00 AM)** 공공 API 호출 갱신 | 병상 조회 시 지오코딩 API 중복 호출 0회 차단 (속도 30배 가속: 7,988ms ➔ 261ms) |
+| **KTAS 지식 베이스** | 2021 공식 소아 KTAS 168개 주증상 및 세부 고려사항 (`ktas_pediatric_dataset.json`) | 인메모리 싱글톤 캐시 (`_ktas_grounding_cache`) | 앱 기동 시 1회 메모리 로드 | Triage Agent 호출마다 발생하는 파일 I/O를 0회로 차단하고 프롬프트에 즉시 주입 |
+| **동적 실시간 데이터** | 실시간 소아 응급실 병상수(`hv28`), 실시간 공지사항(`hpmg`) | 5분 TTL 인메모리 캐시 + Firestore `emergency_beds` | **5분 주기 폴링 (E-Gen API)** | **In-Memory Hash Diffing (MD5)**: 변동된 병상만 Firestore Write를 수행하여 일일 무료 쿼터 초과 방지 (비용 90~100% 절감) |
+| **세션 세션 데이터** | 멀티턴 대화 세션 및 환아 임상 상태 (`PatientSessionState`) | Thread-Safe 세션 인메모리 딕셔너리 (`SessionManager`) | 사용자 대화 턴마다 갱신 (30분 비활성 시 자동 Eviction) | 세션 무결성 유지 및 메모리 누수 0% 달성 |
 
 ---
 
-## 7. 추가 심화 고도화 백로그 (Advanced Backlog)
+## 8. 추가 심화 고도화 백로그 (Advanced Backlog)
 
-프로덕션 배포 및 대외 포트폴리오 경쟁력 극대화를 위한 심화 엔지니어링 과제 목록입니다:
-
-| 영역           | 고도화 과제명                                     | 핵심 구현 내용                                                      | 현재 상태                   | 기대 효과                                 |
-| :----------- | :------------------------------------------ | :------------------------------------------------------------ | :---------------------- | :------------------------------------ |
-| **도메인 킬러**   | **달빛병원-약국 30분 마진 서비스 모듈화**                  | `app/services/pairing_service.py` 신설, 전국 17개 시·도 1:1 자동 매칭    | **[완료 (Step 3)]**       | 야간 74% 경증 환아 처방전 조제 실패 사고 0% 방어       |
-| **의료 브리핑**   | **119 구급대원용 30초 SBAR 카드**                   | Red Flag 감지 시 구급대원 인계용 SBAR(상황/배경/평가/권고) 4줄 요약 출력             | [대기]                    | 패닉 부모 대신 119 구급대원/의료진에 정확한 정보 전달      |
-| **안정성 (HA)** | **공공 API 서킷 브레이커 & Fallback**               | 공공데이터포털 503 에러 시 직전 Firestore/로컬 캐시 즉시 서빙                     | [대기]                    | 외부 API 장애 시에도 서비스 무중단 가동              |
-| **실시간 스트림**  | **Firestore ➔ SSE(Server-Sent Events) 브릿지** | `on_snapshot` 리스너를 SSE 엔드포인트로 연계하여 병상 변동 실시간 푸시               | [대기]                    | 클라이언트 폴링 없이 0.1초 만에 병상 변동 실시간 반영      |
-| **품질 평가**    | **40대 골든 케이스 자동 Evals 채점기**                 | `tests/evals/run_evals.py` 작성, 5대 평가 지표(의료법, RedFlag 등) 자동 채점 | **[완료 (Step 6, 100%)]** | 객관적 Evals 합격 성적표(100.0%, 평균 99.5점) 확보 |
+| 영역 | 고도화 과제명 | 핵심 구현 내용 | 현재 상태 | 기대 효과 |
+| :--- | :--- | :--- | :---: | :--- |
+| **안전 감시** | **Red Flag V2 2계층 심층 감시망** | 0ms 정규식(12대 룰) + 168개 KTAS 주증상 Direct Grounding Gemini Thinking | **[완료 (V2 Upgrade)]** | 비정형 문맥 완독, 언더트리아제 0% 수호 |
+| **도메인 킬러** | **달빛병원-약국 30분 마진 서비스** | 전국 17개 시·도 달빛어린이병원-심야약국 +30분 조제 안전 마진 1:1 페어링 | **[완료 (Step 3)]** | 야간 74% 경증 환아 처방전 조제 실패 사고 원천 방지 |
+| **의료 브리핑** | **119 구급대원용 30초 SBAR 카드** | Red Flag 감지 시 구급대원 인계용 SBAR(상황/배경/평가/권고) 4줄 요약 출력 | [대기] | 패닉 부모 대신 119 구급대원/의료진에 정확한 정보 전달 |
+| **안정성 (HA)** | **공공 API 서킷 브레이커 & Fallback** | 공공데이터포털 503 에러 시 직전 Firestore/로컬 캐시 즉시 서빙 | [대기] | 외부 공공 API 장애 시에도 서비스 무중단 가동 |
+| **실시간 스트림** | **Firestore ➔ SSE 브릿지 실시간 알림** | 병상 만실/해제 시 클라이언트 폴링 없이 0.1초 만에 알림 푸시 | [대기] | 부모가 대기 중 병상 변동을 실시간으로 감지 |
+| **품질 평가** | **40대 임상 골든 케이스 Evals 하네스** | 5대 임상 평가지표 자동 채점 및 성적표 생성 (`tests/evals/run_evals.py`) | **[완료 (Step 6, 100%)]** | 객관적 Evals 합격 성적표(100.0%, 평균 99.5점) 확보 |
 
 ---
 
 ### 📌 결론 및 종합 성과 (Summary & Milestones)
 
-현재 MoonlightCare 프로젝트는 **"기반 데이터 파이프라인(Step 1)"**, **"0ms 의료 안전 가드레일(Step 2)"**, **"AI 멀티 에이전트 결합(Step 3)"**, **"메인 오케스트레이터 및 세션 매니저(Step 4)"**, **"FastAPI REST API 서빙 & 백그라운드 동기화 데몬(Step 5)"**, 그리고 **"E2E 통합 테스트 & 40대 임상 골든 케이스 평가(Step 6)"**까지 전체 6단계 개발 로드맵이 **총 58개 단위/통합 테스트 100% 전수 통과(`Ran 58 tests, OK`)** 및 **40대 골든 케이스 Evals 100.0% 합격**으로 성공적으로 완수되었습니다.
+현재 MoonlightCare 프로젝트는 **Step 1(기반 파이프라인)**부터 **Step 6(E2E 통합)**에 이르는 전체 6단계 개발 로드맵을 완수한 데 이어, **공식 소아 KTAS 168개 주증상 Direct Grounding과 Gemini 3.8 Flash Thinking High가 결합된 "차세대 2계층 Red Flag V2 모듈"**까지 성공적으로 통합하였습니다.
+
+현재 **총 66개 단위/통합 테스트 전수 무결점 통과(`Ran 66 tests, OK`)** 및 **40대 임상 골든 케이스 Evals 100.0% 합격**을 달성하며, 상용 서비스 출시 및 의료 AI 포트폴리오로서 최고의 기술적 완성도와 임상적 안전성을 확보하였습니다.

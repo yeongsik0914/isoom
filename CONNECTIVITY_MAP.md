@@ -1,7 +1,7 @@
 # 🗺️ MoonlightCare 모듈 & 에이전트 상호 연결도 (CONNECTIVITY_MAP.md)
 
-> **문서 버전**: `v1.2.0` (Step 1 ~ Step 5 개발 완료 기준)  
-> **최종 갱신 일자**: 2026-10-13  
+> **문서 버전**: `v2.0.0` (공식 소아 KTAS Direct Grounding & 2계층 안전 방어망 통합)  
+> **최종 갱신 일자**: 2026-10-14  
 > **문서 목적**: 시스템을 구성하는 모든 백엔드 모듈, 데이터베이스, AI 에이전트들이 **어떤 인터페이스로 데이터를 주고받고, 어떤 흐름으로 연계 동작하는지 표(Table)와 다이어그램으로 한눈에 파악**할 수 있도록 지속 관리하는 공식 연결도 문서입니다. 앞으로 기능이 추가될 때마다 단계별로 이 문서가 갱신됩니다.
 
 ---
@@ -28,16 +28,16 @@ flowchart TD
     end
 
     subgraph Step4_Orchestrator_Layer [메인 오케스트레이션 Layer]
-        Supervisor[⚙️ SupervisorOrchestrator<br/>6-State FSM / 3-Turn Guard]
+        Supervisor[⚙️ SupervisorOrchestrator<br/>6-State FSM / 3-Turn Guard<br/>Tier 1 & Tier 2 긴급 격상]
     end
 
     subgraph Step2_Guardrail_Layer [안전 가드레일 레이어 (0ms In-Memory)]
-        PreGuard{check_red_flag_instant<br/>0.015ms 선제 검사}
+        PreGuard{check_red_flag_instant<br/>Pass 1: 12대 룰 26µs 검사}
         PostSanitizer{sanitize_output<br/>의료법 제27조 사후 필터}
     end
 
     subgraph Step3_AI_Agent_Layer [지능형 멀티 에이전트 레이어]
-        Triage[🤖 Triage Agent<br/>Gemini 3.8 Flash]
+        Triage[🤖 Triage Agent<br/>Gemini 3.8 Flash Thinking High<br/>Pass 2: KTAS Direct Grounding]
         Matching[🤖 Matching Agent<br/>Zero-LLM 도구 결합기]
         Logistics[🤖 Logistics Agent<br/>Gemini 3.5 Flash-Lite]
     end
@@ -49,7 +49,8 @@ flowchart TD
         PairingSvc[pairing_service<br/>전국 17개 시도 달빛병원-약국 30분 마진]
     end
 
-    subgraph Data_Storage [데이터 저장소 및 캐시]
+    subgraph Data_Storage [데이터 저장소 및 지식 베이스]
+        KTAS_DB[(data/ktas_pediatric_dataset.json<br/>168개 주증상/841개 세부기준 지식 베이스)]
         Firestore[(Cloud Firestore<br/>emergency_beds / summary)]
         CoordsCache[(data/seoul_emergency_coords.json &<br/>전국 17개 시·도 권역 위경도망)]
         PairingsData[(data/nationwide_pairings.json<br/>29개소 거점 페어링 마스터)]
@@ -60,11 +61,13 @@ flowchart TD
     Supervisor <-->|세션 획득/저장| SessionMgr
     SessionMgr <--> State
 
-    Supervisor -->|1. 매 턴 선제 검사| PreGuard
-    PreGuard -->|🚨 Red Flag 감지 (0.015ms)| EmergencyEscalation[Track A: 119 원클릭 호출 & 기도확보 가이드]
+    Supervisor -->|1. 매 턴 Pass 1 선제 검사| PreGuard
+    PreGuard -->|🚨 Tier 1 Red Flag 감지 (26µs)| EmergencyEscalation[Track A: 119 원클릭 호출 & 기도확보 가이드]
     PreGuard -->|🟢 정상 통과| Triage
 
-    Triage <-->|임상 변수 4종 읽기/쓰기| State
+    KTAS_DB -.->|Direct Grounding ~8,500 토큰| Triage
+    Triage <-->|임상 변수 4종 및 KTAS 등급 읽기/쓰기| State
+    Triage -->|🚨 Tier 2 비정형 Red Flag 감지 (KTAS 1~2)| EmergencyEscalation
     Triage -->|문진 완료 또는 3턴 도달| Matching
 
     Matching -->|1. 특일 & 과밀화 조회| HolidaySvc
