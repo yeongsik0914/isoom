@@ -208,9 +208,9 @@ PROHIBITED_DIAGNOSIS_PATTERN = re.compile(
     r"([가-힣]{2,10}(염|증|증후군|감기|수족구|돌발진|독감|폐렴|장염|중이염|요로감염|뇌수막염))\s*(입|로\s*진단|으로\s*판단|입니다|으로\s*보입니다|에\s*해당합니다)"
 )
 
-# Prohibited Prescription Dosage Patterns ("10ml를 먹이세요", "500mg을 복용시키세요")
+# Prohibited Prescription Dosage Patterns ("10ml를 먹이세요", "10ml는 과용량", "500mg을 복용시키세요")
 PROHIBITED_DOSAGE_PATTERN = re.compile(
-    r"([0-9]+(\.[0-9]+)?\s*(ml|mL|mg|포|정|알|cc))\s*(을|를)?\s*(먹이|복용|투약|먹이세요|복용시키세요|먹이십시오)"
+    r"([0-9]+(\.[0-9]+)?\s*(ml|mL|mg|포|정|알|cc))(?:\s*(?:을|를|은|는|도|가|이)?\s*(?:먹이|복용|투약|먹이세요|복용시키세요|먹이십시오|과용량|용량|위험|투여))?"
 )
 
 LEGAL_DISCLAIMER_BADGE = (
