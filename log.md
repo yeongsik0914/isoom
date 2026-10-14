@@ -31,6 +31,7 @@
 | **[ISSUE-021]** | 현장 운영시간 정합성 | 방문 시각 기준 진료 마감 시간(HH:MM) 대소 비교 필터링 & 마감 40분 전 조기 접수 마감 주의 태그 연동 | **해결 완료 (Resolved)** | 2026-10-13 |
 | **[ISSUE-022]** | 개발 환경 & 표준 인코딩 | Windows PowerShell 콘솔 CP949 인코딩 글자 깨짐(Mojibake) 방지 및 유니코드 UTF-8 전역 표준화 | **해결 완료 (Resolved)** | 2026-10-13 |
 | **[ISSUE-023]** | 파이썬 가상환경 & 패키지 형상 관리 | Conda DS 가상환경 내 누락 의존성(`apscheduler`, `fastapi`, `uvicorn`) 정합성 동기화 및 모듈 임포트 결함 해소 | **해결 완료 (Resolved)** | 2026-10-13 |
+| **[ISSUE-024]** | 프로젝트 거버넌스 & 협업 | 팀 프로젝트 전환(정영식 팀장, 김동준 팀원)에 따른 4대 문서(Answer, Log, README, PLAN) 누적 관리 및 에이전트 불변 규율 자동화 | **해결 완료 (Resolved)** | 2026-10-14 |
 
 ---
 
@@ -670,6 +671,36 @@
   * [app/agents/logistics_agent.py](file:///e:/monnlight/app/agents/logistics_agent.py)
   * [app/api/v1/chat.py](file:///e:/monnlight/app/api/v1/chat.py)
   * [app/config.py](file:///e:/monnlight/app/config.py)
+
+---
+
+### [ISSUE-024] 팀 프로젝트 전환(정영식 팀장, 김동준 팀원)에 따른 4대 문서 누적 관리 및 에이전트 불변 규율 자동화
+
+* **발생 일자**: 2026-10-14
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **분류**: 프로젝트 거버넌스 & 협업 / 에이전트 룰
+* **문제 상황**:
+  * MoonlightCare 프로젝트가 단일 개발자 체제에서 정영식 팀장과 김동준 팀원의 공동 팀 프로젝트로 공식 전환됨.
+  * 복수의 작업자 및 다양한 세션에서 개발이 병행될 경우, 질의응답 이력 누락, 트러블슈팅 미기록, README 체인지로그 미갱신, 기획안(PLAN.md)과 코드 간 불일치(Drift) 위험이 발생할 수 있음.
+* **원인 분석**:
+  * 팀 단위 협업 시 명문화된 기록 거버넌스와 AI 에이전트가 강제적으로 따라야 하는 시스템 수준의 규율이 없으면, 작업 완료 후 문서 동기화가 누락되기 쉬움.
+* **구체적 해결 방안**:
+  1. **4대 문서 지속 누적 관리 철칙 확립**:
+     - `Answer-{사용자}.md` (특히 `Answer-영식.md`): 정영식 팀장의 모든 질문과 AI 답변을 Q 번호별로 영구 누적 아카이빙.
+     - `log.md`: 각 사용자가 겪은 오류/이슈 및 해결 방안을 [ISSUE-XXX] 포맷으로 지속 기록.
+     - `README.md`: 신규 개발 및 업데이트 내역을 릴리스 체인지로그에 지속 반영.
+     - `PLAN.md`: 개발 중 아키텍처나 기능 변경 시 기획안 동기화 및 향후 개선책(Advanced Backlog) 보강.
+  2. **에이전트 시스템 레벨 규칙 파일 3종 구축**:
+     - [.agents/rules/team_collaboration_rules.md](file:///e:/monnlight/.agents/rules/team_collaboration_rules.md): Antigravity 워크스페이스 전역 규칙.
+     - [GEMINI.md](file:///e:/monnlight/GEMINI.md) & [AGENTS.md](file:///e:/monnlight/AGENTS.md): 루트 레벨 최상위 지침 파일로 대화 시작 시 자동 로드.
+* **적용 파일**:
+  * [.agents/rules/team_collaboration_rules.md](file:///e:/monnlight/.agents/rules/team_collaboration_rules.md)
+  * [GEMINI.md](file:///e:/monnlight/GEMINI.md)
+  * [AGENTS.md](file:///e:/monnlight/AGENTS.md)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
 
 ---
 
