@@ -18,8 +18,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 
-  <!-- Pure Vanilla CSS Stylesheet -->
-  <link rel="stylesheet" href="../css/style.css" />
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
+  <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
+  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
+  <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
 </head>
 
 <body>
@@ -80,28 +83,6 @@
       <!-- TAB PANEL 1: [사진 가이드] (Horizontal Swipe Photo Carousel)       -->
       <!-- ================================================================= -->
       <section class="guide-tab-panel active" id="panel-photo-guide" role="tabpanel" aria-labelledby="btn-tab-photo">
-
-        <!-- Section Intro & Swipe Hint -->
-        <div class="carousel-header-bar">
-          <div class="carousel-title-wrap">
-            <h2 class="carousel-heading">시각 포토 가이드</h2>
-            <span class="carousel-count-pill" id="slide-counter-badge">1 / 6</span>
-          </div>
-          <div class="swipe-hint" aria-hidden="true">
-            <span class="material-symbols-outlined">swipe</span>
-            <span>옆으로 넘겨서 확인</span>
-          </div>
-        </div>
-
-        <!-- Quick Jump Category Chips (Click to scroll carousel) -->
-        <div class="guide-chips-scroll" role="tablist" aria-label="가이드 바로가기">
-          <button type="button" class="guide-chip active" onclick="scrollToSlide(0)">🔥 열성경련</button>
-          <button type="button" class="guide-chip" onclick="scrollToSlide(1)">💧 미온수 마사지</button>
-          <button type="button" class="guide-chip" onclick="scrollToSlide(2)">⚠️ 영아 하임리히</button>
-          <button type="button" class="guide-chip" onclick="scrollToSlide(3)">📄 등본·신분증</button>
-          <button type="button" class="guide-chip" onclick="scrollToSlide(4)">💊 복용 약병 지참</button>
-          <button type="button" class="guide-chip" onclick="scrollToSlide(5)">📸 환부 촬영 팁</button>
-        </div>
 
         <!-- Horizontal Swipe Photo Carousel -->
         <div class="photo-carousel-wrapper">
@@ -438,14 +419,6 @@
 
     </main>
 
-    <!-- 5. Floating Action Button (Sticky above Bottom Nav) -->
-    <div class="guide-sticky-cta">
-      <a href="tel:02-3010-3114" class="guide-cta-btn" id="guideStickyCta">
-        <span class="material-symbols-outlined" id="stickyCtaIcon">phone_in_talk</span>
-        <span id="stickyCtaLabel">응급실 출발 전 30초 통화 스크립트 확인</span>
-      </a>
-    </div>
-
     <!-- 6. Fixed Bottom Navigation Bar (GNB) -->
     <nav class="bottom-nav" aria-label="주요 메뉴">
       <!-- Tab 1: 홈 -->
@@ -461,7 +434,7 @@
       </a>
 
       <!-- Tab 3: 설정 -->
-      <a href="#" class="nav-item">
+      <a href="settings.html" class="nav-item">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>
       </a>
@@ -477,9 +450,6 @@
       const btnScript = document.getElementById('btn-tab-script');
       const panelPhoto = document.getElementById('panel-photo-guide');
       const panelScript = document.getElementById('panel-script-guide');
-      const ctaLabel = document.getElementById('stickyCtaLabel');
-      const ctaIcon = document.getElementById('stickyCtaIcon');
-      const ctaBtn = document.getElementById('guideStickyCta');
 
       if (category === 'photo') {
         btnPhoto.classList.add('active');
@@ -489,16 +459,6 @@
 
         panelPhoto.classList.add('active');
         panelScript.classList.remove('active');
-
-        if (ctaLabel && ctaIcon && ctaBtn) {
-          ctaIcon.textContent = 'phone_in_talk';
-          ctaLabel.textContent = '응급실 출발 전 30초 통화 스크립트 확인';
-          ctaBtn.onclick = (e) => {
-            e.preventDefault();
-            switchGuideCategory('script');
-            window.scrollTo({ top: 120, behavior: 'smooth' });
-          };
-        }
       } else {
         btnScript.classList.add('active');
         btnScript.setAttribute('aria-selected', 'true');
@@ -507,13 +467,6 @@
 
         panelScript.classList.add('active');
         panelPhoto.classList.remove('active');
-
-        if (ctaLabel && ctaIcon && ctaBtn) {
-          ctaIcon.textContent = 'directions_car';
-          ctaLabel.textContent = '서울아산병원 소아응급실 통화 후 길안내';
-          ctaBtn.onclick = null;
-          ctaBtn.href = 'tel:02-3010-3114';
-        }
       }
     }
 
@@ -572,18 +525,6 @@
         alert("스크립트: " + text);
       });
     }
-
-    // Initialize photo CTA trigger
-    document.addEventListener('DOMContentLoaded', () => {
-      const ctaBtn = document.getElementById('guideStickyCta');
-      if (ctaBtn) {
-        ctaBtn.onclick = (e) => {
-          e.preventDefault();
-          switchGuideCategory('script');
-          window.scrollTo({ top: 120, behavior: 'smooth' });
-        };
-      }
-    });
   </script>
 </body>
 

@@ -132,6 +132,7 @@ async def root():
             "emergency_sync": "/api/v1/emergency/sync",
             "scheduler_status": "/api/v1/emergency/status",
             "aisum_home": "/home",
+            "aisum_settings": "/settings",
         },
     }
 
@@ -177,6 +178,16 @@ async def get_guide_checklist():
     if os.path.exists("frontend/templates/emergency_guide_checklist.html"):
         return FileResponse("frontend/templates/emergency_guide_checklist.html", media_type="text/html")
     return FileResponse("app/templates/emergency_guide_checklist.html", media_type="text/html")
+
+
+@app.get("/settings", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_settings():
+    """Serves the Aisum Settings page."""
+    if os.path.exists("frontend/templates/settings.html"):
+        return FileResponse("frontend/templates/settings.html", media_type="text/html")
+    if os.path.exists("frontend/settings.html"):
+        return FileResponse("frontend/settings.html", media_type="text/html")
+    return FileResponse("app/templates/settings.html", media_type="text/html")
 
 
 @app.get("/css/style.css", include_in_schema=False)

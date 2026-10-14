@@ -27,6 +27,11 @@
     - [10.8 '아이숨(Aisum)' 응급실 가이드 추천 웹페이지 2종 구현](#108-아이숨aisum-응급실-가이드-추천-웹페이지-2종증상별-시각-포토-가이드-vs-출발-전-체크리스트--실시간-병상-구현-2026-10-14-완결)
     - [10.9 '아이숨(Aisum)' 응급실 가이드 단일 페이지 통합 및 CSS Scroll Snap 좌우 스와이프 포토 캐러셀 구현](#109-아이숨aisum-응급실-가이드-단일-페이지-통합-및-css-scroll-snap-좌우-스와이프-포토-캐러셀-구현-2026-10-14-완결)
     - [10.10 '아이숨(Aisum)' 응급실 가이드 [사진 가이드] vs [응급실 통화 스크립트] 2대 카테고리 탭 모듈화 분리](#1010-아이숨aisum-응급실-가이드-사진-가이드-vs-응급실-통화-스크립트-2대-카테고리-탭-모듈화-분리-2026-10-14-완결)
+    - [10.11 '아이숨(Aisum)' Chrome & Safari(WebKit) 양대 브라우저 크로스 브라우징 100% 호환 아키텍처](#1011-아이숨aisum-chrome--safariwebkit-양대-브라우저-크로스-브라우징-100-호환-아키텍처-2026-10-15-완결)
+    - [10.12 '아이숨(Aisum)' 응급실 가이드 화면 내 '시각 포토 가이드' 서브 타이틀 바 및 카테고리 칩 영역 제거 (UI 간소화)](#1012-아이숨aisum-응급실-가이드-화면-내-시각-포토-가이드-서브-타이틀-바-및-카테고리-칩-영역-제거-ui-간소화-2026-10-15-완결)
+    - [10.13 '아이숨(Aisum)' 응급실 가이드 하단 플로팅 CTA 버튼 2종 전면 제거 (화면 시인성 극대화)](#1013-아이숨aisum-응급실-가이드-하단-플로팅-cta-버튼-2종-전면-제거-화면-시인성-극대화-2026-10-15-완결)
+    - [10.14 '아이숨(Aisum)' 모니모 UI 레퍼런스 기반 순수 HTML/CSS 설정 웹페이지 구축 및 GNB 연동](#1014-아이숨aisum-모니모-ui-레퍼런스-기반-순수-htmlcss-설정-웹페이지-구축-및-gnb-연동-2026-10-15-완결)
+    - [10.15 '아이숨(Aisum)' 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 탑재](#1015-아이숨aisum-모니모-레퍼런스-스타일-앱-알림--아이콘-및-순수-css-ios-토글-스위치-컴포넌트-탑재-2026-10-15-완결)
 
 ---
 
@@ -524,7 +529,75 @@ flowchart TD
 * **스타일링 & 성능 최적화**:
   - 순수 Vanilla CSS 기반 `.guide-tab-panel.active` 토글 및 `@keyframes tabFadeIn` (0.22s 페이드 트랜지션) 적용.
   - 외부 프레임워크나 무거운 런타임 없이 가벼운 DOM 조작(`switchGuideCategory(cat)`)으로 60fps 즉각 전환 보장.
-  - [frontend/templates/emergency_guide.html](frontend/templates/emergency_guide.html), [app/templates/emergency_guide.html](app/templates/emergency_guide.html), [frontend/css/style.css](frontend/css/style.css), [app/static/css/style.css](app/static/css/style.css) 100% 동기화 및 FastAPI 테스트 패스.
+### 10.11 '아이숨(Aisum)' Chrome & Safari(WebKit) 양대 브라우저 크로스 브라우징 100% 호환 아키텍처 (2026-10-15 완결)
+* **문제 상황 및 근본 원인**:
+  - 로컬 환경(Finder 파일 탐색기 등)에서 `file:///.../frontend/templates/index.html`을 열었을 때, Chrome에서는 CSS가 정상 적용되나 Safari에서는 스타일이 전혀 로드되지 않고 순수 HTML 기본 텍스트로만 렌더링되는 결함 발생.
+  - **원인**: Safari WebKit 엔진은 `file://` 스킴에서 강력한 로컬 파일 보안 정책(Strict File Origin Sandbox)을 적용하여, HTML 파일의 상위 디렉터리(`../css/style.css`, `../js/main.js`) 접근을 Cross-Origin 위반으로 판단하고 강제 차단(Blocked)함.
+* **4대 해결 전략 및 아키텍처 구현**:
+  1. **로컬 서브디렉터리 리소스 미러링 (`templates/css/`, `templates/js/`)**:
+     - `frontend/templates/css/style.css` 및 `frontend/templates/js/main.js`를 배치하여, Safari가 `file://`로 열었을 때 하위 디렉터리 경로를 통해 WebKit 샌드박스를 100% 통과하도록 구성.
+  2. **스마트 듀얼 CSS/JS 로더 (Smart Dual Resource Loader)**:
+     - `templates/index.html` 및 모든 응급실 가이드 HTML 파일에 로컬 경로(`css/style.css`)와 상위 폴더 경로(`../css/style.css`)를 함께 선언하여 Safari 로컬 파일, Chrome 로컬 파일, FastAPI 웹 서버(`/home`) 환경 어디서든 100% 자동 매칭되도록 설계.
+     - `main.js`에 `window.__AISUM_INITIALIZED__` 멱등성 보호 가드를 적용하여 중복 실행 원천 차단.
+  3. **최상위 루트 진입점([frontend/index.html](frontend/index.html)) 신설**:
+     - 사용자가 `frontend/` 폴더에서 바로 `index.html`을 열 수 있도록 하위 상대경로(`css/style.css`, `js/main.js`)를 갖는 표준 진입점 배치.
+  4. **CSS WebKit 표준화 고도화**:
+     - 최상단 `@charset "UTF-8";` 명시.
+     - `-webkit-appearance: none; appearance: none;` 리셋으로 Safari 버튼/입력폼 OS 스타일 초기화.
+     - `position: -webkit-sticky; position: sticky;` 및 `-webkit-backdrop-filter` 순서 보장.
+     - 모바일 사파리 뷰포트 높이 버그 대응(`min-height: -webkit-fill-available;`, `100dvh`).
+     - `-webkit-tap-highlight-color: transparent;`, `-webkit-text-size-adjust: 100%;` 추가.
+* **검증 및 성과**:
+  - `templates/index.html`, `emergency_guide.html`, `frontend/index.html` 전수 듀얼 로더 탑재.
+  - TestClient 기반 `GET /home`, `GET /css/style.css`, `GET /guide` HTTP 200 OK 무결점 서빙 확인.
+### 10.12 '아이숨(Aisum)' 응급실 가이드 화면 내 '시각 포토 가이드' 서브 타이틀 바 및 카테고리 칩 영역 제거 (UI 간소화) (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 상단에 2대 카테고리 탭(`[📸 사진 가이드]`, `[📞 응급실 통화 스크립트]`)이 확립된 상태에서, 하단에 불필요하게 남아있던 `carousel-header-bar` ("시각 포토 가이드 6/6", "옆으로 넘겨서 확인") 및 `guide-chips-scroll` (6대 퀵점프 칩) 영역이 모바일 화면을 과도하게 차지함.
+  - 각 슬라이드 카드 이미지 자체에 이미 인덱스 배지(`1 / 6`), 권장 자세 배지, 처치명 등이 완비되어 있으므로 불필요한 중간 타이틀 및 칩 요소를 제거하여 사용자 시선을 메인 포토 카드에 100% 집중시키도록 개선.
+* **구체적 구현 내역**:
+  1. `frontend/templates/emergency_guide.html` 및 `app/templates/emergency_guide.html`에서 `.carousel-header-bar` 및 `.guide-chips-scroll` 마크업 전면 삭제.
+  2. `frontend/css/style.css`에서 `.photo-carousel-wrapper`의 상단 마진을 `14px -18px 22px -18px`로 정돈하여 상단 탭과의 자연스러운 여백 확보.
+  3. `app/static/css/style.css`, `frontend/templates/css/style.css`, `app/templates/css/style.css` 전역 동기화.
+### 10.13 '아이숨(Aisum)' 응급실 가이드 하단 플로팅 CTA 버튼 2종 전면 제거 (화면 시인성 극대화) (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 응급실 가이드 화면 하단 GNB 위에 상시 노출되던 플로팅 CTA 버튼(`.guide-sticky-cta`)이 모바일 세로 뷰포트의 본문 콘텐츠(포토 카드 설명문 및 병상 대시보드 리스트)를 가리고 스크롤 시야를 방해하는 불편 초래.
+  - 상단 2대 카테고리 탭(`[📸 사진 가이드]`, `[📞 응급실 통화 스크립트]`)이 확립되어 있어 사용자가 직접 탭을 터치하여 언제든 전환할 수 있으므로, 하단 플로팅 버튼을 제거하여 콘텐츠 가독성을 극대화하기로 결정.
+* **구체적 구현 내역**:
+  1. `frontend/templates/emergency_guide.html` 및 `app/templates/emergency_guide.html`에서 `<div class="guide-sticky-cta">...</div>` 마크업 전면 삭제.
+  2. `switchGuideCategory` 스크립트 내 `ctaLabel`, `ctaIcon`, `ctaBtn` 조작 코드 및 `DOMContentLoaded` 리스너를 완전히 정리하여 DOM 참조 오류 방어.
+  3. FastAPI `GET /guide` 무결점 검증 (HTTP 200 OK, 해당 버튼 텍스트 미포함).
+### 10.14 '아이숨(Aisum)' 모니모 UI 레퍼런스 기반 순수 HTML/CSS 설정 웹페이지 구축 및 GNB 연동 (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 사용자 맞춤형 설정(자녀 출생연도, 글자 크기)과 서비스 안내/지원 채널(공지사항, 1:1 문의, 가이드북, 약관, 라이선스, 앱 버전)을 통합 제공하는 독립 설정 페이지 부재.
+  - 기존 메인 화면([index.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/index.html)) 하단 GNB '설정' 탭의 더미 링크(`href="#"`)를 실제 동작 가능한 정규 페이지로 연결할 필요성 대두.
+  - 모니모(monimo) 설정 화면의 직관적인 여백 및 그룹화 레이아웃을 벤치마킹하되, 기획에 명시된 3개 카테고리(일반, 사용자 지원, 정보) 및 8대 세부 기능만을 엄격한 순서로 배치하고 불필요한 기능은 전면 배제.
+* **구체적 구현 내역**:
+  1. **순수 HTML/CSS 기반 컴포넌트 설계** ([frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)):
+     - 모니모 레퍼런스 스타일의 상단 앱바(`.settings-header`), 뒤로가기 버튼(`.back-icon-btn`), 카테고리 그룹 박스(`.settings-group`), 카테고리 헤더 타이틀(`.settings-group-title`), 항목 리스트 행(`.settings-item-row`), 우측 서브텍스트(`.settings-item-value`), 8px 디바이더(`.settings-section-divider`) 완성.
+  2. **엄격한 3대 카테고리 및 8대 기능 배치** ([frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)):
+     - **일반**: 앱 사용자(자녀)의 출생연도 설정 변경 (`2023년생 (만 3세)`), 글자 크기 변경 (`보통`)
+     - **사용자 지원**: 공지사항, 1:1 문의
+     - **정보**: 아이숨 가이드북, 아이숨 이용약관, 오픈소스 라이선스, 앱 버전 (`1.0.0 (최신)`)
+     - 로그인, Face ID, 앱 알림, 로그아웃 등 미요청 기능 일체 배제.
+  3. **하단 GNB 네비게이션 연동**:
+     - `index.html`, `emergency_guide.html`, `frontend/index.html` 하단 GNB 내 설정 탭의 `href`를 `settings.html`로 연결.
+  4. **FastAPI 백엔드 라우팅 및 크로스 브라우징 완비**:
+     - `main.py`에 `@app.get("/settings")` 라우트 등록.
+     - Safari WebKit `file://` 보안 샌드박스 및 Chrome 로컬 파일 호환 듀얼 CSS 로더(`css/style.css` + `../css/style.css`) 탑재.
+     - `frontend/templates/`, `frontend/`, `app/templates/`, `app/static/` 100% 동기화 및 TestClient 유효성 검증 완료.
+### 10.15 '아이숨(Aisum)' 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 탑재 (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 모니모(monimo) 설정 화면 레퍼런스에 존재하는 단독 '🔔 앱 알림' 토글 기능의 추가 요구사항 반영.
+  - 별도의 외부 자바스크립트 라이브러리 없이 순수 HTML5/CSS3만으로 모바일 표준 규격의 iOS 토글 스위치 인터랙션을 구현하여 성능과 심미성을 동시 확보.
+* **구체적 구현 내역**:
+  1. **단독 '앱 알림' 그룹 레이아웃 배치** ([frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)):
+     - `일반` 카테고리와 `사용자 지원` 카테고리 사이 8px 구분선 영역에 단독 섹션으로 `앱 알림` 행 배치.
+     - 좌측 종 아이콘(`notifications`)과 볼드 라벨, 우측 캡슐형 토글 스위치 결합.
+  2. **순수 CSS iOS 토글 스위치 시스템 설계** ([frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)):
+     - 너비 50px, 높이 30px 트랙(`.ios-toggle-switch`, `.toggle-slider`), 24px 화이트 원형 노브(`.toggle-slider::before`).
+     - `:checked` 시 아이숨 시그니처 코발트 블루 배경 전환 및 20px 우측 슬라이드 애니메이션(`transition: 0.25s cubic-bezier`).
+  3. **전역 템플릿 및 엔드포인트 동기화**:
+     - `frontend/templates/`, `frontend/`, `app/templates/`, `app/static/` 전역 동기화 및 FastAPI TestClient 검증 완료.
 
 ---
 

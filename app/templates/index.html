@@ -18,8 +18,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 
-  <!-- Pure Vanilla CSS Stylesheet (Relative path from templates/ to css/) -->
-  <link rel="stylesheet" href="../css/style.css" />
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
+  <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
+  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
+  <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
 </head>
 
 <body>
@@ -223,7 +226,7 @@
       </a>
 
       <!-- Tab 3: 설정 (Inactive) -->
-      <a href="#" class="nav-item">
+      <a href="settings.html" class="nav-item">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>
       </a>
@@ -231,7 +234,8 @@
 
   </div>
 
-  <!-- Optional Client Interaction Script -->
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
+  <script src="js/main.js"></script>
   <script src="../js/main.js"></script>
 </body>
 

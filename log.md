@@ -44,6 +44,11 @@
 | **[ISSUE-034]** | 프론트엔드 UI/UX 확장 | 응급실 가이드 페이지 부재 및 시각 포토 기반 응급처치 vs 출발 전 체크리스트 추천 웹페이지 2종 순수 HTML/CSS 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-035]** | 프론트엔드 모바일 UX | 응급실 가이드 페이지 분리에 따른 인지 피로 해소 및 CSS Scroll Snap 기반 좌우 스와이프 포토 캐러셀 단일 통합 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-036]** | 프론트엔드 컴포넌트 모듈화 | 응급실 가이드 페이지 내 포토 캐러셀과 통화 스크립트·병상의 시각적 혼재 해소 (2대 카테고리 세그먼트 탭 분리) | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-037]** | 프론트엔드 & 크로스 브라우징 | Safari WebKit `file://` 로컬 보안 샌드박스의 상위 경로 차단으로 인한 CSS 미적용 결함 해소 (스마트 듀얼 로더 & WebKit 정규화) | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-038]** | 프론트엔드 UI 간소화 | 응급실 가이드 화면 내 '시각 포토 가이드' 중복 타이틀 바 및 카테고리 칩 영역 제거 (포토 캐러셀 직관성 극대화) | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-039]** | 프론트엔드 UI 시인성 개선 | 응급실 가이드 화면 하단 플로팅 CTA 버튼 2종(스크립트 확인/길안내) 전면 제거 및 화면 가독성 극대화 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-040]** | 프론트엔드 UI/UX 신규 개발 | 모니모 레퍼런스 기반 3대 카테고리 순수 HTML/CSS 설정 웹페이지(settings.html) 구축 및 GNB 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-041]** | 프론트엔드 UI 컴포넌트 추가 | 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -976,6 +981,168 @@
   * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
   * [app/templates/emergency_guide.html](file:///e:/monnlight/app/templates/emergency_guide.html)
   * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
+
+---
+
+### [ISSUE-037] Safari WebKit `file://` 로컬 보안 샌드박스의 상위 경로 차단으로 인한 CSS 미적용 결함 해소 (스마트 듀얼 로더 & WebKit 정규화)
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 퍼블리싱 & 크로스 브라우징 / WebKit 보안 샌드박스 호환
+* **문제 상황**:
+  * 로컬 환경(macOS Finder 등)에서 `frontend/templates/index.html` 파일을 더블 클릭하여 열었을 때, **Chrome 브라우저에서는 정상적으로 CSS가 로드되어 디자인이 표시되지만, Safari 브라우저에서는 스타일이 전혀 로드되지 않아 기본 순수 HTML(흰 배경, 기본 파란 링크, 정렬되지 않은 텍스트)로 렌더링되는 치명적인 결함**이 발생함.
+* **원인 분석**:
+  1. **WebKit `file://` 스킴 로컬 동일 출처 정책(Strict Local File Origin Policy)**:
+     - 기존 `index.html`은 `<link rel="stylesheet" href="../css/style.css" />`로 상위 디렉터리(`../`)를 참조함.
+     - Blink(Chrome) 엔진은 로컬 볼륨 내 상위 디렉터리 접근을 비교적 관대하게 처리하여 CSS를 로드함.
+     - 반면 WebKit(Safari) 엔진은 보안 샌드박스 정책상 `file://` 문서의 출처를 HTML이 위치한 디렉터리(`frontend/templates/`) 및 그 하위 서브디렉터리로만 한정하며, **상위 디렉터리(`../`)로 거슬러 올라가는 외부 리소스(CSS/JS) 요청을 "Cross-Origin Access Denied"로 간주하여 강제로 차단(Blocked)**함.
+  2. **프론트엔드 루트 엔트리포인트 부재**:
+     - `frontend/` 루트 디렉터리에 `index.html`이 없어 사용자가 상위 탐색 없이 바로 열 수 있는 표준 진입점이 없었음.
+  3. **WebKit CSS 표준화 및 폼 컨트롤 기본값 간섭**:
+     - `@charset "UTF-8";` 선언 누락 및 `-webkit-appearance: none;` 리셋 부재로 Safari 고유의 Aqua 스타일/버튼 모서리 왜곡 발생.
+     - `position: -webkit-sticky;` 및 `-webkit-backdrop-filter` 선언 순서 미비.
+* **구체적 해결 방안**:
+  1. **로컬 서브디렉터리 리소스 미러링**:
+     - `frontend/templates/css/style.css` 및 `frontend/templates/js/main.js`를 배치하여, Safari가 `file://`로 열었을 때 하위 디렉터리 경로(`css/style.css`)를 통해 WebKit 샌드박스를 100% 통과하도록 구축.
+  2. **스마트 듀얼 CSS/JS 로더 장착**:
+     - `templates/index.html` 및 모든 응급실 가이드 HTML 파일에 로컬 경로(`css/style.css`)와 상위 폴더 경로(`../css/style.css`)를 함께 선언하여 Safari 로컬 파일, Chrome 로컬 파일, FastAPI 웹 서버(`/home`) 환경 어디서든 100% 자동 매칭되도록 설계.
+     - `main.js`에 `window.__AISUM_INITIALIZED__` 멱등성 보호 가드를 적용하여 중복 실행 원천 차단.
+  3. **최상위 루트 진입점([frontend/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/index.html)) 신설**:
+     - 사용자가 `frontend/` 폴더에서 바로 `index.html`을 열 수 있도록 하위 상대경로(`css/style.css`, `js/main.js`)를 갖는 표준 진입점 배치.
+  4. **CSS WebKit 표준화 고도화**:
+     - 최상단 `@charset "UTF-8";` 명시.
+     - `-webkit-appearance: none; appearance: none;` 리셋으로 Safari 버튼/입력폼 OS 스타일 초기화.
+     - `position: -webkit-sticky; position: sticky;` 및 `-webkit-backdrop-filter` 순서 보장.
+     - 모바일 사파리 뷰포트 높이 버그 대응(`min-height: -webkit-fill-available;`, `100dvh`).
+     - `-webkit-tap-highlight-color: transparent;`, `-webkit-text-size-adjust: 100%;` 추가.
+  5. **전수 검증**:
+     - Python TestClient 엔드포인트(`GET /home`, `GET /css/style.css`, `GET /guide`) 200 OK 무결점 통과.
+     - `test_step5_api.py` 10개 테스트 전수 통과 (Ran 10 tests, OK).
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/index.html)
+  * [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/templates/emergency_guide_checklist.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide_checklist.html)
+  * [frontend/templates/emergency_guide_symptoms.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide_symptoms.html)
+  * [frontend/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/templates/css/style.css)
+  * [frontend/templates/js/main.js](file:///Volumes/UX400%20mini/monnlight/frontend/templates/js/main.js)
+  * [frontend/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/index.html)
+  * [frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)
+  * [frontend/js/main.js](file:///Volumes/UX400%20mini/monnlight/frontend/js/main.js)
+  * [app/templates/](file:///Volumes/UX400%20mini/monnlight/app/templates/) 및 [app/static/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/static/css/style.css)
+
+---
+
+### [ISSUE-038] 응급실 가이드 화면 내 '시각 포토 가이드' 중복 타이틀 바 및 카테고리 칩 영역 제거 (포토 캐러셀 직관성 극대화)
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI/UX 리팩토링 / 컴포넌트 간소화
+* **문제 상황**:
+  * 상단에 2대 카테고리 탭(`[📸 사진 가이드]`, `[📞 응급실 통화 스크립트]`)이 신설되었음에도 불구하고, 그 하단에 `carousel-header-bar` ("시각 포토 가이드 6 / 6", "옆으로 넘겨서 확인") 및 `guide-chips-scroll` (6대 증상별 칩)이 중복 배치되어 모바일 뷰포트 상단 영역을 지나치게 차지하고 포토 카드가 아래로 밀리는 사용성 저하가 발생함.
+* **원인 분석**:
+  * 각 포토 슬라이드 카드 이미지 내부에 이미 `1 / 6` 인덱스 배지, 처치명, 소아응급의학회 권장 배지 및 Do-Not 금기사항이 독립적으로 완비되어 있으므로, 상단의 서브 타이틀 바와 중복 칩 목록은 정보 과부하를 유발하는 불필요한 요소로 판단됨.
+* **구체적 해결 방안**:
+  1. `frontend/templates/emergency_guide.html` 및 `app/templates/emergency_guide.html`에서 `.carousel-header-bar`와 `.guide-chips-scroll` 마크업 전면 삭제.
+  2. `frontend/css/style.css`에서 `.photo-carousel-wrapper` 상단 마진을 `14px -18px 22px -18px`로 정돈하여 상단 탭과의 자연스러운 시각적 여백 확보.
+  3. `app/static/css/style.css`, `frontend/templates/css/style.css`, `app/templates/css/style.css` 전역 동기화.
+  4. TestClient `GET /guide` 무결점 검증 (HTTP 200 OK, 헤더 바 및 칩 미포함, 캐러셀 래퍼 정상 서빙).
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)
+  * [app/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/app/templates/emergency_guide.html)
+  * [frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/templates/css/style.css)
+  * [app/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/templates/css/style.css)
+  * [app/static/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/static/css/style.css)
+
+---
+
+### [ISSUE-039] 응급실 가이드 화면 하단 플로팅 CTA 버튼 2종(스크립트 확인/길안내) 전면 제거 및 화면 가독성 극대화
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI/UX 리팩토링 / 시인성 개선
+* **문제 상황**:
+  * 응급실 가이드 화면([emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)) 하단 네비게이션 바(GNB) 위에 항상 플로팅되어 노출되던 CTA 버튼(`.guide-sticky-cta`)이 모바일 화면 하단에서 콘텐츠(포토 카드 설명문, 병상 현황 리스트 등)를 가리고 시야를 차단하는 불편 발생.
+  * 상단에 이미 `[📸 사진 가이드]`와 `[📞 응급실 통화 스크립트]` 2대 카테고리 탭이 명확히 분리되어 있어, 하단 플로팅 버튼이 중복적이고 번잡한 느낌을 줌.
+* **원인 분석**:
+  * 탭 전환과 길안내 전화 연결을 유도하려던 기존 CTA 버튼이 모바일 뷰포트의 제한된 세로 높이(440px 프레임) 내에서 본문 콘텐츠의 가독성을 저해함.
+* **구체적 해결 방안**:
+  1. `frontend/templates/emergency_guide.html` 및 `app/templates/emergency_guide.html`에서 `<div class="guide-sticky-cta">...</div>` 마크업 전면 제거.
+  2. 스크립트 내 `switchGuideCategory` 함수에서 `ctaLabel`, `ctaIcon`, `ctaBtn` 조작 코드 및 `DOMContentLoaded` 리스너를 완전히 정리하여 DOM 참조 오류 방어.
+  3. `TestClient`를 통한 `GET /guide` 엔드포인트 무결점 검증 (HTTP 200 OK, 해당 버튼 텍스트 및 클래스 미포함).
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)
+  * [app/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/app/templates/emergency_guide.html)
+
+---
+
+### [ISSUE-040] 모니모 레퍼런스 기반 3대 카테고리 순수 HTML/CSS 설정 웹페이지(settings.html) 구축 및 GNB 연동
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI/UX 신규 개발 / 크로스 브라우징
+* **문제 상황**:
+  * 아이숨 서비스 내 사용자 맞춤화(자녀 출생연도, 글자 크기) 및 운영·안내 채널(공지사항, 1:1 문의, 약관 및 라이선스)에 접근할 수 있는 단일화된 설정 전용 웹페이지 부재.
+  * 기존 메인 대시보드([index.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/index.html)) 하단 GNB 내 '설정' 탭이 `href="#"`로 더미 처리되어 실제 화면 이동 불가 상태.
+  * 팀장의 요청사항: 모니모(monimo) 설정 페이지의 정돈된 여백, 카테고리 구분감 및 행 디자인을 레퍼런스로 삼되, 반드시 지정된 3개 카테고리(일반, 사용자 지원, 정보) 및 8개 세부 기능만을 순서대로 배치하고, 임의의 미요청 기능(로그인, Face ID 등)은 철저히 배제해야 함.
+* **원인 및 기획 방향**:
+  * 간결하고 신뢰감 있는 헬스케어 UI를 위해 순수 Vanilla HTML5 및 CSS3만으로 구축 필요.
+  * Chrome 로컬 파일 열람뿐만 아니라 Safari WebKit `file://` 보안 샌드박스에서도 CSS가 깨짐 없이 로드될 수 있도록 듀얼 로더(`css/style.css` + `../css/style.css`) 및 모바일 뷰포트 레이아웃 탑재 필요.
+* **구체적 해결 방안**:
+  1. **CSS 스타일 시스템 확충** ([frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)):
+     - 모니모 스타일의 상단 앱바(`.settings-header`), 뒤로가기 버튼(`.back-icon-btn`), 카테고리 그룹(`.settings-group`), 카테고리 헤더(`.settings-group-title`), 설정 행(`.settings-item-row`), 우측 서브텍스트(`.settings-item-value`), 8px 디바이더(`.settings-section-divider`) 완성.
+  2. **설정 웹페이지 신규 구축** ([frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)):
+     - **일반**: 앱 사용자(자녀)의 출생연도 설정 변경, 글자 크기 변경
+     - **사용자 지원**: 공지사항, 1:1 문의
+     - **정보**: 아이숨 가이드북, 아이숨 이용약관, 오픈소스 라이선스, 앱 버전 (1.0.0 최신 버전)
+     - 요청된 8개 기능 외 불필요한 기능(로그아웃, 회원탈퇴, Face ID 등) 100% 배제.
+  3. **하단 GNB 네비게이션 연동**:
+     - `index.html`, `emergency_guide.html` 하단 GNB 설정 탭 `href="settings.html"` 연결.
+  4. **FastAPI 서버 엔드포인트 연동** ([main.py](file:///Volumes/UX400%20mini/monnlight/main.py)):
+     - `@app.get("/settings")` 라우트 등록 및 템플릿 서빙 연동 완료.
+  5. **템플릿 및 CSS 미러링 동기화**:
+     - `app/templates/settings.html`, `frontend/settings.html`, `app/templates/css/style.css`, `app/static/css/style.css`, `frontend/templates/css/style.css` 동기화 완료.
+* **적용 파일**:
+  * [frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/settings.html)
+  * [app/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/app/templates/settings.html)
+  * [frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)
+  * [frontend/templates/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/index.html)
+  * [frontend/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/index.html)
+  * [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)
+  * [main.py](file:///Volumes/UX400%20mini/monnlight/main.py)
+
+---
+
+### [ISSUE-041] 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 구현
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI 컴포넌트 추가 / 모바일 인터랙션
+* **문제 상황**:
+  * 아이숨 설정 페이지([settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)) 초기 구축 시, 모니모(monimo) 화면에 존재하던 '앱 알림' 토글 기능이 누락되어 있음.
+  * 정영식 팀장의 피드백: 모니모에 있는 것처럼 '앱 알림' 기능과 토글 스위치를 추가해달라는 요구 발생.
+* **원인 및 기획 방향**:
+  * 모니모 레퍼런스 화면에서 '앱 알림'은 카테고리 헤더 타이틀 없이 위아래 8px 디바이더로 분리된 단독 행 형태(좌측 종 아이콘 + '앱 알림' 텍스트, 우측 토글 스위치)로 배치되어 있음.
+  * 외부 JS 종속성 없이 순수 CSS(`input[type="checkbox"]:checked + .toggle-slider`)로 구동되는 iOS 스타일 토글 스위치를 구현하여 가볍고 반응성이 뛰어난 모바일 인터랙션을 제공하기로 결정.
+* **구체적 해결 방안**:
+  1. **CSS 스타일 시스템 확충** ([frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)):
+     - `.settings-toggle-row`, `.settings-item-left`, `.settings-item-icon` (종 아이콘 스타일).
+     - `.ios-toggle-switch`, `.toggle-slider`, `.toggle-slider::before` (50px x 30px 트랙, 24px 화이트 노브, 코발트 블루 ON 상태, 0.25s 큐빅 베지어 애니메이션).
+  2. **마크업 추가** ([frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)):
+     - `일반` 카테고리와 `사용자 지원` 카테고리 사이 8px 구분선 영역에 단독 섹션으로 `앱 알림` 행 배치.
+  3. **전역 템플릿 및 스타일시트 동기화**:
+     - `frontend/settings.html`, `app/templates/settings.html`, `app/static/css/style.css`, `frontend/templates/css/style.css`, `app/templates/css/style.css` 동기화 완료.
+  4. **무결점 자동 검증**:
+     - FastAPI TestClient 기반 `GET /settings` 호출 시 **HTTP 200 OK**, `일반` ➔ `앱 알림` ➔ `사용자 지원` ➔ `정보` 순서 정합성 및 토글 스위치 컴포넌트 검증 100% 통과.
+* **적용 파일**:
+  * [frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/settings.html)
+  * [app/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/app/templates/settings.html)
+  * [frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/templates/css/style.css)
+  * [app/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/templates/css/style.css)
+  * [app/static/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/static/css/style.css)
+
+
+
+
+
 
 
 

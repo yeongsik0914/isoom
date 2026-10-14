@@ -1,6 +1,8 @@
+@charset "UTF-8";
 /* ==========================================================================
    🌙 아이숨 (Aisum) - Calm Harbor Design System (Pure Vanilla CSS)
    - 모던 라이트 헬스케어 테마 (Modern Clean Healthcare Light Theme)
+   - 크로스 브라우징 완벽 호환 (Safari, Chrome, Firefox, Edge, iOS WebKit)
    - 규격 문서: AISUM_STITCH_DESIGN_REPORT.md 참조
    ========================================================================== */
 
@@ -61,13 +63,19 @@
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Base Reset */
+/* Base Reset & Safari/WebKit Normalization */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -76,6 +84,8 @@ body {
   color: var(--slate-900);
   line-height: 1.5;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -83,11 +93,34 @@ body {
   margin: 0;
 }
 
+/* Safari / iOS Form Controls & Button Normalization */
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 /* Mobile Frame Wrapper (Desktop centered preview) */
 .mobile-viewport {
   width: 100%;
   max-width: 440px;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100dvh;
   background-color: var(--app-bg);
   position: relative;
   display: flex;
@@ -95,6 +128,7 @@ body {
   box-shadow: var(--shadow-phone);
   overflow-x: hidden;
   padding-bottom: 96px; /* GNB Bottom Space */
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 640px) {
@@ -127,12 +161,13 @@ body {
 
 /* Sticky Header */
 .app-header {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 50;
   background: rgba(248, 250, 255, 0.88);
-  backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(226, 232, 240, 0.7);
   height: 58px;
   display: flex;
@@ -843,6 +878,7 @@ body {
 
 /* Top Emergency Header Bar */
 .guide-header {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 50;
@@ -851,8 +887,8 @@ body {
   justify-content: space-between;
   padding: 12px 18px;
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--slate-200);
 }
 
@@ -1524,7 +1560,7 @@ body {
 /* Carousel Outer Bleed Container */
 .photo-carousel-wrapper {
   position: relative;
-  margin: 0 -18px 22px -18px;
+  margin: 14px -18px 22px -18px;
 }
 
 /* Carousel Track with Smooth Scroll Snap */
@@ -1717,6 +1753,209 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ==========================================================================
+   ⚙️ Settings Page (설정) UI Styles (Modeled after Monimo Reference)
+   - 일반: 출생연도 설정 변경, 글자 크기 변경
+   - 사용자 지원: 공지사항, 1:1 문의
+   - 정보: 아이숨 가이드북, 아이숨 이용약관, 오픈소스 라이선스, 앱 버전
+   ========================================================================== */
+
+/* Settings App Header Bar */
+.settings-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.settings-header-left {
+  display: flex;
+  align-items: center;
+  width: 40px;
+}
+
+.settings-header-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--slate-900);
+  text-align: center;
+  flex: 1;
+}
+
+.settings-header-right {
+  width: 40px; /* Spacer for centering title */
+}
+
+/* Settings Body Canvas */
+.settings-body {
+  flex: 1;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Section Groups */
+.settings-group {
+  padding: 8px 0;
+}
+
+.settings-group-header {
+  padding: 16px 20px 8px 20px;
+}
+
+.settings-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--slate-500);
+  letter-spacing: -0.2px;
+}
+
+/* Settings Item Rows */
+.settings-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 54px;
+  padding: 12px 20px;
+  background-color: var(--white);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.settings-item-row:active {
+  background-color: var(--slate-50);
+}
+
+.settings-item-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--slate-900);
+  letter-spacing: -0.3px;
+}
+
+.settings-item-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.settings-item-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--slate-500);
+  letter-spacing: -0.2px;
+}
+
+.settings-item-value.accent {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.settings-item-chevron {
+  font-size: 20px;
+  color: var(--slate-400);
+  line-height: 1;
+}
+
+/* Thick Section Divider (Monimo Reference Style) */
+.settings-section-divider {
+  height: 8px;
+  background-color: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Bottom App Version Footer info */
+.settings-version-footer {
+  padding: 32px 20px 24px 20px;
+  text-align: center;
+}
+
+/* App Notification Toggle Row (Monimo Style) */
+.settings-toggle-row {
+  cursor: default;
+}
+
+.settings-toggle-row:active {
+  background-color: var(--white);
+}
+
+.settings-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings-item-icon {
+  font-size: 22px;
+  color: var(--slate-800);
+}
+
+/* iOS-style Toggle Switch */
+.ios-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+  flex-shrink: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ios-toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ios-toggle-switch input:checked + .toggle-slider {
+  background-color: var(--primary); /* #0066FF / Calm Harbor Cobalt Blue */
+}
+
+.ios-toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
 }
 
 

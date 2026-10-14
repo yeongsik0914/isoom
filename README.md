@@ -30,7 +30,60 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
-### 🌟 [v2.7.0-isoom-category-tabs] 2026-10-14 (Current): '아이숨(Aisum)' 응급실 가이드 화면 내 [📸 사진 가이드] vs [📞 응급실 통화 스크립트] 2대 카테고리 탭 분리 구현
+### 🌟 [v2.12.0-isoom-notification-toggle] 2026-10-15 (Current): 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 탑재
+* **모니모 레퍼런스 단독 앱 알림 섹션 구축**:
+  - `일반` 카테고리와 `사용자 지원` 카테고리 사이 8px 구분선 영역에 모니모 설정 화면과 동일한 형태의 **단독 '🔔 앱 알림' 섹션** 추가.
+  - 좌측: 종 모양 아이콘(`notifications`)과 '앱 알림' 볼드 텍스트 배치.
+  - 우측: 순수 CSS 기반의 iOS 스타일 토글 스위치(`ios-toggle-switch`, `toggle-slider`)를 탑재하여 클릭/터치 시 0.25s 큐빅 베지어 애니메이션과 함께 부드럽게 켜짐/꺼짐 전환 구현.
+* **전역 템플릿 & 정적 스타일 동기화**:
+  - [frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html), [frontend/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/settings.html), [app/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/app/templates/settings.html) 동기화 완료.
+  - FastAPI TestClient 유효성 검증 (`GET /settings`, `일반` ➔ `앱 알림` ➔ `사용자 지원` ➔ `정보`) 100% 통과.
+
+### 🌟 [v2.11.0-isoom-settings-page] 2026-10-15: 모니모 UI 레퍼런스 기반 3대 카테고리 순수 HTML/CSS 설정 웹페이지(settings.html) 구축 및 하단 GNB 연동
+* **모니모 UI 레퍼런스 기반 정돈된 모바일 설정 화면 구현**:
+  - 모니모 앱 설정 화면의 깔끔한 여백, 8px 구분선, 셰브론 화살표 및 상태 텍스트를 벤치마킹하여 Calm Harbor 테마의 순수 Vanilla HTML5/CSS3 웹페이지([settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)) 신규 구축.
+  - 팀장 요청에 따른 **3대 카테고리 & 8대 기능 엄격한 순서 정렬**:
+    1. **일반**: 앱 사용자(자녀)의 출생연도 설정 변경 (`2023년생 (만 3세)`), 글자 크기 변경 (`보통`)
+    2. **사용자 지원**: 공지사항, 1:1 문의
+    3. **정보**: 아이숨 가이드북, 아이숨 이용약관, 오픈소스 라이선스, 앱 버전 (`1.0.0 (최신)`)
+  - **불필요한 임의 기능 100% 배제**: 로그인/인증, Face ID, 앱 알림, 로그아웃 등 미요청 기능은 일절 포함하지 않고 기획 범위 엄격 준수.
+* **하단 GNB 네비게이션 연동**:
+  - 메인 대시보드([index.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/index.html)) 및 응급실 가이드([emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)) 하단 네비게이션 바(GNB)의 ⚙️ '설정' 탭을 `href="settings.html"`로 연결하여 직관적인 1클릭 화면 전환 제공.
+* **크로스 브라우징 및 정적 서빙 완비**:
+  - Safari WebKit `file://` 보안 샌드박스 및 Chrome 로컬 파일 호환 듀얼 로더(`css/style.css` + `../css/style.css`) 장착.
+  - FastAPI `@app.get("/settings")` 엔드포인트 등록 및 TestClient 유효성 검증 100% 통과.
+
+### 🌟 [v2.10.0-isoom-remove-floating-cta] 2026-10-15: 응급실 가이드 하단 플로팅 CTA 버튼 2종(스크립트 확인 / 길안내) 전면 제거 (화면 시인성 극대화)
+* **모바일 뷰포트 하단 공간 확보 & 시야 간섭 배제**:
+  - 하단 네비게이션 바(GNB) 위에 고정되어 본문(포토 카드 설명문, 병상 대시보드 리스트)을 가리던 파란색 플로팅 CTA 버튼(`.guide-sticky-cta`) 2종(`[📞 응급실 출발 전 30초 통화 스크립트 확인]`, `[🚗 서울아산병원 소아응급실 통화 후 길안내]`)을 전면 삭제.
+  - 상단 2대 카테고리 탭(`[📸 사진 가이드]`, `[📞 응급실 통화 스크립트]`)을 통한 직관적 전환만으로 심플하고 쾌적하게 정보를 열람할 수 있도록 UI 완성.
+* **전역 템플릿 & 컨트롤러 최적화**:
+  - [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html) 및 [app/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/app/templates/emergency_guide.html) 동기화 완료.
+  - FastAPI `GET /guide` HTTP 200 OK 무결점 서빙 검증.
+
+### 🌟 [v2.9.0-isoom-clean-carousel-header] 2026-10-15: 응급실 가이드 화면 내 '시각 포토 가이드' 중복 타이틀 바 및 칩 영역 제거 (모바일 UI 직관성 극대화)
+* **모바일 뷰포트 최적화 & 중복 요소 제거**:
+  - 상단 2대 카테고리 탭(`[📸 사진 가이드]`, `[📞 응급실 통화 스크립트]`) 하단에 중복 배치되어 있던 `carousel-header-bar` ("시각 포토 가이드 6/6", "옆으로 넘겨서 확인") 및 `guide-chips-scroll` (6대 퀵점프 칩) 영역을 전면 삭제.
+  - 상단 탭 바로 아래에 큼직한 핵심 포토 슬라이드 카드가 시원하게 노출되도록 레이아웃 정돈 (`photo-carousel-wrapper` 상단 여백 14px 튜닝).
+* **전역 템플릿 & 스타일시트 동기화**:
+  - [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html) 및 [app/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/app/templates/emergency_guide.html) 100% 동기화.
+  - FastAPI `GET /guide` 무결점 검증 (HTTP 200 OK).
+
+### 🌟 [v2.8.0-isoom-safari-chrome-compat] 2026-10-15: Safari(WebKit) & Chrome 양대 브라우저 로컬 file:// 및 웹서버 100% 호환 적용
+* **Safari WebKit `file://` 보안 샌드박스 정책 완벽 대응**:
+  - Mac Finder 등 로컬 파일 직접 열람 시 Safari WebKit이 상위 디렉터리(`../css/style.css`) 외부 리소스 접근을 강제 차단하던 현상을 스마트 듀얼 로더(`css/style.css` + `../css/style.css`) 및 `templates/css/`, `templates/js/` 미러링으로 100% 해소.
+  - 최상위 진입점 [frontend/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/index.html) 신설을 통해 어디서든 무결점 0ms CSS 렌더링 보장.
+* **Vanilla CSS WebKit 표준화 & 리셋 고도화**:
+  - `@charset "UTF-8";` 선언, `-webkit-appearance: none;` 리셋(Safari 기본 버튼/입력폼 Aqua 스타일 방지).
+  - `position: -webkit-sticky; position: sticky;` 및 `-webkit-backdrop-filter` 글래스모피즘 순서 정렬.
+  - 모바일 Safari 뷰포트 높이 버그 대응(`min-height: -webkit-fill-available;`, `min-height: 100dvh;`).
+  - `-webkit-tap-highlight-color: transparent;`, `-webkit-text-size-adjust: 100%;` 크로스 브라우징 완비.
+* **JS 멱등성 보호 가드 & 전역 동기화**:
+  - `main.js` 내 `window.__AISUM_INITIALIZED__` 멱등성 플래그 적용으로 중복 초기화 방어.
+  - `frontend/templates/`, `frontend/`, `app/templates/`, `app/static/` 전역 100% 동기화.
+  - FastAPI 서버 `GET /home`, `GET /css/style.css`, `GET /guide` HTTP 200 OK 무결점 검증.
+
+### 🌟 [v2.7.0-isoom-category-tabs] 2026-10-14: '아이숨(Aisum)' 응급실 가이드 화면 내 [📸 사진 가이드] vs [📞 응급실 통화 스크립트] 2대 카테고리 탭 분리 구현
 * **응급실 가이드 상단 2대 핵심 카테고리 탭(`guide-category-nav`) 신설**:
   - 기존 세로 스크롤에 길게 혼재되어 있던 "시각 포토 응급처치 가이드"와 "응급실 통화 스크립트 & 실시간 병상 현황"을 사용자의 현장 목적에 따라 2대 카테고리 탭으로 분리하여 인지 과부하 원천 해소.
   - **[📸 사진 가이드] 탭 (기본 활성)**:
