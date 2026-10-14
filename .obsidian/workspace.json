@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/VIBE_CODING_ROADMAP.md",
+                "file": "Answer.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "VIBE_CODING_ROADMAP"
+              "title": "Answer"
+            }
+          },
+          {
+            "id": "d5c8ae5cb6b89cb1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "PLAN.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "PLAN"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -99,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "docs/VIBE_CODING_ROADMAP.md",
+                "file": "docs/DATA_CONSIDERATIONS.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +133,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/VIBE_CODING_ROADMAP.md",
+                "file": "docs/DATA_CONSIDERATIONS.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +176,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "docs/VIBE_CODING_ROADMAP.md",
+                "file": "docs/DATA_CONSIDERATIONS.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,23 +203,52 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "fde2671d1ab7827e",
+  "active": "d5c8ae5cb6b89cb1",
   "lastOpenFiles": [
+    "docs/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md",
+    "notebooks/semantic_embedding_ktas_triage_pipeline.ipynb",
+    "notebooks/create_knn_notebook.py",
+    "PLAN.md",
+    "notebooks/test_direct_llm_triage.py",
+    "notebooks/gemini_ktas_pediatric_redflag_pipeline.ipynb",
+    "notebooks/create_notebook.py",
+    "data/ktas_pediatric_dataset.json",
+    "build_pediatric_dataset.py",
+    "ktas_viewer.html",
+    "data/ktas_full_bundle.json",
+    "build_ktas_viewer.py",
+    "Answer.md",
+    "tests/evals/eval_report.md",
+    "CONNECTIVITY_MAP.md",
+    "docs/README.md",
+    "tests/README.md",
+    "notebooks/README.md",
+    "data/README.md",
+    "app/README.md",
+    "app/schemas/README.md",
+    "app/api/README.md",
+    "app/services/README.md",
+    "app/orchestrator/README.md",
+    "app/agents/README.md",
     "docs/PROJECT_PLAN.md",
-    "docs/VIBE_CODING_ROADMAP.md",
-    "docs/DATA_CONSIDERATIONS.md",
-    "docs/DATABASE_DESIGN.md",
-    "Reamme.md",
-    "log.md",
-    "tests/evals/golden_test_cases.json",
-    "tests/evals",
-    "tests",
-    "references/medical_law/05_legal_disclaimers.md",
-    "references/medical_law/04_forbidden_lexicon.json",
-    "references/medical_law/03_court_precedents.md",
-    "references/medical_law/02_mohw_guidelines.md",
-    "references/medical_law/01_medical_service_act.md",
-    "references/medical_law",
-    "references"
+    "README.md",
+    "docs/PLAN.md",
+    "DS/lib/python3.11/site-packages/sklearn/externals/array_api_extra/README.md",
+    "DS/lib/python3.11/site-packages/sklearn/externals/array_api_compat/README.md",
+    "DS/lib/python3.11/site-packages/sklearn/datasets/images/flower.jpg",
+    "DS/lib/python3.11/site-packages/sklearn/datasets/images/china.jpg",
+    "DS/lib/python3.11/site-packages/scipy/ndimage/tests/dots.png",
+    "DS/lib/python3.11/site-packages/scipy/fft/_pocketfft/LICENSE.md",
+    "DS/lib/python3.11/site-packages/narwhals-2.27.1.dist-info/licenses/LICENSE.md",
+    "DS/lib/python3.11/site-packages/nbconvert/templates/skeleton/README.md",
+    "DS/lib/python3.11/site-packages/nbconvert/templates/README.md",
+    "DS/lib/python3.11/site-packages/jupyter_server/static/logo/logo.png",
+    "DS/lib/python3.11/site-packages/jupyter_server/i18n/README.md",
+    "DS/lib/python3.11/site-packages/jupyterlab/static/ee37fbccfd7cfca6.svg",
+    "DS/lib/python3.11/site-packages/jupyterlab/static/cd7322bf5a6e6fcf.svg",
+    "DS/lib/python3.11/site-packages/jupyterlab/static/a76d53bf993d73a2.svg",
+    "DS/lib/python3.11/site-packages/matplotlib/mpl-data/sample_data/logo2.png",
+    "DS/lib/python3.11/site-packages/matplotlib/mpl-data/sample_data/grace_hopper.jpg",
+    "DS/lib/python3.11/site-packages/matplotlib/mpl-data/sample_data/Minduka_Present_Blue_Pack.png"
   ]
 }

@@ -1,0 +1,38 @@
+# Environment Variables & Secrets (절대 Git에 커밋 금지)
+.env
+.env*.local
+*.key
+*.pem
+*firebase*.json
+*firebase*.json*
+serviceAccountKey*.json*
+
+# Jupyter Notebook Checkpoints & Cache
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python Virtual Environments
+venv/
+venv
+.venv/
+.venv
+env/
+env
+DS
+DS/
+.vscode/
+
+# Collected Data & Temp Exports
+data/*
+!data/seoul_emergency_coords.json
+!data/nationwide_pairings.json
+*.csv
+*.xlsx
+*.parquet
+
+# OS specific files
+Thumbs.db
+.DS_Store
+._*
