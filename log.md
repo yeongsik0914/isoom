@@ -59,7 +59,9 @@
 | **[ISSUE-049]** | 프론트엔드 UI/UX 모달 & 화면 연동 | index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-050]** | Git 형상 관리 & 3-Way 머지 | 원격 input.html 최신 업데이트(확인 버튼 인터랙션 & PWA 메타태그) 풀 및 index.html 모달 연동 무결점 병합 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-051]** | 프론트엔드 UI/UX 리팩토링 | 응급실 가이드(emergency_guide.html) 텍스트 전면 배제 및 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 개편 | **해결 완료 (Resolved)** | 2026-10-15 |
-| **[ISSUE-052]** | 프론트엔드 UI/UX 온보딩 | monimo 레퍼런스 스타일의 아이숨 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-052]** | 프론트엔드 UI/UX 결과 화면 & 무결점 병합 | 증상 입력 후 맞춤 결과 화면(result.html) 정적 목업 구축, 2-트랙 탭/30분 마진 약국/실시간 병상 UI 구현 및 Git 무결점 통합 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-053]** | 프론트엔드 UI/UX 로딩 애니메이션 | AI 증상 분석 중 로딩 오버레이 & 단독 페이지(loading.html) 순수 CSS 키프레임 애니메이션 및 2초 타이머 시퀀스 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-054]** | 프론트엔드 UI/UX 온보딩 | monimo 레퍼런스 스타일의 아이숨 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1470,10 +1472,94 @@
 
 ---
 
-### [ISSUE-052] monimo 레퍼런스 스타일의 아이숨 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축
+### [ISSUE-052] 증상 입력 후 맞춤 결과 화면(result.html) 정적 목업 구축, 2-트랙 탭/30분 마진 약국/실시간 병상 UI 구현 및 Git 무결점 통합
 
 * **발생 일자**: 2026-10-15
-* **작업자**: 김동준 팀원 (지시: 정영식 팀장)
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 신규 개발 & Git 협업 형상 관리
+* **문제 상황**:
+  * 증상 입력 페이지([input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html))에서 확인 버튼을 클릭한 후 사용자에게 보여줄 결과 화면이 부재함.
+  * 백엔드에는 0ms Red Flag, 2-트랙 시설 매칭(달빛병원+30분 안심약국 vs 소아응급실 병상), 30초 통화 대본, 본인확인 서류 체크리스트 등 강력한 기능이 구비되어 있으나 프론트엔드에서 이를 가볍고 직관적으로 볼 수 있는 목업 뷰가 필요함.
+  * 원격 저장소(`origin/main`)에 타 작업자(정영식 팀장)의 대규모 커밋(7단계 비주얼 가이드 캐러셀 리팩토링, 이미지 7종, Q61 등)이 반영되어 있어, 로컬 변경분을 안전하게 보존하면서 충돌 없이 pull & merge 해야 하는 협업 형상 관리 과제 발생.
+* **원인 분석**:
+  * 복잡한 백엔드 API 통신 연동에 앞서, 프론트엔드 자체의 모바일 사용성 및 컴포넌트 렌더링 검증을 위한 "정적 목업 화면"이 먼저 구축되어야 함.
+* **구체적 해결 방안**:
+  1. **백엔드 기능 100% 매핑 정적 결과 화면 ([frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html), [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)) 구축**:
+     - **바이탈 요약 & 가드레일**: `0ms 가드레일 안전 통과 🟢` 뱃지 및 `14개월`, `39.2℃ (고열)`, `#구토`, `KTAS 3단계` 메타 칩.
+     - **2-트랙 세그먼트 탭**: `[🌙 달빛병원·약국 (3)]` ↔ `[🚨 소아 응급실 병상 (2)]` 순수 CSS/JS 전환 인터랙션.
+     - **Track B 페어링 카드**: 추천 1순위 송파어린이병원 + 송파달빛약국의 `[🟢 +30분 조제 안전마진 확보]` 배지, 마감 35분 전 주의 표시, 원터치 전화/카카오맵 길찾기.
+     - **Track A 소아응급실 카드**: 서울아산병원 소아전문응급센터 실시간 병상(`hv28` 4석 여유), 전문의 당직 여부, E-Gen 데이터 신선도 배지.
+     - **내원 지원 툴킷**: 30초 통화 대본 복사(토스트 팝업 연동) 및 2024년 5월 본인확인 의무화 지참 서류 인터랙티브 체크박스 3종.
+     - **의료법 제27조 고지**: 하단 법적 안심 면책 푸터 탑재.
+  2. **화면 간 유기적 연결**:
+     - [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js): `inputConfirmBtn` 클릭 시 `result.html`로 화면 이동 로직 바인딩.
+     - [main.py](file:///c:/AI-Native-Agent/monnlight/main.py): `@app.get("/result")` 정적 서빙 라우트 추가.
+  3. **Git 협업 무결점 병합**:
+     - `git stash`로 로컬 변경분을 임시 안전 격리한 뒤 `git pull origin main`으로 정영식 팀장의 최신 작업본을 Fast-Forward로 안전하게 수신.
+     - `git stash pop`을 통해 충돌 0건으로 자동 병합 완결.
+* **적용 파일**:
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [frontend/templates/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/templates/js/main.js)
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-053] AI 증상 분석 중 로딩 오버레이 & 단독 페이지(loading.html) 순수 CSS 키프레임 애니메이션 및 2초 타이머 시퀀스 구축
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 신규 개발 / 인터랙션 애니메이션 / 임상 체감 대기시간 최적화
+* **문제 상황**:
+  * 증상 입력 화면([input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html))에서 확인 버튼을 눌렀을 때, 로딩 피드백 없이 즉시 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html))으로 전환되면 보호자 입장에서 AI가 실제로 아이의 증상을 정밀 분석했는지 신뢰하기 어렵고 화면 전환이 부자연스러움.
+  * 복잡한 백엔드 분석 파이프라인(가드레일 검사 ➔ KTAS 168개 지침 대조 ➔ 달빛어린이병원/약국 페어링)이 구동되는 동안 보호자의 불안감을 완화하고 높은 전문성을 체감할 수 있는 로딩 비주얼 피드백이 필요함.
+  * 또한 단독 로딩 뷰 테스트 및 독립 컴포넌트 검증을 위한 [loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html) 페이지의 부재.
+* **원인 분석**:
+  * 이전 단계에서는 텍스트 입력 후 즉시 `window.location.href = 'result.html'`로 연결되어 시각적 분석 프로세스(Processing) 피드백이 생략되어 있었음.
+* **구체적 해결 방안**:
+  1. **순수 CSS3 키프레임 애니메이션 기반 로딩 컴포넌트 구현**:
+     - 외부 라이브러리(Lottie, JS 애니메이션) 없이 브라우저 네이티브 하드웨어 가속(GPU)을 활용하는 순수 CSS 키프레임 적용:
+       - `pulseGlow`: 엠블럼 외곽 블루 링이 1.6초 주기로 부드럽게 팽창/수축하며 펄스 효과 발산.
+       - `spinLoader`: 중앙 블루 스피너 링이 0.8초 주기로 회전.
+       - `shimmer`: 프로그레스 바 내부에서 은은한 하이라이트 광택이 흐르는 효과.
+       - 스마트 토이 아이콘(`smart_toy`, 로열 블루 `#0066FF`)을 중앙에 배치하여 따뜻하고 신뢰감 있는 의료 AI 비주얼 구현.
+  2. **임상 체감 3단계 동적 프로그레스 시퀀스 (2.0초 setTimeout 파이프라인)**:
+     - 0.0초: "의료 안전 가드레일 (Red Flag) 0ms 검사 중..." (진행률 25%)
+     - 0.7초: "소아 KTAS 168개 임상 분류 지침 대조 중..." (진행률 65%)
+     - 1.4초: "실시간 달빛병원 & +30분 조제 안심약국 매칭 중..." (진행률 95%)
+     - 2.0초: 진행률 100% 완료와 함께 `result.html`로 자동 전환.
+  3. **인풋 화면 내 인라인 오버레이 & 단독 페이지 동시 구축**:
+     - [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html): `#ai-analyzing-overlay` 모달 오버레이 탑재, 확인 버튼 클릭 시 키보드를 닫고 부드럽게 화면을 덮으며 로딩 개시.
+     - [frontend/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html): 동일한 시각 디자인의 풀스크린 단독 로딩 페이지 신규 생성.
+     - [frontend/templates/](file:///c:/AI-Native-Agent/monnlight/frontend/templates/) 디렉토리 동시 미러링 완결.
+  4. **FastAPI 백엔드 라우팅 및 200 OK 검증**:
+     - [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)에 `@app.get("/loading")` 엔드포인트 등록 및 HTTP 200 OK 서빙 확인.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html)
+  * [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html)
+  * [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/templates/css/style.css)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [frontend/templates/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/templates/js/main.js)
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-054] monimo 레퍼런스 스타일의 아이숨 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장)
 * **분류**: 프론트엔드 UI/UX 온보딩 / 컴플라이언스(정보통신망법) / 백엔드 기능 연계
 * **문제 상황**:
   * 사용자가 앱을 최초 실행했을 때 브랜드 아이덴티티를 각인시키는 첫 로딩(스플래시) 화면이 부재함.
@@ -1512,22 +1598,4 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -71,6 +71,36 @@
 
     </main>
 
+    <!-- AI Analyzing Overlay (사용자 확인 클릭 시 2초간 표출되는 모던 로딩 화면) -->
+    <div class="ai-analyzing-overlay" id="ai-analyzing-overlay" aria-hidden="true">
+      <div class="analyzing-card">
+        <!-- Pulse Logo & Spinner -->
+        <div class="analyzing-visual">
+          <div class="analyzing-pulse-ring"></div>
+          <div class="analyzing-spinner"></div>
+          <div class="analyzing-icon-center">
+            <span class="material-symbols-outlined" style="font-size: 30px; color: #0066ff;">smart_toy</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Analyzing Status Texts -->
+        <h2 class="analyzing-title" id="analyzing-title">소아 증상 정밀 분석 중</h2>
+        <div class="analyzing-step-box">
+          <span class="material-symbols-outlined analyzing-step-icon" id="analyzing-step-icon">health_and_safety</span>
+          <span class="analyzing-step-text" id="analyzing-step-text">0ms Red Flag 안전 가드레일 검사 중...</span>
+        </div>
+
+        <!-- Progress Indicator Track -->
+        <div class="analyzing-progress-bar">
+          <div class="analyzing-progress-fill" id="analyzing-progress-fill"></div>
+        </div>
+
+        <p class="analyzing-subtext">
+          늦은 밤, 아이를 위한 가장 안전한 병원을 찾고 있습니다.
+        </p>
+      </div>
+    </div>
+
   </div>
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->

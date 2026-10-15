@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>맞춤 의료기관 안내 - 아이숨 (Aisum)</title>
+  <meta name="description" content="소아 KTAS 임상 기준 맞춤 달빛어린이병원, 30분 마진 심야약국 및 소아 가용 응급실 실시간 추천" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Pure Vanilla CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* ==========================================================================
+       Result Page Specific Aesthetics (Calm Harbor Light Theme)
+       ========================================================================== */
+    .result-viewport {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-color: #f8faff;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 40px rgba(15, 23, 42, 0.08);
+      padding-bottom: 90px;
+    }
+
+    /* Top Navigation Header */
+    .result-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid #eef2f6;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .result-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .result-back-btn, .result-home-btn {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      color: #1e293b;
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+    }
+
+    .result-back-btn:active, .result-home-btn:active {
+      background-color: #f1f5f9;
+    }
+
+    .result-header-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    /* Main Container */
+    .result-main {
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 1. Vital & Triage Summary Card */
+    .triage-summary-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+
+    .triage-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .triage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    .triage-edit-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: #0066ff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .vital-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .vital-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 10px;
+    }
+
+    .vital-chip.highlight {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .triage-desc-text {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #475569;
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border-left: 3px solid #10b981;
+    }
+
+    /* 2. Track Tab Switcher */
+    .track-tabs-container {
+      display: flex;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 14px;
+      gap: 4px;
+    }
+
+    .track-tab-btn {
+      flex: 1;
+      padding: 10px 8px;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .track-tab-btn.active {
+      background: #ffffff;
+      color: #0066ff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    /* 3. Facility List Views */
+    .facility-tab-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .facility-tab-pane.hidden {
+      display: none;
+    }
+
+    /* Pairing Card (Track B) */
+    .pairing-card {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 3px 14px rgba(15, 23, 42, 0.04);
+      overflow: hidden;
+      transition: transform 0.15s ease;
+    }
+
+    .pairing-card-rank {
+      background: #0066ff;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      display: inline-block;
+      border-radius: 0 0 10px 0;
+      letter-spacing: 0.3px;
+    }
+
+    .pairing-hospital-sec {
+      padding: 14px 16px;
+    }
+
+    .facility-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .facility-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    .facility-distance {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0066ff;
+      background: #eff5ff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .facility-info-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .badge-warning-soft {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    /* Pharmacy Bridge Row */
+    .pairing-pharmacy-bridge {
+      background: #f8fafc;
+      border-top: 1px dashed #cbd5e1;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pharmacy-top-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pharmacy-name-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .margin-safe-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #a7f3d0;
+    }
+
+    .pharmacy-meta {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    /* Action Buttons Row */
+    .card-actions-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #ffffff;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .btn-call-action {
+      flex: 1;
+      height: 42px;
+      background: #eff5ff;
+      color: #0066ff;
+      border: 1px solid #d6e4ff;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+
+    .btn-call-action:active {
+      background: #dbeafe;
+    }
+
+    .btn-map-action {
+      flex: 1;
+      height: 42px;
+      background: #0066ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0, 102, 255, 0.25);
+      transition: background 0.15s ease;
+    }
+
+    .btn-map-action:active {
+      background: #0052cc;
+    }
+
+    /* Emergency Hospital Card (Track A) */
+    .emergency-room-card {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 3px 14px rgba(15, 23, 42, 0.04);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bed-status-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 12px;
+    }
+
+    .bed-number-highlight {
+      font-size: 15px;
+      font-weight: 800;
+      color: #059669;
+    }
+
+    .bed-number-highlight.warning {
+      color: #d97706;
+    }
+
+    .pediatric-specialist-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .data-freshness-meta {
+      font-size: 11px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 4. Helper Sections (Script & Checklist) */
+    .helper-accordion-card {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      padding: 16px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+
+    .helper-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .script-text-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #334155;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .btn-copy-script {
+      width: 100%;
+      height: 40px;
+      background: #eff5ff;
+      color: #0066ff;
+      border: 1px solid #d6e4ff;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-copy-script:active {
+      background: #dbeafe;
+    }
+
+    /* Interactive Checklist */
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #f8fafc;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+
+    .checklist-item:active {
+      background: #f1f5f9;
+    }
+
+    .checklist-item.checked {
+      background: #ecfdf5;
+      color: #065f46;
+      text-decoration: line-through;
+    }
+
+    .checklist-item.checked .material-symbols-outlined {
+      color: #10b981;
+    }
+
+    /* Toast Notification */
+    .toast-msg {
+      position: fixed;
+      bottom: 84px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(15, 23, 42, 0.9);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Bottom Fixed Actions Bar */
+    .result-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 440px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid #eef2f6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      z-index: 40;
+    }
+
+    .btn-retry-input {
+      flex: 1;
+      height: 48px;
+      background: #f1f5f9;
+      color: #475569;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-bottom-home {
+      flex: 1.5;
+      height: 48px;
+      background: #0066ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.25);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Viewport Canvas -->
+  <div class="result-viewport" id="app">
+
+    <!-- Top Navigation Header -->
+    <header class="result-header">
+      <div class="result-header-left">
+        <a href="input.html" class="result-back-btn" aria-label="증상 다시 입력">
+          <span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
+        </a>
+        <h1 class="result-header-title">맞춤 의료기관 안내</h1>
+      </div>
+      <a href="index.html" class="result-home-btn" aria-label="메인 홈으로 이동">
+        <span class="material-symbols-outlined" style="font-size: 24px;">home</span>
+      </a>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="result-main">
+
+      <!-- 1. Vital & Triage Summary Card -->
+      <section class="triage-summary-card">
+        <div class="triage-header-row">
+          <span class="triage-badge">
+            <span class="material-symbols-outlined" style="font-size: 16px;">verified_user</span>
+            0ms 가드레일 안전 통과
+          </span>
+          <a href="input.html" class="triage-edit-link">
+            <span>증상 수정</span>
+            <span class="material-symbols-outlined" style="font-size: 16px;">edit</span>
+          </a>
+        </div>
+
+        <div class="vital-chips-row">
+          <span class="vital-chip">
+            <span class="material-symbols-outlined" style="font-size: 16px;">child_care</span>
+            14개월
+          </span>
+          <span class="vital-chip highlight">
+            <span class="material-symbols-outlined" style="font-size: 16px;">device_thermostat</span>
+            39.2℃ (고열)
+          </span>
+          <span class="vital-chip">
+            <span class="material-symbols-outlined" style="font-size: 16px;">sick</span>
+            #구토
+          </span>
+          <span class="vital-chip">
+            <span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
+            잠실동
+          </span>
+        </div>
+
+        <div class="triage-desc-text">
+          <strong>KTAS 3단계 (준응급 / 야간외래 권고)</strong><br />
+          생명 위급 징후가 없어 권역응급실 대기 없이, 즉시 진료 가능한 <strong>달빛어린이병원</strong>과 처방약 조제 가능 <strong>심야약국</strong>을 우선 안내합니다.
+        </div>
+      </section>
+
+      <!-- 2. Track Tab Switcher -->
+      <nav class="track-tabs-container" role="tablist">
+        <button type="button" class="track-tab-btn active" id="tab-btn-moonlight" role="tab" aria-selected="true" onclick="switchTrackTab('moonlight')">
+          <span class="material-symbols-outlined" style="font-size: 18px;">bedtime</span>
+          <span>달빛병원·약국 (3)</span>
+        </button>
+        <button type="button" class="track-tab-btn" id="tab-btn-emergency" role="tab" aria-selected="false" onclick="switchTrackTab('emergency')">
+          <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
+          <span>소아 응급실 병상 (2)</span>
+        </button>
+      </nav>
+
+      <!-- 3. Pane 1: Moonlight Hospital + 30min Pharmacy (Track B) -->
+      <section class="facility-tab-pane" id="pane-moonlight">
+
+        <!-- Card 1 (TOP 1) -->
+        <article class="pairing-card">
+          <span class="pairing-card-rank">추천 1순위</span>
+          <div class="pairing-hospital-sec">
+            <div class="facility-title-row">
+              <h2 class="facility-name">송파어린이병원</h2>
+              <span class="facility-distance">1.8 km (차 6분)</span>
+            </div>
+            <div class="facility-info-row">
+              <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
+              <span>오늘 야간진료 <strong>23:00 마감</strong></span>
+            </div>
+            <div class="badge-warning-soft">
+              <span class="material-symbols-outlined" style="font-size: 14px;">warning</span>
+              <span>접수마감 35분 전 (출발 전 전화 확인 권장)</span>
+            </div>
+          </div>
+
+          <!-- Paired Night Pharmacy -->
+          <div class="pairing-pharmacy-bridge">
+            <div class="pharmacy-top-line">
+              <div class="pharmacy-name-wrap">
+                <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
+                <span>송파달빛약국 (연계 심야약국)</span>
+              </div>
+              <span class="margin-safe-badge">
+                <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                +30분 조제 안전마진
+              </span>
+            </div>
+            <div class="pharmacy-meta">
+              병원에서 도보 2분 (120m) · 오늘 야간영업 <strong>23:30 마감</strong>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="card-actions-row">
+            <a href="tel:0212345678" class="btn-call-action">
+              <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+              <span>병원 전화</span>
+            </a>
+            <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+              <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+              <span>길찾기</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="pairing-card">
+          <div class="pairing-hospital-sec">
+            <div class="facility-title-row">
+              <h2 class="facility-name">강동소아청소년과의원</h2>
+              <span class="facility-distance">3.2 km (차 10분)</span>
+            </div>
+            <div class="facility-info-row">
+              <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
+              <span>오늘 야간진료 <strong>22:30 마감</strong></span>
+            </div>
+          </div>
+
+          <!-- Paired Night Pharmacy -->
+          <div class="pairing-pharmacy-bridge">
+            <div class="pharmacy-top-line">
+              <div class="pharmacy-name-wrap">
+                <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
+                <span>강동온누리약국</span>
+              </div>
+              <span class="margin-safe-badge">
+                <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                +30분 조제 안전마진
+              </span>
+            </div>
+            <div class="pharmacy-meta">
+              병원 바로 옆 (50m) · 오늘 야간영업 <strong>23:00 마감</strong>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="card-actions-row">
+            <a href="tel:0298765432" class="btn-call-action">
+              <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+              <span>병원 전화</span>
+            </a>
+            <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+              <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+              <span>길찾기</span>
+            </a>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- 4. Pane 2: Pediatric Emergency Rooms (Track A) -->
+      <section class="facility-tab-pane hidden" id="pane-emergency">
+
+        <!-- ER Card 1 -->
+        <article class="emergency-room-card">
+          <div class="facility-title-row">
+            <div>
+              <span class="pediatric-specialist-badge" style="margin-bottom: 4px;">권역 소아전문응급센터</span>
+              <h2 class="facility-name">서울아산병원 소아응급실</h2>
+            </div>
+            <span class="facility-distance">2.5 km (차 8분)</span>
+          </div>
+
+          <div class="bed-status-indicator">
+            <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
+            <span class="bed-number-highlight">🟢 4석 여유</span>
+          </div>
+
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <span class="pediatric-specialist-badge">
+              <span class="material-symbols-outlined" style="font-size: 14px;">stethoscope</span>
+              소아청소년과 전문의 당직
+            </span>
+            <span class="data-freshness-meta">
+              <span class="material-symbols-outlined" style="font-size: 14px;">sync</span>
+              3분 전 E-Gen 공식 수집
+            </span>
+          </div>
+
+          <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
+            <a href="tel:0230103333" class="btn-call-action" style="color: #ef4444; border-color: #fca5a5; background: #fee2e2;">
+              <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
+              <span>응급실 직통</span>
+            </a>
+            <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+              <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+              <span>길안내</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- ER Card 2 -->
+        <article class="emergency-room-card">
+          <div class="facility-title-row">
+            <div>
+              <span class="pediatric-specialist-badge" style="background: #f1f5f9; color: #475569; margin-bottom: 4px;">지역응급의료센터</span>
+              <h2 class="facility-name">강동성심병원 응급실</h2>
+            </div>
+            <span class="facility-distance">4.1 km (차 12분)</span>
+          </div>
+
+          <div class="bed-status-indicator">
+            <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
+            <span class="bed-number-highlight warning">🟡 1석 (혼잡)</span>
+          </div>
+
+          <div class="badge-warning-soft">
+            <span class="material-symbols-outlined" style="font-size: 14px;">info</span>
+            <span>심야 소아 진료 가능 여부 출발 전 유선 확인 필수</span>
+          </div>
+
+          <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
+            <a href="tel:0222241114" class="btn-call-action">
+              <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+              <span>응급실 전화</span>
+            </a>
+            <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+              <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+              <span>길안내</span>
+            </a>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- 5. 30-Second Call Script Helper Card -->
+      <section class="helper-accordion-card">
+        <div class="helper-card-title">
+          <span class="material-symbols-outlined" style="color: #0066ff;">call_log</span>
+          <span>출발 전 30초 당직의 통화 스크립트</span>
+        </div>
+        <div class="script-text-box" id="script-content">
+          "안녕하세요, 송파어린이병원 접수처 맞으신가요? 지금 14개월 아기가 39.2도 열과 구토 증상이 있어 내원하려고 합니다. 현재 접수 마감 전 야간 진료 가능한가요?"
+        </div>
+        <button type="button" class="btn-copy-script" onclick="copyCallScript()">
+          <span class="material-symbols-outlined" style="font-size: 18px;">content_copy</span>
+          <span>통화 대본 복사하기</span>
+        </button>
+      </section>
+
+      <!-- 6. Document Checklist Card (May 2024 Reform) -->
+      <section class="helper-accordion-card">
+        <div class="helper-card-title">
+          <span class="material-symbols-outlined" style="color: #10b981;">checklist</span>
+          <span>출발 전 필수 준비물 (본인확인 의무화)</span>
+        </div>
+        <div class="checklist-items">
+          <div class="checklist-item" onclick="toggleCheckItem(this)">
+            <span class="material-symbols-outlined" style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
+            <span>부모(보호자) 실물 신분증 (주민등록증 / 운전면허증)</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheckItem(this)">
+            <span class="material-symbols-outlined" style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
+            <span>주민등록등본 또는 가족관계증명서 (아이 관계 증빙)</span>
+          </div>
+          <div class="checklist-item" onclick="toggleCheckItem(this)">
+            <span class="material-symbols-outlined" style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
+            <span>아기수첩 또는 해열제 교차복용 기록 메모</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Legal Disclaimer Footer -->
+      <footer style="margin-top: 10px; padding: 12px; background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0; font-size: 11px; line-height: 1.6; color: #64748b;">
+        <div style="font-weight: 700; color: #475569; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
+          <span class="material-symbols-outlined" style="font-size: 14px;">verified_user</span>
+          대한민국 의료법 제27조 준수 안심 서비스
+        </div>
+        본 서비스는 인공지능 기반의 사전 안내 및 의료기관 탐색 보조 도구이며, 의학적 진단 및 처방을 대신하지 않습니다. 환아의 상태가 급변할 경우 지체 없이 119로 신고하십시오.
+      </footer>
+
+    </main>
+
+    <!-- 8. Bottom Fixed Actions Bar -->
+    <div class="result-bottom-bar">
+      <a href="input.html" class="btn-retry-input">
+        <span class="material-symbols-outlined" style="font-size: 18px;">refresh</span>
+        <span>증상 다시 입력</span>
+      </a>
+      <a href="index.html" class="btn-bottom-home">
+        <span class="material-symbols-outlined" style="font-size: 18px;">home</span>
+        <span>홈으로 돌아가기</span>
+      </a>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div class="toast-msg" id="toast-msg">통화 대본이 클립보드에 복사되었습니다!</div>
+
+  </div>
+
+  <!-- Interactive Mock Script (Zero Backend Required) -->
+  <script>
+    // 1. Tab Switching (Moonlight vs Emergency)
+    function switchTrackTab(tabKey) {
+      const btnMoonlight = document.getElementById('tab-btn-moonlight');
+      const btnEmergency = document.getElementById('tab-btn-emergency');
+      const paneMoonlight = document.getElementById('pane-moonlight');
+      const paneEmergency = document.getElementById('pane-emergency');
+
+      if (tabKey === 'moonlight') {
+        btnMoonlight.classList.add('active');
+        btnMoonlight.setAttribute('aria-selected', 'true');
+        btnEmergency.classList.remove('active');
+        btnEmergency.setAttribute('aria-selected', 'false');
+        paneMoonlight.classList.remove('hidden');
+        paneEmergency.classList.add('hidden');
+      } else {
+        btnEmergency.classList.add('active');
+        btnEmergency.setAttribute('aria-selected', 'true');
+        btnMoonlight.classList.remove('active');
+        btnMoonlight.setAttribute('aria-selected', 'false');
+        paneEmergency.classList.remove('hidden');
+        paneMoonlight.classList.add('hidden');
+      }
+    }
+
+    // 2. Clipboard Copy Script
+    function copyCallScript() {
+      const scriptText = document.getElementById('script-content').innerText.trim();
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(scriptText).then(() => {
+          showToast('통화 대본이 클립보드에 복사되었습니다!');
+        }).catch(() => {
+          showToast('복사 완료 (대본을 길게 눌러 복사하세요)');
+        });
+      } else {
+        showToast('통화 대본이 복사되었습니다!');
+      }
+    }
+
+    // 3. Interactive Checklist Item Toggle
+    function toggleCheckItem(el) {
+      const icon = el.querySelector('.material-symbols-outlined');
+      el.classList.toggle('checked');
+      if (el.classList.contains('checked')) {
+        icon.innerText = 'check_box';
+      } else {
+        icon.innerText = 'check_box_outline_blank';
+      }
+    }
+
+    // 4. Toast Notification
+    function showToast(msg) {
+      const toast = document.getElementById('toast-msg');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+  </script>
+
+</body>
+
+</html>

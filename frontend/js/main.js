@@ -147,6 +147,43 @@ if (!window.__AISUM_INITIALIZED__) {
         const text = symptomInput ? symptomInput.value.trim() : '';
         if (text) {
           console.log('✅ 사용자 증상 입력 확인 완료:', text);
+
+          const overlay = document.getElementById('ai-analyzing-overlay');
+          const stepText = document.getElementById('analyzing-step-text');
+          const stepIcon = document.getElementById('analyzing-step-icon');
+          const progressFill = document.getElementById('analyzing-progress-fill');
+          const targetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+
+          if (overlay) {
+            // 모바일 키보드 닫기
+            symptomInput.blur();
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+
+            // 1단계: 0.0초 시작 (가드레일 검사)
+            if (progressFill) progressFill.style.width = '35%';
+
+            // 2단계: 0.7초 (소아 KTAS 임상 지침 대조)
+            setTimeout(() => {
+              if (stepText) stepText.innerText = '소아 KTAS 임상 지침 168개 주증상 대조 중...';
+              if (stepIcon) stepIcon.innerText = 'stethoscope';
+              if (progressFill) progressFill.style.width = '70%';
+            }, 700);
+
+            // 3단계: 1.4초 (달빛병원 & 30분 마진 심야약국 매칭)
+            setTimeout(() => {
+              if (stepText) stepText.innerText = '달빛어린이병원 & 30분 마진 심야약국 매칭 완료!';
+              if (stepIcon) stepIcon.innerText = 'verified';
+              if (progressFill) progressFill.style.width = '100%';
+            }, 1400);
+
+            // 4단계: 2.0초 만료 ➔ 결과 화면으로 부드럽게 전환!
+            setTimeout(() => {
+              window.location.href = targetUrl;
+            }, 2000);
+          } else {
+            window.location.href = targetUrl;
+          }
         }
       });
     }

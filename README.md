@@ -30,7 +30,7 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
-### 🌟 [v2.4.13-onboarding-splash-permission] 2026-10-15: '아이숨' monimo 스타일 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축
+### 🌟 [v2.4.15-onboarding-splash-permission] 2026-10-15: '아이숨' monimo 스타일 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축 (정영식 팀장)
 * **monimo 레퍼런스 스타일 미니멀 첫 로딩 스플래시 (`splash.html`) 구축**:
   - 완벽한 화이트 배경에 볼드 산세리프 브랜드 로고(**아이숨.**) 및 펄스 포인트 애니메이션 탑재.
   - 하단 서브 브랜드 표기(`i-Soom / Pediatric Healthcare Networks`)와 iOS 홈 인디케이터 바 라인.
@@ -45,6 +45,34 @@ MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사
   - 확인 버튼 클릭 시 `localStorage` 동의 상태 저장 후 메인 홈(`index.html`)으로 원스톱 네비게이션.
 * **FastAPI 백엔드 라우트 및 상용 서빙 테스트 전수 통과**:
   - `/splash`, `/splash.html`, `/permission`, `/permission.html` 전수 **HTTP 200 OK** 검증 완료.
+
+### 🌟 [v2.4.14-loading-overlay-animation] 2026-10-15: '아이숨' AI 분석 중 로딩 오버레이 & 2초 키프레임 시퀀스(loading.html) 구축 (김동준 팀원)
+* **순수 CSS3 키프레임 애니메이션 기반 로딩 컴포넌트 탑재**:
+  - 외부 무거운 라이브러리(Lottie, JS 애니메이션) 의존 없이 브라우저 GPU 가속 기반 순수 CSS 키프레임(`pulseGlow`, `spinLoader`, `shimmer`) 탑재로 60fps 부드러운 모션 보장.
+  - 신뢰감을 주는 로열 블루 테마 스마트 토이 엠블럼(`smart_toy`, `#0066FF`) 및 외곽 펄스 링 비주얼 구현.
+* **임상 체감 3단계 동적 진행 시퀀스 (2.0초 setTimeout 파이프라인)**:
+  - 0.0초: "의료 안전 가드레일 (Red Flag) 0ms 검사 중..." (진행률 25%)
+  - 0.7초: "소아 KTAS 168개 임상 분류 지침 대조 중..." (진행률 65%)
+  - 1.4초: "실시간 달빛병원 & +30분 조제 안심약국 매칭 중..." (진행률 95%)
+  - 2.0초: 진행률 100% 도달과 함께 맞춤 결과 화면(`result.html`)으로 자동 전환.
+* **인풋 화면 오버레이 & 단독 페이지 동시 제공**:
+  - `frontend/input.html` & `frontend/templates/input.html`: 확인 버튼 클릭 시 키보드를 닫고 자연스럽게 페이드인되는 `#ai-analyzing-overlay` 탑재.
+  - `frontend/loading.html` & `frontend/templates/loading.html`: 단독 로딩 뷰 테스트 및 독립 컴포넌트 검증용 단독 페이지 신규 구축.
+  - `main.py`에 `@app.get("/loading")` 엔드포인트 등록 및 HTTP 200 OK 서빙 검증 완료.
+
+### 🌟 [v2.4.13-result-screen-mockup] 2026-10-15: '아이숨' 맞춤 결과 화면(result.html) 정적 목업 구축 & input.html 연계 완료 (김동준 팀원)
+* **백엔드 핵심 기능 100% 매핑 정적 결과 화면([frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html), [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)) 구축**:
+  - **바이탈 요약 & 0ms 가드레일 배지**: `0ms 가드레일 안전 통과 🟢` 및 환아 정보(`14개월`, `39.2℃ (고열)`, `#구토`, `KTAS 3단계`).
+  - **2-트랙 세그먼트 탭**: `[🌙 달빛병원·약국 (3)]` ↔ `[🚨 소아 응급실 병상 (2)]` 순수 CSS/JS 탭 전환.
+  - **Track B 페어링 카드**: 추천 1순위 송파어린이병원 + 송파달빛약국의 `[🟢 +30분 조제 안전마진 확보]` 배지, 마감주의 뱃지, 원터치 전화/카카오맵 길찾기.
+  - **Track A 소아응급실 카드**: 서울아산병원 소아전문응급센터 실시간 병상(`hv28` 4석 여유), 전문의 당직 여부, E-Gen 데이터 신선도 배지.
+  - **내원 지원 툴킷**: 30초 통화 대본 복사(토스트 팝업 연동) 및 2024년 5월 본인확인 의무화 지참 서류 인터랙티브 체크박스 3종.
+  - **의료법 제27조 안심 고지**: 하단 법적 안심 면책 푸터 탑재.
+* **화면 간 유기적 네비게이션**:
+  - `input.html`에서 텍스트 입력 후 "확인" 버튼 클릭 시 `result.html`로 화면 자동 이동.
+  - `main.py`에 `@app.get("/result")` 정적 서빙 라우트 등록 완료 (HTTP 200 OK 검증).
+* **Git 협업 무결점 동기화**:
+  - 정영식 팀장의 7단계 비주얼 가이드 캐러셀 최신 작업분을 `git stash ➔ git pull ➔ git stash pop`으로 충돌 0건 안전 병합 완료.
 
 ### 🌟 [v2.4.12-guide-visual-carousel] 2026-10-15: '아이숨' 응급실 가이드(emergency_guide.html) 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 전면 개편
 * **기존 장황한 텍스트 배제 및 7단계 시각 카드 슬라이더 전면 전환**:
