@@ -25,8 +25,9 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#ffffff" />
 
-  <!-- Pure Vanilla CSS Stylesheet -->
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
+  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
 </head>
 
 <body>
@@ -72,8 +73,9 @@
 
   </div>
 
-  <!-- Client Interaction Script Module -->
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
   <script src="js/main.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 
 </html>
