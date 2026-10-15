@@ -75,6 +75,11 @@ class SupervisorOrchestrator:
             is_emergency=True,
             message=sanitized_escalation,
             emergency_guide=state.emergency_action_guide,
+            age_months=state.age_months,
+            temperature=state.temperature,
+            ktas_level=state.ktas_level or 1,
+            ktas_level_name=state.ktas_level_name or "소생/긴급 (Red Flag)",
+            symptoms=state.symptoms or ["응급 위험 징후"],
             hospitals=state.matched_hospitals,
             pharmacies=[],
             call_script=None,
@@ -88,6 +93,7 @@ class SupervisorOrchestrator:
         user_lat: float = 37.5133,
         user_lon: float = 127.1001,
         user_address: Optional[str] = None,
+        force_matching: bool = False,
     ) -> SupervisorResponse:
         """Executes a single conversational turn through the FSM pipeline.
 
@@ -95,14 +101,14 @@ class SupervisorOrchestrator:
         2. Performs instant (0ms) Red Flag guardrail check.
            -> If triggered: aborts all agents immediately, escalates to EMERGENCY_ESCALATION.
         3. Executes Triage Agent to extract demographics and clinical variables.
-           -> If variables incomplete and turn_count < 3: stays in TRIAGE and returns follow-up inquiry.
-           -> If complete OR turn_count >= 3 (Deadlock Guard): transitions to MATCHING.
+           -> If variables incomplete and turn_count < 3 and not force_matching: stays in TRIAGE and returns follow-up inquiry.
+           -> If complete OR turn_count >= 3 (Deadlock Guard) OR force_matching (Phase 1 1-shot): transitions to MATCHING.
         4. Executes Matching Agent (Zero-LLM 2-Track Clinical Router).
            -> Transitions to LOGISTICS.
         5. Executes Logistics Agent (30-sec Call Script & May 2024 Document Checklist).
            -> Transitions to COMPLETED.
         6. Passes output through the Medical Service Act Art. 27 single-exit sanitization gateway.
-        7. Saves updated state and returns structured SupervisorResponse.
+        7. Saves updated state and returns structured SupervisorResponse with clinical vital chips.
         """
         # Step 1: Session Management
         state = await self.session_manager.get_or_create_session(
@@ -136,22 +142,28 @@ class SupervisorOrchestrator:
             if state.is_red_flag:
                 return await self._handle_emergency_escalation(state, user_message)
 
-            # Check Triage Completion or 3-Turn Upper Bound (Deadlock Guard)
+            # Check Triage Completion or 3-Turn Upper Bound (Deadlock Guard) or force_matching (Phase 1 1-shot)
             is_complete = state.is_triage_complete()
             turn_limit_reached = state.turn_count >= 3
 
-            if is_complete or turn_limit_reached:
-                # If forced transition due to turn limit, populate safe defaults
-                if not is_complete and turn_limit_reached:
+            if is_complete or turn_limit_reached or force_matching:
+                # If forced transition due to turn limit or force_matching, populate safe defaults
+                if not is_complete and (turn_limit_reached or force_matching):
                     if state.temperature is None:
                         state.temperature = 38.0
+                    if state.age_months is None:
+                        state.age_months = 24
                     if not state.symptoms:
-                        state.symptoms = ["발열", "컨디션 저하"]
-                    empathy_msg += "\n\n※ 증상 입력이 불충분하여 더 이상 지체하지 않고 보호자님 현재 위치 기준 가장 안전한 야간 의료기관으로 우선 안내합니다."
+                        state.symptoms = ["발열", "소아 불편감"]
+                    if not state.ktas_level:
+                        state.ktas_level = 4
+                        state.ktas_level_name = "준응급"
+                    if turn_limit_reached:
+                        empathy_msg += "\n\n※ 증상 입력이 불충분하여 더 이상 지체하지 않고 보호자님 현재 위치 기준 가장 안전한 야간 의료기관으로 우선 안내합니다."
 
                 state.current_step = "MATCHING"
             else:
-                # Still incomplete and turn_count < 3: Stay in TRIAGE and ask for missing variables
+                # Still incomplete and turn_count < 3 and not force_matching: Stay in TRIAGE and ask for missing variables
                 state.current_step = "TRIAGE"
                 sanitized_inquiry = sanitize_output(empathy_msg)
                 if state.conversation_history and state.conversation_history[-1].role == "assistant":
@@ -167,11 +179,17 @@ class SupervisorOrchestrator:
                     is_emergency=False,
                     message=sanitized_inquiry,
                     emergency_guide=None,
+                    age_months=state.age_months,
+                    temperature=state.temperature,
+                    ktas_level=state.ktas_level,
+                    ktas_level_name=state.ktas_level_name,
+                    symptoms=state.symptoms,
                     hospitals=[],
                     pharmacies=[],
                     call_script=None,
                     checklist=[],
                 )
+
 
         # Step 4: Matching Agent (Zero-LLM 2-Track Clinical Router)
         if state.current_step == "MATCHING":
@@ -229,8 +247,14 @@ class SupervisorOrchestrator:
             is_emergency=False,
             message=sanitized_final_text,
             emergency_guide=None,
+            age_months=state.age_months,
+            temperature=state.temperature,
+            ktas_level=state.ktas_level or 4,
+            ktas_level_name=state.ktas_level_name or "준응급",
+            symptoms=state.symptoms,
             hospitals=state.matched_hospitals,
             pharmacies=state.matched_pharmacies,
             call_script=state.call_script,
             checklist=state.document_checklist,
         )
+

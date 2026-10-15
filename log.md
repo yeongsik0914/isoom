@@ -64,6 +64,7 @@
 | **[ISSUE-054]** | 프론트엔드 UI/UX 온보딩 | monimo 레퍼런스 스타일의 아이숨 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-055]** | 프론트엔드 UI/UX 병원 상세 및 접수 | 야간 병원 상세 및 실시간 접수 안내 화면(hospital_detail.html) 순수 프론트엔드 구축 및 result.html 연계 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-056]** | 풀스택 아키텍처 및 결합 명세 | 프론트엔드-백엔드 100% 결합 연동 명세서(FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립 및 미구현 화면 고도화 백서 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-057]** | 풀스택 결합 백엔드 1단계 아키텍처 | SupervisorResponse 임상 바이탈 5대 필드 확장 및 1턴 완결 force_matching FSM 모드 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1671,5 +1672,43 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-057] SupervisorResponse 임상 바이탈 5대 필드 확장 및 1턴 완결 force_matching FSM 모드 구축 (백엔드 1단계)
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장), AI 에이전트
+* **분류**: 풀스택 결합 백엔드 고도화 / DTO 계약 확장 / FSM 상태 전이 제어 / 단위 테스트
+* **문제 상황**:
+  * `FRONTEND_BACKEND_INTEGRATION_SPEC.md` Phase 1(1단계: `input.html` ➔ `result.html` 실제 API 연동)을 진행함에 있어, 백엔드 `SupervisorResponse` 응답 DTO에 `result.html` 상단 바이탈 칩에 바인딩할 환아 월령(`age_months`), 체온(`temperature`), KTAS 등급(`ktas_level`, `ktas_level_name`), 주요 증상(`symptoms`)이 누락되어 있었음.
+  * 또한 `input.html`은 단발성 증상 텍스트 입력 폼인데, 보호자가 월령을 누락한 채 "아이가 열이 나요"라고 입력하면 백엔드 FSM이 `TRIAGE` 상태에서 추가 질의응답을 대기하며 시설 추천(`hospitals`)을 비워둔 채 반환하여 화면단에서 병원 목록이 표출되지 않는 사용자 경험(UX) 결함이 발생함.
+* **원인 분석**:
+  * 백엔드 `PatientSessionState`에는 임상 변수들이 온전히 보존되어 있었으나, 클라이언트 반환용 DTO인 `SupervisorResponse`가 기관 및 통화 대본 위주로 설계되어 있었음.
+  * 또한 FSM 오케스트레이터의 전이 조건이 `is_triage_complete()` 또는 `turn_count >= 3`으로만 고정되어 있어, 단발성 폼 화면의 1턴 즉시 매칭 요구를 수용하지 못했음.
+* **구체적 해결 방안**:
+  1. **`SupervisorResponse` DTO에 5대 임상 필드 공식 탑재 ([app/schemas/supervisor.py](file:///e:/monnlight/app/schemas/supervisor.py))**:
+     - `age_months`, `temperature`, `ktas_level`, `ktas_level_name`, `symptoms` 필드 추가.
+  2. **`ChatRequest` DTO에 1턴 즉시 매칭 플래그 추가 ([app/schemas/chat.py](file:///e:/monnlight/app/schemas/chat.py))**:
+     - `force_matching: bool = False` 추가 (단발성 입력 화면 전용).
+  3. **`SupervisorOrchestrator` FSM 상태 전이 로직 개선 ([app/orchestrator/supervisor.py](file:///e:/monnlight/app/orchestrator/supervisor.py))**:
+     - `force_matching=True` 인입 시, 결측 임상 변수가 있더라도 안전 기본값(체온 38.0℃, 월령 24개월, KTAS 4 준응급)을 채우고 즉시 1턴 만에 `MATCHING` ➔ `LOGISTICS` ➔ `COMPLETED`로 이행.
+     - 0ms Red Flag 위급 상황(신생아 고열, 경련 등)은 `force_matching`과 무관하게 26µs 만에 즉각 `EMERGENCY_ESCALATION`으로 최우선 직행하여 의료 안전 절대 사수.
+     - 정상 응답 및 응급실 에스컬레이션 응답 모두에 환아 임상 바이탈 데이터 100% 탑재.
+  4. **API 서빙 계층 전달 ([app/api/v1/chat.py](file:///e:/monnlight/app/api/v1/chat.py))**:
+     - `chat_turn` 및 `_sse_event_generator`에서 `req.force_matching` 파라미터 전달.
+  5. **신규 Step 8 테스트 스위트 구축 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - `TC-801` (1턴 force_matching 완결 검증), `TC-802` (Red Flag 절대 우선권 검증), `TC-803` (REST API 스키마 무결성 검증) 3개 테스트 100% 통과 (총 77개 테스트 OK).
+* **적용 파일**:
+  * [app/schemas/supervisor.py](file:///e:/monnlight/app/schemas/supervisor.py)
+  * [app/schemas/chat.py](file:///e:/monnlight/app/schemas/chat.py)
+  * [app/orchestrator/supervisor.py](file:///e:/monnlight/app/orchestrator/supervisor.py)
+  * [app/api/v1/chat.py](file:///e:/monnlight/app/api/v1/chat.py)
+  * [tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py) (신규)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 

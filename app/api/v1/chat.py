@@ -47,7 +47,9 @@ async def _sse_event_generator(
             user_lat=req.user_lat,
             user_lon=req.user_lon,
             user_address=req.user_address,
+            force_matching=req.force_matching,
         )
+
 
         # If emergency escalation triggered, emit high-priority emergency event immediately
         if response.is_emergency:
@@ -106,7 +108,9 @@ async def chat_turn(req: ChatRequest):
         user_lat=req.user_lat,
         user_lon=req.user_lon,
         user_address=req.user_address,
+        force_matching=req.force_matching,
     )
+
     return response
 
 

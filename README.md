@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-74%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-77%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -29,6 +29,17 @@
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
+
+### 🌟 [v2.4.18-backend-phase1-integration] 2026-10-15: '아이숨' 풀스택 결합 백엔드 1단계 - SupervisorResponse 임상 바이탈 5대 필드 확장 및 1턴 완결 force_matching FSM 모드 구축 (정영식 팀장, AI 에이전트)
+* **`SupervisorResponse` 클라이언트 반환 DTO 임상 바이탈 필드 탑재**:
+  - `result.html` 상단 바이탈 칩(나이, 체온, 중증도)과 증상 목록을 백엔드에서 100% 동적 주입할 수 있도록 5대 핵심 필드(`age_months`, `temperature`, `ktas_level`, `ktas_level_name`, `symptoms`) 신설.
+* **단발성 증상 입력(`input.html`) 전용 `force_matching` FSM 모드 도입**:
+  - `ChatRequest`에 `force_matching: bool = False` 플래그 추가.
+  - 사용자가 증상을 단발로 입력했을 때도 결측치에 대한 안전 기본값(체온 38.0℃, 월령 24개월)을 채우고 1턴 만에 즉각 `MATCHING` ➔ `LOGISTICS` ➔ `COMPLETED`로 이행하여 병원/약국/통화스크립트를 100% 반환.
+* **0ms Red Flag 26µs 최우선 119 직행 안전망 사수**:
+  - `force_matching=True` 호출이라도 생후 100일 미만 고열, 경련 등 12대 위급 상황 감지 시 즉각 `EMERGENCY_ESCALATION`으로 숏서킷되어 의료 안전 완전 보장.
+* **Step 8 신규 통합 테스트 스위트 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py)) 전수 통과**:
+  - TC-801, TC-802, TC-803 무결점 통과 ➔ **총 77개 테스트 100% 전수 합격 (`Ran 77 tests, OK`)**.
 
 ### 🌟 [v2.4.17-frontend-backend-integration-spec] 2026-10-15: '아이숨' 프론트엔드-백엔드 100% 결합 연동 명세서(FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립 및 개발 백서 배포 (정영식 팀장, AI 에이전트)
 * **프로젝트 루트 전용 종합 백서 [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립**:

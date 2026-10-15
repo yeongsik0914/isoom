@@ -17,6 +17,11 @@ class ChatRequest(BaseModel):
     user_lon: float = Field(default=127.1001, description="사용자 GPS 경도 (기본값: 서울 잠실역 127.1001)")
     user_address: Optional[str] = Field(default=None, description="사용자 거주지 또는 현재 지번/도로명 주소")
     stream: bool = Field(default=False, description="Server-Sent Events (SSE) 실시간 스트리밍 여부")
+    force_matching: bool = Field(
+        default=False,
+        description="1턴 즉시 매칭 강제 플래그 (Phase 1 단발성 증상 입력 화면 input.html 전용: 결측치 안전 기본값 채움)",
+    )
+
 
 
 class SessionDetailResponse(BaseModel):
