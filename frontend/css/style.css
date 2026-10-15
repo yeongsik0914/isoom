@@ -2940,6 +2940,39 @@ body.font-size-large .location-pill {
   color: #0f172a;
 }
 
+/* Current Active Address Display Bar */
+.current-address-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.current-bar-icon {
+  font-size: 18px;
+  color: #0066ff;
+  flex-shrink: 0;
+}
+
+.current-bar-text {
+  font-size: 13px;
+  color: #334155;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.current-bar-text strong {
+  color: #0f172a;
+}
+
 /* Location Search Box (주소 검색 / 키워드 검색) */
 .location-search-box {
   display: flex;

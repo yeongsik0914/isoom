@@ -190,18 +190,19 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "scratch/__pycache__/test_seocho_check.cpython-314.pyc",
+    "scratch/__pycache__",
+    "scratch/test_seocho_check.py",
+    "scratch",
+    "tests/__pycache__/test_step7_circuit_breaker.cpython-314.pyc.1903702918960",
+    "frontend/templates/js/public_night_pharmacies.js",
+    "frontend/templates/js/nationwide_pairings.js",
+    "scripts/build_complete_app_datasets.py",
     "PLAN.md",
     "전국_달빛어린이병원_및_야간심야약국_현황.md",
     "data/national_night_pharmacies_2028.json",
     "data/national_moonlight_hospitals_156.json",
     "scripts/export_national_moonlight_and_night_pharmacy_md.py",
-    "frontend/js/public_night_pharmacies.js",
-    "data/public_night_pharmacies.json",
-    "scripts/build_public_night_pharmacy_dataset.py",
-    "tests/__pycache__/test_step8_frontend_integration.cpython-314.pyc",
-    "scripts/fetch_real_moonlight_hospitals.py",
-    "scripts/build_real_moonlight_dataset.py",
-    "update_main_js.py",
     "q_a.md",
     "FRONTEND_BACKEND_INTEGRATION_SPEC.md",
     "docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md",
@@ -234,7 +235,6 @@
     "app/orchestrator/README.md",
     "app/agents/README.md",
     "docs/PROJECT_PLAN.md",
-    "README.md",
-    "docs/PLAN.md"
+    "README.md"
   ]
 }

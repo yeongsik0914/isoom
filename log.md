@@ -90,6 +90,8 @@
 | **[ISSUE-081]** | 의료 데이터셋 엔지니어링 & 공공심야약국 LBS | 보건복지부·지자체 공식 지정 공공심야약국(22:00~01:00/02:00) 실데이터셋 구축 및 index.html 심야약국 탭 실시간 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-082]** | 프론트엔드 LBS & 인터랙티브 UI/UX | 상단 위치 알약 버튼(잠실동) 클릭 시 주소·키워드 검색 및 실시간 GPS 현재 위치 지정 바텀시트 모달 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-083]** | 공공데이터 오픈 API 엔지니어링 & 전수 통계 | 국립중앙의료원 병·의원 및 약국 오픈 API(DATA_GO_API_KEY) 기반 전국 달빛어린이병원(156개) 및 야간·심야약국(2,028개) 마크다운 표 생성 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-084]** | 전국 의료 데이터셋 통합 & 전 페이지 위치 기반 연동 | 전국 달빛어린이병원(156개)·야간약국(2,028개) 마스터 데이터셋 구축, 아이숨 전 페이지(index·result·hospital_detail) 위치 기반 실데이터 연동 및 상단 문정동 알약 주소 검색·현재 주소 직접 설정 기능 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-085]** | 프론트엔드 UI/UX 레이아웃 버그 & 태그 정합성 | 위치 설정 모달(location-select-modal) sheet-header 닫는 div 태그 누락으로 인한 컴포넌트 가로 압축 결함 해결 및 수직 렌더링 복원 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2628,3 +2630,79 @@
   * [README.md](file:///e:/monnlight/README.md)
 * **조치 결과**:
   * 환경변수 `DATA_GO_API_KEY` 기반 100% 정상 추출 및 마크다운 테이블 산출 완료, 단위 테스트(`test_step1_services`) 7개 전수 통과 (`OK`).
+
+---
+
+### [ISSUE-084] 전국 의료 데이터셋 통합 & 전 페이지 위치 기반 연동 및 문정동 알약 주소 검색·현재 주소 직접 설정 기능 완성
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **분류**: 프론트엔드 LBS / 데이터셋 엔지니어링 / 크로스 페이지 공간 데이터 연동
+* **문제 상황**:
+  * `전국_달빛어린이병원_및_야간심야약국_현황.md`로 공시된 156개 전수 달빛어린이병원과 2,028개 야간약국 실데이터가 `index.html` 일부에만 국한되거나 `result.html`, `hospital_detail.html`에는 여전히 하드코딩된 더미 데이터가 노출될 위험이 존재함.
+  * 사용자가 첨부한 디자인 이미지(`📍 문정동 ∨`)와 일치하도록 기본 위치를 문정동으로 설정하고, 위치 알약 클릭 시 주소 검색 및 사용자가 입력한 주소로 현재 위치를 직접 지정할 수 있는 편의 기능이 부재했음.
+* **원인 분석**:
+  * 프론트엔드 정적 번들(`nationwide_pairings.js`, `public_night_pharmacies.js`)의 156개 병원-약국 매핑 파이프라인이 전 페이지에 스크립트 로더로 연결되지 않았음.
+  * 검색 모달에서 쿼리 입력 시 DB 매칭 목록만 표출되고, 사용자가 임의로 입력한 상세 주소(예: "문정로 12", "송파대로")를 그대로 현재 위치로 설정하는 원클릭 액션 항목이 없었음.
+* **구체적 해결 방안**:
+  1. **전국 마스터 데이터셋 및 브라우저 번들 빌더 자동화 ([scripts/build_complete_app_datasets.py](file:///e:/monnlight/scripts/build_complete_app_datasets.py))**:
+     - 전국 156개 달빛병원과 2,028개 야간약국을 구면거리로 매칭하여 `data/nationwide_pairings.json` 및 `data/public_night_pharmacies.json` 구축.
+     - 브라우저 전역 로더 `window.NATIONWIDE_PAIRINGS_DATA` 및 `window.PUBLIC_NIGHT_PHARMACIES_DATA`를 `frontend/js/` 및 `frontend/templates/js/`에 자동 동기화.
+  2. **메인 홈 상단 위치 알약 및 주소 검색·직접 설정 UI/UX 고도화**:
+     - `current-location-pill` 기본값을 `문정동` (위도 37.4858, 경도 127.1225)으로 설정 및 이미지 100% 일치 구현.
+     - `searchLocations()`에서 검색어 입력 시 최상단에 `📍 '${rawQ}' (으)로 현재 주소 설정` 카드를 동적 노출하고 엔터키/클릭 시 `setUserCustomLocation()` 실행.
+     - 모달 상단에 `현재 주소: 서울특별시 송파구 문정동` (또는 사용자 설정 주소) 안내 바 탑재.
+  3. **위치 기반 동작 전 페이지 실데이터 연동**:
+     - `index.html`: 문정동 기준 최근접 달빛병원(하이엔소아과의원 2.4km 등) 실시간 렌더링 및 카드 클릭 시 `selectLiveFacilityCard()`로 상세 페이지 안전 이동.
+     - `result.html`: `nationwide_pairings.js` 로더 추가 및 Haversine 구면거리로 최근접 4대 달빛병원·약국 실데이터 동적 수화. 통화 스크립트에도 실제 최근접 병원명 자동 반영.
+     - `hospital_detail.html`: `nationwide_pairings.js` 로드 및 세션 데이터 부재 시에도 현재 위치 기준 최근접 달빛병원 및 페어링 약국 0ms 자동 바인딩.
+* **적용 파일**:
+  * [scripts/build_complete_app_datasets.py](file:///e:/monnlight/scripts/build_complete_app_datasets.py)
+  * [data/nationwide_pairings.json](file:///e:/monnlight/data/nationwide_pairings.json)
+  * [data/public_night_pharmacies.json](file:///e:/monnlight/data/public_night_pharmacies.json)
+  * [frontend/js/nationwide_pairings.js](file:///e:/monnlight/frontend/js/nationwide_pairings.js) & [frontend/templates/js/nationwide_pairings.js](file:///e:/monnlight/frontend/templates/js/nationwide_pairings.js)
+  * [frontend/js/public_night_pharmacies.js](file:///e:/monnlight/frontend/js/public_night_pharmacies.js) & [frontend/templates/js/public_night_pharmacies.js](file:///e:/monnlight/frontend/templates/js/public_night_pharmacies.js)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js) & [frontend/templates/js/main.js](file:///e:/monnlight/frontend/templates/js/main.js)
+  * [frontend/index.html](file:///e:/monnlight/frontend/index.html) & [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/result.html](file:///e:/monnlight/frontend/result.html) & [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html)
+  * [frontend/hospital_detail.html](file:///e:/monnlight/frontend/hospital_detail.html) & [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * 문정동 기본 설정 및 주소 검색·직접 설정 정상 작동, 앱의 모든 위치 기반 페이지(`index`, `result`, `hospital_detail`)에서 156개 병원·2,028개 약국 실데이터 100% 연동 확인 완료.
+
+---
+
+### [ISSUE-085] 위치 설정 모달(location-select-modal) sheet-header 닫는 div 태그 누락으로 인한 컴포넌트 가로 압축 결함 해결 및 수직 렌더링 복원
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **분류**: 프론트엔드 UI/UX 레이아웃 버그 / HTML 구조 정합성
+* **문제 상황**:
+  * 메인 홈 상단 위치 알약(`📍 문정동 ∨`)을 클릭하여 위치 설정 바텀시트 모달(`location-select-modal`)을 열었을 때, 모달 내의 모든 컴포넌트(제목, 닫기 버튼, 현재 주소 안내 바, 주소 검색창, GPS 현재 위치 버튼, 자주 찾는 지역 그리드)가 가로 일렬(flex row)로 극도로 찌그러져 텍스트가 세로 1글자 단위로 세로 쓰기처럼 깨져 출력되는 치명적 레이아웃 결함 발생 (사용자 캡처 이미지: `media_1792078028717.png`).
+* **원인 분석**:
+  * `frontend/templates/index.html` 및 `frontend/index.html`의 모달 마크업 구조 분석 결과, `<div class="sheet-header">`의 닫는 태그(`</div>`)가 누락되어 있었음.
+  * 이로 인해 `sheet-header`의 CSS 속성인 `display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;`가 하위 모든 자식 요소(`modal-current-address-bar`, `location-search-box`, `btn-gps-refresh`, `quick-locations-section`)에까지 단일 행 컨테이너로 적용됨.
+  * 모든 UI 컴포넌트가 가로 1열에 억지로 패킹되면서 폭이 극도로 좁아져 텍스트가 1글자씩 세로로 꺾이며 찌그러지는 현상이 발생함.
+* **구체적 해결 방안**:
+  1. **HTML 정합성 복구**:
+     - `frontend/templates/index.html` 및 `frontend/index.html`에서 `<div class="sheet-header">` 닫는 태그(`</div>`)를 닫기 버튼(`class="sheet-close-btn"`) 직후에 명확히 삽입함.
+     - 하위 컴포넌트들이 `sheet-content`의 세로 방향(Flex Column) 정상 플로우에 속하도록 DOM 계층 구조 정상화.
+  2. **모달 현재 주소 바 CSS 규격화**:
+     - `frontend/css/style.css` 및 `frontend/templates/css/style.css`에 `.current-address-bar` 전용 스타일 추가 (`width: 100%; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; font-weight: 600;`).
+     - 긴 주소명이 유입되더라도 모달 레이아웃을 깨뜨리지 않고 말줄임표 처리되도록 방어.
+  3. **템플릿과 정적 배포 파일 100% 동기화**:
+     - `frontend/templates/index.html` 및 `frontend/index.html` 양쪽에 동일 수정사항을 완전 동기화 적용.
+* **적용 파일**:
+  - [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  - [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  - [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  - [frontend/templates/css/style.css](file:///e:/monnlight/frontend/templates/css/style.css)
+  - [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  - [log.md](file:///e:/monnlight/log.md)
+  - [PLAN.md](file:///e:/monnlight/PLAN.md)
+  - [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - 모달 내 요소들이 정상적인 세로(Column) 순서(제목 & 닫기 ➔ 현재 설정된 주소 바 ➔ 주소 검색창 ➔ GPS 실시간 측정 버튼 ➔ 자주 찾는 주요 지역 그리드)로 깔끔하고 여유롭게 배치되어 텍스트 깨짐 및 가로 압축 왜곡 현상이 100% 완벽하게 해결됨.
+

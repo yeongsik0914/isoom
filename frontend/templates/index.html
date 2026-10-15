@@ -36,20 +36,18 @@
         <a href="#" class="brand-logo" aria-label="아이숨 홈">
           아이숨
         </a>
-        <button type="button" class="location-pill" id="current-location-pill" aria-label="현재 위치 변경: 역삼동">
+        <button type="button" class="location-pill" id="current-location-pill" aria-label="현재 위치 변경: 문정동" onclick="if(typeof window.openLocationModal==='function') window.openLocationModal();">
           <span class="material-symbols-outlined location-icon">location_on</span>
-          <span id="current-location-text">역삼동</span>
+          <span id="current-location-text">문정동</span>
           <span class="material-symbols-outlined dropdown-icon">expand_more</span>
         </button>
         <script>
           (function() {
             try {
-              var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+              var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '문정동';
               var el = document.getElementById('current-location-text');
-              if (dong && el) {
+              if (el) {
                 el.textContent = dong;
-              } else if (el) {
-                el.textContent = '내 위치 확인 중';
               }
             } catch(e) {}
           })();
@@ -220,6 +218,12 @@
         <button type="button" class="sheet-close-btn" id="location-modal-close-btn" aria-label="위치 모달 닫기">
           <span class="material-symbols-outlined">close</span>
         </button>
+      </div>
+
+      <!-- Current Active Address Display Bar -->
+      <div class="current-address-bar" id="modal-current-address-bar" style="display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:9px 12px;margin-bottom:12px;">
+        <span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span>
+        <span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 주소: <strong style="color:#0f172a;">서울특별시 송파구 문정동</strong></span>
       </div>
 
       <!-- 1. Address & Keyword Search Input (주소 검색 / 키워드 검색) -->

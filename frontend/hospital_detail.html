@@ -941,61 +941,109 @@
 
   <script>
     let activeHospital = {
-      name: "송파어린이병원",
-      dist: 1.8,
-      drive_min: 6,
+      name: "하이엔소아청소년과의원",
+      dist: 2.4,
+      drive_min: 7,
       duty_time: "오늘 야간진료 23:00 마감",
       tel: "02-400-7575",
-      address: "서울특별시 송파구 올림픽로 300",
+      address: "서울특별시 송파구 송파대로 111",
       waiting_count: 4,
+      hours: {
+        weekday: "09:00 ~ 23:00",
+        saturday: "09:00 ~ 18:00",
+        sunday: "09:00 ~ 18:00"
+      },
       pharmacy: {
-        name: "송파달빛약국",
+        name: "문정스타약국",
+        tel: "02-400-7576",
         duty_time: "23:30 마감",
-        margin: 30
+        margin: 30,
+        guide: "병원 동일 건물 1층 도보 1분"
       }
     };
 
-    // 1. Hydrate Hospital Data from SessionStorage or Real Backend API
+    // 1. Hydrate Hospital Data from SessionStorage, NATIONWIDE_PAIRINGS_DATA, or Backend API
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         const stored = sessionStorage.getItem('selected_hospital');
         if (stored) {
           activeHospital = Object.assign(activeHospital, JSON.parse(stored));
         } else {
-          // 백엔드 실제 엔드포인트 비동기 호출 (GET /api/v1/emergency/pairings)
-          try {
-            const userLat = localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133';
-            const userLon = localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001';
-            const res = await fetch(`/api/v1/emergency/pairings?lat=${userLat}&lon=${userLon}&limit=1`);
-            if (res.ok) {
-              const pData = await res.json();
-              if (pData.pairings && pData.pairings.length > 0) {
-                const top = pData.pairings[0];
-                activeHospital = {
-                  name: top.병원명,
-                  dist: typeof top.거리_km === 'number' ? Number(top.거리_km.toFixed(1)) : parseFloat(top.거리_km),
-                  drive_min: Math.max(3, Math.round((top.거리_km || 1.8) * 2.5)),
-                  tel: top.병원전화,
-                  address: top.병원주소,
-                  duty_time: `오늘 야간진료 ${top.병원_평일마감 || '23:00'} 마감`,
-                  waiting_count: 4,
-                  hours: {
-                    weekday: top.병원_평일진료 || '08:30 ~ 21:00',
-                    saturday: top.병원_토요진료 || '08:30 ~ 18:00',
-                    sunday: top.병원_일공진료 || '09:00 ~ 18:00',
-                  },
-                  pharmacy: {
-                    name: top.약국명,
-                    tel: top.약국전화,
-                    duty_time: `${top.약국_평일마감 || '21:30'} 마감`,
-                    margin: top.안전마진_분 || 30,
-                    guide: top.이동안내 || '동일 건물 도보 1분'
-                  }
-                };
+          const userLat = parseFloat(localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || '37.4858');
+          const userLon = parseFloat(localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || '127.1225');
+          const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
+
+          if (pairings.length > 0) {
+            let best = null;
+            let minDist = Infinity;
+            pairings.forEach(p => {
+              const hLat = parseFloat(p.병원위도) || userLat;
+              const hLon = parseFloat(p.병원경도) || userLon;
+              const d = Math.sqrt(Math.pow((userLat - hLat) * 111, 2) + Math.pow((userLon - hLon) * 88, 2));
+              if (d < minDist) {
+                minDist = d;
+                best = p;
               }
+            });
+
+            if (best) {
+              const distKm = Number(minDist.toFixed(1));
+              activeHospital = {
+                name: best.병원명,
+                dist: distKm,
+                drive_min: Math.max(3, Math.round(distKm * 2.5)),
+                duty_time: `오늘 야간진료 ${best.병원_평일마감 || '23:00'} 마감`,
+                tel: best.병원전화 || '02-1234-5678',
+                address: best.병원주소 || '서울특별시 송파구 문정동',
+                waiting_count: 4,
+                hours: {
+                  weekday: best.병원_평일진료 || '09:00 ~ 21:00',
+                  saturday: best.병원_토요진료 || '09:00 ~ 18:00',
+                  sunday: best.병원_일공진료 || '09:00 ~ 18:00',
+                },
+                pharmacy: {
+                  name: best.약국명 || '인근 안심약국',
+                  tel: best.약국전화 || '',
+                  duty_time: `${best.약국_평일마감 || '22:00'} 마감`,
+                  margin: best.안전마진_분 || 30,
+                  guide: best.이동안내 || '동일 건물 도보 1분'
+                }
+              };
             }
-          } catch (apiErr) {
-            console.log('실제 병원 페어링 API 비동기 폴백:', apiErr);
+          } else {
+            // 백엔드 실제 엔드포인트 비동기 호출 (GET /api/v1/emergency/pairings)
+            try {
+              const res = await fetch(`/api/v1/emergency/pairings?lat=${userLat}&lon=${userLon}&limit=1`);
+              if (res.ok) {
+                const pData = await res.json();
+                if (pData.pairings && pData.pairings.length > 0) {
+                  const top = pData.pairings[0];
+                  activeHospital = {
+                    name: top.병원명,
+                    dist: typeof top.거리_km === 'number' ? Number(top.거리_km.toFixed(1)) : parseFloat(top.거리_km),
+                    drive_min: Math.max(3, Math.round((top.거리_km || 1.8) * 2.5)),
+                    tel: top.병원전화,
+                    address: top.병원주소,
+                    duty_time: `오늘 야간진료 ${top.병원_평일마감 || '23:00'} 마감`,
+                    waiting_count: 4,
+                    hours: {
+                      weekday: top.병원_평일진료 || '08:30 ~ 21:00',
+                      saturday: top.병원_토요진료 || '08:30 ~ 18:00',
+                      sunday: top.병원_일공진료 || '09:00 ~ 18:00',
+                    },
+                    pharmacy: {
+                      name: top.약국명,
+                      tel: top.약국전화,
+                      duty_time: `${top.약국_평일마감 || '21:30'} 마감`,
+                      margin: top.안전마진_분 || 30,
+                      guide: top.이동안내 || '동일 건물 도보 1분'
+                    }
+                  };
+                }
+              }
+            } catch (apiErr) {
+              console.log('실제 병원 페어링 API 비동기 폴백:', apiErr);
+            }
           }
         }
       } catch (e) {
@@ -1131,6 +1179,8 @@
     }
   </script>
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
+  <script src="js/nationwide_pairings.js"></script>
+  <script src="../js/nationwide_pairings.js"></script>
   <script src="js/main.js"></script>
   <script src="../js/main.js"></script>
 </body>

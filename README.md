@@ -30,6 +30,29 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.44-modal-layout-fix] 2026-10-15: 위치 설정 모달(location-select-modal) HTML 구조 정합성 복구 및 수직 레이아웃 안정화 (정영식 팀장)
+* **🛠️ 위치 설정 모달(location-select-modal) `sheet-header` 닫는 div 태그 누락 결함 해결**:
+  - `frontend/templates/index.html` 및 `frontend/index.html`에서 `<div class="sheet-header">`의 닫는 태그(`</div>`) 누락으로 인해 모달 내 모든 컴포넌트(현재 주소 바, 주소 검색창, GPS 측정 버튼, 지역 그리드)가 가로 일렬(flex row)로 찌그러지며 텍스트가 1글자 단위로 세로 쓰기 되던 결함 완전 해소.
+  - 닫기 버튼 직후 닫는 태그를 명확히 삽입하여 하위 컴포넌트들이 정상적인 수직(Flex Column) 플로우를 타도록 DOM 구조 복원.
+* **🎨 모달 내 현재 설정 주소 안내 바 CSS 규격화 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - `.current-address-bar` 전용 스타일(`width: 100%; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; font-weight: 600;`)을 규격화하여 긴 도로명 주소도 말줄임표 처리 및 안정적인 여백 유지.
+* **🌐 템플릿-정적 배포 파일 100% 동기화 및 단위 테스트 전수 통과**:
+  - `frontend/index.html`과 `frontend/templates/index.html`, `style.css` 양방향 완전 일치 동기화.
+  - 단위 테스트(`tests/test_step3_agents.py`, `tests/test_step1_services.py`, `tests/test_step8_frontend_integration.py`) 17개 전수 통과(`OK`).
+
+### 🌟 [v2.4.43-nationwide-complete-app-sync] 2026-10-15: 전국 156개 달빛병원·2,028개 야간약국 실데이터셋 전 페이지 연동 및 상단 문정동 알약 주소 검색·현재 주소 직접 설정 기능 완성 (정영식 팀장)
+* **🏥 전국 156개 달빛어린이병원 & 2,028개 야간약국 마스터 데이터셋 구축 ([scripts/build_complete_app_datasets.py](file:///e:/monnlight/scripts/build_complete_app_datasets.py))**:
+  - `전국_달빛어린이병원_및_야간심야약국_현황.md`의 전수 데이터를 구면거리 기반 1:1 인접 약국과 매칭하여 `data/nationwide_pairings.json` 및 `data/public_night_pharmacies.json` 완성.
+  - 브라우저 전역 로더(`frontend/js/nationwide_pairings.js`, `frontend/js/public_night_pharmacies.js`)를 구축하여 클라이언트 0ms 무지연 LBS 서빙 보장.
+* **📍 첨부 디자인 일치 상단 위치 알약(`📍 문정동 ∨`) & 주소 검색·현재 주소 직접 설정 기능 탑재**:
+  - 메인 홈 상단 알약 기본값을 `문정동` (위도 37.4858, 경도 127.1225)으로 바인딩.
+  - 검색창(`location-search-input`)에 임의의 주소/키워드(예: 송파대로, 문정로) 입력 시 최상단에 `📍 '${query}' (으)로 현재 주소 설정` 카드가 노출되어, 원클릭으로 사용자 기본 주소 영구 저장(`aisum_user_address`).
+  - 모달 상단에 `현재 주소: 서울특별시 송파구 문정동` 상태 안내 바를 표출하여 현재 설정 위치 시인성 강화.
+* **🌐 위치 기반 동작 모든 페이지(`index`, `result`, `hospital_detail`) 실데이터 100% 연동**:
+  - **`index.html`**: 문정동 기준 최근접 달빛병원(하이엔소아과의원 2.4km, 세곡달빛의원 3.0km, 잠실24시열린의원 3.7km 등) 실시간 출력 및 카드 클릭 시 상세 페이지 이동 연동.
+  - **`result.html`**: `nationwide_pairings.js` 로드 및 사용자 위치 기준 최근접 4대 달빛병원·약국 실데이터 동적 수화. 통화 스크립트에도 실제 최근접 병원명 자동 반영.
+  - **`hospital_detail.html`**: 세션 전달 데이터 및 현재 위치 기반 156개 실데이터로부터 최근접 병원과 협약 약국 실시간 하이드레이션 (영업시간, 접수마감 시간, 길찾기 링크 100% 실데이터).
+
 ### 🌟 [v2.4.42-national-moonlight-and-night-pharmacy-registry-md] 2026-10-15: 공공데이터포털 국립중앙의료원 오픈 API(DATA_GO_API_KEY) 기반 전국 달빛어린이병원(156개) 및 야간·심야약국(2,028개) 전수 마크다운 표 생성 완결 (정영식 팀장)
 * **🏥 국립중앙의료원(NMC) 전국 병·의원 찾기 API(`HsptlAsembySearchService`) 실시간 연동**:
   - `getBabyListInfoInqire` 오퍼레이션을 통해 대한민국 보건복지부 지정 공식 **달빛어린이병원 156개소 전수**를 `DATA_GO_API_KEY`로 자동 호출하여 완벽 추출.

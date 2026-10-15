@@ -73,18 +73,18 @@ window.AisumPermissionManager = {
     try {
       const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
       const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon');
-      const dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '역삼동';
+      const dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '문정동';
       return {
-        lat: sLat ? parseFloat(sLat) : 37.5006,
-        lon: sLon ? parseFloat(sLon) : 127.0365,
+        lat: sLat ? parseFloat(sLat) : 37.4858,
+        lon: sLon ? parseFloat(sLon) : 127.1225,
         dong: dong,
         isCustom: localStorage.getItem('aisum_location_manual') === 'true'
       };
     } catch (e) {
-      return { lat: 37.5006, lon: 127.0365, dong: '역삼동', isCustom: false };
+      return { lat: 37.4858, lon: 127.1225, dong: '문정동', isCustom: false };
     }
   },
-  saveUserLocation: function(lat, lon, dong) {
+  saveUserLocation: function(lat, lon, dong, fullAddr) {
     try {
       localStorage.setItem('aisum_user_lat', lat);
       localStorage.setItem('aisum_user_lon', lon);
@@ -92,6 +92,9 @@ window.AisumPermissionManager = {
       localStorage.setItem('user_lon', lon);
       localStorage.setItem('aisum_user_dong', dong);
       localStorage.setItem('user_dong', dong);
+      if (fullAddr) {
+        localStorage.setItem('aisum_user_address', fullAddr);
+      }
       localStorage.setItem('aisum_permission_granted', 'true');
       localStorage.setItem('aisum_permission_location', 'granted');
     } catch (e) {
@@ -105,9 +108,9 @@ window.AisumPermissionManager = {
 // ============================================================================
 window.AISUM_LOCATIONS_DB = [
   // 1. 서울 동남권 (송파 / 강남 / 서초 / 강동)
+  { name: '문정동', gu: '송파구', city: '서울', lat: 37.4858, lon: 127.1225, isPopular: true, fullAddr: '서울특별시 송파구 문정동', keywords: ['문정', '문정역', '법조타운', '송파', '문정동', '문정로'] },
   { name: '잠실동', gu: '송파구', city: '서울', lat: 37.5133, lon: 127.1001, isPopular: true, fullAddr: '서울특별시 송파구 잠실동', keywords: ['잠실', '잠실역', '롯데월드', '송파', '신천'] },
-  { name: '문정동', gu: '송파구', city: '서울', lat: 37.4858, lon: 127.1225, isPopular: false, fullAddr: '서울특별시 송파구 문정동', keywords: ['문정', '문정역', '법조타운', '송파'] },
-  { name: '가락동', gu: '송파구', city: '서울', lat: 37.4925, lon: 127.1188, isPopular: false, fullAddr: '서울특별시 송파구 가락동', keywords: ['가락', '가락시장', '송파'] },
+  { name: '가락동', gu: '송파구', city: '서울', lat: 37.4925, lon: 127.1188, isPopular: true, fullAddr: '서울특별시 송파구 가락동', keywords: ['가락', '가락시장', '송파'] },
   { name: '방이동', gu: '송파구', city: '서울', lat: 37.5138, lon: 127.1215, isPopular: false, fullAddr: '서울특별시 송파구 방이동', keywords: ['방이', '올림픽공원', '송파'] },
   { name: '역삼동', gu: '강남구', city: '서울', lat: 37.5006, lon: 127.0365, isPopular: true, fullAddr: '서울특별시 강남구 역삼동', keywords: ['역삼', '강남', '테헤란로', '강남역'] },
   { name: '삼성동', gu: '강남구', city: '서울', lat: 37.5140, lon: 127.0565, isPopular: true, fullAddr: '서울특별시 강남구 삼성동', keywords: ['삼성', '코엑스', '강남', '봉은사'] },
@@ -221,7 +224,7 @@ window.calculateDistanceKm = function(lat1, lon1, lat2, lon2) {
 };
 
 window.estimateDongFromCoords = function(lat, lon) {
-  let best = '역삼동';
+  let best = '문정동';
   let minD = Infinity;
   const nodes = window.AISUM_LOCATIONS_DB || [];
   for (let i = 0; i < nodes.length; i++) {
@@ -236,7 +239,7 @@ window.estimateDongFromCoords = function(lat, lon) {
 };
 
 window.updateLocationDisplay = function(dongName, lat, lon) {
-  const name = dongName || '역삼동';
+  const name = dongName || '문정동';
   const textEl = document.getElementById('current-location-text');
   const pillBtn = document.getElementById('current-location-pill');
   if (textEl) {
@@ -248,7 +251,8 @@ window.updateLocationDisplay = function(dongName, lat, lon) {
 
   // Persist into localStorage via PermissionManager
   if (window.AisumPermissionManager) {
-    window.AisumPermissionManager.saveUserLocation(lat || 37.5006, lon || 127.0365, name);
+    const fullAddr = localStorage.getItem('aisum_user_address') || `서울특별시 송파구 ${name}`;
+    window.AisumPermissionManager.saveUserLocation(lat || 37.4858, lon || 127.1225, name, fullAddr);
   }
 
   // Update active status in quick-locations-grid
@@ -259,6 +263,17 @@ window.updateLocationDisplay = function(dongName, lat, lon) {
       const btnDong = btn.getAttribute('data-dong');
       btn.classList.toggle('active', btnDong === name);
     });
+  }
+
+  // Update modal indicators
+  const tagEl = document.getElementById('modal-current-dong-tag');
+  if (tagEl) {
+    tagEl.textContent = `현재: ${name}`;
+  }
+  const barEl = document.getElementById('modal-current-address-bar');
+  if (barEl) {
+    const fullAddr = localStorage.getItem('aisum_user_address') || `서울특별시 송파구 ${name}`;
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon">home_pin</span><span class="current-bar-text">현재 주소: <strong>${escapeSearchHtml(fullAddr)}</strong></span>`;
   }
 };
 
@@ -388,9 +403,11 @@ window.refreshUserCurrentLocation = function() {
   );
 };
 
-window.setUserCustomLocation = function(dongName, lat, lon) {
+window.setUserCustomLocation = function(dongName, lat, lon, fullAddr) {
   try {
     localStorage.setItem('aisum_location_manual', 'true');
+    const userAddr = fullAddr || `서울특별시 송파구 ${dongName}`;
+    localStorage.setItem('aisum_user_address', userAddr);
   } catch (e) {}
 
   window.updateLocationDisplay(dongName, lat, lon);
@@ -430,14 +447,46 @@ function highlightMatch(text, query) {
 
 window.searchLocations = function(query) {
   if (!query || !query.trim()) return [];
-  const rawQ = query.trim().toLowerCase();
-  const q = rawQ.replace(/\s+/g, '');
+  const rawQ = query.trim();
+  const lowerQ = rawQ.toLowerCase();
+  const q = lowerQ.replace(/\s+/g, '');
 
   const results = [];
   const addedKeys = new Set();
 
-  // 1. Search in AISUM_LOCATIONS_DB (전국 핵심 동 & 행정구역 DB)
+  // 0. 최상단: 사용자가 입력한 주소/키워드로 직접 설정할 수 있는 직관 카드 생성
+  let directLat = 37.4858;
+  let directLon = 127.1225;
+  const currLoc = window.AisumPermissionManager ? window.AisumPermissionManager.getUserLocation() : null;
+  if (currLoc && currLoc.lat && currLoc.lon) {
+    directLat = currLoc.lat;
+    directLon = currLoc.lon;
+  }
+
+  // 사용자가 입력한 검색어 내에 알려진 행정구역이 있으면 해당 중심 좌표를 스마트하게 매칭
   const db = window.AISUM_LOCATIONS_DB || [];
+  for (let i = 0; i < db.length; i++) {
+    const item = db[i];
+    if (q.includes(item.name.replace(/\s+/g, '')) || item.keywords.some(kw => q.includes(kw))) {
+      directLat = item.lat;
+      directLon = item.lon;
+      break;
+    }
+  }
+
+  results.push({
+    isDirect: true,
+    name: rawQ,
+    gu: '입력 주소 직접 지정',
+    city: '주소 설정',
+    fullAddr: rawQ,
+    lat: directLat,
+    lon: directLon,
+    score: 99999,
+    type: 'custom'
+  });
+
+  // 1. Search in AISUM_LOCATIONS_DB (전국 핵심 동 & 행정구역 DB)
   db.forEach((item) => {
     const nameClean = item.name.toLowerCase().replace(/\s+/g, '');
     const guClean = item.gu.toLowerCase().replace(/\s+/g, '');
@@ -460,6 +509,7 @@ window.searchLocations = function(query) {
       else score += 10;
 
       results.push({
+        isDirect: false,
         name: item.name,
         gu: item.gu,
         city: item.city || '',
@@ -473,7 +523,7 @@ window.searchLocations = function(query) {
     }
   });
 
-  // 2. Search in Nationwide Moonlight Hospitals & Pharmacies (달빛병원 및 약국 매칭)
+  // 2. Search in Nationwide Moonlight Hospitals & Pharmacies (달빛병원 156개소 매칭)
   const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
   pairings.forEach((p) => {
     const hName = p.병원명 || '';
@@ -482,20 +532,21 @@ window.searchLocations = function(query) {
     const pAddr = p.약국주소 || '';
 
     const textToMatch = (hName + ' ' + hAddr + ' ' + pName + ' ' + pAddr).toLowerCase();
-    if (textToMatch.includes(rawQ) || textToMatch.replace(/\s+/g, '').includes(q)) {
-      const lat = parseFloat(p.병원위도) || 37.5006;
-      const lon = parseFloat(p.병원경도) || 127.0365;
+    if (textToMatch.includes(lowerQ) || textToMatch.replace(/\s+/g, '').includes(q)) {
+      const lat = parseFloat(p.병원위도) || 37.4858;
+      const lon = parseFloat(p.병원경도) || 127.1225;
       const dong = window.estimateDongFromCoords(lat, lon);
       const key = (hName || pName) + dong;
       if (!addedKeys.has(key)) {
         results.push({
+          isDirect: false,
           name: dong,
           gu: hName || pName,
-          city: '의료기관 연계',
+          city: '달빛병원 연계',
           fullAddr: hAddr || pAddr || `${dong} 일대`,
           lat: lat,
           lon: lon,
-          score: 25,
+          score: 35,
           type: 'facility'
         });
         addedKeys.add(key);
@@ -503,26 +554,27 @@ window.searchLocations = function(query) {
     }
   });
 
-  // 3. Search in Public Night Pharmacies (공공심야약국 매칭)
+  // 3. Search in Public Night Pharmacies (공공심야약국 2028개소 매칭)
   const nightPharmacies = window.PUBLIC_NIGHT_PHARMACIES_DATA || [];
   nightPharmacies.forEach((np) => {
     const npName = np.약국명 || '';
-    const npAddr = np.주소 || '';
+    const npAddr = np.주소 || np.약국주소 || '';
     const textToMatch = (npName + ' ' + npAddr).toLowerCase();
-    if (textToMatch.includes(rawQ) || textToMatch.replace(/\s+/g, '').includes(q)) {
-      const lat = parseFloat(np.위도) || 37.5006;
-      const lon = parseFloat(np.경도) || 127.0365;
+    if (textToMatch.includes(lowerQ) || textToMatch.replace(/\s+/g, '').includes(q)) {
+      const lat = parseFloat(np.위도 || np.약국위도) || 37.4858;
+      const lon = parseFloat(np.경도 || np.약국경도) || 127.1225;
       const dong = window.estimateDongFromCoords(lat, lon);
       const key = npName + dong;
       if (!addedKeys.has(key)) {
         results.push({
+          isDirect: false,
           name: dong,
           gu: npName,
-          city: '공공심야약국 연계',
+          city: '심야약국 연계',
           fullAddr: npAddr,
           lat: lat,
           lon: lon,
-          score: 20,
+          score: 30,
           type: 'pharmacy'
         });
         addedKeys.add(key);
@@ -530,9 +582,11 @@ window.searchLocations = function(query) {
     }
   });
 
-  // Sort results by relevance score descending
-  results.sort((a, b) => b.score - a.score);
-  return results.slice(0, 15);
+  // Direct card stays on top, rest sorted by relevance score
+  const directItem = results[0];
+  const otherItems = results.slice(1);
+  otherItems.sort((a, b) => b.score - a.score);
+  return [directItem, ...otherItems.slice(0, 14)];
 };
 
 window.initLocationSearch = function() {
@@ -562,42 +616,44 @@ window.initLocationSearch = function() {
 
     const matches = window.searchLocations(query);
     if (countEl) {
-      countEl.textContent = `검색 결과 ${matches.length}건`;
+      const actualCount = matches.filter(m => !m.isDirect).length;
+      countEl.textContent = `검색 결과 ${actualCount}건`;
     }
 
     if (!resultsList) return;
 
-    if (matches.length === 0) {
-      resultsList.innerHTML = `
-        <div class="no-results-card">
-          <span class="material-symbols-outlined no-results-icon">location_off</span>
-          <div class="no-results-msg">'${escapeSearchHtml(query)}' 검색 결과가 없습니다</div>
-          <div class="no-results-sub">동, 구, 시 명칭(예: 잠실동, 강남, 분당, 해운대)으로 검색해 보세요</div>
-          <button type="button" class="btn-custom-set" onclick="window.setUserCustomLocation('${escapeSearchHtml(query)}', 37.5133, 127.1001)">
-            '${escapeSearchHtml(query)}' 위치로 직접 지정
-          </button>
-        </div>
-      `;
-      return;
-    }
-
     let html = '';
     matches.forEach((m) => {
-      const highlightedName = highlightMatch(m.name, query);
-      const highlightedAddr = highlightMatch(m.fullAddr, query);
-      const badgeText = m.gu || m.city || '지역';
-      html += `
-        <li class="location-result-item" onclick="window.setUserCustomLocation('${m.name}', ${m.lat}, ${m.lon})">
-          <div class="result-main-wrap">
-            <span class="material-symbols-outlined result-pin-icon">location_on</span>
-            <div class="result-info">
-              <span class="result-title">${highlightedName}</span>
-              <span class="result-desc">${highlightedAddr}</span>
+      if (m.isDirect) {
+        html += `
+          <li class="location-result-item direct-set-item" style="background:#f0f7ff;border:1.5px solid #93c5fd;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;" onclick="window.setUserCustomLocation('${escapeSearchHtml(m.name)}', ${m.lat}, ${m.lon}, '${escapeSearchHtml(m.fullAddr)}')">
+            <div class="result-main-wrap" style="display:flex;align-items:center;gap:10px;">
+              <span class="material-symbols-outlined result-pin-icon" style="color:#0066ff;font-size:22px;">edit_location_alt</span>
+              <div class="result-info" style="display:flex;flex-direction:column;gap:2px;">
+                <span class="result-title" style="color:#0066ff;font-weight:700;font-size:14px;">'${escapeSearchHtml(m.name)}' (으)로 현재 주소 설정</span>
+                <span class="result-desc" style="color:#475569;font-size:12px;">입력하신 주소/키워드를 사용자 기본 위치로 즉시 지정합니다</span>
+              </div>
             </div>
-          </div>
-          <span class="result-tag">${badgeText}</span>
-        </li>
-      `;
+            <span class="result-tag" style="background:#0066ff;color:#ffffff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;">현재 주소로 설정</span>
+          </li>
+        `;
+      } else {
+        const highlightedName = highlightMatch(m.name, query);
+        const highlightedAddr = highlightMatch(m.fullAddr, query);
+        const badgeText = m.gu || m.city || '지역';
+        html += `
+          <li class="location-result-item" onclick="window.setUserCustomLocation('${escapeSearchHtml(m.name)}', ${m.lat}, ${m.lon}, '${escapeSearchHtml(m.fullAddr)}')">
+            <div class="result-main-wrap">
+              <span class="material-symbols-outlined result-pin-icon">location_on</span>
+              <div class="result-info">
+                <span class="result-title">${highlightedName}</span>
+                <span class="result-desc">${highlightedAddr}</span>
+              </div>
+            </div>
+            <span class="result-tag">${badgeText}</span>
+          </li>
+        `;
+      }
     });
     resultsList.innerHTML = html;
   };
@@ -656,11 +712,16 @@ window.openLocationModal = function() {
   if (resultsSec) resultsSec.style.display = 'none';
   if (quickSec) quickSec.style.display = 'flex';
 
-  // Update current selected dong badge
-  const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '역삼동';
+  // Update current selected dong badge and full address bar
+  const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '문정동';
   const tagEl = document.getElementById('modal-current-dong-tag');
   if (tagEl) {
     tagEl.textContent = `현재: ${currentDong}`;
+  }
+  const barEl = document.getElementById('modal-current-address-bar');
+  if (barEl) {
+    const fullAddr = localStorage.getItem('aisum_user_address') || `서울특별시 송파구 ${currentDong}`;
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:16px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
   }
 
   // Render quick locations grid
@@ -882,7 +943,7 @@ window.renderLiveFacilities = function(filter) {
       : `내 위치 ${facility.dist}km (도보 ${facility.walkTime} / 차 ${facility.carTime})`;
 
     cardsHTML += `
-      <article class="facility-card live-card" data-type="${facility.type}">
+      <article class="facility-card live-card" data-type="${facility.type}" style="cursor: pointer;" onclick="window.selectLiveFacilityCard('${escapeSearchHtml(facility.name)}', '${facility.type}')" title="클릭하여 상세 정보 및 실시간 접수 보기">
         <div class="card-top">
           <div class="facility-main">
             <div class="facility-icon-wrap ${iconClass}" aria-hidden="true">
@@ -898,7 +959,7 @@ window.renderLiveFacilities = function(filter) {
               <p class="facility-desc">${facility.desc}</p>
             </div>
           </div>
-          <a href="tel:${facility.phone}" class="call-btn" aria-label="${facility.name} 전화 걸기">
+          <a href="tel:${facility.phone}" class="call-btn" aria-label="${facility.name} 전화 걸기" onclick="event.stopPropagation();">
             <span class="material-symbols-outlined">call</span>
           </a>
         </div>
@@ -915,6 +976,89 @@ window.renderLiveFacilities = function(filter) {
   });
 
   stack.innerHTML = cardsHTML;
+};
+
+// ============================================================================
+// 🏥 Facility Card Navigation & Data Bridge (병원/약국 카드 클릭 시 상세 페이지 데이터 바인딩)
+// ============================================================================
+window.selectLiveFacilityCard = function(facilityName, facilityType) {
+  try {
+    const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
+    const userLoc = window.AisumPermissionManager
+      ? window.AisumPermissionManager.getUserLocation()
+      : { lat: 37.4858, lon: 127.1225, dong: '문정동' };
+
+    let selectedHospital = null;
+
+    if (facilityType === 'hospital') {
+      const match = pairings.find(p => p.병원명 === facilityName) || pairings[0];
+      if (match) {
+        const hLat = parseFloat(match.병원위도) || userLoc.lat;
+        const hLon = parseFloat(match.병원경도) || userLoc.lon;
+        const distKm = Number(window.calculateDistanceKm(userLoc.lat, userLoc.lon, hLat, hLon).toFixed(1));
+        selectedHospital = {
+          name: match.병원명,
+          dist: distKm,
+          drive_min: Math.max(3, Math.round(distKm * 2.5)),
+          duty_time: `오늘 야간진료 ${match.병원_평일마감 || '23:00'} 마감`,
+          tel: match.병원전화 || '02-1234-5678',
+          address: match.병원주소 || '서울특별시 송파구 문정동',
+          waiting_count: 4,
+          hours: {
+            weekday: match.병원_평일진료 || '09:00 ~ 21:00',
+            saturday: match.병원_토요진료 || '09:00 ~ 18:00',
+            sunday: match.병원_일공진료 || '09:00 ~ 18:00'
+          },
+          pharmacy: {
+            name: match.약국명 || '인근 안심약국',
+            tel: match.약국전화 || '',
+            duty_time: `${match.약국_평일마감 || '22:00'} 마감`,
+            margin: match.안전마진_분 || 30,
+            guide: match.이동안내 || '병원 인근 도보 1~2분',
+            address: match.약국주소 || ''
+          }
+        };
+      }
+    } else {
+      // 심야약국 클릭 시 해당 약국과 연결된 달빛병원 혹은 최근접 병원 세팅
+      const match = pairings.find(p => p.약국명 === facilityName) || pairings[0];
+      if (match) {
+        const hLat = parseFloat(match.병원위도) || userLoc.lat;
+        const hLon = parseFloat(match.병원경도) || userLoc.lon;
+        const distKm = Number(window.calculateDistanceKm(userLoc.lat, userLoc.lon, hLat, hLon).toFixed(1));
+        selectedHospital = {
+          name: match.병원명,
+          dist: distKm,
+          drive_min: Math.max(3, Math.round(distKm * 2.5)),
+          duty_time: `오늘 야간진료 ${match.병원_평일마감 || '23:00'} 마감`,
+          tel: match.병원전화 || '02-1234-5678',
+          address: match.병원주소 || '서울특별시 송파구 문정동',
+          waiting_count: 4,
+          hours: {
+            weekday: match.병원_평일진료 || '09:00 ~ 21:00',
+            saturday: match.병원_토요진료 || '09:00 ~ 18:00',
+            sunday: match.병원_일공진료 || '09:00 ~ 18:00'
+          },
+          pharmacy: {
+            name: match.약국명 || facilityName,
+            tel: match.약국전화 || '',
+            duty_time: `${match.약국_평일마감 || '22:00'} 마감`,
+            margin: match.안전마진_분 || 30,
+            guide: match.이동안내 || '공식 협약 심야약국',
+            address: match.약국주소 || ''
+          }
+        };
+      }
+    }
+
+    if (selectedHospital) {
+      sessionStorage.setItem('selected_hospital', JSON.stringify(selectedHospital));
+      const isHtml = window.location.pathname.endsWith('.html');
+      window.location.href = isHtml ? 'hospital_detail.html' : 'hospital_detail';
+    }
+  } catch (err) {
+    console.warn('Facility card navigation error:', err);
+  }
 };
 
 window.filterLiveFacilities = function(filter) {
