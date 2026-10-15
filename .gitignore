@@ -35,6 +35,4 @@ data/*
 # OS specific files
 Thumbs.db
 .DS_Store
-._*
-
-q_a.md
+._*

@@ -702,14 +702,14 @@
           <span class="material-symbols-outlined" style="font-size: 15px;">dark_mode</span>
           보건복지부 지정 달빛어린이병원
         </span>
-        <span class="badge-open-live">
+        <span class="badge-open-live" id="hospital-live-badge">
           <span class="live-dot"></span>
-          실시간 야간진료 중 (~23:00)
+          <span id="hospital-live-time">실시간 야간진료 중 (~23:00)</span>
         </span>
       </div>
 
-      <h2 class="hospital-main-name">송파어린이병원</h2>
-      <p class="hospital-subtitle">소아청소년과 전문의 2명 상주 야간 안심진료</p>
+      <h2 class="hospital-main-name" id="detail-hospital-name">송파어린이병원</h2>
+      <p class="hospital-subtitle" id="detail-hospital-sub">소아청소년과 전문의 상주 야간 안심진료</p>
 
       <!-- 3-Column Metrics Bar -->
       <div class="metrics-bar-grid">
@@ -719,7 +719,7 @@
         </div>
         <div class="metric-col">
           <span class="metric-label">내 위치 거리</span>
-          <span class="metric-val">1.8 km (차 6분)</span>
+          <span class="metric-val" id="detail-hospital-dist">1.8 km (차 6분)</span>
         </div>
         <div class="metric-col">
           <span class="metric-label">주차 지원</span>
@@ -746,11 +746,11 @@
             <span class="material-symbols-outlined" style="font-size: 32px; color: #0066ff;">person</span>
           </div>
           <div class="doctor-info-wrap">
-            <span class="doctor-badge-status">제1소아진료실 (2층)</span>
-            <div class="doctor-name-title">Dr. 김서연 전문의</div>
-            <div class="doctor-desc">
-              소아청소년과 세부전문의 · 소아 호흡기 및 급성발열 전문<br>
-              <strong style="color: #0066ff;">현재 14번 환아 진료 중</strong> (순번 진행 원활)
+            <span class="doctor-badge-status" id="doctor-room-badge">야간소아진료실 (2층)</span>
+            <div class="doctor-name-title" id="doctor-name-title">Dr. 소아청소년과 당직전문의</div>
+            <div class="doctor-desc" id="doctor-desc-text">
+              소아청소년과 전문의 · 소아 급성발열 및 호흡기 질환 전문<br>
+              <strong style="color: #0066ff;" id="doctor-queue-status">현재 대기 환아 진료 진행 중</strong> (순번 진행 원활)
             </div>
           </div>
         </div>
@@ -758,8 +758,8 @@
         <!-- Warning Notice Banner -->
         <div class="warning-notice-banner">
           <span class="material-symbols-outlined">warning</span>
-          <div class="warning-notice-text">
-            <strong>야간 접수 마감 주의 (22:30 마감)</strong><br>
+          <div class="warning-notice-text" id="hospital-deadline-notice">
+            <strong id="hospital-deadline-title">야간 접수 마감 주의 (22:30 마감)</strong><br>
             환아 폭증 시 마감 30분 전 조기 마감될 수 있으므로, 출발 전 전화 확인 또는 하단 번호표 발급을 권장합니다.
           </div>
         </div>
@@ -778,7 +778,7 @@
         <div class="time-table-list">
           <div class="time-row active-today">
             <span>오늘 (평일 야간진료)<span class="today-tag">오늘</span></span>
-            <span>09:00 ~ 23:00 (접수마감 22:30)</span>
+            <span id="detail-today-hours">09:00 ~ 23:00 (접수마감 22:30)</span>
           </div>
           <div class="time-row">
             <span>토요일</span>
@@ -796,7 +796,7 @@
         <div class="pharmacy-header">
           <div class="pharmacy-title-area">
             <span class="material-symbols-outlined" style="color: #0066ff; font-size: 22px;">medication</span>
-            <h3>송파달빛약국</h3>
+            <h3 id="pharmacy-name">송파달빛약국</h3>
           </div>
           <span class="margin-badge">
             <span class="material-symbols-outlined" style="font-size: 15px;">verified</span>
@@ -804,8 +804,8 @@
           </span>
         </div>
 
-        <p style="font-size: 13px; color: #475569;">
-          병원 바로 옆 <strong>도보 1분 (80m)</strong> · 오늘 야간영업 <strong>24:00 마감</strong>
+        <p style="font-size: 13px; color: #475569;" id="pharmacy-desc">
+          병원 바로 옆 <strong>도보 1분 (80m)</strong> · 오늘 야간영업 <strong>23:30 마감</strong>
         </p>
 
         <div class="pharmacy-tag-row">
@@ -815,11 +815,11 @@
         </div>
 
         <div class="pharmacy-action-btns">
-          <a href="tel:0298765432" class="p-action-btn">
+          <a href="tel:024007576" class="p-action-btn" id="btn-pharmacy-call">
             <span class="material-symbols-outlined" style="font-size: 17px; color: #0066ff;">call</span>
             약국 문의
           </a>
-          <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="p-action-btn">
+          <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="p-action-btn" id="btn-pharmacy-map">
             <span class="material-symbols-outlined" style="font-size: 17px; color: #0066ff;">near_me</span>
             약국 길찾기
           </a>
@@ -837,8 +837,8 @@
 
         <div class="address-copy-box">
           <div class="address-text-wrap">
-            <strong style="color: #0f172a;">서울특별시 송파구 송파대로 345 (가락동) 2층</strong><br>
-            <span style="font-size: 12px; color: #64748b;">가락시장역 3번 출구 도보 3분 · 지하주차장 무료</span>
+            <strong style="color: #0f172a;" id="detail-address-text">서울특별시 송파구 올림픽로 300</strong><br>
+            <span style="font-size: 12px; color: #64748b;" id="detail-address-sub">가까운 지하철역 도보 3분 · 지하주차장 무료</span>
           </div>
           <button type="button" class="copy-btn" onclick="copyAddress()">
             <span class="material-symbols-outlined" style="font-size: 15px;">content_copy</span>
@@ -847,10 +847,10 @@
         </div>
 
         <div class="map-app-links">
-          <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-kakao-map">
+          <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-kakao-map" id="btn-kakao-map">
             카카오맵 길안내
           </a>
-          <a href="https://map.naver.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-naver-map">
+          <a href="https://map.naver.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-naver-map" id="btn-naver-map">
             네이버지도 길안내
           </a>
         </div>
@@ -885,7 +885,7 @@
 
     <!-- 8. Fixed Bottom Action Bar -->
     <div class="detail-bottom-fixed">
-      <a href="tel:0212345678" class="btn-bottom-call">
+      <a href="tel:024007575" class="btn-bottom-call" id="btn-hospital-call">
         <span class="material-symbols-outlined" style="font-size: 20px; color: #0066ff;">call</span>
         <span>병원 전화</span>
       </a>
@@ -902,22 +902,22 @@
           <span class="material-symbols-outlined" style="font-size: 36px;">check_circle</span>
         </div>
         <h3 style="font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">야간 접수 대기표</h3>
-        <p style="font-size: 13px; color: #64748b;">송파어린이병원 제1소아진료실</p>
+        <p style="font-size: 13px; color: #64748b;" id="ticket-hospital-dept">송파어린이병원 야간소아진료실</p>
 
-        <div class="ticket-number-display">19번</div>
+        <div class="ticket-number-display" id="ticket-number-display">19번</div>
 
         <div style="background: #f8fafc; border-radius: 12px; padding: 12px; margin: 14px 0; border: 1px solid #e2e8f0; font-size: 13px; text-align: left;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
             <span style="color: #64748b;">내 앞 대기 환아</span>
-            <strong style="color: #0066ff;">4팀 (약 20분 예상)</strong>
+            <strong style="color: #0066ff;" id="ticket-waiting-summary">4팀 (약 20분 예상)</strong>
           </div>
           <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
             <span style="color: #64748b;">진료 담당의</span>
-            <strong style="color: #0f172a;">Dr. 김서연 전문의</strong>
+            <strong style="color: #0f172a;" id="ticket-doctor-name">소아청소년과 전문의</strong>
           </div>
           <div style="display: flex; justify-content: space-between;">
-            <span style="color: #64748b;">내원 안내</span>
-            <span style="color: #059669; font-weight: 600;">22:15까지 내원 필수</span>
+            <span style="color: #64748b;">내원 권고 시간</span>
+            <span style="color: #059669; font-weight: 600;" id="ticket-visit-time">22:15까지 내원 필수</span>
           </div>
         </div>
 
@@ -940,6 +940,125 @@
   </div>
 
   <script>
+    let activeHospital = {
+      name: "송파어린이병원",
+      dist: 1.8,
+      drive_min: 6,
+      duty_time: "오늘 야간진료 23:00 마감",
+      tel: "02-400-7575",
+      address: "서울특별시 송파구 올림픽로 300",
+      waiting_count: 4,
+      pharmacy: {
+        name: "송파달빛약국",
+        duty_time: "23:30 마감",
+        margin: 30
+      }
+    };
+
+    // 1. Hydrate Hospital Data from SessionStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const stored = sessionStorage.getItem('selected_hospital');
+        if (stored) {
+          activeHospital = Object.assign(activeHospital, JSON.parse(stored));
+        }
+      } catch (e) {
+        console.warn('Failed to parse selected_hospital:', e);
+      }
+
+      // Title & Hero Name
+      document.title = `${activeHospital.name} 상세 - 아이숨(i-Soom)`;
+      const nameEl = document.getElementById('detail-hospital-name');
+      if (nameEl) nameEl.innerText = activeHospital.name;
+
+      // Extract time info
+      let closingTime = "23:00";
+      if (activeHospital.duty_time) {
+        const match = activeHospital.duty_time.match(/(\d{2}:\d{2})/);
+        if (match) closingTime = match[1];
+      }
+      const [chH, chM] = closingTime.split(':').map(Number);
+      const deadMinutes = chH * 60 + chM - 30;
+      const deadH = String(Math.floor(deadMinutes / 60)).padStart(2, '0');
+      const deadM = String(deadMinutes % 60).padStart(2, '0');
+      const deadlineTime = `${deadH}:${deadM}`;
+
+      const visitMinutes = deadMinutes - 15;
+      const vH = String(Math.floor(visitMinutes / 60)).padStart(2, '0');
+      const vM = String(visitMinutes % 60).padStart(2, '0');
+      const visitTime = `${vH}:${vM}`;
+
+      // Hero Badges & Metrics
+      const liveTimeEl = document.getElementById('hospital-live-time');
+      if (liveTimeEl) liveTimeEl.innerText = `실시간 야간진료 중 (~${closingTime})`;
+
+      const queueWaitMin = (activeHospital.waiting_count || 4) * 5;
+      const queueEl = document.getElementById('live-queue-count');
+      if (queueEl) queueEl.innerText = `${activeHospital.waiting_count || 4}팀 (약 ${queueWaitMin}분)`;
+
+      const distEl = document.getElementById('detail-hospital-dist');
+      if (distEl) distEl.innerText = `${activeHospital.dist} km (차 ${activeHospital.drive_min || Math.round(activeHospital.dist * 3)}분)`;
+
+      // Notice Banner
+      const deadlineTitleEl = document.getElementById('hospital-deadline-title');
+      if (deadlineTitleEl) deadlineTitleEl.innerText = `야간 접수 마감 주의 (${deadlineTime} 마감)`;
+
+      // Operating Hours Table
+      const todayHoursEl = document.getElementById('detail-today-hours');
+      if (todayHoursEl) todayHoursEl.innerText = `09:00 ~ ${closingTime} (접수마감 ${deadlineTime})`;
+
+      // Paired Pharmacy
+      if (activeHospital.pharmacy) {
+        const pNameEl = document.getElementById('pharmacy-name');
+        if (pNameEl) pNameEl.innerText = activeHospital.pharmacy.name;
+
+        const pDescEl = document.getElementById('pharmacy-desc');
+        if (pDescEl) {
+          pDescEl.innerHTML = `병원 바로 옆 <strong>도보 1~2분</strong> · 오늘 야간영업 <strong>${activeHospital.pharmacy.duty_time || '23:30 마감'}</strong>`;
+        }
+
+        const pMapEl = document.getElementById('btn-pharmacy-map');
+        if (pMapEl) {
+          pMapEl.href = `https://map.kakao.com/link/search/${encodeURIComponent(activeHospital.pharmacy.name)}`;
+        }
+
+        const pCallEl = document.getElementById('btn-pharmacy-call');
+        if (pCallEl && activeHospital.pharmacy.tel) {
+          pCallEl.href = `tel:${activeHospital.pharmacy.tel.replace(/-/g, '')}`;
+        }
+      }
+
+      // Address & Map Links
+      const addrEl = document.getElementById('detail-address-text');
+      if (addrEl && activeHospital.address) addrEl.innerText = activeHospital.address;
+
+      const kakaoMapEl = document.getElementById('btn-kakao-map');
+      if (kakaoMapEl) {
+        kakaoMapEl.href = `https://map.kakao.com/link/search/${encodeURIComponent(activeHospital.name)}`;
+      }
+
+      const naverMapEl = document.getElementById('btn-naver-map');
+      if (naverMapEl) {
+        naverMapEl.href = `https://map.naver.com/v5/search/${encodeURIComponent(activeHospital.name)}`;
+      }
+
+      // Bottom Call Button
+      const callBtn = document.getElementById('btn-hospital-call');
+      if (callBtn && activeHospital.tel) {
+        callBtn.href = `tel:${activeHospital.tel.replace(/-/g, '')}`;
+      }
+
+      // Mobile Ticket Modal Hydration
+      const ticketDeptEl = document.getElementById('ticket-hospital-dept');
+      if (ticketDeptEl) ticketDeptEl.innerText = `${activeHospital.name} 야간소아진료실`;
+
+      const ticketQueueEl = document.getElementById('ticket-waiting-summary');
+      if (ticketQueueEl) ticketQueueEl.innerText = `${activeHospital.waiting_count || 4}팀 (약 ${queueWaitMin}분 예상)`;
+
+      const ticketVisitEl = document.getElementById('ticket-visit-time');
+      if (ticketVisitEl) ticketVisitEl.innerText = `${visitTime}까지 내원 필수`;
+    });
+
     function openTicketModal() {
       document.getElementById('ticket-modal').style.display = 'flex';
     }
@@ -954,7 +1073,7 @@
     }
 
     function copyAddress() {
-      const address = "서울특별시 송파구 송파대로 345 (가락동) 2층";
+      const address = activeHospital.address || "서울특별시 송파구 올림픽로 300";
       navigator.clipboard.writeText(address).then(() => {
         showToast('병원 주소가 복사되었습니다.');
       }).catch(() => {

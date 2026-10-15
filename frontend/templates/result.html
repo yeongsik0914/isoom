@@ -690,9 +690,9 @@
       <!-- 1. Vital & Triage Summary Card -->
       <section class="triage-summary-card">
         <div class="triage-header-row">
-          <span class="triage-badge">
+          <span class="triage-badge" id="guardrail-badge">
             <span class="material-symbols-outlined" style="font-size: 16px;">verified_user</span>
-            0ms 가드레일 안전 통과
+            <span id="guardrail-badge-text">0ms 가드레일 안전 통과</span>
           </span>
           <a href="input.html" class="triage-edit-link">
             <span>증상 수정</span>
@@ -713,15 +713,15 @@
             <span class="material-symbols-outlined" style="font-size: 16px;">sick</span>
             <span id="vital-symptom-text">#구토</span>
           </span>
-          <span class="vital-chip">
+          <span class="vital-chip" id="vital-location-chip">
             <span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
-            잠실동
+            <span id="vital-location-text">내 주변 (GPS)</span>
           </span>
         </div>
 
         <div class="triage-desc-text">
-          <strong>KTAS 3단계 (준응급 / 야간외래 권고)</strong><br />
-          생명 위급 징후가 없어 권역응급실 대기 없이, 즉시 진료 가능한 <strong>달빛어린이병원</strong>과 처방약 조제 가능 <strong>심야약국</strong>을 우선 안내합니다.
+          <strong id="ktas-grade-text">KTAS 분류 분석 중...</strong><br />
+          <span id="ktas-desc-detail">소아 KTAS 임상 지침 168개 주증상을 대조하여 맞춤 병원과 안심약국을 안내합니다.</span>
         </div>
       </section>
 
@@ -743,9 +743,9 @@
         <div class="facility-scroll-list" id="moonlight-scroll-list">
 
           <!-- Card 1 (TOP 1) -->
-          <article class="pairing-card">
+          <article class="pairing-card" id="card-moonlight-0">
             <span class="pairing-card-rank">추천 1순위</span>
-            <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+            <div class="pairing-hospital-sec" onclick="selectHospitalCard(0)" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
               <div class="facility-title-row">
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <h2 class="facility-name">송파어린이병원</h2>
@@ -794,8 +794,8 @@
           </article>
 
           <!-- Card 2 -->
-          <article class="pairing-card">
-            <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+          <article class="pairing-card" id="card-moonlight-1">
+            <div class="pairing-hospital-sec" onclick="selectHospitalCard(1)" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
               <div class="facility-title-row">
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <h2 class="facility-name">강동소아청소년과의원</h2>
@@ -840,8 +840,8 @@
           </article>
 
           <!-- Card 3 -->
-          <article class="pairing-card">
-            <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+          <article class="pairing-card" id="card-moonlight-2">
+            <div class="pairing-hospital-sec" onclick="selectHospitalCard(2)" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
               <div class="facility-title-row">
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <h2 class="facility-name">잠실아이사랑소아과</h2>
@@ -884,8 +884,8 @@
           </article>
 
           <!-- Card 4 -->
-          <article class="pairing-card">
-            <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+          <article class="pairing-card" id="card-moonlight-3">
+            <div class="pairing-hospital-sec" onclick="selectHospitalCard(3)" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
               <div class="facility-title-row">
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <h2 class="facility-name">위례달빛어린이병원</h2>
@@ -1206,34 +1206,200 @@
       }, 2200);
     }
 
-    // 5. Hydrate Dynamic Triage Data from Chatbot & Update 30-Second Call Script
+    // 5. Hydrate Dynamic Triage Data from Backend & Chatbot
     try {
-      const stored = sessionStorage.getItem('triage_result');
-      if (stored) {
-        const data = JSON.parse(stored);
-        const age = data.age || '14개월';
-        const rawTemp = data.temp || '39.2';
-        const temp = (rawTemp.includes('도') || rawTemp.includes('℃')) ? rawTemp : `${rawTemp}도`;
-        const symptom = data.symptom || '열과 보챔';
+      let data = null;
+      const backendStored = sessionStorage.getItem('backend_result');
+      const triageStored = sessionStorage.getItem('triage_result');
 
-        // 1) 상단 바이탈 칩 갱신
-        const ageEl = document.getElementById('vital-age-text');
-        if (ageEl) ageEl.innerText = age;
+      let age = '14개월';
+      let rawTemp = '38.5';
+      let symptom = '발열 및 보챔';
+      let callScript = null;
 
-        const tempEl = document.getElementById('vital-temp-text');
-        if (tempEl) tempEl.innerText = `${temp} (고열)`;
+      if (backendStored) {
+        data = JSON.parse(backendStored);
+        if (data.age_months) age = `${data.age_months}개월`;
+        if (data.temperature) rawTemp = String(data.temperature);
+        if (data.symptoms && data.symptoms.length > 0) symptom = data.symptoms.join(', ');
+        if (data.call_script) callScript = data.call_script;
+      } else if (triageStored) {
+        const triageData = JSON.parse(triageStored);
+        if (triageData.age) age = triageData.age;
+        if (triageData.temp) rawTemp = triageData.temp;
+        if (triageData.symptom) symptom = triageData.symptom;
+      }
 
-        const symptomEl = document.getElementById('vital-symptom-text');
-        if (symptomEl) symptomEl.innerText = `#${symptom}`;
+      const temp = (rawTemp.includes('도') || rawTemp.includes('℃')) ? rawTemp : `${rawTemp}도`;
 
-        // 2) 출발 전 30초 당직의 통화 스크립트 동적 완성
-        const scriptBox = document.getElementById('script-content');
-        if (scriptBox) {
+      // 1) 상단 바이탈 칩 갱신
+      const ageEl = document.getElementById('vital-age-text');
+      if (ageEl) ageEl.innerText = age;
+
+      const tempEl = document.getElementById('vital-temp-text');
+      if (tempEl) tempEl.innerText = `${temp} (발열)`;
+
+      const symptomEl = document.getElementById('vital-symptom-text');
+      if (symptomEl) symptomEl.innerText = `#${symptom}`;
+
+      // 2) 사용자 GPS 위치 동적 표출
+      const locTextEl = document.getElementById('vital-location-text');
+      if (locTextEl) {
+        const savedAddr = localStorage.getItem('user_address') || sessionStorage.getItem('user_address');
+        if (savedAddr) {
+          locTextEl.innerText = savedAddr;
+        } else {
+          const lat = localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat');
+          if (lat) locTextEl.innerText = '내 주변 (GPS)';
+        }
+      }
+
+      // 3) 증상에 따른 실시간 소아 KTAS 등급 동적 산출 & 가이드 문구 주입
+      let ktasLevel = 4;
+      let ktasName = '준응급 (달빛어린이병원 권고)';
+      let ktasDesc = '준응급 상태로 대기시간이 짧고 소아청소년과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 안심 <strong>심야약국</strong>을 안내합니다.';
+
+      if (data && data.ktas_level) {
+        ktasLevel = data.ktas_level;
+        ktasName = data.ktas_level_name || (ktasLevel === 3 ? '응급 (달빛어린이병원 우선 권고)' : '준응급 (달빛병원 권고)');
+      } else {
+        const tempNum = parseFloat(rawTemp) || 38.0;
+        const symStr = symptom || '';
+        if (tempNum >= 39.0 || symStr.includes('구토') || symStr.includes('처짐') || symStr.includes('복통') || symStr.includes('탈수')) {
+          ktasLevel = 3;
+          ktasName = '응급 (달빛어린이병원 우선 권고)';
+          ktasDesc = '39℃ 이상 고열 또는 지속적인 구토·처짐 증상이 관찰됩니다. 권역응급실 장기 대기보다 빠른 대면 진료가 가능한 <strong>달빛어린이병원</strong>을 우선 안내합니다.';
+        } else if (tempNum >= 38.0 || symStr.includes('발열') || symStr.includes('기침')) {
+          ktasLevel = 4;
+          ktasName = '준응급 (달빛어린이병원 권고)';
+          ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 안내합니다.';
+        } else {
+          ktasLevel = 5;
+          ktasName = '비응급 (외래 진료 권고)';
+          ktasDesc = '경미한 증상으로 안정을 취하며 인근 <strong>달빛어린이병원</strong> 또는 야간 진료 의원에서 진찰받으실 수 있습니다.';
+        }
+      }
+
+      // 0) 가드레일 안전 뱃지 상태 실시간 동기화
+      const guardrailBadgeEl = document.getElementById('guardrail-badge-text');
+      if (guardrailBadgeEl) {
+        if (data && data.is_emergency === false) {
+          guardrailBadgeEl.innerText = '0ms 가드레일 안전 통과';
+        } else if (data && data.is_emergency === true) {
+          guardrailBadgeEl.innerText = '🚨 긴급 119 이송 대상';
+        } else {
+          guardrailBadgeEl.innerText = '안전 백업 진료 데이터 매칭';
+        }
+      }
+
+      const cleanKtasName = (ktasName || '').replace(/[()]/g, '').trim();
+      const ktasTitleEl = document.getElementById('ktas-grade-text');
+      if (ktasTitleEl) ktasTitleEl.innerText = `KTAS ${ktasLevel}단계 (${cleanKtasName})`;
+      const ktasDescEl = document.getElementById('ktas-desc-detail');
+      if (ktasDescEl) ktasDescEl.innerHTML = ktasDesc;
+
+      // 4) 출발 전 30초 당직의 통화 스크립트 동적 완성
+      const scriptBox = document.getElementById('script-content');
+      if (scriptBox) {
+        if (callScript) {
+          scriptBox.innerText = callScript;
+        } else {
           scriptBox.innerText = `"안녕하세요, 송파어린이병원 접수처 맞으신가요? 지금 ${age} 아기가 ${temp} 열과 ${symptom} 증상이 있어 내원하려고 합니다. 현재 접수 마감 전 야간 진료 가능한가요?"`;
         }
       }
+
+      // 5) 4대 병원 데이터셋 및 거리·전화번호 동적 렌더링
+      let currentHospitals = [
+        {
+          name: "송파어린이병원",
+          dist: 1.8,
+          drive_min: 6,
+          duty_time: "오늘 야간진료 23:00 마감",
+          tel: "02-400-7575",
+          address: "서울특별시 송파구 올림픽로 300",
+          waiting_count: 5,
+          pharmacy: { name: "송파달빛약국", duty_time: "23:30 마감", margin: 30 }
+        },
+        {
+          name: "강동소아청소년과의원",
+          dist: 3.2,
+          drive_min: 10,
+          duty_time: "오늘 야간진료 22:30 마감",
+          tel: "02-2224-2114",
+          address: "서울특별시 강동구 성안로 150",
+          waiting_count: 3,
+          pharmacy: { name: "강동온누리약국", duty_time: "23:00 마감", margin: 30 }
+        },
+        {
+          name: "잠실아이사랑소아과",
+          dist: 4.5,
+          drive_min: 14,
+          duty_time: "오늘 야간진료 23:00 마감",
+          tel: "02-415-3333",
+          address: "서울특별시 송파구 올림픽로 119",
+          waiting_count: 7,
+          pharmacy: { name: "잠실스타약국", duty_time: "23:30 마감", margin: 30 }
+        },
+        {
+          name: "위례달빛어린이병원",
+          dist: 5.8,
+          drive_min: 18,
+          duty_time: "오늘 야간진료 24:00 마감",
+          tel: "031-758-9999",
+          address: "경기도 성남시 수정구 위례광장로 300",
+          waiting_count: 2,
+          pharmacy: { name: "위례중앙달빛약국", duty_time: "24:30 마감", margin: 30 }
+        }
+      ];
+
+      // 백엔드 반환 시설 데이터 주입
+      if (data && data.hospitals && data.hospitals.length > 0) {
+        data.hospitals.forEach((h, i) => {
+          if (i < currentHospitals.length) {
+            currentHospitals[i].name = h.기관명 || h.name || currentHospitals[i].name;
+            currentHospitals[i].tel = h.대표전화 || h.tel || currentHospitals[i].tel;
+            if (h.거리_km || h.distance_km) {
+              const d = h.거리_km || h.distance_km;
+              currentHospitals[i].dist = typeof d === 'number' ? Number(d.toFixed(1)) : parseFloat(d);
+            }
+            if (h.주소 || h.address) currentHospitals[i].address = h.주소 || h.address;
+          }
+        });
+        if (data.pharmacies && data.pharmacies.length > 0) {
+          data.pharmacies.forEach((p, i) => {
+            if (i < currentHospitals.length) {
+              currentHospitals[i].pharmacy.name = p.약국명 || p.name || currentHospitals[i].pharmacy.name;
+            }
+          });
+        }
+      }
+
+      // 카드 엘리먼트 4개에 실시간 데이터 갱신
+      currentHospitals.forEach((h, idx) => {
+        const card = document.getElementById(`card-moonlight-${idx}`);
+        if (card) {
+          const nameEl = card.querySelector('.facility-name');
+          if (nameEl) nameEl.innerText = h.name;
+          const distEl = card.querySelector('.facility-distance');
+          if (distEl) distEl.innerText = `${h.dist} km (차 ${h.drive_min}분)`;
+          const callEl = card.querySelector('.btn-call-action');
+          if (callEl) callEl.href = `tel:${h.tel.replace(/-/g, '')}`;
+        }
+      });
+
+      window._activeHospitals = currentHospitals;
     } catch (e) {
-      console.warn('Failed to parse triage_result for call script:', e);
+      console.warn('Failed to parse backend_result or triage_result:', e);
+    }
+
+    // 6. Generic Hospital Card Selection Helper (단일 범용 템플릿 연동)
+    function selectHospitalCard(idx) {
+      const hospList = window._activeHospitals || [
+        { name: "송파어린이병원", dist: 1.8, drive_min: 6, duty_time: "오늘 야간진료 23:00 마감", tel: "02-400-7575", address: "서울특별시 송파구 올림픽로 300", waiting_count: 5, pharmacy: { name: "송파달빛약국", duty_time: "23:30 마감" } }
+      ];
+      const selected = hospList[idx] || hospList[0];
+      sessionStorage.setItem('selected_hospital', JSON.stringify(selected));
+      window.location.href = window.location.pathname.endsWith('.html') ? 'hospital_detail.html' : 'hospital_detail';
     }
   </script>
 

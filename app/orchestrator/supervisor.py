@@ -156,8 +156,20 @@ class SupervisorOrchestrator:
                     if not state.symptoms:
                         state.symptoms = ["발열", "소아 불편감"]
                     if not state.ktas_level:
-                        state.ktas_level = 4
-                        state.ktas_level_name = "준응급"
+                        temp = state.temperature or 38.0
+                        syms = " ".join(state.symptoms) if state.symptoms else ""
+                        if temp >= 39.0 or any(k in syms for k in ["구토", "처짐", "복통", "호흡", "탈수", "설사"]):
+                            state.ktas_level = 3
+                            state.ktas_level_name = "응급 (달빛어린이병원 우선 권고)"
+                        elif temp >= 38.0 or any(k in syms for k in ["발열", "기침", "콧물", "열", "보챔"]):
+                            state.ktas_level = 4
+                            state.ktas_level_name = "준응급 (달빛어린이병원 권고)"
+                        else:
+                            state.ktas_level = 5
+                            state.ktas_level_name = "비응급 (외래 진료 또는 가정 케어)"
+                    elif not state.ktas_level_name:
+                        level_names = {1: "소생", 2: "긴급", 3: "응급", 4: "준응급", 5: "비응급"}
+                        state.ktas_level_name = level_names.get(state.ktas_level, "준응급")
                     if turn_limit_reached:
                         empathy_msg += "\n\n※ 증상 입력이 불충분하여 더 이상 지체하지 않고 보호자님 현재 위치 기준 가장 안전한 야간 의료기관으로 우선 안내합니다."
 

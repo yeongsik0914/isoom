@@ -89,28 +89,129 @@
   </div>
 
   <script>
-    // 2초 타이머로 단계별 텍스트 업데이트 후 result.html로 이동
-    document.addEventListener('DOMContentLoaded', () => {
+    // Real Backend Orchestration Integration (POST /api/v1/chat)
+    document.addEventListener('DOMContentLoaded', async () => {
       const stepText = document.getElementById('analyzing-step-text');
       const stepIcon = document.getElementById('analyzing-step-icon');
       const progressFill = document.getElementById('analyzing-progress-fill');
-      const targetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+      const isFileProto = window.location.protocol === 'file:';
+      const resultUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+      const emergencyUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : 'emergency_alert';
 
-      setTimeout(() => {
-        if (stepText) stepText.innerText = '소아 KTAS 임상 지침 168개 주증상 대조 중...';
-        if (stepIcon) stepIcon.innerText = 'stethoscope';
-        if (progressFill) progressFill.style.width = '70%';
-      }, 700);
+      // 1. Stage Animation (Initial Progress 35% -> 60% -> 85%)
+      let progressVal = 35;
+      const progressTimer = setInterval(() => {
+        if (progressVal < 85) {
+          progressVal += 5;
+          if (progressFill) progressFill.style.width = `${progressVal}%`;
+          if (progressVal === 50 && stepText) {
+            stepText.innerText = '소아 KTAS 임상 지침 168개 주증상 대조 중...';
+            if (stepIcon) stepIcon.innerText = 'stethoscope';
+          } else if (progressVal === 75 && stepText) {
+            stepText.innerText = '반경 15km 실시간 소아 야간 병원 및 약국 탐색 중...';
+            if (stepIcon) stepIcon.innerText = 'location_on';
+          }
+        }
+      }, 250);
 
-      setTimeout(() => {
-        if (stepText) stepText.innerText = '달빛어린이병원 & 30분 마진 심야약국 매칭 완료!';
-        if (stepIcon) stepIcon.innerText = 'verified';
-        if (progressFill) progressFill.style.width = '100%';
-      }, 1400);
+      // 2. Fetch Stored ChatRequest from sessionStorage
+      let requestPayload = {
+        user_message: "14개월 아기이고 체온은 38.5℃입니다. 주요 증상: 발열, 동반 증상: 처짐",
+        user_lat: 37.5133,
+        user_lon: 127.1001,
+        force_matching: true,
+        stream: false
+      };
 
-      setTimeout(() => {
-        window.location.href = targetUrl;
-      }, 2000);
+      try {
+        const stored = sessionStorage.getItem('pending_chat_request');
+        if (stored) {
+          requestPayload = JSON.parse(stored);
+        }
+      } catch (e) {
+        console.warn('Failed to parse pending_chat_request:', e);
+      }
+
+      // 3. Real Backend API Call (with 8-second safety timeout)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+      try {
+        const endpoint = isFileProto ? 'http://127.0.0.1:8000/api/v1/chat' : '/api/v1/chat';
+        
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user_message: requestPayload.user_message,
+            user_lat: requestPayload.user_lat || 37.5133,
+            user_lon: requestPayload.user_lon || 127.1001,
+            force_matching: true,
+            stream: false
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+        clearInterval(progressTimer);
+
+        if (response.ok) {
+          const data = await response.json();
+          sessionStorage.setItem('backend_result', JSON.stringify(data));
+
+          // 🚨 RED FLAG 119 EMERGENCY ESCALATION CHECK
+          if (data.is_emergency === true) {
+            if (progressFill) progressFill.style.width = '100%';
+            if (stepText) stepText.innerText = '🚨 119 긴급 이송 상황 감지! 응급 화면으로 이동합니다...';
+            if (stepIcon) stepIcon.innerText = 'emergency';
+            setTimeout(() => {
+              window.location.href = emergencyUrl;
+            }, 500);
+            return;
+          }
+
+          // 🟢 NORMAL TRACK A / B MATCHING COMPLETED
+          if (progressFill) progressFill.style.width = '100%';
+          if (stepText) stepText.innerText = '달빛어린이병원 & 30분 마진 심야약국 매칭 완료!';
+          if (stepIcon) stepIcon.innerText = 'verified';
+          setTimeout(() => {
+            window.location.href = resultUrl;
+          }, 400);
+          return;
+        } else {
+          throw new Error(`API HTTP Error: ${response.status}`);
+        }
+      } catch (err) {
+        console.warn('Backend API call failed or timed out, engaging offline safety fallback:', err);
+        clearTimeout(timeoutId);
+        clearInterval(progressTimer);
+
+        sessionStorage.removeItem('backend_result');
+
+        const msg = requestPayload.user_message || '';
+        // 12대 소아 위급 상황 전수 검사 (절단/경련/의식소실/호흡부전/장중첩/신생아발열/중증화상 등)
+        const isLocalRedFlag = /(경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)|몸.*떨|의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도|청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕|소변.*(안\s*보|없)|눈물.*안|머리.*(찧|부딪|쿵|떨어).*토|초록색.*토|담즙|분수토|절단|잘렸|잘려|전기톱|베여서\s*절단|날아갔|피똥|딸기잼.*변|혈변|컹컹.*기침|쇳소리|흡기.*천명|화상.*(얼굴|손|발)|(얼굴|손|발).*화상|데였.*(얼굴|손|발)|물집.*(얼굴|손|발)|100일.*(38|열)|백일.*(38|열))/.test(msg);
+
+        if (isLocalRedFlag) {
+          if (progressFill) progressFill.style.width = '100%';
+          if (stepText) stepText.innerText = '🚨 위급 증상 감지! 119 응급 화면으로 긴급 이동합니다...';
+          if (stepIcon) stepIcon.innerText = 'emergency';
+        } else {
+          if (progressFill) progressFill.style.width = '100%';
+          if (stepText) stepText.innerText = '안전 백업 진료 데이터 매칭 완료!';
+          if (stepIcon) stepIcon.innerText = 'verified';
+        }
+        
+        setTimeout(() => {
+          if (isLocalRedFlag) {
+            window.location.href = emergencyUrl;
+          } else {
+            window.location.href = resultUrl;
+          }
+        }, 400);
+      }
     });
   </script>
 

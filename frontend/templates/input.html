@@ -161,6 +161,22 @@
       margin-top: 16px;
       animation: fadeInSlideUp 0.2s ease-out;
     }
+
+    /* Input Invalid Feedback Alert */
+    .input-invalid-feedback {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 12px;
+      animation: fadeInSlideUp 0.2s ease-out;
+    }
   </style>
 </head>
 
@@ -215,6 +231,12 @@
         <button type="button" class="input-clear-btn" id="input-clear-btn" aria-label="입력 내용 지우기">
           <span class="material-symbols-outlined" style="font-size: 20px;">cancel</span>
         </button>
+      </div>
+
+      <!-- Input Invalid/Unclear Warning Box (불일치/누락 시 부드러운 가이드) -->
+      <div class="input-invalid-feedback" id="input-invalid-feedback" style="display: none;">
+        <span class="material-symbols-outlined" style="font-size: 16px;">info</span>
+        <span id="invalid-feedback-text">아이가 어디가 아픈지 조금만 더 알려주세요. 아래 추천 증상을 눌러도 돼요!</span>
       </div>
 
       <!-- Quick Suggestion Reply Chips (간편 선택 칩) -->
@@ -295,8 +317,8 @@
         companion: '',
       };
 
-      // 0ms Red Flag Guardrail Regex
-      const RED_FLAG_REGEX = /경련|경기|숨|호흡|의식|기절|청색|100일|백일|장중첩|피토|혈변|쳐짐|늘어짐|파랗|경직/;
+      // 0ms Red Flag Guardrail Regex (12대 소아 위급 상황: 절단/경련/의식소실/호흡부전/장중첩/신생아발열/중증화상 등 100% 동기화)
+      const RED_FLAG_REGEX = /(경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)|몸.*떨|의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도|청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕|소변.*(안\s*보|없)|눈물.*안|머리.*(찧|부딪|쿵|떨어).*토|초록색.*토|담즙|분수토|절단|잘렸|잘려|전기톱|베여서\s*절단|날아갔|피똥|딸기잼.*변|혈변|컹컹.*기침|쇳소리|흡기.*천명|화상.*(얼굴|손|발)|(얼굴|손|발).*화상|데였.*(얼굴|손|발)|물집.*(얼굴|손|발)|100일.*(38|열)|백일.*(38|열))/;
 
       // Step Configurations
       const STEPS = {
@@ -452,9 +474,41 @@
         handleStepSubmit();
       });
 
+      const invalidFeedback = document.getElementById('input-invalid-feedback');
+      const invalidFeedbackText = document.getElementById('invalid-feedback-text');
+
+      // Helper to detect meaningless/mismatched input
+      function isMeaninglessInput(val) {
+        if (!val || val.trim().length < 2) return true;
+        // 자음 또는 모음만 연속된 경우 (ㅋㅋㅋ, ㅎㅎㅎ, ㅠㅠ 등)
+        if (/^[ㄱ-ㅎㅏ-ㅣ\s]+$/.test(val)) return true;
+        // 특수문자만으로 구성된 경우
+        if (/^[!@#$%^&*()_+=\-[\]{}|;:'",.<>/?~\s]+$/.test(val)) return true;
+        // 무작위 영문 난타
+        if (/^[a-zA-Z\s]{1,4}$/.test(val) && !/baby|fever|cough|cold|er/i.test(val)) return true;
+        return false;
+      }
+
+      function hideInvalidFeedback() {
+        if (invalidFeedback) invalidFeedback.style.display = 'none';
+      }
+
+      function showInvalidFeedback(msg) {
+        if (invalidFeedback && invalidFeedbackText) {
+          invalidFeedbackText.innerText = msg;
+          invalidFeedback.style.display = 'flex';
+          // Highlight quick chips
+          quickChipsWrapper.style.transition = 'transform 0.15s ease';
+          quickChipsWrapper.style.transform = 'scale(1.02)';
+          setTimeout(() => {
+            quickChipsWrapper.style.transform = 'scale(1)';
+          }, 200);
+        }
+      }
+
       // Handle Submission at Each Step
       function handleStepSubmit() {
-        const text = symptomInput.value.trim();
+        let text = symptomInput.value.trim();
         if (!text) return;
 
         // 1. Red Flag Emergency Guardrail Check (0ms Red Flag)
@@ -468,7 +522,28 @@
           return;
         }
 
-        // 2. Progressive Flow Step Machine
+        // 2. Meaningless/Mismatched Input Guardrail
+        if (isMeaninglessInput(text)) {
+          session.invalidCount = (session.invalidCount || 0) + 1;
+          // First attempt with meaningless input: Show gentle guide and suggest quick chips
+          if (session.invalidCount < 2) {
+            let guideMsg = '아이가 어디가 불편한지 조금만 더 적어주세요. 아래 추천 증상을 눌러도 돼요!';
+            if (session.step === 2) guideMsg = '아이 나이나 체온(예: 18개월, 38.5도)을 알려주시면 가장 안전한 병원을 찾을 수 있어요!';
+            if (session.step === 3) guideMsg = '처짐, 구토 등 추가 증상을 선택하거나 확인을 한 번 더 눌러주세요!';
+            showInvalidFeedback(guideMsg);
+            return;
+          }
+          // Second attempt: Fallback to safe defaults so parent is never trapped
+          hideInvalidFeedback();
+          if (session.step === 1) text = '소아 발열 및 전신 불편';
+          if (session.step === 2) text = '14개월 38.5℃';
+          if (session.step === 3) text = '처지고 보챔';
+        } else {
+          hideInvalidFeedback();
+          session.invalidCount = 0;
+        }
+
+        // 3. Progressive Flow Step Machine
         if (session.step === 1) {
           session.symptoms = text;
 
@@ -485,25 +560,51 @@
           }
         } else if (session.step === 2) {
           session.age = text.includes('개월') || text.includes('세') || text.includes('일') ? text : '14개월';
-          session.temp = text.includes('도') || text.includes('℃') ? text : '39.2℃';
+          session.temp = text.includes('도') || text.includes('℃') ? text : '38.5℃';
           renderStep(3);
         } else if (session.step === 3) {
           session.companion = text;
 
+          const finalAge = session.age.match(/\d+개월|\d+세|\d+일/)?.[0] || '14개월';
+          const finalTemp = session.temp.match(/\d+(\.\d+)?(℃|도)/)?.[0]?.replace('도', '℃') || '38.5℃';
+          const finalSymptom = session.symptoms.replace('열이 나요', '고열') || '발열';
+          const finalCompanion = session.companion || '처짐';
+
           // Save structured triage object to sessionStorage for result.html dynamic hydration
           const triagePayload = {
-            age: session.age.match(/\d+개월|\d+세|\d+일/)?.[0] || '14개월',
-            temp: session.temp.match(/\d+(\.\d+)?(℃|도)/)?.[0]?.replace('도', '℃') || '39.2℃',
-            symptom: session.symptoms.replace('열이 나요', '고열') || '구토',
-            companion: session.companion,
+            age: finalAge,
+            temp: finalTemp,
+            symptom: finalSymptom,
+            companion: finalCompanion,
             location: '잠실동',
             ktas: '3',
             ktas_name: '준응급 (야간외래 권고)'
           };
           sessionStorage.setItem('triage_result', JSON.stringify(triagePayload));
 
-          // Launch AI Analyzing Overlay for 2 seconds
-          launchAnalyzingOverlay();
+          // Package Backend ChatRequest Payload for loading.html to execute real POST /api/v1/chat
+          const userLat = parseFloat(localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133');
+          const userLon = parseFloat(localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001');
+          const userMessage = `${finalAge} 아기이고 체온은 ${finalTemp}입니다. 주요 증상: ${finalSymptom}, 동반 증상: ${finalCompanion}`;
+
+          const backendChatRequest = {
+            user_message: userMessage,
+            user_lat: userLat,
+            user_lon: userLon,
+            force_matching: true,
+            stream: false,
+            patient_vitals: {
+              age: finalAge,
+              temp: finalTemp,
+              symptom: finalSymptom,
+              companion: finalCompanion
+            }
+          };
+          sessionStorage.setItem('pending_chat_request', JSON.stringify(backendChatRequest));
+
+          // Move to loading.html to perform real API orchestration
+          const loadingUrl = window.location.pathname.endsWith('.html') ? 'loading.html' : 'loading';
+          window.location.href = loadingUrl;
         }
       }
 

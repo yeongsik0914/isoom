@@ -30,6 +30,64 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.35-governance-archive-sync] 2026-10-15: 작업자별 Q&A 아카이브 분리 원칙 확립, Answer-영식.md 원상 복원 및 q_a.md 누적 아카이빙 완결 (김동준 팀원, 정영식 팀장)
+* **📜 작업자별 질의응답 아카이브 분리 거버넌스 재정립**:
+  - 김동준 팀원의 모든 기술 질의응답은 [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)에 전담 누적 기록하고, 정영식 팀장의 질의응답은 [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)에 엄격히 격리 보존하는 거버넌스 원칙 확립.
+  - 이전에 잘못 혼입되었던 `Answer-영식.md` 내 섹션을 전면 정리하고, 정영식 팀장의 고유 영역(Q1 ~ Q71)으로 100% 깨끗이 원상 복원 완료.
+* **💬 q_a.md 29대 핵심 기술 질의응답 집대성**:
+  - 프로젝트 환경 마이그레이션부터 FSM 오케스트레이션, 단일 병원 상세 템플릿, 12대 Red Flag 동기화, 라이브 E2E 테스트 검증까지 김동준 팀원이 수행한 모든 Q&A를 순차 누적 완료.
+* **📂 .gitignore 정리 및 Git 형상 추적 정상화**:
+  - `.gitignore`에서 `q_a.md`를 제거하여 GitHub 원격 저장소에 안전하게 커밋 & 푸시되도록 관리 체계 완결.
+
+### 🌟 [v2.4.34-live-e2e-ktas-verification] 2026-10-15: input.html ➔ 백엔드 FSM 라이브 API 호출 ➔ result.html 실시간 연동 및 KTAS 3단계 일치성 실증 완료 (김동준 팀원, 정영식 팀장)
+* **🧪 백엔드 라이브 API 실시간 호출 검증 (`POST http://localhost:8000/api/v1/chat`)**:
+  - `input.html` 수집 데이터(`14개월 38.5도`, `열이 나요`, `보챔 및 처짐`, 잠실 GPS)를 실제 가동 중인 백엔드 서버에 전송.
+  - HTTP 200 OK 수신 및 `is_emergency: false` (0ms 가드레일 통과), 소아 KTAS 지침에 따른 `ktas_level: 3` (`응급 (달빛어린이병원 우선 권고)`), 30초 통화 스크립트, WGS84 좌표 기반 최단거리 의료기관(1.66km 서울아산병원 등) 3개소 정렬 반환 확인.
+* **🖥️ result.html 실데이터 렌더링 일치성 확인**:
+  - 백엔드가 산출한 KTAS 3단계와 바이탈 칩, 통화 스크립트, 병원 목록이 프론트엔드 UI에 100% 실데이터로 동기화됨을 완벽하게 검증.
+* **🌐 http://localhost:8000/input 실시간 테스트 환경 가동 유지**:
+  - 로컬 백그라운드에 FastAPI Uvicorn 서버를 항시 가동하여 언제든 브라우저를 통한 직접 엔드-투-엔드 사용자 테스트 지원.
+
+### 🌟 [v2.4.33-redflag-frontend-backend-sync] 2026-10-15: 풀스택 통신 단절(서버 미실행) 원인 규명, 12대 Red Flag(절단·화상 등) 클라이언트-백엔드 100% 동기화 및 가드레일 안전 뱃지 실시간 연동 (김동준 팀원, 정영식 팀장)
+* **🚨 12대 소아 위급 상황 Red Flag 클라이언트-백엔드 100% 동기화**:
+  - 기존 클라이언트 정규식에 '절단', '화상' 등이 누락되어 오프라인 폴백 시 절단 환아가 일반 결과 화면으로 안내되던 위험 원천 해소.
+  - `input.html` 및 `loading.html`에 백엔드 Rule 8(외상성 사지/수지 절단: `절단|잘렸|잘려|전기톱|날아갔`)을 포함한 12대 응급 정규식을 완전히 동기화하여, 0초 만에 119 긴급 안내 화면(`emergency_alert.html`)으로 분기.
+* **🛡️ result.html 안전 뱃지 상태 실시간 동기화 & 포맷 교정**:
+  - 정적으로 박혀 있던 `0ms 가드레일 안전 통과` 뱃지를 `#guardrail-badge-text`로 동적 제어. 백엔드 통신 정상 시에만 안전 통과 표시, 오프라인 시 `안전 백업 진료 데이터 매칭`으로 상태 정직 표출.
+  - KTAS 타이틀 내 괄호 중복(`((응급 (달빛어린이병원 우선 권고)))`) 버그를 `cleanKtasName` 정규식으로 깔끔히 정돈.
+* **⚡ FastAPI 서버 구동 및 Same-Origin 접속 환경 표준화**:
+  - `file://` 출처의 Fetch 네트워크 단절 방지를 위해 `uvicorn main:app --host 0.0.0.0 --port 8000` 백엔드 서버 구동 및 `http://localhost:8000/input` 통합 접속 가이드 완비.
+* **📂 템플릿 이중 동기화**:
+  - `frontend/input.html`, `frontend/loading.html`, `frontend/result.html` 및 `frontend/templates/*.html` 전수 동시 배포.
+
+### 🌟 [v2.4.32-ktas-dynamic-grading-and-single-detail-template] 2026-10-15: 소아 KTAS 중증도 동적 산별(체온·증상별 3~5단계), GPS 위치 API 연동 검증 및 hospital_detail.html 단일 범용 템플릿 실시간 하이드레이션 (김동준 팀원, 정영식 팀장)
+* **🩺 소아 KTAS 중증도 동적 산별 알고리즘 강화 & UI 연동**:
+  - `result.html` 상단 소아 KTAS 뱃지 영역(`#ktas-grade-text`, `#ktas-desc-detail`)을 동적 DOM으로 전환.
+  - 백엔드 `supervisor.py` 및 클라이언트 바이탈 연계를 통해 체온 39.0℃ 이상 또는 구토/처짐/복통/탈수 등 위험 증상 시 `KTAS 3단계 (응급)`, 38.0℃ 이상 발열 시 `KTAS 4단계 (준응급)`, 37.5℃ 미만 경증 시 `KTAS 5단계 (비응급)`로 정밀 동적 산출 및 맞춤 임상 가이드 문구 주입.
+* **📍 백엔드 지리공간(Spatial) API 구축 진단 및 프론트엔드 연동**:
+  - `POST /api/v1/chat` (Haversine 반경 정렬), `GET /api/v1/emergency/nearby` (소아병상 최근접 순), `GET /api/v1/emergency/pairings` (달빛-심야약국 거리순) 위치 API 구축 상태 확인.
+  - `permission.html` 온보딩에서 획득한 GPS 위경도를 활용하여 `result.html` 위치 뱃지(`#vital-location-text`) 및 4개 병원 카드 거리·소요시간·전화번호 실시간 동적 렌더링.
+* **🏥 hospital_detail.html 단일 범용 템플릿(Single Generic Template) 실시간 하이드레이션**:
+  - 병원별 다중 페이지 생성 안티패턴을 배제하고, 단 하나의 `hospital_detail.html`이 `sessionStorage.selected_hospital`을 역직렬화하여 소비하는 단일 템플릿 아키텍처 완성.
+  - 병원명, 진료마감시간 배지, 대기팀수/예상대기시간, 거리, 당직 전문의 현황, 야간 접수 마감 주의(마감 30분 전 자동 계산), 페어링 심야약국(Track B), 오시는 길 및 카카오/네이버 지도 링크, 원터치 주소 복사, 모바일 번호표 모달 텍스트까지 100% 실시간 하이드레이션.
+* **📂 템플릿 이중 동기화**:
+  - `frontend/result.html`, `frontend/hospital_detail.html` 및 `frontend/templates/*.html` 전수 동시 배포.
+
+### 🌟 [v2.4.31-fullstack-frontend-backend-orchestration] 2026-10-15: '아이숨' 프론트엔드-백엔드 100% 결합: 입력값 방어 가이드, loading.html 비동기 API 연동, 0ms Red Flag 실시간 응급 분기 (김동준 팀원)
+* **🛡️ input.html 불일치 입력값 방어 및 이중 안전망 구축**:
+  - 자음/모음 난타(`ㅋㅋㅋ`), 무의미한 특수문자 입력 시 친절한 안내 박스(`#input-invalid-feedback`)와 퀵 추천 칩 하이라이트로 부드럽게 유도.
+  - 연속 2회 입력 시 부모가 막히지 않도록 소아 발열 기본값(`소아 발열 및 전신 불편`, `14개월 38.5℃`, `처지고 보챔`)으로 자동 보정하여 백엔드 `force_matching`에 안전 전달.
+  - 3단계 완료 시 GPS 좌표(`user_lat`, `user_lon`)와 통합 증상 질의문을 `sessionStorage.pending_chat_request`로 패키징.
+* **⚡ loading.html 실제 백엔드 API (POST /api/v1/chat) 비동기 fetch 연동**:
+  - 기존 2초 정적 타이머를 걷어내고 실제 백엔드 FSM 파이프라인과 비동기 통신 수행.
+  - 백엔드 응답의 `is_emergency === true` 수신 시 즉시 0초 만에 `emergency_alert.html`로 전환하여 119 다이얼 및 구급대 도착 전 응급처치 가이드 노출.
+  - `is_emergency === false` 수신 시 `backend_result`를 보관하고 `result.html`로 전환 (네트워크 단절 대비 8초 타임아웃 세이프티 가드 포함).
+* **🏥 result.html & emergency_alert.html 백엔드 실데이터 동적 바인딩**:
+  - `SupervisorResponse`의 실제 월령, 체온, 증상 바이탈 칩 및 생성된 30초 통화 스크립트, 최단거리 추천 병원명/거리/전화번호 자동 표출.
+  - `emergency_alert.html` 상단에 백엔드가 산출한 구체적 응급 사유 및 주소 동적 렌더링.
+* **📂 8대 템플릿 전수 이중 동기화**:
+  - `frontend/*.html` 및 `frontend/templates/*.html` (input, loading, result, emergency_alert 8개 파일) 동시 동기화 완료.
+
 ### 🌟 [v2.4.30-live-facilities-integration] 2026-10-15: '아이숨' 메인 홈(index.html) 실시간 야간 의료시설 백엔드 결합 & 0ms 탭 필터링 구축 (정영식 팀장, AI 에이전트)
 * **백엔드 공간 검색 API(`/api/v1/emergency/pairings`) 100% 결합**:
   - 기존의 하드코딩된 정적 예시 카드를 전국 17개 시도 29개 달빛어린이병원-심야약국 실시간 공공데이터셋 및 Haversine 5ms 초고속 공간 검색 파이프라인과 완벽 연동.

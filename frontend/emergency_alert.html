@@ -418,6 +418,36 @@
   </div>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Hydrate Emergency Reason from Backend Response
+      try {
+        const stored = sessionStorage.getItem('backend_result');
+        if (stored) {
+          const data = JSON.parse(stored);
+          if (data.is_emergency && (data.message || data.emergency_guide)) {
+            const subline = document.querySelector('.emergency-subline');
+            if (subline) {
+              const guideText = data.emergency_guide || data.message;
+              subline.innerHTML = `<strong>${guideText}</strong><br>권역 소아전문응급의료센터로 신속히 이송해야 합니다.`;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to parse backend_result for emergency alert:', e);
+      }
+
+      // 2. Hydrate Real User Location Address if available
+      try {
+        const userAddr = localStorage.getItem('user_address') || sessionStorage.getItem('user_address');
+        if (userAddr) {
+          const locEl = document.getElementById('current-location-text');
+          if (locEl) locEl.innerText = userAddr;
+        }
+      } catch (e) {
+        console.warn('Failed to parse location:', e);
+      }
+    });
+
     function copyLocationAddress() {
       const addr = document.getElementById('current-location-text').innerText.trim();
       navigator.clipboard.writeText(addr).then(() => {

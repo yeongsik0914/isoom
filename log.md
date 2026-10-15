@@ -71,13 +71,17 @@
 | **[ISSUE-061]** | 프론트엔드 UI/UX 응급실 스크롤 & 기존 디자인 계승형 문진 챗봇 | 소아 응급실 병상 2개 초과 시 세로 스크롤 지원(4개소 확장) 및 input.html 기존 미니멀 UI 디자인 계승형 프로그레시브 문진 챗봇 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-062]** | 프론트엔드 모바일 UI/UX 최적화 | 온보딩 화면(splash, permission) 상단 인위적 가짜 상태 바(15:19 시간, 배터리, 와이파이) 전면 제거 및 순수 뷰포트 정돈 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-063]** | 프론트엔드 온보딩 실제 Web API 권한 요청 | permission.html 동의 버튼 클릭 시 Geolocation 및 Notification 실제 브라우저 권한 팝업 요청 및 좌표 로컬 캐싱 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
-| **[ISSUE-064]** | 프론트엔드 UI/UX 30초 통화 스크립트 | 0-Backend 순수 클라이언트 기반 실시간 환아 바이탈(월령·체온·증상) 통화 스크립트 동적 완성 및 원터치 클립보드 복사 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-065]** | 프론트엔드 설정 & 법률 컴플라이언스 | settings.html 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨 전용 이용약관(terms.html) 신규 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-066]** | 프론트엔드 설정 & 전역 접근성 | settings.html 글자 크기(작게·보통·크게) 선택 모달 및 앱 전체 실시간 폰트 스케일링 엔진 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-067]** | 프론트엔드 UI/UX 인터랙션 & 타이포그래피 | 뷰포트 zoom 전체 크기 왜곡 해소, 순수 font-size 스케일링 엔진 개편 및 셀렉트박스 컴포넌트 전환 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-068]** | 프론트엔드 상태 지속성 & BFCache | 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스가 '보통'으로 초기화되는 버그 (BFCache pageshow & 0ms 인라인 하이드레이션) | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-069]** | 프론트엔드 설정 & 사용자 자녀 정보 관리 | settings.html 출생연도 단일 텍스트 버튼을 '자녀의 기본 정보 변경' 칸으로 개편, 맞춤형 모달 팝업 및 BFCache/localStorage 영구 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-070]** | 프론트엔드 풀스택 연동 & 실시간 공간 매칭 | index.html 정적 더미 시설 목록을 백엔드 전국 달빛병원·심야약국 실시간 페어링 API 연동 및 0ms 탭 필터링 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-071]** | 풀스택 결합 & 비동기 오케스트레이션 | input.html 불일치 값 방어 가이드, loading.html 실제 POST /api/v1/chat 비동기 fetch 및 0ms Red Flag 긴급 이송(emergency_alert.html) 실시간 라우팅 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-072]** | 임상 KTAS 동적 산정 & 단일 범용 템플릿 연동 | 소아 KTAS 중증도 동적 산별(체온·증상별 3~5단계), GPS 위치 API 연동 검증 및 hospital_detail.html 단일 범용 템플릿 실시간 하이드레이션 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-073]** | 풀스택 통신 단절(서버 미실행) & 12대 Red Flag 동기화 | '절단' 증상 시 0ms 안전 통과 착시 결함 해소, 12대 Red Flag 클라이언트-백엔드 100% 동기화 및 가드레일 뱃지 실시간 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-074]** | 풀스택 E2E 실시간 라이브 연동 검증 | input.html 실시간 입력 시나리오(발열/보챔) ➔ 백엔드 FSM KTAS 3단계 산출 및 result.html 실데이터 100% 일치 실시간 검증 완료 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-075]** | 프로젝트 협업 거버넌스 & 아카이브 정상화 | 작업자별 Q&A 아카이브 분리 원칙 확립, Answer-영식.md 정영식 팀장 영역 원상 복원 및 q_a.md 김동준 팀원 전담 누적 체계 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2196,6 +2200,155 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+
+
+
+
+
+---
+
+### [ISSUE-071] 프론트엔드-백엔드 100% 결합: 입력값 유효성 방어, loading.html 비동기 API 연동, 0ms Red Flag 실시간 응급 분기
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원), AI 에이전트
+* **분류**: 풀스택 결합 아키텍처 / 프론트엔드 비동기 통신 / 응급 분기 라우팅 / 안전 가드레일
+* **문제 상황**:
+  * `input.html`에서 사용자가 자음 난타(`ㅋㅋㅋ`)나 무의미한 불일치 값을 입력할 경우 적절한 재안내 없이 진행되거나, 반대로 부모가 당황하여 입력을 못 할 때 영구 대기에 빠질 수 있는 UX 결함 존재.
+  * `loading.html`이 고정 2초 `setTimeout`으로 구동되어, 실제 백엔드 오케스트레이션 연산 시간(`POST /api/v1/chat`)과 불일치하고 실제 결과 데이터를 화면에 전달하지 못함.
+  * 백엔드에서 0ms Red Flag(생후 100일 미만 고열, 경련 등)가 감지되어 `is_emergency: true`가 떨어지더라도 일반 병원 결과 화면(`result.html`)으로 분기되어 중증 환아 이송 지연 위험 발생.
+* **원인 분석**:
+  * 프론트엔드 페이지들이 정적 목업 상태로 분리되어 있어, 백엔드 `SupervisorOrchestrator`의 `POST /api/v1/chat` 엔드포인트와 실제 세션 페이로드 전달 체인이 연결되지 않았음.
+* **구체적 해결 방안**:
+  1. **`input.html` 불일치 입력값 방어 & 이중 안전망 구축**:
+     - `isMeaninglessInput()` 검사기를 탑재하여 자음/모음 난타나 특수문자 입력 시 친절한 안내 박스(`#input-invalid-feedback`)와 퀵 추천 칩 하이라이트 제공.
+     - 사용자가 연속 2회 이상 입력 시 부모를 막지 않고 소아 발열 기본값(`소아 발열 및 전신 불편`, `14개월 38.5℃`, `처지고 보챔`)으로 자동 보정하여 백엔드 `force_matching`으로 안전하게 인계.
+     - 3단계 완료 시 `user_lat`, `user_lon`, `user_message`를 `sessionStorage.pending_chat_request`로 패키징.
+  2. **`loading.html` 실제 백엔드 비동기 fetch 및 응급 분기 라우팅**:
+     - 정적 2초 타이머를 걷어내고, `fetch('/api/v1/chat', { method: 'POST', body: ... force_matching: true })` 비동기 호출 구현.
+     - `data.is_emergency === true` 수신 시 즉시 `emergency_alert.html`로 0초 분기하여 119 즉시 다이얼 및 기도확보 응급처치 가이드 노출.
+     - `data.is_emergency === false` 수신 시 `sessionStorage.backend_result`를 저장하고 `result.html`로 전환.
+     - 네트워크 단절 대비 8초 타임아웃 세이프티 가드 탑재.
+  3. **`result.html` 백엔드 실데이터 동적 바인딩**:
+     - `backend_result`로부터 실제 바이탈 칩, 백엔드 생성 30초 통화 스크립트, 최우선 추천 병원명/거리/전화번호를 실시간 바인딩.
+  4. **`emergency_alert.html` 긴급 사유 동적 바인딩**:
+     - 백엔드가 반환한 `emergency_guide` 및 구체적 응급 사유를 화면 상단에 실시간 표출.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html), [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html), [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html)
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html), [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/emergency_alert.html), [frontend/templates/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/emergency_alert.html)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-072] 소아 KTAS 중증도 동적 산별(3~5단계), GPS 위치 API 연동 검증 및 hospital_detail.html 단일 범용 템플릿 실시간 하이드레이션
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장 / 총괄), 김동준 (팀원 / 엔지니어링)
+* **분류**: 임상 KTAS 트리아제 / 지리공간(Spatial) API / 프론트엔드 동적 하이드레이션 / 단일 범용 템플릿 패턴
+* **문제 상황**:
+  * 환아 증상 및 체온이 변화해도 결과 화면(`result.html`) 상단의 소아 KTAS 중증도 뱃지가 항상 `KTAS 3단계 (준응급 / 야간외래 권고)`로 고정 표시되어 데이터 미반영 의심 발생.
+  * 백엔드에 환아 보호자의 실시간 GPS 좌표를 기반으로 병원·약국을 추천하는 위치 API 구축 여부에 대한 확인 및 화면 연동 필요.
+  * `result.html` 내 4개 병원 카드 중 어느 것을 클릭하더라도 `hospital_detail.html`에서 송파어린이병원만 고정 노출되는 하드코딩 결함 존재. (병원마다 별도 HTML 파일을 만들지 않고, 하나의 화면에서 선택된 데이터가 동적으로 바인딩되어야 함).
+* **원인 분석**:
+  1. `result.html` 내 KTAS 뱃지가 순수 정적 텍스트로 마크업되어 DOM ID가 누락되어 있었고, 백엔드 Fallback 로직(`supervisor.py`)에서도 LLM 응답 누락 시 무조건 `ktas_level = 4`로만 고정 처리되어 체온 39℃ 고열이나 처짐 증상이 제대로 반영되지 못함.
+  2. `hospital_detail.html`이 정적 목업으로 작성되어 병원명, 진료시간, 대기인수, 의사 현황, 매칭 약국, 주소, 모바일 접수 모달이 송파어린이병원 데이터로 고정되어 있었음.
+* **구체적 해결 방안**:
+  1. **백엔드 `supervisor.py` 임상 KTAS 동적 산별 규칙 강화**:
+     - 체온 39.0℃ 이상 또는 구토/처짐/복통/탈수 등 위험 증상 ➔ `KTAS 3단계 (응급 / 달빛병원 우선 권고)`.
+     - 체온 38.0℃ 이상 또는 발열/기침 ➔ `KTAS 4단계 (준응급 / 달빛병원 권고)`.
+     - 경증 및 37.5℃ 미만 ➔ `KTAS 5단계 (비응급 / 야간외래 권고)`.
+  2. **`result.html` KTAS 및 위치 뱃지 동적 바인딩**:
+     - `#ktas-grade-text`, `#ktas-desc-detail`, `#vital-location-text` DOM ID 추가 및 클라이언트/백엔드 데이터 하이드레이션 적용.
+     - 4개 병원 카드 온클릭에 `selectHospitalCard(idx)` 연결 및 `sessionStorage.selected_hospital` 직렬화 저장.
+  3. **`hospital_detail.html` 단일 범용 템플릿 동적 하이드레이션 구축**:
+     - 별도 HTML 파일 분리 없이, 하나의 `hospital_detail.html`이 `DOMContentLoaded` 시 `sessionStorage.selected_hospital`을 역직렬화하여 병원명, 진료마감시간, 거리, 실시간 대기팀수, 당직 전문의, 매칭 약국(Track B), 오시는 길 및 카카오/네이버 지도 링크, 원터치 주소 복사, 모바일 번호표 모달 텍스트까지 100% 동적 주입.
+* **적용 파일**:
+  * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html), [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/hospital_detail.html), [frontend/templates/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html)
+  * [tests/test_step8_frontend_integration.py](file:///c:/AI-Native-Agent/monnlight/tests/test_step8_frontend_integration.py)
+
+---
+
+### [ISSUE-073] 풀스택 통신 단절(서버 미실행)에 따른 '절단' 증상 가드레일 통과 착시 결함 해소 및 12대 Red Flag 전면 동기화
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장 / 총괄), 김동준 (팀원 / 엔지니어링)
+* **분류**: 0ms Red Flag 안전 가드레일 / 풀스택 통신 복원 / 프론트엔드-백엔드 정규식 동기화
+* **문제 상황**:
+  * 환아 증상으로 '#발목 절단'을 입력하고 테스트했을 때, 119 긴급 안내 화면(`emergency_alert.html`)이 아닌 일반 결과 화면(`result.html`)으로 이동하면서 상단에 `0ms 가드레일 안전 통과`와 `KTAS 3단계 (응급 (달빛어린이병원 우선 권고))`가 표출되는 심각한 불일치 발생.
+  * 백엔드 API와의 통신이 실제로 이루어지고 있는지에 대한 의구심 및 로직 정밀 검증 필요.
+* **원인 분석**:
+  1. **FastAPI 서버(Uvicorn) 미실행**: 시스템 8000번 포트에 백엔드 서버가 구동되고 있지 않아, `loading.html`에서 `fetch('/api/v1/chat')` 시도 시 `ERR_CONNECTION_REFUSED` 예외가 발생하여 클라이언트 catch 폴백 블록으로 직행함.
+  2. **클라이언트 Red Flag 정규식 내 '절단' 누락**: `input.html`과 `loading.html`의 클라이언트 비상 정규식에 백엔드 Rule 8(외상성 사지/수지 절단: `절단|잘렸|잘려|전기톱|날아갔`)이 누락되어 있어, 백엔드 미응답 상태에서 절단을 119 응급 상황으로 인지하지 못함.
+  3. **`result.html` 상단 안전 뱃지 하드코딩**: `<span class="triage-badge">0ms 가드레일 안전 통과</span>`가 고정 마크업으로 남아 있어, 백엔드 통신 실패 상태임에도 안전 뱃지가 그대로 보이는 착시 발생.
+  4. **KTAS 타이틀 괄호 중복**: `ktas_level_name` 자체의 괄호로 인해 `((응급 (달빛어린이병원 우선 권고)))` 중복 괄호 표출.
+* **구체적 해결 방안**:
+  1. **12대 임상 Red Flag 클라이언트-백엔드 100% 동기화**:
+     - `input.html` 및 `loading.html`의 정규식을 백엔드 `guardrail_agent.py`의 12대 소아 위급 상황(절단, 잘렸, 화상, 경련, 청색증, 두부외상 후 구토 등)과 완전히 일치시킴.
+     - 사용자가 '발목 절단', '화상' 등을 입력 시 백엔드 유무와 무관하게 0초 만에 `emergency_alert.html`로 즉시 분기.
+  2. **`result.html` 안전 뱃지 상태 실시간 동기화**:
+     - `#guardrail-badge-text`를 신설하여 백엔드 검증 완료 시에만 `0ms 가드레일 안전 통과` 표출, 오프라인 시 `안전 백업 진료 데이터 매칭`으로 정직하게 표출.
+  3. **KTAS 이중 괄호 포맷 교정**:
+     - `replace(/[()]/g, '')` 처리로 `KTAS 3단계 (응급 / 달빛어린이병원 권고)`로 깔끔하게 렌더링.
+  4. **FastAPI 백엔드 서버 구동 및 Same-Origin 접속 표준화**:
+     - `uvicorn main:app --host 0.0.0.0 --port 8000` 백그라운드 구동 환경 점검 및 `http://localhost:8000` 직접 접속 권고.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html), [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html), [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html)
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html), [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [tests/test_step8_frontend_integration.py](file:///c:/AI-Native-Agent/monnlight/tests/test_step8_frontend_integration.py)
+
+---
+
+### [ISSUE-074] 풀스택 E2E 실시간 라이브 연동 및 KTAS 3단계 결과 일치성 정밀 검증
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원 / 엔지니어링), 정영식 (팀장 / 총괄)
+* **분류**: E2E 통합 테스트 / 실시간 API 연동 검증 / 임상 KTAS 판정 일치성
+* **문제 상황**:
+  * `input.html`에서 실제 사용자가 증상(`14개월 38.5도`, `열이 나요`, `보챔 및 처짐`)을 입력하고 제출했을 때, 백엔드 연동이 실제로 이루어지는지 및 산출된 KTAS 결과가 백엔드 임상 지침과 일치하는지 실제 동작 검증 필요.
+* **원인 분석 및 조치**:
+  1. **라이브 API 실시간 호출 검증 (`POST http://localhost:8000/api/v1/chat`)**:
+     - 실제 구동 중인 백엔드 서버에 `input.html`과 동일한 JSON 페이로드 전송.
+     - HTTP 200 OK 수신 및 `is_emergency: false`, `ktas_level: 3` (`응급 (달빛어린이병원 우선 권고)`), `age_months: 14`, `temperature: 38.5`, 소아과 당직 통화 스크립트 생성, WGS84 좌표 기반 최단거리 의료기관(1.66km 서울아산병원 등) 3개소 정렬 반환 확인.
+  2. **프론트엔드-백엔드 렌더링 일치성 확인**:
+     - `result.html`에서 백엔드 `ktas_level: 3`을 성공적으로 소비하여 `KTAS 3단계 (응급 / 달빛어린이병원 우선 권고)`로 렌더링하고, 가드레일 통과 뱃지(`0ms 가드레일 안전 통과`)와 동적 바이탈 칩, 통화 스크립트, 병원 목록이 100% 실데이터로 동기화됨을 입증.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html), [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)
+  * [app/api/v1/chat.py](file:///c:/AI-Native-Agent/monnlight/app/api/v1/chat.py)
+  * [tests/test_step8_frontend_integration.py](file:///c:/AI-Native-Agent/monnlight/tests/test_step8_frontend_integration.py)
+
+---
+
+### [ISSUE-075] 프로젝트 협업 거버넌스 & 아카이브 정상화 (Answer-영식.md 분리 롤백 및 q_a.md 누적 아카이빙 완결)
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원), 정영식 (팀장), AI 에이전트
+* **분류**: 협업 거버넌스 / 문서 관리 / 작업자 영역 격리 / Git 형상 무결성
+* **문제 상황**:
+  * 김동준 팀원이 질의한 기술 문답 내용이 정영식 팀장 전담 파일인 `Answer-영식.md`에 혼입되는 거버넌스 위반 발생.
+  * `q_a.md`가 `.gitignore`에 등록되어 있어 원격 동기화에서 제외되던 현상 확인.
+* **원인 분석**:
+  * 이전 에이전트 세션에서 거버넌스 지침("정영식 팀장의 질의응답은 Answer-영식.md, 김동준 팀원의 질의응답은 q_a.md")을 엄격히 구분하지 못하고 단일 파일에 덧붙여 작성함.
+* **구체적 해결 방안**:
+  1. **`Answer-영식.md` 정영식 팀장 고유 영역 원상 복원**:
+     - 김동준 팀원의 질의로 잘못 추가되었던 섹션을 전면 제거하고, 원격 `origin/main`의 정영식 팀장 작업본(Q68~Q71)을 100% 보존·복원.
+  2. **`q_a.md` 김동준 팀원 전담 기술 아카이브 집대성**:
+     - 김동준 팀원이 지금까지 수행한 모든 기술 질의응답(Q1 ~ Q29)을 `q_a.md`에 순차적으로 완벽 누적 기록.
+  3. **`.gitignore` 정리 및 Git 추적 정상화**:
+     - `.gitignore`에서 `q_a.md`를 제거하여 Git 원격 저장소에 안전하게 커밋 & 푸시되도록 형상 관리 완결.
+* **적용 파일**:
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
 
 
 
