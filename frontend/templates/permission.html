@@ -218,12 +218,9 @@
       transform: scale(0.985);
     }
 
-    .home-indicator-bar {
-      width: 134px;
-      height: 5px;
-      background-color: #111827;
-      border-radius: 9999px;
-      margin-top: 16px;
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -315,25 +312,98 @@
     <!-- 3. Bottom Confirm Action Bar -->
     <div class="permission-bottom-bar">
       <button type="button" class="btn-confirm-permission" id="btnConfirmPermission" onclick="onConfirmPermission()">
-        확인
+        동의하고 시작하기
       </button>
-      <div class="home-indicator-bar" aria-hidden="true"></div>
     </div>
 
   </div>
 
   <script>
-    // Confirm Permission & Navigate to Main Home (index.html)
-    function onConfirmPermission() {
+    // Request Actual Device / Browser Permissions (Location & Notification)
+    async function onConfirmPermission() {
+      const btn = document.getElementById('btnConfirmPermission');
+      if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.85';
+        btn.innerHTML = '<span style="display:inline-flex; align-items:center; gap:6px;"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">sync</span> 권한 확인 중...</span>';
+      }
+
+      // Helper function to request Geolocation with timeout guarantee
+      const requestLocation = () => new Promise((resolve) => {
+        if (!('geolocation' in navigator)) {
+          resolve('unsupported');
+          return;
+        }
+
+        const timer = setTimeout(() => {
+          console.warn('Geolocation prompt timed out (user skipped or dialog ignored)');
+          resolve('timeout');
+        }, 4000);
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            clearTimeout(timer);
+            try {
+              const lat = position.coords.latitude;
+              const lon = position.coords.longitude;
+              localStorage.setItem('user_lat', lat);
+              localStorage.setItem('user_lon', lon);
+              sessionStorage.setItem('user_lat', lat);
+              sessionStorage.setItem('user_lon', lon);
+              localStorage.setItem('aisum_permission_location', 'granted');
+            } catch (e) {
+              console.warn('Storage error on geolocation:', e);
+            }
+            resolve('granted');
+          },
+          (error) => {
+            clearTimeout(timer);
+            console.warn('Geolocation permission denied or failed:', error.message);
+            try {
+              localStorage.setItem('aisum_permission_location', 'denied');
+            } catch (e) {}
+            resolve('denied');
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 3800,
+            maximumAge: 60000
+          }
+        );
+      });
+
+      // 1. Request Real Geolocation Permission
+      try {
+        await requestLocation();
+      } catch (err) {
+        console.warn('Location request error:', err);
+      }
+
+      // 2. Request Real Notification Permission
+      try {
+        if ('Notification' in window && Notification.permission === 'default') {
+          const perm = await Notification.requestPermission();
+          localStorage.setItem('aisum_permission_notification', perm);
+        } else if ('Notification' in window) {
+          localStorage.setItem('aisum_permission_notification', Notification.permission);
+        }
+      } catch (err) {
+        console.warn('Notification request error:', err);
+      }
+
+      // 3. Mark Onboarding Permission Granted in LocalStorage
       try {
         localStorage.setItem('aisum_permission_granted', 'true');
         localStorage.setItem('aisum_permission_granted_at', new Date().toISOString());
       } catch (e) {
         console.warn('LocalStorage error:', e);
       }
+
+      // 4. Smooth Transition to Main Home
       window.location.href = 'index.html';
     }
   </script>
 </body>
 
 </html>
+

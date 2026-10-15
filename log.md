@@ -70,6 +70,7 @@
 | **[ISSUE-060]** | 프론트엔드 UI/UX 대화형 소아 문진 챗봇 | input.html을 카카오톡/모니모 스타일 인터랙티브 챗봇으로 전면 개편, 결측 변수 3단계 다중 턴 수집 및 0ms Red Flag 가드레일 결합 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-061]** | 프론트엔드 UI/UX 응급실 스크롤 & 기존 디자인 계승형 문진 챗봇 | 소아 응급실 병상 2개 초과 시 세로 스크롤 지원(4개소 확장) 및 input.html 기존 미니멀 UI 디자인 계승형 프로그레시브 문진 챗봇 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-062]** | 프론트엔드 모바일 UI/UX 최적화 | 온보딩 화면(splash, permission) 상단 인위적 가짜 상태 바(15:19 시간, 배터리, 와이파이) 전면 제거 및 순수 뷰포트 정돈 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-063]** | 프론트엔드 온보딩 실제 Web API 권한 요청 | permission.html 동의 버튼 클릭 시 Geolocation 및 Notification 실제 브라우저 권한 팝업 요청 및 좌표 로컬 캐싱 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1897,6 +1898,40 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-063] 앱 접근권한(permission.html) 동의 버튼 클릭 시 실제 브라우저 Web API 권한(위치, 알림) 요청 및 실시간 좌표 캐싱 구현
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장), AI 에이전트
+* **분류**: 프론트엔드 디바이스 Web API 연동 / 위치 기반 서비스(LBS) 초기화 / 온보딩 사용자 경험(UX) 고도화
+* **문제 상황**:
+  * 기존 온보딩 접근 권한 안내 화면(`permission.html`)은 하단 버튼 클릭 시 단순히 `localStorage`에 승인 플래그(`aisum_permission_granted=true`)만 저장하고 곧바로 메인 홈(`index.html`)으로 리다이렉트되어, 실제 브라우저 시스템의 위치(Geolocation) 및 알림(Notification) 권한 팝업이 요청되지 않음.
+  * 결과적으로 사용자가 메인 홈 또는 증상 입력 후 결과 화면에 도달했을 때 위치 정보가 없어 기본 좌표(강남역)로 폴백되거나 브라우저 권한 팝업이 뒤늦게 중복으로 뜨는 사용자 경험 저하 발생.
+* **원인 분석**:
+  * 정적 UI 프로토타입 단계에서는 단순 클릭 이벤트 핸들러만 존재하였으며, 실제 `navigator.geolocation.getCurrentPosition` 및 `Notification.requestPermission()` 비동기 인터페이스와의 체이닝이 누락되어 있었음.
+* **구체적 해결 방안**:
+  1. **실제 Web API 비동기 권한 체이닝 (`onConfirmPermission`)**:
+     - [frontend/templates/permission.html](file:///e:/monnlight/frontend/templates/permission.html) 및 [frontend/permission.html](file:///e:/monnlight/frontend/permission.html)에 `async function onConfirmPermission()` 구축.
+     - 버튼 클릭 즉시 버튼 `disabled` 처리 및 스피너 애니메이션과 함께 `"권한 확인 중..."` 노출.
+  2. **위치 권한 요청 및 3.8초 타임아웃 안전 가드 탑재**:
+     - `navigator.geolocation.getCurrentPosition`을 호출하되, 사용자가 권한 팝업을 무시하거나 취소할 경우 영구 대기(Deadlock)에 빠지지 않도록 4초 타임아웃 타이머를 배치하여 예외 없이 다음 단계로 이행 보장.
+     - 권한 획득 성공 시 위도(`lat`), 경도(`lon`)를 `localStorage` 및 `sessionStorage`에 실시간 캐싱(`user_lat`, `user_lon`)하여 0ms 후속 조회 지원.
+  3. **알림 권한 요청 및 상태 보관**:
+     - `Notification.permission === 'default'`인 경우 `await Notification.requestPermission()`을 호출하여 상태(`granted`, `denied`)를 `aisum_permission_notification`에 저장.
+  4. **온보딩 완료 타임스탬프 기록 및 홈 이동**:
+     - `aisum_permission_granted`, `aisum_permission_granted_at`을 보관한 후 `window.location.href = 'index.html'`로 자연스러운 전환 수행.
+  5. **FastAPI TestClient 검증**:
+     - `/permission` 정적 라우트 응답에 `requestLocation`, `Notification.requestPermission`, `동의하고 시작하기`가 정상 포함됨을 자동화 검증.
+* **적용 파일**:
+  * [frontend/templates/permission.html](file:///e:/monnlight/frontend/templates/permission.html)
+  * [frontend/permission.html](file:///e:/monnlight/frontend/permission.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 

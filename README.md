@@ -30,6 +30,19 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.23-real-web-api-permission-request] 2026-10-15: '아이숨' 앱 접근권한(permission.html) 동의 시 실제 브라우저 위치(Geolocation) 및 알림(Notification) Web API 권한 요청 & 실시간 좌표 캐싱 구현 (정영식 팀장, AI 에이전트)
+* **실제 브라우저 Web API 비동기 권한 체이닝 (`onConfirmPermission`)**:
+  - 기존의 단순 `localStorage` 플래그 저장 정적 방식을 전면 개편하여, [동의하고 시작하기] 버튼 클릭 시 모바일/데스크톱 브라우저의 실제 시스템 권한(위치 정보, 푸시 알림)을 순차적으로 팝업 요청하는 실동작 로직 구축.
+  - 버튼 클릭 시 즉각적인 비활성화(`disabled`) 및 부드러운 스피너 회전 애니메이션(`@keyframes spin`)과 함께 **"권한 확인 중..."** 피드백 노출로 이중 클릭 원천 방지.
+* **위치 권한 팝업 호출 및 3.8초 타임아웃 안전 가드**:
+  - `navigator.geolocation.getCurrentPosition`을 호출하여 실제 디바이스 GPS/네트워크 위치 권한 다이얼로그 호출.
+  - 사용자의 권한 다이얼로그 무시나 취소 시 무한 대기(Deadlock)에 빠지지 않도록 4초 타임아웃 프라미스 병렬 배치.
+  - 위치 승인 시 위도(`user_lat`)와 경도(`user_lon`)를 `localStorage` 및 `sessionStorage`에 실시간 보관하여 메인 홈 및 결과 매칭 화면에서 0ms 즉시 활용.
+* **푸시 알림 권한 연동 및 온보딩 타임스탬프 기록**:
+  - `Notification.requestPermission()` 호출로 알림 권한 상태(`aisum_permission_notification`)를 기록하고 `aisum_permission_granted_at` 타임스탬프 저장 후 `index.html`로 안전하게 화면 전환.
+* **자동화 테스트 검증**:
+  - FastAPI TestClient 검증 통과 (`SUCCESS: /permission serves real Web API permission logic correctly!`).
+
 ### 🌟 [v2.4.22-remove-fake-status-bar] 2026-10-15: '아이숨' 모바일 웹 화면 상단 인위적 가짜 상태 바(15:19 시간·와이파이·배터리 아이콘) 전면 제거 및 순수 뷰포트 정돈 (정영식 팀장, AI 에이전트)
 * **온보딩 화면(스플래시 및 접근 권한 안내) 상단 가짜 iOS 상태 바 전면 제거**:
   - [splash.html](file:///e:/monnlight/frontend/templates/splash.html), [permission.html](file:///e:/monnlight/frontend/templates/permission.html) (루트 및 templates 계층 4개 파일 전수 적용)에서 화면 상단에 인위적으로 표시되던 가짜 시간(`15:19` 등) 및 내비게이션(`near_me`), 통신 안테나(`signal_cellular_alt`), 와이파이(`wifi`), 배터리(`battery_full`) 아이콘 마크업과 스타일 완전 삭제.

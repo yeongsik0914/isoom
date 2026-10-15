@@ -49,6 +49,7 @@
     - [10.29 '아이숨' 소아 맞춤 대화형 문진 챗봇(input.html) 전면 개편 및 결측치 3단계 다중 턴 수집 체계 구축](#1029-아이숨-소아-맞춤-대화형-문진-챗봇inputhtml-전면-개편-및-결측치-3단계-다중-턴-수집-체계-구축-2026-10-15-완결)
     - [10.30 '아이숨' 소아 응급실 병상 4개소 확장 스크롤 완비 & input.html 기존 미니멀 UI 계승형 프로그레시브 문진 챗봇 탑재](#1030-아이숨-소아-응급실-병상-4개소-확장-스크롤-완비--inputhtml-기존-미니멀-ui-계승형-프로그레시브-문진-챗봇-탑재-2026-10-15-완결)
     - [10.31 '아이숨' 온보딩 화면(splash, permission) 상단 인위적 가짜 상태 바 제거 및 순수 뷰포트 정돈](#1031-아이숨-온보딩-화면splash-permission-상단-인위적-가짜-상태-바-제거-및-순수-뷰포트-정돈-2026-10-15-완결)
+    - [10.32 '아이숨' 앱 접근권한(permission.html) 동의 시 실제 Web API(위치·알림) 권한 요청 및 실시간 좌표 캐싱 구축](#1032-아이숨-앱-접근권한permissionhtml-동의-시-실제-web-api위치알림-권한-요청-및-실시간-좌표-캐싱-구축-2026-10-15-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -913,6 +914,24 @@ flowchart TD
      - `.permission-viewport`의 상단 패딩을 `padding: 32px 24px 24px 24px;`로 정돈하여 스마트폰 기기 자체 상태 바 아래에서 콘텐츠가 자연스럽게 호흡하도록 최적화.
   3. **FastAPI TestClient 검증 완결**:
      - `/splash` 및 `/permission` 라우트에서 `statusBarTime` 및 `ios-status-bar`가 100% 제거되었음을 확인 (`ALL STATUS BAR REMOVAL CHECKS PASSED PERFECTLY!`).
+
+---
+
+### 10.32 '아이숨' 앱 접근권한(permission.html) 동의 시 실제 Web API(위치·알림) 권한 요청 및 실시간 좌표 캐싱 구축 (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 기존의 접근권한 페이지는 단순 시각적 안내 후 `localStorage`에 불리언 값만 저장하고 메인 화면으로 이동하는 정적 목업에 불과하여, 실제 브라우저/디바이스의 위치(Geolocation) 및 알림(Notification) 권한 팝업을 띄우지 못하는 한계 존재.
+* **구체적 구현 내역**:
+  1. **실제 Web API 비동기 권한 체이닝 (`onConfirmPermission`)**:
+     - [permission.html](file:///e:/monnlight/frontend/templates/permission.html) (루트 및 templates 계층 2개 파일)에 비동기 권한 요청 파이프라인 탑재.
+     - [동의하고 시작하기] 클릭 시 즉시 버튼 `disabled` 처리 및 스피너 회전 애니메이션(`@keyframes spin`)과 함께 **"권한 확인 중..."** 피드백 노출.
+  2. **위치 권한 요청 및 3.8초 타임아웃 안전 가드**:
+     - `navigator.geolocation.getCurrentPosition`을 호출하여 실제 디바이스 GPS/네트워크 위치 권한 다이얼로그 호출.
+     - 사용자가 권한 다이얼로그를 닫거나 무시할 경우 무한 대기(Deadlock)에 빠지지 않도록 4초 타임아웃 타이머 병렬 배치.
+     - 위치 승인 시 위도(`user_lat`)와 경도(`user_lon`)를 `localStorage` 및 `sessionStorage`에 실시간 보관하여 0ms 후속 활용 보장.
+  3. **알림 권한 요청 및 온보딩 타임스탬프 기록**:
+     - `Notification.requestPermission()`을 호출하여 푸시 알림 상태(`aisum_permission_notification`)를 기록하고 `aisum_permission_granted_at` 타임스탬프 저장 후 `index.html`로 매끄럽게 전환.
+  4. **FastAPI TestClient 검증**:
+     - `/permission` 정적 라우트 응답에 `requestLocation`, `Notification.requestPermission`, `동의하고 시작하기`가 정상 포함됨을 자동화 검증 완료 (`SUCCESS: /permission serves real Web API permission logic correctly!`).
 
 ---
 
