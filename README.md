@@ -30,6 +30,44 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.21-er-scroll-and-minimal-chatbot] 2026-10-15: '아이숨' 소아 응급실 4개소 확장 스크롤 완비 & input.html 기존 미니멀 UI 계승형 프로그레시브 문진 챗봇 완성 (김동준 팀원)
+* **🏥 result.html 소아 응급실 병상 4개소 확장 및 2개 초과 시 세로 스크롤 완벽 지원**:
+  - 기존 2개소에서 권역 소아전문응급센터 2개소(삼성서울병원 3석 여유, 분당차병원 1석 혼잡 대기)를 추가하여 총 4개 병상 카드로 확장.
+  - 상단 탭 텍스트를 `소아 응급실 병상 (4)`로 동기화.
+  - `.facility-scroll-list` 컨테이너의 `flex-shrink: 0 !important; max-height: 560px; overflow-y: auto; touch-action: pan-y;`를 통해 카드가 찌그러지지 않고 매끄럽게 수직 스크롤되도록 완성.
+* **✍️ input.html 기존 미니멀 UI 디자인 100% 계승형 프로그레시브 문진 챗봇 탑재**:
+  - 대형 헤드라인(`h1.input-headline`), 블루 언더라인 인풋(`underline-input-wrapper`), 하단 확인 버튼(`input-confirm-btn`), 2초 AI 분석 오버레이(`ai-analyzing-overlay`) 등 기존 화면의 정체성을 100% 원형 보존.
+  - 화면 프레임워크 내에서 3단계(주요 증상 ➔ 월령/체온 ➔ 동반 징후/해열제)로 필수 임상 변수를 단계적으로 묻는 스마트 상태 머신(FSM) 결합.
+  - 상단에 누적된 답변 요약 태그(`[✓ 주요 증상: 열이 나요]`, `[✓ 14개월 · 39.2℃]`) 실시간 표출 및 클릭 시 수정 복귀 지원.
+  - 원터치 퀵 칩 제공으로 터치 한 번에 인풋 필드 자동 입력 및 [확인] 버튼 즉각 활성화.
+  - 0ms Red Flag 가드레일(경련, 생후 100일 미만 등 감지 시 0초 119 긴급 안내 전환) 및 2초 로딩 후 `result.html` 동적 바인딩 연계.
+  - `js/main.js` 내 중복 이벤트 가드(`window.__AISUM_CUSTOM_INPUT__`) 적용.
+
+### 🌟 [v2.4.20-interactive-triage-chatbot] 2026-10-15: '아이숨' 소아 맞춤 대화형 문진 챗봇(input.html) 전면 개편 및 result.html 스크롤 버그 완결 (김동준 팀원)
+* **💬 input.html 소아 맞춤 대화형 문진 챗봇 ([frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html), [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)) 구축**:
+  - 단일 문장 입력의 한계를 극복하고, 소아 KTAS 분류 4대 핵심 임상 변수(월령, 체온, 지속시간, 동반증상)를 수집하는 전문 문진 인터페이스 구축.
+  - **3단계 문진 트래커**: `1. 증상 파악` ➔ `2. 월령/체온` ➔ `3. 동반 징후` 실시간 프로그레스 바.
+  - **원터치 퀵답변 칩(Quick Reply Chips)**: 보채는 아이를 안고 있는 부모를 위해 `[생후 100일 미만]`, `[14개월 (39.2℃)]`, `[구토 동반]` 등 터치 한 번으로 답변 가능한 동적 트레이 탑재.
+  - **다중 턴 0ms Red Flag 가드레일**: 어느 대화 턴에서든 경련, 청색증, 생후 100일 미만 고열 감지 시 0ms 즉각 `emergency_alert.html`로 숏서킷 강제 라우팅.
+  - **결과 화면 연동**: `sessionStorage` 임상 데이터 저장 ➔ `result.html` 상단 바이탈 칩(`#14개월`, `#39.2℃`, `#구토`) 실시간 동적 주입 연계.
+* **🛠️ result.html 카드 Flexbox 클리핑 및 스크롤 불가 버그 완벽 픽스**:
+  - `.facility-scroll-list` 내 카드에 `flex-shrink: 0 !important; min-height: fit-content !important;` 및 `touch-action: pan-y;` 적용.
+  - 4개 병원·약국 카드가 찌그러지지 않고 온전한 크기로 표출되며, 6px 슬림 스크롤바로 매끄럽게 상하 스크롤되도록 복원 완료.
+
+### 🌟 [v2.4.19-emergency-alert-and-scroll-list] 2026-10-15: '아이숨' 0ms Red Flag 119 긴급 직행 화면(emergency_alert.html) 및 병원 리스트 스크롤 뷰(Scroll List) 구축 (김동준 팀원)
+* **🚨 0ms Red Flag 119 긴급 직행 화면 ([frontend/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/emergency_alert.html), [frontend/templates/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/emergency_alert.html)) 구축**:
+  - 다크 슬레이트 & 앰버 레드 테마의 사이렌 펄스 애니메이션(`ripple`, `iconWiggle`) 적용.
+  - 초대형 119 원터치 직통 다이얼 CTA (`tel:119`) 및 펄스 링 탑재.
+  - 구급대원에게 즉시 불러줄 수 있는 내 위치 안내 카드("서울특별시 송파구 올림픽로 300") 및 원클릭 주소 복사.
+  - 골든타임 필수 응급처치 3대 수칙 (기도 확보, 경련 시 절대 주의, 옷 느슨하게 통풍 유지).
+  - 하단 보조 액션: `[소아전문응급센터 실시간 병상 보기]`, `[증상 다시 입력하기]`.
+* **input.html 내 0ms Red Flag 정규식 인터셉터 바인딩 ([frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js))**:
+  - 경련, 호흡곤란, 생후 100일 미만 고열, 의식저하 등 위급 키워드 감지 시 2초 분석 로딩을 건너뛰고 0ms 즉각 `emergency_alert.html`로 숏서킷 이동.
+* **result.html 모든 병원 카드 전수 연계 및 모바일 최적화 스크롤 리스트(`.facility-scroll-list`) 전환**:
+  - 1순위 송파어린이병원부터 2순위 강동소아청소년과의원, 3순위 잠실아이사랑소아과, 4순위 위례달빛어린이병원 전체에 `hospital_detail.html` 링크 연계.
+  - 기존 더보기 아코디언 토글 버튼을 제거하고, 전체 병원·약국 카드 및 소아 응급실 카드를 부드러운 순수 CSS/JS 스크롤 컨테이너(`max-height: 520px; overflow-y: auto`)로 개편하여 자연스러운 모바일 탐색 제공.
+  - `main.py`에 `@app.get("/emergency_alert")` 라우트 등록 및 HTTP 200 OK 서빙 검증 완료.
+
 ### 🌟 [v2.4.18-backend-phase1-integration] 2026-10-15: '아이숨' 풀스택 결합 백엔드 1단계 - SupervisorResponse 임상 바이탈 5대 필드 확장 및 1턴 완결 force_matching FSM 모드 구축 (정영식 팀장, AI 에이전트)
 * **`SupervisorResponse` 클라이언트 반환 DTO 임상 바이탈 필드 탑재**:
   - `result.html` 상단 바이탈 칩(나이, 체온, 중증도)과 증상 목록을 백엔드에서 100% 동적 주입할 수 있도록 5대 핵심 필드(`age_months`, `temperature`, `ktas_level`, `ktas_level_name`, `symptoms`) 신설.

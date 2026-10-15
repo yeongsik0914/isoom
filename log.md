@@ -65,6 +65,10 @@
 | **[ISSUE-055]** | 프론트엔드 UI/UX 병원 상세 및 접수 | 야간 병원 상세 및 실시간 접수 안내 화면(hospital_detail.html) 순수 프론트엔드 구축 및 result.html 연계 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-056]** | 풀스택 아키텍처 및 결합 명세 | 프론트엔드-백엔드 100% 결합 연동 명세서(FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립 및 미구현 화면 고도화 백서 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-057]** | 풀스택 결합 백엔드 1단계 아키텍처 | SupervisorResponse 임상 바이탈 5대 필드 확장 및 1턴 완결 force_matching FSM 모드 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-058]** | 프론트엔드 UI/UX 119 긴급 직행 & 스크롤 리스트 | 모든 병원 카드 상세 연계, 결과 화면 스크롤 뷰(Scroll List) 전환(더보기 토글 제거) 및 0ms Red Flag 119 긴급 안내 화면(emergency_alert.html) 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-059]** | 프론트엔드 UI/UX 결과 카드 Flexbox 클리핑 버그 | .facility-scroll-list 내 카드 flex-shrink: 0 미부여로 인한 4개 카드 찌그러짐 및 약국/버튼 잘림 버그 완벽 해결 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-060]** | 프론트엔드 UI/UX 대화형 소아 문진 챗봇 | input.html을 카카오톡/모니모 스타일 인터랙티브 챗봇으로 전면 개편, 결측 변수 3단계 다중 턴 수집 및 0ms Red Flag 가드레일 결합 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-061]** | 프론트엔드 UI/UX 응급실 스크롤 & 기존 디자인 계승형 문진 챗봇 | 소아 응급실 병상 2개 초과 시 세로 스크롤 지원(4개소 확장) 및 input.html 기존 미니멀 UI 디자인 계승형 프로그레시브 문진 챗봇 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1710,5 +1714,158 @@
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
 
+---
+
+### [ISSUE-058] 모든 병원 카드 상세 연계, 결과 화면 스크롤 뷰(Scroll List) 전환 및 0ms Red Flag 119 긴급 안내 화면(emergency_alert.html) 구축
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 신규 개발 / 응급 가드레일 숏서킷 / 스크롤 리스트 컴포넌트
+* **문제 상황**:
+  * [result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html) 맞춤 결과 화면에서 최상단 1순위 병원(송파어린이병원)만 상세 화면으로 연계되어 있고, 2순위 병원(강동소아청소년과의원) 등 다른 병원은 상세 페이지로 연결되지 않음.
+  * 초기 아코디언(더보기 토글) 방식은 추가 클릭이 필요하고 화면이 길게 확장되는 불편이 있어, 전체 병원·약국 리스트를 자연스럽게 넘겨볼 수 있는 모바일 최적화 스크롤 뷰로의 전면 전환 요구.
+  * 또한 [input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)에서 경련, 호흡곤란, 생후 100일 미만 고열 등 초응급 위기 징후(Red Flag)를 입력했을 때, 일반적인 2초 로딩 후 일반 병원 결과 화면으로 넘어가는 대신 **0초 만에 119 구급차 호출로 직행하는 전용 긴급 경고 화면**이 필요함.
+* **원인 분석**:
+  * 초기 프로토타입 단계에서는 1순위 대표 카드에 대해서만 링크가 연결되어 있었고, Red Flag 입력 시 프론트엔드 단에서 즉각적인 숏서킷 라우팅 처리가 연동되지 않았음.
+* **구체적 해결 방안**:
+  1. **result.html 모든 병원 카드 전수 연계 및 순수 CSS 스크롤 뷰(`.facility-scroll-list`) 컴포넌트 구축**:
+     - 2순위 `강동소아청소년과의원`, 3순위 `잠실아이사랑소아과`, 4순위 `위례달빛어린이병원` 전체 병원 카드에 `onclick="location.href='hospital_detail.html'"` 속성과 `>`(arrow_forward_ios) 화살표를 장착하여 전수 상세 뷰 진입 지원.
+     - 기존 더보기 아코디언 토글 버튼 및 접힘(`more-hospitals-collapse`) 제거.
+     - `.facility-scroll-list` 컨테이너 (`max-height: 520px; overflow-y: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth;`)를 구축하여 1~4순위 병원·약국 카드 및 소아 응급실 카드를 부드럽게 스크롤하며 확인할 수 있도록 개편.
+     - 슬림 커스텀 스크롤바(5px) 탑재 및 상단 탭 라벨 `달빛병원·약국 (4)` 동기화.
+  2. **🚨 0ms Red Flag 119 긴급 직행 화면 ([frontend/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/emergency_alert.html)) 신규 구축**:
+     - 다크 슬레이트 & 앰버 레드 테마의 사이렌 펄스 애니메이션(`ripple`, `iconWiggle`) 적용.
+     - 초대형 119 원터치 직통 다이얼 CTA (`tel:119`) 탑재.
+     - 119 구급대원에게 즉시 불러줄 수 있는 내 위치 안내 카드("서울특별시 송파구 올림픽로 300") 및 주소 복사 기능.
+     - 구급차 도착 전 필수 응급처치 3대 수칙 (기도 확보, 경련 시 주의, 옷 느슨하게 통풍 유지).
+     - 하단 보조 액션: `[인근 소아전문응급센터 실시간 병상 보기 (result.html?tab=emergency)]`, `[증상 다시 입력하기]`.
+  3. **input.html 내 0ms Red Flag 정규식 인터셉터 바인딩 ([frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js))**:
+     - 입력 텍스트 내 응급 키워드(`/경련|경기|숨|호흡|의식|기절|청색|100일|백일|장중첩|피토|혈변|쳐짐|늘어짐|파랗|경직/`) 감지 시, 2초 분석 로딩을 건너뛰고 0ms 만에 즉시 `emergency_alert.html`로 숏서킷 이동.
+  4. **FastAPI 백엔드 라우팅 및 200 OK 검증**:
+     - `main.py`에 `@app.get("/emergency_alert")` 등록 및 TestClient 200 OK 검증 완료.
+* **적용 파일**:
+  * [frontend/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/emergency_alert.html) (신규)
+  * [frontend/templates/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/emergency_alert.html) (신규)
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [frontend/templates/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/templates/js/main.js)
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-059] 결과 화면(result.html) 카드 Flexbox Shrink 클리핑 버그 및 스크롤 불가 해결
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 버그 픽스 / CSS Flexbox 레이아웃
+* **문제 상황**:
+  * [result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)에서 추천 병원 목록 카드가 한 화면에 찌그러진 채로 렌더링되고, 하단의 약국 안내와 '병원 전화', '길찾기' 버튼이 반쯤 잘려서(clipping) 표출됨.
+  * 또한 마우스 휠이나 터치 드래그를 해도 스크롤이 전혀 동작하지 않는 문제 발생.
+* **원인 분석**:
+  * `.facility-scroll-list`에 `display: flex; flex-direction: column; max-height: 520px; overflow-y: auto;`를 적용했으나, CSS Flexbox 자식 요소인 `.pairing-card`와 `.emergency-room-card`의 `flex-shrink` 기본값이 `1`로 동작함.
+  * 4개 카드의 본래 높이 합산(~930px)이 부모 컨테이너의 `max-height(520px)`를 초과하자, 브라우저가 스크롤을 활성화하는 대신 4개 카드를 각각 ~120px 높이로 강제 압축(squeeze)함.
+  * 각 카드에 `overflow: hidden`이 걸려 있어 압축된 영역 바깥의 약국 및 액션 버튼이 잘려 나갔으며, 총 높이가 정확히 520px로 수축되면서 `scrollHeight <= clientHeight`가 되어 스크롤바가 생성되지 않았음.
+* **구체적 해결 방안**:
+  1. **Flexbox 자식 수축 방지 및 크기 보존**:
+     ```css
+     .facility-scroll-list .pairing-card,
+     .facility-scroll-list .emergency-room-card {
+       flex-shrink: 0 !important;
+       min-height: fit-content !important;
+       width: 100% !important;
+       box-sizing: border-box !important;
+     }
+     ```
+  2. **스크롤 컨테이너 최적화**:
+     - `max-height: 560px; overflow-y: auto; overflow-x: hidden;`
+     - 6px 슬림 커스텀 스크롤바 및 모바일 가속 터치 스크롤(`touch-action: pan-y; -webkit-overflow-scrolling: touch;`) 적용.
+  3. **동기화 및 200 OK 서빙 확인**:
+     - `frontend/result.html` 및 `frontend/templates/result.html` 100% 동기화 완료.
+* **적용 파일**:
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+
+---
+
+### [ISSUE-060] input.html 소아 맞춤 문진 챗봇(Interactive Triage Chatbot) 전면 개편 및 결측치 3단계 다중 턴 수집 체계 구축
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 대화형 인터페이스 개편 / 소아 임상 결측치 수집 / FSM 문진
+* **문제 상황**:
+  * 기존 [input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)은 단일 텍스트 필드에 문장을 입력하고 '확인'을 누르면 2초 로딩 후 곧바로 [result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)로 넘어가는 일방향 구조였음.
+  * 소아 야간 트리아제 및 병원 매칭을 위해서는 **환아 월령(나이), 현재 체온, 증상 지속 시간, 동반 증상**의 4대 핵심 임상 변수가 필수적이나, 보호자가 "열이 나요", "배가 아파요"처럼 한 문장만 입력할 경우 결측치가 발생하여 정확한 KTAS 분류와 맞춤 병원 추천이 불가능한 구조적 한계가 존재함.
+* **원인 분석**:
+  * 백엔드 `TriageAgent` 및 `SupervisorOrchestrator`는 이미 `followup_question`과 결측 변수 수집 능력을 갖추고 있었으나, 프론트엔드가 1회성 정적 인풋 폼 형태로 머물러 있어 백엔드의 다중 턴(Multi-turn) 능력을 온전히 활용하지 못함.
+* **구체적 해결 방안**:
+  1. **input.html 및 templates/input.html 카카오톡/모니모 스타일 대화형 문진 챗봇으로 전면 개편**:
+     - 상단 헤더: 뒤로가기 버튼 + 아이숨 문진 간호 AI 프로필(`KTAS 전문`, 실시간 응급 판정 중 펄스 인디케이터) + 처음부터 다시하기 리셋 버튼.
+     - 3단계 문진 프로그레스 트래커: `1. 증상 파악` ➔ `2. 월령/체온` ➔ `3. 동반 징후`.
+     - 부드러운 스크롤 대화창, AI 말풍선, 보호자 말풍선, 3개 점 통통 튀는 모던 타이핑 인디케이터(`typing-dot`) 탑재.
+  2. **원터치 퀵답변 칩(Quick Reply Chips) 트레이 제공**:
+     - 한 손으로 보채는 아기를 안고 있는 다급한 보호자를 위해, 키보드 타이핑 없이도 터치 한 번으로 답변할 수 있는 동적 퀵 칩 제공:
+       - 1단계: `[열이 나요 🌡️]`, `[토를 해요 🤢]`, `[기침·가래 😮‍💨]`, `[배가 아파요 😣]`
+       - 2단계: `[생후 100일 미만 🚨]`, `[14개월 (39.2℃)]`, `[6~12개월 (38.5℃)]`, `[24개월 이상 (38.3℃)]`
+       - 3단계: `[구토 동반 및 2시간 전 해열제 복용]`, `[기침·가래 및 콧물]`, `[해열제 복용 후에도 열 지속]`, `[물은 잘 마시고 덜 처짐]`
+     - 자유 텍스트 입력창 및 엔터/전송 버튼 상시 제공.
+  3. **0ms Red Flag 가드레일 다중 턴 인터셉터 바인딩**:
+     - 어느 대화 턴에서든 경련, 호흡곤란, 생후 100일 미만 등 위급 키워드 감지 시 0ms 즉각 경고 말풍선 표출 후 119 긴급 직행 화면([emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/emergency_alert.html))으로 강제 숏서킷 전환.
+  4. **결과 화면 연동 및 바이탈 칩 동적 주입**:
+     - 문진 완료 시 `sessionStorage.setItem('triage_result', ...)`에 구조화된 임상 데이터 저장.
+     - 2초 AI 분석 로딩 오버레이 후 `result.html`로 자동 이동하며, `result.html`의 상단 바이탈 칩(`#14개월`, `#39.2℃`, `#구토`)이 환아의 실제 데이터로 동적 갱신되도록 연동 완료.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+
+---
+
+### [ISSUE-061] 소아 응급실 병상 2개 초과 시 세로 스크롤 지원 및 input.html 기존 미니멀 UI 디자인 계승형 프로그레시브 문진 챗봇 탑재
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 스크롤 뷰 동기화 / 디자인 일관성 유지 / 기존 UI 계승형 대화식 문진
+* **문제 상황**:
+  1. **응급실 탭 스크롤 미지원 오인 현상**: [result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html) 내 달빛병원 탭은 4개 카드가 스크롤 리스트로 매끄럽게 동작하나, '소아 응급실 병상' 탭은 2개소만 표시되어 2개 초과 시 스크롤 가능 여부가 사용자에게 직관적으로 확인되지 않음.
+  2. **새로운 챗봇 디자인 도입에 따른 기존 미니멀 디자인 훼손 우려**: 앞서 도입한 카카오톡/메신저형 대화창 디자인이 아이숨의 기존 깔끔한 미니멀 디자인(상단 단독 헤드라인 + 언더라인 인풋 필드 + 하단 확인 버튼 + 2초 분석 로딩 오버레이)과 이질감을 유발함. 사용자는 기존의 디자인을 그대로 유지하면서 필수 정보(월령, 체온, 동반 증상)를 문진하는 챗봇 기능을 원함.
+* **원인 분석**:
+  1. 응급실 탭 목업 데이터가 2개소(서울아산병원, 강동성심병원)로만 제한되어 있어 세로 스크롤 영역 높이(560px)를 넘지 않아 스크롤바가 발현되지 않음.
+  2. 챗봇 기능 구현 시 화면 전체 레이아웃을 메신저 버블 형태로 완전히 교체해 버려, 기존 화면의 독창적인 UI/UX 정체성이 손실됨.
+* **구체적 해결 방안**:
+  1. **소아 응급실 병상 4개소 확장 및 2개 초과 시 수직 스크롤 완벽 지원**:
+     - `result.html` 및 `templates/result.html`의 응급실 탭에 삼성서울병원 소아전문응급센터(4.8km, 3석 여유), 분당차병원 소아전문응급센터(8.2km, 1석 혼잡) 2개소를 추가하여 총 4개 카드로 확장.
+     - 탭 명칭을 `소아 응급실 병상 (4)`로 동기화하고, `.facility-scroll-list`의 `flex-shrink: 0 !important; max-height: 560px; overflow-y: auto;`를 통해 2개 초과 시 카드가 찌그러지지 않고 매끄럽게 스크롤되도록 완성.
+  2. **input.html 기존 미니멀 UI 디자인 100% 계승형 프로그레시브 문진 챗봇 탑재**:
+     - 기존 화면 요소인 **상단 뒤로가기 헤더, 대형 헤드라인(`h1.input-headline`), 블루 언더라인 인풋(`underline-input-wrapper`), 하단 확인 버튼(`input-confirm-btn`), AI 분석 오버레이(`ai-analyzing-overlay`)**를 100% 원형 그대로 보존.
+     - 화면 내부에서 단계별 문진(1단계: 주요 증상 ➔ 2단계: 월령/체온 ➔ 3단계: 동반 징후/해열제)을 진행하도록 상태 머신(FSM) 구축.
+     - 단계 변경 시 헤드라인과 서브 가이드 텍스트가 부드럽게 전환되며, 이전에 입력한 정보는 상단에 깔끔한 태그(`[✓ 주요 증상: 열이 나요]`, `[✓ 14개월 · 39.2℃]`)로 누적 표시 (클릭 시 이전 단계로 수정 복귀 가능).
+     - 하단 원터치 퀵 칩 제공으로 터치 한 번에 인풋 필드 자동 입력 및 [확인] 버튼 활성화 지원.
+     - 어느 단계에서든 생후 100일 미만, 경련, 호흡곤란 등 감지 시 0ms 즉시 긴급 알림 전환.
+     - 문진 완료 시 2초간 AI 분석 오버레이 실행 후 `result.html`로 이동하여 동적 바이탈 데이터 주입.
+  3. **메인 스크립트 중복 이벤트 차단**:
+     - `js/main.js` 및 `templates/js/main.js`에 `window.__AISUM_CUSTOM_INPUT__` 가드를 추가하여 기존 단일 단계 인풋 리스너와의 충돌 방지.
+* **적용 파일**:
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [frontend/templates/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/templates/js/main.js)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
 
 

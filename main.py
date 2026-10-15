@@ -235,6 +235,17 @@ async def get_aisum_hospital_detail():
     return JSONResponse(status_code=404, content={"detail": "Hospital detail page not found"})
 
 
+@app.get("/emergency_alert", tags=["Frontend"], response_class=FileResponse)
+@app.get("/emergency_alert.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_emergency_alert():
+    """Serves the Aisum 0ms Red Flag 119 emergency direct alert page."""
+    if os.path.exists("frontend/templates/emergency_alert.html"):
+        return FileResponse("frontend/templates/emergency_alert.html", media_type="text/html")
+    if os.path.exists("frontend/emergency_alert.html"):
+        return FileResponse("frontend/emergency_alert.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Emergency alert page not found"})
+
+
 @app.get("/guide", tags=["Frontend"], response_class=FileResponse)
 @app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_unified():

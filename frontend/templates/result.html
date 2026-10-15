@@ -28,7 +28,6 @@
 
   <!-- Pure Vanilla CSS Stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="../css/style.css" />
 
   <style>
     /* ==========================================================================
@@ -548,6 +547,70 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* Scroll Container for Facility Lists */
+    .facility-scroll-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2px 4px 4px 4px;
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .facility-scroll-meta .scroll-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      color: #0066ff;
+      background: #eff6ff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid #dbeafe;
+    }
+
+    .facility-scroll-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: 560px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+      padding-bottom: 12px;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      scroll-behavior: smooth;
+      touch-action: pan-y;
+    }
+
+    .facility-scroll-list .pairing-card,
+    .facility-scroll-list .emergency-room-card {
+      flex-shrink: 0 !important;
+      min-height: fit-content !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Custom Slim Scrollbar */
+    .facility-scroll-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .facility-scroll-list::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 9999px;
+    }
+    .facility-scroll-list::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+      transition: background-color 0.2s ease;
+    }
+    .facility-scroll-list::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
     /* Bottom Fixed Actions Bar */
     .result-bottom-bar {
       position: fixed;
@@ -638,17 +701,17 @@
         </div>
 
         <div class="vital-chips-row">
-          <span class="vital-chip">
+          <span class="vital-chip" id="vital-age-chip">
             <span class="material-symbols-outlined" style="font-size: 16px;">child_care</span>
-            14개월
+            <span id="vital-age-text">14개월</span>
           </span>
-          <span class="vital-chip highlight">
+          <span class="vital-chip highlight" id="vital-temp-chip">
             <span class="material-symbols-outlined" style="font-size: 16px;">device_thermostat</span>
-            39.2℃ (고열)
+            <span id="vital-temp-text">39.2℃ (고열)</span>
           </span>
-          <span class="vital-chip">
+          <span class="vital-chip" id="vital-symptom-chip">
             <span class="material-symbols-outlined" style="font-size: 16px;">sick</span>
-            #구토
+            <span id="vital-symptom-text">#구토</span>
           </span>
           <span class="vital-chip">
             <span class="material-symbols-outlined" style="font-size: 16px;">location_on</span>
@@ -666,185 +729,354 @@
       <nav class="track-tabs-container" role="tablist">
         <button type="button" class="track-tab-btn active" id="tab-btn-moonlight" role="tab" aria-selected="true" onclick="switchTrackTab('moonlight')">
           <span class="material-symbols-outlined" style="font-size: 18px;">bedtime</span>
-          <span>달빛병원·약국 (3)</span>
+          <span>달빛병원·약국 (4)</span>
         </button>
         <button type="button" class="track-tab-btn" id="tab-btn-emergency" role="tab" aria-selected="false" onclick="switchTrackTab('emergency')">
           <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
-          <span>소아 응급실 병상 (2)</span>
+          <span>소아 응급실 병상 (4)</span>
         </button>
       </nav>
 
       <!-- 3. Pane 1: Moonlight Hospital + 30min Pharmacy (Track B) -->
       <section class="facility-tab-pane" id="pane-moonlight">
 
-        <!-- Card 1 (TOP 1) -->
-        <article class="pairing-card">
-          <span class="pairing-card-rank">추천 1순위</span>
-          <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
-            <div class="facility-title-row">
-              <div style="display: flex; align-items: center; gap: 4px;">
-                <h2 class="facility-name">송파어린이병원</h2>
-                <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+        <div class="facility-scroll-list" id="moonlight-scroll-list">
+
+          <!-- Card 1 (TOP 1) -->
+          <article class="pairing-card">
+            <span class="pairing-card-rank">추천 1순위</span>
+            <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+              <div class="facility-title-row">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <h2 class="facility-name">송파어린이병원</h2>
+                  <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                </div>
+                <span class="facility-distance">1.8 km (차 6분)</span>
               </div>
-              <span class="facility-distance">1.8 km (차 6분)</span>
-            </div>
-            <div class="facility-info-row">
-              <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
-              <span>오늘 야간진료 <strong>23:00 마감</strong></span>
-            </div>
-            <div class="badge-warning-soft">
-              <span class="material-symbols-outlined" style="font-size: 14px;">warning</span>
-              <span>접수마감 35분 전 (상세 및 모바일 접수 가능)</span>
-            </div>
-          </div>
-
-          <!-- Paired Night Pharmacy -->
-          <div class="pairing-pharmacy-bridge">
-            <div class="pharmacy-top-line">
-              <div class="pharmacy-name-wrap">
-                <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
-                <span>송파달빛약국 (연계 심야약국)</span>
+              <div class="facility-info-row">
+                <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
+                <span>오늘 야간진료 <strong>23:00 마감</strong></span>
               </div>
-              <span class="margin-safe-badge">
-                <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
-                +30분 조제 안전마진
-              </span>
-            </div>
-            <div class="pharmacy-meta">
-              병원에서 도보 2분 (120m) · 오늘 야간영업 <strong>23:30 마감</strong>
-            </div>
-          </div>
-
-          <!-- Actions -->
-          <div class="card-actions-row">
-            <a href="tel:0212345678" class="btn-call-action">
-              <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
-              <span>병원 전화</span>
-            </a>
-            <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
-              <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
-              <span>길찾기</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Card 2 -->
-        <article class="pairing-card">
-          <div class="pairing-hospital-sec">
-            <div class="facility-title-row">
-              <h2 class="facility-name">강동소아청소년과의원</h2>
-              <span class="facility-distance">3.2 km (차 10분)</span>
-            </div>
-            <div class="facility-info-row">
-              <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
-              <span>오늘 야간진료 <strong>22:30 마감</strong></span>
-            </div>
-          </div>
-
-          <!-- Paired Night Pharmacy -->
-          <div class="pairing-pharmacy-bridge">
-            <div class="pharmacy-top-line">
-              <div class="pharmacy-name-wrap">
-                <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
-                <span>강동온누리약국</span>
+              <div class="badge-warning-soft">
+                <span class="material-symbols-outlined" style="font-size: 14px;">warning</span>
+                <span>접수마감 35분 전 (상세 및 모바일 접수 가능)</span>
               </div>
-              <span class="margin-safe-badge">
-                <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
-                +30분 조제 안전마진
-              </span>
             </div>
-            <div class="pharmacy-meta">
-              병원 바로 옆 (50m) · 오늘 야간영업 <strong>23:00 마감</strong>
-            </div>
-          </div>
 
-          <!-- Actions -->
-          <div class="card-actions-row">
-            <a href="tel:0298765432" class="btn-call-action">
-              <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
-              <span>병원 전화</span>
-            </a>
-            <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
-              <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
-              <span>길찾기</span>
-            </a>
-          </div>
-        </article>
+            <!-- Paired Night Pharmacy -->
+            <div class="pairing-pharmacy-bridge">
+              <div class="pharmacy-top-line">
+                <div class="pharmacy-name-wrap">
+                  <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
+                  <span>송파달빛약국 (연계 심야약국)</span>
+                </div>
+                <span class="margin-safe-badge">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                  +30분 조제 안전마진
+                </span>
+              </div>
+              <div class="pharmacy-meta">
+                병원에서 도보 2분 (120m) · 오늘 야간영업 <strong>23:30 마감</strong>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="card-actions-row">
+              <a href="tel:0212345678" class="btn-call-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+                <span>병원 전화</span>
+              </a>
+              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                <span>길찾기</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="pairing-card">
+            <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+              <div class="facility-title-row">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <h2 class="facility-name">강동소아청소년과의원</h2>
+                  <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                </div>
+                <span class="facility-distance">3.2 km (차 10분)</span>
+              </div>
+              <div class="facility-info-row">
+                <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
+                <span>오늘 야간진료 <strong>22:30 마감</strong></span>
+              </div>
+            </div>
+
+            <!-- Paired Night Pharmacy -->
+            <div class="pairing-pharmacy-bridge">
+              <div class="pharmacy-top-line">
+                <div class="pharmacy-name-wrap">
+                  <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
+                  <span>강동온누리약국</span>
+                </div>
+                <span class="margin-safe-badge">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                  +30분 조제 안전마진
+                </span>
+              </div>
+              <div class="pharmacy-meta">
+                병원 바로 옆 (50m) · 오늘 야간영업 <strong>23:00 마감</strong>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="card-actions-row">
+              <a href="tel:0298765432" class="btn-call-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+                <span>병원 전화</span>
+              </a>
+              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                <span>길찾기</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="pairing-card">
+            <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+              <div class="facility-title-row">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <h2 class="facility-name">잠실아이사랑소아과</h2>
+                  <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                </div>
+                <span class="facility-distance">4.5 km (차 14분)</span>
+              </div>
+              <div class="facility-info-row">
+                <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
+                <span>오늘 야간진료 <strong>23:00 마감</strong></span>
+              </div>
+            </div>
+
+            <div class="pairing-pharmacy-bridge">
+              <div class="pharmacy-top-line">
+                <div class="pharmacy-name-wrap">
+                  <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
+                  <span>잠실스타약국</span>
+                </div>
+                <span class="margin-safe-badge">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                  +30분 조제 안전마진
+                </span>
+              </div>
+              <div class="pharmacy-meta">
+                병원 도보 2분 (110m) · 오늘 야간영업 <strong>23:30 마감</strong>
+              </div>
+            </div>
+
+            <div class="card-actions-row">
+              <a href="tel:024151234" class="btn-call-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+                <span>병원 전화</span>
+              </a>
+              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                <span>길찾기</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="pairing-card">
+            <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+              <div class="facility-title-row">
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <h2 class="facility-name">위례달빛어린이병원</h2>
+                  <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                </div>
+                <span class="facility-distance">5.8 km (차 18분)</span>
+              </div>
+              <div class="facility-info-row">
+                <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
+                <span>오늘 야간진료 <strong>24:00 마감</strong></span>
+              </div>
+            </div>
+
+            <div class="pairing-pharmacy-bridge">
+              <div class="pharmacy-top-line">
+                <div class="pharmacy-name-wrap">
+                  <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
+                  <span>위례중앙달빛약국</span>
+                </div>
+                <span class="margin-safe-badge">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                  +30분 조제 안전마진
+                </span>
+              </div>
+              <div class="pharmacy-meta">
+                병원 내 1층 · 오늘 야간영업 <strong>24:30 마감</strong>
+              </div>
+            </div>
+
+            <div class="card-actions-row">
+              <a href="tel:0317589999" class="btn-call-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+                <span>병원 전화</span>
+              </a>
+              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                <span>길찾기</span>
+              </a>
+            </div>
+          </article>
+
+        </div>
 
       </section>
 
       <!-- 4. Pane 2: Pediatric Emergency Rooms (Track A) -->
       <section class="facility-tab-pane hidden" id="pane-emergency">
 
-        <!-- ER Card 1 -->
-        <article class="emergency-room-card">
-          <div class="facility-title-row">
-            <div>
-              <span class="pediatric-specialist-badge" style="margin-bottom: 4px;">권역 소아전문응급센터</span>
-              <h2 class="facility-name">서울아산병원 소아응급실</h2>
+        <div class="facility-scroll-list" id="emergency-scroll-list">
+
+          <!-- ER Card 1 -->
+          <article class="emergency-room-card">
+            <div class="facility-title-row">
+              <div>
+                <span class="pediatric-specialist-badge" style="margin-bottom: 4px;">권역 소아전문응급센터</span>
+                <h2 class="facility-name">서울아산병원 소아응급실</h2>
+              </div>
+              <span class="facility-distance">2.5 km (차 8분)</span>
             </div>
-            <span class="facility-distance">2.5 km (차 8분)</span>
-          </div>
 
-          <div class="bed-status-indicator">
-            <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
-            <span class="bed-number-highlight">🟢 4석 여유</span>
-          </div>
-
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <span class="pediatric-specialist-badge">
-              <span class="material-symbols-outlined" style="font-size: 14px;">stethoscope</span>
-              소아청소년과 전문의 당직
-            </span>
-            <span class="data-freshness-meta">
-              <span class="material-symbols-outlined" style="font-size: 14px;">sync</span>
-              3분 전 E-Gen 공식 수집
-            </span>
-          </div>
-
-          <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
-            <a href="tel:0230103333" class="btn-call-action" style="color: #ef4444; border-color: #fca5a5; background: #fee2e2;">
-              <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
-              <span>응급실 직통</span>
-            </a>
-            <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
-              <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
-              <span>길안내</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- ER Card 2 -->
-        <article class="emergency-room-card">
-          <div class="facility-title-row">
-            <div>
-              <span class="pediatric-specialist-badge" style="background: #f1f5f9; color: #475569; margin-bottom: 4px;">지역응급의료센터</span>
-              <h2 class="facility-name">강동성심병원 응급실</h2>
+            <div class="bed-status-indicator">
+              <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
+              <span class="bed-number-highlight">🟢 4석 여유</span>
             </div>
-            <span class="facility-distance">4.1 km (차 12분)</span>
-          </div>
 
-          <div class="bed-status-indicator">
-            <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
-            <span class="bed-number-highlight warning">🟡 1석 (혼잡)</span>
-          </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <span class="pediatric-specialist-badge">
+                <span class="material-symbols-outlined" style="font-size: 14px;">stethoscope</span>
+                소아청소년과 전문의 당직
+              </span>
+              <span class="data-freshness-meta">
+                <span class="material-symbols-outlined" style="font-size: 14px;">sync</span>
+                3분 전 E-Gen 공식 수집
+              </span>
+            </div>
 
-          <div class="badge-warning-soft">
-            <span class="material-symbols-outlined" style="font-size: 14px;">info</span>
-            <span>심야 소아 진료 가능 여부 출발 전 유선 확인 필수</span>
-          </div>
+            <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
+              <a href="tel:0230103333" class="btn-call-action" style="color: #ef4444; border-color: #fca5a5; background: #fee2e2;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
+                <span>응급실 직통</span>
+              </a>
+              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                <span>길안내</span>
+              </a>
+            </div>
+          </article>
 
-          <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
-            <a href="tel:0222241114" class="btn-call-action">
-              <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
-              <span>응급실 전화</span>
-            </a>
-            <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
-              <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
-              <span>길안내</span>
-            </a>
-          </div>
-        </article>
+          <!-- ER Card 2 -->
+          <article class="emergency-room-card">
+            <div class="facility-title-row">
+              <div>
+                <span class="pediatric-specialist-badge" style="background: #f1f5f9; color: #475569; margin-bottom: 4px;">지역응급의료센터</span>
+                <h2 class="facility-name">강동성심병원 응급실</h2>
+              </div>
+              <span class="facility-distance">4.1 km (차 12분)</span>
+            </div>
+
+            <div class="bed-status-indicator">
+              <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
+              <span class="bed-number-highlight warning">🟡 1석 (혼잡)</span>
+            </div>
+
+            <div class="badge-warning-soft">
+              <span class="material-symbols-outlined" style="font-size: 14px;">info</span>
+              <span>심야 소아 진료 가능 여부 출발 전 유선 확인 필수</span>
+            </div>
+
+            <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
+              <a href="tel:0222241114" class="btn-call-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+                <span>응급실 전화</span>
+              </a>
+              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                <span>길안내</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- ER Card 3 -->
+          <article class="emergency-room-card">
+            <div class="facility-title-row">
+              <div>
+                <span class="pediatric-specialist-badge" style="margin-bottom: 4px;">권역 소아전문응급센터</span>
+                <h2 class="facility-name">삼성서울병원 소아전문응급센터</h2>
+              </div>
+              <span class="facility-distance">4.8 km (차 15분)</span>
+            </div>
+
+            <div class="bed-status-indicator">
+              <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
+              <span class="bed-number-highlight">🟢 3석 여유</span>
+            </div>
+
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <span class="pediatric-specialist-badge">
+                <span class="material-symbols-outlined" style="font-size: 14px;">stethoscope</span>
+                소아응급 전담 전문의 24시간 진료
+              </span>
+              <span class="data-freshness-meta">
+                <span class="material-symbols-outlined" style="font-size: 14px;">sync</span>
+                4분 전 E-Gen 공식 수집
+              </span>
+            </div>
+
+            <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
+              <a href="tel:0234102060" class="btn-call-action" style="color: #ef4444; border-color: #fca5a5; background: #fee2e2;">
+                <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
+                <span>응급실 직통</span>
+              </a>
+              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                <span>길안내</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- ER Card 4 -->
+          <article class="emergency-room-card">
+            <div class="facility-title-row">
+              <div>
+                <span class="pediatric-specialist-badge" style="margin-bottom: 4px;">권역 소아전문응급센터</span>
+                <h2 class="facility-name">분당차병원 소아전문응급센터</h2>
+              </div>
+              <span class="facility-distance">8.2 km (차 22분)</span>
+            </div>
+
+            <div class="bed-status-indicator">
+              <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
+              <span class="bed-number-highlight warning">🟡 1석 (대기 발생)</span>
+            </div>
+
+            <div class="badge-warning-soft">
+              <span class="material-symbols-outlined" style="font-size: 14px;">info</span>
+              <span>야간 혼잡으로 KTAS 중증도에 따라 대기시간 발생 가능</span>
+            </div>
+
+            <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
+              <a href="tel:0317805000" class="btn-call-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+                <span>응급실 전화</span>
+              </a>
+              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                <span>길안내</span>
+              </a>
+            </div>
+          </article>
+
+        </div>
 
       </section>
 
@@ -972,6 +1204,28 @@
       setTimeout(() => {
         toast.classList.remove('show');
       }, 2200);
+    }
+
+    // 5. Hydrate Dynamic Triage Data from Chatbot
+    try {
+      const stored = sessionStorage.getItem('triage_result');
+      if (stored) {
+        const data = JSON.parse(stored);
+        if (data.age) {
+          const el = document.getElementById('vital-age-text');
+          if (el) el.innerText = data.age;
+        }
+        if (data.temp) {
+          const el = document.getElementById('vital-temp-text');
+          if (el) el.innerText = `${data.temp} (고열)`;
+        }
+        if (data.symptom) {
+          const el = document.getElementById('vital-symptom-text');
+          if (el) el.innerText = `#${data.symptom}`;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse triage_result:', e);
     }
   </script>
 
