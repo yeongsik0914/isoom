@@ -114,103 +114,14 @@
 
         <!-- Facility Cards Stack -->
         <div class="facility-card-stack" id="facility-card-stack">
-
-          <!-- Card 1: 송파어린이병원 (달빛어린이병원) -->
-          <article class="facility-card">
-            <div class="card-top">
-              <div class="facility-main">
-                <div class="facility-icon-wrap" aria-hidden="true">
-                  <span class="material-symbols-outlined">bedtime</span>
-                </div>
-                <div class="facility-meta">
-                  <div class="badge-row">
-                    <span class="tag-badge moonlight">달빛어린이병원</span>
-                    <span class="tag-badge status-open">
-                      <span class="status-indicator-dot" aria-hidden="true"></span>
-                      진료중 · 접수 가능
-                    </span>
-                  </div>
-                  <h3 class="facility-name">송파어린이병원</h3>
-                  <p class="facility-desc">소아청소년과 전문의 2명 진료중 · 대기 4팀</p>
-                </div>
-              </div>
-              <a href="tel:02-1234-5678" class="call-btn" aria-label="송파어린이병원 전화 걸기">
-                <span class="material-symbols-outlined">call</span>
-              </a>
-            </div>
-
-            <div class="card-footer">
-              <div class="distance-info">
-                <span class="material-symbols-outlined">near_me</span>
-                <span>내 위치 1.8km (도보 24분 / 차 6분)</span>
-              </div>
-              <span class="closing-time-tag">오늘 ~23:00 마감</span>
+          <!-- Dynamic Live Cards Rendered Instantly by main.js via NATIONWIDE_PAIRINGS_DATA -->
+          <article class="facility-card live-loading-placeholder" id="facility-loading-placeholder" style="padding: 32px 16px; text-align: center; color: var(--slate-500); border: 1px dashed var(--slate-300); background: #fafcff;">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
+              <span class="material-symbols-outlined" style="font-size: 36px; color: var(--primary);">sync</span>
+              <p style="font-size: 15px; font-weight: 700; color: var(--slate-800); margin: 0;">내 위치 실시간 의료시설 탐색 중...</p>
+              <p style="font-size: 13px; color: var(--slate-500); margin: 0;">주변 달빛어린이병원과 연계 협약약국을 실시간 거리순으로 계산합니다</p>
             </div>
           </article>
-
-          <!-- Card 2: 강남아이마음병원 (달빛어린이병원) -->
-          <article class="facility-card">
-            <div class="card-top">
-              <div class="facility-main">
-                <div class="facility-icon-wrap" aria-hidden="true">
-                  <span class="material-symbols-outlined">bedtime</span>
-                </div>
-                <div class="facility-meta">
-                  <div class="badge-row">
-                    <span class="tag-badge moonlight">달빛어린이병원</span>
-                    <span class="tag-badge status-open">
-                      <span class="status-indicator-dot" aria-hidden="true"></span>
-                      진료중 · 대기 적음
-                    </span>
-                  </div>
-                  <h3 class="facility-name">강남아이마음병원</h3>
-                  <p class="facility-desc">야간 호흡기 클리닉 · X-ray 촬영 가능</p>
-                </div>
-              </div>
-              <a href="tel:02-9876-5432" class="call-btn" aria-label="강남아이마음병원 전화 걸기">
-                <span class="material-symbols-outlined">call</span>
-              </a>
-            </div>
-
-            <div class="card-footer">
-              <div class="distance-info">
-                <span class="material-symbols-outlined">near_me</span>
-                <span>내 위치 2.4km (차 8분)</span>
-              </div>
-              <span class="closing-time-tag">오늘 ~22:30 마감</span>
-            </div>
-          </article>
-
-          <!-- Card 3: 송파달빛약국 (심야약국) -->
-          <article class="facility-card">
-            <div class="card-top">
-              <div class="facility-main">
-                <div class="facility-icon-wrap pharmacy" aria-hidden="true">
-                  <span class="material-symbols-outlined">medication</span>
-                </div>
-                <div class="facility-meta">
-                  <div class="badge-row">
-                    <span class="tag-badge pharmacy">심야약국</span>
-                    <span class="tag-badge distance-sub">송파어린이병원 인근 80m</span>
-                  </div>
-                  <h3 class="facility-name">송파달빛약국</h3>
-                  <p class="facility-desc">소아 시럽제 조제 가능 · 해열제/패치 상비</p>
-                </div>
-              </div>
-              <a href="tel:02-555-1234" class="call-btn" aria-label="송파달빛약국 전화 걸기">
-                <span class="material-symbols-outlined">call</span>
-              </a>
-            </div>
-
-            <div class="card-footer">
-              <div class="distance-info">
-                <span class="material-symbols-outlined">near_me</span>
-                <span>내 위치 1.85km</span>
-              </div>
-              <span class="closing-time-tag">오늘 ~24:00 마감</span>
-            </div>
-          </article>
-
         </div>
 
         <!-- Scroll / Expand Trigger -->
@@ -334,6 +245,8 @@
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
   <script src="js/nationwide_pairings.js"></script>
   <script src="../js/nationwide_pairings.js"></script>
+  <script src="js/public_night_pharmacies.js"></script>
+  <script src="../js/public_night_pharmacies.js"></script>
   <script src="js/main.js"></script>
   <script src="../js/main.js"></script>
   <script>

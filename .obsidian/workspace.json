@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AISUM_STITCH_DESIGN_REPORT.md",
+                "file": "PLAN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AISUM_STITCH_DESIGN_REPORT"
+              "title": "PLAN"
             }
           }
         ]
@@ -83,7 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 437.6811103820801
   },
   "right": {
     "id": "fb4ab28ae37af8fd",
@@ -190,32 +190,35 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
-    "frontend/input.html",
-    "frontend/settings.html",
-    "app/templates/settings.html",
-    "frontend/templates/settings.html",
-    "app/templates/emergency_guide.html",
-    "frontend/templates/emergency_guide.html",
-    "app/templates/emergency_guide_checklist.html",
-    "app/templates/emergency_guide_symptoms.html",
-    "frontend/templates/emergency_guide_checklist.html",
-    "frontend/templates/emergency_guide_symptoms.html",
-    "app/static/images/guide_infant_choking.jpg",
-    "app/static/images/guide_er_documents.jpg",
-    "app/static/images/guide_seizure_care.jpg",
-    "app/static/images/guide_cooling_sponge.jpg",
-    "frontend/assets/images/guide_infant_choking.jpg",
-    "frontend/assets/images/guide_er_documents.jpg",
-    "frontend/assets/images/guide_seizure_care.jpg",
-    "frontend/assets/images/guide_cooling_sponge.jpg",
-    "app/static/images",
+    "frontend/js/public_night_pharmacies.js",
+    "data/public_night_pharmacies.json",
+    "scripts/build_public_night_pharmacy_dataset.py",
+    "tests/__pycache__/test_step8_frontend_integration.cpython-314.pyc",
+    "scripts/fetch_real_moonlight_hospitals.py",
+    "scripts/build_real_moonlight_dataset.py",
+    "update_main_js.py",
+    "frontend/js/nationwide_pairings.js",
+    "q_a.md",
+    "frontend/index.html",
+    "FRONTEND_BACKEND_INTEGRATION_SPEC.md",
+    "frontend/terms.html",
+    "frontend/templates/terms.html",
+    "docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md",
+    "AISUM_STITCH_DESIGN_REPORT.md",
+    "app/static/assets/images/guide_ktas_step7.png",
+    "app/static/assets/images/guide_ktas_step5.png",
+    "app/static/assets/images/guide_ktas_step6.png",
+    "app/static/assets/images/guide_ktas_step4.png",
+    "app/static/assets/images/guide_ktas_step3.png",
+    "app/static/assets/images/guide_ktas_step2.png",
+    "app/static/assets/images/guide_ktas_step1.png",
+    "app/static/assets/images/guide_ktas_full.png",
+    "frontend/templates/assets/images/guide_ktas_step7.png",
+    "frontend/templates/assets/images/guide_ktas_step6.png",
     "frontend/README.md",
     "frontend/assets/README.md",
     "PLAN.md",
     "docs/FRONTEND_UI_UX_SPECIFICATION.md",
-    "AISUM_STITCH_DESIGN_REPORT.md",
-    "images/screen.png",
-    "q_a.md",
     "docs/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md",
     "Answer.md",
     "tests/evals/eval_report.md",
@@ -232,9 +235,6 @@
     "app/agents/README.md",
     "docs/PROJECT_PLAN.md",
     "README.md",
-    "docs/PLAN.md",
-    "DS/lib/python3.11/site-packages/sklearn/externals/array_api_extra/README.md",
-    "DS/lib/python3.11/site-packages/sklearn/externals/array_api_compat/README.md",
-    "DS/lib/python3.11/site-packages/sklearn/datasets/images/flower.jpg"
+    "docs/PLAN.md"
   ]
 }

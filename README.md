@@ -30,6 +30,25 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.40-public-late-night-pharmacy-dataset-sync] 2026-10-15: 보건복지부·지자체 공식 지정 공공심야약국(22:00~01:00/02:00) 실데이터셋 구축 및 index.html 심야약국 탭 실시간 연동 완결 (정영식 팀장, 김동준 팀원)
+* **💊 보건복지부·지자체 공식 지정 실제 공공심야약국(26개소) 마스터 데이터셋 구축**:
+  - 심야 23시 이후 및 새벽 1~2시 소아 처방 조제와 비상 상비약 공백을 해소하기 위해 서울시 25개 자치구(송파 시온약국 02시 마감, 햇살약국, 강남 노바/제일그랜드약국, 서초 장수알파/강남백년약국, 강서 365열린약국, 마포 비온뒤숲속약국 등) 및 경기도(수원 삼일/제일큰, 성남 행복한온누리/대화/위례수, 고양 고양제일큰, 부천 새현대, 용인 셀메드주오 등) 공공심야약국 실제 명단 전수 구축 (`data/public_night_pharmacies.json`, `frontend/js/public_night_pharmacies.js`).
+* **⚡ index.html 클라이언트 LBS 통합 랭킹 엔진 & 새벽 1시/2시 안심 뱃지 탑재**:
+  - `main.js`의 `initLiveFacilities()`에서 달빛병원 1:1 협약약국(49개소)과 공공심야약국(26개소)을 중복 없이 통합 풀로 병합.
+  - 사용자 GPS 또는 선택된 동 좌표 기준 Haversine 구면거리로 0ms 오름차순 정렬 및 '💊 심야약국' 탭에서 `공공심야약국 (새벽 1시/2시 마감)` 전용 안심 뱃지 및 심야 복약 조제 정보 표출.
+* **📡 국립중앙의료원 공공 API 연동 데이터 파이프라인 확장**:
+  - `scripts/fetch_real_moonlight_hospitals.py`에 `sync_public_night_pharmacies()`를 추가하여 원클릭 동기화 및 향후 지자체 공시 변경 시 자동 갱신 지원.
+* **🧪 단위/통합 테스트 100% 무결점 통과**:
+  - `test_step1_services`(7개), `test_step8_frontend_integration`(3개) 전수 통과 확인 완료.
+
+### 🌟 [v2.4.39-real-moonlight-hospital-dataset-sync] 2026-10-15: 보건복지부·E-Gen 공식 지정 실제 달빛어린이병원 & 1:1 필수 협약약국 실데이터셋(49개소) 전면 구축 및 index.html 더미 카드 정비 완결 (정영식 팀장)
+* **🏥 보건복지부 공식 지정 전국 실제 달빛어린이병원 & 협약약국 마스터 체계 완비**:
+  - 기존 29개 간이 거점 데이터를 보건복지부 및 국립중앙의료원(NMC) E-Gen 공식 공시 전국 실제 달빛어린이병원(성북우리아이들병원, 구로우리아이들병원, 올림픽파크365의원, 연세곰돌이소아과, 세곡달빛의원, 소화병원 등 49개소) 및 1:1 필수 공식 지정 협약약국(실제 명칭, 실제 도로명 주소, 공식 대표전화, 실제 진료시간, WGS84 좌표) 실데이터셋으로 전면 교체 완료 (`data/nationwide_pairings.json`, `frontend/js/nationwide_pairings.js`).
+* **🛡️ frontend/templates/index.html & frontend/index.html 초기 더미 카드('송파어린이병원' 등) 전면 제거**:
+  - 초기 프로토타입 마크업에 남아 있던 가상의 더미 카드 3종을 전면 삭제하고, 사용자 위치 권한 승인 시 실제 GPS 좌표 기준 반경(10~25km) 내 가장 가까운 실제 달빛병원-약국 세트가 0ms로 즉각 렌더링되도록 템플릿 정비 완료.
+* **📡 국립중앙의료원 공공 API 기반 자동 수집 파이프라인 연계**:
+  - 기승인된 '전국 병·의원 찾기 서비스' 및 '전국 약국 정보 조회 서비스'를 결합한 파이썬 자동 갱신 배치 스크립트(`scripts/fetch_real_moonlight_hospitals.py`, `scripts/build_real_moonlight_dataset.py`) 구축 및 동기화 완료.
+
 ### 🌟 [v2.4.38-persistent-permissions-and-lbs-ranking] 2026-10-15: 접근 권한 페이지 승인 후 앱 전체 권한 영구 유지(Persistent) 및 메인페이지 위치별 병원·약국 거리순/카테고리 분리 렌더링 완결 (정영식 팀장)
 * **🛡️ 앱 전체 권한 및 위치 영구 지속성 매니저 (AisumPermissionManager) 탑재**:
   - main.js에 중앙 전역 권한 관리자를 구축하여, 온보딩(permission.html)에서 한 번 허용한 위치 및 알림 권한, 위경도 좌표, 동 명칭이 앱의 모든 페이지(index.html, input.html, settings.html, hospital_detail.html 등)에서 100% 영구 보존.
@@ -37,8 +56,7 @@ MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사
 * **📍 전국 29개 거점 공간 노드 역지오코딩 & Geolocation 안정화**:
   - 위치 권한 타임아웃을 8.0초로 연장하여 기기 GPS 수신 성공률 극대화.
   - 대전 서구 둔산동, 성남 분당구 정자동, 수원 영통동, 대구 만촌동, 부산 서면, 광주 수완동, 원주 일산동, 제주 탑동 등 전국 29개 페어링 거점 노드를 탑재하여 사용자의 실제 위치를 100% 정확하게 매핑.
-* **🏥 
-ationwide_pairings.json 기반 0ms 클라이언트 공간 연동 & 완벽한 카테고리 분리**:
+* **🏥 nationwide_pairings.json 기반 0ms 클라이언트 공간 연동 & 완벽한 카테고리 분리**:
   - 외부 백엔드 API 의존성 없이 클라이언트에서 즉각 Haversine 거리 계산을 수행하여 0ms 렌더링.
   - **'🌙 달빛병원'**: 사용자 위치로부터 가장 가까운 소아 야간병원 상위 8곳 거리순 독립 정렬.
   - **'💊 심야약국'**: 사용자 위치로부터 가장 가까운 심야 안심약국 상위 8곳 거리순 독립 정렬.
@@ -47,20 +65,15 @@ ationwide_pairings.json 기반 0ms 클라이언트 공간 연동 & 완벽한 카
 
 ### 🌟 [v2.4.37-real-api-fullstack-pipeline-sync] 2026-10-15: 하드코딩 배제 원칙에 입각한 실제 백엔드 API 결합 및 4대 프론트엔드 연동 결함 무결점 조치 (김동준 팀원, 정영식 팀장)
 * **🚫 하드코딩·키워드 강제 매핑 전면 배제 및 실제 프로젝트 API 연동**:
-  - 
-esult.html: 백엔드 MatchingAgent가 산출한 실제 병원 객체(h.기관명, h.전화번호, h.거리_km, h.주소, h.진료시간, h.마감시간, h.소아병상수, h.유형)와 약국 객체(p.약국명, p.전화번호, p.마감시간, p.안전마진_분, p.이동안내)를 1:1 완벽 바인딩.
+  - result.html: 백엔드 MatchingAgent가 산출한 실제 병원 객체(h.기관명, h.전화번호, h.거리_km, h.주소, h.진료시간, h.마감시간, h.소아병상수, h.유형)와 약국 객체(p.약국명, p.전화번호, p.마감시간, p.안전마진_분, p.이동안내)를 1:1 완벽 바인딩.
   - hospital_detail.html: 전달받은 실제 병원/약국 데이터로 100% 실시간 하이드레이션하고, 세션 부재 시에도 실제 백엔드 엔드포인트 GET /api/v1/emergency/pairings를 비동기 호출하여 사용자 좌표 기준 최단거리 실제 달빛어린이병원 데이터를 자동 로드.
 * **🚨 4대 프론트엔드 연동 결함 전수 해결**:
-  1. emergency_alert.html ➔ 
-esult.html?tab=emergency: 
-esult.html에서 URLSearchParams를 인식하여 소아 응급실 탭(switchTrackTab('emergency'))으로 자동 즉시 전환.
-  2. loading.html API 호출 시 user_address 누락 결함 해소 ➔ 백엔드 
-esolve_stage1_from_coords_or_address() 17개 시도 공간 매칭 완결.
-  3. 
-esult.html 백엔드 필드 매핑 키 불일치(전화번호, 진료시간 등) 전면 해결.
+  1. emergency_alert.html ➔ result.html?tab=emergency: result.html에서 URLSearchParams를 인식하여 소아 응급실 탭(switchTrackTab('emergency'))으로 자동 즉시 전환.
+  2. loading.html API 호출 시 user_address 누락 결함 해소 ➔ 백엔드 resolve_stage1_from_coords_or_address() 17개 시도 공간 매칭 완결.
+  3. result.html 백엔드 필드 매핑 키 불일치(전화번호, 진료시간 등) 전면 해결.
   4. 클라이언트 0ms Red Flag 감지 시 구체적인 12대 응급 사유를 sessionStorage.red_flag_reason에 저장하여 119 안내 화면에 명확하게 표출.
 * **🧪 단위/통합 테스트 100% 무결점 통과**:
-  - 	est_step8_frontend_integration.py 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests in 16.1s, OK)**.
+  - test_step8_frontend_integration.py 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests in 16.1s, OK)**.
 
 ### 🌟 [v2.4.37-static-pairings-client-lbs-sync] 2026-10-15: nationwide_pairings.json 정적 마스터 데이터 직접 기반 클라이언트 0ms 공간 연동, GPS 자동 감지 및 병원·약국 카테고리별 분리 필터링 완결 (정영식 팀장)
 * **🏥 data/nationwide_pairings.json 29대 마스터 데이터 클라이언트 직접 탑재**:

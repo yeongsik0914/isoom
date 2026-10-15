@@ -435,8 +435,11 @@ window.initLiveFacilities = function() {
   });
   hospitals.sort((a, b) => a.distKm - b.distKm);
 
-  // 4. 약국(29개) 거리 계산 및 오름차순 정렬
+  // 4. 약국(달빛병원 협약약국 49개소 + 보건복지부/지자체 공식 공공심야약국 26개소 통합) 거리 계산 및 정렬
   const pharmacies = [];
+  const addedPharmKeys = new Set();
+
+  // (1) 달빛어린이병원 1:1 공식 지정 협약약국
   sourceData.forEach((p) => {
     if (!p.약국명) return;
     const phLat = parseFloat(p.약국위도) || parseFloat(p.병원위도) || lat;
@@ -450,13 +453,16 @@ window.initLiveFacilities = function() {
       ? `오늘 ~${p.약국_평일마감} 마감 (+${p.안전마진_분 || 30}분 안심)`
       : '야간 운영';
 
+    const pharmKey = p.약국명.trim();
+    addedPharmKeys.add(pharmKey);
+
     pharmacies.push({
       type: 'pharmacy',
       name: p.약국명,
-      badge: p.약국구분 || '심야약국',
+      badge: p.약국구분 || '공식 협약약국',
       subBadge: subGuide,
       status: p.조제안전등급 || '🟢 30분 안심 조제',
-      desc: `소아 시럽제 조제 가능 · 30분 안심 조제 (${p.약국_평일운영 || '야간 운영'})`,
+      desc: `소아 시럽제 조제 가능 · ${p.이동안내 || '30분 안심 조제'} (${p.약국_평일운영 || '야간 운영'})`,
       phone: p.약국전화 || '02-555-1234',
       distKm: dist,
       dist: phDist,
@@ -466,6 +472,43 @@ window.initLiveFacilities = function() {
       pairingHospital: p.병원명 || ''
     });
   });
+
+  // (2) 지자체 공식 지정 공공심야약국 (밤 10시 ~ 새벽 1시/2시 운영)
+  const publicNightPharmacies = window.PUBLIC_NIGHT_PHARMACIES_DATA || [];
+  publicNightPharmacies.forEach((p) => {
+    if (!p.약국명) return;
+    const pharmKey = p.약국명.trim();
+    if (addedPharmKeys.has(pharmKey)) return; // 중복 방지
+
+    const phLat = parseFloat(p.약국위도) || lat;
+    const phLon = parseFloat(p.약국경도) || lon;
+    const dist = window.calculateDistanceKm(lat, lon, phLat, phLon);
+    const phDist = dist.toFixed(1);
+    const phWalk = Math.max(5, Math.round(dist * 14)) + '분';
+    const phCar = Math.max(3, Math.round(dist * 2.5)) + '분';
+    const phClose = p.약국_평일마감
+      ? `오늘 ~${p.약국_평일마감} 마감 (심야 전문)`
+      : '새벽 1시까지 운영';
+
+    addedPharmKeys.add(pharmKey);
+    pharmacies.push({
+      type: 'pharmacy',
+      name: p.약국명,
+      badge: '공공심야약국',
+      subBadge: p.운영형태 || '365일 심야 운영',
+      status: p.조제안전등급 || '🟢 심야 전문 조제',
+      desc: `소아 야간 상비약 및 시럽제 조제 가능 · ${p.약국주소 || '공공심야약국'}`,
+      phone: p.약국전화 || '02-120',
+      distKm: dist,
+      dist: phDist,
+      walkTime: phWalk,
+      carTime: phCar,
+      closing: phClose,
+      pairingHospital: ''
+    });
+  });
+
+  // 최단 거리순 정렬
   pharmacies.sort((a, b) => a.distKm - b.distKm);
 
   // 5. 전체(all) 탭용 정렬: 최단거리 상위 6개 병원과 그에 매칭된 약국들을 조화롭게 조합 (총 12곳)
@@ -474,7 +517,7 @@ window.initLiveFacilities = function() {
   topHospitals.forEach((hosp) => {
     allList.push(hosp);
     // 해당 병원의 협약 약국 찾기
-    const matchingPharm = pharmacies.find((ph) => ph.pairingHospital === hosp.name || ph.name.includes(hosp.pairingPharmacy));
+    const matchingPharm = pharmacies.find((ph) => ph.pairingHospital === hosp.name || (ph.name && hosp.pairingPharmacy && ph.name.includes(hosp.pairingPharmacy)));
     if (matchingPharm && !allList.includes(matchingPharm)) {
       allList.push(matchingPharm);
     }

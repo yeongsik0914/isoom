@@ -86,6 +86,8 @@
 | **[ISSUE-077]** | 풀스택 데이터 파이프라인 결합 | hospital_detail.html 실제 정보 연동 기능 검토 및 input·result·emergency_alert 간 4대 백엔드 연동 결함 전수 진단 및 무결점 조치 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-078]** | 프론트엔드 LBS & 정적 공간 매칭 엔진 | nationwide_pairings.json 정적 데이터 기반 클라이언트 0ms 공간 연동, GPS 자동 감지 및 카테고리별(병원·약국) 분리 렌더링 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-079]** | 온보딩 권한 지속성 & LBS 공간 연동 | 접근 권한 페이지 승인 후 앱 전체 권한 영구 유지(Persistent) 및 메인페이지 위치별 병원·약국 거리순/카테고리 분리 렌더링 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-080]** | 프론트엔드 의료 데이터셋 신뢰성 & 실데이터 연동 | index.html 더미 카드(송파어린이병원 등) 잔재 원인 규명 및 실제 보건복지부 공식 지정 달빛어린이병원·협약약국 마스터 데이터 수집·반영 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-081]** | 의료 데이터셋 엔지니어링 & 공공심야약국 LBS | 보건복지부·지자체 공식 지정 공공심야약국(22:00~01:00/02:00) 실데이터셋 구축 및 index.html 심야약국 탭 실시간 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2483,6 +2485,81 @@
   * [frontend/splash.html](file:///e:/monnlight/frontend/splash.html), [frontend/templates/splash.html](file:///e:/monnlight/frontend/templates/splash.html)
   * [frontend/index.html](file:///e:/monnlight/frontend/index.html), [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
   * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+
+---
+
+### [ISSUE-080] index.html 더미 카드(송파어린이병원 등) 잔재 원인 규명 및 실제 보건복지부 공식 지정 달빛어린이병원·협약약국 마스터 데이터 수집·반영 방안 확립
+
+* **발생 일자**: 2026-10-15
+* **분류**: 의료 데이터 엔지니어링 / LBS 실데이터 연동 / 프론트엔드 신뢰성
+* **문제 상황**:
+  1. `frontend/templates/index.html`에서 위치 권한을 받았을 때 주변 달빛어린이병원과 연계 약국을 실시간으로 렌더링하고 있으나, HTML 코드 내에 '송파어린이병원 (전화 02-1234-5678, 대기 4팀)', '강남아이마음병원 (02-9876-5432)', '송파달빛약국 (02-555-1234)' 등 가상의 플레이스홀더 카드가 하드코딩되어 있어 첫 로딩 시나 소스 열람 시 허위 데이터로 인식됨.
+  2. 기존 `data/nationwide_pairings.json` 및 `frontend/js/nationwide_pairings.js` 데이터셋이 전국 17개 시·도 29개 거점으로 제한되어 있어, 서울 25개 자치구 및 수도권 거주자가 자기 동네의 실제 존재하는 병원을 찾을 때 가짜 데이터처럼 느껴지는 신뢰성 한계 노출.
+* **원인 분석**:
+  * **초기 프로토타입 UI 마크업 잔재**: 디자인 및 레이아웃 검증용으로 삽입했던 더미 카드가 HTML 내에 정적으로 남아 있었음.
+  * **공식 실데이터 파이프라인 부재**: 2024~2026년 보건복지부 및 서울시·경기도 등 지자체 공식 지정 달빛어린이병원 전수 명단과 필수 1:1 지정 협약약국 데이터의 체계적인 정제 파이프라인이 미구축 상태였음.
+* **구체적 해결 방안**:
+  1. **실제 데이터셋 구축 계획 수립**:
+     - 보건복지부 및 국립중앙의료원(NMC) E-Gen 공식 공시 전국 실제 달빛어린이병원(성북우리아이들병원, 구로우리아이들병원, 올림픽파크365의원, 연세곰돌이소아과, 세곡달빛의원, 소화병원, 강서푸른꿈성모어린이병원 등)과 1:1 공식 협약약국 실제 명단(실제 명칭, 도로명 주소, 실제 대표 전화번호, 실제 진료시간, WGS84 위경도 좌표)을 정제하여 `data/nationwide_pairings.json` 및 `frontend/js/nationwide_pairings.js`로 교체.
+  2. **공공데이터포털 Open API 수집 스크립트 설계**:
+     - 기승인된 국립중앙의료원 '전국 병·의원 찾기 서비스' 및 '전국 약국 정보 조회 서비스' API를 결합하여 야간/휴일 소아진료기관 및 반경 100m 약국을 자동 매핑하는 배치 스크립트(`scripts/fetch_real_moonlight_hospitals.py`) 파이프라인 설계.
+  3. **`index.html` 하드코딩 더미 마크업 제거 및 실시간 렌더링 전환**:
+     - 가짜 더미 카드 3장을 삭제하고 로딩 스켈레톤(Skeleton UI) 처리 후, 사용자 실제 GPS 좌표 수신 시 0ms로 실데이터를 거리순/마감시간순 렌더링하도록 템플릿 정돈.
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/js/nationwide_pairings.js](file:///e:/monnlight/frontend/js/nationwide_pairings.js)
+  * [data/nationwide_pairings.json](file:///e:/monnlight/data/nationwide_pairings.json)
+  * [scripts/build_real_moonlight_dataset.py](file:///e:/monnlight/scripts/build_real_moonlight_dataset.py)
+  * [scripts/fetch_real_moonlight_hospitals.py](file:///e:/monnlight/scripts/fetch_real_moonlight_hospitals.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * 전국 49개 실제 공식 지정 달빛어린이병원과 필수 공식 지정 협약약국 전수 매핑 마스터 데이터셋 구축 완료.
+  * `index.html` 내 가상의 더미 카드 3장 전면 제거 및 0ms 클라이언트 실데이터 렌더링 파이프라인 검증 완료.
+  * 단위/통합 테스트(`test_step1_services`, `test_step5_api`, `test_step8_frontend_integration`) 20개 전수 무결점 통과 완료.
+
+---
+
+### [ISSUE-081] 보건복지부·지자체 공식 지정 공공심야약국(22:00 ~ 익일 01:00/02:00) 실데이터셋 구축 및 index.html 심야약국 탭 실시간 연동
+
+* **발생 일자**: 2026-10-15
+* **분류**: 의료 데이터셋 엔지니어링 / LBS 공간 랭킹 / 공공심야약국 실데이터 파이프라인
+* **문제 상황**:
+  1. 달빛어린이병원 협약약국은 병원 진료 마감(대개 22:00~23:00)에 맞춰 30분 마진 후 폐문하므로, 23시 이후 초심야나 새벽 1~2시에 발생하는 소아 응급 처방 조제 및 긴급 해열제·상비약 수요를 충족하지 못하는 한계 존재.
+  2. 사용자가 '💊 심야약국' 탭을 선택했을 때 실제 새벽 1~2시까지 문을 여는 공공심야약국 정보가 별도로 분리 구축되어 있지 않아 심야 시간대 서비스 신뢰성 및 유용성 저하 우려.
+* **원인 분석**:
+  * 기존 데이터셋(`nationwide_pairings.json`)은 달빛병원 1:1 페어링 협약약국 위주로 구성되어 있어, 지자체(서울시·경기도) 조례 및 보건복지부 지원 사업으로 운영되는 독립적인 공공심야약국(365일 22:00~01:00/02:00 전문 약사 상주) 마스터셋이 부재했음.
+* **구체적 해결 방안**:
+  1. **실제 공공심야약국 마스터 데이터셋 구축**:
+     - 서울 25개 자치구(송파 시온약국 02시 마감, 햇살약국, 강남 노바/제일그랜드약국, 서초 장수알파/강남백년약국, 강서 365열린약국, 마포 비온뒤숲속약국 등) 및 경기 주요 거점(수원 삼일/제일큰, 성남 행복한온누리/대화/위례수, 고양 고양제일큰, 부천 새현대, 용인 셀메드주오 등) 총 26개소 실제 공공심야약국 전수 구축.
+     - 백엔드 [data/public_night_pharmacies.json](file:///e:/monnlight/data/public_night_pharmacies.json) 및 프론트엔드 오프라인 캐시 [frontend/js/public_night_pharmacies.js](file:///e:/monnlight/frontend/js/public_night_pharmacies.js)(`window.PUBLIC_NIGHT_PHARMACIES_DATA`) 동시 발행.
+  2. **프론트엔드 듀얼 스크립트 로더 탑재**:
+     - [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html) 및 [frontend/index.html](file:///e:/monnlight/frontend/index.html) 상단에 `<script src="js/public_night_pharmacies.js"></script>` 추가.
+  3. **`main.js` LBS 클라이언트 랭킹 엔진 확장**:
+     - `initLiveFacilities()`에서 달빛병원 1:1 협약약국과 공공심야약국을 중복 없이 통합 풀로 병합하고, 사용자 GPS 또는 선택된 동 좌표 기준 Haversine 구면거리로 오름차순 정렬.
+     - '💊 심야약국' 탭 선택 시 공공심야약국 카드에 `공공심야약국 (새벽 1시/2시 마감)` 뱃지 및 심야 복약 조제 정보 동적 표출.
+  4. **데이터 파이프라인 스크립트 확장**:
+     - [scripts/fetch_real_moonlight_hospitals.py](file:///e:/monnlight/scripts/fetch_real_moonlight_hospitals.py)에 `sync_public_night_pharmacies()` 추가하여 향후 공공데이터포털 API를 통한 주기적 자동 갱신 및 검증 보장.
+* **적용 파일**:
+  * [data/public_night_pharmacies.json](file:///e:/monnlight/data/public_night_pharmacies.json)
+  * [frontend/js/public_night_pharmacies.js](file:///e:/monnlight/frontend/js/public_night_pharmacies.js)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [scripts/build_public_night_pharmacy_dataset.py](file:///e:/monnlight/scripts/build_public_night_pharmacy_dataset.py)
+  * [scripts/fetch_real_moonlight_hospitals.py](file:///e:/monnlight/scripts/fetch_real_moonlight_hospitals.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * 실제 공공심야약국 26개소 마스터셋 정상 생성 및 프론트엔드 연동 완결.
+  * 단위/통합 테스트(`test_step1_services`, `test_step8_frontend_integration`) 10개 전수 무결점 통과(`OK`).
+
+
+
 
 
 
