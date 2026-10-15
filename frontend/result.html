@@ -1368,17 +1368,31 @@
             if (h.마감시간) currentHospitals[i].duty_time = `오늘 야간진료 ${h.마감시간} 마감`;
             if (h.소아병상수 !== undefined) currentHospitals[i].pediatric_beds = h.소아병상수;
             if (h.유형) currentHospitals[i].type = h.유형;
+
+            // 응급실 트랙인 경우 원내 조제 안내
+            const isER = (h.유형 && h.유형.includes('응급')) || (currentHospitals[i].type && currentHospitals[i].type.includes('응급'));
+            if (isER && (!data.pharmacies || data.pharmacies.length === 0)) {
+              currentHospitals[i].pharmacy = {
+                name: "원내 약국 (24시간 즉시 조제)",
+                duty_time: "24시간 운영",
+                margin: 0,
+                guide: "응급실 진료 후 병원 내 약제과에서 즉시 투약 처방"
+              };
+            }
           }
         });
+
         if (data.pharmacies && data.pharmacies.length > 0) {
           data.pharmacies.forEach((p, i) => {
             if (i < currentHospitals.length) {
-              currentHospitals[i].pharmacy.name = p.약국명 || p.name || currentHospitals[i].pharmacy.name;
-              if (p.전화번호 || p.tel) currentHospitals[i].pharmacy.tel = p.전화번호 || p.tel;
-              if (p.마감시간) currentHospitals[i].pharmacy.duty_time = `${p.마감시간} 마감`;
-              if (p.안전마진_분) currentHospitals[i].pharmacy.margin = p.안전마진_분;
-              if (p.주소) currentHospitals[i].pharmacy.address = p.주소;
-              if (p.이동안내) currentHospitals[i].pharmacy.guide = p.이동안내;
+              currentHospitals[i].pharmacy = {
+                name: p.약국명 || p.name || (currentHospitals[i].pharmacy ? currentHospitals[i].pharmacy.name : "인근 심야약국"),
+                tel: p.전화번호 || p.tel || "",
+                duty_time: p.마감시간 ? `${p.마감시간} 마감` : "23:30 마감",
+                margin: p.안전마진_분 || 30,
+                address: p.주소 || "",
+                guide: p.이동안내 || "병원 인근 도보 1~2분"
+              };
             }
           });
         }
@@ -1402,6 +1416,16 @@
           if (h.pharmacy) {
             const pharmNameEl = card.querySelector('.pharmacy-name-wrap span:last-child');
             if (pharmNameEl) pharmNameEl.innerText = h.pharmacy.name;
+            const marginBadgeEl = card.querySelector('.pharmacy-margin-badge');
+            if (marginBadgeEl) {
+              if (h.pharmacy.margin > 0) {
+                marginBadgeEl.innerText = `+${h.pharmacy.margin}분 조제 안전마진`;
+                marginBadgeEl.style.display = 'inline-flex';
+              } else {
+                marginBadgeEl.innerText = `원내 즉시 조제`;
+                marginBadgeEl.style.display = 'inline-flex';
+              }
+            }
             const pharmMetaEl = card.querySelector('.pharmacy-meta');
             if (pharmMetaEl) {
               const guide = h.pharmacy.guide || '병원 인근 도보 1~2분';
