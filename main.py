@@ -196,6 +196,17 @@ async def get_aisum_loading():
     return JSONResponse(status_code=404, content={"detail": "Loading page not found"})
 
 
+@app.get("/hospital_detail", tags=["Frontend"], response_class=FileResponse)
+@app.get("/hospital_detail.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_hospital_detail():
+    """Serves the Aisum Hospital Detail & Real-time queue ticketing page."""
+    if os.path.exists("frontend/templates/hospital_detail.html"):
+        return FileResponse("frontend/templates/hospital_detail.html", media_type="text/html")
+    if os.path.exists("frontend/hospital_detail.html"):
+        return FileResponse("frontend/hospital_detail.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Hospital detail page not found"})
+
+
 @app.get("/guide", tags=["Frontend"], response_class=FileResponse)
 @app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_unified():

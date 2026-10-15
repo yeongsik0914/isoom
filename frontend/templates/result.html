@@ -680,9 +680,12 @@
         <!-- Card 1 (TOP 1) -->
         <article class="pairing-card">
           <span class="pairing-card-rank">추천 1순위</span>
-          <div class="pairing-hospital-sec">
+          <div class="pairing-hospital-sec" onclick="location.href='hospital_detail.html'" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
             <div class="facility-title-row">
-              <h2 class="facility-name">송파어린이병원</h2>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <h2 class="facility-name">송파어린이병원</h2>
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+              </div>
               <span class="facility-distance">1.8 km (차 6분)</span>
             </div>
             <div class="facility-info-row">
@@ -691,7 +694,7 @@
             </div>
             <div class="badge-warning-soft">
               <span class="material-symbols-outlined" style="font-size: 14px;">warning</span>
-              <span>접수마감 35분 전 (출발 전 전화 확인 권장)</span>
+              <span>접수마감 35분 전 (상세 및 모바일 접수 가능)</span>
             </div>
           </div>
 

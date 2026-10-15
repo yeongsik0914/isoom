@@ -61,6 +61,7 @@
 | **[ISSUE-051]** | 프론트엔드 UI/UX 리팩토링 | 응급실 가이드(emergency_guide.html) 텍스트 전면 배제 및 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 개편 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-052]** | 프론트엔드 UI/UX 결과 화면 & 무결점 병합 | 증상 입력 후 맞춤 결과 화면(result.html) 정적 목업 구축, 2-트랙 탭/30분 마진 약국/실시간 병상 UI 구현 및 Git 무결점 통합 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-053]** | 프론트엔드 UI/UX 로딩 애니메이션 | AI 증상 분석 중 로딩 오버레이 & 단독 페이지(loading.html) 순수 CSS 키프레임 애니메이션 및 2초 타이머 시퀀스 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-054]** | 프론트엔드 UI/UX 병원 상세 및 접수 | 야간 병원 상세 및 실시간 접수 안내 화면(hospital_detail.html) 순수 프론트엔드 구축 및 result.html 연계 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1552,3 +1553,42 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
   * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
   * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-054] 야간 병원 상세 및 실시간 접수 안내 화면(hospital_detail.html) 순수 프론트엔드 구축 및 result.html 연계
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 신규 개발 / 화면 간 유기적 네비게이션 / 모바일 인터랙션
+* **문제 상황**:
+  * [result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html) 맞춤 결과 화면에서 추천 1순위로 제시된 달빛어린이병원("송파어린이병원") 및 연계 심야약국("송파달빛약국") 카드를 클릭했을 때, 상세한 병원 진료 정보 및 실시간 접수 현황을 확인할 수 있는 상세 페이지가 부재함.
+  * 아이숨 3대 핵심 화면 중 메인 홈(`index.html`), 증상 입력(`input.html`)은 완성되었으나 마지막 완결 화면인 **야간 병원 상세 및 실시간 접수 화면(`hospital_detail.html`)**이 미구현 상태였음.
+  * 야간에 긴급히 내원하려는 부모에게 필수적인 당직 소아과 전문의 정보, 접수 마감 주의 시각(22:30), 현재 대기 팀 수(4팀, 약 20분), +30분 조제 안심약국 정보, 2024년 5월 본인확인 의무화 지참 서류를 한눈에 보여주는 종합 화면이 필요함.
+* **원인 분석**:
+  * 이전 단계에서는 결과 화면까지의 뷰만 구축되어 있어, 실제 사용자가 병원 카드를 탭했을 때 진입할 상세 뷰와 모바일 번호표 접수 인터랙션이 아직 모듈화되지 않았음.
+* **구체적 해결 방안**:
+  1. **순수 HTML5/Vanilla CSS 기반 상세 화면 ([frontend/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/hospital_detail.html), [frontend/templates/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html)) 구축**:
+     - **병원 히어로 배너**: 송파어린이병원 타이틀, 보건복지부 지정 달빛어린이병원 배지, 실시간 야간진료 중(`~23:00`) 라이브 펄스 닷.
+     - **3열 핵심 지표 바**: 현재 대기 `4팀 (약 20분)` (로열 블루 강조), 거리 `1.8 km (차 6분)`, 주차 `지하 무료 2시간`.
+     - **야간 당직의 프로필 카드**: Dr. 김서연 전문의 (소아 호흡기·급성발열 세부전문의, 제1소아진료실 2층, 현재 14번 환아 진료 중 안내).
+     - **야간 접수 마감 주의 배너**: 22:30 접수 마감 및 환아 폭증 시 30분 전 조기 마감 대비 안내.
+     - **실시간 진료 시간표**: 오늘 평일 야간(09:00~23:00), 토요일, 일·공휴일 시간표.
+     - **Track B 안심 심야약국 연계 카드**: 송파달빛약국 (도보 1분 80m, 오늘 24:00 마감, `+30분 조제 안전마진` 배지, 소아 시럽제/네블라이저 상비 태그).
+     - **오시는 길 & 길찾기**: 주소 원클릭 복사(토스트 팝업 연동), 카카오맵/네이버지도 길안내 링크.
+     - **내원 전 필수 지참 서류 체크리스트**: 보호자 신분증, 환아 등본, 복용 중인 약 체크리스트.
+     - **하단 고정 플로팅 바 & 모바일 대기표 모달**: `[📞 병원 전화]` + `[모바일 번호표 접수하기]` ➔ 클릭 시 대기번호 19번 발급 팝업 인터랙션 제공.
+  2. **화면 간 유기적 네비게이션 완성**:
+     - [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html) 및 템플릿의 송파어린이병원 카드에 `onclick="location.href='hospital_detail.html'"` 추가하여 유기적 진입 흐름 완성.
+     - [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)에 `@app.get("/hospital_detail")` 라우트 등록 및 200 OK 서빙 확인.
+* **적용 파일**:
+  * [frontend/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/hospital_detail.html) (신규)
+  * [frontend/templates/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html) (신규)
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
