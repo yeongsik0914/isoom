@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>소아 증상 분석 중 - 아이숨 (Aisum)</title>
+  <meta name="description" content="소아 KTAS 임상 지침 및 0ms Red Flag 안전 가드레일 실시간 정밀 분석" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Pure Vanilla CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    /* Standalone Fullscreen Center */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8faff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .standalone-loading-wrapper {
+      width: 100%;
+      max-width: 440px;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="standalone-loading-wrapper">
+    <div class="analyzing-card">
+      <!-- Pulse Logo & Spinner -->
+      <div class="analyzing-visual">
+        <div class="analyzing-pulse-ring"></div>
+        <div class="analyzing-spinner"></div>
+        <div class="analyzing-icon-center">
+          <span class="material-symbols-outlined" style="font-size: 30px; color: #0066ff;">smart_toy</span>
+        </div>
+      </div>
+
+      <!-- Dynamic Analyzing Status Texts -->
+      <h2 class="analyzing-title" id="analyzing-title">소아 증상 정밀 분석 중</h2>
+      <div class="analyzing-step-box">
+        <span class="material-symbols-outlined analyzing-step-icon" id="analyzing-step-icon">health_and_safety</span>
+        <span class="analyzing-step-text" id="analyzing-step-text">0ms Red Flag 안전 가드레일 검사 중...</span>
+      </div>
+
+      <!-- Progress Indicator Track -->
+      <div class="analyzing-progress-bar">
+        <div class="analyzing-progress-fill" id="analyzing-progress-fill" style="width: 35%;"></div>
+      </div>
+
+      <p class="analyzing-subtext">
+        늦은 밤, 아이를 위한 가장 안전한 병원을 찾고 있습니다.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 2초 타이머로 단계별 텍스트 업데이트 후 result.html로 이동
+    document.addEventListener('DOMContentLoaded', () => {
+      const stepText = document.getElementById('analyzing-step-text');
+      const stepIcon = document.getElementById('analyzing-step-icon');
+      const progressFill = document.getElementById('analyzing-progress-fill');
+      const targetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+
+      setTimeout(() => {
+        if (stepText) stepText.innerText = '소아 KTAS 임상 지침 168개 주증상 대조 중...';
+        if (stepIcon) stepIcon.innerText = 'stethoscope';
+        if (progressFill) progressFill.style.width = '70%';
+      }, 700);
+
+      setTimeout(() => {
+        if (stepText) stepText.innerText = '달빛어린이병원 & 30분 마진 심야약국 매칭 완료!';
+        if (stepIcon) stepIcon.innerText = 'verified';
+        if (progressFill) progressFill.style.width = '100%';
+      }, 1400);
+
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 2000);
+    });
+  </script>
+
+</body>
+
+</html>

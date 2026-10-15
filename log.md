@@ -60,6 +60,7 @@
 | **[ISSUE-050]** | Git 형상 관리 & 3-Way 머지 | 원격 input.html 최신 업데이트(확인 버튼 인터랙션 & PWA 메타태그) 풀 및 index.html 모달 연동 무결점 병합 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-051]** | 프론트엔드 UI/UX 리팩토링 | 응급실 가이드(emergency_guide.html) 텍스트 전면 배제 및 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 개편 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-052]** | 프론트엔드 UI/UX 결과 화면 & 무결점 병합 | 증상 입력 후 맞춤 결과 화면(result.html) 정적 목업 구축, 2-트랙 탭/30분 마진 약국/실시간 병상 UI 구현 및 Git 무결점 통합 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-053]** | 프론트엔드 UI/UX 로딩 애니메이션 | AI 증상 분석 중 로딩 오버레이 & 단독 페이지(loading.html) 순수 CSS 키프레임 애니메이션 및 2초 타이머 시퀀스 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1506,21 +1507,48 @@
   * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
   * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
 
+---
 
+### [ISSUE-053] AI 증상 분석 중 로딩 오버레이 & 단독 페이지(loading.html) 순수 CSS 키프레임 애니메이션 및 2초 타이머 시퀀스 구축
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 신규 개발 / 인터랙션 애니메이션 / 임상 체감 대기시간 최적화
+* **문제 상황**:
+  * 증상 입력 화면([input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html))에서 확인 버튼을 눌렀을 때, 로딩 피드백 없이 즉시 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html))으로 전환되면 보호자 입장에서 AI가 실제로 아이의 증상을 정밀 분석했는지 신뢰하기 어렵고 화면 전환이 부자연스러움.
+  * 복잡한 백엔드 분석 파이프라인(가드레일 검사 ➔ KTAS 168개 지침 대조 ➔ 달빛어린이병원/약국 페어링)이 구동되는 동안 보호자의 불안감을 완화하고 높은 전문성을 체감할 수 있는 로딩 비주얼 피드백이 필요함.
+  * 또한 단독 로딩 뷰 테스트 및 독립 컴포넌트 검증을 위한 [loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html) 페이지의 부재.
+* **원인 분석**:
+  * 이전 단계에서는 텍스트 입력 후 즉시 `window.location.href = 'result.html'`로 연결되어 시각적 분석 프로세스(Processing) 피드백이 생략되어 있었음.
+* **구체적 해결 방안**:
+  1. **순수 CSS3 키프레임 애니메이션 기반 로딩 컴포넌트 구현**:
+     - 외부 라이브러리(Lottie, JS 애니메이션) 없이 브라우저 네이티브 하드웨어 가속(GPU)을 활용하는 순수 CSS 키프레임 적용:
+       - `pulseGlow`: 엠블럼 외곽 블루 링이 1.6초 주기로 부드럽게 팽창/수축하며 펄스 효과 발산.
+       - `spinLoader`: 중앙 블루 스피너 링이 0.8초 주기로 회전.
+       - `shimmer`: 프로그레스 바 내부에서 은은한 하이라이트 광택이 흐르는 효과.
+       - 스마트 토이 아이콘(`smart_toy`, 로열 블루 `#0066FF`)을 중앙에 배치하여 따뜻하고 신뢰감 있는 의료 AI 비주얼 구현.
+  2. **임상 체감 3단계 동적 프로그레스 시퀀스 (2.0초 setTimeout 파이프라인)**:
+     - 0.0초: "의료 안전 가드레일 (Red Flag) 0ms 검사 중..." (진행률 25%)
+     - 0.7초: "소아 KTAS 168개 임상 분류 지침 대조 중..." (진행률 65%)
+     - 1.4초: "실시간 달빛병원 & +30분 조제 안심약국 매칭 중..." (진행률 95%)
+     - 2.0초: 진행률 100% 완료와 함께 `result.html`로 자동 전환.
+  3. **인풋 화면 내 인라인 오버레이 & 단독 페이지 동시 구축**:
+     - [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html): `#ai-analyzing-overlay` 모달 오버레이 탑재, 확인 버튼 클릭 시 키보드를 닫고 부드럽게 화면을 덮으며 로딩 개시.
+     - [frontend/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html): 동일한 시각 디자인의 풀스크린 단독 로딩 페이지 신규 생성.
+     - [frontend/templates/](file:///c:/AI-Native-Agent/monnlight/frontend/templates/) 디렉토리 동시 미러링 완결.
+  4. **FastAPI 백엔드 라우팅 및 200 OK 검증**:
+     - [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)에 `@app.get("/loading")` 엔드포인트 등록 및 HTTP 200 OK 서빙 확인.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html)
+  * [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html)
+  * [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/templates/css/style.css)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [frontend/templates/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/templates/js/main.js)
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)

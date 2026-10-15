@@ -186,6 +186,16 @@ async def get_aisum_result():
     return JSONResponse(status_code=404, content={"detail": "Result page not found"})
 
 
+@app.get("/loading", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_loading():
+    """Serves the Aisum AI analyzing loading animation page."""
+    if os.path.exists("frontend/templates/loading.html"):
+        return FileResponse("frontend/templates/loading.html", media_type="text/html")
+    if os.path.exists("frontend/loading.html"):
+        return FileResponse("frontend/loading.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Loading page not found"})
+
+
 @app.get("/guide", tags=["Frontend"], response_class=FileResponse)
 @app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_unified():

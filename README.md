@@ -30,6 +30,20 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.14-loading-overlay-animation] 2026-10-15: '아이숨' AI 분석 중 로딩 오버레이 & 2초 키프레임 시퀀스(loading.html) 구축 (김동준 팀원)
+* **순수 CSS3 키프레임 애니메이션 기반 로딩 컴포넌트 탑재**:
+  - 외부 무거운 라이브러리(Lottie, JS 애니메이션) 의존 없이 브라우저 GPU 가속 기반 순수 CSS 키프레임(`pulseGlow`, `spinLoader`, `shimmer`) 탑재로 60fps 부드러운 모션 보장.
+  - 신뢰감을 주는 로열 블루 테마 스마트 토이 엠블럼(`smart_toy`, `#0066FF`) 및 외곽 펄스 링 비주얼 구현.
+* **임상 체감 3단계 동적 진행 시퀀스 (2.0초 setTimeout 파이프라인)**:
+  - 0.0초: "의료 안전 가드레일 (Red Flag) 0ms 검사 중..." (진행률 25%)
+  - 0.7초: "소아 KTAS 168개 임상 분류 지침 대조 중..." (진행률 65%)
+  - 1.4초: "실시간 달빛병원 & +30분 조제 안심약국 매칭 중..." (진행률 95%)
+  - 2.0초: 진행률 100% 도달과 함께 맞춤 결과 화면(`result.html`)으로 자동 전환.
+* **인풋 화면 오버레이 & 단독 페이지 동시 제공**:
+  - `frontend/input.html` & `frontend/templates/input.html`: 확인 버튼 클릭 시 키보드를 닫고 자연스럽게 페이드인되는 `#ai-analyzing-overlay` 탑재.
+  - `frontend/loading.html` & `frontend/templates/loading.html`: 단독 로딩 뷰 테스트 및 독립 컴포넌트 검증용 단독 페이지 신규 구축.
+  - `main.py`에 `@app.get("/loading")` 엔드포인트 등록 및 HTTP 200 OK 서빙 검증 완료.
+
 ### 🌟 [v2.4.13-result-screen-mockup] 2026-10-15: '아이숨' 맞춤 결과 화면(result.html) 정적 목업 구축 & input.html 연계 완료 (김동준 팀원)
 * **백엔드 핵심 기능 100% 매핑 정적 결과 화면([frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html), [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)) 구축**:
   - **바이탈 요약 & 0ms 가드레일 배지**: `0ms 가드레일 안전 통과 🟢` 및 환아 정보(`14개월`, `39.2℃ (고열)`, `#구토`, `KTAS 3단계`).
