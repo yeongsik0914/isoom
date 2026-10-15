@@ -50,6 +50,7 @@
     - [10.30 '아이숨' 소아 응급실 병상 4개소 확장 스크롤 완비 & input.html 기존 미니멀 UI 계승형 프로그레시브 문진 챗봇 탑재](#1030-아이숨-소아-응급실-병상-4개소-확장-스크롤-완비--inputhtml-기존-미니멀-ui-계승형-프로그레시브-문진-챗봇-탑재-2026-10-15-완결)
     - [10.31 '아이숨' 온보딩 화면(splash, permission) 상단 인위적 가짜 상태 바 제거 및 순수 뷰포트 정돈](#1031-아이숨-온보딩-화면splash-permission-상단-인위적-가짜-상태-바-제거-및-순수-뷰포트-정돈-2026-10-15-완결)
     - [10.32 '아이숨' 앱 접근권한(permission.html) 동의 시 실제 Web API(위치·알림) 권한 요청 및 실시간 좌표 캐싱 구축](#1032-아이숨-앱-접근권한permissionhtml-동의-시-실제-web-api위치알림-권한-요청-및-실시간-좌표-캐싱-구축-2026-10-15-완결)
+    - [10.33 '아이숨' 설정(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 전용 이용약관(terms.html) 구축](#1033-아이숨-설정settingshtml-이용약관-버튼-연동-및-의료법-제27조-준수-전용-이용약관termshtml-구축-2026-10-15-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -932,6 +933,23 @@ flowchart TD
      - `Notification.requestPermission()`을 호출하여 푸시 알림 상태(`aisum_permission_notification`)를 기록하고 `aisum_permission_granted_at` 타임스탬프 저장 후 `index.html`로 매끄럽게 전환.
   4. **FastAPI TestClient 검증**:
      - `/permission` 정적 라우트 응답에 `requestLocation`, `Notification.requestPermission`, `동의하고 시작하기`가 정상 포함됨을 자동화 검증 완료 (`SUCCESS: /permission serves real Web API permission logic correctly!`).
+
+---
+
+### 10.33 '아이숨' 설정(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 전용 이용약관(terms.html) 구축 (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 설정 화면의 '아이숨 이용약관' 항목이 클릭 이벤트 없는 정적 버튼으로 배치되어 실동작하지 않았음.
+  - 비의료 AI 정보통신 서비스로서 대한민국 의료법 제27조 준수, 12대 Red Flag 발생 시 119 즉시 신고 의무, 공공데이터 시차 면책 및 30초 전화 확인 의무 등을 정식 규정한 전용 이용약관 체계 수립 필요.
+* **구체적 구현 내역**:
+  1. **아이숨 전용 9대 핵심 조항 서비스 이용약관(`terms.html`) 신규 구축**:
+     - `frontend/templates/terms.html` 및 `frontend/terms.html` 생성.
+     - 제3조(의료법 제27조 준수 및 의사 대면진료 우선 원칙), 제4조(12대 Red Flag 119 즉시 신고 의무), 제5조(위치기반서비스 인메모리 처리), 제6조(공공데이터 시차 면책 & 30초 통화 스크립트 활용 유선 확인 의무), 제7조(2024년 5월 본인확인 의무화) 등 완비.
+  2. **모바일 최적화 UI/UX & 설정 연동**:
+     - 상단 헤더 뒤로가기 버튼(`settings.html` 복귀), 퀵 점프 칩 바, 긴급/안내 콜아웃 박스, 하단 플로팅 `[내용을 확인했습니다]` 버튼 탑재.
+     - `settings.html` 내 항목을 `<a href="terms.html">`로 교체하여 원클릭 화면 전환 지원.
+  3. **FastAPI 라우터 등록 및 통합 검증**:
+     - [main.py](file:///e:/monnlight/main.py)에 `GET /terms`, `GET /terms.html` 엔드포인트 등록.
+     - TestClient 검증 통과 (`ALL TERMS & SETTINGS INTEGRATION TESTS PASSED PERFECTLY!`).
 
 ---
 

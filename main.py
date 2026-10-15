@@ -135,6 +135,7 @@ async def root():
             "aisum_permission": "/permission",
             "aisum_home": "/home",
             "aisum_settings": "/settings",
+            "aisum_terms": "/terms",
         },
     }
 
@@ -279,6 +280,17 @@ async def get_aisum_settings():
     if os.path.exists("frontend/settings.html"):
         return FileResponse("frontend/settings.html", media_type="text/html")
     return FileResponse("app/templates/settings.html", media_type="text/html")
+
+
+@app.get("/terms", tags=["Frontend"], response_class=FileResponse)
+@app.get("/terms.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_terms():
+    """Serves the Aisum Terms of Service page."""
+    if os.path.exists("frontend/templates/terms.html"):
+        return FileResponse("frontend/templates/terms.html", media_type="text/html")
+    if os.path.exists("frontend/terms.html"):
+        return FileResponse("frontend/terms.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Terms page not found"})
 
 
 @app.get("/css/style.css", include_in_schema=False)

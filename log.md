@@ -71,6 +71,7 @@
 | **[ISSUE-061]** | 프론트엔드 UI/UX 응급실 스크롤 & 기존 디자인 계승형 문진 챗봇 | 소아 응급실 병상 2개 초과 시 세로 스크롤 지원(4개소 확장) 및 input.html 기존 미니멀 UI 디자인 계승형 프로그레시브 문진 챗봇 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-062]** | 프론트엔드 모바일 UI/UX 최적화 | 온보딩 화면(splash, permission) 상단 인위적 가짜 상태 바(15:19 시간, 배터리, 와이파이) 전면 제거 및 순수 뷰포트 정돈 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-063]** | 프론트엔드 온보딩 실제 Web API 권한 요청 | permission.html 동의 버튼 클릭 시 Geolocation 및 Notification 실제 브라우저 권한 팝업 요청 및 좌표 로컬 캐싱 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-064]** | 프론트엔드 설정 & 법률 컴플라이언스 | settings.html 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨 전용 이용약관(terms.html) 신규 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1931,6 +1932,45 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-064] 설정 화면(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨(i-Soom) 전용 이용약관(terms.html) 신규 구축
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장), AI 에이전트
+* **분류**: 프론트엔드 UI/UX 라우팅 / 의료법 컴플라이언스(제27조) / 약관 및 법적 면책 고지
+* **문제 상황**:
+  * 설정 화면([settings.html](file:///e:/monnlight/frontend/templates/settings.html)) 내 '아이숨 이용약관' 항목이 클릭 이벤트가 없는 단순 정적 `<button>`으로 구현되어 있어, 사용자가 클릭 시 반응이 없거나 약관 내용을 확인할 수 없는 UX 단절 발생.
+  * 소아 야간 의료 매칭 및 AI 문진 서비스를 상용 서비스 수준으로 안전하게 운영하기 위해 필요한 의료법 제27조 준수 선언, 12대 Red Flag 발생 시 119 즉시 신고 의무, 위치기반서비스 인메모리 처리, 공공데이터 시차 면책 및 30초 전화 확인 의무 등을 명시한 전용 약관 체계가 부재했음.
+* **원인 분석**:
+  * 온보딩/설정 UI 프로토타입 단계에서 이용약관 화면 파일(`terms.html`)이 미생성 상태였으며, 라우터 및 링크 바인딩이 누락되어 있었음.
+* **구체적 해결 방안**:
+  1. **아이숨 서비스 특화 9대 핵심 조항 이용약관(`terms.html`) 신규 제작**:
+     - [frontend/templates/terms.html](file:///e:/monnlight/frontend/templates/terms.html) 및 [frontend/terms.html](file:///e:/monnlight/frontend/terms.html) 신규 생성.
+     - **제3조 (의료법 제27조 준수 및 비의료 AI 문진 보조의 한계)**: 의사의 진단/처방을 대체할 수 없으며 대면 진료 우선 원칙 명시.
+     - **제4조 (응급 상황 시 119 즉시 신고 의무)**: 12대 Red Flag 발생 시 검색을 중단하고 119 또는 소아전문응급센터로 즉시 직행해야 함을 규정.
+     - **제5조 (위치기반서비스)**: Haversine 거리 계산 목적 외 영구 저장 없음 명시.
+     - **제6조 (공공데이터 면책)**: 헛걸음 방지를 위한 '30초 통화 스크립트' 사전 전화 확인 의무 부과.
+     - **제7조 (본인확인 의무화)**: 2024년 5월 건강보험법 개정 신분증/서류 지참 안내.
+  2. **모바일 최적화 UI/UX 탑재**:
+     - 상단 헤더 뒤로가기 버튼(`settings.html` 복귀), 퀵 점프 칩 바, 긴급/경고 콜아웃 박스, 하단 플로팅 `[내용을 확인했습니다]` 버튼 탑재.
+  3. **설정 화면 링크 연동 및 FastAPI 라우터 등록**:
+     - `settings.html` 내 항목을 `<a href="terms.html" class="settings-item-row">`로 교체.
+     - [main.py](file:///e:/monnlight/main.py)에 `GET /terms`, `GET /terms.html` 라우터 및 `root()` 메타데이터 등록.
+  4. **통합 자동화 검증**:
+     - FastAPI TestClient를 통한 설정 링크 및 약관 페이지 렌더링 100% 무결점 확인 (`ALL TERMS & SETTINGS INTEGRATION TESTS PASSED PERFECTLY!`).
+* **적용 파일**:
+  * [frontend/templates/terms.html](file:///e:/monnlight/frontend/templates/terms.html)
+  * [frontend/terms.html](file:///e:/monnlight/frontend/terms.html)
+  * [frontend/templates/settings.html](file:///e:/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///e:/monnlight/frontend/settings.html)
+  * [main.py](file:///e:/monnlight/main.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 
