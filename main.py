@@ -131,6 +131,8 @@ async def root():
             "emergency_pairings": "/api/v1/emergency/pairings",
             "emergency_sync": "/api/v1/emergency/sync",
             "scheduler_status": "/api/v1/emergency/status",
+            "aisum_splash": "/splash",
+            "aisum_permission": "/permission",
             "aisum_home": "/home",
             "aisum_settings": "/settings",
         },
@@ -141,6 +143,32 @@ async def root():
 async def get_ktas_viewer():
     """Serves the interactive KTAS 2021 guideline HTML viewer."""
     return FileResponse("ktas_viewer.html", media_type="text/html")
+
+
+@app.get("/splash", tags=["Frontend"], response_class=FileResponse)
+@app.get("/splash.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_splash():
+    """Serves the Aisum first loading splash screen."""
+    if os.path.exists("frontend/templates/splash.html"):
+        return FileResponse("frontend/templates/splash.html", media_type="text/html")
+    if os.path.exists("frontend/splash.html"):
+        return FileResponse("frontend/splash.html", media_type="text/html")
+    if os.path.exists("app/templates/splash.html"):
+        return FileResponse("app/templates/splash.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Splash page not found"})
+
+
+@app.get("/permission", tags=["Frontend"], response_class=FileResponse)
+@app.get("/permission.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_permission():
+    """Serves the Aisum app permission specification page."""
+    if os.path.exists("frontend/templates/permission.html"):
+        return FileResponse("frontend/templates/permission.html", media_type="text/html")
+    if os.path.exists("frontend/permission.html"):
+        return FileResponse("frontend/permission.html", media_type="text/html")
+    if os.path.exists("app/templates/permission.html"):
+        return FileResponse("app/templates/permission.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Permission page not found"})
 
 
 @app.get("/home", tags=["Frontend"], response_class=FileResponse)

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>접근 권한 안내 - 아이숨 (i-Soom)</title>
+  <meta name="description" content="아이숨 서비스 이용을 위한 필수 및 선택 접근 권한 안내" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
+  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
+
+  <style>
+    /* Reset & Viewport Container */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      color: #0f172a;
+    }
+
+    .permission-viewport {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      max-height: 932px;
+      background-color: #ffffff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px 24px 24px 24px;
+      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.15);
+      animation: fadeInPage 0.4s ease-out;
+    }
+
+    @keyframes fadeInPage {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Top iOS Fake Status Bar */
+    .ios-status-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 4px 16px 4px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.2px;
+    }
+
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* Main Content Area */
+    .permission-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+    }
+
+    /* Headline Title (Matching monimo 1:1) */
+    .permission-title {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #000000;
+      letter-spacing: -0.7px;
+      margin-bottom: 28px;
+    }
+
+    /* Section Sub-label */
+    .permission-section-label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #8b95a1;
+      letter-spacing: -0.2px;
+      margin-bottom: 20px;
+    }
+
+    /* Permission List (Matching monimo 1:1) */
+    .permission-list {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .permission-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .permission-icon-wrap {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .permission-icon-wrap .material-symbols-outlined {
+      font-size: 24px;
+    }
+
+    /* Icon Specific Colors from Reference */
+    .icon-location {
+      color: #0066ff; /* Vivid Blue */
+    }
+
+    .icon-notification {
+      color: #f59e0b; /* Warm Amber */
+    }
+
+    .icon-phone {
+      color: #10b981; /* Emerald Green */
+    }
+
+    .icon-camera {
+      color: #4b5563; /* Slate Charcoal */
+    }
+
+    .icon-photo {
+      color: #0d9488; /* Teal / Turquoise */
+    }
+
+    .permission-text-group {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .permission-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #191f28;
+      letter-spacing: -0.4px;
+      white-space: nowrap;
+      min-width: 48px;
+    }
+
+    .permission-desc {
+      font-size: 13.5px;
+      font-weight: 400;
+      color: #8b95a1;
+      letter-spacing: -0.3px;
+      line-height: 1.35;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Notice Footer Box (Matching monimo 1:1) */
+    .permission-notice-box {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #f2f4f6;
+    }
+
+    .permission-notice-text {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: #8b95a1;
+      line-height: 1.55;
+      letter-spacing: -0.3px;
+    }
+
+    /* Bottom Action Button Area */
+    .permission-bottom-bar {
+      margin-top: 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-confirm-permission {
+      width: 100%;
+      height: 54px;
+      background-color: #0066ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.25);
+    }
+
+    .btn-confirm-permission:active {
+      background-color: #0052cc;
+      transform: scale(0.985);
+    }
+
+    .home-indicator-bar {
+      width: 134px;
+      height: 5px;
+      background-color: #111827;
+      border-radius: 9999px;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Viewport Canvas -->
+  <div class="permission-viewport" id="permissionView">
+
+    <!-- 1. Top iOS Fake Status Bar -->
+    <div class="ios-status-bar" aria-hidden="true">
+      <div class="status-left">
+        <span id="statusBarTime">12:04</span>
+        <span class="material-symbols-outlined" style="font-size: 14px;">near_me</span>
+      </div>
+      <div class="status-right">
+        <span class="material-symbols-outlined status-icon">signal_cellular_alt</span>
+        <span class="material-symbols-outlined status-icon">wifi</span>
+        <span class="material-symbols-outlined status-icon" style="transform: rotate(90deg); font-size: 17px;">battery_full</span>
+      </div>
+    </div>
+
+    <!-- 2. Main Permission Content -->
+    <main class="permission-content">
+      <!-- Headline Title -->
+      <h1 class="permission-title">
+        앱 사용을 위해<br />
+        접근 권한을 허용해주세요
+      </h1>
+
+      <!-- Section Label: 선택 권한 -->
+      <div class="permission-section-label">선택 권한</div>
+
+      <!-- Permission Items based on MoonlightCare Backend Architecture -->
+      <div class="permission-list">
+
+        <!-- 1. 위치 (Location): PostGIS/Haversine 5~10km 병원·약국 페어링 및 응급실 거리 계산 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-location">
+            <span class="material-symbols-outlined">location_on</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">위치</span>
+            <span class="permission-desc">야간 소아과·약국·응급실 거리 계산 및 길안내</span>
+          </div>
+        </div>
+
+        <!-- 2. 알림 (Notification): 실시간 소아 병상 변동 및 조기 마감(Cut-off) SSE 스트리밍 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-notification">
+            <span class="material-symbols-outlined">notifications</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">알림</span>
+            <span class="permission-desc">소아 응급실 병상 변동 및 접수 마감 긴급 안내</span>
+          </div>
+        </div>
+
+        <!-- 3. 전화 (Phone): 119 긴급 숏서킷 및 30초 통화 스크립트 원클릭 전화 연결 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-phone">
+            <span class="material-symbols-outlined">call</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">전화</span>
+            <span class="permission-desc">119 응급 직통 연결 및 병원 출발 전 사전 확인 통화</span>
+          </div>
+        </div>
+
+        <!-- 4. 카메라 (Camera): 2024년 5월 본인확인 의무화 신분증 및 환아 증상(발진, 상처) 촬영 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-camera">
+            <span class="material-symbols-outlined">photo_camera</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">카메라</span>
+            <span class="permission-desc">본인확인 신분증 및 환아 증상(발진, 상처) 촬영</span>
+          </div>
+        </div>
+
+        <!-- 5. 사진 (Photos / Storage): 아이 증상 사진 첨부 및 처방전·진료 서류 보관 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-photo">
+            <span class="material-symbols-outlined">image</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">사진</span>
+            <span class="permission-desc">아이 증상 사진 첨부 및 처방전·진료 서류 보관</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Legal / Guidance Footer Note (Matching monimo 1:1) -->
+      <div class="permission-notice-box">
+        <p class="permission-notice-text">
+          선택 권한의 경우 허용하지 않아도 서비스를 사용할 수 있으나 일부 서비스 이용이 제한될 수 있습니다.
+        </p>
+      </div>
+    </main>
+
+    <!-- 3. Bottom Confirm Action Bar -->
+    <div class="permission-bottom-bar">
+      <button type="button" class="btn-confirm-permission" id="btnConfirmPermission" onclick="onConfirmPermission()">
+        확인
+      </button>
+      <div class="home-indicator-bar" aria-hidden="true"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // Real-time Status Bar Clock
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const clockEl = document.getElementById('statusBarTime');
+      if (clockEl) {
+        clockEl.textContent = `${hours}:${minutes}`;
+      }
+    }
+    updateClock();
+
+    // Confirm Permission & Navigate to Main Home (index.html)
+    function onConfirmPermission() {
+      try {
+        localStorage.setItem('aisum_permission_granted', 'true');
+        localStorage.setItem('aisum_permission_granted_at', new Date().toISOString());
+      } catch (e) {
+        console.warn('LocalStorage error:', e);
+      }
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+
+</html>
