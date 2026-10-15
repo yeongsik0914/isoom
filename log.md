@@ -59,6 +59,7 @@
 | **[ISSUE-049]** | 프론트엔드 UI/UX 모달 & 화면 연동 | index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-050]** | Git 형상 관리 & 3-Way 머지 | 원격 input.html 최신 업데이트(확인 버튼 인터랙션 & PWA 메타태그) 풀 및 index.html 모달 연동 무결점 병합 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-051]** | 프론트엔드 UI/UX 리팩토링 | 응급실 가이드(emergency_guide.html) 텍스트 전면 배제 및 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 개편 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-052]** | 프론트엔드 UI/UX 온보딩 | monimo 레퍼런스 스타일의 아이숨 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1466,6 +1467,52 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-052] monimo 레퍼런스 스타일의 아이숨 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 팀원 (지시: 정영식 팀장)
+* **분류**: 프론트엔드 UI/UX 온보딩 / 컴플라이언스(정보통신망법) / 백엔드 기능 연계
+* **문제 상황**:
+  * 사용자가 앱을 최초 실행했을 때 브랜드 아이덴티티를 각인시키는 첫 로딩(스플래시) 화면이 부재함.
+  * 정보통신망법 제22조의2(접근권한에 대한 동의) 및 애플/구글 앱 마켓 가이드라인에 부합하면서도, 실제 아이숨 백엔드 파이프라인(위치 기반 페어링, 실시간 병상 알림, 119 긴급 통화 등)에 정합된 공식 접근권한 사전 안내 페이지가 필요함.
+* **원인 분석**:
+  * 앱 진입 시 권한의 필요 이유(어떤 기능에 왜 쓰이는지)를 명확히 고지하지 않고 네이티브 팝업을 띄우면 사용자의 권한 거부율이 높아지고, 핵심 기능인 야간 소아과 반경 탐색이나 긴급 전화 연결이 제한될 위험이 있음.
+  * 모니모(monimo) 스타일의 심플하고 모던한 첫 스플래시와 권한 고지 UI 패턴을 차용하여 최상의 온보딩 UX를 구현할 필요가 있었음.
+* **구체적 해결 방안**:
+  1. **첫 로딩 스플래시 화면 (`splash.html`) 구축**:
+     - 모니모 1:1 레퍼런스 스타일의 미니멀 순백색 배경 및 볼드 산세리프 브랜드 로고(**`아이숨.`**) 배치.
+     - 하단 서브 브랜드 소속 표기: `i-Soom / Pediatric Healthcare Networks` 및 iOS 홈 인디케이터 바 라인 탑재.
+     - 1.8초 후 권한 안내 페이지로 자연스러운 자동 전환 스크립트(`fadeOut` ➔ `permission.html`) 및 화면 탭 즉시 건너뛰기 인터랙션 적용.
+  2. **백엔드 로직 정합형 5대 선택 접근 권한 화면 (`permission.html`) 구축**:
+     - 모니모 스타일의 대형 헤드라인(`앱 사용을 위해 접근 권한을 허용해주세요`), `선택 권한` 라벨, 컬러풀 심볼 아이콘 탑재.
+     - 실제 백엔드 로직에 맞춘 5대 권한 명시:
+       - 📍 **위치**: 야간 소아과·약국·응급실 거리 계산 및 길안내 *(Haversine 반경 5~10km 페어링)*
+       - 🔔 **알림**: 소아 응급실 병상 변동 및 접수 마감 긴급 안내 *(5분 주기 NMC 병상 SSE 스트리밍)*
+       - 📞 **전화**: 119 응급 직통 연결 및 병원 출발 전 사전 확인 통화 *(Red Flag 0ms 직통 다이얼)*
+       - 📷 **카메라**: 본인확인 신분증 및 환아 증상(발진, 상처) 촬영 *(2024년 5월 본인확인 의무화 대응)*
+       - 🖼️ **사진**: 아이 증상 사진 첨부 및 처방전·진료 서류 보관 *(문진 이미지 업로드 & 서류 보관)*
+     - 하단 고지문("선택 권한의 경우 허용하지 않아도 서비스를 사용할 수 있으나...") 및 풀 너비 코발트 블루 **`확인`** 버튼 배치.
+     - 확인 클릭 시 `localStorage.setItem('aisum_permission_granted', 'true')` 기록 후 메인 홈(`index.html`)으로 이동.
+  3. **FastAPI 백엔드 라우트 확장 & 상용 템플릿 미러링**:
+     - `main.py`에 `@app.get("/splash")`, `@app.get("/permission")` 라우트 등록.
+     - `frontend/templates/`, `frontend/`, `app/templates/` 전역 파일 동기화.
+     - `FastAPI TestClient`로 전수 **HTTP 200 OK** 검증 완료.
+* **적용 파일**:
+  * [frontend/templates/splash.html](file:///e:/monnlight/frontend/templates/splash.html)
+  * [frontend/templates/permission.html](file:///e:/monnlight/frontend/templates/permission.html)
+  * [frontend/splash.html](file:///e:/monnlight/frontend/splash.html)
+  * [frontend/permission.html](file:///e:/monnlight/frontend/permission.html)
+  * [app/templates/splash.html](file:///e:/monnlight/app/templates/splash.html)
+  * [app/templates/permission.html](file:///e:/monnlight/app/templates/permission.html)
+  * [main.py](file:///e:/monnlight/main.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 
