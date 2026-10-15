@@ -82,25 +82,25 @@
         <div class="section-header">
           <div class="section-title-wrap">
             <h2 class="section-title" id="facility-heading">실시간 야간 의료시설</h2>
-            <span class="count-badge">10곳 운영중</span>
+            <span class="count-badge" id="live-facilities-count">10곳 운영중</span>
           </div>
         </div>
 
         <!-- Filter Segmented Tabs -->
         <div class="filter-tabs" role="tablist" aria-label="의료기관 필터">
-          <button type="button" class="filter-tab active" role="tab" aria-selected="true">
-            전체 10
+          <button type="button" class="filter-tab active" id="tab-filter-all" data-filter="all" role="tab" aria-selected="true" onclick="filterLiveFacilities('all')">
+            전체 <span id="count-all">10</span>
           </button>
-          <button type="button" class="filter-tab" role="tab" aria-selected="false">
-            🌙 달빛병원 3
+          <button type="button" class="filter-tab" id="tab-filter-hospital" data-filter="hospital" role="tab" aria-selected="false" onclick="filterLiveFacilities('hospital')">
+            🌙 달빛병원 <span id="count-hospital">5</span>
           </button>
-          <button type="button" class="filter-tab" role="tab" aria-selected="false">
-            💊 심야약국 5
+          <button type="button" class="filter-tab" id="tab-filter-pharmacy" data-filter="pharmacy" role="tab" aria-selected="false" onclick="filterLiveFacilities('pharmacy')">
+            💊 심야약국 <span id="count-pharmacy">5</span>
           </button>
         </div>
 
         <!-- Facility Cards Stack -->
-        <div class="facility-card-stack">
+        <div class="facility-card-stack" id="facility-card-stack">
 
           <!-- Card 1: 송파어린이병원 (달빛어린이병원) -->
           <article class="facility-card">

@@ -173,6 +173,7 @@ async def get_aisum_permission():
 
 
 @app.get("/home", tags=["Frontend"], response_class=FileResponse)
+@app.get("/index.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_home():
     """Serves the Aisum mobile web main page."""
     if os.path.exists("frontend/templates/index.html"):

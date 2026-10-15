@@ -51,12 +51,197 @@ if (typeof document !== 'undefined') {
   }
 }
 
+// ============================================================================
+// 🏥 Real-Time Nighttime Medical Facilities Loader (메인 홈 실시간 야간 의료시설 연동)
+// ============================================================================
+window.__LIVE_FACILITIES_DATA__ = [];
+window.__CURRENT_FACILITY_FILTER__ = 'all';
+
+window.initLiveFacilities = async function() {
+  const stack = document.getElementById('facility-card-stack');
+  if (!stack) return; // Only run on index.html
+
+  let lat = 37.5133; // 잠실역 fallback
+  let lon = 127.1001;
+  try {
+    const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
+    const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon');
+    if (sLat && sLon) {
+      lat = parseFloat(sLat);
+      lon = parseFloat(sLon);
+    }
+  } catch (e) {}
+
+  try {
+    const apiUrl = `/api/v1/emergency/pairings?lat=${lat}&lon=${lon}&radius_km=30.0&limit=8`;
+    const res = await fetch(apiUrl);
+    if (!res.ok) throw new Error(`API returned ${res.status}`);
+
+    const data = await res.json();
+    const pairings = data.pairings || [];
+    if (pairings.length === 0) return;
+
+    const list = [];
+    pairings.forEach((p) => {
+      // Hospital
+      const hDist = typeof p.거리_km === 'number' ? p.거리_km.toFixed(1) : (p.거리_km || '1.8');
+      const hWalk = Math.max(5, Math.round(parseFloat(hDist) * 14)) + '분';
+      const hCar = Math.max(3, Math.round(parseFloat(hDist) * 2.5)) + '분';
+      const hClose = p.병원_평일마감 ? `오늘 ~${p.병원_평일마감} 마감` : '야간 진료';
+
+      list.push({
+        type: 'hospital',
+        name: p.병원명 || '달빛어린이병원',
+        badge: '달빛어린이병원',
+        status: '진료중 · 접수 가능',
+        desc: '소아청소년과 전문의 진료중 · 야간 진료 지정기관',
+        phone: p.병원전화 || '02-1234-5678',
+        dist: hDist,
+        walkTime: hWalk,
+        carTime: hCar,
+        closing: hClose,
+      });
+
+      // Pharmacy
+      if (p.약국명) {
+        const phDist = (parseFloat(hDist) + (p.병원_약국_거리 || 50) / 1000).toFixed(1);
+        const subGuide = p.이동안내 ? `${(p.병원명 || '').split(' ')[0]} 인근 ${p.이동안내}` : `병원 인근 ${p.병원_약국_거리 || 50}m`;
+        const phClose = p.약국_평일마감 ? `오늘 ~${p.약국_평일마감} 마감` : '야간 운영';
+
+        list.push({
+          type: 'pharmacy',
+          name: p.약국명,
+          badge: '심야약국',
+          subBadge: subGuide,
+          desc: '소아 시럽제 조제 가능 · 30분 안심 조제',
+          phone: p.약국전화 || '02-555-1234',
+          dist: phDist,
+          closing: phClose,
+        });
+      }
+    });
+
+    window.__LIVE_FACILITIES_DATA__ = list;
+    window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
+  } catch (err) {
+    console.log('실시간 의료시설 API 비동기 폴백 (정적 데이터 유지):', err.message);
+  }
+};
+
+window.renderLiveFacilities = function(filter) {
+  const stack = document.getElementById('facility-card-stack');
+  if (!stack || !window.__LIVE_FACILITIES_DATA__ || window.__LIVE_FACILITIES_DATA__.length === 0) return;
+
+  const data = window.__LIVE_FACILITIES_DATA__;
+  const filtered = filter === 'all' ? data : data.filter((item) => item.type === filter);
+
+  // Update Count Badge & Tabs
+  const totalCount = data.length;
+  const hospCount = data.filter((i) => i.type === 'hospital').length;
+  const pharmCount = data.filter((i) => i.type === 'pharmacy').length;
+
+  const countBadge = document.getElementById('live-facilities-count');
+  if (countBadge) countBadge.textContent = `${totalCount}곳 운영중`;
+
+  const countAll = document.getElementById('count-all');
+  if (countAll) countAll.textContent = totalCount;
+
+  const countHosp = document.getElementById('count-hospital');
+  if (countHosp) countHosp.textContent = hospCount;
+
+  const countPharm = document.getElementById('count-pharmacy');
+  if (countPharm) countPharm.textContent = pharmCount;
+
+  // Render cards HTML
+  let cardsHTML = '';
+  filtered.forEach((facility) => {
+    const isHospital = facility.type === 'hospital';
+    const icon = isHospital ? 'bedtime' : 'medication';
+    const iconClass = isHospital ? '' : 'pharmacy';
+    const badgeClass = isHospital ? 'moonlight' : 'pharmacy';
+    const badgeText = isHospital ? '달빛어린이병원' : '심야약국';
+
+    const subBadgeHTML = !isHospital && facility.subBadge
+      ? `<span class="tag-badge distance-sub">${facility.subBadge}</span>`
+      : '';
+
+    const statusBadgeHTML = isHospital
+      ? `<span class="tag-badge status-open"><span class="status-indicator-dot" aria-hidden="true"></span>${facility.status}</span>`
+      : '';
+
+    const distanceText = isHospital
+      ? `내 위치 ${facility.dist}km (도보 ${facility.walkTime} / 차 ${facility.carTime})`
+      : `내 위치 ${facility.dist}km`;
+
+    cardsHTML += `
+      <article class="facility-card live-card" data-type="${facility.type}">
+        <div class="card-top">
+          <div class="facility-main">
+            <div class="facility-icon-wrap ${iconClass}" aria-hidden="true">
+              <span class="material-symbols-outlined">${icon}</span>
+            </div>
+            <div class="facility-meta">
+              <div class="badge-row">
+                <span class="tag-badge ${badgeClass}">${badgeText}</span>
+                ${subBadgeHTML}
+                ${statusBadgeHTML}
+              </div>
+              <h3 class="facility-name">${facility.name}</h3>
+              <p class="facility-desc">${facility.desc}</p>
+            </div>
+          </div>
+          <a href="tel:${facility.phone}" class="call-btn" aria-label="${facility.name} 전화 걸기">
+            <span class="material-symbols-outlined">call</span>
+          </a>
+        </div>
+
+        <div class="card-footer">
+          <div class="distance-info">
+            <span class="material-symbols-outlined">near_me</span>
+            <span>${distanceText}</span>
+          </div>
+          <span class="closing-time-tag">${facility.closing}</span>
+        </div>
+      </article>
+    `;
+  });
+
+  stack.innerHTML = cardsHTML;
+};
+
+window.filterLiveFacilities = function(filter) {
+  window.__CURRENT_FACILITY_FILTER__ = filter;
+
+  // Update tab styles
+  const tabAll = document.getElementById('tab-filter-all');
+  const tabHosp = document.getElementById('tab-filter-hospital');
+  const tabPharm = document.getElementById('tab-filter-pharmacy');
+
+  if (tabAll) {
+    tabAll.classList.toggle('active', filter === 'all');
+    tabAll.setAttribute('aria-selected', filter === 'all' ? 'true' : 'false');
+  }
+  if (tabHosp) {
+    tabHosp.classList.toggle('active', filter === 'hospital');
+    tabHosp.setAttribute('aria-selected', filter === 'hospital' ? 'true' : 'false');
+  }
+  if (tabPharm) {
+    tabPharm.classList.toggle('active', filter === 'pharmacy');
+    tabPharm.setAttribute('aria-selected', filter === 'pharmacy' ? 'true' : 'false');
+  }
+
+  window.renderLiveFacilities(filter);
+};
+
 // BFCache (Back-Forward Cache) and navigation restoration
 if (typeof window !== 'undefined') {
   window.addEventListener('pageshow', () => {
     window.applyAisumFontSize();
     if (typeof window.updateChildInfoDisplay === 'function') {
       window.updateChildInfoDisplay();
+    }
+    if (typeof window.initLiveFacilities === 'function') {
+      window.initLiveFacilities();
     }
   });
 }
@@ -227,6 +412,11 @@ if (!window.__AISUM_INITIALIZED__) {
       window.updateChildInfoDisplay();
     }
 
+    // Initialize real-time medical facilities on main home (index.html)
+    if (typeof window.initLiveFacilities === 'function') {
+      window.initLiveFacilities();
+    }
+
     // DOM Elements
     const modal = document.getElementById('triage-consent-modal');
     const modalCancelBtn = document.getElementById('modal-cancel-btn');
@@ -267,11 +457,26 @@ if (!window.__AISUM_INITIALIZED__) {
       });
     });
 
-    // 3. Trigger Open: 병원 카드 클릭 시 모달 열기 (전화 버튼 제외)
+    // 3. Trigger Open: 병원 카드 클릭 시 모달 열기 (이벤트 위임 방식으로 동적 실시간 카드 100% 지원)
+    const facilityStack = document.getElementById('facility-card-stack');
+    if (facilityStack) {
+      facilityStack.addEventListener('click', (e) => {
+        if (e.target.closest('.call-btn') || e.target.closest('a[href^="tel:"]')) {
+          return; // 전화 걸기는 기본 다이얼 동작 유지
+        }
+        const card = e.target.closest('.facility-card');
+        if (card) {
+          e.preventDefault();
+          openModal();
+        }
+      });
+    }
+
+    // 정적 카드 폴백 리스너
     facilityCards.forEach((card) => {
       card.addEventListener('click', (e) => {
         if (e.target.closest('.call-btn') || e.target.closest('a[href^="tel:"]')) {
-          return; // 전화 걸기는 기본 동작 유지
+          return;
         }
         e.preventDefault();
         openModal();

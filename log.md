@@ -77,6 +77,7 @@
 | **[ISSUE-067]** | 프론트엔드 UI/UX 인터랙션 & 타이포그래피 | 뷰포트 zoom 전체 크기 왜곡 해소, 순수 font-size 스케일링 엔진 개편 및 셀렉트박스 컴포넌트 전환 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-068]** | 프론트엔드 상태 지속성 & BFCache | 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스가 '보통'으로 초기화되는 버그 (BFCache pageshow & 0ms 인라인 하이드레이션) | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-069]** | 프론트엔드 설정 & 사용자 자녀 정보 관리 | settings.html 출생연도 단일 텍스트 버튼을 '자녀의 기본 정보 변경' 칸으로 개편, 맞춤형 모달 팝업 및 BFCache/localStorage 영구 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-070]** | 프론트엔드 풀스택 연동 & 실시간 공간 매칭 | index.html 정적 더미 시설 목록을 백엔드 전국 달빛병원·심야약국 실시간 페어링 API 연동 및 0ms 탭 필터링 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2161,6 +2162,41 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-070] 메인 홈(index.html) 정적 더미 시설 목록을 백엔드 전국 달빛병원·심야약국 실시간 페어링 API 연동 및 0ms 탭 필터링 구축
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 풀스택 연동 & 실시간 공간 매칭
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **문제 상황**:
+  * 메인 홈([index.html](file:///e:/monnlight/frontend/templates/index.html))의 '실시간 야간 의료시설' 섹션에 송파어린이병원, 강남아이마음병원, 송파달빛약국 등 3개의 카드가 하드코딩된 정적 HTML로 남아 있었으며, 사용자의 실제 GPS 위치 및 백엔드에 구축된 전국 29개 달빛어린이병원-심야약국 페어링 데이터가 실시간으로 반영되지 못하고 탭 필터링도 동작하지 않았음.
+* **원인 분석**:
+  * 프론트엔드 초기 퍼블리싱 단계의 목업 UI와 기구축된 백엔드 공간 검색 엔드포인트(`GET /api/v1/emergency/pairings`) 간의 비동기 Fetch 통신 및 동적 DOM 렌더링 파이프라인이 미결합 상태였음.
+* **구체적 해결 방안**:
+  1. **HTML 마크업 최적화 및 탭 이벤트 바인딩**:
+     - 상단 카운트 뱃지에 `id="live-facilities-count"` 부여.
+     - 탭 버튼에 `id="tab-filter-all"`, `id="tab-filter-hospital"`, `id="tab-filter-pharmacy"` 및 `onclick="filterLiveFacilities('...')"` 연동.
+     - 카드 스택 컨테이너에 `id="facility-card-stack"` 할당.
+  2. **실시간 비동기 로더 & 렌더링 엔진 구축 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `window.initLiveFacilities()`: `localStorage`의 `user_lat`/`user_lon`을 조회하여 `GET /api/v1/emergency/pairings` 비동기 호출.
+     - `window.renderLiveFacilities(filter)`: 달빛병원(거리, 도보/차량 예상 소요시간, 오늘 마감 시각, 전문의 진료 안내) 및 심야약국(병원 인근 거리, 30분 안심 조제, 마감 시각) 카드 동적 생성 및 바인딩.
+     - `window.filterLiveFacilities(filter)`: [전체] / [달빛병원] / [심야약국] 0ms 즉각 필터링 및 뱃지 카운트 실시간 동기화.
+     - **이벤트 위임(Event Delegation)**: 동적으로 생성된 카드에서도 사전 안내 모달(`openModal()`) 및 원터치 전화 다이얼(`tel:`)이 정상 작동하도록 버블링 제어.
+     - **안전한 오프라인 폴백 (Graceful Degradation)**: 서버 오프라인이나 `file://` 환경에서도 기존 정적 카드가 안전하게 유지.
+  3. **FastAPI 서버 라우트 고도화 ([main.py](file:///e:/monnlight/main.py))**:
+     - `@app.get("/index.html")` 데코레이터를 추가하여 직접 파일 경로 접근 완벽 지원.
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [main.py](file:///e:/monnlight/main.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 

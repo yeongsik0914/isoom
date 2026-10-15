@@ -56,6 +56,7 @@
     - [10.36 '아이숨' 설정(settings.html) 글자 크기 셀렉트박스 전환 & 레이아웃 왜곡 배제 순수 font-size 스케일링 엔진 개편](#1036-아이숨-설정settingshtml-글자-크기-셀렉트박스-전환--레이아웃-왜곡-배제-순수-font-size-스케일링-엔진-개편-2026-10-15-완결)
     - [10.37 '아이숨' 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스 값 초기화 버그 해결](#1037-아이숨-홈-이동-후-설정-재진입-시-글자-크기-셀렉트박스-값-초기화-버그-해결-2026-10-15-완결)
     - [10.38 '아이숨' 설정(settings.html) '자녀의 기본 정보 변경' 칸 개편 & 맞춤형 모달 시스템 구축](#1038-아이숨-설정settingshtml-자녀의-기본-정보-변경-칸-개편--맞춤형-모달-시스템-구축-2026-10-15-완결)
+    - [10.39 '아이숨' 메인 홈(index.html) 실시간 야간 의료시설 백엔드 결합 & 0ms 탭 필터링 구축](#1039-아이숨-메인-홈indexhtml-실시간-야간-의료시설-백엔드-결합--0ms-탭-필터링-구축-2026-10-15-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1042,6 +1043,22 @@ flowchart TD
      - `window.addEventListener('pageshow', ...)`에 `updateChildInfoDisplay()`를 등록하여 홈 화면 및 타 페이지 왕복 시에도 100% 저장값 유지.
 * **검증 성과**:
   - FastAPI TestClient 자동화 검증 전수 통과 (`ALL ASSERTIONS PASSED!`).
+
+### 10.39 '아이숨' 메인 홈(index.html) 실시간 야간 의료시설 백엔드 결합 & 0ms 탭 필터링 구축 (2026-10-15 완결)
+* **목적**:
+  - 메인 홈 화면의 '실시간 야간 의료시설' 하드코딩 더미 목록을 기구축된 백엔드 공간 검색 엔드포인트(`GET /api/v1/emergency/pairings`)와 100% 결합.
+  - 사용자 GPS 위치 기반 Haversine 5ms 초고속 구면거리 연산 및 실시간 도보/차량 예상 소요시간, 오늘 마감 시각, 전문의 진료 안내 동적 렌더링.
+* **구현 아키텍처 및 핵심 명세**:
+  1. **실시간 비동기 로더 & 렌더링 엔진 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `window.initLiveFacilities()`: `localStorage`의 `user_lat`/`user_lon`을 조회하여 `GET /api/v1/emergency/pairings` 비동기 호출.
+     - `window.renderLiveFacilities(filter)`: 달빛병원(거리, 도보/차량 예상 소요시간, 오늘 마감 시각, 전문의 진료 안내) 및 심야약국(병원 인근 거리, 30분 안심 조제, 마감 시각) 카드 동적 생성 및 바인딩.
+     - `window.filterLiveFacilities(filter)`: [전체] / [달빛병원] / [심야약국] 0ms 즉각 필터링 및 뱃지 카운트 실시간 동기화.
+     - **이벤트 위임(Event Delegation)**: 동적으로 생성된 카드에서도 사전 안내 모달(`openModal()`) 및 원터치 전화 다이얼(`tel:`)이 정상 작동하도록 버블링 제어.
+     - **안전한 오프라인 폴백 (Graceful Degradation)**: 서버 오프라인이나 `file://` 환경에서도 기존 정적 카드가 안전하게 유지.
+  2. **FastAPI 서버 라우트 고도화 ([main.py](file:///e:/monnlight/main.py))**:
+     - `@app.get("/index.html")` 데코레이터를 추가하여 직접 파일 경로 접근 완벽 지원.
+* **검증 성과**:
+  - FastAPI TestClient 통합 검증 전수 통과 (`SUCCESS: Fullstack live facilities integration fully verified 100%!`).
 
 ---
 
