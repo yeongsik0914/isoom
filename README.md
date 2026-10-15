@@ -30,6 +30,21 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.16-hospital-detail-ticketing] 2026-10-15: '아이숨' 야간 병원 상세 및 실시간 접수 안내 화면(hospital_detail.html) 순수 프론트엔드 구축 & result.html 연계 완료 (김동준 팀원)
+* **아이숨 3대 핵심 화면 중 완결판 ([frontend/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/hospital_detail.html), [frontend/templates/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html)) 구축**:
+  - **병원 히어로 배너**: 송파어린이병원 타이틀, 보건복지부 지정 달빛어린이병원 엠블럼, 실시간 야간진료 중(`~23:00`) 라이브 펄스 배지.
+  - **3열 핵심 지표 바**: 현재 대기 `4팀 (약 20분)`(코발트 블루 강조) | `거리 1.8km (차 6분)` | `지하주차장 무료 2시간`.
+  - **야간 당직 전문의 프로필**: Dr. 김서연 세부전문의 (소아 호흡기/급성발열 전문, 제1소아진료실 2층, 현재 14번 환아 진료 중 안내).
+  - **야간 접수 마감 주의 배너**: 22:30 접수 마감 및 환아 폭증 시 30분 전 조기 마감 대비 권장 안내.
+  - **실시간 진료 시간표**: 오늘 평일 야간(09:00~23:00, 접수마감 22:30), 토요일, 일·공휴일 시간표 (E-Gen 규격).
+  - **Track B 안심 심야약국 연계 카드**: 송파달빛약국 (도보 1분 80m, 오늘 24:00 마감, `+30분 조제 안전마진` 배지, 소아 시럽제/네블라이저 상비 태그).
+  - **오시는 길 & 길찾기**: 주소 원클릭 복사(토스트 팝업 연동), 카카오맵 / 네이버지도 앱 연동 길안내 버튼.
+  - **내원 전 필수 지참 서류 체크리스트**: 보호자 신분증, 환아 등본, 복용 중인 약 체크리스트 (2024년 5월 본인확인 의무화 준수).
+  - **하단 고정 플로팅 바 & 모바일 대기표 모달**: `[📞 병원 직통 전화]` + `[모바일 번호표 접수하기]` ➔ 클릭 시 대기번호 19번 발급 팝업 인터랙션 제공.
+* **화면 간 유기적 네비게이션 완성**:
+  - [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html) 및 템플릿의 송파어린이병원 카드 클릭 시 `hospital_detail.html`로 화면 자동 이동하도록 연동.
+  - [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)에 `@app.get("/hospital_detail")` 라우트 등록 및 200 OK 서빙 확인.
+
 ### 🌟 [v2.4.15-onboarding-splash-permission] 2026-10-15: '아이숨' monimo 스타일 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축 (정영식 팀장)
 * **monimo 레퍼런스 스타일 미니멀 첫 로딩 스플래시 (`splash.html`) 구축**:
   - 완벽한 화이트 배경에 볼드 산세리프 브랜드 로고(**아이숨.**) 및 펄스 포인트 애니메이션 탑재.
