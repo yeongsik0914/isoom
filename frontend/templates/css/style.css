@@ -2643,3 +2643,204 @@ body.font-size-large .filter-tab,
 body.font-size-large .location-pill {
   font-size: 16px !important;
 }
+
+/* ==========================================================================
+   👶 Child Information Modal & Form Styles (자녀 기본 정보 변경 모달)
+   ========================================================================== */
+.child-info-modal-card {
+  max-width: 340px;
+  padding: 0;
+  border-radius: 24px;
+}
+
+.child-info-modal-header {
+  padding: 24px 22px 14px;
+  text-align: left;
+}
+
+.child-info-modal-header .modal-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.4px;
+  margin-bottom: 6px;
+}
+
+.child-info-modal-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.child-info-form {
+  padding: 0 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.child-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.child-form-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  letter-spacing: -0.2px;
+}
+
+.child-form-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #0f172a;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.child-form-input:focus {
+  background-color: #ffffff;
+  border-color: #0066ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+}
+
+.child-select-wrapper {
+  width: 100%;
+}
+
+.child-select-wrapper .child-select-box {
+  width: 100%;
+  height: 44px;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0 36px 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.child-select-wrapper .child-select-box:focus {
+  background-color: #ffffff;
+  border-color: #0066ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+}
+
+.child-gender-toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.gender-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 44px;
+  border: 1.5px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.gender-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.gender-btn.active {
+  background: #eff6ff;
+  border-color: #0066ff;
+  color: #0066ff;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(0, 102, 255, 0.15);
+}
+
+.modal-actions-dual {
+  display: flex;
+  gap: 8px;
+  padding: 14px 22px 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.modal-btn-cancel {
+  flex: 1;
+  height: 46px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.modal-btn-cancel:active {
+  background: #e2e8f0;
+}
+
+.modal-btn-primary {
+  flex: 1.6;
+  height: 46px;
+  background: #0066ff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+  transition: all 0.15s ease;
+}
+
+.modal-btn-primary:active {
+  background: #0052cc;
+  transform: translateY(1px);
+}
+
+/* Toast Message */
+.aisum-toast {
+  position: fixed;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
+  white-space: nowrap;
+}
+
+.aisum-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

@@ -55,6 +55,9 @@ if (typeof document !== 'undefined') {
 if (typeof window !== 'undefined') {
   window.addEventListener('pageshow', () => {
     window.applyAisumFontSize();
+    if (typeof window.updateChildInfoDisplay === 'function') {
+      window.updateChildInfoDisplay();
+    }
   });
 }
 
@@ -77,6 +80,135 @@ window.openFontSizeModal = function() {
   if (selectEl) selectEl.focus();
 };
 
+// ============================================================================
+// 👶 Global Child Information Management System (자녀 기본 정보 관리 & BFCache 동기화)
+// ============================================================================
+window.updateChildInfoDisplay = function() {
+  try {
+    const displayEl = document.getElementById('child-info-display');
+    if (!displayEl) return;
+
+    const raw = localStorage.getItem('aisum_child_info');
+    let year = '2023';
+    let gender = 'male';
+    let name = '';
+
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.birthYear) year = parsed.birthYear;
+      if (parsed.gender) gender = parsed.gender;
+      if (parsed.name) name = parsed.name;
+    }
+
+    const currentYear = 2026;
+    const age = Math.max(0, currentYear - parseInt(year, 10));
+    const genderLabel = gender === 'female' ? '여아' : (gender === 'male' ? '남아' : '');
+
+    let summary = '';
+    if (genderLabel) {
+      summary = `${year}년생 (${genderLabel}, 만 ${age}세)`;
+    } else {
+      summary = `${year}년생 (만 ${age}세)`;
+    }
+
+    displayEl.textContent = summary;
+  } catch (e) {
+    console.warn('Child info display update failed:', e);
+  }
+};
+
+window.selectedChildGender = 'male';
+
+window.openChildInfoModal = function() {
+  const modal = document.getElementById('child-info-modal');
+  if (!modal) return;
+
+  try {
+    const raw = localStorage.getItem('aisum_child_info');
+    let name = '';
+    let birthYear = '2023';
+    let gender = 'male';
+
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.name) name = parsed.name;
+      if (parsed.birthYear) birthYear = parsed.birthYear;
+      if (parsed.gender) gender = parsed.gender;
+    }
+
+    const nameInput = document.getElementById('child-name-input');
+    const birthSelect = document.getElementById('child-birth-select');
+
+    if (nameInput) nameInput.value = name;
+    if (birthSelect) birthSelect.value = birthYear;
+    window.setChildGender(gender);
+  } catch (e) {
+    console.warn('Failed to populate child info modal:', e);
+  }
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeChildInfoModal = function() {
+  const modal = document.getElementById('child-info-modal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+window.setChildGender = function(gender) {
+  window.selectedChildGender = gender || 'male';
+  const maleBtn = document.getElementById('gender-btn-male');
+  const femaleBtn = document.getElementById('gender-btn-female');
+
+  if (maleBtn && femaleBtn) {
+    if (gender === 'female') {
+      femaleBtn.classList.add('active');
+      maleBtn.classList.remove('active');
+    } else {
+      maleBtn.classList.add('active');
+      femaleBtn.classList.remove('active');
+    }
+  }
+};
+
+window.saveChildInfo = function() {
+  try {
+    const nameInput = document.getElementById('child-name-input');
+    const birthSelect = document.getElementById('child-birth-select');
+    const name = nameInput ? nameInput.value.trim() : '';
+    const birthYear = birthSelect ? birthSelect.value : '2023';
+    const gender = window.selectedChildGender || 'male';
+
+    const childInfo = { name, birthYear, gender };
+    localStorage.setItem('aisum_child_info', JSON.stringify(childInfo));
+
+    window.updateChildInfoDisplay();
+    window.closeChildInfoModal();
+    window.showAisumToast('자녀 기본 정보가 저장되었습니다.');
+  } catch (e) {
+    console.error('Failed to save child info:', e);
+  }
+};
+
+window.showAisumToast = function(msg) {
+  let toast = document.getElementById('aisum-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'aisum-toast';
+    toast.className = 'aisum-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg || '저장되었습니다.';
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2200);
+};
+
 if (!window.__AISUM_INITIALIZED__) {
   window.__AISUM_INITIALIZED__ = true;
 
@@ -88,6 +220,11 @@ if (!window.__AISUM_INITIALIZED__) {
     if (selectEl) {
       const savedSize = localStorage.getItem('aisum_font_size') || 'normal';
       selectEl.value = savedSize;
+    }
+
+    // Initialize child info display on settings page
+    if (typeof window.updateChildInfoDisplay === 'function') {
+      window.updateChildInfoDisplay();
     }
 
     // DOM Elements

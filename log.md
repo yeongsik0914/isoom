@@ -76,6 +76,7 @@
 | **[ISSUE-066]** | 프론트엔드 설정 & 전역 접근성 | settings.html 글자 크기(작게·보통·크게) 선택 모달 및 앱 전체 실시간 폰트 스케일링 엔진 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-067]** | 프론트엔드 UI/UX 인터랙션 & 타이포그래피 | 뷰포트 zoom 전체 크기 왜곡 해소, 순수 font-size 스케일링 엔진 개편 및 셀렉트박스 컴포넌트 전환 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-068]** | 프론트엔드 상태 지속성 & BFCache | 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스가 '보통'으로 초기화되는 버그 (BFCache pageshow & 0ms 인라인 하이드레이션) | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-069]** | 프론트엔드 설정 & 사용자 자녀 정보 관리 | settings.html 출생연도 단일 텍스트 버튼을 '자녀의 기본 정보 변경' 칸으로 개편, 맞춤형 모달 팝업 및 BFCache/localStorage 영구 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2124,6 +2125,43 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-069] settings.html 출생연도 단일 버튼을 '자녀의 기본 정보 변경' 칸 및 맞춤 모달 시스템으로 개편
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 설정 & 사용자 자녀 정보 관리
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **문제 상황**:
+  * 기존 설정 화면([settings.html](file:///e:/monnlight/frontend/templates/settings.html))의 일반 카테고리 첫 번째 항목이 `앱 사용자(자녀)의 출생연도 설정 변경`이라는 고정 텍스트로만 되어 있었으며, 클릭해도 실질적인 자녀 정보(이름, 연령/출생연도, 성별)를 입력하거나 변경할 수 있는 UI 컴포넌트가 연동되어 있지 않았음.
+* **원인 분석**:
+  * 초기 설정 페이지 퍼블리싱 단계에서 임시 플레이스홀더 버튼으로만 마크업되어 있었으며, 사용자의 자녀 프로필 데이터 모델(`aisum_child_info`) 및 수정용 모달 다이얼로그가 결합되지 못했음.
+* **구체적 해결 방안**:
+  1. **설정 칸 라벨 변경 및 0ms 인라인 하이드레이션 구축**:
+     - `앱 사용자(자녀)의 출생연도 설정 변경` ➔ **`자녀의 기본 정보 변경`**으로 라벨 업데이트.
+     - 우측 요약 표시부에 고유 ID(`child-info-display`)를 할당하고, 파서 직후 인라인 스크립트를 통해 `localStorage.getItem('aisum_child_info')`를 0ms 즉시 읽어 `2023년생 (남아, 만 3세)` 등 최신 상태를 선제 반영.
+  2. **모던 바텀시트/모달 컴포넌트(`child-info-modal`) 신규 구축**:
+     - 자녀 호칭/별칭 텍스트 입력창 (`child-name-input`)
+     - 2026년생(0세) ~ 2018년 이전(만 8세 이상) 출생연도 셀렉트박스 (`child-birth-select`)
+     - 남아/여아 세그먼트 토글 버튼 그룹 (`child-gender-toggle-group`)
+     - 취소(`modal-btn-cancel`) 및 저장(`modal-btn-primary`) 액션 버튼 배치.
+  3. **전역 상태 제어 & BFCache 영구 동기화 엔진 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `updateChildInfoDisplay()`, `openChildInfoModal()`, `closeChildInfoModal()`, `setChildGender()`, `saveChildInfo()`, `showAisumToast()` 함수 완비.
+     - `window.addEventListener('pageshow', ...)`에 `updateChildInfoDisplay()`를 등록하여 홈 화면 이동 및 브라우저 캐시 복원 시에도 100% 저장값 유지.
+  4. **CSS 스타일 시스템 확장 ([style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `.child-info-modal-card`, `.child-form-group`, `.child-form-input`, `.gender-btn`, `.aisum-toast` 전용 반응형 스타일 추가 완료.
+* **적용 파일**:
+  * [frontend/templates/settings.html](file:///e:/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///e:/monnlight/frontend/settings.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///e:/monnlight/frontend/templates/css/style.css)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 

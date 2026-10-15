@@ -55,6 +55,7 @@
     - [10.35 '아이숨' 설정(settings.html) 글자 크기 선택 모달 및 앱 전체 실시간 스케일링 엔진 구축](#1035-아이숨-설정settingshtml-글자-크기-선택-모달-및-앱-전체-실시간-스케일링-엔진-구축-2026-10-15-완결)
     - [10.36 '아이숨' 설정(settings.html) 글자 크기 셀렉트박스 전환 & 레이아웃 왜곡 배제 순수 font-size 스케일링 엔진 개편](#1036-아이숨-설정settingshtml-글자-크기-셀렉트박스-전환--레이아웃-왜곡-배제-순수-font-size-스케일링-엔진-개편-2026-10-15-완결)
     - [10.37 '아이숨' 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스 값 초기화 버그 해결](#1037-아이숨-홈-이동-후-설정-재진입-시-글자-크기-셀렉트박스-값-초기화-버그-해결-2026-10-15-완결)
+    - [10.38 '아이숨' 설정(settings.html) '자녀의 기본 정보 변경' 칸 개편 & 맞춤형 모달 시스템 구축](#1038-아이숨-설정settingshtml-자녀의-기본-정보-변경-칸-개편--맞춤형-모달-시스템-구축-2026-10-15-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1021,6 +1022,26 @@ flowchart TD
      - `applyAisumFontSize()` 실행 시 `#font-size-select` 엘리먼트의 `value`와 `option.selected`를 강제 양방향 동기화.
   3. **통합 E2E 자동화 검증 완료**:
      - TestClient 검증을 통해 인라인 하이드레이션 스크립트, `pageshow` 리스너, `options` 동기화 100% 무결점 통과 확인 (`SUCCESS: Zero-latency select hydration and BFCache sync verified 100%!`).
+
+### 10.38 '아이숨' 설정(settings.html) '자녀의 기본 정보 변경' 칸 개편 & 맞춤형 모달 시스템 구축 (2026-10-15 완결)
+* **목적**:
+  - 기존의 단편적이고 긴 `앱 사용자(자녀)의 출생연도 설정 변경` 버튼을 포괄적이고 직관적인 **`자녀의 기본 정보 변경`** 칸으로 개편.
+  - 클릭 시 실제로 자녀의 호칭/이름, 출생연도, 성별을 입력·선택하고 저장할 수 있는 전문적인 폼 모달 다이얼로그(`child-info-modal`) 및 영구 지속성 엔진 구축.
+* **구현 아키텍처 및 핵심 명세**:
+  1. **설정 칸 라벨 직관화 및 0ms 동기식 인라인 하이드레이션**:
+     - 라벨 텍스트: `자녀의 기본 정보 변경`
+     - 우측 요약 표시부: `<span class="settings-item-value accent" id="child-info-display">2023년생 (만 3세)</span>`
+     - 0ms 인라인 스크립트를 통해 `localStorage.getItem('aisum_child_info')`를 즉시 파싱하여 첫 프레임부터 `2023년생 (남아, 만 3세)` 등 최신 상태로 렌더링.
+  2. **모던 바텀시트/모달 컴포넌트 (`child-info-modal`)**:
+     - **자녀 호칭**: `child-name-input` (최대 10자)
+     - **출생연도**: `child-birth-select` (2026년생~2018년 이전)
+     - **성별 토글**: `child-gender-toggle-group` (남아/여아 2열 세그먼트 버튼)
+     - **액션**: `modal-btn-cancel`, `modal-btn-primary`, 저장 완료 시 `aisum-toast` 2.2초 토스트 노출.
+  3. **BFCache 및 전역 상태 영구 보존 엔진 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `updateChildInfoDisplay()`, `openChildInfoModal()`, `closeChildInfoModal()`, `setChildGender()`, `saveChildInfo()`, `showAisumToast()` 전역 함수 구축.
+     - `window.addEventListener('pageshow', ...)`에 `updateChildInfoDisplay()`를 등록하여 홈 화면 및 타 페이지 왕복 시에도 100% 저장값 유지.
+* **검증 성과**:
+  - FastAPI TestClient 자동화 검증 전수 통과 (`ALL ASSERTIONS PASSED!`).
 
 ---
 

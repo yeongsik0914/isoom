@@ -30,6 +30,19 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.29-child-info-setting] 2026-10-15: '아이숨' 설정(settings.html) '자녀의 기본 정보 변경' 칸 개편 & 맞춤형 모달 시스템 구축 (정영식 팀장, AI 에이전트)
+* **설정 항목 라벨 직관화 및 요약 디스플레이 연동**:
+  - 기존의 긴 라벨 `앱 사용자(자녀)의 출생연도 설정 변경`을 명확하고 포괄적인 **`자녀의 기본 정보 변경`**으로 개편.
+  - 우측에 `id="child-info-display"`를 부여하고 0ms 즉시 실행 인라인 스크립트를 배치하여 첫 프레임부터 `2023년생 (남아, 만 3세)` 등 최신 저장값으로 즉각 하이드레이션.
+* **자녀 기본 정보 변경 프리미엄 모달 컴포넌트(`child-info-modal`) 탑재**:
+  - 자녀 호칭/별칭 텍스트 인풋 (`child-name-input`, 최대 10자), 출생연도 셀렉트박스 (`child-birth-select`, 2026년생~2018년 이전), 남아/여아 세그먼트 토글 버튼 그룹 (`child-gender-toggle-group`) 완비.
+  - 취소 및 저장하기 버튼으로 사용자 입력 편의성 극대화 및 저장 시 2.2초 토스트 알림(`aisum-toast`) 제공.
+* **전역 자녀 프로필 데이터 관리 및 BFCache 영구 지속성 엔진 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - `localStorage.getItem('aisum_child_info')`를 파싱하여 만 나이 및 성별을 자동 계산하는 `window.updateChildInfoDisplay()` 탑재.
+  - `window.addEventListener('pageshow', ...)`에 연동하여 홈 화면 이동 및 브라우저 캐시 복원 시에도 100% 저장값 유지.
+* **자동화 검증 완료**:
+  - FastAPI TestClient 자동화 검증 전수 통과 (`ALL ASSERTIONS PASSED!`).
+
 ### 🌟 [v2.4.28-fix-font-select-persistence] 2026-10-15: '아이숨' 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스 값 초기화 버그 해결 (정영식 팀장, AI 에이전트)
 * **0ms 즉각 실행 인라인 하이드레이션 스크립트 탑재**:
   - `settings.html`의 `<option value="normal">` 정적 `selected` 하드코딩 속성을 전면 제거하고, 셀렉트박스 파싱 직후 동기 실행되는 인라인 스크립트를 배치하여 첫 프레임부터 `localStorage` 저장값(`aisum_font_size`)으로 0ms 즉각 렌더링.

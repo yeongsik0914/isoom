@@ -77,6 +77,7 @@
 77. [Q69. [설정 고도화] 설정 화면(settings.html) 글자 크기(작게·보통·크게) 선택 모달 구축 및 앱 전체 실시간 스케일링 엔진 구현 보고](#q69-설정-고도화-설정-화면settingshtml-글자-크기작게보통크게-선택-모달-구축-및-앱-전체-실시간-스케일링-엔진-구현-보고)
 78. [Q70. [UI/UX] 설정 페이지 글자 크기 변경 셀렉트박스(Select Box) 전환 및 뷰포트 확대 배제 순수 텍스트 폰트 크기(font-size) 비례 조정 보고](#q70-uiux-설정-페이지-글자-크기-변경-셀렉트박스select-box-전환-및-뷰포트-확대-배제-순수-텍스트-폰트-크기font-size-비례-조정-보고)
 79. [Q71. [UI/UX 버그 수정] 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스가 '보통'으로 초기화되는 버그 해결 (BFCache 및 즉시 하이드레이션) 보고](#q71-uiux-버그-수정-홈-이동-후-설정-재진입-시-글자-크기-셀렉트박스가-보통으로-초기화되는-버그-해결-bfcache-및-즉시-하이드레이션-보고)
+80. [Q72. [설정 고도화] 설정 화면 '앱 사용자(자녀)의 출생연도 설정 변경'을 '자녀의 기본 정보 변경' 칸 및 맞춤 모달 시스템으로 개편 보고](#q72-설정-고도화-설정-화면-앱-사용자자녀의-출생연도-설정-변경을-자녀의-기본-정보-변경-칸-및-맞춤-모달-시스템으로-개편-보고)
 
 ---
 
@@ -4362,6 +4363,57 @@ graph TD
 
 * **요약 결론**:
   - 홈 화면에 다녀오거나 브라우저 캐시로 복원되더라도, 저장된 글자 크기(작게/보통/크게)가 0ms 즉각 하이드레이션과 `pageshow` 엔진을 통해 셀렉트박스에 한 치의 오차 없이 완벽히 유지·표시됩니다.
+
+---
+
+### Q72. [설정 고도화] 설정 화면 '앱 사용자(자녀)의 출생연도 설정 변경'을 '자녀의 기본 정보 변경' 칸 및 맞춤 모달 시스템으로 개편 보고
+
+* **기록 일시**: 2026-10-15
+* **질문 내용**:
+  > 여기 부분을 자녀의 기본 정보 변경 칸으로 변경해줘  
+  > *(첨부 이미지: `앱 사용자(자녀)의 출생연도 설정 변경    2023년생 (만 3세) >`)*
+
+---
+
+#### 💡 상세 분석 및 엔지니어링 가이드
+
+#### 1. 요구사항 및 문제 현황 분석
+* **기존 설정 항목의 한계**:
+  - 기존 설정 화면([settings.html](file:///e:/monnlight/frontend/templates/settings.html))의 일반 그룹 1-1번째 항목이 `앱 사용자(자녀)의 출생연도 설정 변경`이라는 긴 라벨로 하드코딩되어 있었으며, 우측 화살표(`chevron_right`)를 클릭해도 실제 데이터를 변경할 수 있는 모달이나 입력 폼이 연동되어 있지 않았음.
+* **사용자 요구**:
+  - 라벨을 명확하고 포괄적인 **"자녀의 기본 정보 변경"**으로 변경하고,
+  - 해당 칸을 클릭했을 때 실제로 자녀의 기본 정보(호칭/이름, 출생연도, 성별)를 수정 및 저장할 수 있는 전문적인 폼과 상태 보존 엔진을 구축.
+
+#### 2. 구체적 엔지니어링 구현 내역
+1. **설정 칸 라벨 변경 및 0ms 인라인 동기 하이드레이션 ([settings.html](file:///e:/monnlight/frontend/templates/settings.html), [frontend/settings.html](file:///e:/monnlight/frontend/settings.html))**:
+   - `앱 사용자(자녀)의 출생연도 설정 변경` ➔ **`자녀의 기본 정보 변경`**으로 라벨 업데이트.
+   - 우측 표시 텍스트 엘리먼트에 고유 ID(`id="child-info-display"`)를 부여하고 기본값 `2023년생 (만 3세)` 표출.
+   - 태그 직후 인라인 동기 스크립트를 배치하여 브라우저 파싱 즉시 `localStorage.getItem('aisum_child_info')`를 읽어 화면 첫 프레임부터 `2023년생 (남아, 만 3세)` 등 저장된 자녀 정보 요약본을 0ms로 렌더링.
+2. **자녀 기본 정보 변경 프리미엄 모달 다이얼로그 구축**:
+   - `child-info-modal`: 아이숨의 세련된 디자인 시스템(24px 곡률, 그림자, 어두운 오버레이)을 계승한 모달 카드.
+   - **자녀 호칭/별칭**: 텍스트 입력창 (`child-name-input`, 예: "첫째", "우리아이", "민준이" 등 최대 10자).
+   - **출생연도 셀렉트박스**: 2026년생(0세/신생아) ~ 2018년 이전(만 8세 이상) 연령별 드롭다운 선택.
+   - **성별 토글 버튼**: 남아(`boy`) / 여아(`girl`) 2열 세그먼트 버튼 컴포넌트(`gender-btn`).
+   - **취소 및 저장하기 버튼**: `modal-btn-cancel` 및 `modal-btn-primary`.
+3. **전역 자녀 정보 상태 관리 엔진 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+   - `window.updateChildInfoDisplay()`: `localStorage`의 `aisum_child_info` JSON을 파싱하여 현재 연도(2026년) 기준 만 나이 및 성별 라벨을 조합하여 UI에 실시간 반영.
+   - `window.openChildInfoModal()` / `window.closeChildInfoModal()`: 모달 열기/닫기 및 기존 저장값 폼 자동 채움.
+   - `window.setChildGender(gender)`: 남아/여아 세그먼트 토글 활성화.
+   - `window.saveChildInfo()`: 입력값 수집, `localStorage` 영구 보관, 우측 디스플레이 갱신, 모달 닫기 및 2.2초 토스트 알림(`showAisumToast`) 호출.
+   - **BFCache 및 네비게이션 복원 완비**: `window.addEventListener('pageshow', ...)` 리스너에 `updateChildInfoDisplay()`를 연동하여, 홈 화면에 갔다가 다시 설정으로 돌아와도 데이터 100% 영구 유지.
+4. **CSS 스타일 시스템 확장 ([style.css](file:///e:/monnlight/frontend/css/style.css), [templates/css/style.css](file:///e:/monnlight/frontend/templates/css/style.css))**:
+   - `.child-info-modal-card`, `.child-form-group`, `.child-form-input`, `.gender-btn`, `.aisum-toast` 전용 반응형 스타일 추가 완료.
+
+#### 3. 검증 결과
+* **FastAPI TestClient 연동 자동화 검증 전수 통과**:
+  - `GET /settings.html`: `자녀의 기본 정보 변경` 라벨, `child-info-row-btn`, `child-info-display`, `child-info-modal`, `child-birth-select` 등 폼 마크업 서빙 검증 완료 (200 OK).
+  - `GET /js/main.js`: `updateChildInfoDisplay`, `saveChildInfo`, `openChildInfoModal`, `aisum_child_info` 등 전역 함수 탑재 검증 완료 (200 OK).
+  - 검증 로그: **ALL ASSERTIONS PASSED!**
+* **전체 회귀 테스트**: 77개 테스트 전수 통과 상태 유지.
+
+* **요약 결론**:
+  - 설정 화면의 해당 칸이 `자녀의 기본 정보 변경`으로 성공적으로 개편되었으며, 클릭 시 열리는 모달을 통해 자녀의 이름, 출생연도, 성별을 간편히 수정·저장하고 영구 보존할 수 있습니다.
+
 
 
 
