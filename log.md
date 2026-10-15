@@ -41,8 +41,16 @@
 | **[ISSUE-031]** | 프론트엔드 퍼블리싱 & 서빙 | Stitch 생성 코드의 외부 CDN 종속 탈피, 순수 Vanilla HTML5/CSS3 웹 퍼블리싱 및 FastAPI `/home` 정적 서빙 구축 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-032]** | 프론트엔드 워크스페이스 아키텍처 | 프로젝트 루트에 위치하던 임시 HTML/CSS 파일을 정규 프론트엔드 전용 워크스페이스(`frontend/`)로 모듈화 이관 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-033]** | 프론트엔드 템플릿 아키텍처 | `frontend/templates/` 하위 계층 생성, `index.html` 보관 및 상대경로(`../css/style.css`, `../js/main.js`)·정적 마운트 최적화 | **해결 완료 (Resolved)** | 2026-10-14 |
-| **[ISSUE-034]** | 프론트엔드 UI 모달 & 문진 단계 전환 | 응급처치정보 및 법적 안내 모달 다이얼로그(반투명 오버레이, 취소/확인) 및 Step 2 증상 문진 연계 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
-| **[ISSUE-035]** | 프론트엔드 UI/UX 페이지 | 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 최대한 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-034]** | 프론트엔드 UI/UX 확장 | 응급실 가이드 페이지 부재 및 시각 포토 기반 응급처치 vs 출발 전 체크리스트 추천 웹페이지 2종 순수 HTML/CSS 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-035]** | 프론트엔드 모바일 UX | 응급실 가이드 페이지 분리에 따른 인지 피로 해소 및 CSS Scroll Snap 기반 좌우 스와이프 포토 캐러셀 단일 통합 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-036]** | 프론트엔드 컴포넌트 모듈화 | 응급실 가이드 페이지 내 포토 캐러셀과 통화 스크립트·병상의 시각적 혼재 해소 (2대 카테고리 세그먼트 탭 분리) | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-037]** | 프론트엔드 & 크로스 브라우징 | Safari WebKit `file://` 로컬 보안 샌드박스의 상위 경로 차단으로 인한 CSS 미적용 결함 해소 (스마트 듀얼 로더 & WebKit 정규화) | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-038]** | 프론트엔드 UI 간소화 | 응급실 가이드 화면 내 '시각 포토 가이드' 중복 타이틀 바 및 카테고리 칩 영역 제거 (포토 캐러셀 직관성 극대화) | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-039]** | 프론트엔드 UI 시인성 개선 | 응급실 가이드 화면 하단 플로팅 CTA 버튼 2종(스크립트 확인/길안내) 전면 제거 및 화면 가독성 극대화 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-040]** | 프론트엔드 UI/UX 신규 개발 | 모니모 레퍼런스 기반 3대 카테고리 순수 HTML/CSS 설정 웹페이지(settings.html) 구축 및 GNB 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-041]** | 프론트엔드 UI 컴포넌트 추가 | 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-042]** | 프론트엔드 UI 모달 | 응급처치정보 및 법적 안내 모달 다이얼로그(반투명 오버레이, 취소/확인) 및 Step 2 증상 문진 연계 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-043]** | 프론트엔드 UI/UX 페이지 | 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 구체적으로 정확하게 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -884,7 +892,258 @@
 
 ---
 
-### [ISSUE-034] 응급처치정보 및 법적 안내 모달 다이얼로그(어두운 반투명 오버레이, 하단 취소/확인 버튼) 구현
+### [ISSUE-034] 응급실 가이드 페이지 부재 및 시각 포토 기반 응급처치 vs 출발 전 체크리스트 추천 웹페이지 2종 순수 HTML/CSS 구현
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 UI/UX 설계 / 웹 퍼블리싱 / 멀티미디어 에셋 통합 / 모바일 최적화
+* **문제 상황**:
+  * 메인 홈(`index.html`)의 하단 내비게이션 바(GNB)에 `응급실 가이드` 메뉴가 자리잡고 있었으나, 실제 연결되는 상세 웹페이지가 부재한 상태였음.
+  * 소아 야간 응급 상황에서 부모는 텍스트만 읽기 어려워 시각적인 사진 가이드가 절실하며, "가정 내 즉각적 처치"와 "응급실 출발 전 헛걸음 방지 및 서류 지참"이라는 두 가지 핵심 니즈가 공존함.
+* **원인 분석**:
+  * 단일 페이지에 모든 정보를 압축하기보다는, 부모의 위급 상황에 맞춰 **[추천 1: 증상별 시각 포토 응급처치]**와 **[추천 2: 출발 전 필수 포토 체크리스트 & 실시간 병상]**으로 명확히 콘셉트를 분리하고 상호 전환할 수 있는 UX가 요구됨.
+  * 또한 실제 사진이 들어갈 16:9 전용 포토 뷰포트, 글래스모피즘 오버레이 배지, 주의/금기 박스 스타일이 CSS에 마련되어야 함.
+* **구체적 해결 방안**:
+  1. **추천 페이지 1 구축 ([emergency_guide_symptoms.html](file:///e:/monnlight/frontend/templates/emergency_guide_symptoms.html))**:
+     - 상단 119 긴급 통화 캡슐 버튼 및 경련 5분 지속 알림 배너.
+     - 4대 핵심 포토 가이드 카드: 열성경련 회복자세(`guide_seizure_care.jpg`), 38.5°C 미온수 마사지 부위(`guide_cooling_sponge.jpg`), 1세 미만 영아 하임리히법(`guide_infant_choking.jpg`), 흉부함몰 및 응급실 지참물(`guide_er_documents.jpg`).
+     - 절대 금기 사항(손가락 숟가락 넣기 금지, 찬물/알코올 금지) 강조 박스.
+  2. **추천 페이지 2 구축 ([emergency_guide_checklist.html](file:///e:/monnlight/frontend/templates/emergency_guide_checklist.html))**:
+     - 30초 당직의 통화 스크립트 카드 (원터치 복사 및 통화).
+     - 서울 주요 소아응급실 실시간 가용병상(hv28) 대시보드 (서울아산, 삼성서울, 강남세브란스).
+     - 포토 체크리스트 카드: 2024년 5월 본인확인 의무화 증빙 사진, 해열제 약병 지참 사진, 문진 단축 환부 촬영 사진.
+  3. **스타일 및 라우팅 통합**:
+     - `frontend/css/style.css`에 포토 컨테이너 16:9, 호버 줌, 스위처 탭, 스크립트 박스, 플로팅 CTA 클래스 추가.
+     - `main.py`에 `GET /guide`, `GET /guide/symptoms`, `GET /guide/checklist`, `GET /assets/images/*` 서빙 등록.
+     - TestClient 기반 9개 엔드포인트 전수 HTTP 200 검증 완료.
+* **적용 파일**:
+  * [frontend/templates/emergency_guide_symptoms.html](file:///e:/monnlight/frontend/templates/emergency_guide_symptoms.html)
+  * [frontend/templates/emergency_guide_checklist.html](file:///e:/monnlight/frontend/templates/emergency_guide_checklist.html)
+  * [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/assets/images/](file:///e:/monnlight/frontend/assets/images/)
+  * [app/templates/](file:///e:/monnlight/app/templates/)
+  * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
+  * [main.py](file:///e:/monnlight/main.py)
+
+---
+
+### [ISSUE-035] 응급실 가이드 페이지 분리에 따른 인지 피로 해소 및 CSS Scroll Snap 기반 좌우 스와이프 포토 캐러셀 단일 통합
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 모바일 UI/UX / 모바일 제스처 최적화 / 인터랙션 디자인
+* **문제 상황**:
+  * 증상별 대처법과 출발 전 준비물이 서로 다른 2개 웹페이지(`symptoms.html`, `checklist.html`)로 분리되어 있어, 위급한 보호자가 탭을 전환해야 하는 불필요한 인지 부하가 발생함.
+  * 모바일 환경에서 위아래로만 긴 스크롤은 사진 가이드 탐색 시 피로도를 가중시킴.
+* **원인 분석**:
+  * 모바일 사용자(보호자)의 멘탈 모델은 사진을 한 장씩 옆으로 가볍게 넘겨보는(Flick / Swipe) 패턴에 가장 친숙함.
+  * 단일 페이지(`emergency_guide.html`)로 통합하되, 사진 가이드 6종을 가로 스크롤 스냅 트랙으로 배치하고 하단에 전화 스크립트와 실시간 병상 현황을 순차적으로 배치하는 유기적 구조가 적합함.
+* **구체적 해결 방안**:
+  1. **단일 통합 페이지 구축 ([emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html))**:
+     - 상단 119 긴급 통화 버튼 및 경련 5분 지속 알림 배너.
+     - 6대 핵심 포토 가이드 카드 가로 스크롤 캐러셀: 열성경련 회복자세, 38.5°C 미온수 마사지, 1세 미만 영아 하임리히법, 2024년 5월 본인확인 증빙 서류, 복용 해열제 약병/아기수첩 지참, 환부 사진 촬영 팁.
+     - 30초 당직의 통화 스크립트 (원터치 복사) & 실시간 소아응급실 병상 대시보드(서울아산, 삼성서울, 강남세브란스).
+  2. **순수 CSS Scroll Snap 가로 캐러셀 (`frontend/css/style.css`)**:
+     - `.photo-carousel-track`: `scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none;`
+     - `.carousel-slide-card`: `scroll-snap-align: center; scroll-snap-stop: always;`
+     - 데스크톱 화살표 컨트롤(`<`, `>`) 및 상단 퀵점프 칩 클릭 시 스무스 스크롤 연동.
+     - 슬라이드 인덱스 배지(`1 / 6`) 및 하단 인디케이터 점(Dot) 동기화.
+  3. **FastAPI 라우팅 동기화 (`main.py`)**:
+     - `GET /guide` 및 `GET /guide/emergency`가 통합 페이지를 1순위로 반환하도록 매핑.
+     - `frontend/templates/index.html` 하단 GNB `응급실 가이드` 링크를 `emergency_guide.html`로 업데이트.
+     - TestClient 전수 검증: `/guide` (200), `/guide/emergency` (200), `/home` (200) 전수 통과.
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [app/templates/emergency_guide.html](file:///e:/monnlight/app/templates/emergency_guide.html)
+  * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
+  * [main.py](file:///e:/monnlight/main.py)
+
+---
+
+### [ISSUE-036] 응급실 가이드 페이지 내 포토 캐러셀과 통화 스크립트·병상의 시각적 혼재 해소 (2대 카테고리 세그먼트 탭 분리)
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 모듈화 / UI 세그먼트 탭 / 컴포넌트 격리
+* **문제 상황**:
+  * 단일 통합 페이지 내에서 '시각 포토 가이드'와 '출발 전 30초 통화 스크립트 & 실시간 병상'이 상하로 연속 노출되어 스크롤이 길어지고, 두 기능의 역할 구분이 한눈에 들어오지 않음.
+* **원인 분석**:
+  * 환아의 응급 상태에 따라 "가정 내 즉각적 처치법(사진 가이드)"을 보고 싶은 보호자와, "응급실로 출발하기 전 통화 스크립트와 가용 병상"을 바로 확인하고 싶은 보호자의 니즈가 명확히 분리됨.
+  * 메인 홈(`index.html`)의 카테고리 필터 탭(`전체`, `달빛병원`, `심야약국`)과 같은 직관적인 2대 상단 카테고리 탭 도입이 필요함.
+* **구체적 해결 방안**:
+  1. `frontend/css/style.css`에 `.guide-category-nav`, `.guide-category-btn`, `.guide-tab-panel` 및 `@keyframes tabFadeIn` 애니메이션 클래스 구축.
+  2. `emergency_guide.html` 상단에 2대 카테고리 탭 배치:
+     - `[📸 사진 가이드]`: 6대 슬라이드 가로 스와이프 캐러셀 및 도트 인디케이터.
+     - `[📞 응급실 통화 스크립트]`: 30초 당직의 통화 스크립트(복사 버튼) + 실시간 소아응급실 병상 대시보드(아산/삼성/세브란스).
+  3. 탭 전환 스크립트(`switchGuideCategory`)를 구현하여 탭 선택에 따라 하단 고정 CTA 버튼의 역할(사진 가이드 ➔ 스크립트 탭 이동, 스크립트 탭 ➔ 병원 통화 및 길안내)도 유기적으로 변경되도록 설계.
+  4. `app/templates/emergency_guide.html` 동기화 및 TestClient `/guide` 200 검증 완료.
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [app/templates/emergency_guide.html](file:///e:/monnlight/app/templates/emergency_guide.html)
+  * [app/static/css/style.css](file:///e:/monnlight/app/static/css/style.css)
+
+---
+
+### [ISSUE-037] Safari WebKit `file://` 로컬 보안 샌드박스의 상위 경로 차단으로 인한 CSS 미적용 결함 해소 (스마트 듀얼 로더 & WebKit 정규화)
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 퍼블리싱 & 크로스 브라우징 / WebKit 보안 샌드박스 호환
+* **문제 상황**:
+  * 로컬 환경(macOS Finder 등)에서 `frontend/templates/index.html` 파일을 더블 클릭하여 열었을 때, **Chrome 브라우저에서는 정상적으로 CSS가 로드되어 디자인이 표시되지만, Safari 브라우저에서는 스타일이 전혀 로드되지 않아 기본 순수 HTML(흰 배경, 기본 파란 링크, 정렬되지 않은 텍스트)로 렌더링되는 치명적인 결함**이 발생함.
+* **원인 분석**:
+  1. **WebKit `file://` 스킴 로컬 동일 출처 정책(Strict Local File Origin Policy)**:
+     - 기존 `index.html`은 `<link rel="stylesheet" href="../css/style.css" />`로 상위 디렉터리(`../`)를 참조함.
+     - Blink(Chrome) 엔진은 로컬 볼륨 내 상위 디렉터리 접근을 비교적 관대하게 처리하여 CSS를 로드함.
+     - 반면 WebKit(Safari) 엔진은 보안 샌드박스 정책상 `file://` 문서의 출처를 HTML이 위치한 디렉터리(`frontend/templates/`) 및 그 하위 서브디렉터리로만 한정하며, **상위 디렉터리(`../`)로 거슬러 올라가는 외부 리소스(CSS/JS) 요청을 "Cross-Origin Access Denied"로 간주하여 강제로 차단(Blocked)**함.
+  2. **프론트엔드 루트 엔트리포인트 부재**:
+     - `frontend/` 루트 디렉터리에 `index.html`이 없어 사용자가 상위 탐색 없이 바로 열 수 있는 표준 진입점이 없었음.
+  3. **WebKit CSS 표준화 및 폼 컨트롤 기본값 간섭**:
+     - `@charset "UTF-8";` 선언 누락 및 `-webkit-appearance: none;` 리셋 부재로 Safari 고유의 Aqua 스타일/버튼 모서리 왜곡 발생.
+     - `position: -webkit-sticky;` 및 `-webkit-backdrop-filter` 선언 순서 미비.
+* **구체적 해결 방안**:
+  1. **로컬 서브디렉터리 리소스 미러링**:
+     - `frontend/templates/css/style.css` 및 `frontend/templates/js/main.js`를 배치하여, Safari가 `file://`로 열었을 때 하위 디렉터리 경로(`css/style.css`)를 통해 WebKit 샌드박스를 100% 통과하도록 구축.
+  2. **스마트 듀얼 CSS/JS 로더 장착**:
+     - `templates/index.html` 및 모든 응급실 가이드 HTML 파일에 로컬 경로(`css/style.css`)와 상위 폴더 경로(`../css/style.css`)를 함께 선언하여 Safari 로컬 파일, Chrome 로컬 파일, FastAPI 웹 서버(`/home`) 환경 어디서든 100% 자동 매칭되도록 설계.
+     - `main.js`에 `window.__AISUM_INITIALIZED__` 멱등성 보호 가드를 적용하여 중복 실행 원천 차단.
+  3. **최상위 루트 진입점([frontend/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/index.html)) 신설**:
+     - 사용자가 `frontend/` 폴더에서 바로 `index.html`을 열 수 있도록 하위 상대경로(`css/style.css`, `js/main.js`)를 갖는 표준 진입점 배치.
+  4. **CSS WebKit 표준화 고도화**:
+     - 최상단 `@charset "UTF-8";` 명시.
+     - `-webkit-appearance: none; appearance: none;` 리셋으로 Safari 버튼/입력폼 OS 스타일 초기화.
+     - `position: -webkit-sticky; position: sticky;` 및 `-webkit-backdrop-filter` 순서 보장.
+     - 모바일 사파리 뷰포트 높이 버그 대응(`min-height: -webkit-fill-available;`, `100dvh`).
+     - `-webkit-tap-highlight-color: transparent;`, `-webkit-text-size-adjust: 100%;` 추가.
+  5. **전수 검증**:
+     - Python TestClient 엔드포인트(`GET /home`, `GET /css/style.css`, `GET /guide`) 200 OK 무결점 통과.
+     - `test_step5_api.py` 10개 테스트 전수 통과 (Ran 10 tests, OK).
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/index.html)
+  * [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/templates/emergency_guide_checklist.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide_checklist.html)
+  * [frontend/templates/emergency_guide_symptoms.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide_symptoms.html)
+  * [frontend/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/templates/css/style.css)
+  * [frontend/templates/js/main.js](file:///Volumes/UX400%20mini/monnlight/frontend/templates/js/main.js)
+  * [frontend/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/index.html)
+  * [frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)
+  * [frontend/js/main.js](file:///Volumes/UX400%20mini/monnlight/frontend/js/main.js)
+  * [app/templates/](file:///Volumes/UX400%20mini/monnlight/app/templates/) 및 [app/static/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/static/css/style.css)
+
+---
+
+### [ISSUE-038] 응급실 가이드 화면 내 '시각 포토 가이드' 중복 타이틀 바 및 카테고리 칩 영역 제거 (포토 캐러셀 직관성 극대화)
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI/UX 리팩토링 / 컴포넌트 간소화
+* **문제 상황**:
+  * 상단에 2대 카테고리 탭(`[📸 사진 가이드]`, `[📞 응급실 통화 스크립트]`)이 신설되었음에도 불구하고, 그 하단에 `carousel-header-bar` ("시각 포토 가이드 6 / 6", "옆으로 넘겨서 확인") 및 `guide-chips-scroll` (6대 증상별 칩)이 중복 배치되어 모바일 뷰포트 상단 영역을 지나치게 차지하고 포토 카드가 아래로 밀리는 사용성 저하가 발생함.
+* **원인 분석**:
+  * 각 포토 슬라이드 카드 이미지 내부에 이미 `1 / 6` 인덱스 배지, 처치명, 소아응급의학회 권장 배지 및 Do-Not 금기사항이 독립적으로 완비되어 있으므로, 상단의 서브 타이틀 바와 중복 칩 목록은 정보 과부하를 유발하는 불필요한 요소로 판단됨.
+* **구체적 해결 방안**:
+  1. `frontend/templates/emergency_guide.html` 및 `app/templates/emergency_guide.html`에서 `.carousel-header-bar`와 `.guide-chips-scroll` 마크업 전면 삭제.
+  2. `frontend/css/style.css`에서 `.photo-carousel-wrapper` 상단 마진을 `14px -18px 22px -18px`로 정돈하여 상단 탭과의 자연스러운 시각적 여백 확보.
+  3. `app/static/css/style.css`, `frontend/templates/css/style.css`, `app/templates/css/style.css` 전역 동기화.
+  4. TestClient `GET /guide` 무결점 검증 (HTTP 200 OK, 헤더 바 및 칩 미포함, 캐러셀 래퍼 정상 서빙).
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)
+  * [app/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/app/templates/emergency_guide.html)
+  * [frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/templates/css/style.css)
+  * [app/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/templates/css/style.css)
+  * [app/static/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/static/css/style.css)
+
+---
+
+### [ISSUE-039] 응급실 가이드 화면 하단 플로팅 CTA 버튼 2종(스크립트 확인/길안내) 전면 제거 및 화면 가독성 극대화
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI/UX 리팩토링 / 시인성 개선
+* **문제 상황**:
+  * 응급실 가이드 화면([emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)) 하단 네비게이션 바(GNB) 위에 항상 플로팅되어 노출되던 CTA 버튼(`.guide-sticky-cta`)이 모바일 화면 하단에서 콘텐츠(포토 카드 설명문, 병상 현황 리스트 등)를 가리고 시야를 차단하는 불편 발생.
+  * 상단에 이미 `[📸 사진 가이드]`와 `[📞 응급실 통화 스크립트]` 2대 카테고리 탭이 명확히 분리되어 있어, 하단 플로팅 버튼이 중복적이고 번잡한 느낌을 줌.
+* **원인 분석**:
+  * 탭 전환과 길안내 전화 연결을 유도하려던 기존 CTA 버튼이 모바일 뷰포트의 제한된 세로 높이(440px 프레임) 내에서 본문 콘텐츠의 가독성을 저해함.
+* **구체적 해결 방안**:
+  1. `frontend/templates/emergency_guide.html` 및 `app/templates/emergency_guide.html`에서 `<div class="guide-sticky-cta">...</div>` 마크업 전면 제거.
+  2. 스크립트 내 `switchGuideCategory` 함수에서 `ctaLabel`, `ctaIcon`, `ctaBtn` 조작 코드 및 `DOMContentLoaded` 리스너를 완전히 정리하여 DOM 참조 오류 방어.
+  3. `TestClient`를 통한 `GET /guide` 엔드포인트 무결점 검증 (HTTP 200 OK, 해당 버튼 텍스트 및 클래스 미포함).
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)
+  * [app/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/app/templates/emergency_guide.html)
+
+---
+
+### [ISSUE-040] 모니모 레퍼런스 기반 3대 카테고리 순수 HTML/CSS 설정 웹페이지(settings.html) 구축 및 GNB 연동
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI/UX 신규 개발 / 크로스 브라우징
+* **문제 상황**:
+  * 아이숨 서비스 내 사용자 맞춤화(자녀 출생연도, 글자 크기) 및 운영·안내 채널(공지사항, 1:1 문의, 약관 및 라이선스)에 접근할 수 있는 단일화된 설정 전용 웹페이지 부재.
+  * 기존 메인 대시보드([index.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/index.html)) 하단 GNB 내 '설정' 탭이 `href="#"`로 더미 처리되어 실제 화면 이동 불가 상태.
+  * 팀장의 요청사항: 모니모(monimo) 설정 페이지의 정돈된 여백, 카테고리 구분감 및 행 디자인을 레퍼런스로 삼되, 반드시 지정된 3개 카테고리(일반, 사용자 지원, 정보) 및 8개 세부 기능만을 순서대로 배치하고, 임의의 미요청 기능(로그인, Face ID 등)은 철저히 배제해야 함.
+* **원인 및 기획 방향**:
+  * 간결하고 신뢰감 있는 헬스케어 UI를 위해 순수 Vanilla HTML5 및 CSS3만으로 구축 필요.
+  * Chrome 로컬 파일 열람뿐만 아니라 Safari WebKit `file://` 보안 샌드박스에서도 CSS가 깨짐 없이 로드될 수 있도록 듀얼 로더(`css/style.css` + `../css/style.css`) 및 모바일 뷰포트 레이아웃 탑재 필요.
+* **구체적 해결 방안**:
+  1. **CSS 스타일 시스템 확충** ([frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)):
+     - 모니모 스타일의 상단 앱바(`.settings-header`), 뒤로가기 버튼(`.back-icon-btn`), 카테고리 그룹(`.settings-group`), 카테고리 헤더(`.settings-group-title`), 설정 행(`.settings-item-row`), 우측 서브텍스트(`.settings-item-value`), 8px 디바이더(`.settings-section-divider`) 완성.
+  2. **설정 웹페이지 신규 구축** ([frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)):
+     - **일반**: 앱 사용자(자녀)의 출생연도 설정 변경, 글자 크기 변경
+     - **사용자 지원**: 공지사항, 1:1 문의
+     - **정보**: 아이숨 가이드북, 아이숨 이용약관, 오픈소스 라이선스, 앱 버전 (1.0.0 최신 버전)
+     - 요청된 8개 기능 외 불필요한 기능(로그아웃, 회원탈퇴, Face ID 등) 100% 배제.
+  3. **하단 GNB 네비게이션 연동**:
+     - `index.html`, `emergency_guide.html` 하단 GNB 설정 탭 `href="settings.html"` 연결.
+  4. **FastAPI 서버 엔드포인트 연동** ([main.py](file:///Volumes/UX400%20mini/monnlight/main.py)):
+     - `@app.get("/settings")` 라우트 등록 및 템플릿 서빙 연동 완료.
+  5. **템플릿 및 CSS 미러링 동기화**:
+     - `app/templates/settings.html`, `frontend/settings.html`, `app/templates/css/style.css`, `app/static/css/style.css`, `frontend/templates/css/style.css` 동기화 완료.
+* **적용 파일**:
+  * [frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/settings.html)
+  * [app/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/app/templates/settings.html)
+  * [frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)
+  * [frontend/templates/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/index.html)
+  * [frontend/index.html](file:///Volumes/UX400%20mini/monnlight/frontend/index.html)
+  * [frontend/templates/emergency_guide.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/emergency_guide.html)
+  * [main.py](file:///Volumes/UX400%20mini/monnlight/main.py)
+
+---
+
+### [ISSUE-041] 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 구현
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI 컴포넌트 추가 / 모바일 인터랙션
+* **문제 상황**:
+  * 아이숨 설정 페이지([settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)) 초기 구축 시, 모니모(monimo) 화면에 존재하던 '앱 알림' 토글 기능이 누락되어 있음.
+  * 정영식 팀장의 피드백: 모니모에 있는 것처럼 '앱 알림' 기능과 토글 스위치를 추가해달라는 요구 발생.
+* **원인 및 기획 방향**:
+  * 모니모 레퍼런스 화면에서 '앱 알림'은 카테고리 헤더 타이틀 없이 위아래 8px 디바이더로 분리된 단독 행 형태(좌측 종 아이콘 + '앱 알림' 텍스트, 우측 토글 스위치)로 배치되어 있음.
+  * 외부 JS 종속성 없이 순수 CSS(`input[type="checkbox"]:checked + .toggle-slider`)로 구동되는 iOS 스타일 토글 스위치를 구현하여 가볍고 반응성이 뛰어난 모바일 인터랙션을 제공하기로 결정.
+* **구체적 해결 방안**:
+  1. **CSS 스타일 시스템 확충** ([frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)):
+     - `.settings-toggle-row`, `.settings-item-left`, `.settings-item-icon` (종 아이콘 스타일).
+     - `.ios-toggle-switch`, `.toggle-slider`, `.toggle-slider::before` (50px x 30px 트랙, 24px 화이트 노브, 코발트 블루 ON 상태, 0.25s 큐빅 베지어 애니메이션).
+  2. **마크업 추가** ([frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)):
+     - `일반` 카테고리와 `사용자 지원` 카테고리 사이 8px 구분선 영역에 단독 섹션으로 `앱 알림` 행 배치.
+  3. **전역 템플릿 및 스타일시트 동기화**:
+     - `frontend/settings.html`, `app/templates/settings.html`, `app/static/css/style.css`, `frontend/templates/css/style.css`, `app/templates/css/style.css` 동기화 완료.
+  4. **무결점 자동 검증**:
+     - FastAPI TestClient 기반 `GET /settings` 호출 시 **HTTP 200 OK**, `일반` ➔ `앱 알림` ➔ `사용자 지원` ➔ `정보` 순서 정합성 및 토글 스위치 컴포넌트 검증 100% 통과.
+* **적용 파일**:
+  * [frontend/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///Volumes/UX400%20mini/monnlight/frontend/settings.html)
+  * [app/templates/settings.html](file:///Volumes/UX400%20mini/monnlight/app/templates/settings.html)
+  * [frontend/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/frontend/templates/css/style.css)
+  * [app/templates/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/templates/css/style.css)
+  * [app/static/css/style.css](file:///Volumes/UX400%20mini/monnlight/app/static/css/style.css)
+
+---
+
+### [ISSUE-042] 응급처치정보 및 법적 안내 모달 다이얼로그(어두운 반투명 오버레이, 하단 취소/확인 버튼) 구현
 
 * **발생 일자**: 2026-10-14
 * **분류**: 프론트엔드 UI 컴포넌트 / 모달 다이얼로그 / 순수 화면 구현
@@ -892,49 +1151,60 @@
   * 메인 홈 화면에서 버튼을 클릭했을 때 화면 중앙에 팝업되는 모달 다이얼로그와 어두운 반투명 오버레이 배경 처리, 하단 '취소' 및 '확인' 버튼 배치가 필요함.
   * 레퍼런스 이미지의 컨셉(응급/처치 안내 문구, 파란색 키워드 강조, 연파랑 박스, 1:1 분할 하단 액션 버튼)에 맞춘 순수 화면 UI 구축 요청.
 * **구체적 해결 방안**:
-  1. [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)에 모달 스타일 구축:
+  1. [frontend/css/style.css](frontend/css/style.css)에 모달 스타일 구축:
      - `.modal-overlay`: `rgba(15, 23, 42, 0.65)` 어두운 반투명 배경 및 `backdrop-filter: blur(5px)`.
      - `.modal-dialog-card`: 328px 너비, `border-radius: 22px`, `scale(0.92)` ➔ `scale(1)` 팝업 애니메이션.
      - 본문 안내 박스: `.modal-notice-box` (`background: #F4F6FB`), `.highlight-blue` 키워드 강조 불릿 리스트.
      - 하단 액션 바: `.modal-action-row` (50px 높이, 1:1 좌우 분할, '취소' 및 '확인' 버튼).
-  2. [frontend/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/index.html) 및 [frontend/templates/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/index.html)에 `#triage-consent-modal` 마크업 연계.
-  3. [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)에 가벼운 모달 제어 이벤트 등록:
+  2. [frontend/index.html](frontend/index.html) 및 [frontend/templates/index.html](frontend/templates/index.html)에 `#triage-consent-modal` 마크업 연계.
+  3. [frontend/js/main.js](frontend/js/main.js)에 가벼운 모달 제어 이벤트 등록:
      - 메인 CTA 및 증상 칩 클릭 시 `openModal()`
      - '취소' 및 '확인' 버튼 클릭 시 `closeModal()`
      - 어두운 배경 오버레이 클릭 또는 ESC 키 입력 시 `closeModal()`
 * **적용 파일**:
-  * [frontend/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/index.html)
-  * [frontend/templates/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/index.html)
-  * [app/templates/index.html](file:///c:/AI-Native-Agent/monnlight/app/templates/index.html)
-  * [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)
-  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
-  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [frontend/index.html](frontend/index.html)
+  * [frontend/templates/index.html](frontend/templates/index.html)
+  * [app/templates/index.html](app/templates/index.html)
+  * [frontend/css/style.css](frontend/css/style.css)
+  * [frontend/js/main.js](frontend/js/main.js)
+  * [log.md](log.md)
 
 ---
 
-### [ISSUE-035] 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 최대한 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현
+### [ISSUE-043] 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 구체적으로 정확하게 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현
 
-* **발생 일자**: 2026-10-14
+* **발생 일자**: 2026-10-15
 * **분류**: 프론트엔드 UI/UX 페이지 / 사용자 프롬프트 입력 / 순수 화면 디자인
 * **문제 상황**:
-  * 사용자가 제공한 레퍼런스 이미지(이름 입력 화면)의 레이아웃을 서비스 컨셉(소아 의료 사전 증상 문진)에 맞추어 "본인 확인을 위해 이름을 입력해주세요"를 **"증상을 최대한 입력해주세요"**로, "이름" 플레이스홀더를 **"입력"**으로 치환한 전용 입력 페이지 필요.
+  * 사용자가 제공한 레퍼런스 이미지(이름 입력 화면)의 레이아웃을 서비스 컨셉(소아 의료 사전 증상 문진)에 맞추어 "본인 확인을 위해 이름을 입력해주세요"를 **"증상을 구체적으로 정확하게 입력해주세요"**로, "이름" 플레이스홀더를 **"입력"**으로 치환한 전용 입력 페이지 필요.
   * 레퍼런스 이미지의 가상 키보드(휴대폰 자판)는 실제 입력 시 OS가 띄우는 기능적 요소이므로 화면에서 배제하고, 좌측 화면 컨셉(미니멀 화이트 여백, 블루 언더라인)에 맞춘 깔끔한 페이지 구성 요구.
 * **구체적 해결 방안**:
   1. Stitch MCP를 호출하여 `Aisum 증상 입력 화면` (`Screen ID: 18441e7efe314c06bb8716493d3d8626`) 생성 완료.
-  2. [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)에 섹션 6 스타일 추가:
+  2. [frontend/css/style.css](frontend/css/style.css)에 섹션 6 스타일 추가:
      - `.input-page-viewport`: max-width 440px 모바일 뷰포트, 미니멀 클린 화이트 배경.
      - `.input-headline`: 26px 볼드, 딥 네이비(#0F172A), 넉넉한 상하 여백.
      - `.underline-input-wrapper`: 2px 로열 블루(`#0066FF`) 하단 보더 라인, `placeholder="입력"`.
-     - `.input-confirm-btn`: 하단 52px 로열 블루 '확인' CTA 버튼.
-     - 휴대폰 가상 자판 그래픽 배제 및 쾌적한 화이트 여백 유지.
-  3. [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html) 및 [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html) 신규 작성.
-  4. [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)에 텍스트 입력 시 플로팅 레이블/지우기(`✕`) 버튼 토글 및 확인 인터랙션 탑재.
+     - 휴대폰 가상 자판 그래픽 및 확인 버튼 배제, 쾌적한 화이트 여백 유지.
+  3. [frontend/input.html](frontend/input.html) 및 [frontend/templates/input.html](frontend/templates/input.html) 신규 작성.
+  4. [frontend/js/main.js](frontend/js/main.js)에 텍스트 입력 시 플로팅 레이블/지우기(`✕`) 버튼 토글 및 Enter 키 입력 인터랙션 탑재.
   5. `main.py`에 `GET /input` 라우트 등록 및 TestClient 200 OK 검증 완료.
 * **적용 파일**:
-  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
-  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
-  * [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)
-  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
-  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
-  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [frontend/input.html](frontend/input.html)
+  * [frontend/templates/input.html](frontend/templates/input.html)
+  * [frontend/css/style.css](frontend/css/style.css)
+  * [frontend/js/main.js](frontend/js/main.js)
+  * [main.py](main.py)
+  * [log.md](log.md)
+
+
+
+
+
+
+
+
+
+
+
+
 

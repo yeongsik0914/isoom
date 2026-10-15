@@ -132,6 +132,7 @@ async def root():
             "emergency_sync": "/api/v1/emergency/sync",
             "scheduler_status": "/api/v1/emergency/status",
             "aisum_home": "/home",
+            "aisum_settings": "/settings",
         },
     }
 
@@ -164,6 +165,41 @@ async def get_aisum_input():
     return JSONResponse(status_code=404, content={"detail": "Input page not found"})
 
 
+@app.get("/guide", tags=["Frontend"], response_class=FileResponse)
+@app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
+async def get_guide_unified():
+    """Serves the unified Aisum Emergency Guide with horizontal swipe photo carousel."""
+    if os.path.exists("frontend/templates/emergency_guide.html"):
+        return FileResponse("frontend/templates/emergency_guide.html", media_type="text/html")
+    return FileResponse("app/templates/emergency_guide.html", media_type="text/html")
+
+
+@app.get("/guide/symptoms", tags=["Frontend"], response_class=FileResponse)
+async def get_guide_symptoms():
+    """Serves the Aisum Emergency Guide (Recommendation 1: Symptoms Photo Guide)."""
+    if os.path.exists("frontend/templates/emergency_guide_symptoms.html"):
+        return FileResponse("frontend/templates/emergency_guide_symptoms.html", media_type="text/html")
+    return FileResponse("app/templates/emergency_guide_symptoms.html", media_type="text/html")
+
+
+@app.get("/guide/checklist", tags=["Frontend"], response_class=FileResponse)
+async def get_guide_checklist():
+    """Serves the Aisum Emergency Guide (Recommendation 2: ER Departure Checklist)."""
+    if os.path.exists("frontend/templates/emergency_guide_checklist.html"):
+        return FileResponse("frontend/templates/emergency_guide_checklist.html", media_type="text/html")
+    return FileResponse("app/templates/emergency_guide_checklist.html", media_type="text/html")
+
+
+@app.get("/settings", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_settings():
+    """Serves the Aisum Settings page."""
+    if os.path.exists("frontend/templates/settings.html"):
+        return FileResponse("frontend/templates/settings.html", media_type="text/html")
+    if os.path.exists("frontend/settings.html"):
+        return FileResponse("frontend/settings.html", media_type="text/html")
+    return FileResponse("app/templates/settings.html", media_type="text/html")
+
+
 @app.get("/css/style.css", include_in_schema=False)
 @app.get("/style.css", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_style():
@@ -171,6 +207,7 @@ async def get_aisum_style():
     if os.path.exists("frontend/css/style.css"):
         return FileResponse("frontend/css/style.css", media_type="text/css")
     return FileResponse("app/static/css/style.css", media_type="text/css")
+
 
 
 @app.get("/js/main.js", include_in_schema=False)

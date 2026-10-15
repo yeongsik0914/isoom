@@ -14,15 +14,16 @@
   <!-- Material Symbols Outlined -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
-  <!-- Pure Vanilla CSS Stylesheet -->
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
+  <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
+  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
+  <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
 </head>
 <body>
 
   <!-- Mobile Viewport Canvas (Centered Preview Container) -->
   <div class="mobile-viewport" id="app">
-
-
 
       <!-- Top App Bar -->
       <header class="app-header">
@@ -255,13 +256,13 @@
       </a>
 
       <!-- Tab 2: 응급실 가이드 (Inactive) -->
-      <a href="#" class="nav-item" id="tab-nav-er">
+      <a href="templates/emergency_guide.html" class="nav-item" id="tab-nav-er">
         <span class="material-symbols-outlined">emergency</span>
         <span class="nav-label">응급실 가이드</span>
       </a>
 
       <!-- Tab 3: 설정 (Inactive) -->
-      <a href="#" class="nav-item" id="tab-nav-settings">
+      <a href="templates/settings.html" class="nav-item" id="tab-nav-settings">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>
       </a>
@@ -321,7 +322,8 @@
     </div>
   </div>
 
-  <!-- Client Interaction Script Module -->
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
   <script src="js/main.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>

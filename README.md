@@ -1,4 +1,4 @@
-# 👶 아이숨 (i-Soom) - 구 MoonlightCare (달빛케어)
+﻿# 👶 아이숨 (i-Soom) - 구 MoonlightCare (달빛케어)
 
 > **"야간·휴일에 갑자기 아픈 우리 아이를 위한 가장 빠르고 안전한 소아청소년과 매칭 서비스"**  
 > 건강보험심사평가원(HIRA), 국립중앙의료원(NMC) E-Gen 실시간 병상, 한국천문연구원(KASI) 특일 데이터, Firebase Cloud Firestore, 그리고 **Gemini 3.8 Flash 멀티 에이전트** 기반의 지능형 소아 의료 응급 지원 시스템
@@ -29,6 +29,16 @@
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
+
+### 🌟 [v2.4.4-guide-settings] 2026-10-15: '아이숨(Aisum)' 응급실 가이드(emergency_guide.html) 및 설정(settings.html) 웹페이지 구축
+* **응급실 가이드(Emergency Guide) 전용 페이지 구축**:
+  - `frontend/templates/emergency_guide.html` & `app/templates/emergency_guide.html`: 좌우 스와이프 포토 캐러셀 및 2대 카테고리(증상별 포토 가이드 / 출발 전 체크리스트) 세그먼트 탭 분리.
+  - Safari WebKit `file://` 보안 샌드박스 호환 스마트 듀얼 CSS/JS 로더 탑재.
+  - `GET /guide`, `GET /guide/emergency`, `GET /guide/symptoms`, `GET /guide/checklist` 서빙 라우트 등록.
+* **설정(Settings) 웹페이지 구축**:
+  - `frontend/templates/settings.html` & `app/templates/settings.html`: 모니모(Monimo) 레퍼런스 스타일 3대 카테고리(일반, 사용자 지원, 정보) 및 단독 섹션 8px 디바이더.
+  - 순수 CSS iOS 토글 스위치 컴포넌트(`🔔 앱 알림`) 탑재.
+  - `GET /settings` 서빙 라우트 등록 및 GNB 네비게이션 연동.
 
 ### 🌟 [v2.4.2-input-refine] 2026-10-15: '아이숨(Aisum)' 증상 입력 페이지 카피 고도화 및 미니멀 레이아웃 최적화
 * **증상 입력 페이지(Input Page) UI/UX 개선**:
