@@ -2478,3 +2478,168 @@ button {
     opacity: 0.5;
   }
 }
+
+/* ==========================================================================
+   📱 Global Font Size Typography Scaling (Pure Text Font-Size Only)
+   - 전체적인 레이아웃 박스, 뷰포트 크기, 마진, 패딩, 아이콘은 100% 원형 유지
+   - 오직 텍스트 글자 크기(Typography font-size)만 비례적으로 스케일링
+   ========================================================================== */
+
+/* 1. 설정 화면 셀렉트박스 (Select Box) 스타일 */
+.settings-select-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.settings-select-box {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 6px 32px 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.18s ease;
+  line-height: 1.4;
+}
+
+.settings-select-box:hover {
+  background-color: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.settings-select-box:focus {
+  border-color: #0066ff;
+  background-color: #eff6ff;
+  color: #0066ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+}
+
+.select-chevron-icon {
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+  font-size: 18px !important;
+  color: #64748b;
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.settings-select-box:focus + .select-chevron-icon {
+  color: #0066ff;
+  transform: rotate(180deg);
+}
+
+/* 2. 글자 크기 '작게 (Small)' - 오직 텍스트 폰트만 약 1.5~2.5px 축소 */
+body.font-size-small {
+  font-size: 13.5px;
+}
+body.font-size-small h1,
+body.font-size-small .hero-title,
+body.font-size-small .input-headline,
+body.font-size-small .result-title,
+body.font-size-small .brand-logo,
+body.font-size-small .detail-header-title {
+  font-size: 20px !important;
+}
+body.font-size-small h2,
+body.font-size-small .section-title,
+body.font-size-small .settings-header-title,
+body.font-size-small .terms-title {
+  font-size: 16px !important;
+}
+body.font-size-small h3,
+body.font-size-small .facility-name,
+body.font-size-small .facility-card-name,
+body.font-size-small .terms-article-title {
+  font-size: 14.5px !important;
+}
+body.font-size-small p,
+body.font-size-small .hero-subtext,
+body.font-size-small .facility-desc,
+body.font-size-small .settings-item-label,
+body.font-size-small .settings-item-value,
+body.font-size-small .settings-select-box,
+body.font-size-small .script-content,
+body.font-size-small .terms-p,
+body.font-size-small .underline-input {
+  font-size: 13px !important;
+}
+body.font-size-small .tag-badge,
+body.font-size-small .count-badge,
+body.font-size-small .distance-info,
+body.font-size-small .live-sync-text,
+body.font-size-small .nav-label,
+body.font-size-small .settings-group-title {
+  font-size: 10.5px !important;
+}
+body.font-size-small .primary-cta-btn,
+body.font-size-small .input-confirm-btn,
+body.font-size-small .symptom-chip,
+body.font-size-small .quick-chip-btn,
+body.font-size-small .filter-tab,
+body.font-size-small .location-pill {
+  font-size: 12.5px !important;
+}
+
+/* 3. 글자 크기 '보통 (Normal)' - 디자이너 권장 표준 폰트 크기 */
+body.font-size-normal {
+  /* Default standard baseline */
+}
+
+/* 4. 글자 크기 '크게 (Large)' - 오직 텍스트 폰트만 약 2~3.5px 확대 */
+body.font-size-large {
+  font-size: 17px;
+}
+body.font-size-large h1,
+body.font-size-large .hero-title,
+body.font-size-large .input-headline,
+body.font-size-large .result-title,
+body.font-size-large .brand-logo,
+body.font-size-large .detail-header-title {
+  font-size: 26px !important;
+}
+body.font-size-large h2,
+body.font-size-large .section-title,
+body.font-size-large .settings-header-title,
+body.font-size-large .terms-title {
+  font-size: 20px !important;
+}
+body.font-size-large h3,
+body.font-size-large .facility-name,
+body.font-size-large .facility-card-name,
+body.font-size-large .terms-article-title {
+  font-size: 18.5px !important;
+}
+body.font-size-large p,
+body.font-size-large .hero-subtext,
+body.font-size-large .facility-desc,
+body.font-size-large .settings-item-label,
+body.font-size-large .settings-item-value,
+body.font-size-large .settings-select-box,
+body.font-size-large .script-content,
+body.font-size-large .terms-p,
+body.font-size-large .underline-input {
+  font-size: 16.5px !important;
+}
+body.font-size-large .tag-badge,
+body.font-size-large .count-badge,
+body.font-size-large .distance-info,
+body.font-size-large .live-sync-text,
+body.font-size-large .nav-label,
+body.font-size-large .settings-group-title {
+  font-size: 13px !important;
+}
+body.font-size-large .primary-cta-btn,
+body.font-size-large .input-confirm-btn,
+body.font-size-large .symptom-chip,
+body.font-size-large .quick-chip-btn,
+body.font-size-large .filter-tab,
+body.font-size-large .location-pill {
+  font-size: 16px !important;
+}

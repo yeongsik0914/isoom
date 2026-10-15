@@ -74,6 +74,7 @@
 | **[ISSUE-064]** | 프론트엔드 UI/UX 30초 통화 스크립트 | 0-Backend 순수 클라이언트 기반 실시간 환아 바이탈(월령·체온·증상) 통화 스크립트 동적 완성 및 원터치 클립보드 복사 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-065]** | 프론트엔드 설정 & 법률 컴플라이언스 | settings.html 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨 전용 이용약관(terms.html) 신규 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-066]** | 프론트엔드 설정 & 전역 접근성 | settings.html 글자 크기(작게·보통·크게) 선택 모달 및 앱 전체 실시간 폰트 스케일링 엔진 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-067]** | 프론트엔드 UI/UX 인터랙션 & 타이포그래피 | 뷰포트 zoom 전체 크기 왜곡 해소, 순수 font-size 스케일링 엔진 개편 및 셀렉트박스 컴포넌트 전환 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2039,6 +2040,54 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-067] 뷰포트 zoom 전체 크기 왜곡 해소, 순수 font-size 스케일링 엔진 개편 및 셀렉트박스 컴포넌트 전환
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장), AI 에이전트
+* **분류**: 프론트엔드 UI/UX 인터랙션 / 타이포그래피(Typography) / 레이아웃 보존 / 전역 상태 동기화
+* **문제 상황**:
+  * 글자 크기 변경 시 `zoom: 0.93 / 1.07`을 사용함으로 인해 모바일 뷰포트 컨테이너(`.mobile-viewport`)의 가로 너비(440px), 카드 여백, 버튼 크기, 아이콘 박스 등 레이아웃 전체가 함께 축소/확대되는 왜곡 현상 발생.
+  * 글자 크기를 바꾸기 위해 별도의 팝업 모달을 띄우는 것이 부자연스럽고 뎁스가 길어지는 UX 불편 초래.
+* **원인 분석**:
+  * CSS `zoom` 속성은 폰트뿐 아니라 요소의 박스 모델(width, height, padding, margin, border) 전체에 배율을 곱하므로 레이아웃 스케일링이 발생함.
+  * 사용자의 본래 의도는 **"박스 및 레이아웃 크기는 100% 고정한 채, 오직 순수 글자 크기(font-size)만 비례 조정"**하는 것이었음.
+* **구체적 해결 방안**:
+  1. **모달 창 완전 제거 및 원터치 셀렉트박스(Select Box) 탑재**:
+     - `settings.html` (templates 및 루트)에서 `openFontSizeModal()` 호출 버튼 및 `font-size-modal` 마크업 전면 삭제.
+     - 1-2번 설정 행 우측에 `.settings-select-wrapper` 및 `<select id="font-size-select" onchange="onFontSizeChange(this.value)">` 인라인 드롭다운 배치.
+     - 옵션 3종(작게 `small`, 보통 `normal`, 크게 `large`) 제공 및 우측 화살표 아이콘(`expand_more`) 배치.
+  2. **`zoom` 속성 전면 삭제 및 순수 `font-size` 전역 스케일링 재구축**:
+     - [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css) 및 [frontend/templates/css/style.css](file:///e:/monnlight/frontend/templates/css/style.css)에서 모든 `zoom` 속성 완전 삭제.
+     - 뷰포트 및 레이아웃 컨테이너의 440px 프레임 및 박스 모델 완전 고정.
+     - 오직 헤드라인, 본문 단락, 라벨, 뱃지, 버튼 텍스트의 `font-size`만 비례 가중치(`!important`)를 적용하여 정밀하게 크기 조정:
+       * **작게(Small)**: 약 1.5px~2.5px 축소
+       * **보통(Normal)**: 원본 표준 크기 유지
+       * **크게(Large)**: 약 2.0px~3.5px 확대
+  3. **자바스크립트 엔진 경량화 및 하위 페이지 동기화 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `onFontSizeChange(newSize)` 구현으로 `localStorage` 저장 및 실시간 `applyAisumFontSize()` 실행.
+     - `result.html`, `hospital_detail.html`, `terms.html` 등 하위 뷰에도 `main.js` 로더를 탑재하여 페이지 이동 시에도 일관된 글자 크기 유지.
+  4. **통합 E2E 자동화 검증**:
+     - FastAPI TestClient를 통해 모달 부재, 셀렉트박스 존재, `zoom` 제거, 순수 폰트 크기 규칙 100% 무결점 통과 확인 (`ALL REFACTORED TESTS PASSED 100% PERFECTLY!`).
+* **적용 파일**:
+  * [frontend/templates/settings.html](file:///e:/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///e:/monnlight/frontend/settings.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///e:/monnlight/frontend/templates/css/style.css)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html)
+  * [frontend/result.html](file:///e:/monnlight/frontend/result.html)
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/hospital_detail.html](file:///e:/monnlight/frontend/hospital_detail.html)
+  * [frontend/templates/terms.html](file:///e:/monnlight/frontend/templates/terms.html)
+  * [frontend/terms.html](file:///e:/monnlight/frontend/terms.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 

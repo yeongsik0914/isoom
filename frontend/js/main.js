@@ -37,73 +37,29 @@ if (typeof document !== 'undefined') {
   }
 }
 
-// Font Size Modal Functions
-window.openFontSizeModal = function() {
-  const modal = document.getElementById('font-size-modal');
-  if (!modal) return;
-  const currentSize = localStorage.getItem('aisum_font_size') || 'normal';
-  window.__selectedTempFontSize = currentSize;
-  if (typeof updateFontModalSelection === 'function') {
-    updateFontModalSelection(currentSize);
-  }
-  modal.classList.add('active');
-  modal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-};
-
-window.closeFontSizeModal = function() {
-  const modal = document.getElementById('font-size-modal');
-  if (!modal) return;
-  // If cancelled without confirm, revert to saved size
-  const savedSize = localStorage.getItem('aisum_font_size') || 'normal';
-  window.applyAisumFontSize(savedSize);
-  modal.classList.remove('active');
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-};
-
-window.selectFontSize = function(size) {
-  window.__selectedTempFontSize = size;
-  if (typeof updateFontModalSelection === 'function') {
-    updateFontModalSelection(size);
-  }
-  window.applyAisumFontSize(size);
-};
-
-window.confirmFontSizeSelection = function() {
-  const size = window.__selectedTempFontSize || localStorage.getItem('aisum_font_size') || 'normal';
+// ============================================================================
+// 📱 Select Box Change Handler (작게 / 보통 / 크게)
+// ============================================================================
+window.onFontSizeChange = function(newSize) {
+  const size = newSize || 'normal';
   try {
     localStorage.setItem('aisum_font_size', size);
-  } catch (e) {}
+  } catch (e) {
+    console.warn('Failed to save font size to localStorage:', e);
+  }
   window.applyAisumFontSize(size);
 
-  const textEl = document.getElementById('current-font-size-text');
-  if (textEl) {
-    const labels = { small: '작게', normal: '보통', large: '크게' };
-    textEl.textContent = labels[size] || '보통';
-  }
-
-  const modal = document.getElementById('font-size-modal');
-  if (modal) {
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+  const selectEl = document.getElementById('font-size-select');
+  if (selectEl && selectEl.value !== size) {
+    selectEl.value = size;
   }
 };
 
-function updateFontModalSelection(size) {
-  document.querySelectorAll('.font-option-card').forEach(card => {
-    if (card.getAttribute('data-size') === size) {
-      card.classList.add('active');
-    } else {
-      card.classList.remove('active');
-    }
-  });
-  const preview = document.getElementById('font-preview-sample');
-  if (preview) {
-    preview.className = 'font-preview-text size-' + size;
-  }
-}
+// Backward-compatible safe fallback
+window.openFontSizeModal = function() {
+  const selectEl = document.getElementById('font-size-select');
+  if (selectEl) selectEl.focus();
+};
 
 if (!window.__AISUM_INITIALIZED__) {
   window.__AISUM_INITIALIZED__ = true;
@@ -111,12 +67,11 @@ if (!window.__AISUM_INITIALIZED__) {
   document.addEventListener('DOMContentLoaded', () => {
     console.log('👶 아이숨 (Aisum) 모바일 웹 화면이 Safari/Chrome 호환 모드로 로드되었습니다.');
 
-    // Initialize font size label on settings page
-    const textEl = document.getElementById('current-font-size-text');
-    if (textEl) {
+    // Initialize font size select on settings page
+    const selectEl = document.getElementById('font-size-select');
+    if (selectEl) {
       const savedSize = localStorage.getItem('aisum_font_size') || 'normal';
-      const labels = { small: '작게', normal: '보통', large: '크게' };
-      textEl.textContent = labels[savedSize] || '보통';
+      selectEl.value = savedSize;
     }
 
     // DOM Elements

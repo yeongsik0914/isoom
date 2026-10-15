@@ -2480,222 +2480,166 @@ button {
 }
 
 /* ==========================================================================
-   📱 Global Font Size Scaling & Accessibility System (작게 / 보통 / 크게)
+   📱 Global Font Size Typography Scaling (Pure Text Font-Size Only)
+   - 전체적인 레이아웃 박스, 뷰포트 크기, 마진, 패딩, 아이콘은 100% 원형 유지
+   - 오직 텍스트 글자 크기(Typography font-size)만 비례적으로 스케일링
    ========================================================================== */
-:root {
-  --app-font-scale: 1;
-}
 
-html.font-size-small, body.font-size-small {
-  --app-font-scale: 0.92;
-}
-
-html.font-size-normal, body.font-size-normal {
-  --app-font-scale: 1.0;
-}
-
-html.font-size-large, body.font-size-large {
-  --app-font-scale: 1.12;
-}
-
-/* Viewport-level zoom scaling for all mobile app screens */
-body.font-size-small .mobile-viewport,
-body.font-size-small .permission-viewport,
-body.font-size-small .terms-viewport {
-  zoom: 0.93;
-}
-
-body.font-size-large .mobile-viewport,
-body.font-size-large .permission-viewport,
-body.font-size-large .terms-viewport {
-  zoom: 1.07;
-}
-
-/* Font Size Selection Modal Styles */
-.font-modal-dialog {
-  width: 100%;
-  max-width: 360px;
-  background: #ffffff;
-  border-radius: 24px;
-  box-shadow: 0 25px 60px -10px rgba(15, 23, 42, 0.35);
-  overflow: hidden;
-  padding: 24px 20px 20px 20px;
-  transform: scale(0.92);
-  transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.modal-overlay.active .font-modal-dialog {
-  transform: scale(1);
-}
-
-.font-modal-header {
-  text-align: center;
-  margin-bottom: 18px;
-}
-
-.font-modal-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.4px;
-  margin-bottom: 6px;
-}
-
-.font-modal-desc {
-  font-size: 13px;
-  color: #64748b;
-  line-height: 1.45;
-}
-
-.font-option-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.font-option-card {
-  display: flex;
+/* 1. 설정 화면 셀렉트박스 (Select Box) 스타일 */
+.settings-select-wrapper {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 13px 16px;
-  border-radius: 14px;
-  border: 1.5px solid #e2e8f0;
-  background-color: #f8fafc;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  user-select: none;
 }
 
-.font-option-card:hover {
+.settings-select-box {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   background-color: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 6px 32px 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.18s ease;
+  line-height: 1.4;
 }
 
-.font-option-card.active {
+.settings-select-box:hover {
+  background-color: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.settings-select-box:focus {
   border-color: #0066ff;
   background-color: #eff6ff;
-}
-
-.font-option-left {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.font-option-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: #0f172a;
-  letter-spacing: -0.3px;
-}
-
-.font-option-card.active .font-option-name {
   color: #0066ff;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
 }
 
-.font-option-sub {
-  font-size: 12px;
+.select-chevron-icon {
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+  font-size: 18px !important;
   color: #64748b;
+  transition: transform 0.18s ease, color 0.18s ease;
 }
 
-.font-option-radio-circle {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 2px solid #cbd5e1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
+.settings-select-box:focus + .select-chevron-icon {
+  color: #0066ff;
+  transform: rotate(180deg);
 }
 
-.font-option-card.active .font-option-radio-circle {
-  border-color: #0066ff;
-  background-color: #0066ff;
-}
-
-.font-option-radio-circle .material-symbols-outlined {
-  font-size: 15px;
-  color: #ffffff;
-  display: none;
-}
-
-.font-option-card.active .font-option-radio-circle .material-symbols-outlined {
-  display: block;
-}
-
-/* Real-time Preview Box in Modal */
-.font-preview-box {
-  background-color: #f8fafc;
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-bottom: 20px;
-  border: 1px dashed #cbd5e1;
-}
-
-.font-preview-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #64748b;
-  margin-bottom: 4px;
-}
-
-.font-preview-text {
-  color: #0f172a;
-  font-weight: 600;
-  line-height: 1.4;
-  transition: font-size 0.15s ease;
-}
-
-.font-preview-text.size-small {
+/* 2. 글자 크기 '작게 (Small)' - 오직 텍스트 폰트만 약 1.5~2.5px 축소 */
+body.font-size-small {
   font-size: 13.5px;
 }
-
-.font-preview-text.size-normal {
-  font-size: 15px;
+body.font-size-small h1,
+body.font-size-small .hero-title,
+body.font-size-small .input-headline,
+body.font-size-small .result-title,
+body.font-size-small .brand-logo,
+body.font-size-small .detail-header-title {
+  font-size: 20px !important;
+}
+body.font-size-small h2,
+body.font-size-small .section-title,
+body.font-size-small .settings-header-title,
+body.font-size-small .terms-title {
+  font-size: 16px !important;
+}
+body.font-size-small h3,
+body.font-size-small .facility-name,
+body.font-size-small .facility-card-name,
+body.font-size-small .terms-article-title {
+  font-size: 14.5px !important;
+}
+body.font-size-small p,
+body.font-size-small .hero-subtext,
+body.font-size-small .facility-desc,
+body.font-size-small .settings-item-label,
+body.font-size-small .settings-item-value,
+body.font-size-small .settings-select-box,
+body.font-size-small .script-content,
+body.font-size-small .terms-p,
+body.font-size-small .underline-input {
+  font-size: 13px !important;
+}
+body.font-size-small .tag-badge,
+body.font-size-small .count-badge,
+body.font-size-small .distance-info,
+body.font-size-small .live-sync-text,
+body.font-size-small .nav-label,
+body.font-size-small .settings-group-title {
+  font-size: 10.5px !important;
+}
+body.font-size-small .primary-cta-btn,
+body.font-size-small .input-confirm-btn,
+body.font-size-small .symptom-chip,
+body.font-size-small .quick-chip-btn,
+body.font-size-small .filter-tab,
+body.font-size-small .location-pill {
+  font-size: 12.5px !important;
 }
 
-.font-preview-text.size-large {
-  font-size: 17.5px;
+/* 3. 글자 크기 '보통 (Normal)' - 디자이너 권장 표준 폰트 크기 */
+body.font-size-normal {
+  /* Default standard baseline */
 }
 
-.font-modal-actions {
-  display: flex;
-  gap: 10px;
+/* 4. 글자 크기 '크게 (Large)' - 오직 텍스트 폰트만 약 2~3.5px 확대 */
+body.font-size-large {
+  font-size: 17px;
 }
-
-.font-modal-btn-cancel {
-  flex: 1;
-  height: 48px;
-  border-radius: 12px;
-  background-color: #f1f5f9;
-  color: #475569;
-  border: none;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
+body.font-size-large h1,
+body.font-size-large .hero-title,
+body.font-size-large .input-headline,
+body.font-size-large .result-title,
+body.font-size-large .brand-logo,
+body.font-size-large .detail-header-title {
+  font-size: 26px !important;
 }
-
-.font-modal-btn-cancel:active {
-  background-color: #e2e8f0;
+body.font-size-large h2,
+body.font-size-large .section-title,
+body.font-size-large .settings-header-title,
+body.font-size-large .terms-title {
+  font-size: 20px !important;
 }
-
-.font-modal-btn-confirm {
-  flex: 1;
-  height: 48px;
-  border-radius: 12px;
-  background-color: #0066ff;
-  color: #ffffff;
-  border: none;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
-  transition: background-color 0.15s ease, transform 0.1s ease;
+body.font-size-large h3,
+body.font-size-large .facility-name,
+body.font-size-large .facility-card-name,
+body.font-size-large .terms-article-title {
+  font-size: 18.5px !important;
 }
-
-.font-modal-btn-confirm:active {
-  background-color: #0052cc;
-  transform: scale(0.985);
+body.font-size-large p,
+body.font-size-large .hero-subtext,
+body.font-size-large .facility-desc,
+body.font-size-large .settings-item-label,
+body.font-size-large .settings-item-value,
+body.font-size-large .settings-select-box,
+body.font-size-large .script-content,
+body.font-size-large .terms-p,
+body.font-size-large .underline-input {
+  font-size: 16.5px !important;
+}
+body.font-size-large .tag-badge,
+body.font-size-large .count-badge,
+body.font-size-large .distance-info,
+body.font-size-large .live-sync-text,
+body.font-size-large .nav-label,
+body.font-size-large .settings-group-title {
+  font-size: 13px !important;
+}
+body.font-size-large .primary-cta-btn,
+body.font-size-large .input-confirm-btn,
+body.font-size-large .symptom-chip,
+body.font-size-large .quick-chip-btn,
+body.font-size-large .filter-tab,
+body.font-size-large .location-pill {
+  font-size: 16px !important;
 }

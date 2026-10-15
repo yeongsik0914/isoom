@@ -30,6 +30,18 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.27-pure-font-size-select-box] 2026-10-15: '아이숨' 설정(settings.html) 글자 크기 셀렉트박스 전환 & 레이아웃 왜곡 배제 순수 font-size 스케일링 엔진 개편 (정영식 팀장, AI 에이전트)
+* **모달 팝업 배제 및 원터치 인라인 셀렉트박스(`<select>`) 컴포넌트 탑재**:
+  - 기존의 복잡한 하단 바텀시트 모달(`font-size-modal`)을 전면 삭제하고, [settings.html](file:///e:/monnlight/frontend/templates/settings.html) 1-2번 설정 행 우측에 직관적인 네이티브/커스텀 드롭다운 셀렉트박스(`<select id="font-size-select" onchange="onFontSizeChange(this.value)">`) 배치.
+  - 별도 창 오픈 없이 **작게 / 보통 / 크게** 3개 옵션을 원터치로 즉시 전환.
+* **뷰포트 `zoom` 전면 제거 및 순수 타이포그래피(font-size) 비례 스케일링 체계 확립**:
+  - 440px 뷰포트 프레임, 카드 레이아웃 박스, 버튼 규격, 패딩, 마진, 아이콘 크기를 100% 원형 유지하도록 `zoom` 속성을 완전 삭제.
+  - 오직 제목, 본문, 라벨, 배지, 버튼 등의 텍스트 글자 크기(`font-size`)만 비례 조정하여 화면 깨짐 없는 완벽한 가독성 확보.
+* **하위 화면 전역 폰트 동기화 완비**:
+  - `result.html`, `hospital_detail.html`, `terms.html` 등 하위 뷰에도 `main.js` 듀얼 로더를 탑재하여 페이지 전환 시에도 일관된 글자 크기 유지.
+* **E2E 자동화 검증 완료**:
+  - FastAPI TestClient 자동화 검증 전수 통과 (`ALL REFACTORED TESTS PASSED 100% PERFECTLY!`).
+
 ### 🌟 [v2.4.26-global-font-size-scaling] 2026-10-15: '아이숨' 설정(settings.html) 글자 크기 선택 모달 및 앱 전체 실시간 스케일링 엔진 구축 (정영식 팀장, AI 에이전트)
 * **설정 화면 전용 3단계 글자 크기 선택 모달(`font-size-modal`) 구축**:
   - [settings.html](file:///e:/monnlight/frontend/templates/settings.html) (templates 및 루트) 1-2번 행에 '글자 크기 변경' 버튼(`id="btn-font-size-setting"`) 및 현재 상태 뱃지(`current-font-size-text`) 연동.

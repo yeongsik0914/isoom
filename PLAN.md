@@ -53,6 +53,7 @@
     - [10.33 '아이숨' 30초 통화 스크립트 실시간 환아 바이탈 동적 연동 및 제로-백엔드 클라이언트 바인딩](#1033-아이숨-30초-통화-스크립트-실시간-환아-바이탈-동적-연동-및-제로-백엔드-클라이언트-바인딩-2026-10-15-완결)
     - [10.34 '아이숨' 설정(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 전용 이용약관(terms.html) 구축](#1034-아이숨-설정settingshtml-이용약관-버튼-연동-및-의료법-제27조-준수-전용-이용약관termshtml-구축-2026-10-15-완결)
     - [10.35 '아이숨' 설정(settings.html) 글자 크기 선택 모달 및 앱 전체 실시간 스케일링 엔진 구축](#1035-아이숨-설정settingshtml-글자-크기-선택-모달-및-앱-전체-실시간-스케일링-엔진-구축-2026-10-15-완결)
+    - [10.36 '아이숨' 설정(settings.html) 글자 크기 셀렉트박스 전환 & 레이아웃 왜곡 배제 순수 font-size 스케일링 엔진 개편](#1036-아이숨-설정settingshtml-글자-크기-셀렉트박스-전환--레이아웃-왜곡-배제-순수-font-size-스케일링-엔진-개편-2026-10-15-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -983,6 +984,27 @@ flowchart TD
      - 단순 폰트 크기 조절 시 발생하는 카드/버튼 레이아웃 깨짐 없이 전체 UI 요소가 조화롭게 비례 확대/축소되도록 보증.
   4. **통합 자동화 E2E 검증 통과**:
      - TestClient 및 자동화 스크립트로 3대 라디오 카드 바인딩, 모달 열기/닫기, 스케일링 함수 100% 무결점 통과 확인 (`SUCCESS: All font size scaling and modal interaction checks passed 100%!`).
+
+---
+
+### 10.36 '아이숨' 설정(settings.html) 글자 크기 셀렉트박스 전환 & 레이아웃 왜곡 배제 순수 font-size 스케일링 엔진 개편 (2026-10-15 완결)
+* **기획 배경 및 피드백 반영**:
+  - 기존 뷰포트 레벨 `zoom` 스케일링 적용 시 440px 프레임 너비, 박스 마진, 버튼 패딩, 아이콘 크기 등 레이아웃 전체가 함께 축소/확대되어 시각적 왜곡 발생.
+  - 사용자의 "전체 사이즈는 그대로 두고 오직 글자 크기(font-size)만 변경할 것", "모달창을 띄우지 말고 직관적인 셀렉트박스 형식으로 선택할 것"이라는 피드백을 100% 수용하여 아키텍처 개편.
+* **구체적 엔지니어링 구현 내역**:
+  1. **모달 창 제거 및 인라인 셀렉트박스(Select Box) 탑재**:
+     - `settings.html` (templates 및 루트)에서 모달 호출 버튼 및 `font-size-modal` 마크업 전면 삭제.
+     - 1-2번 설정 행 우측에 `.settings-select-wrapper` 및 `<select id="font-size-select" onchange="onFontSizeChange(this.value)">` 인라인 드롭다운 배치.
+     - `작게(small)`, `보통(normal)`, `크게(large)` 3개 옵션을 원터치로 즉시 전환.
+  2. **`zoom` 속성 완전 삭제 및 순수 `font-size` 비례 스케일링 구축**:
+     - [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css) 및 [frontend/templates/css/style.css](file:///e:/monnlight/frontend/templates/css/style.css)에서 모든 `zoom` 스타일 전면 삭제.
+     - 뷰포트 컨테이너, 카드 박스 모델, 아이콘 규격 100% 원형 불변 보존.
+     - 오직 헤드라인, 본문 단락, 라벨, 뱃지, 버튼 텍스트의 `font-size`만 비례 가중치(`!important`)를 부여하여 정밀 조정(작게: -1.5~2.5px, 크게: +2.0~3.5px).
+  3. **자바스크립트 엔진 경량화 및 하위 페이지 동기화 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `onFontSizeChange(newSize)`를 통해 `localStorage` 저장 및 `applyAisumFontSize(size)` 즉시 실행.
+     - `result.html`, `hospital_detail.html`, `terms.html` 등 하위 뷰에도 `main.js` 로더를 추가하여 앱 전역 Zero-FOUC 폰트 동기화 완성.
+  4. **통합 E2E 자동화 검증 완료**:
+     - TestClient 검증을 통해 모달 부재, 셀렉트박스 렌더링, `zoom` 제거, 순수 폰트 크기 규칙 100% 통과 확인 (`ALL REFACTORED TESTS PASSED 100% PERFECTLY!`).
 
 ---
 
