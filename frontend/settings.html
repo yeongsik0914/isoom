@@ -62,10 +62,10 @@
         </button>
 
         <!-- 1-2. 글자 크기 변경 -->
-        <button type="button" class="settings-item-row" aria-label="글자 크기 변경: 보통">
+        <button type="button" class="settings-item-row" id="btn-font-size-setting" aria-label="글자 크기 변경" onclick="openFontSizeModal()">
           <span class="settings-item-label">글자 크기 변경</span>
           <div class="settings-item-right">
-            <span class="settings-item-value">보통</span>
+            <span class="settings-item-value" id="current-font-size-text">보통</span>
             <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
           </div>
         </button>
@@ -163,6 +163,64 @@
       </section>
 
     </main>
+
+    <!-- 4. 글자 크기 선택 모달 (BottomSheet / Dialog) -->
+    <div class="modal-overlay" id="font-size-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="font-modal-title">
+      <div class="font-modal-dialog">
+        <div class="font-modal-header">
+          <h2 class="font-modal-title" id="font-modal-title">글자 크기 설정</h2>
+          <p class="font-modal-desc">원하시는 글자 크기를 선택해 주세요.<br>앱 전체 화면에 즉시 적용됩니다.</p>
+        </div>
+
+        <div class="font-option-list" role="radiogroup" aria-label="글자 크기 옵션">
+          <!-- Option 1: 작게 -->
+          <div class="font-option-card" data-size="small" role="radio" aria-checked="false" onclick="selectFontSize('small')">
+            <div class="font-option-left">
+              <span class="font-option-name">작게</span>
+              <span class="font-option-sub">한눈에 많은 정보를 볼 수 있어요</span>
+            </div>
+            <div class="font-option-radio-circle">
+              <span class="material-symbols-outlined">check</span>
+            </div>
+          </div>
+
+          <!-- Option 2: 보통 (기본 권장) -->
+          <div class="font-option-card active" data-size="normal" role="radio" aria-checked="true" onclick="selectFontSize('normal')">
+            <div class="font-option-left">
+              <span class="font-option-name">보통 (권장)</span>
+              <span class="font-option-sub">아이숨 기본 표준 크기예요</span>
+            </div>
+            <div class="font-option-radio-circle">
+              <span class="material-symbols-outlined">check</span>
+            </div>
+          </div>
+
+          <!-- Option 3: 크게 -->
+          <div class="font-option-card" data-size="large" role="radio" aria-checked="false" onclick="selectFontSize('large')">
+            <div class="font-option-left">
+              <span class="font-option-name">크게</span>
+              <span class="font-option-sub">시원하고 큼직하게 볼 수 있어요</span>
+            </div>
+            <div class="font-option-radio-circle">
+              <span class="material-symbols-outlined">check</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 실시간 미리보기 박스 -->
+        <div class="font-preview-box">
+          <div class="font-preview-label">미리보기</div>
+          <p class="font-preview-text size-normal" id="font-preview-sample">
+            "아이숨: 야간 소아과 및 30분 안심 약국 1:1 매칭"
+          </p>
+        </div>
+
+        <div class="font-modal-actions">
+          <button type="button" class="font-modal-btn-cancel" onclick="closeFontSizeModal()">취소</button>
+          <button type="button" class="font-modal-btn-confirm" onclick="confirmFontSizeSelection()">적용하기</button>
+        </div>
+      </div>
+    </div>
 
     <!-- 3. Fixed Bottom Navigation Bar (GNB) -->
     <nav class="bottom-nav" aria-label="주요 메뉴">

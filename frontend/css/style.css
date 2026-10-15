@@ -2478,3 +2478,224 @@ button {
     opacity: 0.5;
   }
 }
+
+/* ==========================================================================
+   📱 Global Font Size Scaling & Accessibility System (작게 / 보통 / 크게)
+   ========================================================================== */
+:root {
+  --app-font-scale: 1;
+}
+
+html.font-size-small, body.font-size-small {
+  --app-font-scale: 0.92;
+}
+
+html.font-size-normal, body.font-size-normal {
+  --app-font-scale: 1.0;
+}
+
+html.font-size-large, body.font-size-large {
+  --app-font-scale: 1.12;
+}
+
+/* Viewport-level zoom scaling for all mobile app screens */
+body.font-size-small .mobile-viewport,
+body.font-size-small .permission-viewport,
+body.font-size-small .terms-viewport {
+  zoom: 0.93;
+}
+
+body.font-size-large .mobile-viewport,
+body.font-size-large .permission-viewport,
+body.font-size-large .terms-viewport {
+  zoom: 1.07;
+}
+
+/* Font Size Selection Modal Styles */
+.font-modal-dialog {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 25px 60px -10px rgba(15, 23, 42, 0.35);
+  overflow: hidden;
+  padding: 24px 20px 20px 20px;
+  transform: scale(0.92);
+  transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-overlay.active .font-modal-dialog {
+  transform: scale(1);
+}
+
+.font-modal-header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.font-modal-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.4px;
+  margin-bottom: 6px;
+}
+
+.font-modal-desc {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.font-option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.font-option-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  border-radius: 14px;
+  border: 1.5px solid #e2e8f0;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.font-option-card:hover {
+  background-color: #f1f5f9;
+}
+
+.font-option-card.active {
+  border-color: #0066ff;
+  background-color: #eff6ff;
+}
+
+.font-option-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.font-option-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+}
+
+.font-option-card.active .font-option-name {
+  color: #0066ff;
+}
+
+.font-option-sub {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.font-option-radio-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.font-option-card.active .font-option-radio-circle {
+  border-color: #0066ff;
+  background-color: #0066ff;
+}
+
+.font-option-radio-circle .material-symbols-outlined {
+  font-size: 15px;
+  color: #ffffff;
+  display: none;
+}
+
+.font-option-card.active .font-option-radio-circle .material-symbols-outlined {
+  display: block;
+}
+
+/* Real-time Preview Box in Modal */
+.font-preview-box {
+  background-color: #f8fafc;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  border: 1px dashed #cbd5e1;
+}
+
+.font-preview-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.font-preview-text {
+  color: #0f172a;
+  font-weight: 600;
+  line-height: 1.4;
+  transition: font-size 0.15s ease;
+}
+
+.font-preview-text.size-small {
+  font-size: 13.5px;
+}
+
+.font-preview-text.size-normal {
+  font-size: 15px;
+}
+
+.font-preview-text.size-large {
+  font-size: 17.5px;
+}
+
+.font-modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.font-modal-btn-cancel {
+  flex: 1;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #f1f5f9;
+  color: #475569;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.font-modal-btn-cancel:active {
+  background-color: #e2e8f0;
+}
+
+.font-modal-btn-confirm {
+  flex: 1;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #0066ff;
+  color: #ffffff;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.font-modal-btn-confirm:active {
+  background-color: #0052cc;
+  transform: scale(0.985);
+}

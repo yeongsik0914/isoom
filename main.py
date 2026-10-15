@@ -273,6 +273,7 @@ async def get_guide_checklist():
 
 
 @app.get("/settings", tags=["Frontend"], response_class=FileResponse)
+@app.get("/settings.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_settings():
     """Serves the Aisum Settings page."""
     if os.path.exists("frontend/templates/settings.html"):

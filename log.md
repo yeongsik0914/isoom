@@ -73,6 +73,7 @@
 | **[ISSUE-063]** | 프론트엔드 온보딩 실제 Web API 권한 요청 | permission.html 동의 버튼 클릭 시 Geolocation 및 Notification 실제 브라우저 권한 팝업 요청 및 좌표 로컬 캐싱 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-064]** | 프론트엔드 UI/UX 30초 통화 스크립트 | 0-Backend 순수 클라이언트 기반 실시간 환아 바이탈(월령·체온·증상) 통화 스크립트 동적 완성 및 원터치 클립보드 복사 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-065]** | 프론트엔드 설정 & 법률 컴플라이언스 | settings.html 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨 전용 이용약관(terms.html) 신규 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-066]** | 프론트엔드 설정 & 전역 접근성 | settings.html 글자 크기(작게·보통·크게) 선택 모달 및 앱 전체 실시간 폰트 스케일링 엔진 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1998,6 +1999,47 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-066] 설정 화면(settings.html) 글자 크기(작게·보통·크게) 선택 모달 및 앱 전체 실시간 폰트 스케일링 엔진 구현
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장), AI 에이전트
+* **분류**: 프론트엔드 UI/UX 인터랙션 / 접근성(Accessibility) / 전역 상태 지속성(localStorage) / 반응형 스케일링
+* **문제 상황**:
+  * 설정 화면([settings.html](file:///e:/monnlight/frontend/templates/settings.html))의 1-2번 행에 '글자 크기 변경' 항목이 정적 텍스트("보통")와 화살표 아이콘만 존재하는 더미 버튼으로 방치되어 있었음.
+  * 야간에 긴급히 소아과를 찾는 부모 세대 및 조부모 양육자의 시인성 편차(노안, 저시력, 작은 폰트 피로도 등)를 고려할 때 글자 크기를 조절하는 기능이 필수적이나, 선택 인터랙션 모달 및 앱 전역 적용 메커니즘이 전무하였음.
+* **원인 분석**:
+  * 글자 크기 선택 UI 컴포넌트(BottomSheet/Modal) 및 선택값 변경 이벤트 핸들러 부재.
+  * 단순 CSS `font-size` 변경 시 개별 카드, 버튼, 뱃지 패딩과의 비례가 무너져 레이아웃 클리핑이 발생할 수 있으므로, 웹킷/블링크 표준 뷰포트 확대 축소(CSS `zoom` + `--app-font-scale` CSS Variable)를 결합한 전역 스케일링 설계가 요구됨.
+  * 페이지 이동(라우팅) 시 글자 크기가 순간적으로 기본값으로 보였다가 커지는 FOUC(Flash of Unstyled Content) 현상을 원천 방어하는 초기화 파이프라인 부재.
+* **구체적 해결 방안**:
+  1. **모니모/카카오 감성의 글자 크기 선택 전용 모달 다이얼로그 구축**:
+     - `settings.html` (templates 및 루트)에 `id="font-size-modal"` 모달 마크업 탑재.
+     - 3단계 옵션 카드 제공: **작게(Small, 93%)**, **보통(Normal, 100%)**, **크게(Large, 107%)**.
+     - 각 옵션 카드 선택 시 상단에 실시간으로 글자 크기가 변화하는 미리보기 박스(`font-preview-box`) 제공.
+     - `[취소]` 및 `[적용하기]` 버튼을 통한 직관적인 확인/취소 UX 구현.
+  2. **전역 폰트 스케일링 엔진(`applyAisumFontSize`) 및 Zero-FOUC 가드 탑재**:
+     - [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)에 `applyAisumFontSize(size)` 함수 구현.
+     - `document.documentElement` 및 `document.body`에 `.font-size-{small|normal|large}` 클래스를 토글 적용.
+     - 선택값은 `localStorage.setItem('aisum_font_size', size)`로 영구 저장되어 앱 재접속 및 모든 하위 페이지(홈, 문진, 가이드, 결과, 상세, 약관 등)에서 100% 지속 유지.
+     - `main.js` 파일 최상단에서 DOMContentLoaded를 기다리지 않고 즉시 실행(`applyAisumFontSize()`)하여 화면 깜빡임(FOUC) 원천 차단.
+  3. **CSS 전역 스케일링 토큰 및 모달 반응형 스타일링**:
+     - [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)에 `zoom: 0.93`, `zoom: 1.0`, `zoom: 1.07` 및 `--app-font-scale` 규칙 반영.
+     - 모바일 뷰포트 및 데스크톱 환경 모두에서 컨테이너, 버튼, 폰트가 자연스럽게 비례 확대/축소되도록 최적화.
+  4. **통합 E2E 자동화 검증**:
+     - FastAPI TestClient 및 파이썬 자동화 스크립트를 통해 모달 구조, 3대 옵션 카드 바인딩, `applyAisumFontSize` 스크립트 정합성 100% 통과 확인.
+* **적용 파일**:
+  * [frontend/templates/settings.html](file:///e:/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///e:/monnlight/frontend/settings.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 

@@ -30,6 +30,21 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.26-global-font-size-scaling] 2026-10-15: '아이숨' 설정(settings.html) 글자 크기 선택 모달 및 앱 전체 실시간 스케일링 엔진 구축 (정영식 팀장, AI 에이전트)
+* **설정 화면 전용 3단계 글자 크기 선택 모달(`font-size-modal`) 구축**:
+  - [settings.html](file:///e:/monnlight/frontend/templates/settings.html) (templates 및 루트) 1-2번 행에 '글자 크기 변경' 버튼(`id="btn-font-size-setting"`) 및 현재 상태 뱃지(`current-font-size-text`) 연동.
+  - 클릭 시 하단 바텀시트/모달이 부드럽게 팝업되며 **작게(Small, 93%)**, **보통(Normal, 100%)**, **크게(Large, 107%)** 3단계 선택 라디오 카드 제공.
+  - 모달 내부에 실시간 문구 미리보기 카드(`font-preview-box`)를 제공하여 적용 전 시각적 크기를 즉각 체감 가능.
+* **앱 전체 실시간 전역 폰트 스케일링 엔진 (`applyAisumFontSize`) 구현**:
+  - [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)에 전역 제어 엔진 탑재 및 `localStorage.setItem('aisum_font_size', size)` 영구 지속 저장.
+  - 설정 화면뿐 아니라 홈(`index.html`), 증상 문진(`input.html`), 결과 화면(`result.html`), 병원 상세(`hospital_detail.html`), 응급 가이드(`emergency_guide.html`), 이용약관(`terms.html`) 등 앱 전역에 일관 스케일링 전파.
+  - 최상단 즉각 실행 가드로 페이지 이동 시 글자 크기가 번쩍이는 깜빡임(FOUC) 원천 차단.
+* **CSS 전역 뷰포트 스케일링 토큰 및 컴포넌트 반응형 최적화**:
+  - [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)에 `zoom: 0.93`, `zoom: 1.0`, `zoom: 1.07` 및 `--app-font-scale` 규칙 반영.
+  - 폰트뿐만 아니라 카드, 버튼, 뱃지의 여백이 자연스럽게 비례 확대/축소되어 깨짐 없는 레이아웃 보장.
+* **E2E 자동화 검증 통과**:
+  - FastAPI TestClient 및 자동화 스크립트로 모달 렌더링, 3개 라디오 카드 상호작용, 전역 스케일링 스크립트 100% 무결점 확인.
+
 ### 🌟 [v2.4.25-aisum-terms-of-service] 2026-10-15: '아이숨' 설정(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 전용 이용약관(terms.html) 구축 (정영식 팀장, AI 에이전트)
 * **아이숨 전용 9대 핵심 조항 서비스 이용약관(`terms.html`) 신규 구축**:
   - **제3조 (대한민국 의료법 제27조 준수 및 비의료 AI 문진 보조의 한계)**: 본 서비스는 의사의 진단·처방을 대체할 수 없으며 대면 진료를 최우선으로 하는 '순수 정보 제공용 보조 도구'임을 명시하고, 병·의원/약국 알선 및 광고 행위 배제 공정성 보장.

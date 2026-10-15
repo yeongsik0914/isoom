@@ -52,6 +52,7 @@
     - [10.32 '아이숨' 앱 접근권한(permission.html) 동의 시 실제 Web API(위치·알림) 권한 요청 및 실시간 좌표 캐싱 구축](#1032-아이숨-앱-접근권한permissionhtml-동의-시-실제-web-api위치알림-권한-요청-및-실시간-좌표-캐싱-구축-2026-10-15-완결)
     - [10.33 '아이숨' 30초 통화 스크립트 실시간 환아 바이탈 동적 연동 및 제로-백엔드 클라이언트 바인딩](#1033-아이숨-30초-통화-스크립트-실시간-환아-바이탈-동적-연동-및-제로-백엔드-클라이언트-바인딩-2026-10-15-완결)
     - [10.34 '아이숨' 설정(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 전용 이용약관(terms.html) 구축](#1034-아이숨-설정settingshtml-이용약관-버튼-연동-및-의료법-제27조-준수-전용-이용약관termshtml-구축-2026-10-15-완결)
+    - [10.35 '아이숨' 설정(settings.html) 글자 크기 선택 모달 및 앱 전체 실시간 스케일링 엔진 구축](#1035-아이숨-설정settingshtml-글자-크기-선택-모달-및-앱-전체-실시간-스케일링-엔진-구축-2026-10-15-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -960,6 +961,28 @@ flowchart TD
   3. **FastAPI 라우터 등록 및 통합 검증**:
      - [main.py](file:///e:/monnlight/main.py)에 `GET /terms`, `GET /terms.html` 엔드포인트 등록.
      - TestClient 검증 통과 (`ALL TERMS & SETTINGS INTEGRATION TESTS PASSED PERFECTLY!`).
+
+---
+
+### 10.35 '아이숨' 설정(settings.html) 글자 크기 선택 모달 및 앱 전체 실시간 스케일링 엔진 구축 (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 설정 화면([settings.html](file:///e:/monnlight/frontend/templates/settings.html))의 1-2번 행에 배치된 '글자 크기 변경' 항목이 정적 텍스트("보통")만 표시되고 클릭 인터랙션이 없는 상태였음.
+  - 야간 소아 응급 상황에서 시력이 약한 조부모 보호자나 어두운 환경의 부모들이 가독성을 확보할 수 있도록 **작게(93%) / 보통(100%) / 크게(107%)** 3단계 폰트 조절 기능 및 앱 전역 실시간 반영 체계 요구됨.
+* **구체적 구현 내역**:
+  1. **모니모 감성의 3단계 라디오 카드 모달 다이얼로그(`font-size-modal`) 구축**:
+     - [settings.html](file:///e:/monnlight/frontend/templates/settings.html) 및 [settings.html](file:///e:/monnlight/frontend/settings.html)에 `openFontSizeModal()` 호출 버튼 바인딩.
+     - 모달 내에 **작게 / 보통 / 크게** 3개 선택 카드와 실시간 텍스트 미리보기 박스(`font-preview-box`) 탑재.
+     - `[취소]` 및 `[적용하기]` 버튼을 통한 원터치 상태 확정 UX 제공.
+  2. **앱 전체 실시간 전역 스케일링 엔진 (`applyAisumFontSize`) 및 Zero-FOUC 가드 탑재**:
+     - [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)에 `applyAisumFontSize(size)` 함수 구현.
+     - `document.documentElement` 및 `document.body`에 `.font-size-{small|normal|large}` 클래스 토글 적용.
+     - 선택값은 `localStorage.setItem('aisum_font_size', size)`로 영구 보존되어 설정 화면뿐 아니라 홈(`index.html`), 증상 문진(`input.html`), 결과(`result.html`), 병원 상세(`hospital_detail.html`), 응급 가이드(`emergency_guide.html`), 약관(`terms.html`) 등 앱 내 모든 화면에서 일관 유지.
+     - 스크립트 최상단에서 DOMContentLoaded 대기 없이 즉시 실행되어 화면 전환 시 깜빡임(FOUC) 원천 차단.
+  3. **CSS 뷰포트 레벨 비례 스케일링 토큰 최적화**:
+     - [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)에 `zoom: 0.93`, `zoom: 1.0`, `zoom: 1.07` 및 `--app-font-scale` 속성 정의.
+     - 단순 폰트 크기 조절 시 발생하는 카드/버튼 레이아웃 깨짐 없이 전체 UI 요소가 조화롭게 비례 확대/축소되도록 보증.
+  4. **통합 자동화 E2E 검증 통과**:
+     - TestClient 및 자동화 스크립트로 3대 라디오 카드 바인딩, 모달 열기/닫기, 스케일링 함수 100% 무결점 통과 확인 (`SUCCESS: All font size scaling and modal interaction checks passed 100%!`).
 
 ---
 

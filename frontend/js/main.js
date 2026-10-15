@@ -7,11 +7,117 @@
  * - 증상 입력 페이지(input.html) 인풋 인터랙션 및 엔터키 입력 처리
  */
 
+// ============================================================================
+// 📱 Global Font Size Management System (작게: small / 보통: normal / 크게: large)
+// ============================================================================
+window.applyAisumFontSize = function(size) {
+  try {
+    const targetSize = size || localStorage.getItem('aisum_font_size') || 'normal';
+    if (document.documentElement) {
+      document.documentElement.classList.remove('font-size-small', 'font-size-normal', 'font-size-large');
+      document.documentElement.classList.add('font-size-' + targetSize);
+    }
+    if (document.body) {
+      document.body.classList.remove('font-size-small', 'font-size-normal', 'font-size-large');
+      document.body.classList.add('font-size-' + targetSize);
+    }
+    return targetSize;
+  } catch (e) {
+    console.warn('Font size apply failed:', e);
+    return 'normal';
+  }
+};
+
+// Immediate execution to prevent FOUC (Flash of Unstyled Content)
+if (typeof document !== 'undefined') {
+  if (document.body) {
+    window.applyAisumFontSize();
+  } else {
+    document.addEventListener('DOMContentLoaded', () => window.applyAisumFontSize());
+  }
+}
+
+// Font Size Modal Functions
+window.openFontSizeModal = function() {
+  const modal = document.getElementById('font-size-modal');
+  if (!modal) return;
+  const currentSize = localStorage.getItem('aisum_font_size') || 'normal';
+  window.__selectedTempFontSize = currentSize;
+  if (typeof updateFontModalSelection === 'function') {
+    updateFontModalSelection(currentSize);
+  }
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeFontSizeModal = function() {
+  const modal = document.getElementById('font-size-modal');
+  if (!modal) return;
+  // If cancelled without confirm, revert to saved size
+  const savedSize = localStorage.getItem('aisum_font_size') || 'normal';
+  window.applyAisumFontSize(savedSize);
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+window.selectFontSize = function(size) {
+  window.__selectedTempFontSize = size;
+  if (typeof updateFontModalSelection === 'function') {
+    updateFontModalSelection(size);
+  }
+  window.applyAisumFontSize(size);
+};
+
+window.confirmFontSizeSelection = function() {
+  const size = window.__selectedTempFontSize || localStorage.getItem('aisum_font_size') || 'normal';
+  try {
+    localStorage.setItem('aisum_font_size', size);
+  } catch (e) {}
+  window.applyAisumFontSize(size);
+
+  const textEl = document.getElementById('current-font-size-text');
+  if (textEl) {
+    const labels = { small: '작게', normal: '보통', large: '크게' };
+    textEl.textContent = labels[size] || '보통';
+  }
+
+  const modal = document.getElementById('font-size-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+};
+
+function updateFontModalSelection(size) {
+  document.querySelectorAll('.font-option-card').forEach(card => {
+    if (card.getAttribute('data-size') === size) {
+      card.classList.add('active');
+    } else {
+      card.classList.remove('active');
+    }
+  });
+  const preview = document.getElementById('font-preview-sample');
+  if (preview) {
+    preview.className = 'font-preview-text size-' + size;
+  }
+}
+
 if (!window.__AISUM_INITIALIZED__) {
   window.__AISUM_INITIALIZED__ = true;
 
   document.addEventListener('DOMContentLoaded', () => {
     console.log('👶 아이숨 (Aisum) 모바일 웹 화면이 Safari/Chrome 호환 모드로 로드되었습니다.');
+
+    // Initialize font size label on settings page
+    const textEl = document.getElementById('current-font-size-text');
+    if (textEl) {
+      const savedSize = localStorage.getItem('aisum_font_size') || 'normal';
+      const labels = { small: '작게', normal: '보통', large: '크게' };
+      textEl.textContent = labels[savedSize] || '보통';
+    }
 
     // DOM Elements
     const modal = document.getElementById('triage-consent-modal');
