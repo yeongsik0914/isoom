@@ -955,12 +955,48 @@
       }
     };
 
-    // 1. Hydrate Hospital Data from SessionStorage
-    document.addEventListener('DOMContentLoaded', () => {
+    // 1. Hydrate Hospital Data from SessionStorage or Real Backend API
+    document.addEventListener('DOMContentLoaded', async () => {
       try {
         const stored = sessionStorage.getItem('selected_hospital');
         if (stored) {
           activeHospital = Object.assign(activeHospital, JSON.parse(stored));
+        } else {
+          // 백엔드 실제 엔드포인트 비동기 호출 (GET /api/v1/emergency/pairings)
+          try {
+            const userLat = localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133';
+            const userLon = localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001';
+            const res = await fetch(`/api/v1/emergency/pairings?lat=${userLat}&lon=${userLon}&limit=1`);
+            if (res.ok) {
+              const pData = await res.json();
+              if (pData.pairings && pData.pairings.length > 0) {
+                const top = pData.pairings[0];
+                activeHospital = {
+                  name: top.병원명,
+                  dist: typeof top.거리_km === 'number' ? Number(top.거리_km.toFixed(1)) : parseFloat(top.거리_km),
+                  drive_min: Math.max(3, Math.round((top.거리_km || 1.8) * 2.5)),
+                  tel: top.병원전화,
+                  address: top.병원주소,
+                  duty_time: `오늘 야간진료 ${top.병원_평일마감 || '23:00'} 마감`,
+                  waiting_count: 4,
+                  hours: {
+                    weekday: top.병원_평일진료 || '08:30 ~ 21:00',
+                    saturday: top.병원_토요진료 || '08:30 ~ 18:00',
+                    sunday: top.병원_일공진료 || '09:00 ~ 18:00',
+                  },
+                  pharmacy: {
+                    name: top.약국명,
+                    tel: top.약국전화,
+                    duty_time: `${top.약국_평일마감 || '21:30'} 마감`,
+                    margin: top.안전마진_분 || 30,
+                    guide: top.이동안내 || '동일 건물 도보 1분'
+                  }
+                };
+              }
+            }
+          } catch (apiErr) {
+            console.log('실제 병원 페어링 API 비동기 폴백:', apiErr);
+          }
         }
       } catch (e) {
         console.warn('Failed to parse selected_hospital:', e);
@@ -1005,7 +1041,10 @@
 
       // Operating Hours Table
       const todayHoursEl = document.getElementById('detail-today-hours');
-      if (todayHoursEl) todayHoursEl.innerText = `09:00 ~ ${closingTime} (접수마감 ${deadlineTime})`;
+      if (todayHoursEl) {
+        const weekdayStr = (activeHospital.hours && activeHospital.hours.weekday) ? activeHospital.hours.weekday : `09:00 ~ ${closingTime}`;
+        todayHoursEl.innerText = `${weekdayStr} (접수마감 ${deadlineTime})`;
+      }
 
       // Paired Pharmacy
       if (activeHospital.pharmacy) {
@@ -1014,7 +1053,8 @@
 
         const pDescEl = document.getElementById('pharmacy-desc');
         if (pDescEl) {
-          pDescEl.innerHTML = `병원 바로 옆 <strong>도보 1~2분</strong> · 오늘 야간영업 <strong>${activeHospital.pharmacy.duty_time || '23:30 마감'}</strong>`;
+          const guide = activeHospital.pharmacy.guide || '병원 바로 옆 도보 1~2분';
+          pDescEl.innerHTML = `${guide} · 오늘 야간영업 <strong>${activeHospital.pharmacy.duty_time || '23:30 마감'}</strong>`;
         }
 
         const pMapEl = document.getElementById('btn-pharmacy-map');

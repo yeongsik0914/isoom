@@ -1357,18 +1357,28 @@
         data.hospitals.forEach((h, i) => {
           if (i < currentHospitals.length) {
             currentHospitals[i].name = h.기관명 || h.name || currentHospitals[i].name;
-            currentHospitals[i].tel = h.대표전화 || h.tel || currentHospitals[i].tel;
+            currentHospitals[i].tel = h.전화번호 || h.대표전화 || h.tel || currentHospitals[i].tel;
             if (h.거리_km || h.distance_km) {
               const d = h.거리_km || h.distance_km;
               currentHospitals[i].dist = typeof d === 'number' ? Number(d.toFixed(1)) : parseFloat(d);
+              currentHospitals[i].drive_min = Math.max(3, Math.round(currentHospitals[i].dist * 2.5));
             }
             if (h.주소 || h.address) currentHospitals[i].address = h.주소 || h.address;
+            if (h.진료시간) currentHospitals[i].duty_time = h.진료시간;
+            if (h.마감시간) currentHospitals[i].duty_time = `오늘 야간진료 ${h.마감시간} 마감`;
+            if (h.소아병상수 !== undefined) currentHospitals[i].pediatric_beds = h.소아병상수;
+            if (h.유형) currentHospitals[i].type = h.유형;
           }
         });
         if (data.pharmacies && data.pharmacies.length > 0) {
           data.pharmacies.forEach((p, i) => {
             if (i < currentHospitals.length) {
               currentHospitals[i].pharmacy.name = p.약국명 || p.name || currentHospitals[i].pharmacy.name;
+              if (p.전화번호 || p.tel) currentHospitals[i].pharmacy.tel = p.전화번호 || p.tel;
+              if (p.마감시간) currentHospitals[i].pharmacy.duty_time = `${p.마감시간} 마감`;
+              if (p.안전마진_분) currentHospitals[i].pharmacy.margin = p.안전마진_분;
+              if (p.주소) currentHospitals[i].pharmacy.address = p.주소;
+              if (p.이동안내) currentHospitals[i].pharmacy.guide = p.이동안내;
             }
           });
         }
@@ -1382,17 +1392,67 @@
           if (nameEl) nameEl.innerText = h.name;
           const distEl = card.querySelector('.facility-distance');
           if (distEl) distEl.innerText = `${h.dist} km (차 ${h.drive_min}분)`;
+          const timeEl = card.querySelector('.facility-info-row strong');
+          if (timeEl && h.duty_time) timeEl.innerText = h.duty_time.replace('오늘 야간진료 ', '');
           const callEl = card.querySelector('.btn-call-action');
           if (callEl) callEl.href = `tel:${h.tel.replace(/-/g, '')}`;
+          const mapEl = card.querySelector('.btn-map-action');
+          if (mapEl) mapEl.href = `https://map.kakao.com/link/search/${encodeURIComponent(h.name)}`;
+
+          if (h.pharmacy) {
+            const pharmNameEl = card.querySelector('.pharmacy-name-wrap span:last-child');
+            if (pharmNameEl) pharmNameEl.innerText = h.pharmacy.name;
+            const pharmMetaEl = card.querySelector('.pharmacy-meta');
+            if (pharmMetaEl) {
+              const guide = h.pharmacy.guide || '병원 인근 도보 1~2분';
+              pharmMetaEl.innerHTML = `${guide} · 오늘 야간영업 <strong>${h.pharmacy.duty_time || '23:30 마감'}</strong>`;
+            }
+          }
         }
       });
 
       window._activeHospitals = currentHospitals;
+
+      // 6. 소아 응급실 탭 실시간 E-Gen 공공 병상 API 결합 (GET /api/v1/emergency/nearby)
+      async function initLiveEmergencyBeds() {
+        try {
+          const lat = localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133';
+          const lon = localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001';
+          const res = await fetch(`/api/v1/emergency/nearby?lat=${lat}&lon=${lon}&radius_km=20&limit=4`);
+          if (res.ok) {
+            const nearbyData = await res.json();
+            const hospitals = nearbyData.hospitals || [];
+            const erCards = document.querySelectorAll('#emergency-scroll-list .emergency-room-card');
+            hospitals.forEach((h, idx) => {
+              if (idx < erCards.length) {
+                const card = erCards[idx];
+                const nameEl = card.querySelector('.facility-name');
+                if (nameEl) nameEl.innerText = h.hospital_name;
+                const distEl = card.querySelector('.facility-distance');
+                if (distEl) distEl.innerText = `${h.distance_km} km (차 ${Math.max(3, Math.round(h.distance_km * 2.5))}분)`;
+                const bedValEl = card.querySelector('.bed-val');
+                if (bedValEl) bedValEl.innerText = `${h.pediatric_beds}석`;
+                const callEl = card.querySelector('.btn-call-action');
+                if (callEl && h.tel) callEl.href = `tel:${h.tel.replace(/-/g, '')}`;
+              }
+            });
+          }
+        } catch (e) {
+          console.log('소아 응급실 실시간 병상 API 비동기 폴백:', e);
+        }
+      }
+      initLiveEmergencyBeds();
+
+      // 7. URL 쿼리 파라미터 기반 탭 자동 선택 (?tab=emergency)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('tab') === 'emergency') {
+        switchTrackTab('emergency');
+      }
     } catch (e) {
       console.warn('Failed to parse backend_result or triage_result:', e);
     }
 
-    // 6. Generic Hospital Card Selection Helper (단일 범용 템플릿 연동)
+    // 8. Generic Hospital Card Selection Helper (단일 범용 템플릿 연동)
     function selectHospitalCard(idx) {
       const hospList = window._activeHospitals || [
         { name: "송파어린이병원", dist: 1.8, duty_time: "오늘 야간진료 23:00 마감", tel: "02-400-7575", address: "서울특별시 송파구 올림픽로 300", waiting_count: 5, pharmacy: { name: "송파달빛약국", duty_time: "23:30 마감" } }

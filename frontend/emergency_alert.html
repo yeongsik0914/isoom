@@ -419,21 +419,28 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Hydrate Emergency Reason from Backend Response
+      // 1. Hydrate Emergency Reason from Backend Response or Client Red Flag Detection
       try {
+        let guideText = null;
         const stored = sessionStorage.getItem('backend_result');
         if (stored) {
           const data = JSON.parse(stored);
           if (data.is_emergency && (data.message || data.emergency_guide)) {
-            const subline = document.querySelector('.emergency-subline');
-            if (subline) {
-              const guideText = data.emergency_guide || data.message;
-              subline.innerHTML = `<strong>${guideText}</strong><br>권역 소아전문응급의료센터로 신속히 이송해야 합니다.`;
-            }
+            guideText = data.emergency_guide || data.message;
+          }
+        }
+        if (!guideText) {
+          guideText = sessionStorage.getItem('red_flag_reason');
+        }
+
+        if (guideText) {
+          const subline = document.querySelector('.emergency-subline');
+          if (subline) {
+            subline.innerHTML = `<span style="display:inline-block; margin-bottom:4px; color:#ef4444; font-weight:800;">🚨 ${guideText}</span><br>소아 외래 진료가 아닌 <strong>상급 권역응급의료센터 즉각 이송</strong>이 필요합니다.`;
           }
         }
       } catch (e) {
-        console.warn('Failed to parse backend_result for emergency alert:', e);
+        console.warn('Failed to parse emergency reason for emergency alert:', e);
       }
 
       // 2. Hydrate Real User Location Address if available

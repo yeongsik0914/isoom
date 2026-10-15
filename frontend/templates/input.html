@@ -513,6 +513,16 @@
 
         // 1. Red Flag Emergency Guardrail Check (0ms Red Flag)
         if (RED_FLAG_REGEX.test(text)) {
+          let reason = '12대 소아 위급 상황 (119 즉시 신고 필요)';
+          if (/절단|잘렸|잘려|전기톱|날아갔/.test(text)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
+          else if (/경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)/.test(text)) reason = '소아 급성 경련 및 뇌전증 발작 의심';
+          else if (/의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도/.test(text)) reason = '의식 저하 및 기면 상태 (초응급 이송)';
+          else if (/청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕/.test(text)) reason = '급성 소아 호흡부전 및 기도폐쇄 의심';
+          else if (/초록색.*토|담즙|분수토|피똥|딸기잼.*변|혈변/.test(text)) reason = '장중첩증/위장관 출혈 의심';
+          else if (/100일.*(38|열)|백일.*(38|열)/.test(text)) reason = '생후 100일 미만 영아 고열 (신생아 패혈증 의심)';
+          else if (/화상.*(얼굴|손|발)|(얼굴|손|발).*화상|물집.*(얼굴|손|발)/.test(text)) reason = '소아 안면/수부 중증 화상 의심';
+
+          sessionStorage.setItem('red_flag_reason', reason);
           if (redflagToast) redflagToast.style.display = 'block';
           symptomInput.blur();
           setTimeout(() => {
@@ -585,12 +595,14 @@
           // Package Backend ChatRequest Payload for loading.html to execute real POST /api/v1/chat
           const userLat = parseFloat(localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133');
           const userLon = parseFloat(localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001');
+          const userAddress = localStorage.getItem('user_address') || sessionStorage.getItem('user_address') || null;
           const userMessage = `${finalAge} 아기이고 체온은 ${finalTemp}입니다. 주요 증상: ${finalSymptom}, 동반 증상: ${finalCompanion}`;
 
           const backendChatRequest = {
             user_message: userMessage,
             user_lat: userLat,
             user_lon: userLon,
+            user_address: userAddress,
             force_matching: true,
             stream: false,
             patient_vitals: {

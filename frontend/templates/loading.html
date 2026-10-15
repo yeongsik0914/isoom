@@ -149,6 +149,7 @@
             user_message: requestPayload.user_message,
             user_lat: requestPayload.user_lat || 37.5133,
             user_lon: requestPayload.user_lon || 127.1001,
+            user_address: requestPayload.user_address || localStorage.getItem('user_address') || null,
             force_matching: true,
             stream: false
           }),

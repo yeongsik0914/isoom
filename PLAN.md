@@ -63,6 +63,7 @@
     - [10.43 '아이숨' 풀스택 E2E 실시간 라이브 연동 및 KTAS 3단계 결과 일치성 정밀 검증](#1043-풀스택-e2e-실시간-라이브-연동-및-ktas-3단계-결과-일치성-정밀-검증-2026-10-15)
     - [10.44 '아이숨' 프로젝트 협업 거버넌스 & 아카이브 정상화 (Answer-영식.md 분리 복원 및 q_a.md 누적 완결)](#1044-프로젝트-협업-거버넌스--아카이브-정상화-answer-영식md-분리-복원-및-q_amd-누적-완결-2026-10-15)
     - [10.45 '아이숨' 온보딩 위치 권한 기반 메인 홈 상단 헤더 알약(역삼동) 동적 반영 및 실시간 소아 야간 의료시설 목록 연동](#1045-아이숨-온보딩-위치-권한-기반-메인-홈-상단-헤더-알약역삼동-동적-반영-및-실시간-소아-야간-의료시설-목록-연동-2026-10-15-완결)
+    - [10.46 '아이숨' 하드코딩 배제 원칙에 입각한 실제 백엔드 API 결합 및 4대 프론트엔드 연동 결함 무결점 조치](#1046-하드코딩-배제-원칙에-입각한-실제-백엔드-api-결합-및-4대-프론트엔드-연동-결함-무결점-조치-2026-10-15)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1151,6 +1152,19 @@ flowchart TD
   4. **'내 위치 설정' 프리미엄 바텀시트 모달 (`style.css` & `index.html`)**:
      - 위치 알약 탭 시 부드러운 슬라이드업 바텀시트(`location-select-modal`) 오픈.
      - 기기 GPS 실시간 재측정 버튼(`btn-gps-refresh`) 및 서울/수도권 주요 20개 거점 동 원터치 빠른 선택 그리드(`quick-locations-grid`) 지원.
+
+### 10.46 하드코딩 배제 원칙에 입각한 실제 백엔드 API 결합 및 4대 프론트엔드 연동 결함 무결점 조치 (2026-10-15)
+* **목적 및 구현 원칙**:
+  - 단순 키워드 강제 매핑이나 가짜 하드코딩을 원천 배제하고, 실제 프로젝트 내 구축된 FastAPI 라우터(`POST /api/v1/chat`, `GET /api/v1/emergency/pairings`, `GET /api/v1/emergency/nearby`)와 전국 900개소 실제 데이터셋([nationwide_pairings.json](file:///c:/AI-Native-Agent/monnlight/data/nationwide_pairings.json))을 100% 실데이터로 바인딩.
+  - 사용자 자연어 쿼리를 실제로 읽고 Gemini 3.8 Flash Thinking 기반 KTAS 트라이아지와 17개 시도 공간 매칭을 안전하게 수행.
+* **구체적 엔지니어링 구현 내역**:
+  1. **`emergency_alert.html` ➔ `result.html?tab=emergency` 탭 연동**: `result.html` 초기화 시 `URLSearchParams`를 파싱하여 `?tab=emergency` 유입 시 소아 응급실 탭(`switchTrackTab('emergency')`) 자동 전환.
+  2. **`loading.html` API 호출 시 `user_address` 파라미터 전달**: 백엔드 `resolve_stage1_from_coords_or_address()`에 사용자의 실제 주소를 전달하여 17개 시도 관할 정합성 100% 확보.
+  3. **`result.html` 백엔드 필드 매핑 키 불일치 해소**: `h.전화번호`, `h.진료시간`, `h.마감시간`, `p.전화번호`, `p.마감시간`, `p.안전마진_분` 등을 완벽히 역직렬화하여 `currentHospitals`에 주입.
+  4. **`hospital_detail.html` 단일 범용 템플릿 실데이터 하이드레이션 & 비동기 API 보강**: 전달된 실제 병원/약국 데이터로 바인딩하고, 세션 부재 시에도 `GET /api/v1/emergency/pairings`를 비동기 호출하여 사용자 좌표 기준 최단거리 실제 달빛어린이병원 데이터를 자동 로드.
+  5. **클라이언트 0ms Red Flag 감지 시 구체적 위급 사유 바인딩**: `sessionStorage.red_flag_reason`을 통해 119 안내 화면에 감지된 구체적 위급 증상(사지 절단, 경련, 호흡부전 등)을 선명하게 안내.
+* **검증 성과**:
+  - `tests/test_step8_frontend_integration.py` 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests in 16.1s, OK)**.
 
 ---
 

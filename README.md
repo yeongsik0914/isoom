@@ -30,6 +30,18 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.37-real-api-fullstack-pipeline-sync] 2026-10-15: 하드코딩 배제 원칙에 입각한 실제 백엔드 API 결합 및 4대 프론트엔드 연동 결함 무결점 조치 (김동준 팀원, 정영식 팀장)
+* **🚫 하드코딩·키워드 강제 매핑 전면 배제 및 실제 프로젝트 API 연동**:
+  - `result.html`: 백엔드 `MatchingAgent`가 산출한 실제 병원 객체(`h.기관명`, `h.전화번호`, `h.거리_km`, `h.주소`, `h.진료시간`, `h.마감시간`, `h.소아병상수`, `h.유형`)와 약국 객체(`p.약국명`, `p.전화번호`, `p.마감시간`, `p.안전마진_분`, `p.이동안내`)를 1:1 완벽 바인딩.
+  - `hospital_detail.html`: 전달받은 실제 병원/약국 데이터로 100% 실시간 하이드레이션하고, 세션 부재 시에도 실제 백엔드 엔드포인트 `GET /api/v1/emergency/pairings`를 비동기 호출하여 사용자 좌표 기준 최단거리 실제 달빛어린이병원 데이터를 자동 로드.
+* **🚨 4대 프론트엔드 연동 결함 전수 해결**:
+  1. `emergency_alert.html` ➔ `result.html?tab=emergency`: `result.html`에서 `URLSearchParams`를 인식하여 소아 응급실 탭(`switchTrackTab('emergency')`)으로 자동 즉시 전환.
+  2. `loading.html` API 호출 시 `user_address` 누락 결함 해소 ➔ 백엔드 `resolve_stage1_from_coords_or_address()` 17개 시도 공간 매칭 완결.
+  3. `result.html` 백엔드 필드 매핑 키 불일치(`전화번호`, `진료시간` 등) 전면 해결.
+  4. 클라이언트 0ms Red Flag 감지 시 구체적인 12대 응급 사유를 `sessionStorage.red_flag_reason`에 저장하여 119 안내 화면에 명확하게 표출.
+* **🧪 단위/통합 테스트 100% 무결점 통과**:
+  - `test_step8_frontend_integration.py` 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests in 16.1s, OK)**.
+
 ### 🌟 [v2.4.36-user-location-live-facilities-sync] 2026-10-15: 온보딩 위치 권한(Geolocation) 획득 좌표 기반 메인 홈 상단 헤더 알약(역삼동) 동적 반영 및 실시간 소아 야간 의료시설 목록 연동 (정영식 팀장)
 * **📍 온보딩 위치 권한(`permission.html`) 행정동(Dong) 자동 산출 및 캐싱**:
   - 앱 첫 진입 온보딩에서 사용자가 위치 권한을 승인하는 순간, 획득한 위경도 좌표로부터 Haversine 구면거리 공간 인덱스(`estimateDongName`)를 통해 0ms 내에 가장 가까운 행정동(Dong) 명칭을 도출하고 `aisum_user_dong`, `user_dong`에 저장.

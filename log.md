@@ -83,6 +83,7 @@
 | **[ISSUE-074]** | 풀스택 E2E 실시간 라이브 연동 검증 | input.html 실시간 입력 시나리오(발열/보챔) ➔ 백엔드 FSM KTAS 3단계 산출 및 result.html 실데이터 100% 일치 실시간 검증 완료 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-075]** | 프로젝트 협업 거버넌스 & 아카이브 정상화 | 작업자별 Q&A 아카이브 분리 원칙 확립, Answer-영식.md 정영식 팀장 영역 원상 복원 및 q_a.md 김동준 팀원 전담 누적 체계 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-076]** | 프론트엔드 위치 서비스 & 실시간 공간 매칭 | 온보딩 위치 권한(Geolocation) 획득 좌표의 메인 홈 헤더 알약(역삼동) 동적 반영 및 실시간 의료시설 페어링 연동 부재 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-077]** | 풀스택 데이터 파이프라인 결합 | hospital_detail.html 실제 정보 연동 기능 검토 및 input·result·emergency_alert 간 4대 백엔드 연동 결함 전수 진단 및 무결점 조치 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2383,6 +2384,39 @@
   * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
   * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
 
+
+---
+
+### [ISSUE-077] hospital_detail.html 병원 실제 정보 연동 기능 검토 및 input·result·emergency_alert 간 4대 백엔드 연동 결함 전수 진단
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 풀스택 데이터 파이프라인 / 프론트-백엔드 정합성 진단
+* **문제 상황**:
+  * `result.html`에서 병원 카드를 클릭했을 때 `hospital_detail.html`이 실제 백엔드 데이터를 가져오는지, 아니면 목업 데이터인지 확인이 필요함.
+  * `input.html`, `emergency_alert.html`, `loading.html`, `result.html` 간의 기능적 연동에 백엔드와 맞지 않는 결함이 존재하는지 전수 진단 필요.
+* **원인 분석**:
+  1. **실제 데이터 보유 여부**: 백엔드에는 전국 17개 시도 실제 달빛병원·심야약국 데이터(`nationwide_pairings.json`)와 E-Gen 실시간 병상 API(`GET /api/v1/emergency/nearby`, `GET /api/v1/emergency/pairings`)가 완비되어 있으나, `hospital_detail.html`은 `sessionStorage`에만 의존하고 자체 비동기 조회 기능이 없음.
+  2. **4대 기능적 연동 결함 규명**:
+     - **결함 1**: `emergency_alert.html` ➔ `result.html?tab=emergency` 클릭 시 `result.html`이 URL 쿼리 파라미터를 읽지 않아 소아 응급실 탭이 활성화되지 않는 중대 UX 결함.
+     - **결함 2**: `loading.html`에서 백엔드 `ChatRequest` 호출 시 `user_address`를 전송하지 않아 17개 시도 공간 판별이 GPS 바운딩박스로만 작동하는 결함.
+     - **결함 3**: `result.html`에서 백엔드 매칭 응답의 `h.전화번호`, `h.진료시간`, `p.전화번호`, `p.안전마진_분` 키 불일치로 인한 더미 데이터 잔존 결함.
+     - **결함 4**: 클라이언트 0ms Red Flag 감지 직행 시 `emergency_alert.html`의 구체적 위급 사유(예: 절단, 경련 등) 미표출.
+* **구체적 해결 방안**:
+  1. `result.html`에 `URLSearchParams` 기반 탭 자동 전환 로직 추가 (`?tab=emergency` ➔ `switchTrackTab('emergency')`).
+  2. `loading.html`에 `user_address` 전송 파라미터 추가하여 백엔드 17개 시도 공간 매칭 정밀도 극대화.
+  3. `result.html`에 백엔드 매칭 응답의 실제 키(`전화번호`, `진료시간`, `마감시간`, `약국 정보` 등) 매핑 보강 및 `GET /api/v1/emergency/nearby` 실시간 병상 비동기 결합.
+  4. `hospital_detail.html`에 실제 병원 객체 역직렬화 및 세션 부재 시 `GET /api/v1/emergency/pairings` 실제 API 호출 폴백 탑재.
+  5. `emergency_alert.html`에 클라이언트 0ms Red Flag 위급 사유 바인딩 추가.
+* **적용 파일**:
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html) & [templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/hospital_detail.html) & [templates/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html) & [templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/emergency_alert.html) & [templates/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/emergency_alert.html)
+  * [frontend/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/loading.html) & [templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md) (Q30, Q31)
+* **검증 성과**:
+  * `tests/test_step8_frontend_integration.py` 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests, OK)**.
 
 
 
