@@ -90,29 +90,38 @@ if (!window.__AISUM_INITIALIZED__) {
       });
     }
 
-    // 7. Symptom Input Page Logic (입력 필드 인터랙션)
+    // 7. Symptom Input Page Logic (사용자 텍스트 입력 시 확인 버튼 및 플로팅 레이블 토글)
     const symptomInput = document.getElementById('symptom-input');
     const floatingLabel = document.getElementById('floating-label');
     const inputClearBtn = document.getElementById('input-clear-btn');
+    const inputConfirmWrap = document.getElementById('input-confirm-wrap');
+    const inputConfirmBtn = document.getElementById('input-confirm-btn');
+
+    function updateInputState() {
+      if (!symptomInput) return;
+      const hasContent = symptomInput.value.trim().length > 0;
+
+      if (floatingLabel) floatingLabel.style.display = hasContent ? 'block' : 'none';
+      if (inputClearBtn) inputClearBtn.style.display = hasContent ? 'inline-flex' : 'none';
+      if (inputConfirmWrap) {
+        if (hasContent) {
+          inputConfirmWrap.classList.add('active');
+          inputConfirmWrap.style.display = 'block';
+        } else {
+          inputConfirmWrap.classList.remove('active');
+          inputConfirmWrap.style.display = 'none';
+        }
+      }
+    }
 
     if (symptomInput) {
-      symptomInput.addEventListener('input', () => {
-        const val = symptomInput.value.trim();
-        if (val.length > 0) {
-          if (floatingLabel) floatingLabel.style.display = 'block';
-          if (inputClearBtn) inputClearBtn.style.display = 'inline-flex';
-        } else {
-          if (floatingLabel) floatingLabel.style.display = 'none';
-          if (inputClearBtn) inputClearBtn.style.display = 'none';
-        }
-      });
+      symptomInput.addEventListener('input', updateInputState);
 
       if (inputClearBtn) {
         inputClearBtn.addEventListener('click', (e) => {
           e.preventDefault();
           symptomInput.value = '';
-          if (floatingLabel) floatingLabel.style.display = 'none';
-          inputClearBtn.style.display = 'none';
+          updateInputState();
           symptomInput.focus();
         });
       }
@@ -125,7 +134,19 @@ if (!window.__AISUM_INITIALIZED__) {
             symptomInput.focus();
             return;
           }
-          console.log('입력된 증상 프롬프트:', text);
+          if (inputConfirmBtn) {
+            inputConfirmBtn.click();
+          }
+        }
+      });
+    }
+
+    if (inputConfirmBtn) {
+      inputConfirmBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const text = symptomInput ? symptomInput.value.trim() : '';
+        if (text) {
+          console.log('✅ 사용자 증상 입력 확인 완료:', text);
         }
       });
     }

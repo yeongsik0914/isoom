@@ -54,7 +54,9 @@
 | **[ISSUE-044]** | Git 형상 관리 & 크로스 OS 협업 | 팀 협업 분기 충돌 방어 머지(Merge), 7대 엔드포인트 서빙 검증 및 Cross-OS NFD/NFC 정규화 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-045]** | 형상 관리 & 프론트엔드 모듈 격리 | 팀원(김동준) 전담 파일(input.html, modal.html)과 타 작업자(정영식) 전담 파일(index.html) 역할 분리 및 index.html 원본 100% 롤백 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-046]** | 프론트엔드 UI 텍스트 & 의료 컴플라이언스 | modal.html 안내 문구의 소아 야간 의료법·응급 대응 최적화 및 input.html/GNB 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
-| **[ISSUE-047]** | 프론트엔드 UI/UX 모달 & 화면 연동 | index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-047]** | 프론트엔드 UI 인터랙션 | input.html 사용자 텍스트 입력 시 확인 버튼 동적 표출(레퍼런스 우측 화면 1:1) 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-048]** | 모바일 테스트 & PWA Standalone | 로컬 Wi-Fi IP 바인딩 및 QR코드 즉각 테스트 환경 구축, iOS/안드로이드 홈 바로가기 메타태그 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-049]** | 프론트엔드 UI/UX 모달 & 화면 연동 | index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1295,7 +1297,69 @@
 
 ---
 
-### [ISSUE-047] index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현
+### [ISSUE-047] input.html 사용자 텍스트 입력 시 확인 버튼 동적 표출(레퍼런스 우측 화면 1:1) 구현
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI 컴포넌트 / 인터랙션 애니메이션 / 모바일 폼 UX
+* **문제 상황**:
+  * 사용자 제공 레퍼런스 이미지의 플로우:
+    - 좌측 화면: 인풋이 비어있을 때는 "확인" 버튼이 화면에 나타나지 않음.
+    - 우측 화면: 사용자가 커서를 두고 텍스트를 1글자 이상 입력하게 되면, 인풋 필드 아래쪽에 로열 블루 컬러의 풀 너비 **"확인"** 버튼이 부드럽게 등장해야 함.
+  * 기존 `input.html`에는 확인 버튼 마크업 및 동적 등장 인터랙션이 누락되어 있었음.
+* **원인 분석**:
+  * 이전 단계에서 가상 키보드를 배제하면서 확인 버튼까지 함께 생략되어, 모바일 사용자가 입력을 마치고 다음 단계로 진행할 수 있는 명시적인 CTA가 부재하였음.
+* **구체적 해결 방안**:
+  1. **마크업 추가** ([`frontend/input.html`](file:///c:/AI-Native-Agent/monnlight/frontend/input.html), [`frontend/templates/input.html`](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)):
+     - `.underline-input-wrapper` 하단에 `.input-confirm-btn-wrap` 컨테이너 및 `.input-confirm-btn` ("확인") 마크업 추가.
+  2. **레퍼런스 우측 화면 1:1 스타일링** ([`frontend/css/style.css`](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)):
+     - 너비 100%, 높이 52px, 배경 `#0066FF`, 모서리 곡률 `14px`, 텍스트 흰색 16px 볼드.
+     - 기본 상태: `display: none;`
+     - 활성 상태: `animation: fadeInSlideUp 0.25s ease-out` 부드러운 상향 페이드인 슬라이드 모션 적용.
+     - Pure CSS fallback: `.underline-input-wrapper:has(.underline-input-field:not(:placeholder-shown)) + .input-confirm-btn-wrap` 선택자를 탑재하여 JS가 지연되는 환경에서도 CSS만으로 즉시 버튼이 떠오르도록 설계.
+  3. **인터랙션 토글 로직 탑재** ([`frontend/js/main.js`](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)):
+     - `updateInputState()` 함수 구현: `symptomInput.value.trim().length > 0`일 때 플로팅 레이블, 지우기 버튼(`✕`), 확인 버튼을 동시에 활성화.
+     - 텍스트를 모두 지우거나 지우기(`✕`) 버튼 클릭 시 확인 버튼 자동 숨김 처리.
+     - 키보드 Enter 키 입력 시 확인 버튼 자동 트리거 연동.
+  4. **전역 템플릿 및 정적 파일 동기화**:
+     - `app/static/css/`, `frontend/templates/css/`, `app/templates/css/`, `frontend/templates/js/`, `app/templates/js/` 전역 미러링 완료.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-048] 로컬 Wi-Fi IP 바인딩 및 QR코드 즉각 테스트 환경 구축, iOS/안드로이드 홈 바로가기 메타태그 탑재
+
+* **발생 일자**: 2026-10-15
+* **분류**: 모바일 웹 테스트 환경 구축 / PWA Standalone 메타 태그 / 네트워크 서빙
+* **문제 상황**:
+  * 모바일 키보드 반응과 화면 인터랙션을 실제 스마트폰(아이폰/안드로이드)에서 검증하고자 할 때, 무거운 Cloud Run 배포 없이도 10초 만에 폰으로 접속할 수 있는 초고속 테스트 파이프라인 부재.
+  * 스마트폰에서 웹 접속 시 브라우저 주소창과 하단 툴바가 가려지는 모바일 앱 전체 화면(Standalone 모드) 메타 태그 미비.
+* **원인 분석**:
+  * Uvicorn 기본 로컬 바인딩(`127.0.0.1`)은 PC 내부에서만 접근 가능하여 동일 Wi-Fi에 연결된 스마트폰의 접근이 차단됨.
+* **구체적 해결 방안**:
+  1. **로컬 Wi-Fi IPv4 바인딩**:
+     - PC의 Wi-Fi 로컬 IP(`192.168.14.189`)를 확보하고, Uvicorn 서버를 `0.0.0.0:8000`에 백그라운드 데몬으로 바인딩.
+  2. **모바일 홈 바로가기 메타 태그 탑재** ([`frontend/input.html`](file:///c:/AI-Native-Agent/monnlight/frontend/input.html), [`frontend/templates/input.html`](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)):
+     - `apple-mobile-web-app-capable="yes"`, `apple-mobile-web-app-status-bar-style="default"`, `mobile-web-app-capable="yes"`, `theme-color="#ffffff"` 탑재 완료.
+     - iOS 사파리 및 안드로이드 크롬에서 '홈 화면에 추가' 시 네이티브 앱과 동일한 주소창 없는 전체 화면 실행 지원.
+  3. **QR 코드 즉각 스캔 파이프라인**:
+     - `http://192.168.14.189:8000/input` 직결 QR 코드를 생성하여 카메라 촬영 0.1초 만에 스마트폰 테스트 가능 환경 완성.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-049] index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현
 
 * **발생 일자**: 2026-10-15
 * **작업자**: 김동준 팀원 (지시: 정영식 팀장)

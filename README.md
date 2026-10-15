@@ -30,7 +30,7 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
-### 🌟 [v2.4.8-modal-trigger-link] 2026-10-15: '아이숨' 메인 홈(index.html) 아이증상 입력버튼 모달 팝업 및 증상 입력(input.html) 연동
+### 🌟 [v2.4.10-modal-trigger-link] 2026-10-15: '아이숨' 메인 홈(index.html) 아이증상 입력버튼 모달 팝업 및 증상 입력(input.html) 연동
 * **메인 홈 CTA 클릭 시 모달 다이얼로그 팝업 연동**:
   - `frontend/templates/index.html`, `frontend/index.html`, `app/templates/index.html`에 레퍼런스 이미지와 100% 일치하는 `#triage-consent-modal` 마크업 탑재.
   - "아이 증상 입력하고 병원 찾기" CTA 버튼(`#start-triage-btn`) 클릭 시 부드러운 백드롭 블러 오버레이와 함께 중앙 팝업 구현.
@@ -44,6 +44,21 @@ MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사
   - `main.py`에 `@app.get("/input.html")` 데코레이터 추가로 직접 HTML 요청 서빙 지원.
   - `frontend/templates/input.html`에 Safari/Chrome 듀얼 CSS/JS 로더 적용 완료.
   - TestClient 검증: `/home`, `/input`, `/input.html` 전수 **HTTP 200 OK** 통과.
+
+### 🌟 [v2.4.9-mobile-qr-test] 2026-10-15: 로컬 Wi-Fi IP 바인딩, QR코드 모바일 테스트 파이프라인 및 Standalone 메타태그 구축
+* **로컬 Wi-Fi 초고속 모바일 테스트 환경 완성**:
+  - 복잡한 Cloud Run 배포 없이, PC Wi-Fi IP(`192.168.14.189:8000`) 바인딩 및 즉시 스캔 QR코드를 생성하여 스마트폰 카메라로 0.1초 만에 실제 접속 테스트 가능.
+* **iOS / 안드로이드 홈 바로가기(PWA Standalone) 메타 태그 완비**:
+  - `apple-mobile-web-app-capable="yes"`, `mobile-web-app-capable="yes"`, `theme-color="#ffffff"` 탑재.
+  - 모바일 브라우저에서 '홈 화면에 추가' 시 브라우저 주소창 없는 100% 네이티브 앱 풀스크린 모드 작동.
+
+### 🌟 [v2.4.8-input-confirm-btn] 2026-10-15: '아이숨' 증상 입력 페이지(input.html) 텍스트 입력 시 확인 버튼 동적 표출 인터랙션 구현
+* **레퍼런스 이미지 우측 화면 1:1 완벽 구현**:
+  - 인풋이 비어있을 때는 확인 버튼을 숨기고, 텍스트가 1글자 이상 입력되면 인풋 필드 하단에 코발트 블루 풀 너비 **"확인"** 버튼(`.input-confirm-btn`)이 부드럽게 등장(`fadeInSlideUp` 애니메이션).
+  - 지우기 버튼(`✕`) 클릭 또는 텍스트 전면 삭제 시 확인 버튼 자동 숨김 연동.
+  - Pure CSS `:has(:not(:placeholder-shown))` 셀렉터 및 `main.js` 인터랙션의 듀얼 지원으로 Zero-JS 환경에서도 안정적 표출.
+* **FastAPI 8대 엔드포인트 전수 검증 통과**:
+  - `GET /input` ➔ **HTTP 200 OK** (`2,825 bytes`) 정상 서빙.
 
 ### 🌟 [v2.4.7-modal-refine] 2026-10-15: '아이숨' 처치정보 및 법적 동의 모달(modal.html) 소아 의료 도메인 최적화
 * **모달 안내 문구 전면 고도화**:
