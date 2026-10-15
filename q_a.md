@@ -904,9 +904,14 @@ index.html (홈)
    * 클라이언트 가드레일 감지 시 구체적인 12대 Red Flag 사유를 `sessionStorage.red_flag_reason`에 저장하여 119 안내 화면에 선명하게 출력.
    * `result.html` 초기 로드 시 `new URLSearchParams(window.location.search)`를 파싱하여 `tab=emergency` 쿼리 파라미터가 있을 때 **소아 응급실 탭(`switchTrackTab('emergency')`)**으로 자동 즉시 전환.
    * 소아 응급실 탭 활성화 시 프로젝트 내 실제 API인 `GET /api/v1/emergency/nearby`를 비동기 호출하여 E-Gen 실시간 소아 일반병상(hv28) 수와 거리, 전화번호를 실데이터로 바인딩.
-5. **무결성 및 회귀 검증 통과**:
-   * `frontend/` 및 `frontend/templates/` 전 파일 100% 동기화 완결.
-   * `test_step8_frontend_integration.py` 3대 통합 테스트 (TC-801~803) **Ran 3 tests in 16.1s, OK (100% 무결점 통과)**.
+5. **실제 Gemini API 키 구동 및 무결성 회귀 검증 통과 (Zero-Hardcoding 검증)**:
+   * **실제 API 키 및 모델 검증**: `app.config.settings`를 통해 Windows Registry 및 `.env`에서 추출한 실제 `GEMINI_API_KEY`, `DATA_GO_API_KEY`를 로드하고 최신 `gemini-3.8-flash` 및 `gemini-3.5-flash-lite`와 100% 실시간 연동.
+   * **실시간 LLM 호출 로그 확인**:
+     - `POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent "HTTP/1.1 200 OK"`
+     - `POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent "HTTP/1.1 200 OK"`
+     - 사용자의 자연어 쿼리("14개월 아기 38.5도 열과 처짐")를 Gemini가 실제로 완독하여 임상 변수 및 KTAS 3~4단계를 실시간 산출.
+   * **전수 테스트 통과**: `tests/test_step8_frontend_integration.py` 3대 통합 테스트 (TC-801~803) **Ran 3 tests in 18.547s, OK (100% 무결점 통과)**.
+   * **Git 원격 동기화 완료**: 커밋 `59396b6` 생성 후 `git push origin main` 성공 (`811f8b8..59396b6 main -> main`), 타 작업자(정영식 팀장) 작업본과 충돌 0건 완결.
 
 
 
