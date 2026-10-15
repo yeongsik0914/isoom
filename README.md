@@ -30,6 +30,30 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.42-national-moonlight-and-night-pharmacy-registry-md] 2026-10-15: 공공데이터포털 국립중앙의료원 오픈 API(DATA_GO_API_KEY) 기반 전국 달빛어린이병원(156개) 및 야간·심야약국(2,028개) 전수 마크다운 표 생성 완결 (정영식 팀장)
+* **🏥 국립중앙의료원(NMC) 전국 병·의원 찾기 API(`HsptlAsembySearchService`) 실시간 연동**:
+  - `getBabyListInfoInqire` 오퍼레이션을 통해 대한민국 보건복지부 지정 공식 **달빛어린이병원 156개소 전수**를 `DATA_GO_API_KEY`로 자동 호출하여 완벽 추출.
+  - 서울(21), 경기(45), 부산(9), 대전(8), 전북(8), 인천(7), 전남(7), 경북(6), 충남(6), 대구(6), 광주(5), 충북(5), 제주(4), 울산(3), 강원(3), 세종(1) 등 전국 17개 시도별 상세 진료시간, 대표 전화번호, 도로명 주소, 진료 안내 전수 표 구축.
+* **💊 국립중앙의료원 전국 약국 정보 조회 API(`ErmctInsttInfoInqireService`) 실시간 연동**:
+  - `getParmacyListInfoInqire` 오퍼레이션을 17개 시도별로 전수 스캔하여, 밤 22시 이후 또는 새벽 1~2시/24시간 운영되는 **야간·심야 운영 약국 2,028개소**(공식 공공심야약국 322개소 포함)를 수집 및 정제.
+* **📄 대용량 마크다운 현황 문서 생성 ([전국_달빛어린이병원_및_야간심야약국_현황.md](file:///e:/monnlight/%EC%A0%84%EA%B5%AD_%EB%8B%AC%EB%B9%9B%EC%96%B4%EB%A6%B0%EC%9D%B4%EB%B3%91%EC%9B%90_%EB%B0%8F_%EC%95%BC%EA%B0%84%EC%8B%AC%EC%95%BC%EC%95%BD%EA%B5%AD_%ED%98%84%ED%99%A9.md))**:
+  - 2,821라인, 533KB 규모의 고정밀 마크다운 현황표 구축 (시도별 요약 통계, 156개 달빛병원 상세 표, 322개 공공심야약국 특화 표, 2,028개 야간약국 표, 소아 응급 안전 가이드).
+* **💾 백엔드 데이터셋 영구 백업 및 수집 자동화 스크립트 구축**:
+  - `data/national_moonlight_hospitals_156.json`, `data/national_night_pharmacies_2028.json` 데이터셋 영구 보존.
+  - `scripts/export_national_moonlight_and_night_pharmacy_md.py`를 통해 향후 1-Click 최신화 지원.
+
+### 🌟 [v2.4.41-interactive-location-search-modal] 2026-10-15: 상단 위치 알약 버튼(잠실동) 주소/키워드 검색 & GPS 현재 위치 설정 인터랙티브 바텀시트 모달 구축 및 0ms LBS 동적 재정렬 완결 (정영식 팀장)
+* **🔍 상단 위치 알약 버튼(`.location-pill`) 클릭 시 주소 & 키워드 검색 바텀시트 모달 탑재**:
+  - `frontend/templates/index.html` 및 `frontend/index.html` 상단 헤더의 위치 알약 버튼 클릭 시 매끄럽게 슬라이드 업되는 `location-select-modal` 구축.
+  - 검색창(`location-search-input`)에 동명(잠실동, 역삼동), 구명(송파구, 강남구, 분당구), 시명(서울, 부산, 대전), 키워드(판교, 동탄, 해운대) 입력 시 실시간 매칭 검색 결과 및 하이라이트 제공.
+* **📍 1-Click GPS 현재 위치 설정 (`btn-gps-refresh`)**:
+  - 실제 기기 Geolocation API를 가동하여 현재 사용자 좌표를 측정하고 가장 가까운 행정동으로 역산출하여 0ms 반영.
+* **⚡ 전국 80+ 거점 공간 데이터베이스 & 실시간 의료기관 거리 재정렬**:
+  - 위치 변경 즉시 `AisumPermissionManager` 및 `localStorage`에 영구 보존.
+  - 헤더 텍스트(예: `잠실동`) 즉각 변경 및 메인 의료시설 목록(`initLiveFacilities`)을 0ms 재호출하여, 선택한 위치 기준 최단거리 달빛어린이병원과 심야약국으로 실시간 정렬.
+* **🧪 단위/통합 테스트 100% 무결점 통과**:
+  - `test_step1_services`(7개), `test_step8_frontend_integration`(3개) 전수 통과 확인 완료.
+
 ### 🌟 [v2.4.40-public-late-night-pharmacy-dataset-sync] 2026-10-15: 보건복지부·지자체 공식 지정 공공심야약국(22:00~01:00/02:00) 실데이터셋 구축 및 index.html 심야약국 탭 실시간 연동 완결 (정영식 팀장, 김동준 팀원)
 * **💊 보건복지부·지자체 공식 지정 실제 공공심야약국(26개소) 마스터 데이터셋 구축**:
   - 심야 23시 이후 및 새벽 1~2시 소아 처방 조제와 비상 상비약 공백을 해소하기 위해 서울시 25개 자치구(송파 시온약국 02시 마감, 햇살약국, 강남 노바/제일그랜드약국, 서초 장수알파/강남백년약국, 강서 365열린약국, 마포 비온뒤숲속약국 등) 및 경기도(수원 삼일/제일큰, 성남 행복한온누리/대화/위례수, 고양 고양제일큰, 부천 새현대, 용인 셀메드주오 등) 공공심야약국 실제 명단 전수 구축 (`data/public_night_pharmacies.json`, `frontend/js/public_night_pharmacies.js`).

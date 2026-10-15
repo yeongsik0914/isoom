@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PLAN.md",
+                "file": "전국_달빛어린이병원_및_야간심야약국_현황.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PLAN"
+              "title": "전국_달빛어린이병원_및_야간심야약국_현황"
             }
           }
         ]
@@ -190,6 +190,11 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "PLAN.md",
+    "전국_달빛어린이병원_및_야간심야약국_현황.md",
+    "data/national_night_pharmacies_2028.json",
+    "data/national_moonlight_hospitals_156.json",
+    "scripts/export_national_moonlight_and_night_pharmacy_md.py",
     "frontend/js/public_night_pharmacies.js",
     "data/public_night_pharmacies.json",
     "scripts/build_public_night_pharmacy_dataset.py",
@@ -197,12 +202,8 @@
     "scripts/fetch_real_moonlight_hospitals.py",
     "scripts/build_real_moonlight_dataset.py",
     "update_main_js.py",
-    "frontend/js/nationwide_pairings.js",
     "q_a.md",
-    "frontend/index.html",
     "FRONTEND_BACKEND_INTEGRATION_SPEC.md",
-    "frontend/terms.html",
-    "frontend/templates/terms.html",
     "docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md",
     "AISUM_STITCH_DESIGN_REPORT.md",
     "app/static/assets/images/guide_ktas_step7.png",
@@ -217,7 +218,6 @@
     "frontend/templates/assets/images/guide_ktas_step6.png",
     "frontend/README.md",
     "frontend/assets/README.md",
-    "PLAN.md",
     "docs/FRONTEND_UI_UX_SPECIFICATION.md",
     "docs/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md",
     "Answer.md",

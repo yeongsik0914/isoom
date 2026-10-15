@@ -88,6 +88,8 @@
 | **[ISSUE-079]** | 온보딩 권한 지속성 & LBS 공간 연동 | 접근 권한 페이지 승인 후 앱 전체 권한 영구 유지(Persistent) 및 메인페이지 위치별 병원·약국 거리순/카테고리 분리 렌더링 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-080]** | 프론트엔드 의료 데이터셋 신뢰성 & 실데이터 연동 | index.html 더미 카드(송파어린이병원 등) 잔재 원인 규명 및 실제 보건복지부 공식 지정 달빛어린이병원·협약약국 마스터 데이터 수집·반영 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-081]** | 의료 데이터셋 엔지니어링 & 공공심야약국 LBS | 보건복지부·지자체 공식 지정 공공심야약국(22:00~01:00/02:00) 실데이터셋 구축 및 index.html 심야약국 탭 실시간 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-082]** | 프론트엔드 LBS & 인터랙티브 UI/UX | 상단 위치 알약 버튼(잠실동) 클릭 시 주소·키워드 검색 및 실시간 GPS 현재 위치 지정 바텀시트 모달 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-083]** | 공공데이터 오픈 API 엔지니어링 & 전수 통계 | 국립중앙의료원 병·의원 및 약국 오픈 API(DATA_GO_API_KEY) 기반 전국 달빛어린이병원(156개) 및 야간·심야약국(2,028개) 마크다운 표 생성 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2558,10 +2560,71 @@
   * 실제 공공심야약국 26개소 마스터셋 정상 생성 및 프론트엔드 연동 완결.
   * 단위/통합 테스트(`test_step1_services`, `test_step8_frontend_integration`) 10개 전수 무결점 통과(`OK`).
 
+---
 
+### [ISSUE-082] 상단 위치 알약 버튼(잠실동) 클릭 시 주소·키워드 검색 및 실시간 GPS 현재 위치 지정 바텀시트 모달 구축
 
-
-
-
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 LBS / 인터랙티브 UI/UX / 위치 검색 엔진
+* **문제 상황**:
+  1. 메인 홈(`index.html`) 상단 헤더의 위치 알약 버튼(`.location-pill` / `#current-location-pill`)을 클릭했을 때 사용자가 원하는 임의의 지역(예: 잠실동, 강남, 분당, 일산, 해운대 등)을 주소 또는 키워드로 검색하거나 현재 기기 GPS 위치로 재설정할 수 있는 인터랙션 모달 인터페이스가 충분히 지원되지 않음.
+  2. 위치가 변경되었을 때 실시간 달빛병원 및 심야약국 목록의 거리 계산 및 랭킹 정렬이 즉각적으로 재배치되지 않아 사용자 편의성 저하.
+* **원인 분석**:
+  * 기존 바텀시트 모달(`location-select-modal`)은 고정된 9개 거점 칩과 GPS 버튼만 마크업되어 있어, 실시간 주소/키워드 검색 인풋, 디바운스 이벤트 처리, 전국 단위 위치 사전(`AISUM_LOCATIONS_DB`) 및 검색 결과 렌더링 파이프라인이 미구축 상태였음.
+* **구체적 해결 방안**:
+  1. **바텀시트 모달 마크업 고도화**:
+     - [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html) 및 [frontend/index.html](file:///e:/monnlight/frontend/index.html)의 `#location-select-modal` 내에 실시간 주소/키워드 검색 박스(`.location-search-box`, `#location-search-input`, `#location-search-clear-btn`), GPS 현재 위치 버튼, 검색 결과 섹션(`#location-search-results-section`), 자주 찾는 지역 그리드를 구축.
+  2. **모던 UI/UX 스타일링 적용**:
+     - [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css) 및 [frontend/templates/css/style.css](file:///e:/monnlight/frontend/templates/css/style.css)에 인풋 포커스 글로우, 검색어 클리어 버튼, 검색 결과 호버 카드, 매칭 텍스트 하이라이트(`.match-highlight`) 스타일 탑재.
+  3. **전국 단위 공간 사전 및 검색 엔진 구축**:
+     - [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js) 내 `window.AISUM_LOCATIONS_DB`를 서울 25개 자치구 및 수도권/전국 80+ 핵심 거점으로 확장.
+     - `window.searchLocations()` 엔진을 작성하여 동명, 구명, 시명, 랜드마크, 병원·약국 연계 지명 퍼지 검색 지원.
+     - `window.initLocationSearch()`: 실시간 인풋 감지, 결과 수 카운트, 엔터키 첫 항목 즉각 선택, ESC 모달 닫기 완비.
+  4. **풀스택 LBS 0ms 동적 재연산 연동**:
+     - 위치 선택 시 `setUserCustomLocation()`을 통해 `localStorage` 및 `AisumPermissionManager`에 영구 저장하고, `#current-location-text` 갱신 및 `initLiveFacilities()`를 즉시 재호출하여 사용자 위치 기준 최단거리 순으로 병원·약국 카드를 0ms 재정렬.
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/templates/css/style.css](file:///e:/monnlight/frontend/templates/css/style.css)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * 상단 위치 알약 클릭 시 모달 오픈, 주소/키워드 검색 및 GPS 현재 위치 설정 인터랙션 100% 정상 작동.
+  * 단위/통합 테스트(`test_step1_services`, `test_step8_frontend_integration`) 10개 전수 무결점 통과(`OK`).
 
 ---
+
+### [ISSUE-083] 국립중앙의료원 병·의원 및 약국 오픈 API(DATA_GO_API_KEY) 기반 전국 달빛어린이병원(156개) 및 야간·심야약국(2,028개) 마크다운 표 생성
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **분류**: 공공데이터 오픈 API 엔지니어링 / 대용량 데이터 정제 및 마크다운 리포트 생성
+* **문제 상황**:
+  * 공공데이터포털(data.go.kr)에 등록된 국립중앙의료원(NMC) 오픈 API를 활용하여, 환경변수 `DATA_GO_API_KEY` 기반으로 전국에 공식 지정된 달빛어린이병원 전체 목록과 야간~심야(22:00~익일 01:00/02:00/24h) 운영 약국 전체를 실시간 수집하고, 이를 완벽한 마크다운 테이블 문서로 구축해야 함.
+* **원인 분석**:
+  * 공공데이터포털 `HsptlAsembySearchService`의 `getBabyListInfoInqire` 오퍼레이션과 `ErmctInsttInfoInqireService`의 `getParmacyListInfoInqire` 오퍼레이션을 활용해야 하며, 전국 17개 시도별 대용량 데이터(약 25,000+ 약국) 중 야간~심야 운영 약국만을 정밀 필터링하고 지자체 통합 명칭(예: `전남광주통합특별시`)을 광주광역시(5개)와 전라남도(7개)로 올바르게 정규화할 필요가 있었음.
+* **구체적 해결 방안**:
+  1. **오픈 API 파이프라인 개발 ([scripts/export_national_moonlight_and_night_pharmacy_md.py](file:///e:/monnlight/scripts/export_national_moonlight_and_night_pharmacy_md.py))**:
+     - `app.config.settings.data_go_api_key`로부터 64-byte 인증키 로드.
+     - `getBabyListInfoInqire` 호출로 전국 달빛어린이병원 156개소 전수 실시간 수집.
+     - `getParmacyListInfoInqire` 17개 시도별 페이징 조회를 통해 야간~심야(22:00~자정/새벽/24h) 운영 약국 2,028개소(공식 공공심야약국 322개소 포함) 전수 수집 및 기관코드/중복 제거.
+  2. **지자체 특화 명칭 정규화**:
+     - `전남광주통합특별시`로 통합 수신되던 12개 병원 데이터를 광주 자치구(광산구, 남구, 북구, 서구) 5개소는 `광주광역시`, 전남 시·군 7개소는 `전라남도`로 정확히 분리 매핑.
+  3. **대용량 마크다운 문서 생성 ([전국_달빛어린이병원_및_야간심야약국_현황.md](file:///e:/monnlight/%EC%A0%84%EA%B5%AD_%EB%8B%AC%EB%B9%9B%EC%96%B4%EB%A6%B0%EC%9D%B4%EB%B3%91%EC%9B%90_%EB%B0%8F_%EC%95%BC%EA%B0%84%EC%8B%AC%EC%95%BC%EC%95%BD%EA%B5%AD_%ED%98%84%ED%99%A9.md))**:
+     - 2,821라인, 533KB 규모의 체계적 문서 완성 (목차, 17개 시도별 통계 요약, 달빛병원 156개 전수 상세 표, 공공심야약국 322개 특화 표, 17개 시도별 야간약국 2,028개 전수 표, 안전 가이드).
+  4. **데이터셋 영구 백업**:
+     - `data/national_moonlight_hospitals_156.json` (156개 병원 메타데이터)
+     - `data/national_night_pharmacies_2028.json` (2,028개 약국 메타데이터)
+* **적용 파일**:
+  * [전국_달빛어린이병원_및_야간심야약국_현황.md](file:///e:/monnlight/%EC%A0%84%EA%B5%AD_%EB%8B%AC%EB%B9%9B%EC%96%B4%EB%A6%B0%EC%9D%B4%EB%B3%91%EC%9B%90_%EB%B0%8F_%EC%95%BC%EA%B0%84%EC%8B%AC%EC%95%BC%EC%95%BD%EA%B5%AD_%ED%98%84%ED%99%A9.md)
+  * [scripts/export_national_moonlight_and_night_pharmacy_md.py](file:///e:/monnlight/scripts/export_national_moonlight_and_night_pharmacy_md.py)
+  * [data/national_moonlight_hospitals_156.json](file:///e:/monnlight/data/national_moonlight_hospitals_156.json)
+  * [data/national_night_pharmacies_2028.json](file:///e:/monnlight/data/national_night_pharmacies_2028.json)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * 환경변수 `DATA_GO_API_KEY` 기반 100% 정상 추출 및 마크다운 테이블 산출 완료, 단위 테스트(`test_step1_services`) 7개 전수 통과 (`OK`).

@@ -104,55 +104,108 @@ window.AisumPermissionManager = {
 // 📍 Real-Time User Location & Spatial Dong Mapping Engine (Vanilla JS)
 // ============================================================================
 window.AISUM_LOCATIONS_DB = [
-  // 1. 서울 주요 거점 (달빛병원 연계)
-  { name: '역삼동', gu: '강남구', lat: 37.5006, lon: 127.0365, isPopular: true },
-  { name: '방배동', gu: '서초구', lat: 37.498871, lon: 126.993414, isPopular: true },
-  { name: '청파동', gu: '용산구', lat: 37.552431, lon: 126.969145, isPopular: true },
-  { name: '상계동', gu: '노원구', lat: 37.654812, lon: 127.060124, isPopular: true },
-  { name: '목동', gu: '양천구', lat: 37.524812, lon: 126.868215, isPopular: true },
-  { name: '삼성동', gu: '강남구', lat: 37.5140, lon: 127.0565, isPopular: false },
-  { name: '서초동', gu: '서초구', lat: 37.4918, lon: 127.0079, isPopular: false },
-  { name: '잠실동', gu: '송파구', lat: 37.5133, lon: 127.1001, isPopular: true },
-  { name: '공덕동', gu: '마포구', lat: 37.5445, lon: 126.9515, isPopular: false },
-  { name: '여의도동', gu: '영등포구', lat: 37.5218, lon: 126.9242, isPopular: false },
+  // 1. 서울 동남권 (송파 / 강남 / 서초 / 강동)
+  { name: '잠실동', gu: '송파구', city: '서울', lat: 37.5133, lon: 127.1001, isPopular: true, fullAddr: '서울특별시 송파구 잠실동', keywords: ['잠실', '잠실역', '롯데월드', '송파', '신천'] },
+  { name: '문정동', gu: '송파구', city: '서울', lat: 37.4858, lon: 127.1225, isPopular: false, fullAddr: '서울특별시 송파구 문정동', keywords: ['문정', '문정역', '법조타운', '송파'] },
+  { name: '가락동', gu: '송파구', city: '서울', lat: 37.4925, lon: 127.1188, isPopular: false, fullAddr: '서울특별시 송파구 가락동', keywords: ['가락', '가락시장', '송파'] },
+  { name: '방이동', gu: '송파구', city: '서울', lat: 37.5138, lon: 127.1215, isPopular: false, fullAddr: '서울특별시 송파구 방이동', keywords: ['방이', '올림픽공원', '송파'] },
+  { name: '역삼동', gu: '강남구', city: '서울', lat: 37.5006, lon: 127.0365, isPopular: true, fullAddr: '서울특별시 강남구 역삼동', keywords: ['역삼', '강남', '테헤란로', '강남역'] },
+  { name: '삼성동', gu: '강남구', city: '서울', lat: 37.5140, lon: 127.0565, isPopular: true, fullAddr: '서울특별시 강남구 삼성동', keywords: ['삼성', '코엑스', '강남', '봉은사'] },
+  { name: '대치동', gu: '강남구', city: '서울', lat: 37.4946, lon: 127.0628, isPopular: false, fullAddr: '서울특별시 강남구 대치동', keywords: ['대치', '학원가', '한티', '강남'] },
+  { name: '압구정동', gu: '강남구', city: '서울', lat: 37.5270, lon: 127.0285, isPopular: false, fullAddr: '서울특별시 강남구 압구정동', keywords: ['압구정', '로데오', '신사', '강남'] },
+  { name: '논현동', gu: '강남구', city: '서울', lat: 37.5115, lon: 127.0285, isPopular: false, fullAddr: '서울특별시 강남구 논현동', keywords: ['논현', '학동', '신논현', '강남'] },
+  { name: '세곡동', gu: '강남구', city: '서울', lat: 37.4642, lon: 127.1054, isPopular: false, fullAddr: '서울특별시 강남구 세곡동', keywords: ['세곡', '자곡', '수서', '달빛어린이병원', '강남'] },
+  { name: '서초동', gu: '서초구', city: '서울', lat: 37.4918, lon: 127.0079, isPopular: true, fullAddr: '서울특별시 서초구 서초동', keywords: ['서초', '교대', '남부터미널', '예술의전당'] },
+  { name: '방배동', gu: '서초구', city: '서울', lat: 37.498871, lon: 126.993414, isPopular: true, fullAddr: '서울특별시 서초구 방배동', keywords: ['방배', '사당', '내방', '서초'] },
+  { name: '반포동', gu: '서초구', city: '서울', lat: 37.5042, lon: 127.0048, isPopular: false, fullAddr: '서울특별시 서초구 반포동', keywords: ['반포', '고속터미널', '신반포', '서초'] },
+  { name: '양재동', gu: '서초구', city: '서울', lat: 37.4765, lon: 127.0415, isPopular: false, fullAddr: '서울특별시 서초구 양재동', keywords: ['양재', '매헌', '시민의숲', '서초'] },
+  { name: '천호동', gu: '강동구', city: '서울', lat: 37.5385, lon: 127.1235, isPopular: true, fullAddr: '서울특별시 강동구 천호동', keywords: ['천호', '강동', '암사', '로데오'] },
+  { name: '명일동', gu: '강동구', city: '서울', lat: 37.5512, lon: 127.1445, isPopular: false, fullAddr: '서울특별시 강동구 명일동', keywords: ['명일', '고덕', '강동'] },
 
-  // 2. 경기 / 인천 주요 권역
-  { name: '정자동', gu: '성남 분당구', lat: 37.367124, lon: 127.108215, isPopular: true },
-  { name: '판교동', gu: '성남 분당구', lat: 37.3940, lon: 127.1110, isPopular: false },
-  { name: '영통동', gu: '수원 영통구', lat: 37.288541, lon: 127.051214, isPopular: true },
-  { name: '일산동', gu: '고양 일산동구', lat: 37.643812, lon: 126.786512, isPopular: true },
-  { name: '동탄동', gu: '화성시 동탄', lat: 37.206512, lon: 127.072412, isPopular: true },
-  { name: '구월동', gu: '인천 남동구', lat: 37.452412, lon: 126.708214, isPopular: true },
-  { name: '청라동', gu: '인천 서구', lat: 37.534812, lon: 126.654215, isPopular: true },
-  { name: '송도동', gu: '인천 연수구', lat: 37.3940, lon: 126.6540, isPopular: false },
+  // 2. 서울 서남권 (양천 / 강서 / 구로 / 영등포 / 동작 / 관악 / 금천)
+  { name: '목동', gu: '양천구', city: '서울', lat: 37.524812, lon: 126.868215, isPopular: true, fullAddr: '서울특별시 양천구 목동', keywords: ['목동', '오목교', '신정', '양천'] },
+  { name: '화곡동', gu: '강서구', city: '서울', lat: 37.5412, lon: 126.8405, isPopular: true, fullAddr: '서울특별시 강서구 화곡동', keywords: ['화곡', '까치산', '강서'] },
+  { name: '마곡동', gu: '강서구', city: '서울', lat: 37.5601, lon: 126.8255, isPopular: false, fullAddr: '서울특별시 강서구 마곡동', keywords: ['마곡', '발산', '강서'] },
+  { name: '구로동', gu: '구로구', city: '서울', lat: 37.4954, lon: 126.8875, isPopular: true, fullAddr: '서울특별시 구로구 구로동', keywords: ['구로', '신도림', '디지털단지', '우리아이들병원'] },
+  { name: '신도림동', gu: '구로구', city: '서울', lat: 37.5098, lon: 126.8912, isPopular: false, fullAddr: '서울특별시 구로구 신도림동', keywords: ['신도림', '디큐브', '구로'] },
+  { name: '여의도동', gu: '영등포구', city: '서울', lat: 37.5218, lon: 126.9242, isPopular: true, fullAddr: '서울특별시 영등포구 여의도동', keywords: ['여의도', '더현대', '샛강', '영등포'] },
+  { name: '당산동', gu: '영등포구', city: '서울', lat: 37.5342, lon: 126.9025, isPopular: false, fullAddr: '서울특별시 영등포구 당산동', keywords: ['당산', '문래', '영등포'] },
+  { name: '노량진동', gu: '동작구', city: '서울', lat: 37.5135, lon: 126.9425, isPopular: false, fullAddr: '서울특별시 동작구 노량진동', keywords: ['노량진', '동작', '대방'] },
+  { name: '상도동', gu: '동작구', city: '서울', lat: 37.4985, lon: 126.9455, isPopular: false, fullAddr: '서울특별시 동작구 상도동', keywords: ['상도', '숭실대', '동작'] },
+  { name: '신림동', gu: '관악구', city: '서울', lat: 37.4842, lon: 126.9295, isPopular: true, fullAddr: '서울특별시 관악구 신림동', keywords: ['신림', '신림역', '관악', '도림천'] },
+  { name: '봉천동', gu: '관악구', city: '서울', lat: 37.4825, lon: 126.9515, isPopular: false, fullAddr: '서울특별시 관악구 봉천동', keywords: ['봉천', '서울대입구', '관악'] },
+  { name: '가산동', gu: '금천구', city: '서울', lat: 37.4812, lon: 126.8825, isPopular: false, fullAddr: '서울특별시 금천구 가산동', keywords: ['가산', '디지털단지', '금천'] },
 
-  // 3. 충청권 거점
-  { name: '둔산동', gu: '대전 서구', lat: 36.352412, lon: 127.378512, isPopular: true },
-  { name: '봉명동', gu: '대전 유성구', lat: 36.3570, lon: 127.3420, isPopular: false },
-  { name: '나성동', gu: '세종시', lat: 36.504812, lon: 127.251214, isPopular: true },
-  { name: '불당동', gu: '천안 서북구', lat: 36.815214, lon: 127.108412, isPopular: true },
-  { name: '복대동', gu: '청주 흥덕구', lat: 36.621214, lon: 127.432512, isPopular: true },
+  // 3. 서울 서북권 (마포 / 서대문 / 은평)
+  { name: '공덕동', gu: '마포구', city: '서울', lat: 37.5445, lon: 126.9515, isPopular: true, fullAddr: '서울특별시 마포구 공덕동', keywords: ['공덕', '마포', '아현'] },
+  { name: '상암동', gu: '마포구', city: '서울', lat: 37.5785, lon: 126.8915, isPopular: false, fullAddr: '서울특별시 마포구 상암동', keywords: ['상암', 'DMC', '디지털미디어시티', '마포'] },
+  { name: '서교동', gu: '마포구', city: '서울', lat: 37.5552, lon: 126.9215, isPopular: false, fullAddr: '서울특별시 마포구 서교동', keywords: ['홍대', '홍대입구', '서교', '합정', '마포'] },
+  { name: '신촌동', gu: '서대문구', city: '서울', lat: 37.5598, lon: 126.9365, isPopular: true, fullAddr: '서울특별시 서대문구 신촌동', keywords: ['신촌', '연세대', '이대', '서대문'] },
+  { name: '연희동', gu: '서대문구', city: '서울', lat: 37.5725, lon: 126.9325, isPopular: false, fullAddr: '서울특별시 서대문구 연희동', keywords: ['연희', '홍제', '서대문'] },
+  { name: '불광동', gu: '은평구', city: '서울', lat: 37.6105, lon: 126.9295, isPopular: true, fullAddr: '서울특별시 은평구 불광동', keywords: ['불광', '연신내', '은평'] },
+  { name: '진관동', gu: '은평구', city: '서울', lat: 37.6385, lon: 126.9185, isPopular: false, fullAddr: '서울특별시 은평구 진관동', keywords: ['은평뉴타운', '구파발', '진관', '은평'] },
 
-  // 4. 영남권 거점
-  { name: '만촌동', gu: '대구 수성구', lat: 35.839812, lon: 128.706512, isPopular: true },
-  { name: '상인동', gu: '대구 달서구', lat: 35.817412, lon: 128.536214, isPopular: false },
-  { name: '서면', gu: '부산 부산진구', lat: 35.158124, lon: 129.043512, isPopular: true },
-  { name: '온천동', gu: '부산 동래구', lat: 35.204812, lon: 129.083214, isPopular: false },
-  { name: '우동', gu: '부산 해운대구', lat: 35.1631, lon: 129.1636, isPopular: false },
-  { name: '삼산동', gu: '울산 남구', lat: 35.538412, lon: 129.324512, isPopular: true },
-  { name: '장량동', gu: '포항 북구', lat: 36.068412, lon: 129.378214, isPopular: true },
-  { name: '팔용동', gu: '창원 의창구', lat: 35.258412, lon: 128.621214, isPopular: true },
-  { name: '삼계동', gu: '김해시', lat: 35.251214, lon: 128.874512, isPopular: false },
+  // 4. 서울 도심 / 동북권 (종로 / 중구 / 용산 / 성동 / 광진 / 동대문 / 중랑 / 성북 / 강북 / 도봉 / 노원)
+  { name: '종로', gu: '종로구', city: '서울', lat: 37.5704, lon: 126.9922, isPopular: true, fullAddr: '서울특별시 종로구 종로', keywords: ['종로', '광화문', '혜화', '대학로'] },
+  { name: '명동', gu: '중구', city: '서울', lat: 37.5635, lon: 126.9855, isPopular: false, fullAddr: '서울특별시 중구 명동', keywords: ['명동', '을지로', '회현', '서울역'] },
+  { name: '청파동', gu: '용산구', city: '서울', lat: 37.552431, lon: 126.969145, isPopular: true, fullAddr: '서울특별시 용산구 청파동', keywords: ['청파', '숙대', '서울역', '소화병원', '용산'] },
+  { name: '한남동', gu: '용산구', city: '서울', lat: 37.5345, lon: 127.0025, isPopular: false, fullAddr: '서울특별시 용산구 한남동', keywords: ['한남', '이태원', '용산'] },
+  { name: '성수동', gu: '성동구', city: '서울', lat: 37.5445, lon: 127.0560, isPopular: true, fullAddr: '서울특별시 성동구 성수동', keywords: ['성수', '서울숲', '뚝섬', '성동'] },
+  { name: '자양동', gu: '광진구', city: '서울', lat: 37.5345, lon: 127.0695, isPopular: true, fullAddr: '서울특별시 광진구 자양동', keywords: ['자양', '건대', '구의', '광진'] },
+  { name: '장안동', gu: '동대문구', city: '서울', lat: 37.5715, lon: 127.0685, isPopular: false, fullAddr: '서울특별시 동대문구 장안동', keywords: ['장안', '답십리', '청량리', '동대문'] },
+  { name: '상봉동', gu: '중랑구', city: '서울', lat: 37.5965, lon: 127.0855, isPopular: false, fullAddr: '서울특별시 중랑구 상봉동', keywords: ['상봉', '면목', '중랑'] },
+  { name: '장위동', gu: '성북구', city: '서울', lat: 37.6185, lon: 127.0425, isPopular: true, fullAddr: '서울특별시 성북구 장위동', keywords: ['장위', '길음', '우리아이들병원', '성북'] },
+  { name: '미아동', gu: '강북구', city: '서울', lat: 37.6255, lon: 127.0255, isPopular: true, fullAddr: '서울특별시 강북구 미아동', keywords: ['미아', '수유', '강북'] },
+  { name: '창동', gu: '도봉구', city: '서울', lat: 37.6532, lon: 127.0485, isPopular: false, fullAddr: '서울특별시 도봉구 창동', keywords: ['창동', '쌍문', '도봉'] },
+  { name: '상계동', gu: '노원구', city: '서울', lat: 37.654812, lon: 127.060124, isPopular: true, fullAddr: '서울특별시 노원구 상계동', keywords: ['상계', '노원', '중계', '하계'] },
 
-  // 5. 호남권 거점
-  { name: '수완동', gu: '광주 광산구', lat: 35.188412, lon: 126.821214, isPopular: true },
-  { name: '치평동(상무)', gu: '광주 서구', lat: 35.1522, lon: 126.8525, isPopular: false },
-  { name: '효자동', gu: '전주 완산구', lat: 35.81716, lon: 127.102276, isPopular: true },
-  { name: '조례동', gu: '순천시', lat: 34.954214, lon: 127.518412, isPopular: true },
+  // 5. 경기 / 인천 주요 권역
+  { name: '정자동', gu: '성남 분당구', city: '경기', lat: 37.367124, lon: 127.108215, isPopular: true, fullAddr: '경기도 성남시 분당구 정자동', keywords: ['정자', '분당', '정자역', '성남'] },
+  { name: '판교동', gu: '성남 분당구', city: '경기', lat: 37.3940, lon: 127.1110, isPopular: true, fullAddr: '경기도 성남시 분당구 판교동', keywords: ['판교', '판교역', '테크노밸리', '분당', '성남'] },
+  { name: '서현동', gu: '성남 분당구', city: '경기', lat: 37.3850, lon: 127.1240, isPopular: false, fullAddr: '경기도 성남시 분당구 서현동', keywords: ['서현', '분당', '성남'] },
+  { name: '영통동', gu: '수원 영통구', city: '경기', lat: 37.288541, lon: 127.051214, isPopular: true, fullAddr: '경기도 수원시 영통구 영통동', keywords: ['영통', '광교', '수원', '망포'] },
+  { name: '인계동', gu: '수원 팔달구', city: '경기', lat: 37.2635, lon: 127.0285, isPopular: false, fullAddr: '경기도 수원시 팔달구 인계동', keywords: ['인계', '수원시청', '수원'] },
+  { name: '일산동', gu: '고양 일산동구', city: '경기', lat: 37.643812, lon: 126.786512, isPopular: true, fullAddr: '경기도 고양시 일산동구 일산동', keywords: ['일산', '고양', '주엽', '대화', '정발산'] },
+  { name: '화정동', gu: '고양 덕양구', city: '경기', lat: 37.6345, lon: 126.8325, isPopular: false, fullAddr: '경기도 고양시 덕양구 화정동', keywords: ['화정', '행신', '원당', '고양'] },
+  { name: '풍덕천동', gu: '용인 수지구', city: '경기', lat: 37.3245, lon: 127.0985, isPopular: true, fullAddr: '경기도 용인시 수지구 풍덕천동', keywords: ['수지', '풍덕천', '수지구청', '용인'] },
+  { name: '동탄동', gu: '화성시 동탄', city: '경기', lat: 37.206512, lon: 127.072412, isPopular: true, fullAddr: '경기도 화성시 동탄동', keywords: ['동탄', '화성', '동탄역', '반송동'] },
+  { name: '중동', gu: '부천시 원미구', city: '경기', lat: 37.5035, lon: 126.7665, isPopular: true, fullAddr: '경기도 부천시 원미구 중동', keywords: ['부천', '중동', '상동', '신중동'] },
+  { name: '평촌동', gu: '안양 동안구', city: '경기', lat: 37.3945, lon: 126.9625, isPopular: true, fullAddr: '경기도 안양시 동안구 평촌동', keywords: ['평촌', '범계', '안양'] },
+  { name: '다산동', gu: '남양주시', city: '경기', lat: 37.6125, lon: 127.1545, isPopular: false, fullAddr: '경기도 남양주시 다산동', keywords: ['다산', '남양주', '별내'] },
+  { name: '미사동', gu: '하남시', city: '경기', lat: 37.5615, lon: 127.1925, isPopular: false, fullAddr: '경기도 하남시 미사동', keywords: ['미사', '하남', '망월동'] },
+  { name: '철산동', gu: '광명시', city: '경기', lat: 37.4765, lon: 126.8685, isPopular: false, fullAddr: '경기도 광명시 철산동', keywords: ['철산', '광명', '하안동'] },
+  { name: '구월동', gu: '인천 남동구', city: '인천', lat: 37.452412, lon: 126.708214, isPopular: true, fullAddr: '인천광역시 남동구 구월동', keywords: ['구월', '인천시청', '남동구', '인천'] },
+  { name: '송도동', gu: '인천 연수구', city: '인천', lat: 37.3940, lon: 126.6540, isPopular: true, fullAddr: '인천광역시 연수구 송도동', keywords: ['송도', '센트럴파크', '인천'] },
+  { name: '청라동', gu: '인천 서구', city: '인천', lat: 37.534812, lon: 126.654215, isPopular: true, fullAddr: '인천광역시 서구 청라동', keywords: ['청라', '루원시티', '인천'] },
+  { name: '부평동', gu: '인천 부평구', city: '인천', lat: 37.4915, lon: 126.7245, isPopular: false, fullAddr: '인천광역시 부평구 부평동', keywords: ['부평', '부평역', '인천'] },
 
-  // 6. 강원 / 제주 거점
-  { name: '일산동', gu: '원주시', lat: 37.338412, lon: 127.941214, isPopular: true },
-  { name: '탑동', gu: '제주시', lat: 33.517551, lon: 126.522463, isPopular: true }
+  // 6. 충청권 거점
+  { name: '둔산동', gu: '대전 서구', city: '대전', lat: 36.352412, lon: 127.378512, isPopular: true, fullAddr: '대전광역시 서구 둔산동', keywords: ['둔산', '대전시청', '서구', '대전'] },
+  { name: '봉명동', gu: '대전 유성구', city: '대전', lat: 36.3570, lon: 127.3420, isPopular: false, fullAddr: '대전광역시 유성구 봉명동', keywords: ['유성', '온천', '봉명', '충남대', '대전'] },
+  { name: '나성동', gu: '세종시', city: '세종', lat: 36.504812, lon: 127.251214, isPopular: true, fullAddr: '세종특별자치시 나성동', keywords: ['나성', '세종', '다정동', '어진동'] },
+  { name: '불당동', gu: '천안 서북구', city: '충남', lat: 36.815214, lon: 127.108412, isPopular: true, fullAddr: '충청남도 천안시 서북구 불당동', keywords: ['불당', '천안아산역', '천안'] },
+  { name: '복대동', gu: '청주 흥덕구', city: '충북', lat: 36.621214, lon: 127.432512, isPopular: true, fullAddr: '충청북도 청주시 흥덕구 복대동', keywords: ['복대', '지웰시티', '청주'] },
+
+  // 7. 영남권 거점
+  { name: '만촌동', gu: '대구 수성구', city: '대구', lat: 35.839812, lon: 128.706512, isPopular: true, fullAddr: '대구광역시 수성구 만촌동', keywords: ['만촌', '수성구', '범어', '대구'] },
+  { name: '상인동', gu: '대구 달서구', city: '대구', lat: 35.817412, lon: 128.536214, isPopular: false, fullAddr: '대구광역시 달서구 상인동', keywords: ['상인', '달서구', '대구'] },
+  { name: '서면', gu: '부산 부산진구', city: '부산', lat: 35.158124, lon: 129.043512, isPopular: true, fullAddr: '부산광역시 부산진구 부전동', keywords: ['서면', '부전동', '부산진구', '부산'] },
+  { name: '우동', gu: '부산 해운대구', city: '부산', lat: 35.1631, lon: 129.1636, isPopular: true, fullAddr: '부산광역시 해운대구 우동', keywords: ['해운대', '센텀', '마린시티', '우동', '부산'] },
+  { name: '온천동', gu: '부산 동래구', city: '부산', lat: 35.204812, lon: 129.083214, isPopular: false, fullAddr: '부산광역시 동래구 온천동', keywords: ['온천', '동래', '부산'] },
+  { name: '삼산동', gu: '울산 남구', city: '울산', lat: 35.538412, lon: 129.324512, isPopular: true, fullAddr: '울산광역시 남구 삼산동', keywords: ['삼산', '태화강', '남구', '울산'] },
+  { name: '장량동', gu: '포항 북구', city: '경북', lat: 36.068412, lon: 129.378214, isPopular: true, fullAddr: '경상북도 포항시 북구 장량동', keywords: ['장량', '양덕', '포항'] },
+  { name: '상남동', gu: '창원 성산구', city: '경남', lat: 35.2215, lon: 128.6815, isPopular: true, fullAddr: '경상남도 창원시 성산구 상남동', keywords: ['상남', '창원', '팔용동'] },
+
+  // 8. 호남권 거점
+  { name: '수완동', gu: '광주 광산구', city: '광주', lat: 35.188412, lon: 126.821214, isPopular: true, fullAddr: '광주광역시 광산구 수완동', keywords: ['수완', '첨단', '광산구', '광주'] },
+  { name: '치평동(상무)', gu: '광주 서구', city: '광주', lat: 35.1522, lon: 126.8525, isPopular: false, fullAddr: '광주광역시 서구 치평동', keywords: ['상무', '상무지구', '치평동', '광주시청', '광주'] },
+  { name: '효자동', gu: '전주 완산구', city: '전북', lat: 35.81716, lon: 127.102276, isPopular: true, fullAddr: '전북특별자치도 전주시 완산구 효자동', keywords: ['효자', '신시가지', '전주'] },
+  { name: '조례동', gu: '순천시', city: '전남', lat: 34.954214, lon: 127.518412, isPopular: true, fullAddr: '전라남도 순천시 조례동', keywords: ['조례', '연향', '순천'] },
+
+  // 9. 강원 / 제주 거점
+  { name: '일산동', gu: '원주시', city: '강원', lat: 37.338412, lon: 127.941214, isPopular: true, fullAddr: '강원특별자치도 원주시 일산동', keywords: ['원주', '일산동', '단계동', '무실동'] },
+  { name: '퇴계동', gu: '춘천시', city: '강원', lat: 37.8542, lon: 127.7315, isPopular: false, fullAddr: '강원특별자치도 춘천시 퇴계동', keywords: ['춘천', '퇴계동', '남춘천'] },
+  { name: '탑동', gu: '제주시', city: '제주', lat: 33.517551, lon: 126.522463, isPopular: true, fullAddr: '제주특별자치도 제주시 일도일동', keywords: ['제주', '탑동', '일도동', '연동', '노형동'] }
 ];
 
 // Haversine 구면거리 계산 함수 (km 단위)
@@ -348,7 +401,231 @@ window.setUserCustomLocation = function(dongName, lat, lon) {
     window.initLiveFacilities();
   }
   if (typeof window.showAisumToast === 'function') {
-    window.showAisumToast(`📍 위치가 '${dongName}'으로 설정되었습니다.`);
+    window.showAisumToast(`📍 위치가 '${dongName}'(으)로 설정되었습니다.`);
+  }
+};
+
+// ============================================================================
+// 🔍 Location Address & Keyword Search Engine (주소 검색 / 키워드 검색 엔진)
+// ============================================================================
+function escapeSearchHtml(str) {
+  return (str || '').replace(/[&<>"']/g, function(m) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+  });
+}
+
+function highlightMatch(text, query) {
+  if (!text || !query) return escapeSearchHtml(text);
+  const escapedText = escapeSearchHtml(text);
+  const cleanQ = query.trim();
+  if (!cleanQ) return escapedText;
+
+  try {
+    const regex = new RegExp(`(${cleanQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return escapedText.replace(regex, '<span class="match-highlight">$1</span>');
+  } catch (e) {
+    return escapedText;
+  }
+}
+
+window.searchLocations = function(query) {
+  if (!query || !query.trim()) return [];
+  const rawQ = query.trim().toLowerCase();
+  const q = rawQ.replace(/\s+/g, '');
+
+  const results = [];
+  const addedKeys = new Set();
+
+  // 1. Search in AISUM_LOCATIONS_DB (전국 핵심 동 & 행정구역 DB)
+  const db = window.AISUM_LOCATIONS_DB || [];
+  db.forEach((item) => {
+    const nameClean = item.name.toLowerCase().replace(/\s+/g, '');
+    const guClean = item.gu.toLowerCase().replace(/\s+/g, '');
+    const cityClean = (item.city || '').toLowerCase().replace(/\s+/g, '');
+    const addrClean = (item.fullAddr || '').toLowerCase().replace(/\s+/g, '');
+    const kwMatch = (item.keywords || []).some((kw) => kw.toLowerCase().replace(/\s+/g, '').includes(q));
+
+    const nameMatch = nameClean.includes(q);
+    const guMatch = guClean.includes(q);
+    const cityMatch = cityClean.includes(q);
+    const addrMatch = addrClean.includes(q);
+
+    if (nameMatch || guMatch || cityMatch || addrMatch || kwMatch) {
+      let score = 0;
+      if (nameClean === q) score += 120;
+      else if (nameClean.startsWith(q)) score += 80;
+      else if (nameMatch) score += 50;
+      else if (guMatch) score += 40;
+      else if (kwMatch) score += 30;
+      else score += 10;
+
+      results.push({
+        name: item.name,
+        gu: item.gu,
+        city: item.city || '',
+        fullAddr: item.fullAddr || `${item.city} ${item.gu} ${item.name}`,
+        lat: item.lat,
+        lon: item.lon,
+        score: score,
+        type: 'region'
+      });
+      addedKeys.add(item.name + item.gu);
+    }
+  });
+
+  // 2. Search in Nationwide Moonlight Hospitals & Pharmacies (달빛병원 및 약국 매칭)
+  const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
+  pairings.forEach((p) => {
+    const hName = p.병원명 || '';
+    const hAddr = p.병원주소 || '';
+    const pName = p.약국명 || '';
+    const pAddr = p.약국주소 || '';
+
+    const textToMatch = (hName + ' ' + hAddr + ' ' + pName + ' ' + pAddr).toLowerCase();
+    if (textToMatch.includes(rawQ) || textToMatch.replace(/\s+/g, '').includes(q)) {
+      const lat = parseFloat(p.병원위도) || 37.5006;
+      const lon = parseFloat(p.병원경도) || 127.0365;
+      const dong = window.estimateDongFromCoords(lat, lon);
+      const key = (hName || pName) + dong;
+      if (!addedKeys.has(key)) {
+        results.push({
+          name: dong,
+          gu: hName || pName,
+          city: '의료기관 연계',
+          fullAddr: hAddr || pAddr || `${dong} 일대`,
+          lat: lat,
+          lon: lon,
+          score: 25,
+          type: 'facility'
+        });
+        addedKeys.add(key);
+      }
+    }
+  });
+
+  // 3. Search in Public Night Pharmacies (공공심야약국 매칭)
+  const nightPharmacies = window.PUBLIC_NIGHT_PHARMACIES_DATA || [];
+  nightPharmacies.forEach((np) => {
+    const npName = np.약국명 || '';
+    const npAddr = np.주소 || '';
+    const textToMatch = (npName + ' ' + npAddr).toLowerCase();
+    if (textToMatch.includes(rawQ) || textToMatch.replace(/\s+/g, '').includes(q)) {
+      const lat = parseFloat(np.위도) || 37.5006;
+      const lon = parseFloat(np.경도) || 127.0365;
+      const dong = window.estimateDongFromCoords(lat, lon);
+      const key = npName + dong;
+      if (!addedKeys.has(key)) {
+        results.push({
+          name: dong,
+          gu: npName,
+          city: '공공심야약국 연계',
+          fullAddr: npAddr,
+          lat: lat,
+          lon: lon,
+          score: 20,
+          type: 'pharmacy'
+        });
+        addedKeys.add(key);
+      }
+    }
+  });
+
+  // Sort results by relevance score descending
+  results.sort((a, b) => b.score - a.score);
+  return results.slice(0, 15);
+};
+
+window.initLocationSearch = function() {
+  const input = document.getElementById('location-search-input');
+  const clearBtn = document.getElementById('location-search-clear-btn');
+  const resultsSec = document.getElementById('location-search-results-section');
+  const resultsList = document.getElementById('location-results-list');
+  const countEl = document.getElementById('search-results-count');
+  const quickSec = document.getElementById('quick-locations-section');
+
+  if (!input) return;
+  if (input.dataset.searchBound === 'true') return;
+  input.dataset.searchBound = 'true';
+
+  const handleSearch = function() {
+    const query = input.value.trim();
+    if (!query) {
+      if (clearBtn) clearBtn.style.display = 'none';
+      if (resultsSec) resultsSec.style.display = 'none';
+      if (quickSec) quickSec.style.display = 'flex';
+      return;
+    }
+
+    if (clearBtn) clearBtn.style.display = 'flex';
+    if (quickSec) quickSec.style.display = 'none';
+    if (resultsSec) resultsSec.style.display = 'flex';
+
+    const matches = window.searchLocations(query);
+    if (countEl) {
+      countEl.textContent = `검색 결과 ${matches.length}건`;
+    }
+
+    if (!resultsList) return;
+
+    if (matches.length === 0) {
+      resultsList.innerHTML = `
+        <div class="no-results-card">
+          <span class="material-symbols-outlined no-results-icon">location_off</span>
+          <div class="no-results-msg">'${escapeSearchHtml(query)}' 검색 결과가 없습니다</div>
+          <div class="no-results-sub">동, 구, 시 명칭(예: 잠실동, 강남, 분당, 해운대)으로 검색해 보세요</div>
+          <button type="button" class="btn-custom-set" onclick="window.setUserCustomLocation('${escapeSearchHtml(query)}', 37.5133, 127.1001)">
+            '${escapeSearchHtml(query)}' 위치로 직접 지정
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    let html = '';
+    matches.forEach((m) => {
+      const highlightedName = highlightMatch(m.name, query);
+      const highlightedAddr = highlightMatch(m.fullAddr, query);
+      const badgeText = m.gu || m.city || '지역';
+      html += `
+        <li class="location-result-item" onclick="window.setUserCustomLocation('${m.name}', ${m.lat}, ${m.lon})">
+          <div class="result-main-wrap">
+            <span class="material-symbols-outlined result-pin-icon">location_on</span>
+            <div class="result-info">
+              <span class="result-title">${highlightedName}</span>
+              <span class="result-desc">${highlightedAddr}</span>
+            </div>
+          </div>
+          <span class="result-tag">${badgeText}</span>
+        </li>
+      `;
+    });
+    resultsList.innerHTML = html;
+  };
+
+  input.addEventListener('input', handleSearch);
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const firstItem = resultsList ? resultsList.querySelector('.location-result-item') : null;
+      if (firstItem) {
+        firstItem.click();
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      if (typeof window.closeLocationModal === 'function') {
+        window.closeLocationModal();
+      }
+    }
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      input.value = '';
+      input.focus();
+      handleSearch();
+    });
   }
 };
 
@@ -359,11 +636,37 @@ window.openLocationModal = function() {
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 
-  // Render quick locations if grid is empty
+  // Initialize search event listeners
+  if (typeof window.initLocationSearch === 'function') {
+    window.initLocationSearch();
+  }
+
+  // Reset search input and UI state
+  const searchInput = document.getElementById('location-search-input');
+  const clearBtn = document.getElementById('location-search-clear-btn');
+  const resultsSec = document.getElementById('location-search-results-section');
+  const quickSec = document.getElementById('quick-locations-section');
+  if (searchInput) {
+    searchInput.value = '';
+    setTimeout(() => {
+      searchInput.focus();
+    }, 150);
+  }
+  if (clearBtn) clearBtn.style.display = 'none';
+  if (resultsSec) resultsSec.style.display = 'none';
+  if (quickSec) quickSec.style.display = 'flex';
+
+  // Update current selected dong badge
+  const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '역삼동';
+  const tagEl = document.getElementById('modal-current-dong-tag');
+  if (tagEl) {
+    tagEl.textContent = `현재: ${currentDong}`;
+  }
+
+  // Render quick locations grid
   const grid = document.getElementById('quick-locations-grid');
   if (grid) {
     const popular = (window.AISUM_LOCATIONS_DB || []).filter((item) => item.isPopular);
-    const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '역삼동';
     let chipsHtml = '';
     popular.forEach((loc) => {
       const isActive = loc.name === currentDong;
@@ -831,6 +1134,10 @@ if (!window.__AISUM_INITIALIZED__) {
     }
 
     // Location Pill and Location Modal Listeners
+    if (typeof window.initLocationSearch === 'function') {
+      window.initLocationSearch();
+    }
+
     const locationPillBtn = document.getElementById('current-location-pill');
     if (locationPillBtn) {
       locationPillBtn.addEventListener('click', (e) => {

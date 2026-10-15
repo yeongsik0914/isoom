@@ -214,27 +214,56 @@
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
         <div class="sheet-title-group">
-          <h3 class="sheet-title" id="location-modal-title">내 위치 설정</h3>
-          <p class="sheet-subtitle">가까운 달빛어린이병원과 심야약국을 실시간 탐색합니다</p>
+          <h3 class="sheet-title" id="location-modal-title">위치 설정</h3>
+          <p class="sheet-subtitle">가까운 달빛어린이병원과 심야약국을 실시간 거리순으로 안내합니다</p>
         </div>
         <button type="button" class="sheet-close-btn" id="location-modal-close-btn" aria-label="위치 모달 닫기">
           <span class="material-symbols-outlined">close</span>
         </button>
       </div>
 
-      <!-- 1. Real GPS Refresh Action -->
+      <!-- 1. Address & Keyword Search Input (주소 검색 / 키워드 검색) -->
+      <div class="location-search-box">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input 
+          type="text" 
+          id="location-search-input" 
+          class="location-search-input" 
+          placeholder="동, 구, 시 또는 키워드 검색 (예: 잠실동, 강남, 분당, 해운대)" 
+          autocomplete="off" 
+          spellcheck="false" 
+        />
+        <button type="button" class="search-clear-btn" id="location-search-clear-btn" aria-label="검색어 지우기" style="display:none;">
+          <span class="material-symbols-outlined">cancel</span>
+        </button>
+      </div>
+
+      <!-- 2. Set Current Location (GPS 현재 위치 설정) -->
       <button type="button" class="btn-gps-refresh" id="btn-gps-refresh" onclick="window.refreshUserCurrentLocation()">
         <span class="material-symbols-outlined gps-icon">my_location</span>
         <div class="gps-text-wrap">
-          <span class="gps-main-text">현재 내 위치로 설정 (GPS)</span>
-          <span class="gps-sub-text">기기 실제 GPS 좌표를 실시간 측정합니다</span>
+          <span class="gps-main-text">현재 위치로 설정</span>
+          <span class="gps-sub-text">기기 실제 GPS 좌표를 실시간 측정하여 반영합니다</span>
         </div>
         <span class="material-symbols-outlined arrow-right">chevron_right</span>
       </button>
 
-      <!-- 2. Quick Location Grid (Major Dong in Seoul / Metropolitan) -->
-      <div class="quick-locations-section">
-        <h4 class="quick-locations-label">주요 지역 빠른 선택</h4>
+      <!-- 3. Dynamic Search Results (검색 시 노출) -->
+      <div class="location-search-results-section" id="location-search-results-section" style="display:none;">
+        <div class="search-results-header">
+          <span class="results-count-text" id="search-results-count">검색 결과 0건</span>
+        </div>
+        <ul class="location-results-list" id="location-results-list">
+          <!-- Dynamically populated by main.js -->
+        </ul>
+      </div>
+
+      <!-- 4. Quick Locations Grid (자주 찾는 주요 지역) -->
+      <div class="quick-locations-section" id="quick-locations-section">
+        <div class="quick-header-row">
+          <h4 class="quick-locations-label">자주 찾는 주요 지역</h4>
+          <span class="current-selected-tag" id="modal-current-dong-tag">현재: 잠실동</span>
+        </div>
         <div class="quick-locations-grid" id="quick-locations-grid">
           <!-- Rendered dynamically by main.js -->
         </div>
