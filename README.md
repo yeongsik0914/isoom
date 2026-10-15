@@ -30,6 +30,24 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.17-frontend-backend-integration-spec] 2026-10-15: '아이숨' 프론트엔드-백엔드 100% 결합 연동 명세서(FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립 및 개발 백서 배포 (정영식 팀장, AI 에이전트)
+* **프로젝트 루트 전용 종합 백서 [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립**:
+  - **백엔드 모듈화 4대 계층 요약**: API 계층(`api/v1/`), 에이전트 계층(`agents/`), FSM 오케스트레이션 계층(`orchestrator/`), 공간/병상 동기화 계층(`services/`).
+  - **프론트엔드 9대 화면 요약**: `splash.html`, `permission.html`, `index.html`, `input.html`, `loading.html`, `result.html`, `hospital_detail.html`, `emergency_guide.html`, `settings.html` 현황.
+  - **화면단별 버튼 클릭 시 백엔드 동작 1:1 결합 매핑 매트릭스**:
+    - `index.html` 진입 시 `GET /api/v1/emergency/nearby` ➔ 실시간 병상 및 주변 응급실 카드 렌더링.
+    - `input.html` "확인" 클릭 시 `POST /api/v1/chat` ➔ Red Flag 0ms 검사 & Triage/Matching/Logistics 실행 ➔ `sessionStorage`에 결과 저장 후 `loading.html` 거쳐 `result.html` 표출.
+    - `result.html` 2-트랙 탭 전환 및 +30분 조제 안전마진 약국/실시간 병상 상세 렌더링.
+    - `hospital_detail.html` 모바일 번호표 접수 및 당직의 프로필/지참 서류 안내.
+    - `emergency_guide.html` KTAS 7단계 시각 슬라이더 & 통화 스크립트 복사.
+  - **E2E 풀스택 라이프사이클 Mermaid 시퀀스 다이어그램** 수록.
+  - **미구현 4대 핵심 화면 및 기능 구현 가이드**:
+    - ① `result.js` (실시간 백엔드 데이터 동적 바인딩)
+    - ② `chat.html` (멀티턴 문진 대화형 모달/채팅 UI)
+    - ③ `map.html` (카카오맵 / 네이버맵 기반 지리공간 30분 안심 페어링 지도 뷰)
+    - ④ `beds.html` (전국 실시간 소아 응급실 병상 전광판 & 공지 모니터 대시보드)
+  - **단계별 풀스택 결합 개발 실행 로드맵 (Action Items)**: Phase 1~4 구체화.
+
 ### 🌟 [v2.4.16-hospital-detail-ticketing] 2026-10-15: '아이숨' 야간 병원 상세 및 실시간 접수 안내 화면(hospital_detail.html) 순수 프론트엔드 구축 & result.html 연계 완료 (김동준 팀원)
 * **아이숨 3대 핵심 화면 중 완결판 ([frontend/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/hospital_detail.html), [frontend/templates/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html)) 구축**:
   - **병원 히어로 배너**: 송파어린이병원 타이틀, 보건복지부 지정 달빛어린이병원 엠블럼, 실시간 야간진료 중(`~23:00`) 라이브 펄스 배지.

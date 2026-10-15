@@ -63,6 +63,7 @@
 | **[ISSUE-053]** | 프론트엔드 UI/UX 로딩 애니메이션 | AI 증상 분석 중 로딩 오버레이 & 단독 페이지(loading.html) 순수 CSS 키프레임 애니메이션 및 2초 타이머 시퀀스 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-054]** | 프론트엔드 UI/UX 온보딩 | monimo 레퍼런스 스타일의 아이숨 첫 로딩(스플래시) 및 백엔드 로직 정합형 5대 접근 권한 명시 페이지 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-055]** | 프론트엔드 UI/UX 병원 상세 및 접수 | 야간 병원 상세 및 실시간 접수 안내 화면(hospital_detail.html) 순수 프론트엔드 구축 및 result.html 연계 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-056]** | 풀스택 아키텍처 및 결합 명세 | 프론트엔드-백엔드 100% 결합 연동 명세서(FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립 및 미구현 화면 고도화 백서 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1637,4 +1638,38 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
   * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
   * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-056] 프론트엔드-백엔드 100% 결합 연동 명세서(FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립 및 미구현 화면 고도화 백서 구축
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장), AI 에이전트
+* **분류**: 풀스택 시스템 아키텍처 / 인터페이스 규격화 / 프로젝트 거버넌스 및 기술 백서
+* **문제 상황**:
+  * 백엔드는 4대 계층(`api`, `agents`, `orchestrator`, `services`)으로 완벽하게 모듈화되어 구축되었고, 프론트엔드 역시 9대 화면(`splash`, `permission`, `index`, `input`, `loading`, `result`, `hospital_detail`, `emergency_guide`, `settings`)이 모바일 UI/UX 형태로 구축되었으나,
+  * 각 화면의 버튼을 클릭했을 때 백엔드의 어떤 함수·서비스·에이전트가 어떤 데이터 규격(Request/Response)으로 연동되는지에 대한 명확한 1:1 결합 명세서가 부재하여 협업 시 혼선이 발생할 위험이 있었음.
+  * 또한 아직 완전히 구현되지 않은 백엔드 기능 활용 화면(`result.js` 실데이터 연동, `chat.html` 멀티턴 문진, `map.html` 30분 마진 지도, `beds.html` 실시간 병상 전광판)에 대한 구체적인 구현 지침이 필요했음.
+* **원인 분석**:
+  * 프론트엔드와 백엔드가 각각 고도화되면서 두 영역 간의 E2E 계약(Contract) 및 이벤트 흐름을 종합 정리한 독립 문서의 필요성이 대두됨.
+* **구체적 해결 방안**:
+  1. **프로젝트 루트 전용 종합 백서 [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립**:
+     - **백엔드 모듈 요약**: API 계층, 4대 에이전트(`guardrail`, `triage`, `matching`, `logistics`), FSM 오케스트레이터, 지리공간 및 병상 동기화 서비스 명세.
+     - **프론트엔드 9대 화면 요약**: 라우트 및 상태 정리.
+     - **1:1 결합 매핑 매트릭스**: 화면 및 버튼별 클릭 이벤트 ➔ 백엔드 파일 및 엔드포인트 ➔ 실제 동작 및 반환 데이터 표출 매핑.
+     - **E2E 풀스택 시퀀스 다이어그램**: Mermaid 라이프사이클 모델링.
+     - **미구현 4대 핵심 화면 및 기능 구현 가이드**: `result.js`, `chat.html`, `map.html`, `beds.html` 개발 스펙.
+     - **4단계 실행 로드맵**: Phase 1(데이터 실결합) ~ Phase 4(프로덕션 릴리스).
+  2. **4대 불변 거버넌스 문서 동기화**:
+     - `Answer-영식.md`에 Q64 등록.
+     - `log.md`에 [ISSUE-056] 등록.
+     - `README.md` 체인지로그에 `v2.4.17` 릴리스 반영.
+     - `PLAN.md` 11절 프론트-백엔드 결합 명세 참조 링크 보강.
+* **적용 파일**:
+  * [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) (신규)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 

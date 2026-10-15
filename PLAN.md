@@ -841,6 +841,8 @@ flowchart TD
 
 ## 11. 프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵
 
+> **전용 상세 백서**: [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) (프론트엔드-백엔드 100% 결합 연동 명세서 전문 수록)
+
 ### 11.1 백엔드 4대 모듈과 프론트엔드 화면 버튼 1:1 결합 매핑
 * **API 계층 (`app/api/v1/`)**:
   - `POST /api/v1/chat`: `input.html` "확인" 버튼 클릭 시 호출 ➔ Red Flag 검사 및 Triage/Matching/Logistics 연산 ➔ `SupervisorResponse` 반환.
