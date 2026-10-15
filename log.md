@@ -82,6 +82,7 @@
 | **[ISSUE-073]** | 풀스택 통신 단절(서버 미실행) & 12대 Red Flag 동기화 | '절단' 증상 시 0ms 안전 통과 착시 결함 해소, 12대 Red Flag 클라이언트-백엔드 100% 동기화 및 가드레일 뱃지 실시간 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-074]** | 풀스택 E2E 실시간 라이브 연동 검증 | input.html 실시간 입력 시나리오(발열/보챔) ➔ 백엔드 FSM KTAS 3단계 산출 및 result.html 실데이터 100% 일치 실시간 검증 완료 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-075]** | 프로젝트 협업 거버넌스 & 아카이브 정상화 | 작업자별 Q&A 아카이브 분리 원칙 확립, Answer-영식.md 정영식 팀장 영역 원상 복원 및 q_a.md 김동준 팀원 전담 누적 체계 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-076]** | 프론트엔드 위치 서비스 & 실시간 공간 매칭 | 온보딩 위치 권한(Geolocation) 획득 좌표의 메인 홈 헤더 알약(역삼동) 동적 반영 및 실시간 의료시설 페어링 연동 부재 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2343,12 +2344,45 @@
   3. **`.gitignore` 정리 및 Git 추적 정상화**:
      - `.gitignore`에서 `q_a.md`를 제거하여 Git 원격 저장소에 안전하게 커밋 & 푸시되도록 형상 관리 완결.
 * **적용 파일**:
-  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
-  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
-  * [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)
-  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
-  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
-  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+  * [q_a.md](file:///e:/monnlight/q_a.md)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [.gitignore](file:///e:/monnlight/.gitignore)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-076] 온보딩 위치 권한(Geolocation) 획득 좌표의 메인 홈 헤더 알약(역삼동) 동적 반영 및 실시간 의료시설 페어링 연동 완결
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장 / 총괄), AI 에이전트
+* **분류**: 위치 기반 서비스(LBS) / 프론트엔드 UI/UX 바인딩 / 실시간 공공데이터 페어링 연동
+* **문제 상황**:
+  * 사용자가 앱 첫 진입 온보딩 화면(`permission.html`)에서 위치 권한을 승인하여 위도(`user_lat`)와 경도(`user_lon`)가 로컬스토리지에 저장되었음에도, 메인 홈(`index.html`) 상단 헤더의 위치 알약 버튼(`.location-pill`)에는 고정된 텍스트 `<span>역삼동</span>`만 노출되고 실제 사용자 위치(동 단위)가 반영되지 않는 현상 발생.
+  * 또한 해당 위치 좌표가 실시간 야간 의료시설 목록 API(`/api/v1/emergency/pairings`)와 동기화되지 않아 사용자 위치 기준의 실시간 병원 및 약국 목록 조회가 단절됨.
+* **원인 분석**:
+  1. **좌표-행정동 변환 엔진 부재**: 브라우저 Geolocation은 숫자 좌표(`lat`, `lon`)만 제공하므로, 화면에 사용자 친화적인 동(Dong) 이름을 띄우기 위한 공간 인덱스 매핑 엔진이 누락되어 있었음.
+  2. **식별자 및 하이드레이션 스크립트 부재**: `index.html` 내 위치 알약 텍스트 엘리먼트에 고유 ID가 없어 동적 DOM 조작이 불가능했고, 페이지 로드 시 깜빡임(FOUC) 방지 인라인 스크립트가 없었음.
+  3. **인터랙션 및 재측정 UX 부재**: 위치를 재측정하거나 타 지역을 탐색할 수 있는 UI 컴포넌트(바텀시트 모달)가 구현되어 있지 않았음.
+* **구체적 해결 방안**:
+  1. **수도권 주요 45개 권역 공간 인덱스(Haversine) 엔진 탑재 (`main.js` & `permission.html`)**:
+     - `AISUM_LOCATIONS_DB` 및 `estimateDongFromCoords(lat, lon)`을 구축하여 위치 권한 획득 즉시 0ms 오프라인에서도 가장 가까운 행정동(역삼동, 삼성동, 대치동, 서초동, 잠실동, 목동 등)을 산출하고 `aisum_user_dong`에 저장.
+  2. **메인 홈 헤더 위치 알약 버튼 동적 바인딩 및 0ms 하이드레이션 (`index.html`)**:
+     - `<span id="current-location-text">` 및 `id="current-location-pill"` 식별자 부여.
+     - 0ms 인라인 하이드레이션 스크립트로 새로고침 시에도 사용자 동 이름이 즉각 유지되도록 구현.
+  3. **사용자 실제 좌표 기반 실시간 의료시설 페어링 API 연동 (`initLiveFacilities`)**:
+     - `localStorage`의 `user_lat`, `user_lon`을 쿼리 스트링으로 전달하여 `/api/v1/emergency/pairings?lat=...&lon=...`을 호출.
+     - 사용자 위치 기준 정확한 실시간 거리(`hDist`), 도보/차량 소요시간을 산출하여 달빛어린이병원 및 심야약국 카드로 렌더링.
+  4. **'내 위치 설정' 프리미엄 바텀시트 모달 구축 (`style.css` & `index.html`)**:
+     - 위치 알약 탭 시 모달 팝업. 실시간 GPS 재측정 버튼(`btn-gps-refresh`) 및 서울/수도권 주요 거점 동 빠른 선택 그리드(`quick-locations-grid`) 제공.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html), [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  * [frontend/templates/permission.html](file:///e:/monnlight/frontend/templates/permission.html), [frontend/permission.html](file:///e:/monnlight/frontend/permission.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+
 
 
 

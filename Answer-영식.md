@@ -80,6 +80,7 @@
 80. [Q72. [설정 고도화] 설정 화면 '앱 사용자(자녀)의 출생연도 설정 변경'을 '자녀의 기본 정보 변경' 칸 및 맞춤 모달 시스템으로 개편 보고](#q72-설정-고도화-설정-화면-앱-사용자자녀의-출생연도-설정-변경을-자녀의-기본-정보-변경-칸-및-맞춤-모달-시스템으로-개편-보고)
 81. [Q73. [프론트-백엔드 실시간 연동 진단] 메인 홈(index.html) 실시간 야간 의료시설 현황의 기존 백엔드 API(/api/v1/emergency/pairings) 활용 가능성 및 구현 아키텍처](#q73-프론트-백엔드-실시간-연동-진단-메인-홈indexhtml-실시간-야간-의료시설-현황의-기존-백엔드-apiapiv1emergencypairings-활용-가능성-및-구현-아키텍처)
 82. [Q74. [풀스택 연동 완료] 메인 홈(index.html) 실시간 야간 의료시설 현황 백엔드 API(/api/v1/emergency/pairings) 100% 결합 및 동적 렌더링·탭 필터링 구현 보고](#q74-풀스택-연동-완료-메인-홈indexhtml-실시간-야간-의료시설-현황-백엔드-apiapiv1emergencypairings-100-결합-및-동적-렌더링탭-필터링-구현-보고)
+83. [Q75. [위치 기반 서비스 연동] 온보딩 위치 권한(Geolocation) 기반 메인 홈 상단 위치 알약 버튼(역삼동) 동적 반영 및 실시간 소아 야간 의료시설 목록 연동 보고](#q75-위치-기반-서비스-연동-온보딩-위치-권한geolocation-기반-메인-홈-상단-위치-알약-버튼역삼동-동적-반영-및-실시간-소아-야간-의료시설-목록-연동-보고)
 
 ---
 
@@ -4515,6 +4516,63 @@ graph TD
 
 * **요약 결론**:
   - 메인 홈 화면의 '실시간 야간 의료시설' 섹션이 실제 공공데이터 기반 전국 달빛병원 및 심야약국 라이브 데이터로 완벽하게 전환되었으며, 사용자 위치 기준 실시간 거리/소요시간 계산, 전화 걸기, 탭 필터링이 100% 동작합니다.
+
+---
+
+### Q75. [위치 기반 서비스 연동] 온보딩 위치 권한(Geolocation) 기반 메인 홈 상단 위치 알약 버튼(역삼동) 동적 반영 및 실시간 소아 야간 의료시설 목록 연동 보고
+
+* **기록 일시**: 2026-10-15
+* **질문 내용**:
+  > 앱 처음에 접속하면 위치 권한을 받게 되는데 그걸 적용해서 메인페이지에 첨부한 이미지 부분에 사용자의 위치를 적용시켜줘 그리고 이걸 기반으로 실시간 병원 목록들이 나오게 해줘  
+  > *(첨부 이미지: 메인 홈 상단 헤더의 `📍 역삼동 ˅` 형태의 위치 알약 버튼)*
+
+#### 1. 요구사항 정밀 분석 및 아키텍처 수립
+1. **온보딩 위치 권한(`permission.html`)과의 실시간 동기화**:
+   - 앱 최초 구동 온보딩 화면(`permission.html`)에서 사용자 권한 승인 시 브라우저 W3C Geolocation API로부터 획득한 위도(`user_lat`)와 경도(`user_lon`)를 단순히 좌표만 저장하는 데 그치지 않고, 즉시 행정동(Dong) 단위로 변환하여 `aisum_user_dong`, `user_dong`에 저장하도록 고도화.
+2. **메인 홈 헤더 위치 알약 버튼(`.location-pill`) 동적 바인딩**:
+   - `index.html` 상단에 하드코딩되어 있던 `<span>역삼동</span>`을 식별 가능한 `<span id="current-location-text">`로 구조화.
+   - 0ms FOUC(Flash of Unstyled Content) 방지 인라인 스크립트를 삽입하여 페이지 최초 파싱 시점에 로컬스토리지에 캐시된 사용자 동 이름으로 깜빡임 없이 즉시 하이드레이션.
+3. **위치 좌표 기반 실시간 의료시설(`/api/v1/emergency/pairings`) 목록 자동 호출**:
+   - 상단 위치 알약에 표시된 사용자의 실제 좌표(`user_lat`, `user_lon`)를 쿼리 파라미터(`?lat=...&lon=...`)로 자동 전달하여, 백엔드로부터 사용자 기준 반경 내 가장 가까운 달빛어린이병원 및 30분 마진 심야약국 페어링 세트를 실시간 정렬 반환받아 렌더링.
+4. **위치 변경 및 GPS 재측정 인터랙션(바텀시트 모달) 제공**:
+   - 위치 알약 버튼 클릭 시 '내 위치 설정' 바텀 시트(`location-select-modal`) 오픈.
+   - '현재 내 위치로 설정 (GPS)' 버튼을 누르면 실시간 Geolocation 재호출 및 최신 동 명칭/좌표로 자동 갱신되고, 실시간 병원 목록도 즉시 리프레시.
+   - 서울/수도권 주요 20개 거점 동(역삼동, 삼성동, 대치동, 서초동, 잠실동, 목동, 상암동, 여의도동, 판교동 등) 원터치 퀵 선택 그리드 제공.
+
+#### 2. 주요 구현 및 수정 내역
+* **1) 온보딩 화면 위치-동 추정 엔진 탑재 ([permission.html](file:///e:/monnlight/frontend/templates/permission.html) & [frontend/permission.html](file:///e:/monnlight/frontend/permission.html))**:
+  - `estimateDongName(lat, lon)` Haversine 구면거리 공간 인덱스를 내장하여, 위치 권한 허용 즉시 좌표와 가장 가까운 행정동을 0ms 내에 도출하고 `localStorage.setItem('aisum_user_dong', dongName)` 저장.
+* **2) 메인 홈 마크업 개편 ([templates/index.html](file:///e:/monnlight/frontend/templates/index.html) & [frontend/index.html](file:///e:/monnlight/frontend/index.html))**:
+  - `.location-pill` 내부에 `<span id="current-location-text">` 및 `id="current-location-pill"` 부여.
+  - 깜빡임 방지 0ms 즉시 실행 스크립트 탑재.
+  - 하단에 프리미엄 모바일 바텀시트 모달(`location-select-modal`), GPS 재측정 버튼(`btn-gps-refresh`), 주요 거점 동 빠른 선택 그리드(`quick-locations-grid`) 탑재.
+* **3) 위치 관리 및 실시간 의료시설 연동 엔진 구현 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - `AISUM_LOCATIONS_DB`: 수도권 주요 45개 권역 대표 거점 데이터베이스 구축.
+  - `estimateDongFromCoords(lat, lon)`: Haversine 거리 기반 최단 거리 동 명칭 반환 함수.
+  - `updateLocationDisplay(dongName, lat, lon)`: 헤더 알약 텍스트 및 로컬스토리지 좌표/동 일괄 갱신.
+  - `initUserLocation()`: 페이지 로드/BFCache 복원 시 사용자 위치 자동 복원.
+  - `refreshUserCurrentLocation()`: 네이티브 GPS 재호출 ➔ 동 판별 ➔ 알약 텍스트 갱신 ➔ `initLiveFacilities()` 실시간 병원 목록 리프레시 ➔ 토스트 알림 연동.
+  - `setUserCustomLocation(dongName, lat, lon)`: 퀵 선택 탭 시 해당 동으로 즉각 전환 & 병원 목록 리프레시.
+  - `initLiveFacilities()`: `localStorage`에서 사용자의 실제 좌표를 동적으로 읽어 `/api/v1/emergency/pairings` 호출.
+* **4) 프리미엄 바텀시트 모달 스타일링 ([style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - iOS/토스 스타일의 부드러운 슬라이드업 바텀시트 애니메이션 (`cubic-bezier(0.16, 1, 0.3, 1)`).
+  - 산뜻한 블루 틴트 GPS 재측정 박스, 미려한 칩 버튼 액티브 스타일 및 모달 배경 블러 오버레이 처리.
+
+#### 3. 검증 결과
+* **FastAPI 백엔드 좌표별 실시간 페어링 쿼리 검증**:
+  - 사용자 좌표 `lat=37.5006, lon=127.0365`(역삼동) 쿼리 시:
+    - 1순위: 강남아산소아청소년과의원 (달빛어린이병원) - 강남메디컬약국 (0.71km)
+    - 2순위: 연세곰돌이소아청소년과의원 (달빛어린이병원) - 열린약국 (3.81km)
+    - 3순위: 소화병원 (달빛어린이병원) - 신동화약국 (8.28km)
+    - 4순위: 양천소아청소년과의원 (야간진료의원) - 목동하늘약국 (15.09km)
+    - 5순위: 분당연세소아청소년과의원 (달빛어린이병원) - 정자파라곤약국 (16.14km)
+  - HTTP 200 OK와 함께 거리순 정확한 정렬 및 소요시간 산출 전수 검증 완료.
+* **단위 테스트(Unit Tests) 전수 통과**:
+  - `tests/test_audit_fixes.py` 및 전체 테스트 스위트 11개 전수 통과 (`Ran 11 tests in 10.970s, OK`).
+
+* **요약 결론**:
+  - 앱 첫 진입 온보딩 권한에서 획득한 실제 사용자 위치 좌표가 메인 홈 상단 헤더 알약 버튼(`📍 역삼동 ˅`)에 즉시 동적 반영되며, 해당 위치 좌표를 기반으로 실시간 소아 야간 의료시설(달빛병원+심야약국) 목록이 거리순으로 정렬되어 노출되는 풀스택 연동이 완벽하게 완료되었습니다.
+
 
 
 

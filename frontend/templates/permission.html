@@ -340,6 +340,88 @@
           resolve('timeout');
         }, 4000);
 
+        function estimateDongName(lat, lon) {
+          const DONG_NODES = [
+            { name: '역삼동', lat: 37.5006, lon: 127.0365 },
+            { name: '삼성동', lat: 37.5140, lon: 127.0565 },
+            { name: '대치동', lat: 37.4946, lon: 127.0628 },
+            { name: '논현동', lat: 37.5115, lon: 127.0285 },
+            { name: '압구정동', lat: 37.5270, lon: 127.0284 },
+            { name: '청담동', lat: 37.5245, lon: 127.0520 },
+            { name: '신사동', lat: 37.5205, lon: 127.0230 },
+            { name: '개포동', lat: 37.4789, lon: 127.0517 },
+            { name: '일원동', lat: 37.4839, lon: 127.0844 },
+            { name: '서초동', lat: 37.4918, lon: 127.0079 },
+            { name: '반포동', lat: 37.5042, lon: 127.0049 },
+            { name: '방배동', lat: 37.4815, lon: 126.9975 },
+            { name: '양재동', lat: 37.4700, lon: 127.0400 },
+            { name: '잠실동', lat: 37.5133, lon: 127.1001 },
+            { name: '신천동', lat: 37.5180, lon: 127.1010 },
+            { name: '가락동', lat: 37.4925, lon: 127.1189 },
+            { name: '문정동', lat: 37.4859, lon: 127.1226 },
+            { name: '방이동', lat: 37.5165, lon: 127.1130 },
+            { name: '송파동', lat: 37.5050, lon: 127.1080 },
+            { name: '천호동', lat: 37.5385, lon: 127.1235 },
+            { name: '길동', lat: 37.5345, lon: 127.1402 },
+            { name: '공덕동', lat: 37.5445, lon: 126.9515 },
+            { name: '상암동', lat: 37.5775, lon: 126.8915 },
+            { name: '서교동', lat: 37.5550, lon: 126.9215 },
+            { name: '합정동', lat: 37.5495, lon: 126.9135 },
+            { name: '망원동', lat: 37.5562, lon: 126.9103 },
+            { name: '여의도동', lat: 37.5218, lon: 126.9242 },
+            { name: '당산동', lat: 37.5338, lon: 126.8995 },
+            { name: '영등포동', lat: 37.5158, lon: 126.9076 },
+            { name: '목동', lat: 37.5370, lon: 126.8745 },
+            { name: '신정동', lat: 37.5180, lon: 126.8560 },
+            { name: '화곡동', lat: 37.5410, lon: 126.8400 },
+            { name: '마곡동', lat: 37.5600, lon: 126.8250 },
+            { name: '구로동', lat: 37.4950, lon: 126.8870 },
+            { name: '신도림동', lat: 37.5090, lon: 126.8910 },
+            { name: '한남동', lat: 37.5347, lon: 127.0022 },
+            { name: '이태원동', lat: 37.5345, lon: 126.9945 },
+            { name: '청파동', lat: 37.5465, lon: 126.9678 },
+            { name: '이촌동', lat: 37.5175, lon: 126.9742 },
+            { name: '명동', lat: 37.5636, lon: 126.9827 },
+            { name: '종로', lat: 37.5704, lon: 126.9922 },
+            { name: '성수동', lat: 37.5445, lon: 127.0560 },
+            { name: '화양동', lat: 37.5407, lon: 127.0700 },
+            { name: '자양동', lat: 37.5340, lon: 127.0690 },
+            { name: '신림동', lat: 37.4842, lon: 126.9298 },
+            { name: '봉천동', lat: 37.4812, lon: 126.9528 },
+            { name: '사당동', lat: 37.4820, lon: 126.9760 },
+            { name: '상도동', lat: 37.5020, lon: 126.9470 },
+            { name: '노량진동', lat: 37.5130, lon: 126.9420 },
+            { name: '수유동', lat: 37.6380, lon: 127.0250 },
+            { name: '미아동', lat: 37.6250, lon: 127.0255 },
+            { name: '창동', lat: 37.6530, lon: 127.0470 },
+            { name: '상계동', lat: 37.6550, lon: 127.0670 },
+            { name: '중계동', lat: 37.6480, lon: 127.0760 },
+            { name: '하계동', lat: 37.6360, lon: 127.0670 },
+            { name: '판교동', lat: 37.3940, lon: 127.1110 },
+            { name: '정자동', lat: 37.3660, lon: 127.1080 },
+            { name: '영통동', lat: 37.2520, lon: 127.0710 },
+            { name: '일산동', lat: 37.6860, lon: 126.7710 },
+            { name: '중동', lat: 37.5020, lon: 126.7640 },
+            { name: '송도동', lat: 37.3940, lon: 126.6540 }
+          ];
+          let best = '역삼동';
+          let minD = Infinity;
+          for (const node of DONG_NODES) {
+            const dLat = (lat - node.lat) * (Math.PI / 180);
+            const dLon = (lon - node.lon) * (Math.PI / 180);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat * (Math.PI / 180)) * Math.cos(node.lat * (Math.PI / 180)) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const dist = 6371 * c;
+            if (dist < minD) {
+              minD = dist;
+              best = node.name;
+            }
+          }
+          return best;
+        }
+
         navigator.geolocation.getCurrentPosition(
           (position) => {
             clearTimeout(timer);
@@ -350,6 +432,11 @@
               localStorage.setItem('user_lon', lon);
               sessionStorage.setItem('user_lat', lat);
               sessionStorage.setItem('user_lon', lon);
+              localStorage.setItem('aisum_user_lat', lat);
+              localStorage.setItem('aisum_user_lon', lon);
+              const dongName = estimateDongName(lat, lon);
+              localStorage.setItem('aisum_user_dong', dongName);
+              localStorage.setItem('user_dong', dongName);
               localStorage.setItem('aisum_permission_location', 'granted');
             } catch (e) {
               console.warn('Storage error on geolocation:', e);

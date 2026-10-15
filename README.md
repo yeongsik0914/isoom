@@ -30,6 +30,20 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.36-user-location-live-facilities-sync] 2026-10-15: 온보딩 위치 권한(Geolocation) 획득 좌표 기반 메인 홈 상단 헤더 알약(역삼동) 동적 반영 및 실시간 소아 야간 의료시설 목록 연동 (정영식 팀장)
+* **📍 온보딩 위치 권한(`permission.html`) 행정동(Dong) 자동 산출 및 캐싱**:
+  - 앱 첫 진입 온보딩에서 사용자가 위치 권한을 승인하는 순간, 획득한 위경도 좌표로부터 Haversine 구면거리 공간 인덱스(`estimateDongName`)를 통해 0ms 내에 가장 가까운 행정동(Dong) 명칭을 도출하고 `aisum_user_dong`, `user_dong`에 저장.
+* **💊 메인 홈 헤더 위치 알약 버튼(`.location-pill`) 동적 바인딩 & 0ms 인라인 하이드레이션**:
+  - `index.html` 상단에 하드코딩되어 있던 `역삼동` 텍스트를 `<span id="current-location-text">`로 구조화.
+  - 깜빡임(FOUC) 방지 0ms 즉시 실행 스크립트로 페이지 로드/새로고침 시에도 사용자 위치가 즉각 유지되도록 구현.
+* **🏥 사용자 실제 좌표 기반 실시간 소아 야간 의료시설 페어링 API 연동 (`initLiveFacilities`)**:
+  - `localStorage`에 저장된 사용자의 실제 위경도 좌표(`user_lat`, `user_lon`)를 쿼리 파라미터로 실시간 전달하여 `/api/v1/emergency/pairings` 호출.
+  - 사용자 현재 위치 기준의 실시간 거리(`hDist`), 도보/차량 소요시간을 산출하여 달빛어린이병원 및 30분 마진 심야약국 카드로 렌더링.
+* **📱 '내 위치 설정' 프리미엄 바텀시트 모달(`location-select-modal`) 구축**:
+  - 헤더의 위치 알약 버튼 탭 시 부드러운 슬라이드업 바텀시트 오픈.
+  - '현재 내 위치로 설정 (GPS)' 버튼으로 언제든 실시간 기기 GPS 재측정 및 병원 목록 새로고침 지원.
+  - 서울/수도권 주요 20개 거점 동(역삼동, 삼성동, 대치동, 서초동, 잠실동, 목동, 상암동, 여의도동, 판교동 등) 원터치 빠른 선택 그리드 지원.
+
 ### 🌟 [v2.4.35-governance-archive-sync] 2026-10-15: 작업자별 Q&A 아카이브 분리 원칙 확립, Answer-영식.md 원상 복원 및 q_a.md 누적 아카이빙 완결 (김동준 팀원, 정영식 팀장)
 * **📜 작업자별 질의응답 아카이브 분리 거버넌스 재정립**:
   - 김동준 팀원의 모든 기술 질의응답은 [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)에 전담 누적 기록하고, 정영식 팀장의 질의응답은 [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)에 엄격히 격리 보존하는 거버넌스 원칙 확립.

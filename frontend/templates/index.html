@@ -36,11 +36,22 @@
         <a href="#" class="brand-logo" aria-label="아이숨 홈">
           아이숨
         </a>
-        <button type="button" class="location-pill" aria-label="현재 위치 변경: 역삼동">
+        <button type="button" class="location-pill" id="current-location-pill" aria-label="현재 위치 변경: 역삼동">
           <span class="material-symbols-outlined location-icon">location_on</span>
-          <span>역삼동</span>
+          <span id="current-location-text">역삼동</span>
           <span class="material-symbols-outlined dropdown-icon">expand_more</span>
         </button>
+        <script>
+          (function() {
+            try {
+              var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+              if (dong) {
+                var el = document.getElementById('current-location-text');
+                if (el) el.textContent = dong;
+              }
+            } catch(e) {}
+          })();
+        </script>
       </div>
 
       <div class="header-right">
@@ -280,6 +291,40 @@
         <button type="button" class="modal-action-btn btn-confirm" id="modal-confirm-btn" onclick="location.href='input.html'">
           동의하고 증상 입력하기
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Location Selector Bottom Sheet Modal -->
+  <div class="modal-overlay location-modal-overlay" id="location-select-modal" aria-hidden="true">
+    <div class="location-bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="location-modal-title">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <div class="sheet-title-group">
+          <h3 class="sheet-title" id="location-modal-title">내 위치 설정</h3>
+          <p class="sheet-subtitle">가까운 달빛어린이병원과 심야약국을 실시간 탐색합니다</p>
+        </div>
+        <button type="button" class="sheet-close-btn" id="location-modal-close-btn" aria-label="위치 모달 닫기">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- 1. Real GPS Refresh Action -->
+      <button type="button" class="btn-gps-refresh" id="btn-gps-refresh" onclick="window.refreshUserCurrentLocation()">
+        <span class="material-symbols-outlined gps-icon">my_location</span>
+        <div class="gps-text-wrap">
+          <span class="gps-main-text">현재 내 위치로 설정 (GPS)</span>
+          <span class="gps-sub-text">기기 실제 GPS 좌표를 실시간 측정합니다</span>
+        </div>
+        <span class="material-symbols-outlined arrow-right">chevron_right</span>
+      </button>
+
+      <!-- 2. Quick Location Grid (Major Dong in Seoul / Metropolitan) -->
+      <div class="quick-locations-section">
+        <h4 class="quick-locations-label">주요 지역 빠른 선택</h4>
+        <div class="quick-locations-grid" id="quick-locations-grid">
+          <!-- Rendered dynamically by main.js -->
+        </div>
       </div>
     </div>
   </div>

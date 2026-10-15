@@ -52,6 +52,245 @@ if (typeof document !== 'undefined') {
 }
 
 // ============================================================================
+// 📍 Real-Time User Location & Spatial Dong Mapping Engine (Vanilla JS)
+// ============================================================================
+window.AISUM_LOCATIONS_DB = [
+  // 강남구
+  { name: '역삼동', gu: '강남구', lat: 37.5006, lon: 127.0365, isPopular: true },
+  { name: '삼성동', gu: '강남구', lat: 37.5140, lon: 127.0565, isPopular: true },
+  { name: '대치동', gu: '강남구', lat: 37.4946, lon: 127.0628, isPopular: true },
+  { name: '논현동', gu: '강남구', lat: 37.5115, lon: 127.0285, isPopular: false },
+  { name: '압구정동', gu: '강남구', lat: 37.5270, lon: 127.0284, isPopular: false },
+  { name: '청담동', gu: '강남구', lat: 37.5245, lon: 127.0520, isPopular: false },
+  { name: '신사동', gu: '강남구', lat: 37.5205, lon: 127.0230, isPopular: false },
+  { name: '개포동', gu: '강남구', lat: 37.4789, lon: 127.0517, isPopular: false },
+  { name: '일원동', gu: '강남구', lat: 37.4839, lon: 127.0844, isPopular: false },
+  // 서초구
+  { name: '서초동', gu: '서초구', lat: 37.4918, lon: 127.0079, isPopular: true },
+  { name: '반포동', gu: '서초구', lat: 37.5042, lon: 127.0049, isPopular: true },
+  { name: '방배동', gu: '서초구', lat: 37.4815, lon: 126.9975, isPopular: false },
+  { name: '양재동', gu: '서초구', lat: 37.4700, lon: 127.0400, isPopular: false },
+  // 송파/강동구
+  { name: '잠실동', gu: '송파구', lat: 37.5133, lon: 127.1001, isPopular: true },
+  { name: '신천동', gu: '송파구', lat: 37.5180, lon: 127.1010, isPopular: false },
+  { name: '가락동', gu: '송파구', lat: 37.4925, lon: 127.1189, isPopular: false },
+  { name: '문정동', gu: '송파구', lat: 37.4859, lon: 127.1226, isPopular: false },
+  { name: '천호동', gu: '강동구', lat: 37.5385, lon: 127.1235, isPopular: true },
+  { name: '길동', gu: '강동구', lat: 37.5345, lon: 127.1402, isPopular: false },
+  // 마포/서대문
+  { name: '공덕동', gu: '마포구', lat: 37.5445, lon: 126.9515, isPopular: true },
+  { name: '상암동', gu: '마포구', lat: 37.5775, lon: 126.8915, isPopular: true },
+  { name: '합정동', gu: '마포구', lat: 37.5495, lon: 126.9135, isPopular: false },
+  { name: '망원동', gu: '마포구', lat: 37.5562, lon: 126.9103, isPopular: false },
+  // 영등포/양천/강서/구로
+  { name: '여의도동', gu: '영등포구', lat: 37.5218, lon: 126.9242, isPopular: true },
+  { name: '당산동', gu: '영등포구', lat: 37.5338, lon: 126.8995, isPopular: false },
+  { name: '목동', gu: '양천구', lat: 37.5370, lon: 126.8745, isPopular: true },
+  { name: '신정동', gu: '양천구', lat: 37.5180, lon: 126.8560, isPopular: false },
+  { name: '화곡동', gu: '강서구', lat: 37.5410, lon: 126.8400, isPopular: true },
+  { name: '마곡동', gu: '강서구', lat: 37.5600, lon: 126.8250, isPopular: true },
+  { name: '신도림동', gu: '구로구', lat: 37.5090, lon: 126.8910, isPopular: true },
+  // 용산/성동/종로/중구
+  { name: '한남동', gu: '용산구', lat: 37.5347, lon: 127.0022, isPopular: true },
+  { name: '이촌동', gu: '용산구', lat: 37.5175, lon: 126.9742, isPopular: false },
+  { name: '성수동', gu: '성동구', lat: 37.5445, lon: 127.0560, isPopular: true },
+  { name: '명동', gu: '중구', lat: 37.5636, lon: 126.9827, isPopular: false },
+  { name: '종로', gu: '종로구', lat: 37.5704, lon: 126.9922, isPopular: false },
+  // 관악/동작
+  { name: '신림동', gu: '관악구', lat: 37.4842, lon: 126.9298, isPopular: true },
+  { name: '사당동', gu: '동작구', lat: 37.4820, lon: 126.9760, isPopular: true },
+  // 노원/도봉/강북
+  { name: '상계동', gu: '노원구', lat: 37.6550, lon: 127.0670, isPopular: true },
+  { name: '수유동', gu: '강북구', lat: 37.6380, lon: 127.0250, isPopular: false },
+  // 수도권 주요 거점
+  { name: '정자동', gu: '성남 분당구', lat: 37.3660, lon: 127.1080, isPopular: true },
+  { name: '판교동', gu: '성남 분당구', lat: 37.3940, lon: 127.1110, isPopular: true },
+  { name: '일산동', gu: '고양 일산동구', lat: 37.6860, lon: 126.7710, isPopular: true },
+  { name: '영통동', gu: '수원 영통구', lat: 37.2520, lon: 127.0710, isPopular: true },
+  { name: '송도동', gu: '인천 연수구', lat: 37.3940, lon: 126.6540, isPopular: true }
+];
+
+window.estimateDongFromCoords = function(lat, lon) {
+  let best = '역삼동';
+  let minD = Infinity;
+  const nodes = window.AISUM_LOCATIONS_DB || [];
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    const dLat = (lat - node.lat) * (Math.PI / 180);
+    const dLon = (lon - node.lon) * (Math.PI / 180);
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat * (Math.PI / 180)) * Math.cos(node.lat * (Math.PI / 180)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const dist = 6371 * c;
+    if (dist < minD) {
+      minD = dist;
+      best = node.name;
+    }
+  }
+  return best;
+};
+
+window.updateLocationDisplay = function(dongName, lat, lon) {
+  const name = dongName || '역삼동';
+  const textEl = document.getElementById('current-location-text');
+  const pillBtn = document.getElementById('current-location-pill');
+  if (textEl) {
+    textEl.textContent = name;
+  }
+  if (pillBtn) {
+    pillBtn.setAttribute('aria-label', `현재 위치 변경: ${name}`);
+  }
+
+  // Persist into localStorage
+  try {
+    localStorage.setItem('aisum_user_dong', name);
+    localStorage.setItem('user_dong', name);
+    if (lat && lon) {
+      localStorage.setItem('aisum_user_lat', lat);
+      localStorage.setItem('aisum_user_lon', lon);
+      localStorage.setItem('user_lat', lat);
+      localStorage.setItem('user_lon', lon);
+    }
+  } catch (e) {
+    console.warn('Storage save failed:', e);
+  }
+
+  // Update active status in quick-locations-grid
+  const grid = document.getElementById('quick-locations-grid');
+  if (grid) {
+    const buttons = grid.querySelectorAll('.loc-chip-btn');
+    buttons.forEach((btn) => {
+      const btnDong = btn.getAttribute('data-dong');
+      btn.classList.toggle('active', btnDong === name);
+    });
+  }
+};
+
+window.initUserLocation = function() {
+  let savedDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+  const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
+  const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon');
+
+  let lat = sLat ? parseFloat(sLat) : null;
+  let lon = sLon ? parseFloat(sLon) : null;
+
+  if (lat && lon && !savedDong) {
+    savedDong = window.estimateDongFromCoords(lat, lon);
+  } else if (!savedDong && !lat) {
+    savedDong = '역삼동';
+    lat = 37.5006;
+    lon = 127.0365;
+  }
+
+  window.updateLocationDisplay(savedDong, lat, lon);
+};
+
+window.refreshUserCurrentLocation = function() {
+  const btn = document.getElementById('btn-gps-refresh');
+  const originalHtml = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.innerHTML = '<span class="material-symbols-outlined gps-icon" style="animation:spin 1s linear infinite;">sync</span><div class="gps-text-wrap"><span class="gps-main-text">현재 위치 측정 중...</span></div>';
+  }
+
+  if (!('geolocation' in navigator)) {
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.innerHTML = originalHtml;
+    }
+    if (typeof window.showAisumToast === 'function') {
+      window.showAisumToast('기기에서 위치 서비스를 지원하지 않습니다.');
+    }
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      if (btn) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.innerHTML = originalHtml;
+      }
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const dong = window.estimateDongFromCoords(lat, lon);
+      window.updateLocationDisplay(dong, lat, lon);
+      if (typeof window.closeLocationModal === 'function') {
+        window.closeLocationModal();
+      }
+      if (typeof window.initLiveFacilities === 'function') {
+        window.initLiveFacilities();
+      }
+      if (typeof window.showAisumToast === 'function') {
+        window.showAisumToast(`📍 현재 위치(${dong})로 갱신되었습니다.`);
+      }
+    },
+    (err) => {
+      console.warn('Geolocation error:', err);
+      if (btn) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.innerHTML = originalHtml;
+      }
+      if (typeof window.showAisumToast === 'function') {
+        window.showAisumToast('위치 권한을 확인해주세요. (설정에서 허용 필요)');
+      }
+    },
+    { enableHighAccuracy: true, timeout: 5000, maximumAge: 10000 }
+  );
+};
+
+window.setUserCustomLocation = function(dongName, lat, lon) {
+  window.updateLocationDisplay(dongName, lat, lon);
+  if (typeof window.closeLocationModal === 'function') {
+    window.closeLocationModal();
+  }
+  if (typeof window.initLiveFacilities === 'function') {
+    window.initLiveFacilities();
+  }
+  if (typeof window.showAisumToast === 'function') {
+    window.showAisumToast(`📍 위치가 '${dongName}'으로 설정되었습니다.`);
+  }
+};
+
+window.openLocationModal = function() {
+  const modal = document.getElementById('location-select-modal');
+  if (!modal) return;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  // Render quick locations if grid is empty
+  const grid = document.getElementById('quick-locations-grid');
+  if (grid && grid.children.length === 0) {
+    const popular = (window.AISUM_LOCATIONS_DB || []).filter((item) => item.isPopular);
+    const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '역삼동';
+    let chipsHtml = '';
+    popular.forEach((loc) => {
+      const isActive = loc.name === currentDong;
+      chipsHtml += `
+        <button type="button" class="loc-chip-btn ${isActive ? 'active' : ''}" data-dong="${loc.name}" onclick="window.setUserCustomLocation('${loc.name}', ${loc.lat}, ${loc.lon})">
+          <span class="chip-name">${loc.name}</span>
+          <span class="chip-gu">${loc.gu}</span>
+        </button>
+      `;
+    });
+    grid.innerHTML = chipsHtml;
+  }
+};
+
+window.closeLocationModal = function() {
+  const modal = document.getElementById('location-select-modal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+// ============================================================================
 // 🏥 Real-Time Nighttime Medical Facilities Loader (메인 홈 실시간 야간 의료시설 연동)
 // ============================================================================
 window.__LIVE_FACILITIES_DATA__ = [];
@@ -61,8 +300,8 @@ window.initLiveFacilities = async function() {
   const stack = document.getElementById('facility-card-stack');
   if (!stack) return; // Only run on index.html
 
-  let lat = 37.5133; // 잠실역 fallback
-  let lon = 127.1001;
+  let lat = 37.5006; // 역삼동 fallback
+  let lon = 127.0365;
   try {
     const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
     const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon');
@@ -237,6 +476,9 @@ window.filterLiveFacilities = function(filter) {
 if (typeof window !== 'undefined') {
   window.addEventListener('pageshow', () => {
     window.applyAisumFontSize();
+    if (typeof window.initUserLocation === 'function') {
+      window.initUserLocation();
+    }
     if (typeof window.updateChildInfoDisplay === 'function') {
       window.updateChildInfoDisplay();
     }
@@ -412,9 +654,46 @@ if (!window.__AISUM_INITIALIZED__) {
       window.updateChildInfoDisplay();
     }
 
+    // Initialize user location on main home
+    if (typeof window.initUserLocation === 'function') {
+      window.initUserLocation();
+    }
+
     // Initialize real-time medical facilities on main home (index.html)
     if (typeof window.initLiveFacilities === 'function') {
       window.initLiveFacilities();
+    }
+
+    // Location Pill and Location Modal Listeners
+    const locationPillBtn = document.getElementById('current-location-pill');
+    if (locationPillBtn) {
+      locationPillBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof window.openLocationModal === 'function') {
+          window.openLocationModal();
+        }
+      });
+    }
+
+    const locationModalCloseBtn = document.getElementById('location-modal-close-btn');
+    if (locationModalCloseBtn) {
+      locationModalCloseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof window.closeLocationModal === 'function') {
+          window.closeLocationModal();
+        }
+      });
+    }
+
+    const locationModal = document.getElementById('location-select-modal');
+    if (locationModal) {
+      locationModal.addEventListener('click', (e) => {
+        if (e.target === locationModal) {
+          if (typeof window.closeLocationModal === 'function') {
+            window.closeLocationModal();
+          }
+        }
+      });
     }
 
     // DOM Elements

@@ -2843,4 +2843,225 @@ body.font-size-large .location-pill {
 .aisum-toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   📍 Location Selector Bottom Sheet Modal Styles
+   ========================================================================== */
+.location-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+}
+
+.location-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.location-bottom-sheet {
+  width: 100%;
+  max-width: 430px;
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  padding: 12px 20px 28px 20px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.location-modal-overlay.active .location-bottom-sheet {
+  transform: translateY(0);
+}
+
+.sheet-handle-bar {
+  width: 36px;
+  height: 4px;
+  background-color: #e2e8f0;
+  border-radius: 2px;
+  margin: 0 auto 14px auto;
+}
+
+.sheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.sheet-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sheet-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.4px;
+}
+
+.sheet-subtitle {
+  font-size: 12.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.sheet-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f5f9;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sheet-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* GPS Button */
+.btn-gps-refresh {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.btn-gps-refresh:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.btn-gps-refresh:active {
+  transform: scale(0.99);
+}
+
+.gps-icon {
+  font-size: 22px;
+  color: #0066ff;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.gps-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.gps-main-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0066ff;
+}
+
+.gps-sub-text {
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.arrow-right {
+  font-size: 18px;
+  color: #94a3b8;
+}
+
+/* Quick Locations */
+.quick-locations-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-locations-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.quick-locations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.loc-chip-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.loc-chip-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.loc-chip-btn:active {
+  transform: scale(0.97);
+}
+
+.loc-chip-btn.active {
+  background: #0066ff;
+  border-color: #0066ff;
+  box-shadow: 0 4px 10px rgba(0, 102, 255, 0.25);
+}
+
+.loc-chip-btn .chip-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.loc-chip-btn.active .chip-name {
+  color: #ffffff;
+}
+
+.loc-chip-btn .chip-gu {
+  font-size: 10.5px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.loc-chip-btn.active .chip-gu {
+  color: rgba(255, 255, 255, 0.85);
 }
