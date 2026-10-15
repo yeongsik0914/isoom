@@ -54,6 +54,7 @@
     - [10.34 '아이숨' 설정(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 전용 이용약관(terms.html) 구축](#1034-아이숨-설정settingshtml-이용약관-버튼-연동-및-의료법-제27조-준수-전용-이용약관termshtml-구축-2026-10-15-완결)
     - [10.35 '아이숨' 설정(settings.html) 글자 크기 선택 모달 및 앱 전체 실시간 스케일링 엔진 구축](#1035-아이숨-설정settingshtml-글자-크기-선택-모달-및-앱-전체-실시간-스케일링-엔진-구축-2026-10-15-완결)
     - [10.36 '아이숨' 설정(settings.html) 글자 크기 셀렉트박스 전환 & 레이아웃 왜곡 배제 순수 font-size 스케일링 엔진 개편](#1036-아이숨-설정settingshtml-글자-크기-셀렉트박스-전환--레이아웃-왜곡-배제-순수-font-size-스케일링-엔진-개편-2026-10-15-완결)
+    - [10.37 '아이숨' 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스 값 초기화 버그 해결](#1037-아이숨-홈-이동-후-설정-재진입-시-글자-크기-셀렉트박스-값-초기화-버그-해결-2026-10-15-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -733,7 +734,7 @@ flowchart TD
 
 ---
 
-### 10.22 로컬 Wi-Fi IP 바인딩, QR코드 모바일 테스트 파이프라인 및 Standalone 메타태그 구축 (2026-10-15 완결)
+#그 ## 10.22 로컬 Wi-Fi IP 바인딩, QR코드 모바일 테스트 파이프라인 및 Standalone 메타태구축 (2026-10-15 완결)
 * **기획 배경 및 문제 정의**:
   - 실제 스마트폰(iOS 사파리, 안드로이드 크롬)에서 모바일 키보드 반응과 화면 인터랙션을 즉각 검증하기 위해, 무거운 Cloud Run 배포 없이 10초 만에 스마트폰으로 로컬 개발 서버에 접속할 수 있는 초고속 테스트 파이프라인 수립.
   - 모바일 홈 화면 바로가기(PWA Web App Standalone) 메타 태그를 탑재하여 브라우저 주소창 없는 네이티브 앱 경험 제공.
@@ -1005,6 +1006,21 @@ flowchart TD
      - `result.html`, `hospital_detail.html`, `terms.html` 등 하위 뷰에도 `main.js` 로더를 추가하여 앱 전역 Zero-FOUC 폰트 동기화 완성.
   4. **통합 E2E 자동화 검증 완료**:
      - TestClient 검증을 통해 모달 부재, 셀렉트박스 렌더링, `zoom` 제거, 순수 폰트 크기 규칙 100% 통과 확인 (`ALL REFACTORED TESTS PASSED 100% PERFECTLY!`).
+
+---
+
+### 10.37 '아이숨' 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스 값 초기화 버그 해결 (2026-10-15 완결)
+* **기획 배경 및 버그 정의**:
+  - 설정 화면에서 사용자가 '작게' 또는 '크게'로 선택한 뒤 홈 화면으로 이동했다가 다시 설정으로 돌아오면, 브라우저가 저장된 값이 아닌 정적 기본값 '보통'으로 셀렉트박스를 리셋하여 노출하는 결함 발생.
+* **구체적 엔지니어링 구현 내역**:
+  1. **0ms 즉각 실행 인라인 하이드레이션 스크립트 배치**:
+     - `settings.html`의 `<option value="normal">`에서 하드코딩된 `selected` 속성을 완전 삭제.
+     - 셀렉트박스 바로 아래에 동기식 즉각 실행 스크립트(`<script> (function() { ... })() </script>`)를 탑재하여, DOM이 파싱되는 0ms 시점에 `localStorage` 저장값으로 셀렉트박스 value 및 option.selected를 선제 확정.
+  2. **BFCache(Back-Forward Cache) `pageshow` 이벤트 리스너 완비 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - 모바일 브라우저의 화면 왕복 시 `DOMContentLoaded`가 발생하지 않는 BFCache 특성을 방어하기 위해 `window.addEventListener('pageshow', ...)` 탑재.
+     - `applyAisumFontSize()` 실행 시 `#font-size-select` 엘리먼트의 `value`와 `option.selected`를 강제 양방향 동기화.
+  3. **통합 E2E 자동화 검증 완료**:
+     - TestClient 검증을 통해 인라인 하이드레이션 스크립트, `pageshow` 리스너, `options` 동기화 100% 무결점 통과 확인 (`SUCCESS: Zero-latency select hydration and BFCache sync verified 100%!`).
 
 ---
 

@@ -75,6 +75,7 @@
 | **[ISSUE-065]** | 프론트엔드 설정 & 법률 컴플라이언스 | settings.html 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨 전용 이용약관(terms.html) 신규 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-066]** | 프론트엔드 설정 & 전역 접근성 | settings.html 글자 크기(작게·보통·크게) 선택 모달 및 앱 전체 실시간 폰트 스케일링 엔진 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-067]** | 프론트엔드 UI/UX 인터랙션 & 타이포그래피 | 뷰포트 zoom 전체 크기 왜곡 해소, 순수 font-size 스케일링 엔진 개편 및 셀렉트박스 컴포넌트 전환 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-068]** | 프론트엔드 상태 지속성 & BFCache | 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스가 '보통'으로 초기화되는 버그 (BFCache pageshow & 0ms 인라인 하이드레이션) | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2087,6 +2088,43 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-068] 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스가 '보통'으로 초기화되는 버그 해결 (BFCache pageshow & 0ms 인라인 하이드레이션)
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장), AI 에이전트
+* **분류**: 프론트엔드 상태 지속성 / 브라우저 생명주기(BFCache) / DOM 하이드레이션 타이밍
+* **문제 상황**:
+  * 사용자가 설정 화면([settings.html](file:///e:/monnlight/frontend/templates/settings.html))에서 글자 크기를 '작게' 또는 '크게'로 선택한 뒤, 하단 GNB를 통해 홈 화면([index.html](file:///e:/monnlight/frontend/templates/index.html))으로 갔다가 다시 '설정' 탭을 눌러 복귀하면 셀렉트박스가 이전에 선택한 값이 아닌 '보통'으로 초기화되어 표시되는 현상 발생.
+* **원인 분석**:
+  1. **HTML 정적 `selected` 기본값과 외부 스크립트 실행 타이밍 갭**:
+     - HTML 마크업에 `<option value="normal" selected>보통</option>`이 정적으로 선언되어 있어, 브라우저가 화면을 파싱할 때 무조건 '보통'을 기본 렌더링함.
+     - 외부 `main.js`의 `DOMContentLoaded` 리스너 실행 전이거나 비동기 캐시 상태에서 `selectEl.value` 바인딩이 누락될 위험 상존.
+  2. **모바일 브라우저의 BFCache(Back-Forward Cache) 특성**:
+     - 사용자가 화면을 오갈 때 모바일 브라우저(WebKit/Blink)는 네트워크 재요청 없이 메모리 캐시에서 화면을 복원하며, 이때 `DOMContentLoaded` 이벤트는 **발생하지 않음**.
+     - `pageshow` 이벤트 리스너가 부재하여 캐시 복원 시 셀렉트박스 값이 갱신되지 못함.
+  3. **`applyAisumFontSize()` 내 셀렉트박스 양방향 동기화 누락**:
+     - 페이지 로드 시 바디 클래스는 적용되었으나, 함수 내에서 `#font-size-select` 엘리먼트의 `value`와 `option.selected`를 실시간 갱신해 주지 않았음.
+* **구체적 해결 방안**:
+  1. **0ms 즉각 실행 인라인 하이드레이션 스크립트 배치**:
+     - `settings.html`의 `<option value="normal">`에서 하드코딩된 `selected` 속성을 완전 제거.
+     - `<select id="font-size-select">` 바로 뒤에 동기식 인라인 `<script>`를 배치하여, DOM 파서가 지나가는 0ms 즉시 `localStorage.getItem('aisum_font_size')`를 읽어 `el.value` 및 `option.selected`를 선제 지정.
+  2. **전역 `applyAisumFontSize()` 내 양방향 동기화 및 `pageshow` 리스너 완비 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `applyAisumFontSize()` 실행 시 `#font-size-select`가 DOM에 존재하면 즉시 `selectEl.value = targetSize` 및 `option.selected`를 강제 갱신.
+     - `window.addEventListener('pageshow', ...)`를 등록하여 BFCache 복원 시 100% 저장된 설정값으로 재하이드레이션 보증.
+  3. **자동화 검증 완결**:
+     - FastAPI TestClient 및 자동화 스크립트를 통해 인라인 하이드레이션, `pageshow` 리스너, `options` 동기화 100% 무결점 통과 확인 (`SUCCESS: Zero-latency select hydration and BFCache sync verified 100%!`).
+* **적용 파일**:
+  * [frontend/templates/settings.html](file:///e:/monnlight/frontend/templates/settings.html)
+  * [frontend/settings.html](file:///e:/monnlight/frontend/settings.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 

@@ -21,6 +21,18 @@ window.applyAisumFontSize = function(size) {
       document.body.classList.remove('font-size-small', 'font-size-normal', 'font-size-large');
       document.body.classList.add('font-size-' + targetSize);
     }
+
+    // Synchronize select element if it exists in the DOM
+    const selectEl = document.getElementById('font-size-select');
+    if (selectEl) {
+      if (selectEl.value !== targetSize) {
+        selectEl.value = targetSize;
+      }
+      for (let i = 0; i < selectEl.options.length; i++) {
+        selectEl.options[i].selected = (selectEl.options[i].value === targetSize);
+      }
+    }
+
     return targetSize;
   } catch (e) {
     console.warn('Font size apply failed:', e);
@@ -32,9 +44,18 @@ window.applyAisumFontSize = function(size) {
 if (typeof document !== 'undefined') {
   if (document.body) {
     window.applyAisumFontSize();
-  } else {
+  } else if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => window.applyAisumFontSize());
+  } else {
+    window.applyAisumFontSize();
   }
+}
+
+// BFCache (Back-Forward Cache) and navigation restoration
+if (typeof window !== 'undefined') {
+  window.addEventListener('pageshow', () => {
+    window.applyAisumFontSize();
+  });
 }
 
 // ============================================================================
@@ -48,11 +69,6 @@ window.onFontSizeChange = function(newSize) {
     console.warn('Failed to save font size to localStorage:', e);
   }
   window.applyAisumFontSize(size);
-
-  const selectEl = document.getElementById('font-size-select');
-  if (selectEl && selectEl.value !== size) {
-    selectEl.value = size;
-  }
 };
 
 // Backward-compatible safe fallback

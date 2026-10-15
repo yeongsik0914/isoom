@@ -61,18 +61,32 @@
           </div>
         </button>
 
-        <!-- 1-2. 글자 크기 설정 (셀렉트박스 방식) -->
+        <!-- 1-2. 글자 크기 설정 (셀렉트박스 방식 & 즉시 하이드레이션) -->
         <div class="settings-item-row" aria-label="글자 크기 설정">
           <label for="font-size-select" class="settings-item-label">글자 크기</label>
           <div class="settings-item-right">
             <div class="settings-select-wrapper">
               <select id="font-size-select" class="settings-select-box" aria-label="글자 크기 선택" onchange="onFontSizeChange(this.value)">
                 <option value="small">작게</option>
-                <option value="normal" selected>보통</option>
+                <option value="normal">보통</option>
                 <option value="large">크게</option>
               </select>
               <span class="material-symbols-outlined select-chevron-icon" aria-hidden="true">expand_more</span>
             </div>
+            <script>
+              (function() {
+                try {
+                  var s = localStorage.getItem('aisum_font_size') || 'normal';
+                  var el = document.getElementById('font-size-select');
+                  if (el) {
+                    el.value = s;
+                    for (var i = 0; i < el.options.length; i++) {
+                      el.options[i].selected = (el.options[i].value === s);
+                    }
+                  }
+                } catch(e) {}
+              })();
+            </script>
           </div>
         </div>
       </section>

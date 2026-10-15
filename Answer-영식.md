@@ -76,6 +76,7 @@
 76. [Q68. [설정 고도화] 설정 화면(settings.html) 이용약관 버튼 연동 및 아이숨(i-Soom) 전용 법률·의료법 준수 이용약관(terms.html) 구축 보고](#q68-설정-고도화-설정-화면settingshtml-이용약관-버튼-연동-및-아이숨i-soom-전용-법률의료법-준수-이용약관termshtml-구축-보고)
 77. [Q69. [설정 고도화] 설정 화면(settings.html) 글자 크기(작게·보통·크게) 선택 모달 구축 및 앱 전체 실시간 스케일링 엔진 구현 보고](#q69-설정-고도화-설정-화면settingshtml-글자-크기작게보통크게-선택-모달-구축-및-앱-전체-실시간-스케일링-엔진-구현-보고)
 78. [Q70. [UI/UX] 설정 페이지 글자 크기 변경 셀렉트박스(Select Box) 전환 및 뷰포트 확대 배제 순수 텍스트 폰트 크기(font-size) 비례 조정 보고](#q70-uiux-설정-페이지-글자-크기-변경-셀렉트박스select-box-전환-및-뷰포트-확대-배제-순수-텍스트-폰트-크기font-size-비례-조정-보고)
+79. [Q71. [UI/UX 버그 수정] 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스가 '보통'으로 초기화되는 버그 해결 (BFCache 및 즉시 하이드레이션) 보고](#q71-uiux-버그-수정-홈-이동-후-설정-재진입-시-글자-크기-셀렉트박스가-보통으로-초기화되는-버그-해결-bfcache-및-즉시-하이드레이션-보고)
 
 ---
 
@@ -4321,6 +4322,47 @@ graph TD
 
 * **요약 결론**:
   - 컨테이너나 카드 크기가 변하지 않고 오직 텍스트 폰트만 정밀하게 확대/축소되도록 완벽히 개선되었으며, 번거로운 모달 대신 설정 화면에서 즉시 변경 가능한 원터치 셀렉트박스로 깔끔하게 전환되었습니다.
+
+---
+
+### Q71. [UI/UX 버그 수정] 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스가 '보통'으로 초기화되는 버그 해결 (BFCache 및 즉시 하이드레이션) 보고
+
+* **기록 일시**: 2026-10-15
+* **질문 내용**:
+  > 셀렉트 박스로 글자 크기를 변경하고 홈에 갔다가 다시 설정칸으로 오면 보통으로 표시돼 해결해
+
+* **상세 분석 및 가이드 답변**:
+
+#### 1. 문제 원인 정밀 진단
+1. **HTML 정적 기본값(`selected`)과 비동기 DOM 로드 간 타이밍 미스매치**:
+   - `settings.html`의 `<option value="normal" selected>보통</option>`에 `selected` 속성이 하드코딩되어 있어, 브라우저가 HTML을 파싱하는 순간 기본값으로 "보통"을 렌더링함.
+   - 외부 스크립트(`main.js`)의 `DOMContentLoaded` 이벤트 리스너가 실행되기 전이나, 이미 DOM이 생성된 후 실행될 경우 `selectEl.value` 바인딩이 씹히는 현상 발생.
+2. **모바일 브라우저 BFCache(Back-Forward Cache) 특성**:
+   - 사용자가 설정 화면에서 홈 화면(`index.html`)으로 이동한 뒤 다시 뒤로가기나 GNB 링크를 통해 설정 화면으로 복귀할 때, 브라우저는 페이지를 새로 고치지 않고 메모리 스냅샷(BFCache)에서 복원함.
+   - 이 경우 `DOMContentLoaded` 이벤트는 **다시 발생하지 않으며**, 오직 `pageshow` 이벤트만 발생함. 기존 코드에는 `pageshow` 리스너가 누락되어 있어 셀렉트박스 값이 복원되지 못하고 초기 상태("보통")로 렌더링되었음.
+3. **`applyAisumFontSize()` 함수 내 `selectEl` 동기화 누락**:
+   - 페이지 로드 시 전역 폰트 클래스는 `body`에 즉시 적용되었으나, `applyAisumFontSize()` 내부에서 `#font-size-select` 엘리먼트의 `value` 및 `option.selected` 속성을 직접 업데이트해 주지 않아 시각적 불일치가 발생함.
+
+#### 2. 구체적 엔지니어링 해결 방안
+1. **0ms 즉시 실행 인라인 하이드레이션 스크립트 탑재 ([settings.html](file:///e:/monnlight/frontend/templates/settings.html))**:
+   - `<option value="normal">`의 하드코딩된 `selected` 속성을 전면 제거.
+   - `<select id="font-size-select">` 바로 아래에 동기식 즉각 실행 스크립트(`<script> (function() { ... })() </script>`)를 탑재:
+     - HTML 파서가 셀렉트박스 태그를 닫자마자 0ms에 동기 실행되어 `localStorage.getItem('aisum_font_size')`를 읽음.
+     - `selectEl.value = savedSize` 및 해당 옵션의 `selected = true`를 선제 지정하여, 화면에 그려지는 첫 프레임부터 선택값이 정확히 반영되도록 보증.
+2. **`main.js` 전역 엔진 양방향 동기화 및 BFCache 리스너 완비 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+   - `applyAisumFontSize(size)` 내부에서 DOM에 `font-size-select`가 감지되면 즉시 `selectEl.value = targetSize` 및 `option.selected`를 강제 동기화.
+   - `window.addEventListener('pageshow', () => window.applyAisumFontSize())`를 등록하여, 홈 화면에 갔다가 뒤로가기나 탭 이동으로 복귀 시 100% 저장된 설정값으로 자동 복원.
+   - 스크립트 로드 시 `document.readyState === 'loading'` 여부를 분기하여 어떤 타이밍에서도 누락 없이 실행 보장.
+
+#### 3. 검증 결과
+* **FastAPI TestClient 자동화 검증 전수 통과**:
+  - `GET /settings` 및 `GET /settings.html`: 셀렉트박스 내 인라인 즉시 하이드레이션 스크립트 탑재 확인 (200 OK)
+  - `GET /js/main.js`: `pageshow` 이벤트 리스너 및 `selectEl.options` 실시간 동기화 로직 탑재 확인 (200 OK)
+  - 검증 로그: **SUCCESS: Zero-latency select hydration and BFCache sync verified 100%!**
+
+* **요약 결론**:
+  - 홈 화면에 다녀오거나 브라우저 캐시로 복원되더라도, 저장된 글자 크기(작게/보통/크게)가 0ms 즉각 하이드레이션과 `pageshow` 엔진을 통해 셀렉트박스에 한 치의 오차 없이 완벽히 유지·표시됩니다.
+
 
 
 

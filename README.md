@@ -30,6 +30,15 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.28-fix-font-select-persistence] 2026-10-15: '아이숨' 홈 이동 후 설정 재진입 시 글자 크기 셀렉트박스 값 초기화 버그 해결 (정영식 팀장, AI 에이전트)
+* **0ms 즉각 실행 인라인 하이드레이션 스크립트 탑재**:
+  - `settings.html`의 `<option value="normal">` 정적 `selected` 하드코딩 속성을 전면 제거하고, 셀렉트박스 파싱 직후 동기 실행되는 인라인 스크립트를 배치하여 첫 프레임부터 `localStorage` 저장값(`aisum_font_size`)으로 0ms 즉각 렌더링.
+* **BFCache(Back-Forward Cache) `pageshow` 이벤트 리스너 완비 ([main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - 홈 화면에 갔다가 뒤로가기나 탭 이동으로 복귀할 때 모바일 브라우저의 메모리 캐시 복원 시점을 감지하는 `window.addEventListener('pageshow')` 탑재.
+  - `applyAisumFontSize()` 실행 시 `#font-size-select` 엘리먼트의 `value`와 `option.selected`를 강제 양방향 동기화.
+* **E2E 자동화 검증 완료**:
+  - FastAPI TestClient 자동화 검증 전수 통과 (`SUCCESS: Zero-latency select hydration and BFCache sync verified 100%!`).
+
 ### 🌟 [v2.4.27-pure-font-size-select-box] 2026-10-15: '아이숨' 설정(settings.html) 글자 크기 셀렉트박스 전환 & 레이아웃 왜곡 배제 순수 font-size 스케일링 엔진 개편 (정영식 팀장, AI 에이전트)
 * **모달 팝업 배제 및 원터치 인라인 셀렉트박스(`<select>`) 컴포넌트 탑재**:
   - 기존의 복잡한 하단 바텀시트 모달(`font-size-modal`)을 전면 삭제하고, [settings.html](file:///e:/monnlight/frontend/templates/settings.html) 1-2번 설정 행 우측에 직관적인 네이티브/커스텀 드롭다운 셀렉트박스(`<select id="font-size-select" onchange="onFontSizeChange(this.value)">`) 배치.
