@@ -35,6 +35,7 @@
     - [10.16 '아이숨(Aisum)' 모니모 UI 레퍼런스 기반 순수 HTML/CSS 설정 웹페이지 구축 및 GNB 연동](#1016-아이숨aisum-모니모-ui-레퍼런스-기반-순수-htmlcss-설정-웹페이지-구축-및-gnb-연동-2026-10-15-완결)
     - [10.17 '아이숨(Aisum)' 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 탑재](#1017-아이숨aisum-모니모-레퍼런스-스타일-앱-알림--아이콘-및-순수-css-ios-토글-스위치-컴포넌트-탑재-2026-10-15-완결)
     - [10.18 정영식 팀장·김동준 팀원 작업 브랜치 무결점 머지 및 Cross-OS NFD 정규화](#1018-정영식-팀장김동준-팀원-작업-브랜치-무결점-머지-및-cross-os-nfd-정규화-2026-10-15-완결)
+    - [10.19 타 작업자(정영식) 전담 index.html 100% 롤백 및 김동준 전담 모듈(input.html, modal.html) 독립화](#1019-타-작업자정영식-전담-indexhtml-100-롤백-및-김동준-전담-모듈inputhtml-modalhtml-독립화-2026-10-15-완결)
 
 
 ---
@@ -644,6 +645,21 @@ flowchart TD
      - /, /home, /input, /guide, /settings, /css/style.css, /js/main.js TestClient 200 OK 검증 전수 통과.
   3. **Cross-OS NFD/NFC 파일명 정규화**:
      - macOS의 자모 분리 NFD 파일명을 Windows NTFS 표준 NFC로 단일화하여 향후 잠재적 Git 충돌을 선제 차단.
+
+---
+
+### 10.19 타 작업자(정영식) 전담 index.html 100% 롤백 및 김동준 전담 모듈(input.html, modal.html) 독립화 (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 김동준 팀원의 작업 범위는 증상 입력 화면(input.html)과 처치정보 모달(modal.html)이었으나, 임시 모달 연동 작업물이 메인 페이지(index.html)에 함께 반영되어 타 작업자(정영식 팀장) 전담 파일에 불필요한 수정이 가해짐.
+  - 협업 정합성을 위해 index.html을 타 작업자의 최종 커밋(b12ebe4) 순수 원형으로 100% 복원하고, 김동준 팀원 담당 파일만 독립적으로 격리할 필요성 대두.
+* **구체적 구현 내역**:
+  1. **index.html 파일군(3종) 원형 복원**:
+     - frontend/templates/index.html, frontend/index.html, app/templates/index.html을 정영식 작업자 최종 커밋(b12ebe4) 상태로 checkout하여 208줄 원형 복원.
+     - 응급실 가이드 링크, 설정 링크, WebKit 듀얼 CSS/JS 로더 무결하게 보존.
+  2. **김동준 팀원 담당 파일 독립 보존**:
+     - input.html(증상 입력 화면) 및 modal.html(처치정보 및 법적 동의 모달 화면) 안전하게 유지.
+  3. **FastAPI 7대 엔드포인트 서빙 검증**:
+     - /, /home, /input, /guide, /settings, /css/style.css, /js/main.js TestClient 200 OK 전수 통과.
 
 ---
 

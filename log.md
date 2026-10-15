@@ -52,6 +52,7 @@
 | **[ISSUE-042]** | 프론트엔드 UI 모달 | 응급처치정보 및 법적 안내 모달 다이얼로그(반투명 오버레이, 취소/확인) 및 Step 2 증상 문진 연계 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-043]** | 프론트엔드 UI/UX 페이지 | 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 구체적으로 정확하게 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-044]** | Git 형상 관리 & 크로스 OS 협업 | 팀 협업 분기 충돌 방어 머지(Merge), 7대 엔드포인트 서빙 검증 및 Cross-OS NFD/NFC 정규화 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-045]** | 형상 관리 & 프론트엔드 모듈 격리 | 팀원(김동준) 전담 파일(input.html, modal.html)과 타 작업자(정영식) 전담 파일(index.html) 역할 분리 및 index.html 원본 100% 롤백 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1226,6 +1227,35 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
   * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
   * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-045] 팀원(김동준) 전담 파일(input.html, modal.html)과 타 작업자(정영식) 전담 파일(index.html) 역할 분리 및 index.html 원본 100% 롤백
+
+* **발생 일자**: 2026-10-15
+* **분류**: 형상 관리 / 프론트엔드 모듈 격리 / 협업 정합성
+* **문제 상황**:
+  * 김동준 팀원은 `input.html`(증상 입력 화면)과 `modal.html`(처치정보 모달) 구현을 담당하였으나, 이전 모달 연동 작업 과정에서 `index.html` 내부에 모달 마크업(`#triage-consent-modal`) 및 히어로 UI 변경 사항이 함께 삽입되어 커밋됨.
+  * 다른 작업자(정영식 팀장)가 전담한 `index.html`에 불필요한 수정 내역이 혼입되어 작업 경계가 모호해지고, 정영식 팀장의 원본 마크업이 변형되는 부작용 발생.
+* **원인 분석**:
+  * 모달 기능을 실제 화면에서 테스트하기 위해 `index.html`을 수정했던 임시 작업물이 분리되지 않고 함께 커밋되어, 정영식 작업자 전담 파일인 `index.html`에 의도치 않은 변경이 전파됨.
+* **구체적 해결 방안**:
+  1. **`index.html` 파일군 100% 원본 롤백**:
+     - `frontend/templates/index.html`, `frontend/index.html`, `app/templates/index.html` 3종 파일을 정영식 작업자의 최종 커밋([`b12ebe4`](https://github.com/yeongsik0914/monnlight/commit/b12ebe4)) 상태로 checkout하여 208줄의 순수 원형으로 완벽 복원.
+     - 정영식 작업자가 구현한 응급실 가이드 링크, 설정 링크, WebKit 듀얼 CSS/JS 로더를 완전 무결하게 보존.
+  2. **김동준 팀원 담당 파일의 완벽한 독립 보존**:
+     - `frontend/templates/input.html`, `frontend/input.html` (증상 입력 화면) 보존.
+     - `frontend/templates/modal.html`, `frontend/modal.html` (처치정보 및 법적 동의 모달 화면) 보존.
+  3. **FastAPI 7대 엔드포인트 서빙 검증**:
+     - TestClient를 통해 `/home`(10,258 bytes로 원복), `/input`(2,516 bytes), `/guide`, `/settings`, `/css/style.css`, `/js/main.js` 전수 200 OK 통과 확인.
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/index.html)
+  * [frontend/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/index.html)
+  * [app/templates/index.html](file:///c:/AI-Native-Agent/monnlight/app/templates/index.html)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
 
 
 

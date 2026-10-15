@@ -30,6 +30,15 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.6-index-rollback] 2026-10-15: 타 작업자(정영식) 전담 `index.html` 원형 100% 롤백 및 김동준 전담 모듈(`input.html`, `modal.html`) 독립화
+* **`index.html` 파일군(3종) 원형 100% 복원**:
+  - `frontend/templates/index.html`, `frontend/index.html`, `app/templates/index.html`을 정영식 작업자의 최종 커밋([`b12ebe4`](https://github.com/yeongsik0914/monnlight/commit/b12ebe4)) 상태로 완전 롤백 (208줄 순수 마크업 복원).
+  - 임의 삽입되었던 모달 다이얼로그 및 히어로 UI 변경 사항을 완전히 걷어내고, 정영식 작업자가 작성한 응급실 가이드 링크, 설정 링크, WebKit 듀얼 CSS/JS 로더를 무결하게 보존.
+* **김동준 팀원 담당 파일의 완벽한 독립 보존**:
+  - `input.html` (증상 입력 화면) 및 `modal.html` (처치정보 및 법적 안내 모달) 독립 모듈로 온전히 유지.
+* **FastAPI 7대 엔드포인트 100% 서빙 검증**:
+  - `/home`(10,258 bytes), `/input`(2,516 bytes), `/guide`, `/settings`, `/css/style.css`, `/js/main.js` 전수 **HTTP 200 OK** 검증 통과.
+
 ### 🌟 [v2.4.5-collab-merge] 2026-10-15: 정영식 팀장·김동준 팀원 프론트엔드 통합 머지(Merge) 및 Cross-OS NFD 정규화
 * **팀 협업 분기 무결점 통합 머지 (3-Way Merge 완결)**:
   - 정영식 팀장 구현 산출물(응급실 가이드 `emergency_guide.html`, 설정 `settings.html`)과 김동준 팀원 구현 산출물(증상 입력 `input.html`, 처치정보 모달 `modal.html`)을 단 1건의 코드 손실 없이 무결점 통합.
