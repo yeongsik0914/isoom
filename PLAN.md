@@ -64,6 +64,8 @@
     - [10.44 '아이숨' 프로젝트 협업 거버넌스 & 아카이브 정상화 (Answer-영식.md 분리 복원 및 q_a.md 누적 완결)](#1044-프로젝트-협업-거버넌스--아카이브-정상화-answer-영식md-분리-복원-및-q_amd-누적-완결-2026-10-15)
     - [10.45 '아이숨' 온보딩 위치 권한 기반 메인 홈 상단 헤더 알약(역삼동) 동적 반영 및 실시간 소아 야간 의료시설 목록 연동](#1045-아이숨-온보딩-위치-권한-기반-메인-홈-상단-헤더-알약역삼동-동적-반영-및-실시간-소아-야간-의료시설-목록-연동-2026-10-15-완결)
     - [10.46 '아이숨' 하드코딩 배제 원칙에 입각한 실제 백엔드 API 결합 및 4대 프론트엔드 연동 결함 무결점 조치](#1046-하드코딩-배제-원칙에-입각한-실제-백엔드-api-결합-및-4대-프론트엔드-연동-결함-무결점-조치-2026-10-15)
+    - [10.47 '아이숨' nationwide_pairings.json 정적 데이터 기반 클라이언트 0ms 공간 연동 & GPS 자동 감지 체계](#1047-아이숨-nationwide_pairingsjson-정적-데이터-기반-클라이언트-0ms-공간-연동--gps-자동-감지-체계-2026-10-15-완결)
+    - [10.48 전역 권한 및 위치 지속성 매니저 (AisumPermissionManager) & 완벽한 카테고리 분리 렌더링](#1048-전역-권한-및-위치-지속성-매니저-aisumpermissionmanager--완벽한-카테고리-분리-렌더링-2026-10-15-완결))
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1155,16 +1157,46 @@ flowchart TD
 
 ### 10.46 하드코딩 배제 원칙에 입각한 실제 백엔드 API 결합 및 4대 프론트엔드 연동 결함 무결점 조치 (2026-10-15)
 * **목적 및 구현 원칙**:
-  - 단순 키워드 강제 매핑이나 가짜 하드코딩을 원천 배제하고, 실제 프로젝트 내 구축된 FastAPI 라우터(`POST /api/v1/chat`, `GET /api/v1/emergency/pairings`, `GET /api/v1/emergency/nearby`)와 전국 900개소 실제 데이터셋([nationwide_pairings.json](file:///c:/AI-Native-Agent/monnlight/data/nationwide_pairings.json))을 100% 실데이터로 바인딩.
+  - 단순 키워드 강제 매핑이나 가짜 하드코딩을 원천 배제하고, 실제 프로젝트 내 구축된 FastAPI 라우터(POST /api/v1/chat, GET /api/v1/emergency/pairings, GET /api/v1/emergency/nearby)와 전국 900개소 실제 데이터셋([nationwide_pairings.json](file:///c:/AI-Native-Agent/monnlight/data/nationwide_pairings.json))을 100% 실데이터로 바인딩.
   - 사용자 자연어 쿼리를 실제로 읽고 Gemini 3.8 Flash Thinking 기반 KTAS 트라이아지와 17개 시도 공간 매칭을 안전하게 수행.
 * **구체적 엔지니어링 구현 내역**:
-  1. **`emergency_alert.html` ➔ `result.html?tab=emergency` 탭 연동**: `result.html` 초기화 시 `URLSearchParams`를 파싱하여 `?tab=emergency` 유입 시 소아 응급실 탭(`switchTrackTab('emergency')`) 자동 전환.
-  2. **`loading.html` API 호출 시 `user_address` 파라미터 전달**: 백엔드 `resolve_stage1_from_coords_or_address()`에 사용자의 실제 주소를 전달하여 17개 시도 관할 정합성 100% 확보.
-  3. **`result.html` 백엔드 필드 매핑 키 불일치 해소**: `h.전화번호`, `h.진료시간`, `h.마감시간`, `p.전화번호`, `p.마감시간`, `p.안전마진_분` 등을 완벽히 역직렬화하여 `currentHospitals`에 주입.
-  4. **`hospital_detail.html` 단일 범용 템플릿 실데이터 하이드레이션 & 비동기 API 보강**: 전달된 실제 병원/약국 데이터로 바인딩하고, 세션 부재 시에도 `GET /api/v1/emergency/pairings`를 비동기 호출하여 사용자 좌표 기준 최단거리 실제 달빛어린이병원 데이터를 자동 로드.
-  5. **클라이언트 0ms Red Flag 감지 시 구체적 위급 사유 바인딩**: `sessionStorage.red_flag_reason`을 통해 119 안내 화면에 감지된 구체적 위급 증상(사지 절단, 경련, 호흡부전 등)을 선명하게 안내.
+  1. **emergency_alert.html ➔ 
+esult.html?tab=emergency 탭 연동**: 
+esult.html 초기화 시 URLSearchParams를 파싱하여 ?tab=emergency 유입 시 소아 응급실 탭(switchTrackTab('emergency')) 자동 전환.
+  2. **loading.html API 호출 시 user_address 파라미터 전달**: 백엔드 
+esolve_stage1_from_coords_or_address()에 사용자의 실제 주소를 전달하여 17개 시도 관할 정합성 100% 확보.
+  3. **
+esult.html 백엔드 필드 매핑 키 불일치 해소**: h.전화번호, h.진료시간, h.마감시간, p.전화번호, p.마감시간, p.안전마진_분 등을 완벽히 역직렬화하여 currentHospitals에 주입.
+  4. **hospital_detail.html 단일 범용 템플릿 실데이터 하이드레이션 & 비동기 API 보강**: 전달된 실제 병원/약국 데이터로 바인딩하고, 세션 부재 시에도 GET /api/v1/emergency/pairings를 비동기 호출하여 사용자 좌표 기준 최단거리 실제 달빛어린이병원 데이터를 자동 로드.
+  5. **클라이언트 0ms Red Flag 감지 시 구체적 위급 사유 바인딩**: sessionStorage.red_flag_reason을 통해 119 안내 화면에 감지된 구체적 위급 증상(사지 절단, 경련, 호흡부전 등)을 선명하게 안내.
 * **검증 성과**:
-  - `tests/test_step8_frontend_integration.py` 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests in 16.1s, OK)**.
+  - 	ests/test_step8_frontend_integration.py 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests in 16.1s, OK)**.
+
+### 10.47 '아이숨' nationwide_pairings.json 정적 데이터 기반 클라이언트 0ms 공간 연동 & GPS 자동 감지 체계 (2026-10-15 완결)
+* **배경 및 개요**:
+  - 외부 백엔드 API 서버(GET /api/v1/emergency/pairings) 장애나 네트워크 지연 시 메인 화면의 실시간 야간 의료시설 카드가 비거나 더미 데이터가 노출되는 위험을 원천 차단.
+  - 이미 구축된 data/nationwide_pairings.json 29대 달빛병원-심야약국 정적 페어링 마스터 데이터를 프론트엔드(main.js, 
+ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Haversine 거리 계산 및 오프라인 무중단 렌더링 실현.
+* **주요 엔지니어링 구현**:
+  1. **정적 페어링 데이터 듀얼 로더**: window.NATIONWIDE_PAIRINGS_DATA를 내장하여 브라우저 독립 실행 환경 지원.
+  2. **브라우저 실시간 GPS 자동 감지 파이프라인 (utoDetectUserLocation)**:
+     - 화면 로드 시 기기 GPS 좌표를 자동 포착하여 '역삼동' 기본값에서 실제 사용자 동(예: 대전 서구 둔산동, 성남 분당구 정자동 등)으로 즉시 갱신.
+     - 기기 위치 거부 시 공공 IP 지오로케이션 스마트 폴백 가동.
+
+### 10.48 전역 권한 및 위치 지속성 매니저 (AisumPermissionManager) & 완벽한 카테고리 분리 렌더링 (2026-10-15 완결)
+* **배경 및 개요**:
+  - 온보딩 접근 권한 화면(permission.html)에서 승인받은 위치/알림 권한과 좌표가 페이지 이동 및 앱 재접속 시 유실되던 결함을 근본적으로 해결.
+  - 병원과 약국 목록이 카테고리 탭('🌙 달빛병원', '💊 심야약국') 선택 시 정확하게 거리순으로 분리 정렬되어 사용자에게 가장 가까운 시설을 1순위로 즉시 서빙.
+* **주요 엔지니어링 구현**:
+  1. **window.AisumPermissionManager 구축**:
+     - isGranted(), getUserLocation(), saveUserLocation(lat, lon, dong)을 통해 localStorage 영구 지속성 보장.
+     - splash.html 및 permission.html에 스마트 패스스루 라우팅을 도입하여 이미 권한을 부여받은 사용자는 0ms 만에 메인 홈으로 자동 진입.
+  2. **독립적 구면거리 계산 및 랭킹 엔진**:
+     - 달빛병원(29개소)과 심야약국(29개소)을 사용자 현재 좌표 기준 Haversine 구면거리로 각각 독립 정렬.
+     - '🌙 달빛병원' 탭: 최단거리 소아 야간병원 상위 8곳만 정확히 필터링.
+     - '💊 심야약국' 탭: 최단거리 심야 안심약국 상위 8곳만 정확히 필터링.
+     - '전체' 탭: 최단거리 상위 6개 병원과 매칭 협약약국 총 12곳 조화롭게 배치.
+     - 상단 카운트 뱃지(count-all, count-hospital, count-pharmacy)와 카드 스택 실시간 0ms 동기화.)
 
 ---
 

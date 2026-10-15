@@ -45,9 +45,11 @@
           (function() {
             try {
               var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
-              if (dong) {
-                var el = document.getElementById('current-location-text');
-                if (el) el.textContent = dong;
+              var el = document.getElementById('current-location-text');
+              if (dong && el) {
+                el.textContent = dong;
+              } else if (el) {
+                el.textContent = '내 위치 확인 중';
               }
             } catch(e) {}
           })();
@@ -330,8 +332,19 @@
   </div>
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
+  <script src="js/nationwide_pairings.js"></script>
+  <script src="../js/nationwide_pairings.js"></script>
   <script src="js/main.js"></script>
   <script src="../js/main.js"></script>
+  <script>
+    // 0ms 렌더링 즉각 보장: 저장된 위치 기반 달빛병원/심야약국 실시간 카드 즉시 출력
+    try {
+      if (typeof window.initUserLocation === 'function') window.initUserLocation();
+      if (typeof window.initLiveFacilities === 'function') window.initLiveFacilities();
+    } catch(e) {
+      console.warn('Initial facilities auto-render:', e);
+    }
+  </script>
 </body>
 
 </html>

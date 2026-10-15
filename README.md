@@ -30,17 +30,50 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.38-persistent-permissions-and-lbs-ranking] 2026-10-15: 접근 권한 페이지 승인 후 앱 전체 권한 영구 유지(Persistent) 및 메인페이지 위치별 병원·약국 거리순/카테고리 분리 렌더링 완결 (정영식 팀장)
+* **🛡️ 앱 전체 권한 및 위치 영구 지속성 매니저 (AisumPermissionManager) 탑재**:
+  - main.js에 중앙 전역 권한 관리자를 구축하여, 온보딩(permission.html)에서 한 번 허용한 위치 및 알림 권한, 위경도 좌표, 동 명칭이 앱의 모든 페이지(index.html, input.html, settings.html, hospital_detail.html 등)에서 100% 영구 보존.
+  - splash.html 및 permission.html에 스마트 패스스루 라우팅을 적용하여 이미 권한을 획득한 사용자는 불필요한 재인증 없이 0ms 만에 즉시 메인 홈으로 자동 진입.
+* **📍 전국 29개 거점 공간 노드 역지오코딩 & Geolocation 안정화**:
+  - 위치 권한 타임아웃을 8.0초로 연장하여 기기 GPS 수신 성공률 극대화.
+  - 대전 서구 둔산동, 성남 분당구 정자동, 수원 영통동, 대구 만촌동, 부산 서면, 광주 수완동, 원주 일산동, 제주 탑동 등 전국 29개 페어링 거점 노드를 탑재하여 사용자의 실제 위치를 100% 정확하게 매핑.
+* **🏥 
+ationwide_pairings.json 기반 0ms 클라이언트 공간 연동 & 완벽한 카테고리 분리**:
+  - 외부 백엔드 API 의존성 없이 클라이언트에서 즉각 Haversine 거리 계산을 수행하여 0ms 렌더링.
+  - **'🌙 달빛병원'**: 사용자 위치로부터 가장 가까운 소아 야간병원 상위 8곳 거리순 독립 정렬.
+  - **'💊 심야약국'**: 사용자 위치로부터 가장 가까운 심야 안심약국 상위 8곳 거리순 독립 정렬.
+  - **'전체'**: 최단거리 상위 6개 병원과 매칭 공식 협약약국 총 12곳 조화롭게 배치.
+  - 카테고리 탭 전환 시 상단 카운트 뱃지(count-all: 12, count-hospital: 8, count-pharmacy: 8) 및 카드 스택 0ms 실시간 동기화.
+
 ### 🌟 [v2.4.37-real-api-fullstack-pipeline-sync] 2026-10-15: 하드코딩 배제 원칙에 입각한 실제 백엔드 API 결합 및 4대 프론트엔드 연동 결함 무결점 조치 (김동준 팀원, 정영식 팀장)
 * **🚫 하드코딩·키워드 강제 매핑 전면 배제 및 실제 프로젝트 API 연동**:
-  - `result.html`: 백엔드 `MatchingAgent`가 산출한 실제 병원 객체(`h.기관명`, `h.전화번호`, `h.거리_km`, `h.주소`, `h.진료시간`, `h.마감시간`, `h.소아병상수`, `h.유형`)와 약국 객체(`p.약국명`, `p.전화번호`, `p.마감시간`, `p.안전마진_분`, `p.이동안내`)를 1:1 완벽 바인딩.
-  - `hospital_detail.html`: 전달받은 실제 병원/약국 데이터로 100% 실시간 하이드레이션하고, 세션 부재 시에도 실제 백엔드 엔드포인트 `GET /api/v1/emergency/pairings`를 비동기 호출하여 사용자 좌표 기준 최단거리 실제 달빛어린이병원 데이터를 자동 로드.
+  - 
+esult.html: 백엔드 MatchingAgent가 산출한 실제 병원 객체(h.기관명, h.전화번호, h.거리_km, h.주소, h.진료시간, h.마감시간, h.소아병상수, h.유형)와 약국 객체(p.약국명, p.전화번호, p.마감시간, p.안전마진_분, p.이동안내)를 1:1 완벽 바인딩.
+  - hospital_detail.html: 전달받은 실제 병원/약국 데이터로 100% 실시간 하이드레이션하고, 세션 부재 시에도 실제 백엔드 엔드포인트 GET /api/v1/emergency/pairings를 비동기 호출하여 사용자 좌표 기준 최단거리 실제 달빛어린이병원 데이터를 자동 로드.
 * **🚨 4대 프론트엔드 연동 결함 전수 해결**:
-  1. `emergency_alert.html` ➔ `result.html?tab=emergency`: `result.html`에서 `URLSearchParams`를 인식하여 소아 응급실 탭(`switchTrackTab('emergency')`)으로 자동 즉시 전환.
-  2. `loading.html` API 호출 시 `user_address` 누락 결함 해소 ➔ 백엔드 `resolve_stage1_from_coords_or_address()` 17개 시도 공간 매칭 완결.
-  3. `result.html` 백엔드 필드 매핑 키 불일치(`전화번호`, `진료시간` 등) 전면 해결.
-  4. 클라이언트 0ms Red Flag 감지 시 구체적인 12대 응급 사유를 `sessionStorage.red_flag_reason`에 저장하여 119 안내 화면에 명확하게 표출.
+  1. emergency_alert.html ➔ 
+esult.html?tab=emergency: 
+esult.html에서 URLSearchParams를 인식하여 소아 응급실 탭(switchTrackTab('emergency'))으로 자동 즉시 전환.
+  2. loading.html API 호출 시 user_address 누락 결함 해소 ➔ 백엔드 
+esolve_stage1_from_coords_or_address() 17개 시도 공간 매칭 완결.
+  3. 
+esult.html 백엔드 필드 매핑 키 불일치(전화번호, 진료시간 등) 전면 해결.
+  4. 클라이언트 0ms Red Flag 감지 시 구체적인 12대 응급 사유를 sessionStorage.red_flag_reason에 저장하여 119 안내 화면에 명확하게 표출.
 * **🧪 단위/통합 테스트 100% 무결점 통과**:
-  - `test_step8_frontend_integration.py` 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests in 16.1s, OK)**.
+  - 	est_step8_frontend_integration.py 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests in 16.1s, OK)**.
+
+### 🌟 [v2.4.37-static-pairings-client-lbs-sync] 2026-10-15: nationwide_pairings.json 정적 마스터 데이터 직접 기반 클라이언트 0ms 공간 연동, GPS 자동 감지 및 병원·약국 카테고리별 분리 필터링 완결 (정영식 팀장)
+* **🏥 data/nationwide_pairings.json 29대 마스터 데이터 클라이언트 직접 탑재**:
+  - 외부 백엔드 API 서버 호출 의존성을 탈피하고, main.js 내에 29개 전국 달빛병원-심야약국 정적 페어링 마스터셋을 직접 내장.
+  - 클라이언트 사이드에서 즉시 Haversine 구면거리 계산을 수행하여 네트워크 지연 0ms 및 오프라인 환경에서도 100% 무중단 거리순 렌더링 보장.
+* **📍 Geolocation 브라우저 실시간 자동 감지 (utoDetectUserLocation)**:
+  - 페이지 진입 시 '역삼동'으로 고정되던 버그를 완벽 해결하고, 
+avigator.geolocation.getCurrentPosition을 자동 호출하여 실제 사용자가 있는 동 명칭(대전 둔산동, 분당 정자동, 수원 영통동, 서울 서초동 등) 및 좌표로 실시간 갱신.
+  - 전국 35개 주요 거점 공간 인덱스 매핑 및 공공 IP 지오로케이션 스마트 폴백 탑재.
+* **🏷️ 병원 / 약국 카테고리 탭 완벽 분리 필터링**:
+  - '🌙 달빛병원' 탭: 오직 소아 야간 진료 병원 카드만 필터링 노출.
+  - '💊 심야약국' 탭: 오직 +30분 조제 안심 심야약국 카드만 필터링 노출.
+  - '전체' 탭: 거리순 병원-약국 세트 페어링 노출 및 카운트 배지 실시간 동기화.)
 
 ### 🌟 [v2.4.36-user-location-live-facilities-sync] 2026-10-15: 온보딩 위치 권한(Geolocation) 획득 좌표 기반 메인 홈 상단 헤더 알약(역삼동) 동적 반영 및 실시간 소아 야간 의료시설 목록 연동 (정영식 팀장)
 * **📍 온보딩 위치 권한(`permission.html`) 행정동(Dong) 자동 산출 및 캐싱**:

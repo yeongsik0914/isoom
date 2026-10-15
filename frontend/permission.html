@@ -319,16 +319,101 @@
   </div>
 
   <script>
+    // 0. 이미 권한을 부여받은 사용자는 메인 화면으로 즉시 직행 (앱 내 권한 영구 유지)
+    (function checkExistingPermission() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const force = urlParams.get('force');
+        const isGranted = localStorage.getItem('aisum_permission_granted') === 'true';
+        if (isGranted && force !== 'true') {
+          console.log('✅ 이미 접근 권한이 영구 승인되었습니다. 메인 홈으로 바로 이동합니다.');
+          window.location.replace('index.html');
+        }
+      } catch (e) {
+        console.warn('Permission check error:', e);
+      }
+    })();
+
+    // 전국 29개 페어링 거점 및 주요 대도시 포함 공간 노드 (Reverse Geocoding)
+    const AISUM_NATIONWIDE_NODES = [
+      // 수도권
+      { name: '역삼동', gu: '서울 강남구', lat: 37.5006, lon: 127.0365 },
+      { name: '방배동', gu: '서울 서초구', lat: 37.498871, lon: 126.993414 },
+      { name: '청파동', gu: '서울 용산구', lat: 37.552431, lon: 126.969145 },
+      { name: '상계동', gu: '서울 노원구', lat: 37.654812, lon: 127.060124 },
+      { name: '목동', gu: '서울 양천구', lat: 37.524812, lon: 126.868215 },
+      { name: '삼성동', gu: '서울 강남구', lat: 37.5140, lon: 127.0565 },
+      { name: '대치동', gu: '서울 강남구', lat: 37.4946, lon: 127.0628 },
+      { name: '서초동', gu: '서울 서초구', lat: 37.4918, lon: 127.0079 },
+      { name: '반포동', gu: '서울 서초구', lat: 37.5042, lon: 127.0049 },
+      { name: '잠실동', gu: '서울 송파구', lat: 37.5133, lon: 127.1001 },
+      { name: '공덕동', gu: '서울 마포구', lat: 37.5445, lon: 126.9515 },
+      { name: '여의도동', gu: '서울 영등포구', lat: 37.5218, lon: 126.9242 },
+      { name: '영통동', gu: '수원 영통구', lat: 37.288541, lon: 127.051214 },
+      { name: '정자동', gu: '성남 분당구', lat: 37.367124, lon: 127.108215 },
+      { name: '판교동', gu: '성남 분당구', lat: 37.3940, lon: 127.1110 },
+      { name: '일산동', gu: '고양 일산동구', lat: 37.643812, lon: 126.786512 },
+      { name: '동탄동', gu: '화성시 동탄', lat: 37.206512, lon: 127.072412 },
+      { name: '구월동', gu: '인천 남동구', lat: 37.452412, lon: 126.708214 },
+      { name: '청라동', gu: '인천 서구', lat: 37.534812, lon: 126.654215 },
+      { name: '송도동', gu: '인천 연수구', lat: 37.3940, lon: 126.6540 },
+      // 충청권
+      { name: '둔산동', gu: '대전 서구', lat: 36.352412, lon: 127.378512 },
+      { name: '탄방동', gu: '대전 서구', lat: 36.351214, lon: 127.388412 },
+      { name: '봉명동', gu: '대전 유성구', lat: 36.3570, lon: 127.3420 },
+      { name: '나성동', gu: '세종시', lat: 36.504812, lon: 127.251214 },
+      { name: '아름동', gu: '세종시', lat: 36.5120, lon: 127.2480 },
+      { name: '불당동', gu: '천안 서북구', lat: 36.815214, lon: 127.108412 },
+      { name: '복대동', gu: '청주 흥덕구', lat: 36.621214, lon: 127.432512 },
+      // 영남권
+      { name: '서면', gu: '부산 부산진구', lat: 35.158124, lon: 129.043512 },
+      { name: '온천동', gu: '부산 동래구', lat: 35.204812, lon: 129.083214 },
+      { name: '우동', gu: '부산 해운대구', lat: 35.1631, lon: 129.1636 },
+      { name: '만촌동', gu: '대구 수성구', lat: 35.839812, lon: 128.706512 },
+      { name: '상인동', gu: '대구 달서구', lat: 35.817412, lon: 128.536214 },
+      { name: '삼산동', gu: '울산 남구', lat: 35.538412, lon: 129.324512 },
+      { name: '장량동', gu: '포항 북구', lat: 36.068412, lon: 129.378214 },
+      { name: '팔용동', gu: '창원 의창구', lat: 35.258412, lon: 128.621214 },
+      { name: '삼계동', gu: '김해시', lat: 35.251214, lon: 128.874512 },
+      // 호남권
+      { name: '수완동', gu: '광주 광산구', lat: 35.188412, lon: 126.821214 },
+      { name: '치평동(상무)', gu: '광주 서구', lat: 35.1522, lon: 126.8525 },
+      { name: '효자동', gu: '전주 완산구', lat: 35.81716, lon: 127.102276 },
+      { name: '조례동', gu: '순천시', lat: 34.954214, lon: 127.518412 },
+      // 강원 / 제주
+      { name: '일산동', gu: '원주시', lat: 37.338412, lon: 127.941214 },
+      { name: '탑동', gu: '제주시', lat: 33.517551, lon: 126.522463 }
+    ];
+
+    function estimateDongName(lat, lon) {
+      let best = '역삼동';
+      let minD = Infinity;
+      for (const node of AISUM_NATIONWIDE_NODES) {
+        const dLat = (lat - node.lat) * (Math.PI / 180);
+        const dLon = (lon - node.lon) * (Math.PI / 180);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(lat * (Math.PI / 180)) * Math.cos(node.lat * (Math.PI / 180)) *
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const dist = 6371 * c;
+        if (dist < minD) {
+          minD = dist;
+          best = node.name;
+        }
+      }
+      return best;
+    }
+
     // Request Actual Device / Browser Permissions (Location & Notification)
     async function onConfirmPermission() {
       const btn = document.getElementById('btnConfirmPermission');
       if (btn) {
         btn.disabled = true;
         btn.style.opacity = '0.85';
-        btn.innerHTML = '<span style="display:inline-flex; align-items:center; gap:6px;"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">sync</span> 권한 확인 중...</span>';
+        btn.innerHTML = '<span style="display:inline-flex; align-items:center; gap:6px;"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">sync</span> 위치 권한 확인 중...</span>';
       }
 
-      // Helper function to request Geolocation with timeout guarantee
+      // Helper function to request Geolocation with generous timeout
       const requestLocation = () => new Promise((resolve) => {
         if (!('geolocation' in navigator)) {
           resolve('unsupported');
@@ -336,91 +421,9 @@
         }
 
         const timer = setTimeout(() => {
-          console.warn('Geolocation prompt timed out (user skipped or dialog ignored)');
+          console.warn('Geolocation prompt timed out - proceeding with cached or fallback');
           resolve('timeout');
-        }, 4000);
-
-        function estimateDongName(lat, lon) {
-          const DONG_NODES = [
-            { name: '역삼동', lat: 37.5006, lon: 127.0365 },
-            { name: '삼성동', lat: 37.5140, lon: 127.0565 },
-            { name: '대치동', lat: 37.4946, lon: 127.0628 },
-            { name: '논현동', lat: 37.5115, lon: 127.0285 },
-            { name: '압구정동', lat: 37.5270, lon: 127.0284 },
-            { name: '청담동', lat: 37.5245, lon: 127.0520 },
-            { name: '신사동', lat: 37.5205, lon: 127.0230 },
-            { name: '개포동', lat: 37.4789, lon: 127.0517 },
-            { name: '일원동', lat: 37.4839, lon: 127.0844 },
-            { name: '서초동', lat: 37.4918, lon: 127.0079 },
-            { name: '반포동', lat: 37.5042, lon: 127.0049 },
-            { name: '방배동', lat: 37.4815, lon: 126.9975 },
-            { name: '양재동', lat: 37.4700, lon: 127.0400 },
-            { name: '잠실동', lat: 37.5133, lon: 127.1001 },
-            { name: '신천동', lat: 37.5180, lon: 127.1010 },
-            { name: '가락동', lat: 37.4925, lon: 127.1189 },
-            { name: '문정동', lat: 37.4859, lon: 127.1226 },
-            { name: '방이동', lat: 37.5165, lon: 127.1130 },
-            { name: '송파동', lat: 37.5050, lon: 127.1080 },
-            { name: '천호동', lat: 37.5385, lon: 127.1235 },
-            { name: '길동', lat: 37.5345, lon: 127.1402 },
-            { name: '공덕동', lat: 37.5445, lon: 126.9515 },
-            { name: '상암동', lat: 37.5775, lon: 126.8915 },
-            { name: '서교동', lat: 37.5550, lon: 126.9215 },
-            { name: '합정동', lat: 37.5495, lon: 126.9135 },
-            { name: '망원동', lat: 37.5562, lon: 126.9103 },
-            { name: '여의도동', lat: 37.5218, lon: 126.9242 },
-            { name: '당산동', lat: 37.5338, lon: 126.8995 },
-            { name: '영등포동', lat: 37.5158, lon: 126.9076 },
-            { name: '목동', lat: 37.5370, lon: 126.8745 },
-            { name: '신정동', lat: 37.5180, lon: 126.8560 },
-            { name: '화곡동', lat: 37.5410, lon: 126.8400 },
-            { name: '마곡동', lat: 37.5600, lon: 126.8250 },
-            { name: '구로동', lat: 37.4950, lon: 126.8870 },
-            { name: '신도림동', lat: 37.5090, lon: 126.8910 },
-            { name: '한남동', lat: 37.5347, lon: 127.0022 },
-            { name: '이태원동', lat: 37.5345, lon: 126.9945 },
-            { name: '청파동', lat: 37.5465, lon: 126.9678 },
-            { name: '이촌동', lat: 37.5175, lon: 126.9742 },
-            { name: '명동', lat: 37.5636, lon: 126.9827 },
-            { name: '종로', lat: 37.5704, lon: 126.9922 },
-            { name: '성수동', lat: 37.5445, lon: 127.0560 },
-            { name: '화양동', lat: 37.5407, lon: 127.0700 },
-            { name: '자양동', lat: 37.5340, lon: 127.0690 },
-            { name: '신림동', lat: 37.4842, lon: 126.9298 },
-            { name: '봉천동', lat: 37.4812, lon: 126.9528 },
-            { name: '사당동', lat: 37.4820, lon: 126.9760 },
-            { name: '상도동', lat: 37.5020, lon: 126.9470 },
-            { name: '노량진동', lat: 37.5130, lon: 126.9420 },
-            { name: '수유동', lat: 37.6380, lon: 127.0250 },
-            { name: '미아동', lat: 37.6250, lon: 127.0255 },
-            { name: '창동', lat: 37.6530, lon: 127.0470 },
-            { name: '상계동', lat: 37.6550, lon: 127.0670 },
-            { name: '중계동', lat: 37.6480, lon: 127.0760 },
-            { name: '하계동', lat: 37.6360, lon: 127.0670 },
-            { name: '판교동', lat: 37.3940, lon: 127.1110 },
-            { name: '정자동', lat: 37.3660, lon: 127.1080 },
-            { name: '영통동', lat: 37.2520, lon: 127.0710 },
-            { name: '일산동', lat: 37.6860, lon: 126.7710 },
-            { name: '중동', lat: 37.5020, lon: 126.7640 },
-            { name: '송도동', lat: 37.3940, lon: 126.6540 }
-          ];
-          let best = '역삼동';
-          let minD = Infinity;
-          for (const node of DONG_NODES) {
-            const dLat = (lat - node.lat) * (Math.PI / 180);
-            const dLon = (lon - node.lon) * (Math.PI / 180);
-            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                      Math.cos(lat * (Math.PI / 180)) * Math.cos(node.lat * (Math.PI / 180)) *
-                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            const dist = 6371 * c;
-            if (dist < minD) {
-              minD = dist;
-              best = node.name;
-            }
-          }
-          return best;
-        }
+        }, 8000);
 
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -438,6 +441,7 @@
               localStorage.setItem('aisum_user_dong', dongName);
               localStorage.setItem('user_dong', dongName);
               localStorage.setItem('aisum_permission_location', 'granted');
+              console.log('📍 [Permission] 사용자 실제 위치 포착 완료:', dongName, lat, lon);
             } catch (e) {
               console.warn('Storage error on geolocation:', e);
             }
@@ -453,8 +457,8 @@
           },
           {
             enableHighAccuracy: true,
-            timeout: 3800,
-            maximumAge: 60000
+            timeout: 7500,
+            maximumAge: 10000
           }
         );
       });
@@ -478,7 +482,7 @@
         console.warn('Notification request error:', err);
       }
 
-      // 3. Mark Onboarding Permission Granted in LocalStorage
+      // 3. Mark Onboarding Permission Granted in LocalStorage (영구 권한 플래그 설정)
       try {
         localStorage.setItem('aisum_permission_granted', 'true');
         localStorage.setItem('aisum_permission_granted_at', new Date().toISOString());

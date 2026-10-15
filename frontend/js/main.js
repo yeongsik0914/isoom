@@ -52,63 +52,120 @@ if (typeof document !== 'undefined') {
 }
 
 // ============================================================================
+// 🛡️ Global Permission & Location Persistence Manager (앱 전체 권한 유지)
+// ============================================================================
+window.AisumPermissionManager = {
+  isGranted: function() {
+    try {
+      return localStorage.getItem('aisum_permission_granted') === 'true';
+    } catch (e) {
+      return false;
+    }
+  },
+  getLocationStatus: function() {
+    try {
+      return localStorage.getItem('aisum_permission_location') || 'prompt';
+    } catch (e) {
+      return 'prompt';
+    }
+  },
+  getUserLocation: function() {
+    try {
+      const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
+      const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon');
+      const dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '역삼동';
+      return {
+        lat: sLat ? parseFloat(sLat) : 37.5006,
+        lon: sLon ? parseFloat(sLon) : 127.0365,
+        dong: dong,
+        isCustom: localStorage.getItem('aisum_location_manual') === 'true'
+      };
+    } catch (e) {
+      return { lat: 37.5006, lon: 127.0365, dong: '역삼동', isCustom: false };
+    }
+  },
+  saveUserLocation: function(lat, lon, dong) {
+    try {
+      localStorage.setItem('aisum_user_lat', lat);
+      localStorage.setItem('aisum_user_lon', lon);
+      localStorage.setItem('user_lat', lat);
+      localStorage.setItem('user_lon', lon);
+      localStorage.setItem('aisum_user_dong', dong);
+      localStorage.setItem('user_dong', dong);
+      localStorage.setItem('aisum_permission_granted', 'true');
+      localStorage.setItem('aisum_permission_location', 'granted');
+    } catch (e) {
+      console.warn('PermissionManager save failed:', e);
+    }
+  }
+};
+
+// ============================================================================
 // 📍 Real-Time User Location & Spatial Dong Mapping Engine (Vanilla JS)
 // ============================================================================
 window.AISUM_LOCATIONS_DB = [
-  // 강남구
+  // 1. 서울 주요 거점 (달빛병원 연계)
   { name: '역삼동', gu: '강남구', lat: 37.5006, lon: 127.0365, isPopular: true },
-  { name: '삼성동', gu: '강남구', lat: 37.5140, lon: 127.0565, isPopular: true },
-  { name: '대치동', gu: '강남구', lat: 37.4946, lon: 127.0628, isPopular: true },
-  { name: '논현동', gu: '강남구', lat: 37.5115, lon: 127.0285, isPopular: false },
-  { name: '압구정동', gu: '강남구', lat: 37.5270, lon: 127.0284, isPopular: false },
-  { name: '청담동', gu: '강남구', lat: 37.5245, lon: 127.0520, isPopular: false },
-  { name: '신사동', gu: '강남구', lat: 37.5205, lon: 127.0230, isPopular: false },
-  { name: '개포동', gu: '강남구', lat: 37.4789, lon: 127.0517, isPopular: false },
-  { name: '일원동', gu: '강남구', lat: 37.4839, lon: 127.0844, isPopular: false },
-  // 서초구
-  { name: '서초동', gu: '서초구', lat: 37.4918, lon: 127.0079, isPopular: true },
-  { name: '반포동', gu: '서초구', lat: 37.5042, lon: 127.0049, isPopular: true },
-  { name: '방배동', gu: '서초구', lat: 37.4815, lon: 126.9975, isPopular: false },
-  { name: '양재동', gu: '서초구', lat: 37.4700, lon: 127.0400, isPopular: false },
-  // 송파/강동구
+  { name: '방배동', gu: '서초구', lat: 37.498871, lon: 126.993414, isPopular: true },
+  { name: '청파동', gu: '용산구', lat: 37.552431, lon: 126.969145, isPopular: true },
+  { name: '상계동', gu: '노원구', lat: 37.654812, lon: 127.060124, isPopular: true },
+  { name: '목동', gu: '양천구', lat: 37.524812, lon: 126.868215, isPopular: true },
+  { name: '삼성동', gu: '강남구', lat: 37.5140, lon: 127.0565, isPopular: false },
+  { name: '서초동', gu: '서초구', lat: 37.4918, lon: 127.0079, isPopular: false },
   { name: '잠실동', gu: '송파구', lat: 37.5133, lon: 127.1001, isPopular: true },
-  { name: '신천동', gu: '송파구', lat: 37.5180, lon: 127.1010, isPopular: false },
-  { name: '가락동', gu: '송파구', lat: 37.4925, lon: 127.1189, isPopular: false },
-  { name: '문정동', gu: '송파구', lat: 37.4859, lon: 127.1226, isPopular: false },
-  { name: '천호동', gu: '강동구', lat: 37.5385, lon: 127.1235, isPopular: true },
-  { name: '길동', gu: '강동구', lat: 37.5345, lon: 127.1402, isPopular: false },
-  // 마포/서대문
-  { name: '공덕동', gu: '마포구', lat: 37.5445, lon: 126.9515, isPopular: true },
-  { name: '상암동', gu: '마포구', lat: 37.5775, lon: 126.8915, isPopular: true },
-  { name: '합정동', gu: '마포구', lat: 37.5495, lon: 126.9135, isPopular: false },
-  { name: '망원동', gu: '마포구', lat: 37.5562, lon: 126.9103, isPopular: false },
-  // 영등포/양천/강서/구로
-  { name: '여의도동', gu: '영등포구', lat: 37.5218, lon: 126.9242, isPopular: true },
-  { name: '당산동', gu: '영등포구', lat: 37.5338, lon: 126.8995, isPopular: false },
-  { name: '목동', gu: '양천구', lat: 37.5370, lon: 126.8745, isPopular: true },
-  { name: '신정동', gu: '양천구', lat: 37.5180, lon: 126.8560, isPopular: false },
-  { name: '화곡동', gu: '강서구', lat: 37.5410, lon: 126.8400, isPopular: true },
-  { name: '마곡동', gu: '강서구', lat: 37.5600, lon: 126.8250, isPopular: true },
-  { name: '신도림동', gu: '구로구', lat: 37.5090, lon: 126.8910, isPopular: true },
-  // 용산/성동/종로/중구
-  { name: '한남동', gu: '용산구', lat: 37.5347, lon: 127.0022, isPopular: true },
-  { name: '이촌동', gu: '용산구', lat: 37.5175, lon: 126.9742, isPopular: false },
-  { name: '성수동', gu: '성동구', lat: 37.5445, lon: 127.0560, isPopular: true },
-  { name: '명동', gu: '중구', lat: 37.5636, lon: 126.9827, isPopular: false },
-  { name: '종로', gu: '종로구', lat: 37.5704, lon: 126.9922, isPopular: false },
-  // 관악/동작
-  { name: '신림동', gu: '관악구', lat: 37.4842, lon: 126.9298, isPopular: true },
-  { name: '사당동', gu: '동작구', lat: 37.4820, lon: 126.9760, isPopular: true },
-  // 노원/도봉/강북
-  { name: '상계동', gu: '노원구', lat: 37.6550, lon: 127.0670, isPopular: true },
-  { name: '수유동', gu: '강북구', lat: 37.6380, lon: 127.0250, isPopular: false },
-  // 수도권 주요 거점
-  { name: '정자동', gu: '성남 분당구', lat: 37.3660, lon: 127.1080, isPopular: true },
-  { name: '판교동', gu: '성남 분당구', lat: 37.3940, lon: 127.1110, isPopular: true },
-  { name: '일산동', gu: '고양 일산동구', lat: 37.6860, lon: 126.7710, isPopular: true },
-  { name: '영통동', gu: '수원 영통구', lat: 37.2520, lon: 127.0710, isPopular: true },
-  { name: '송도동', gu: '인천 연수구', lat: 37.3940, lon: 126.6540, isPopular: true }
+  { name: '공덕동', gu: '마포구', lat: 37.5445, lon: 126.9515, isPopular: false },
+  { name: '여의도동', gu: '영등포구', lat: 37.5218, lon: 126.9242, isPopular: false },
+
+  // 2. 경기 / 인천 주요 권역
+  { name: '정자동', gu: '성남 분당구', lat: 37.367124, lon: 127.108215, isPopular: true },
+  { name: '판교동', gu: '성남 분당구', lat: 37.3940, lon: 127.1110, isPopular: false },
+  { name: '영통동', gu: '수원 영통구', lat: 37.288541, lon: 127.051214, isPopular: true },
+  { name: '일산동', gu: '고양 일산동구', lat: 37.643812, lon: 126.786512, isPopular: true },
+  { name: '동탄동', gu: '화성시 동탄', lat: 37.206512, lon: 127.072412, isPopular: true },
+  { name: '구월동', gu: '인천 남동구', lat: 37.452412, lon: 126.708214, isPopular: true },
+  { name: '청라동', gu: '인천 서구', lat: 37.534812, lon: 126.654215, isPopular: true },
+  { name: '송도동', gu: '인천 연수구', lat: 37.3940, lon: 126.6540, isPopular: false },
+
+  // 3. 충청권 거점
+  { name: '둔산동', gu: '대전 서구', lat: 36.352412, lon: 127.378512, isPopular: true },
+  { name: '봉명동', gu: '대전 유성구', lat: 36.3570, lon: 127.3420, isPopular: false },
+  { name: '나성동', gu: '세종시', lat: 36.504812, lon: 127.251214, isPopular: true },
+  { name: '불당동', gu: '천안 서북구', lat: 36.815214, lon: 127.108412, isPopular: true },
+  { name: '복대동', gu: '청주 흥덕구', lat: 36.621214, lon: 127.432512, isPopular: true },
+
+  // 4. 영남권 거점
+  { name: '만촌동', gu: '대구 수성구', lat: 35.839812, lon: 128.706512, isPopular: true },
+  { name: '상인동', gu: '대구 달서구', lat: 35.817412, lon: 128.536214, isPopular: false },
+  { name: '서면', gu: '부산 부산진구', lat: 35.158124, lon: 129.043512, isPopular: true },
+  { name: '온천동', gu: '부산 동래구', lat: 35.204812, lon: 129.083214, isPopular: false },
+  { name: '우동', gu: '부산 해운대구', lat: 35.1631, lon: 129.1636, isPopular: false },
+  { name: '삼산동', gu: '울산 남구', lat: 35.538412, lon: 129.324512, isPopular: true },
+  { name: '장량동', gu: '포항 북구', lat: 36.068412, lon: 129.378214, isPopular: true },
+  { name: '팔용동', gu: '창원 의창구', lat: 35.258412, lon: 128.621214, isPopular: true },
+  { name: '삼계동', gu: '김해시', lat: 35.251214, lon: 128.874512, isPopular: false },
+
+  // 5. 호남권 거점
+  { name: '수완동', gu: '광주 광산구', lat: 35.188412, lon: 126.821214, isPopular: true },
+  { name: '치평동(상무)', gu: '광주 서구', lat: 35.1522, lon: 126.8525, isPopular: false },
+  { name: '효자동', gu: '전주 완산구', lat: 35.81716, lon: 127.102276, isPopular: true },
+  { name: '조례동', gu: '순천시', lat: 34.954214, lon: 127.518412, isPopular: true },
+
+  // 6. 강원 / 제주 거점
+  { name: '일산동', gu: '원주시', lat: 37.338412, lon: 127.941214, isPopular: true },
+  { name: '탑동', gu: '제주시', lat: 33.517551, lon: 126.522463, isPopular: true }
 ];
+
+// Haversine 구면거리 계산 함수 (km 단위)
+window.calculateDistanceKm = function(lat1, lon1, lat2, lon2) {
+  const R = 6371; // 지구 반경 (km)
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
 
 window.estimateDongFromCoords = function(lat, lon) {
   let best = '역삼동';
@@ -116,13 +173,7 @@ window.estimateDongFromCoords = function(lat, lon) {
   const nodes = window.AISUM_LOCATIONS_DB || [];
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
-    const dLat = (lat - node.lat) * (Math.PI / 180);
-    const dLon = (lon - node.lon) * (Math.PI / 180);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat * (Math.PI / 180)) * Math.cos(node.lat * (Math.PI / 180)) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const dist = 6371 * c;
+    const dist = window.calculateDistanceKm(lat, lon, node.lat, node.lon);
     if (dist < minD) {
       minD = dist;
       best = node.name;
@@ -142,18 +193,9 @@ window.updateLocationDisplay = function(dongName, lat, lon) {
     pillBtn.setAttribute('aria-label', `현재 위치 변경: ${name}`);
   }
 
-  // Persist into localStorage
-  try {
-    localStorage.setItem('aisum_user_dong', name);
-    localStorage.setItem('user_dong', name);
-    if (lat && lon) {
-      localStorage.setItem('aisum_user_lat', lat);
-      localStorage.setItem('aisum_user_lon', lon);
-      localStorage.setItem('user_lat', lat);
-      localStorage.setItem('user_lon', lon);
-    }
-  } catch (e) {
-    console.warn('Storage save failed:', e);
+  // Persist into localStorage via PermissionManager
+  if (window.AisumPermissionManager) {
+    window.AisumPermissionManager.saveUserLocation(lat || 37.5006, lon || 127.0365, name);
   }
 
   // Update active status in quick-locations-grid
@@ -167,23 +209,68 @@ window.updateLocationDisplay = function(dongName, lat, lon) {
   }
 };
 
-window.initUserLocation = function() {
-  let savedDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
-  const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
-  const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon');
-
-  let lat = sLat ? parseFloat(sLat) : null;
-  let lon = sLon ? parseFloat(sLon) : null;
-
-  if (lat && lon && !savedDong) {
-    savedDong = window.estimateDongFromCoords(lat, lon);
-  } else if (!savedDong && !lat) {
-    savedDong = '역삼동';
-    lat = 37.5006;
-    lon = 127.0365;
+// 📍 브라우저 GPS 실시간 위치 자동 감지 파이프라인
+window.autoDetectUserLocation = function() {
+  if (!('geolocation' in navigator)) {
+    window.fetchIpLocationFallback();
+    return;
   }
 
-  window.updateLocationDisplay(savedDong, lat, lon);
+  // 사용자가 위치를 수동으로 지정한 경우 GPS 덮어쓰기 방지
+  if (localStorage.getItem('aisum_location_manual') === 'true') {
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const detectedDong = window.estimateDongFromCoords(lat, lon);
+      console.log('📍 [Aisum GPS] 브라우저 실시간 위치 감지 완료:', detectedDong, lat, lon);
+
+      window.updateLocationDisplay(detectedDong, lat, lon);
+      window.initLiveFacilities();
+    },
+    (err) => {
+      console.warn('📍 [Aisum GPS] Geolocation 자동 감지 대기/실패:', err.message);
+      window.fetchIpLocationFallback();
+    },
+    { enableHighAccuracy: true, timeout: 6000, maximumAge: 30000 }
+  );
+};
+
+// 🌐 IP 기반 위치 추정 폴백 (GPS 미제공 환경)
+window.fetchIpLocationFallback = function() {
+  if (localStorage.getItem('aisum_location_manual') === 'true') return;
+
+  fetch('https://ipapi.co/json/')
+    .then((res) => res.json())
+    .then((data) => {
+      if (data && data.latitude && data.longitude) {
+        const lat = parseFloat(data.latitude);
+        const lon = parseFloat(data.longitude);
+        const detectedDong = window.estimateDongFromCoords(lat, lon);
+        console.log('🌐 [Aisum IP] IP 기반 위치 감지 완료:', detectedDong, lat, lon);
+        window.updateLocationDisplay(detectedDong, lat, lon);
+        window.initLiveFacilities();
+      }
+    })
+    .catch((e) => {
+      console.log('IP location fallback skipped:', e);
+    });
+};
+
+window.initUserLocation = function() {
+  const loc = window.AisumPermissionManager
+    ? window.AisumPermissionManager.getUserLocation()
+    : { lat: 37.5006, lon: 127.0365, dong: '역삼동', isCustom: false };
+
+  window.updateLocationDisplay(loc.dong, loc.lat, loc.lon);
+
+  // 수동 선택 상태가 아니면 실제 기기 GPS 위치 획득 파이프라인 가동
+  if (!loc.isCustom) {
+    window.autoDetectUserLocation();
+  }
 };
 
 window.refreshUserCurrentLocation = function() {
@@ -194,6 +281,11 @@ window.refreshUserCurrentLocation = function() {
     btn.style.opacity = '0.7';
     btn.innerHTML = '<span class="material-symbols-outlined gps-icon" style="animation:spin 1s linear infinite;">sync</span><div class="gps-text-wrap"><span class="gps-main-text">현재 위치 측정 중...</span></div>';
   }
+
+  // 수동 선택 해제
+  try {
+    localStorage.removeItem('aisum_location_manual');
+  } catch (e) {}
 
   if (!('geolocation' in navigator)) {
     if (btn) {
@@ -239,11 +331,15 @@ window.refreshUserCurrentLocation = function() {
         window.showAisumToast('위치 권한을 확인해주세요. (설정에서 허용 필요)');
       }
     },
-    { enableHighAccuracy: true, timeout: 5000, maximumAge: 10000 }
+    { enableHighAccuracy: true, timeout: 6000, maximumAge: 5000 }
   );
 };
 
 window.setUserCustomLocation = function(dongName, lat, lon) {
+  try {
+    localStorage.setItem('aisum_location_manual', 'true');
+  } catch (e) {}
+
   window.updateLocationDisplay(dongName, lat, lon);
   if (typeof window.closeLocationModal === 'function') {
     window.closeLocationModal();
@@ -265,7 +361,7 @@ window.openLocationModal = function() {
 
   // Render quick locations if grid is empty
   const grid = document.getElementById('quick-locations-grid');
-  if (grid && grid.children.length === 0) {
+  if (grid) {
     const popular = (window.AISUM_LOCATIONS_DB || []).filter((item) => item.isPopular);
     const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '역삼동';
     let chipsHtml = '';
@@ -291,93 +387,120 @@ window.closeLocationModal = function() {
 };
 
 // ============================================================================
-// 🏥 Real-Time Nighttime Medical Facilities Loader (메인 홈 실시간 야간 의료시설 연동)
+// 🏥 Real-Time Nighttime Medical Facilities Loader (정적 데이터 기반 0ms 실시간 공간 연동)
 // ============================================================================
 window.__LIVE_FACILITIES_DATA__ = [];
 window.__CURRENT_FACILITY_FILTER__ = 'all';
 
-window.initLiveFacilities = async function() {
+window.initLiveFacilities = function() {
   const stack = document.getElementById('facility-card-stack');
   if (!stack) return; // Only run on index.html
 
-  let lat = 37.5006; // 역삼동 fallback
-  let lon = 127.0365;
-  try {
-    const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
-    const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon');
-    if (sLat && sLon) {
-      lat = parseFloat(sLat);
-      lon = parseFloat(sLon);
-    }
-  } catch (e) {}
+  // 1. 사용자 현재 위치 좌표 획득 (PermissionManager 활용)
+  const userLoc = window.AisumPermissionManager
+    ? window.AisumPermissionManager.getUserLocation()
+    : { lat: 37.5006, lon: 127.0365, dong: '역삼동' };
+  const lat = userLoc.lat;
+  const lon = userLoc.lon;
 
-  try {
-    const apiUrl = `/api/v1/emergency/pairings?lat=${lat}&lon=${lon}&radius_km=30.0&limit=8`;
-    const res = await fetch(apiUrl);
-    if (!res.ok) throw new Error(`API returned ${res.status}`);
+  // 2. data/nationwide_pairings.json 정적 데이터셋을 바탕으로 실시간 구면거리 계산
+  const sourceData = window.NATIONWIDE_PAIRINGS_DATA || [];
+  if (sourceData.length === 0) return;
 
-    const data = await res.json();
-    const pairings = data.pairings || [];
-    if (pairings.length === 0) return;
+  // 3. 병원(29개) 거리 계산 및 오름차순 정렬
+  const hospitals = sourceData.map((p) => {
+    const hLat = parseFloat(p.병원위도) || lat;
+    const hLon = parseFloat(p.병원경도) || lon;
+    const dist = window.calculateDistanceKm(lat, lon, hLat, hLon);
+    const hDist = dist.toFixed(1);
+    const hWalk = Math.max(5, Math.round(dist * 14)) + '분';
+    const hCar = Math.max(3, Math.round(dist * 2.5)) + '분';
+    const hClose = p.병원_평일마감 ? `오늘 ~${p.병원_평일마감} 마감` : '야간 진료';
 
-    const list = [];
-    pairings.forEach((p) => {
-      // Hospital
-      const hDist = typeof p.거리_km === 'number' ? p.거리_km.toFixed(1) : (p.거리_km || '1.8');
-      const hWalk = Math.max(5, Math.round(parseFloat(hDist) * 14)) + '분';
-      const hCar = Math.max(3, Math.round(parseFloat(hDist) * 2.5)) + '분';
-      const hClose = p.병원_평일마감 ? `오늘 ~${p.병원_평일마감} 마감` : '야간 진료';
+    return {
+      type: 'hospital',
+      name: p.병원명 || '달빛어린이병원',
+      badge: p.병원유형 || '달빛어린이병원',
+      subBadge: '',
+      status: '진료중 · 접수 가능',
+      desc: `소아청소년과 전문의 진료중 · ${p.병원_평일진료 ? '평일 ' + p.병원_평일진료 : '야간 진료 지정기관'}`,
+      phone: p.병원전화 || '02-1234-5678',
+      distKm: dist,
+      dist: hDist,
+      walkTime: hWalk,
+      carTime: hCar,
+      closing: hClose,
+      pairingPharmacy: p.약국명 || ''
+    };
+  });
+  hospitals.sort((a, b) => a.distKm - b.distKm);
 
-      list.push({
-        type: 'hospital',
-        name: p.병원명 || '달빛어린이병원',
-        badge: '달빛어린이병원',
-        status: '진료중 · 접수 가능',
-        desc: '소아청소년과 전문의 진료중 · 야간 진료 지정기관',
-        phone: p.병원전화 || '02-1234-5678',
-        dist: hDist,
-        walkTime: hWalk,
-        carTime: hCar,
-        closing: hClose,
-      });
+  // 4. 약국(29개) 거리 계산 및 오름차순 정렬
+  const pharmacies = [];
+  sourceData.forEach((p) => {
+    if (!p.약국명) return;
+    const phLat = parseFloat(p.약국위도) || parseFloat(p.병원위도) || lat;
+    const phLon = parseFloat(p.약국경도) || parseFloat(p.병원경도) || lon;
+    const dist = window.calculateDistanceKm(lat, lon, phLat, phLon);
+    const phDist = dist.toFixed(1);
+    const phWalk = Math.max(5, Math.round(dist * 14)) + '분';
+    const phCar = Math.max(3, Math.round(dist * 2.5)) + '분';
+    const subGuide = p.이동안내 ? `${p.이동안내}` : `병원 인근 ${p.병원_약국_거리 || 50}m`;
+    const phClose = p.약국_평일마감
+      ? `오늘 ~${p.약국_평일마감} 마감 (+${p.안전마진_분 || 30}분 안심)`
+      : '야간 운영';
 
-      // Pharmacy
-      if (p.약국명) {
-        const phDist = (parseFloat(hDist) + (p.병원_약국_거리 || 50) / 1000).toFixed(1);
-        const subGuide = p.이동안내 ? `${(p.병원명 || '').split(' ')[0]} 인근 ${p.이동안내}` : `병원 인근 ${p.병원_약국_거리 || 50}m`;
-        const phClose = p.약국_평일마감 ? `오늘 ~${p.약국_평일마감} 마감` : '야간 운영';
-
-        list.push({
-          type: 'pharmacy',
-          name: p.약국명,
-          badge: '심야약국',
-          subBadge: subGuide,
-          desc: '소아 시럽제 조제 가능 · 30분 안심 조제',
-          phone: p.약국전화 || '02-555-1234',
-          dist: phDist,
-          closing: phClose,
-        });
-      }
+    pharmacies.push({
+      type: 'pharmacy',
+      name: p.약국명,
+      badge: p.약국구분 || '심야약국',
+      subBadge: subGuide,
+      status: p.조제안전등급 || '🟢 30분 안심 조제',
+      desc: `소아 시럽제 조제 가능 · 30분 안심 조제 (${p.약국_평일운영 || '야간 운영'})`,
+      phone: p.약국전화 || '02-555-1234',
+      distKm: dist,
+      dist: phDist,
+      walkTime: phWalk,
+      carTime: phCar,
+      closing: phClose,
+      pairingHospital: p.병원명 || ''
     });
+  });
+  pharmacies.sort((a, b) => a.distKm - b.distKm);
 
-    window.__LIVE_FACILITIES_DATA__ = list;
-    window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
-  } catch (err) {
-    console.log('실시간 의료시설 API 비동기 폴백 (정적 데이터 유지):', err.message);
-  }
+  // 5. 전체(all) 탭용 정렬: 최단거리 상위 6개 병원과 그에 매칭된 약국들을 조화롭게 조합 (총 12곳)
+  const allList = [];
+  const topHospitals = hospitals.slice(0, 6);
+  topHospitals.forEach((hosp) => {
+    allList.push(hosp);
+    // 해당 병원의 협약 약국 찾기
+    const matchingPharm = pharmacies.find((ph) => ph.pairingHospital === hosp.name || ph.name.includes(hosp.pairingPharmacy));
+    if (matchingPharm && !allList.includes(matchingPharm)) {
+      allList.push(matchingPharm);
+    }
+  });
+
+  window.__LIVE_FACILITIES_MASTER__ = {
+    all: allList,
+    hospital: hospitals.slice(0, 8),
+    pharmacy: pharmacies.slice(0, 8)
+  };
+
+  window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
 };
 
 window.renderLiveFacilities = function(filter) {
   const stack = document.getElementById('facility-card-stack');
-  if (!stack || !window.__LIVE_FACILITIES_DATA__ || window.__LIVE_FACILITIES_DATA__.length === 0) return;
+  if (!stack || !window.__LIVE_FACILITIES_MASTER__) return;
 
-  const data = window.__LIVE_FACILITIES_DATA__;
-  const filtered = filter === 'all' ? data : data.filter((item) => item.type === filter);
+  const master = window.__LIVE_FACILITIES_MASTER__;
+  const currentFilter = filter || 'all';
+  const displayList = master[currentFilter] || master.all || [];
 
   // Update Count Badge & Tabs
-  const totalCount = data.length;
-  const hospCount = data.filter((i) => i.type === 'hospital').length;
-  const pharmCount = data.filter((i) => i.type === 'pharmacy').length;
+  const totalCount = (master.all || []).length;
+  const hospCount = (master.hospital || []).length;
+  const pharmCount = (master.pharmacy || []).length;
 
   const countBadge = document.getElementById('live-facilities-count');
   if (countBadge) countBadge.textContent = `${totalCount}곳 운영중`;
@@ -393,12 +516,12 @@ window.renderLiveFacilities = function(filter) {
 
   // Render cards HTML
   let cardsHTML = '';
-  filtered.forEach((facility) => {
+  displayList.forEach((facility) => {
     const isHospital = facility.type === 'hospital';
     const icon = isHospital ? 'bedtime' : 'medication';
     const iconClass = isHospital ? '' : 'pharmacy';
     const badgeClass = isHospital ? 'moonlight' : 'pharmacy';
-    const badgeText = isHospital ? '달빛어린이병원' : '심야약국';
+    const badgeText = facility.badge || (isHospital ? '달빛어린이병원' : '심야약국');
 
     const subBadgeHTML = !isHospital && facility.subBadge
       ? `<span class="tag-badge distance-sub">${facility.subBadge}</span>`
@@ -406,11 +529,11 @@ window.renderLiveFacilities = function(filter) {
 
     const statusBadgeHTML = isHospital
       ? `<span class="tag-badge status-open"><span class="status-indicator-dot" aria-hidden="true"></span>${facility.status}</span>`
-      : '';
+      : `<span class="tag-badge status-open"><span class="status-indicator-dot" aria-hidden="true"></span>${facility.status}</span>`;
 
     const distanceText = isHospital
       ? `내 위치 ${facility.dist}km (도보 ${facility.walkTime} / 차 ${facility.carTime})`
-      : `내 위치 ${facility.dist}km`;
+      : `내 위치 ${facility.dist}km (도보 ${facility.walkTime} / 차 ${facility.carTime})`;
 
     cardsHTML += `
       <article class="facility-card live-card" data-type="${facility.type}">

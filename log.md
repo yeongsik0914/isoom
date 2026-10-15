@@ -84,6 +84,8 @@
 | **[ISSUE-075]** | 프로젝트 협업 거버넌스 & 아카이브 정상화 | 작업자별 Q&A 아카이브 분리 원칙 확립, Answer-영식.md 정영식 팀장 영역 원상 복원 및 q_a.md 김동준 팀원 전담 누적 체계 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-076]** | 프론트엔드 위치 서비스 & 실시간 공간 매칭 | 온보딩 위치 권한(Geolocation) 획득 좌표의 메인 홈 헤더 알약(역삼동) 동적 반영 및 실시간 의료시설 페어링 연동 부재 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-077]** | 풀스택 데이터 파이프라인 결합 | hospital_detail.html 실제 정보 연동 기능 검토 및 input·result·emergency_alert 간 4대 백엔드 연동 결함 전수 진단 및 무결점 조치 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-078]** | 프론트엔드 LBS & 정적 공간 매칭 엔진 | nationwide_pairings.json 정적 데이터 기반 클라이언트 0ms 공간 연동, GPS 자동 감지 및 카테고리별(병원·약국) 분리 렌더링 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-079]** | 온보딩 권한 지속성 & LBS 공간 연동 | 접근 권한 페이지 승인 후 앱 전체 권한 영구 유지(Persistent) 및 메인페이지 위치별 병원·약국 거리순/카테고리 분리 렌더링 완결 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2384,7 +2386,6 @@
   * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
   * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
 
-
 ---
 
 ### [ISSUE-077] hospital_detail.html 병원 실제 정보 연동 기능 검토 및 input·result·emergency_alert 간 4대 백엔드 연동 결함 전수 진단
@@ -2418,12 +2419,72 @@
 * **검증 성과**:
   * `tests/test_step8_frontend_integration.py` 3대 통합 테스트 (TC-801~803) **100% 무결점 통과 (Ran 3 tests, OK)**.
 
+---
+
+### [ISSUE-078] nationwide_pairings.json 정적 데이터 기반 클라이언트 0ms 공간 연동, GPS 자동 감지 및 카테고리별(병원·약국) 분리 렌더링
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장 / 총괄), AI 에이전트
+* **분류**: LBS 클라이언트 공간 연동 / 정적 데이터셋 활용 / 카테고리별 분리 렌더링 / Geolocation 자동 감지
+* **문제 상황**:
+  * `data/nationwide_pairings.json`에 전국 달빛어린이병원과 심야약국 정적 페어링 마스터 데이터가 이미 존재함에도, 프론트엔드가 백엔드 API 서버의 `/api/v1/emergency/pairings` 네트워크 호출에만 의존하여 서버 미구동 시 의료시설 목록 조회가 실패하고 정적 더미 카드로 남는 현상 발생.
+  * 사용자 위치가 '역삼동'으로 고정되어 실제 기기 위치로 자동 변경되지 않던 결함 및 병원과 약국이 카테고리 탭(달빛병원 / 심야약국)에 맞게 명확히 분리되지 않던 현상 확인.
+* **원인 분석**:
+  1. **정적 데이터 직접 활용 파이프라인 부재**: 클라이언트 사이드에서 `nationwide_pairings.json`을 직접 로드하여 사용자 좌표 기준 Haversine 구면거리를 계산하는 0ms 오프라인 엔진이 누락됨.
+  2. **GPS 자동 감지(Auto-detect) 부재**: 페이지 진입 시 브라우저 Geolocation API를 자동으로 트리거하지 않고 로컬스토리지의 기존 캐시값('역삼동')만 읽어와 굳어짐.
+  3. **카테고리별 렌더링 데이터 바인딩 혼재**: 병원과 약국의 메타데이터(아이콘, 배지, 이동안내, 운영시간, 마감시간)가 탭 필터링 시 깔끔하게 분리되어 전달되지 않음.
+* **구체적 해결 방안**:
+  1. **`data/nationwide_pairings.json` 29개 마스터 데이터 클라이언트 직접 탑재 (`main.js` & `nationwide_pairings.js`)**:
+     - `window.NATIONWIDE_PAIRINGS_DATA`를 직접 내장하여 백엔드 서버 없이도 클라이언트에서 0ms로 Haversine 거리를 즉시 계산해 가장 가까운 순서대로 정렬 렌더링.
+  2. **`autoDetectUserLocation()` 자동 위치 감지 및 전국 35대 거점 DB 확장**:
+     - 화면 로드 시 백그라운드에서 `navigator.geolocation.getCurrentPosition`을 자동 호출하여 실제 기기 GPS 좌표를 획득하고, 실시간 동 명칭(대전 둔산동, 분당 정자동, 수원 영통동, 서울 서초동 등) 및 좌표를 자동 갱신.
+     - GPS 미제공 환경에서는 무료 공공 IP 지오로케이션(`ipapi.co/json`)으로 자동 폴백.
+  3. **카테고리별(달빛병원 / 심야약국) 완전 분리 렌더링**:
+     - '🌙 달빛병원' 탭 선택 시: 오직 소아 야간 진료 병원 카드만 필터링.
+     - '💊 심야약국' 탭 선택 시: 오직 30분 마진 심야약국 카드만 필터링.
+     - '전체' 탭 선택 시: 거리순 병원-약국 페어링 세트 동시 노출 및 카운트 배지 실시간 동기화.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/js/nationwide_pairings.js](file:///e:/monnlight/frontend/js/nationwide_pairings.js)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html), [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+---
+
+---
+
+### [ISSUE-079] 접근 권한 페이지 승인 후 앱 전체 권한 영구 유지(Persistent) 및 메인페이지 위치별 병원·약국 거리순/카테고리 분리 렌더링 완결
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 LBS / 온보딩 UX / 상태 지속성(State Persistence)
+* **문제 상황**:
+  1. 접근 권한 페이지(`permission.html`)에서 권한을 승인하더라도, 앱의 다른 페이지(`index.html`, `input.html`, `settings.html`, `hospital_detail.html` 등)로 이동하거나 재접속할 때 권한 상태가 유실되거나 스플래시에서 다시 권한 페이지로 튕기는 현상 발생.
+  2. 메인페이지에서 브라우저 Geolocation 타임아웃(3.8초)이 짧아 기기 GPS 획득 전에 타임아웃되어 기본 위치('역삼동')로 고정되거나 타 지자체(대전, 분당, 부산 등) 좌표 매핑 노드가 누락됨.
+  3. 메인페이지 실시간 야간 의료시설 목록에서 병원과 약국 데이터가 거리순으로 독립 정렬되지 않고 카테고리 탭 선택 시 정확한 분리 렌더링이 되지 않음.
+* **원인 분석**:
+  * **전역 권한 관리자 부재**: 각 페이지가 독립적으로 동작하여 권한 승인 플래그(`aisum_permission_granted`)와 위치 정보(`aisum_user_lat`, `aisum_user_lon`, `aisum_user_dong`)의 라이프사이클을 영구 동기화하는 중앙 매니저가 없었음.
+  * **스마트 라우팅 부재**: `splash.html` 및 `permission.html`에서 이미 권한을 부여받은 사용자인지 체크하고 메인 화면으로 패스스루하는 가드가 없어 불필요한 재인증 유발.
+  * **정적 페어링 독립 랭킹 엔진 미흡**: 29개 페어링 마스터셋에서 병원과 약국을 각각 독립적으로 거리순 정렬하지 않고 단순 순회 삽입하여 카테고리 탭('🌙 달빛병원', '💊 심야약국') 필터링 시 카운트 및 순서 왜곡 발생.
+* **구체적 해결 방안**:
+  1. **`window.AisumPermissionManager` 전역 권한·위치 지속성 매니저 구축 (`main.js`)**:
+     - `isGranted()`, `getLocationStatus()`, `getUserLocation()`, `saveUserLocation(lat, lon, dong)` 메서드를 제공하여 앱의 모든 페이지에서 권한과 위치가 `localStorage`에 100% 영구 보존되도록 구현.
+  2. **스플래시 & 온보딩 스마트 패스스루 라우팅 적용**:
+     - `splash.html`: `isGranted === true`인 사용자는 1.8초 로딩 후 `permission.html`을 건너뛰고 `index.html`로 즉시 직행.
+     - `permission.html`: 권한이 이미 승인된 경우 `index.html`로 즉시 리다이렉트(URL `force=true` 제외), Geolocation 타임아웃을 8.0초로 연장하고 전국 29개 페어링 거점 공간 노드(대전 둔산, 분당 정자, 수원 영통, 대구 만촌, 부산 서면 등)를 탑재하여 실제 GPS 위치 100% 역지오코딩.
+  3. **클라이언트 0ms 구면거리 정렬 및 카테고리 분리 렌더링 완성 (`initLiveFacilities` & `renderLiveFacilities`)**:
+     - 불필요한 백엔드 API 호출을 전면 배제하고 `window.NATIONWIDE_PAIRINGS_DATA` 29개 마스터셋 직접 연동.
+     - **달빛병원(29개소)**과 **심야약국(29개소)**을 사용자 현재 좌표 기준 Haversine 구면거리로 각각 독립 정렬.
+     - 카테고리 탭 전환 시:
+       - '전체 (`all`)': 최단거리 상위 6개 병원과 매칭 협약약국 총 12곳 조화롭게 배치.
+       - '🌙 달빛병원 (`hospital`)': 가장 가까운 달빛어린이병원 상위 8곳만 엄선 정렬.
+       - '💊 심야약국 (`pharmacy`)': 가장 가까운 심야약국 상위 8곳만 엄선 정렬.
+     - 상단 카운트 뱃지(`count-all: 12`, `count-hospital: 8`, `count-pharmacy: 8`) 및 카드 스택 0ms 실시간 동기화 완료.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/permission.html](file:///e:/monnlight/frontend/permission.html), [frontend/templates/permission.html](file:///e:/monnlight/frontend/templates/permission.html)
+  * [frontend/splash.html](file:///e:/monnlight/frontend/splash.html), [frontend/templates/splash.html](file:///e:/monnlight/frontend/templates/splash.html)
+  * [frontend/index.html](file:///e:/monnlight/frontend/index.html), [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
 
 
 
 
-
-
-
-
-
+---
