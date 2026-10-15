@@ -30,6 +30,15 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.22-remove-fake-status-bar] 2026-10-15: '아이숨' 모바일 웹 화면 상단 인위적 가짜 상태 바(15:19 시간·와이파이·배터리 아이콘) 전면 제거 및 순수 뷰포트 정돈 (정영식 팀장, AI 에이전트)
+* **온보딩 화면(스플래시 및 접근 권한 안내) 상단 가짜 iOS 상태 바 전면 제거**:
+  - [splash.html](file:///e:/monnlight/frontend/templates/splash.html), [permission.html](file:///e:/monnlight/frontend/templates/permission.html) (루트 및 templates 계층 4개 파일 전수 적용)에서 화면 상단에 인위적으로 표시되던 가짜 시간(`15:19` 등) 및 내비게이션(`near_me`), 통신 안테나(`signal_cellular_alt`), 와이파이(`wifi`), 배터리(`battery_full`) 아이콘 마크업과 스타일 완전 삭제.
+  - 불필요하게 1분마다 브라우저 시간을 갱신하던 `updateClock()` 자바스크립트 함수 및 DOM 리스너 완전 제거.
+* **기기 자체 OS 상태 바 정합형 모바일 뷰포트 여백 정돈**:
+  - 가짜 상태 바 제거 후 상단 여백(`padding-top: 32px;` 및 `padding-top: 10px;`)을 정돈하여 스마트폰 자체 상단 바와 자연스럽게 어우러지도록 최적화.
+* **자동화 테스트 검증**:
+  - FastAPI TestClient 검증을 통해 `/splash` 및 `/permission` 응답에서 `statusBarTime` 및 `ios-status-bar`가 100% 제거되었음을 확인 (`ALL STATUS BAR REMOVAL CHECKS PASSED PERFECTLY!`).
+
 ### 🌟 [v2.4.21-er-scroll-and-minimal-chatbot] 2026-10-15: '아이숨' 소아 응급실 4개소 확장 스크롤 완비 & input.html 기존 미니멀 UI 계승형 프로그레시브 문진 챗봇 완성 (김동준 팀원)
 * **🏥 result.html 소아 응급실 병상 4개소 확장 및 2개 초과 시 세로 스크롤 완벽 지원**:
   - 기존 2개소에서 권역 소아전문응급센터 2개소(삼성서울병원 3석 여유, 분당차병원 1석 혼잡 대기)를 추가하여 총 4개 병상 카드로 확장.

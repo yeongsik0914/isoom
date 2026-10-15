@@ -69,6 +69,7 @@
 | **[ISSUE-059]** | 프론트엔드 UI/UX 결과 카드 Flexbox 클리핑 버그 | .facility-scroll-list 내 카드 flex-shrink: 0 미부여로 인한 4개 카드 찌그러짐 및 약국/버튼 잘림 버그 완벽 해결 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-060]** | 프론트엔드 UI/UX 대화형 소아 문진 챗봇 | input.html을 카카오톡/모니모 스타일 인터랙티브 챗봇으로 전면 개편, 결측 변수 3단계 다중 턴 수집 및 0ms Red Flag 가드레일 결합 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-061]** | 프론트엔드 UI/UX 응급실 스크롤 & 기존 디자인 계승형 문진 챗봇 | 소아 응급실 병상 2개 초과 시 세로 스크롤 지원(4개소 확장) 및 input.html 기존 미니멀 UI 디자인 계승형 프로그레시브 문진 챗봇 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-062]** | 프론트엔드 모바일 UI/UX 최적화 | 온보딩 화면(splash, permission) 상단 인위적 가짜 상태 바(15:19 시간, 배터리, 와이파이) 전면 제거 및 순수 뷰포트 정돈 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1867,5 +1868,35 @@
   * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
   * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
   * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-062] 온보딩 화면(splash, permission) 상단 인위적 가짜 상태 바(15:19 시간, 배터리, 와이파이) 전면 제거 및 순수 뷰포트 정돈
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 (팀장), AI 에이전트
+* **분류**: 프론트엔드 모바일 UI/UX 최적화 / 상태 바 중복 제거 / 크로스 디바이스 뷰포트 정합성
+* **문제 상황**:
+  * 모바일 브라우저 또는 앱 테스트 환경에서 화면 상단에 인위적으로 구현된 가짜 iOS 상태 바(`15:19 ✈ 📶 🛜 🔋`)가 나타남.
+  * 실제 스마트폰 기기 자체 OS의 상태 표시줄과 겹치거나 웹페이지 내부에 중복으로 나타나 시각적 혼선 및 디자인 이질감을 유발함.
+* **원인 분석**:
+  * 온보딩 화면(`splash.html`, `permission.html`) 제작 시 레퍼런스 시안에서 따온 `.ios-status-bar` 마크업과 `updateClock()` 1분 주기 시계 갱신 자바스크립트가 잔존해 있었음.
+* **구체적 해결 방안**:
+  1. **가짜 상단 상태 바 마크업 및 스타일 전면 삭제**:
+     - [frontend/templates/splash.html](file:///e:/monnlight/frontend/templates/splash.html), [frontend/splash.html](file:///e:/monnlight/frontend/splash.html), [frontend/templates/permission.html](file:///e:/monnlight/frontend/templates/permission.html), [frontend/permission.html](file:///e:/monnlight/frontend/permission.html) 4개 파일에서 `.ios-status-bar` div 블록 및 CSS 스타일, `updateClock()` 스크립트 완전 제거.
+  2. **모바일 뷰포트 여백 자연스럽게 정돈**:
+     - `.permission-viewport`의 상단 패딩을 `padding: 32px 24px 24px 24px;`로 정돈하여 기기 자체 상태 바 아래에서 콘텐츠가 자연스럽게 호흡할 수 있도록 최적화.
+  3. **FastAPI TestClient 검증**:
+     - `/splash` 및 `/permission` 라우트에서 `statusBarTime`, `ios-status-bar`가 완전히 소멸되었음을 확인 (`ALL STATUS BAR REMOVAL CHECKS PASSED PERFECTLY!`).
+* **적용 파일**:
+  * [frontend/templates/splash.html](file:///e:/monnlight/frontend/templates/splash.html)
+  * [frontend/splash.html](file:///e:/monnlight/frontend/splash.html)
+  * [frontend/templates/permission.html](file:///e:/monnlight/frontend/templates/permission.html)
+  * [frontend/permission.html](file:///e:/monnlight/frontend/permission.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 

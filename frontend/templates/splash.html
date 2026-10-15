@@ -72,36 +72,6 @@
       to { opacity: 1; }
     }
 
-    /* Top iOS Fake Status Bar (Matching monimo reference) */
-    .ios-status-bar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 12px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.2px;
-    }
-
-    .status-left {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .status-right {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .status-icon {
-      font-size: 16px;
-      line-height: 1;
-    }
-
     /* Center Main Logo Area (monimo typography style) */
     .splash-center {
       display: flex;
@@ -210,20 +180,7 @@
   <!-- Mobile Viewport Canvas -->
   <div class="splash-viewport" id="splashScreen" onclick="proceedToPermission()" title="터치하여 바로 시작">
 
-    <!-- 1. Top iOS Status Bar -->
-    <div class="ios-status-bar" aria-hidden="true">
-      <div class="status-left">
-        <span id="statusBarTime">12:07</span>
-        <span class="material-symbols-outlined" style="font-size: 14px;">near_me</span>
-      </div>
-      <div class="status-right">
-        <span class="material-symbols-outlined status-icon">signal_cellular_alt</span>
-        <span class="material-symbols-outlined status-icon">wifi</span>
-        <span class="material-symbols-outlined status-icon" style="transform: rotate(90deg); font-size: 17px;">battery_full</span>
-      </div>
-    </div>
-
-    <!-- 2. Center Brand Logo -->
+    <!-- Center Brand Logo -->
     <div class="splash-center">
       <h1 class="brand-logo-text">
         아이숨<span class="logo-dot">.</span>
@@ -231,30 +188,18 @@
       <p class="brand-logo-subtext">야간·휴일 소아 의료 매칭</p>
     </div>
 
-    <!-- 3. Bottom Sub-brand Affiliation (Matching monimo Samsung Financial Networks) -->
+    <!-- Bottom Sub-brand Affiliation (Matching monimo Samsung Financial Networks) -->
     <div class="splash-bottom">
       <div class="sub-brand-title">i-Soom</div>
       <div class="sub-brand-network">Pediatric Healthcare Networks</div>
-      <div class="home-indicator-bar" aria-hidden="true"></div>
     </div>
 
   </div>
 
   <script>
-    // Real-time Status Bar Clock
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const clockEl = document.getElementById('statusBarTime');
-      if (clockEl) {
-        clockEl.textContent = `${hours}:${minutes}`;
-      }
-    }
-    updateClock();
-
     // Auto-redirect to Permission page after 1.8 seconds (or click immediately)
     let redirected = false;
+
 
     function proceedToPermission() {
       if (redirected) return;

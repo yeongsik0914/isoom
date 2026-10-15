@@ -59,7 +59,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 16px 24px 24px 24px;
+      padding: 32px 24px 24px 24px;
       box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.15);
       animation: fadeInPage 0.4s ease-out;
     }
@@ -69,42 +69,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Top iOS Fake Status Bar */
-    .ios-status-bar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 4px 16px 4px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.2px;
-    }
-
-    .status-left {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .status-right {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .status-icon {
-      font-size: 16px;
-      line-height: 1;
-    }
-
     /* Main Content Area */
     .permission-content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding-top: 20px;
+      padding-top: 10px;
     }
 
     /* Headline Title (Matching monimo 1:1) */
@@ -263,20 +233,7 @@
   <!-- Mobile Viewport Canvas -->
   <div class="permission-viewport" id="permissionView">
 
-    <!-- 1. Top iOS Fake Status Bar -->
-    <div class="ios-status-bar" aria-hidden="true">
-      <div class="status-left">
-        <span id="statusBarTime">12:04</span>
-        <span class="material-symbols-outlined" style="font-size: 14px;">near_me</span>
-      </div>
-      <div class="status-right">
-        <span class="material-symbols-outlined status-icon">signal_cellular_alt</span>
-        <span class="material-symbols-outlined status-icon">wifi</span>
-        <span class="material-symbols-outlined status-icon" style="transform: rotate(90deg); font-size: 17px;">battery_full</span>
-      </div>
-    </div>
-
-    <!-- 2. Main Permission Content -->
+    <!-- 1. Main Permission Content -->
     <main class="permission-content">
       <!-- Headline Title -->
       <h1 class="permission-title">
@@ -366,18 +323,6 @@
   </div>
 
   <script>
-    // Real-time Status Bar Clock
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const clockEl = document.getElementById('statusBarTime');
-      if (clockEl) {
-        clockEl.textContent = `${hours}:${minutes}`;
-      }
-    }
-    updateClock();
-
     // Confirm Permission & Navigate to Main Home (index.html)
     function onConfirmPermission() {
       try {

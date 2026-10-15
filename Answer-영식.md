@@ -71,6 +71,7 @@
 71. [Q63. [프론트-백엔드 100% 결합 가이드] 모듈별 화면·버튼 연동 명세, 미구현 화면 진단 및 고도화 로드맵 보고](#q63-프론트-백엔드-100-결합-가이드-모듈별-화면버튼-연동-명세-미구현-화면-진단-및-고도화-로드맵-보고)
 72. [Q64. [산출물 문서화] 프론트엔드-백엔드 100% 결합 연동 명세서(FRONTEND_BACKEND_INTEGRATION_SPEC.md) 수립 및 배포 보고](#q64-산출물-문서화-프론트엔드-백엔드-100-결합-연동-명세서frontend_backend_integration_specmd-수립-및-배포-보고)
 73. [Q65. [풀스택 결합 백엔드 1단계] 단발성 증상 입력(input.html) ➔ 맞춤 결과(result.html) 원스톱 연동을 위한 SupervisorResponse 임상 바이탈 DTO 확장 및 force_matching FSM 모드 구축 보고](#q65-풀스택-결합-백엔드-1단계-단발성-증상-입력inputhtml--맞춤-결과resulthtml-원스톱-연동을-위한-supervisorresponse-임상-바이탈-dto-확장-및-force_matching-fsm-모드-구축-보고)
+74. [Q66. [UI/UX 최적화] 모바일 웹 화면 상단 인위적 가짜 상태 바(15:19 시간·와이파이·배터리 아이콘) 전면 제거 및 순수 웹 뷰포트 정돈 보고](#q66-uiux-최적화-모바일-웹-화면-상단-인위적-가짜-상태-바1519-시간와이파이배터리-아이콘-전면-제거-및-순수-웹-뷰포트-정돈-보고)
 
 ---
 
@@ -4092,6 +4093,35 @@ graph TD
 
 * **요약 결론**:
   - `FRONTEND_BACKEND_INTEGRATION_SPEC.md`의 Phase 1을 완벽히 뒷받침하는 백엔드 API 및 DTO, FSM 1턴 라우팅 파이프라인이 구축되어 프론트엔드(`result.js`)가 백엔드 실데이터를 100% 바인딩할 수 있는 완벽한 준비가 완료되었습니다.
+
+---
+
+### Q66. [UI/UX 최적화] 모바일 웹 화면 상단 인위적 가짜 상태 바(15:19 시간·와이파이·배터리 아이콘) 전면 제거 및 순수 웹 뷰포트 정돈 보고
+
+* **일시**: 2026-10-15
+* **질문자**: 정영식 (팀장 / 시스템 아키텍처)
+* **답변자**: AI 에이전트 (공동 엔지니어링 파트너)
+* **질문 전문**:
+  > *"화면에 이렇게 나오는거 제거해줘 (첨부 이미지: 15:19 ✈ 📶 🛜 🔋)"*
+* **상세 분석 및 가이드 답변**:
+  - 팀장님께서 첨부해주신 이미지(화면 상단 `15:19` 시간 및 와이파이, 통신 안테나, 배터리 아이콘)를 정밀 분석한 결과, 온보딩 화면(스플래시 및 접근 권한 명시 페이지) 구축 당시 레퍼런스 시안에서 유입된 **인위적 가짜 모바일 상단 바(`.ios-status-bar`) 컴포넌트**임이 확인되었습니다.
+  - 실제 스마트폰 기기나 모바일 브라우저 환경에서는 기기 자체 OS의 상태 표시줄이 상단에 이미 존재하므로, 웹페이지 내부에 가짜 상태 바가 중복으로 노출되어 시각적 이질감과 화면 가림 현상을 유발하고 있었습니다.
+
+#### 1. 문제 원인 및 조치 내역
+1. **가짜 iOS 상태 바 마크업 및 스타일 전면 제거**:
+   - 대상 파일: [frontend/templates/splash.html](file:///e:/monnlight/frontend/templates/splash.html), [frontend/splash.html](file:///e:/monnlight/frontend/splash.html), [frontend/templates/permission.html](file:///e:/monnlight/frontend/templates/permission.html), [frontend/permission.html](file:///e:/monnlight/frontend/permission.html)
+   - 제거 요소:
+     - HTML: `<div class="ios-status-bar" aria-hidden="true">` 및 내부 시간(`statusBarTime`), `near_me`, `signal_cellular_alt`, `wifi`, `battery_full` 마크업 전면 삭제.
+     - CSS: `.ios-status-bar`, `.status-left`, `.status-right`, `.status-icon` 등 미사용 스타일 일괄 정리.
+     - JS: 불필요하게 1분마다 가짜 시간을 갱신하던 `updateClock()` 스크립트 완전 제거.
+2. **모바일 뷰포트 여백 정돈**:
+   - 가짜 상태 바가 제거된 빈자리에 콘텐츠가 자연스럽게 위치할 수 있도록 뷰포트 상단 여백(`padding-top: 32px;` 및 `padding-top: 10px;`)을 정돈하여 순수 모바일 웹 뷰포트의 시인성을 극대화하였습니다.
+3. **무결점 검증**:
+   - FastAPI TestClient 자동화 검증을 통해 `/splash` 및 `/permission` 응답에서 `statusBarTime` 및 `ios-status-bar`가 100% 제거되었음을 확인하였습니다 (`ALL STATUS BAR REMOVAL CHECKS PASSED PERFECTLY!`).
+
+* **요약 결론**:
+  - 화면 상단에 어색하게 표시되던 가짜 상태 바가 모든 화면에서 완전히 제거되었으며, 기기 고유의 OS 상태 바와 자연스럽게 어우러지는 미니멀하고 세련된 모바일 UI가 완성되었습니다.
+
 
 
 
