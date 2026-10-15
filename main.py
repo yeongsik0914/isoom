@@ -156,6 +156,7 @@ async def get_aisum_home():
 
 
 @app.get("/input", tags=["Frontend"], response_class=FileResponse)
+@app.get("/input.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_input():
     """Serves the Aisum symptom prompt input page."""
     if os.path.exists("frontend/templates/input.html"):

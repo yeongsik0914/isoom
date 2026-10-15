@@ -234,6 +234,56 @@
 
   </div>
 
+  <!-- Emergency / Triage Medical Guidance Modal Dialog (사전 처치정보 및 법적 동의 모달) -->
+  <div class="modal-overlay" id="triage-consent-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-dialog-card">
+      <!-- Modal Header / Title -->
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">
+          아이숨은 보호자님이 입력하신<br />
+          증상 정보를 바탕으로 <span class="highlight-navy">진료 가능한 야간 소아과와</span><br />
+          <span class="highlight-navy">안전한 응급처치 가이드</span>를 안내합니다.
+        </h3>
+      </div>
+
+      <!-- Modal Body (Information Box with blue highlights) -->
+      <div class="modal-notice-box">
+        <ul class="modal-notice-list">
+          <li>
+            <span class="bullet">•</span>
+            <span><strong class="highlight-blue">의료법 제27조 준수</strong>: 본 서비스는 비의료 AI 기반 참고 서비스로, 의사의 전문적인 진단 및 처방을 대신할 수 없습니다.</span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span><strong class="highlight-blue">위급 상황 즉시 119</strong>: 생후 100일 미만 38℃ 이상 고열, 경련, 청색증, 호흡곤란 등 응급 증상 발견 시 즉시 119에 연락하세요.</span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span><strong class="highlight-blue">현장 조기 마감 주의</strong>: 야간 달빛어린이병원 및 응급실은 대기 환자 폭증 시 조기 마감될 수 있으므로 내원 전 유선 확인을 권장합니다.</span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span><strong class="highlight-blue">본인확인 서류 지참</strong>: 2024년 5월 본인확인 의무화에 따라 내원 시 보호자 신분증과 환아 확인 서류(주민등록등본 등)를 지참해 주세요.</span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span>아이의 안전을 위한 최종 판단과 책임은 보호자에게 있습니다. <strong class="highlight-blue">안내 내용을 확인하고 증상 입력을 진행하시겠습니까?</strong></span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Modal Footer (취소 / 확인 버튼) -->
+      <div class="modal-action-row">
+        <button type="button" class="modal-action-btn btn-cancel" id="modal-cancel-btn">
+          취소
+        </button>
+        <button type="button" class="modal-action-btn btn-confirm" id="modal-confirm-btn" onclick="location.href='input.html'">
+          동의하고 증상 입력하기
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
   <script src="js/main.js"></script>
   <script src="../js/main.js"></script>

@@ -190,6 +190,7 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "frontend/input.html",
     "frontend/settings.html",
     "app/templates/settings.html",
     "frontend/templates/settings.html",
@@ -208,7 +209,6 @@
     "frontend/assets/images/guide_seizure_care.jpg",
     "frontend/assets/images/guide_cooling_sponge.jpg",
     "app/static/images",
-    "frontend/assets/images",
     "frontend/README.md",
     "frontend/assets/README.md",
     "PLAN.md",

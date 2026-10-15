@@ -15,12 +15,18 @@
     rel="stylesheet" />
 
   <!-- Material Symbols Outlined -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 
+  <!-- Mobile App / PWA Standalone Meta Tags (iOS & Android 홈 화면 바로가기 지원) -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
   <!-- Pure Vanilla CSS Stylesheet -->
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
@@ -48,16 +54,17 @@
       <!-- Input Field Area (사용자 지시: '이름' -> '입력', 블루 언더라인) -->
       <div class="underline-input-wrapper">
         <label for="symptom-input" class="floating-input-label" id="floating-label" style="display: none;">입력</label>
-        <input
-          type="text"
-          id="symptom-input"
-          class="underline-input-field"
-          placeholder="입력"
-          autocomplete="off"
-          autofocus
-        />
+        <input type="text" id="symptom-input" class="underline-input-field" placeholder="입력" autocomplete="off"
+          autofocus />
         <button type="button" class="input-clear-btn" id="input-clear-btn" aria-label="입력 내용 지우기">
           <span class="material-symbols-outlined" style="font-size: 20px;">cancel</span>
+        </button>
+      </div>
+
+      <!-- Confirm Action Button (레퍼런스 이미지 우측 화면 1:1 완벽 반영: 입력 시 등장) -->
+      <div class="input-confirm-btn-wrap" id="input-confirm-wrap">
+        <button type="button" class="input-confirm-btn" id="input-confirm-btn">
+          확인
         </button>
       </div>
 
@@ -66,7 +73,7 @@
   </div>
 
   <!-- Client Interaction Script Module -->
-  <script src="../js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 
 </html>

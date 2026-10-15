@@ -54,6 +54,7 @@
 | **[ISSUE-044]** | Git 형상 관리 & 크로스 OS 협업 | 팀 협업 분기 충돌 방어 머지(Merge), 7대 엔드포인트 서빙 검증 및 Cross-OS NFD/NFC 정규화 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-045]** | 형상 관리 & 프론트엔드 모듈 격리 | 팀원(김동준) 전담 파일(input.html, modal.html)과 타 작업자(정영식) 전담 파일(index.html) 역할 분리 및 index.html 원본 100% 롤백 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-046]** | 프론트엔드 UI 텍스트 & 의료 컴플라이언스 | modal.html 안내 문구의 소아 야간 의료법·응급 대응 최적화 및 input.html/GNB 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-047]** | 프론트엔드 UI/UX 모달 & 화면 연동 | index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1291,6 +1292,46 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
   * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
   * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-047] index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 팀원 (지시: 정영식 팀장)
+* **분류**: 프론트엔드 UI/UX 인터랙션 / 모달 다이얼로그 / 화면 간 네비게이션
+* **문제 상황**:
+  * 메인 홈 화면(`index.html`)의 "아이 증상 입력하고 병원 찾기" 버튼(`start-triage-btn`)을 눌렀을 때, 소아 응급의료 사전 고지 및 법적 동의 모달 다이얼로그가 마크업에서 누락되어 화면에 모달이 뜨지 않음.
+  * 모달 내 최종확인 버튼("동의하고 증상 입력하기")을 클릭했을 때 다음 단계인 증상 입력 페이지(`input.html`)로의 연동이 이루어지지 않고 단순히 창만 닫히는 상태였음.
+* **원인 분석**:
+  * 이전 파일 격리 롤백 과정에서 `index.html`이 순수 원본으로 복원되면서 모달 마크업(`#triage-consent-modal`)이 제거되었고, `main.js`의 `modalConfirmBtn` 리스너 역시 단순 `closeModal()`만 수행하도록 설정되어 있었음.
+* **구체적 해결 방안**:
+  1. **레퍼런스 이미지 1:1 정밀 일치 모달 마크업 삽입**:
+     - `frontend/templates/index.html`, `frontend/index.html`, `app/templates/index.html`에 `#triage-consent-modal` 다이얼로그 마크업 탑재.
+     - 헤더: "아이숨은 보호자님이 입력하신 증상 정보를 바탕으로 <span class='highlight-navy'>진료 가능한 야간 소아과와 안전한 응급처치 가이드</span>를 안내합니다."
+     - 5대 소아 응급의료·법적 컴플라이언스 불릿 (의료법 제27조 준수, 위급 상황 즉시 119, 현장 조기 마감 주의, 본인확인 서류 지참, 최종 확인 및 동의 안내).
+     - 하단 1:1 액션 버튼: 좌측 '취소', 우측 '동의하고 증상 입력하기' (`#modal-confirm-btn`).
+  2. **최종확인 버튼 클릭 시 `input.html` 연동**:
+     - `frontend/templates/js/main.js`, `frontend/js/main.js`, `app/templates/js/main.js`의 `modalConfirmBtn` 클릭 이벤트에 `window.location.href = 'input.html'` 연동 추가.
+     - 인라인 `onclick="location.href='input.html'"` 속성 병행 적용으로 이중 안전 장치 마련.
+  3. **FastAPI 백엔드 라우팅 보강**:
+     - `main.py`에 `@app.get("/input.html")` 데코레이터를 추가하여 `/input` 및 `/input.html` 양방향 200 OK 서빙 지원.
+  4. **Cross-Browser 듀얼 로더 탑재**:
+     - `frontend/templates/input.html`에 듀얼 CSS/JS 로더를 적용하여 Safari 및 Chrome 로컬/웹 환경 100% 호환.
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/index.html](file:///e:/monnlight/frontend/index.html)
+  * [app/templates/index.html](file:///e:/monnlight/app/templates/index.html)
+  * [frontend/templates/js/main.js](file:///e:/monnlight/frontend/templates/js/main.js)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [app/templates/js/main.js](file:///e:/monnlight/app/templates/js/main.js)
+  * [frontend/templates/input.html](file:///e:/monnlight/frontend/templates/input.html)
+  * [main.py](file:///e:/monnlight/main.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 

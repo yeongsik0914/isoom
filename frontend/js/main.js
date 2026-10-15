@@ -72,11 +72,12 @@ if (!window.__AISUM_INITIALIZED__) {
       });
     }
 
-    // 5. Modal Action: '확인' 버튼 클릭 시 모달 닫기
+    // 5. Modal Action: '동의하고 증상 입력하기' 최종확인 버튼 클릭 시 input.html 화면으로 연동
     if (modalConfirmBtn) {
       modalConfirmBtn.addEventListener('click', (e) => {
         e.preventDefault();
         closeModal();
+        window.location.href = 'input.html';
       });
     }
 

@@ -30,6 +30,21 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.8-modal-trigger-link] 2026-10-15: '아이숨' 메인 홈(index.html) 아이증상 입력버튼 모달 팝업 및 증상 입력(input.html) 연동
+* **메인 홈 CTA 클릭 시 모달 다이얼로그 팝업 연동**:
+  - `frontend/templates/index.html`, `frontend/index.html`, `app/templates/index.html`에 레퍼런스 이미지와 100% 일치하는 `#triage-consent-modal` 마크업 탑재.
+  - "아이 증상 입력하고 병원 찾기" CTA 버튼(`#start-triage-btn`) 클릭 시 부드러운 백드롭 블러 오버레이와 함께 중앙 팝업 구현.
+* **소아 응급의료 특화 5대 필수 안내문 및 시각 강조**:
+  - 헤더: `"아이숨은 보호자님이 입력하신 증상 정보를 바탕으로 진료 가능한 야간 소아과와 안전한 응급처치 가이드를 안내합니다."`
+  - 본문 안내 박스: 의료법 제27조 준수, 위급 상황 즉시 119, 현장 조기 마감 주의, 본인확인 서류 지참, 진행 동의 안내 등 5대 컴플라이언스 불릿 탑재.
+* **최종확인 버튼 클릭 시 `input.html` 즉시 네비게이션**:
+  - 모달 내 "동의하고 증상 입력하기"(`modal-confirm-btn`) 클릭 시 `window.location.href = 'input.html'`로 연동되어 증상 입력 화면으로 직결 전환.
+  - 취소 버튼 클릭 시 모달 닫기 (`closeModal()`).
+* **FastAPI 라우트 확장 & Cross-Browser 듀얼 로더**:
+  - `main.py`에 `@app.get("/input.html")` 데코레이터 추가로 직접 HTML 요청 서빙 지원.
+  - `frontend/templates/input.html`에 Safari/Chrome 듀얼 CSS/JS 로더 적용 완료.
+  - TestClient 검증: `/home`, `/input`, `/input.html` 전수 **HTTP 200 OK** 통과.
+
 ### 🌟 [v2.4.7-modal-refine] 2026-10-15: '아이숨' 처치정보 및 법적 동의 모달(modal.html) 소아 의료 도메인 최적화
 * **모달 안내 문구 전면 고도화**:
   - 헤더 타이틀: `"아이숨은 보호자님이 입력하신 증상 정보를 바탕으로 진료 가능한 야간 소아과와 안전한 응급처치 가이드를 안내합니다."`

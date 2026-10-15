@@ -681,6 +681,24 @@ flowchart TD
      - 취소 버튼: `onclick="location.href='index.html'"`
      - main.py에 `@app.get('/modal')` 서빙 라우트 등록 및 8대 엔드포인트 200 OK 검증 완료.
 
+### 10.21 메인 홈(index.html) 아이증상 입력버튼 모달 팝업 및 증상 입력(input.html) 연동 완결 (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 메인 홈 화면(`index.html`)의 핵심 CTA 버튼인 "아이 증상 입력하고 병원 찾기"(`start-triage-btn`) 클릭 시 소아 응급의료 사전 고지 및 법적 동의 모달 다이얼로그 팝업 누락 문제 해결.
+  - 모달 다이얼로그 내 최종 확인 버튼("동의하고 증상 입력하기") 클릭 시 다음 단계인 증상 입력 페이지(`input.html`)로의 매끄러운 화면 연동 요구.
+* **구체적 구현 내역**:
+  1. **레퍼런스 이미지 1:1 정밀 일치 모달 마크업 탑재**:
+     - `frontend/templates/index.html`, `frontend/index.html`, `app/templates/index.html`에 `#triage-consent-modal` 마크업 탑재.
+     - 헤더: "아이숨은 보호자님이 입력하신 증상 정보를 바탕으로 진료 가능한 야간 소아과와 안전한 응급처치 가이드를 안내합니다."
+     - 본문 박스: 의료법 제27조 준수, 위급 상황 즉시 119, 현장 조기 마감 주의, 본인확인 서류 지참, 진행 동의 안내 등 5대 컴플라이언스 불릿 구성.
+     - 하단 액션 버튼: 좌측 "취소", 우측 "동의하고 증상 입력하기" (`#modal-confirm-btn`).
+  2. **최종확인 버튼 클릭 시 `input.html` 연동**:
+     - `main.js`의 `modalConfirmBtn` 리스너에 `window.location.href = 'input.html'` 연동 추가.
+     - 인라인 `onclick="location.href='input.html'"` 속성 병행 적용으로 이중 안전 장치 마련.
+  3. **FastAPI 백엔드 라우팅 및 크로스 브라우징 완비**:
+     - `main.py`에 `@app.get("/input.html")` 데코레이터 추가.
+     - `frontend/templates/input.html`에 듀얼 CSS/JS 로더 적용 완료.
+     - TestClient `/home`, `/input`, `/input.html` 200 OK 검증 완료.
+
 ---
 
 ### 📌 결론 및 종합 성과 (Summary & Milestones)
