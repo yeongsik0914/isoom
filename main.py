@@ -176,6 +176,16 @@ async def get_aisum_modal():
     return JSONResponse(status_code=404, content={"detail": "Modal page not found"})
 
 
+@app.get("/result", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_result():
+    """Serves the Aisum tailored medical recommendations result page."""
+    if os.path.exists("frontend/templates/result.html"):
+        return FileResponse("frontend/templates/result.html", media_type="text/html")
+    if os.path.exists("frontend/result.html"):
+        return FileResponse("frontend/result.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Result page not found"})
+
+
 @app.get("/guide", tags=["Frontend"], response_class=FileResponse)
 @app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_unified():

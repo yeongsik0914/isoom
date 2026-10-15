@@ -147,6 +147,9 @@ if (!window.__AISUM_INITIALIZED__) {
         const text = symptomInput ? symptomInput.value.trim() : '';
         if (text) {
           console.log('✅ 사용자 증상 입력 확인 완료:', text);
+          // file:// 열람 환경과 http:// 서버 환경 모두 안전하게 호환 이동
+          const targetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+          window.location.href = targetUrl;
         }
       });
     }

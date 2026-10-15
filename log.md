@@ -59,6 +59,7 @@
 | **[ISSUE-049]** | 프론트엔드 UI/UX 모달 & 화면 연동 | index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-050]** | Git 형상 관리 & 3-Way 머지 | 원격 input.html 최신 업데이트(확인 버튼 인터랙션 & PWA 메타태그) 풀 및 index.html 모달 연동 무결점 병합 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-051]** | 프론트엔드 UI/UX 리팩토링 | 응급실 가이드(emergency_guide.html) 텍스트 전면 배제 및 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 개편 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-052]** | 프론트엔드 UI/UX 결과 화면 & 무결점 병합 | 증상 입력 후 맞춤 결과 화면(result.html) 정적 목업 구축, 2-트랙 탭/30분 마진 약국/실시간 병상 UI 구현 및 Git 무결점 통합 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1466,6 +1467,45 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-052] 증상 입력 후 맞춤 결과 화면(result.html) 정적 목업 구축, 2-트랙 탭/30분 마진 약국/실시간 병상 UI 구현 및 Git 무결점 통합
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 신규 개발 & Git 협업 형상 관리
+* **문제 상황**:
+  * 증상 입력 페이지([input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html))에서 확인 버튼을 클릭한 후 사용자에게 보여줄 결과 화면이 부재함.
+  * 백엔드에는 0ms Red Flag, 2-트랙 시설 매칭(달빛병원+30분 안심약국 vs 소아응급실 병상), 30초 통화 대본, 본인확인 서류 체크리스트 등 강력한 기능이 구비되어 있으나 프론트엔드에서 이를 가볍고 직관적으로 볼 수 있는 목업 뷰가 필요함.
+  * 원격 저장소(`origin/main`)에 타 작업자(정영식 팀장)의 대규모 커밋(7단계 비주얼 가이드 캐러셀 리팩토링, 이미지 7종, Q61 등)이 반영되어 있어, 로컬 변경분을 안전하게 보존하면서 충돌 없이 pull & merge 해야 하는 협업 형상 관리 과제 발생.
+* **원인 분석**:
+  * 복잡한 백엔드 API 통신 연동에 앞서, 프론트엔드 자체의 모바일 사용성 및 컴포넌트 렌더링 검증을 위한 "정적 목업 화면"이 먼저 구축되어야 함.
+* **구체적 해결 방안**:
+  1. **백엔드 기능 100% 매핑 정적 결과 화면 ([frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html), [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)) 구축**:
+     - **바이탈 요약 & 가드레일**: `0ms 가드레일 안전 통과 🟢` 뱃지 및 `14개월`, `39.2℃ (고열)`, `#구토`, `KTAS 3단계` 메타 칩.
+     - **2-트랙 세그먼트 탭**: `[🌙 달빛병원·약국 (3)]` ↔ `[🚨 소아 응급실 병상 (2)]` 순수 CSS/JS 전환 인터랙션.
+     - **Track B 페어링 카드**: 추천 1순위 송파어린이병원 + 송파달빛약국의 `[🟢 +30분 조제 안전마진 확보]` 배지, 마감 35분 전 주의 표시, 원터치 전화/카카오맵 길찾기.
+     - **Track A 소아응급실 카드**: 서울아산병원 소아전문응급센터 실시간 병상(`hv28` 4석 여유), 전문의 당직 여부, E-Gen 데이터 신선도 배지.
+     - **내원 지원 툴킷**: 30초 통화 대본 복사(토스트 팝업 연동) 및 2024년 5월 본인확인 의무화 지참 서류 인터랙티브 체크박스 3종.
+     - **의료법 제27조 고지**: 하단 법적 안심 면책 푸터 탑재.
+  2. **화면 간 유기적 연결**:
+     - [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js): `inputConfirmBtn` 클릭 시 `result.html`로 화면 이동 로직 바인딩.
+     - [main.py](file:///c:/AI-Native-Agent/monnlight/main.py): `@app.get("/result")` 정적 서빙 라우트 추가.
+  3. **Git 협업 무결점 병합**:
+     - `git stash`로 로컬 변경분을 임시 안전 격리한 뒤 `git pull origin main`으로 정영식 팀장의 최신 작업본을 Fast-Forward로 안전하게 수신.
+     - `git stash pop`을 통해 충돌 0건으로 자동 병합 완결.
+* **적용 파일**:
+  * [frontend/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/result.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [frontend/templates/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/templates/js/main.js)
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
 
 
 
