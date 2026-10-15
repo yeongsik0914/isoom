@@ -165,6 +165,16 @@ async def get_aisum_input():
     return JSONResponse(status_code=404, content={"detail": "Input page not found"})
 
 
+@app.get("/modal", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_modal():
+    """Serves the Aisum emergency guidance and consent modal preview page."""
+    if os.path.exists("frontend/templates/modal.html"):
+        return FileResponse("frontend/templates/modal.html", media_type="text/html")
+    if os.path.exists("frontend/modal.html"):
+        return FileResponse("frontend/modal.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Modal page not found"})
+
+
 @app.get("/guide", tags=["Frontend"], response_class=FileResponse)
 @app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_unified():

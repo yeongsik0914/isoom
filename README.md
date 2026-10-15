@@ -30,6 +30,14 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.7-modal-refine] 2026-10-15: '아이숨' 처치정보 및 법적 동의 모달(modal.html) 소아 의료 도메인 최적화
+* **모달 안내 문구 전면 고도화**:
+  - 헤더 타이틀: `"아이숨은 보호자님이 입력하신 증상 정보를 바탕으로 진료 가능한 야간 소아과와 안전한 응급처치 가이드를 안내합니다."`
+  - 소아 의료 특화 5대 불릿 탑재: 의료법 제27조 준수, 119 위급상황(100일 미만 고열/경련) 즉각 신고, 야간 대기열 현장 조기마감 주의, 2024년 5월 본인확인 의무화 서류 지참, 최종 판단 안내.
+* **사용자 플로우 연동 및 라우트 탑재**:
+  - `동의하고 증상 입력하기` 버튼 클릭 시 `input.html`(증상 입력 화면)으로 직결 연계 (`onclick="location.href='input.html'"`).
+  - FastAPI `@app.get("/modal")` 서빙 엔드포인트 등록 및 TestClient 100% **HTTP 200 OK** 검증 완료.
+
 ### 🌟 [v2.4.6-index-rollback] 2026-10-15: 타 작업자(정영식) 전담 `index.html` 원형 100% 롤백 및 김동준 전담 모듈(`input.html`, `modal.html`) 독립화
 * **`index.html` 파일군(3종) 원형 100% 복원**:
   - `frontend/templates/index.html`, `frontend/index.html`, `app/templates/index.html`을 정영식 작업자의 최종 커밋([`b12ebe4`](https://github.com/yeongsik0914/monnlight/commit/b12ebe4)) 상태로 완전 롤백 (208줄 순수 마크업 복원).

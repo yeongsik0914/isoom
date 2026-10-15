@@ -53,6 +53,7 @@
 | **[ISSUE-043]** | 프론트엔드 UI/UX 페이지 | 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 구체적으로 정확하게 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-044]** | Git 형상 관리 & 크로스 OS 협업 | 팀 협업 분기 충돌 방어 머지(Merge), 7대 엔드포인트 서빙 검증 및 Cross-OS NFD/NFC 정규화 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-045]** | 형상 관리 & 프론트엔드 모듈 격리 | 팀원(김동준) 전담 파일(input.html, modal.html)과 타 작업자(정영식) 전담 파일(index.html) 역할 분리 및 index.html 원본 100% 롤백 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-046]** | 프론트엔드 UI 텍스트 & 의료 컴플라이언스 | modal.html 안내 문구의 소아 야간 의료법·응급 대응 최적화 및 input.html/GNB 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1255,6 +1256,42 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
   * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
   * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-046] modal.html 안내 문구의 소아 야간 의료법·응급 대응 최적화 및 input.html/GNB 연동
+
+* **발생 일자**: 2026-10-15
+* **분류**: 프론트엔드 UI/UX / 의료법 컴플라이언스 / 정보 전달력 고도화
+* **문제 상황**:
+  * 초기 `modal.html`의 텍스트가 범용적이고 중복된 표현("추천 결과가 달라질 수 있습니다", "결과가 달라질 수 있습니다")으로 구성되어 있어, 우리 프로젝트인 **'아이숨(소아 야간 외래·달빛어린이병원 및 응급실 매칭)'**의 고유한 도메인 특성이 충분히 반영되지 못함.
+  * 모달 확인 버튼 클릭 시 실제 다음 단계인 `input.html`(증상 입력 화면)으로의 화면 전환 액션이 누락되어 있고, GNB 링크가 더미(`#`)로 되어 있음.
+* **원인 분석**:
+  * 프로토타입 단계에서 일반 약관 템플릿 문구를 그대로 사용하여, 소아 응급 의료 도메인에 필수적인 5대 원칙(의료법 제27조 준수, 119 위급상황 고열/경련 숏서킷, 야간 대기열 현장 조기마감 주의, 2024년 5월 본인확인 의무화 서류 지참, 최종 판단 안내)이 정밀하게 반영되지 못함.
+* **구체적 해결 방안**:
+  1. **헤더 타이틀 도메인 정밀화**:
+     - 기존: "아이숨은 사용자가 입력한 증상정보를 바탕으로 인근 병원과 참고용 처치정보를 안내합니다."
+     - 변경: **"아이숨은 보호자님이 입력하신 증상 정보를 바탕으로 진료 가능한 야간 소아과와 안전한 응급처치 가이드를 안내합니다."**
+  2. **소아 의료 특화 5대 불릿 안내문 탑재**:
+     - ① **의료법 제27조 준수**: 비의료 AI 기반 참고 서비스로, 의사의 전문적인 진단 및 처방 불가 명시.
+     - ② **위급 상황 즉시 119**: 생후 100일 미만 38℃ 이상 고열, 경련, 청색증, 호흡곤란 등 위험 징후 발견 시 119 즉각 신고.
+     - ③ **현장 조기 마감 주의**: 야간 달빛어린이병원 및 응급실 대기 환자 폭증 시 조기 마감 대비 출발 전 유선 확인 권장.
+     - ④ **본인확인 서류 지참**: 2024년 5월 개정 의료법 준수를 위한 보호자 신분증 및 주민등록등본 지참 안내.
+     - ⑤ **최종 판단 안내**: 아이 안전에 대한 최종 판단과 책임이 보호자에게 있음을 명확히 고지.
+  3. **사용자 플로우 연동**:
+     - 확인 버튼: `동의하고 증상 입력하기` (`onclick="location.href='input.html'"`)로 동준 님 전담 산출물 간의 연결 완성.
+     - 취소 버튼: `onclick="location.href='index.html'"`.
+     - 하단 GNB: `index.html`, `emergency_guide.html`, `settings.html` 정합 연결.
+  4. **FastAPI 서빙 라우트 탑재**:
+     - `main.py`에 `@app.get("/modal")` 라우트 등록 및 TestClient 200 OK 검증 완료.
+* **적용 파일**:
+  * [frontend/modal.html](file:///c:/AI-Native-Agent/monnlight/frontend/modal.html)
+  * [frontend/templates/modal.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/modal.html)
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
 
 
 
