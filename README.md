@@ -30,7 +30,15 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
-### 🌟 [v2.4.0-isoom-web] 2026-10-14 (Current): '아이숨(Aisum)' 프론트엔드 워크스페이스(`frontend/templates/`) 구축 및 순수 웹 퍼블리싱 완성
+### 🌟 [v2.4.2-input-refine] 2026-10-15: '아이숨(Aisum)' 증상 입력 페이지 카피 고도화 및 미니멀 레이아웃 최적화
+* **증상 입력 페이지(Input Page) UI/UX 개선**:
+  - `frontend/input.html` & `frontend/templates/input.html`: 미니멀 화이트 배경의 증상 입력 페이지.
+  - 헤드라인 카피 정밀화: `"증상을 최대한 입력해주세요"` ➔ `"증상을 구체적으로 정확하게 입력해주세요"`로 문진 정밀도 향상 유도.
+  - 언더라인 인풋: 로열 블루(`2px solid #0066FF`) 하단 보더 라인 및 `"입력"` 플레이스홀더.
+  - 하단 확인 버튼 배제: 불필요한 고정 버튼을 제거하고 순수 인풋 집중형 미니멀 여백 확보.
+  - `main.py`에 `GET /input` 라우트 서빙 유지.
+
+### 🌟 [v2.4.0-isoom-web] 2026-10-14: '아이숨(Aisum)' 프론트엔드 워크스페이스(`frontend/templates/`) 구축 및 순수 웹 퍼블리싱 완성
 * **프론트엔드 전용 모듈형 디렉터리(`frontend/`) 구축**:
   - `frontend/templates/index.html`: 메인 홈 화면 SPA 템플릿 진입점 (`<link href="../css/style.css">`)
   - `frontend/css/style.css`: Calm Harbor 디자인 시스템 Vanilla CSS (CSS 변수, 440px 모바일 프리뷰, 글래스모피즘, 펄스 애니메이션)
@@ -45,6 +53,13 @@ MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사
   - `GET /home`: `frontend/templates/index.html` 서빙 (Fallback: `frontend/index.html`, `app/templates/index.html`)
   - `GET /style.css`, `GET /css/style.css`: `frontend/css/style.css` 서빙
   - `GET /js/main.js`: `frontend/js/main.js` 서빙
+
+### 🌟 [v2.3.1-modal] 2026-10-14: [UI/UX] 사전 처치정보 및 법적 안내 모달 다이얼로그(반투명 오버레이, 취소/확인) 화면 구현
+* **레퍼런스 이미지 기반 사전 처치정보 안내 모달 팝업 구현**:
+  - `아이 증상 입력하고 병원 찾기` 또는 증상 칩 클릭 시 어두운 반투명 오버레이(`rgba(15, 23, 42, 0.65)`)와 함께 블러 처리된 모달 팝업 활성화.
+  - 모달 다이얼로그 카드(328px, 22px 라운드): 제목 강조("인근 병원과", "참고용 처치정보"), 연파랑 배경 박스 내 5대 안내사항(의료법 제27조 한계, 119 즉시 연락, 추천 결과 유동성, 최종 판단 책임) 불릿 렌더링.
+  - 하단 분할 50px 듀얼 버튼: 좌측 회색 `[취소]`, 우측 볼드 로열 블루 `[확인]` (터치 시 모달 닫기).
+  - 배경 오버레이 클릭 또는 ESC 키 입력 시 부드러운 모달 닫기 지원.
 
 ### 🌟 [v2.3.0-isoom-stitch] 2026-10-14: [screen.png 1:1 완벽 이식] '아이숨(Aisum)' 신규 전용 Stitch 프로젝트 개설 및 모던 라이트 3대 화면 완성
 * **신규 Stitch 전용 프로젝트 공식 개설**: `projects/17449043314542457561` ('아이숨 (Aisum) - 소아 야간 의료 매칭 케어')

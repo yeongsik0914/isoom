@@ -41,6 +41,8 @@
 | **[ISSUE-031]** | 프론트엔드 퍼블리싱 & 서빙 | Stitch 생성 코드의 외부 CDN 종속 탈피, 순수 Vanilla HTML5/CSS3 웹 퍼블리싱 및 FastAPI `/home` 정적 서빙 구축 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-032]** | 프론트엔드 워크스페이스 아키텍처 | 프로젝트 루트에 위치하던 임시 HTML/CSS 파일을 정규 프론트엔드 전용 워크스페이스(`frontend/`)로 모듈화 이관 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-033]** | 프론트엔드 템플릿 아키텍처 | `frontend/templates/` 하위 계층 생성, `index.html` 보관 및 상대경로(`../css/style.css`, `../js/main.js`)·정적 마운트 최적화 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-034]** | 프론트엔드 UI 모달 & 문진 단계 전환 | 응급처치정보 및 법적 안내 모달 다이얼로그(반투명 오버레이, 취소/확인) 및 Step 2 증상 문진 연계 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
+| **[ISSUE-035]** | 프론트엔드 UI/UX 페이지 | 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 최대한 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
 
 ---
 
@@ -880,7 +882,59 @@
   * [app/templates/index.html](file:///e:/monnlight/app/templates/index.html)
   * [main.py](file:///e:/monnlight/main.py)
 
+---
 
+### [ISSUE-034] 응급처치정보 및 법적 안내 모달 다이얼로그(어두운 반투명 오버레이, 하단 취소/확인 버튼) 구현
 
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 UI 컴포넌트 / 모달 다이얼로그 / 순수 화면 구현
+* **문제 상황**:
+  * 메인 홈 화면에서 버튼을 클릭했을 때 화면 중앙에 팝업되는 모달 다이얼로그와 어두운 반투명 오버레이 배경 처리, 하단 '취소' 및 '확인' 버튼 배치가 필요함.
+  * 레퍼런스 이미지의 컨셉(응급/처치 안내 문구, 파란색 키워드 강조, 연파랑 박스, 1:1 분할 하단 액션 버튼)에 맞춘 순수 화면 UI 구축 요청.
+* **구체적 해결 방안**:
+  1. [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)에 모달 스타일 구축:
+     - `.modal-overlay`: `rgba(15, 23, 42, 0.65)` 어두운 반투명 배경 및 `backdrop-filter: blur(5px)`.
+     - `.modal-dialog-card`: 328px 너비, `border-radius: 22px`, `scale(0.92)` ➔ `scale(1)` 팝업 애니메이션.
+     - 본문 안내 박스: `.modal-notice-box` (`background: #F4F6FB`), `.highlight-blue` 키워드 강조 불릿 리스트.
+     - 하단 액션 바: `.modal-action-row` (50px 높이, 1:1 좌우 분할, '취소' 및 '확인' 버튼).
+  2. [frontend/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/index.html) 및 [frontend/templates/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/index.html)에 `#triage-consent-modal` 마크업 연계.
+  3. [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)에 가벼운 모달 제어 이벤트 등록:
+     - 메인 CTA 및 증상 칩 클릭 시 `openModal()`
+     - '취소' 및 '확인' 버튼 클릭 시 `closeModal()`
+     - 어두운 배경 오버레이 클릭 또는 ESC 키 입력 시 `closeModal()`
+* **적용 파일**:
+  * [frontend/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/index.html)
+  * [frontend/templates/index.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/index.html)
+  * [app/templates/index.html](file:///c:/AI-Native-Agent/monnlight/app/templates/index.html)
+  * [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 
+---
+
+### [ISSUE-035] 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 최대한 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현
+
+* **발생 일자**: 2026-10-14
+* **분류**: 프론트엔드 UI/UX 페이지 / 사용자 프롬프트 입력 / 순수 화면 디자인
+* **문제 상황**:
+  * 사용자가 제공한 레퍼런스 이미지(이름 입력 화면)의 레이아웃을 서비스 컨셉(소아 의료 사전 증상 문진)에 맞추어 "본인 확인을 위해 이름을 입력해주세요"를 **"증상을 최대한 입력해주세요"**로, "이름" 플레이스홀더를 **"입력"**으로 치환한 전용 입력 페이지 필요.
+  * 레퍼런스 이미지의 가상 키보드(휴대폰 자판)는 실제 입력 시 OS가 띄우는 기능적 요소이므로 화면에서 배제하고, 좌측 화면 컨셉(미니멀 화이트 여백, 블루 언더라인)에 맞춘 깔끔한 페이지 구성 요구.
+* **구체적 해결 방안**:
+  1. Stitch MCP를 호출하여 `Aisum 증상 입력 화면` (`Screen ID: 18441e7efe314c06bb8716493d3d8626`) 생성 완료.
+  2. [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)에 섹션 6 스타일 추가:
+     - `.input-page-viewport`: max-width 440px 모바일 뷰포트, 미니멀 클린 화이트 배경.
+     - `.input-headline`: 26px 볼드, 딥 네이비(#0F172A), 넉넉한 상하 여백.
+     - `.underline-input-wrapper`: 2px 로열 블루(`#0066FF`) 하단 보더 라인, `placeholder="입력"`.
+     - `.input-confirm-btn`: 하단 52px 로열 블루 '확인' CTA 버튼.
+     - 휴대폰 가상 자판 그래픽 배제 및 쾌적한 화이트 여백 유지.
+  3. [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html) 및 [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html) 신규 작성.
+  4. [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)에 텍스트 입력 시 플로팅 레이블/지우기(`✕`) 버튼 토글 및 확인 인터랙션 탑재.
+  5. `main.py`에 `GET /input` 라우트 등록 및 TestClient 200 OK 검증 완료.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/css/style.css](file:///c:/AI-Native-Agent/monnlight/frontend/css/style.css)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 

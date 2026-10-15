@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>증상 입력 - 아이숨 (Aisum)</title>
+  <meta name="description" content="아이의 증상을 최대한 상세히 입력하여 신속한 맞춤 의료기관을 안내받으세요." />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Pure Vanilla CSS Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+
+  <!-- Mobile Viewport Container -->
+  <div class="input-page-viewport">
+
+    <!-- Top App Header with Back Button -->
+    <header class="input-page-header">
+      <a href="index.html" class="input-back-btn" aria-label="이전 화면으로 돌아가기">
+        <span class="material-symbols-outlined" style="font-size: 26px;">arrow_back</span>
+      </a>
+      <div style="width: 40px;"></div> <!-- visual balance -->
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="input-page-body">
+
+      <!-- Headline -->
+      <h1 class="input-headline">
+        증상을 구체적으로<br />
+        정확하게 입력해주세요
+      </h1>
+
+      <!-- Input Field Area (사용자 지시: '이름' -> '입력', 블루 언더라인) -->
+      <div class="underline-input-wrapper">
+        <label for="symptom-input" class="floating-input-label" id="floating-label" style="display: none;">입력</label>
+        <input
+          type="text"
+          id="symptom-input"
+          class="underline-input-field"
+          placeholder="입력"
+          autocomplete="off"
+          autofocus
+        />
+        <button type="button" class="input-clear-btn" id="input-clear-btn" aria-label="입력 내용 지우기">
+          <span class="material-symbols-outlined" style="font-size: 20px;">cancel</span>
+        </button>
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Client Interaction Script Module -->
+  <script src="../js/main.js"></script>
+</body>
+
+</html>

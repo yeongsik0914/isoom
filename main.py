@@ -154,6 +154,16 @@ async def get_aisum_home():
     return FileResponse("app/static/index.html", media_type="text/html")
 
 
+@app.get("/input", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_input():
+    """Serves the Aisum symptom prompt input page."""
+    if os.path.exists("frontend/templates/input.html"):
+        return FileResponse("frontend/templates/input.html", media_type="text/html")
+    if os.path.exists("frontend/input.html"):
+        return FileResponse("frontend/input.html", media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Input page not found"})
+
+
 @app.get("/css/style.css", include_in_schema=False)
 @app.get("/style.css", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_style():

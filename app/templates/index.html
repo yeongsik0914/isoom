@@ -22,8 +22,10 @@
   <!-- Mobile Viewport Canvas (Centered Preview Container) -->
   <div class="mobile-viewport" id="app">
 
-    <!-- Top App Bar -->
-    <header class="app-header">
+
+
+      <!-- Top App Bar -->
+      <header class="app-header">
       <div class="header-left">
         <a href="#" class="brand-logo" aria-label="아이숨 홈">
           아이숨
@@ -238,30 +240,88 @@
 
     </main>
 
+    <!-- Floating 119 Emergency Quick Dial (우측 하단 119 플로팅 버튼) -->
+    <a href="tel:119" class="floating-119-btn" aria-label="119 응급 호출">
+      <span class="material-symbols-outlined siren-icon">e911_emergency</span>
+      <span class="siren-label">119 호출</span>
+    </a>
+
     <!-- Bottom Navigation Bar (Fixed GNB) -->
     <nav class="bottom-nav" aria-label="주요 메뉴">
       <!-- Tab 1: 홈 (Active) -->
-      <a href="#" class="nav-item active" aria-current="page">
+      <a href="#" class="nav-item active" aria-current="page" id="tab-nav-home">
         <span class="material-symbols-outlined">home</span>
         <span class="nav-label">홈</span>
       </a>
 
       <!-- Tab 2: 응급실 가이드 (Inactive) -->
-      <a href="#" class="nav-item">
+      <a href="#" class="nav-item" id="tab-nav-er">
         <span class="material-symbols-outlined">emergency</span>
         <span class="nav-label">응급실 가이드</span>
       </a>
 
       <!-- Tab 3: 설정 (Inactive) -->
-      <a href="#" class="nav-item">
+      <a href="#" class="nav-item" id="tab-nav-settings">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>
       </a>
     </nav>
 
+  </div> <!-- /.mobile-viewport -->
+
+
+
+  <!-- Emergency / Triage Medical Guidance Modal Dialog (처치정보 및 법적 동의 모달) -->
+  <div class="modal-overlay" id="triage-consent-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-dialog-card">
+      <!-- Modal Header / Title -->
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">
+          아이숨은 사용자가 입력한<br />
+          증상정보를 바탕으로 <span class="highlight-navy">인근 병원과</span><br />
+          <span class="highlight-navy">참고용 처치정보</span>를 안내합니다.
+        </h3>
+      </div>
+
+      <!-- Modal Body (Information Box with blue highlights) -->
+      <div class="modal-notice-box">
+        <ul class="modal-notice-list">
+          <li>
+            <span class="bullet">•</span>
+            <span>증상의 심각도에 따라 <strong class="highlight-blue">추천 결과가 달라질 수 있습니다.</strong></span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span>이용 시점과 병원 방문 시점의 증상 변화에 따라 <strong class="highlight-blue">결과가 달라질 수 있습니다.</strong></span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span><strong class="highlight-blue">응급 상황</strong>(의식 저하, 심한 출혈, 호흡곤란 등)에서는 <strong class="highlight-blue">즉시 119</strong>에 연락하세요.</span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span>본 정보는 참고용이며, 의료 전문가의 <strong class="highlight-blue">직접적인 진단 및 판단을 대체할 수 없습니다.</strong></span>
+          </li>
+          <li>
+            <span class="bullet">•</span>
+            <span><strong class="highlight-blue">최종 판단과 그에 따른 책임은 사용자</strong>에게 있습니다. 계속 진행하시겠습니까?</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Modal Footer (취소 / 확인 버튼) -->
+      <div class="modal-action-row">
+        <button type="button" class="modal-action-btn btn-cancel" id="modal-cancel-btn">
+          취소
+        </button>
+        <button type="button" class="modal-action-btn btn-confirm" id="modal-confirm-btn">
+          확인
+        </button>
+      </div>
+    </div>
   </div>
 
-  <!-- Optional Client Interaction Script -->
+  <!-- Client Interaction Script Module -->
   <script src="../js/main.js"></script>
 </body>
 </html>

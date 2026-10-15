@@ -23,6 +23,9 @@
 10. [프론트엔드 UI/UX 아키텍처 & 화면 연동 로드맵](#10-프론트엔드-uiux-아키텍처--화면-연동-로드맵)
     - [10.5 '아이숨(i-Soom)' 화이트 & 코발트 블루 디자인 시스템](#105-아이숨i-soom-화이트--코발트-블루-디자인-시스템-및-stitch-화면-자산-2026-10-14-확정)
     - [10.6 '아이숨(Aisum)' 신규 전용 Stitch 프로젝트 및 3대 핵심 화면](#106-아이숨-aisum-신규-전용-stitch-프로젝트-및-calm-harbor-라이트-테마-3대-핵심-화면-2026-10-14-완결)
+    - [10.7 '아이숨 (Aisum)' 프론트엔드 전용 워크스페이스(frontend/templates/) 구축 및 HTML/CSS 모듈화 이관](#107-아이숨-aisum-프론트엔드-전용-워크스페이스frontendtemplates-구축-및-htmlcss-모듈화-이관-2026-10-14-완결)
+    - [10.8 사전 처치정보 및 법적 안내 모달 다이얼로그(반투명 오버레이, 취소/확인) 화면 구현](#108-사전-처치정보-및-법적-안내-모달-다이얼로그반투명-오버레이-취소확인-화면-구현-2026-10-14-완결)
+    - [10.9 사용자 증상 프롬프트 입력 페이지(Underline Input & 확인 CTA) 구현](#109-사용자-증상-프롬프트-입력-페이지underline-input--확인-cta-구현-2026-10-14-완결)
 
 ---
 
@@ -471,6 +474,34 @@ flowchart TD
   5. [frontend/README.md](frontend/README.md): 프론트엔드 워크스페이스 가이드 문서.
   6. [app/templates/index.html](app/templates/index.html) 및 [app/static/](app/static/): FastAPI 백엔드 패키징 동기화.
   7. [main.py](main.py): `app.mount("/frontend", ...)`, `/css`, `/js`, `/assets`, `GET /home`, `GET /style.css`, `GET /js/main.js` 등록 및 HTTP 200 검증 완료.
+
+### 10.8 사전 처치정보 및 법적 안내 모달 다이얼로그(반투명 오버레이, 취소/확인) 화면 구현 (2026-10-14 완결)
+* **모달 화면 명세 및 디자인 시스템 연계**:
+  - Stitch 프로젝트: `projects/2692934076926222841` (MoonlightCare / Aisum)
+  - 화면명: **`사전 처치정보 및 법적 안내 모달`** (`Screen ID: a03bce9953984334a2f6ffd739d65525`)
+  - 디자인 시스템: `MoonlightCare / Calm Harbor Design System` (`assets/ede449b1e12a44f2b4df4a14068b30e1`)
+* **핵심 컴포넌트 명세**:
+  1. **어두운 반투명 블러 오버레이**: `rgba(15, 23, 42, 0.65)` 및 `backdrop-filter: blur(5px)`.
+  2. **모달 다이얼로그 카드**: 328px 너비, `rounded-2xl`(22px), 파란색 강조 텍스트("인근 병원과", "참고용 처치정보").
+  3. **처치정보 안내 박스**: 연파랑 배경 박스(`background: #F4F6FB`), 5대 안내 항목 불릿 리스트 (119 즉통 기준, 증상 유동성, 의료법 제27조 한계, 사용자 최종 판단 책임).
+  4. **하단 50px 분할 액션 버튼**: 좌측 중립 그레이 `[취소]`, 우측 볼드 로열 블루 `[확인]` (터치 시 모달 닫기).
+* **화면 연계 및 인터랙션**:
+  - 메인 홈 화면의 `[아이 증상 입력하고 병원 찾기]` CTA 및 증상 칩 터치 시 모달 오픈.
+  - `[취소]` 또는 `[확인]` 버튼 터치 시 모달 닫힘.
+  - 어두운 배경 오버레이 클릭 또는 ESC 키 입력 시 모달 닫힘.
+
+### 10.9 사용자 증상 프롬프트 입력 페이지(Underline Input) 고도화 (2026-10-15 완결)
+* **화면 개요 및 디자인 명세**:
+  - Stitch 프로젝트: `projects/2692934076926222841` (MoonlightCare / Aisum)
+  - 화면명: **`Aisum 증상 입력 화면`** (`Screen ID: 18441e7efe314c06bb8716493d3d8626`)
+  - [Stitch 생성 화면 스크린샷 보기](https://lh3.googleusercontent.com/aida/AEtjO1UPIAr3RvVHLVgX9s6PA6a7N9J-SpiKta1J3bGoAkZZshPCUdkx97XcrLfU_TyXZkazsxj9xaL-cTOyZQzFwhCmXJtN1qAQwwoVOk8a8A5Kom_j8Z5P1NOU_-8xJKEJAYek1Aa0W7gi_3d9oM6gcXXLk0eB3LkamoV4VW-PWsdUCvcOCGaVpr2FAKaGOZ0_CGmrreRr92O8pr6SSbdUruPJAmAE1gVjJnL0QQZZZOIf1coz8Ih-LMA1AxE)
+* **핵심 컴포넌트 명세**:
+  1. **헤드라인**: `"증상을 구체적으로\n정확하게 입력해주세요"` (26px, 700 볼드, 딥 네이비 `#0F172A`).
+  2. **언더라인 인풋 필드**: `2px solid #0066FF` 로열 블루 하단 보더 라인, `"입력"` 플레이스홀더, 타이핑 시 플로팅 레이블 및 우측 지우기(`✕`) 버튼.
+  3. **가상 키보드 및 확인 버튼 배제**: 실제 디바이스 입력 시 OS가 호출하는 기능적 자판 그래픽과 중복되는 확인 버튼을 생략하고 쾌적한 화이트 여백 유지.
+* **산출물 및 서빙**:
+  - [frontend/input.html](frontend/input.html) 및 [frontend/templates/input.html](frontend/templates/input.html) 구축.
+  - `GET /input` 엔드포인트 등록 및 HTTP 200 검증 완료.
 
 ---
 
