@@ -1206,26 +1206,34 @@
       }, 2200);
     }
 
-    // 5. Hydrate Dynamic Triage Data from Chatbot
+    // 5. Hydrate Dynamic Triage Data from Chatbot & Update 30-Second Call Script
     try {
       const stored = sessionStorage.getItem('triage_result');
       if (stored) {
         const data = JSON.parse(stored);
-        if (data.age) {
-          const el = document.getElementById('vital-age-text');
-          if (el) el.innerText = data.age;
-        }
-        if (data.temp) {
-          const el = document.getElementById('vital-temp-text');
-          if (el) el.innerText = `${data.temp} (고열)`;
-        }
-        if (data.symptom) {
-          const el = document.getElementById('vital-symptom-text');
-          if (el) el.innerText = `#${data.symptom}`;
+        const age = data.age || '14개월';
+        const rawTemp = data.temp || '39.2';
+        const temp = (rawTemp.includes('도') || rawTemp.includes('℃')) ? rawTemp : `${rawTemp}도`;
+        const symptom = data.symptom || '열과 보챔';
+
+        // 1) 상단 바이탈 칩 갱신
+        const ageEl = document.getElementById('vital-age-text');
+        if (ageEl) ageEl.innerText = age;
+
+        const tempEl = document.getElementById('vital-temp-text');
+        if (tempEl) tempEl.innerText = `${temp} (고열)`;
+
+        const symptomEl = document.getElementById('vital-symptom-text');
+        if (symptomEl) symptomEl.innerText = `#${symptom}`;
+
+        // 2) 출발 전 30초 당직의 통화 스크립트 동적 완성
+        const scriptBox = document.getElementById('script-content');
+        if (scriptBox) {
+          scriptBox.innerText = `"안녕하세요, 송파어린이병원 접수처 맞으신가요? 지금 ${age} 아기가 ${temp} 열과 ${symptom} 증상이 있어 내원하려고 합니다. 현재 접수 마감 전 야간 진료 가능한가요?"`;
         }
       }
     } catch (e) {
-      console.warn('Failed to parse triage_result:', e);
+      console.warn('Failed to parse triage_result for call script:', e);
     }
   </script>
 
