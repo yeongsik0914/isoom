@@ -57,6 +57,8 @@
 | **[ISSUE-047]** | 프론트엔드 UI 인터랙션 | input.html 사용자 텍스트 입력 시 확인 버튼 동적 표출(레퍼런스 우측 화면 1:1) 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-048]** | 모바일 테스트 & PWA Standalone | 로컬 Wi-Fi IP 바인딩 및 QR코드 즉각 테스트 환경 구축, iOS/안드로이드 홈 바로가기 메타태그 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-049]** | 프론트엔드 UI/UX 모달 & 화면 연동 | index.html 아이증상 입력버튼 클릭 시 사전 안내 모달 팝업 및 증상 입력(input.html) 연동 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-050]** | Git 형상 관리 & 3-Way 머지 | 원격 input.html 최신 업데이트(확인 버튼 인터랙션 & PWA 메타태그) 풀 및 index.html 모달 연동 무결점 병합 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-051]** | 프론트엔드 UI/UX 리팩토링 | 응급실 가이드(emergency_guide.html) 텍스트 전면 배제 및 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 개편 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1395,6 +1397,76 @@
   * [log.md](file:///e:/monnlight/log.md)
   * [README.md](file:///e:/monnlight/README.md)
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-050] 원격 input.html 최신 업데이트(확인 버튼 인터랙션 & PWA 메타태그) 풀 및 index.html 모달 연동 무결점 병합
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 팀원 (지시: 정영식 팀장)
+* **분류**: Git 형상 관리 / 3-Way 병합 / 프론트엔드 모듈 연동
+* **문제 상황**:
+  * 원격 GitHub 저장소에 `input.html`의 최신 업데이트(PWA Standalone 메타태그, 텍스트 입력 시 동적 확인 버튼 표출 인터랙션)가 푸시되어 있었으나, 로컬 워크스페이스의 직전 작업(`index.html` 모달 연동)과 분기되어 있어 충돌 없이 병합해야 하는 과제 발생.
+* **원인 분석**:
+  * Git 원격 레포지토리와 로컬 작업 디렉토리 간 서로 다른 기능 브랜치 작업이 비동기적으로 진행되어 커밋 그래프 정합성 확보가 필요했음.
+* **구체적 해결 방안**:
+  1. `git fetch origin main` 수행 및 원격 커밋 이력(`28ce9ad`, `93fbbe0`) 분석.
+  2. 로컬의 `index.html` 모달 트리거 마크업 및 `main.js`의 `modalConfirmBtn` 연동 로직을 온전히 보존한 상태에서, 원격의 `input.html` 변경 사항(확인 버튼 래퍼, PWA 메타태그, Pure CSS `:has()` 셀렉터)을 안전하게 3-Way 병합.
+  3. `FastAPI TestClient`로 `/home`, `/input`, `/input.html` 전수 200 OK 회귀 검증 완료.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///e:/monnlight/frontend/templates/input.html)
+  * [frontend/templates/js/main.js](file:///e:/monnlight/frontend/templates/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+
+---
+
+### [ISSUE-051] 응급실 가이드(emergency_guide.html) 텍스트 전면 배제 및 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 개편
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 팀원 (지시: 정영식 팀장)
+* **분류**: 프론트엔드 UI/UX 리팩토링 / 이미지 프로세싱 / 모바일 터치 캐러셀
+* **문제 상황**:
+  * 기존 응급실 가이드 페이지(`emergency_guide.html`)는 텍스트 위주의 처치 지침, 병원 통화 스크립트 탭, 응급실 병상 테이블 등이 혼재되어 있어, 위급한 상황에 처한 보호자가 단계별 대처법과 KTAS 중증도 개념을 직관적으로 파악하기 어려움.
+  * 사용자가 제공한 인포그래픽("소아전용 응급실 이용 가이드: 아프거나 다쳤을 때 & KTAS 중증도 안내")의 7개 단계를 잘라내어, 기존 텍스트를 모두 없애고 이미지를 순서대로 넘겨볼 수 있는 모바일 최적화 뷰어로 개편할 필요성 대두.
+* **원인 분석**:
+  * 업로드된 원본 인포그래픽은 단일 이미지(1024×572)로 상단 4개 카드, 하단 3개 카드가 통합되어 있어, 모바일 뷰포트에서 그대로 표시할 경우 글씨가 너무 작아 판독이 불가능함.
+  * 따라서 각 Step별 카드를 고해상도로 정밀 분할(Crop)하고, 순서대로 좌우 스와이프할 수 있는 풀스크린 카드 캐러셀 UI가 필수적이었음.
+* **구체적 해결 방안**:
+  1. **OpenCV/PIL 정밀 이미지 분할 파이프라인 가동**:
+     - 원본 이미지에서 7개 Step 카드의 바운딩 박스를 정밀 산출하여 1px 오차 없이 크롭:
+       - Step 1: `(21, 113, 254, 342)` -> `guide_ktas_step1.png`
+       - Step 2: `(263, 113, 508, 342)` -> `guide_ktas_step2.png`
+       - Step 3: `(516, 113, 761, 342)` -> `guide_ktas_step3.png`
+       - Step 4: `(770, 113, 1003, 342)` -> `guide_ktas_step4.png`
+       - Step 5: `(21, 352, 338, 561)` -> `guide_ktas_step5.png`
+       - Step 6: `(348, 352, 676, 561)` -> `guide_ktas_step6.png`
+       - Step 7: `(686, 352, 1003, 561)` -> `guide_ktas_step7.png`
+       - 원본 전체: `guide_ktas_full.png`
+     - 정적 에셋 디렉토리(`frontend/assets/images/`, `frontend/templates/assets/images/`, `app/static/assets/images/`)에 동시 복제 배치.
+  2. **기존 장황한 텍스트 전면 제거 & 7단계 이미지 캐러셀 마크업 전면 교체**:
+     - 기존 통화 스크립트 세그먼트 탭, 응급실 병상 테이블, 장문의 처치 지침 텍스트를 전면 삭제.
+     - 각 슬라이드에는 오직 `STEP 01` ~ `STEP 07` 뱃지와 단계 제목, 그리고 고화질 크롭 이미지만 배치하여 시각적 몰입도 극대화.
+  3. **CSS Scroll Snap & 모바일 터치 스와이프 인터랙션 구현**:
+     - `scroll-snap-type: x mandatory` 및 `scroll-snap-align: center` 적용.
+     - 상단 실시간 슬라이드 카운터(`1 / 7` ~ `7 / 7`) 동적 업데이트.
+     - 하단 7개 인디케이터 도트 클릭 시 해당 슬라이드로 부드러운 스크롤 이동(`scrollToSlide`).
+     - 데스크톱 사용자를 위한 좌우 화살표 네비게이션 버튼 구비.
+     - "가이드 인포그래픽 원본 한눈에 크게 보기" 모달 다이얼로그 탑재로 전체 맥락 확인 지원.
+  4. **크로스 브라우징 및 정적 라우트 검증**:
+     - 이미지 태그에 `onerror="this.src='../assets/images/...'"` 듀얼 폴백을 장착하여 Safari `file://` 로컬 열람 및 FastAPI 웹 서빙 환경 100% 대응.
+     - `FastAPI TestClient`로 `GET /guide`, `GET /guide/emergency` (200 OK) 및 7종 이미지 정적 서빙(200 OK) 전수 무결점 확인.
+* **적용 파일**:
+  * [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)
+  * [app/templates/emergency_guide.html](file:///e:/monnlight/app/templates/emergency_guide.html)
+  * `frontend/assets/images/guide_ktas_step1~7.png`, `guide_ktas_full.png`
+  * `frontend/templates/assets/images/guide_ktas_step1~7.png`, `guide_ktas_full.png`
+  * `app/static/assets/images/guide_ktas_step1~7.png`, `guide_ktas_full.png`
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
 
 
 

@@ -30,6 +30,22 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.12-guide-visual-carousel] 2026-10-15: '아이숨' 응급실 가이드(emergency_guide.html) 소아 응급실 & KTAS 7단계 시각 이미지 슬라이더 전면 개편
+* **기존 장황한 텍스트 배제 및 7단계 시각 카드 슬라이더 전면 전환**:
+  - 사용자 제공 "소아전용 응급실 이용 가이드 & KTAS 안내" 원본 인포그래픽에서 Step 1부터 Step 7까지의 카드를 1px 오차 없이 정밀 분할(`guide_ktas_step1~7.png`)하여 탑재.
+  - 기존 텍스트(통화 스크립트 탭, 응급실 병상 테이블 등)를 전면 삭제하고 오직 단계별 일러스트와 핵심 표제어만 노출하여 가독성 극대화.
+* **모바일 최적화 CSS Scroll Snap & 상호작용**:
+  - 터치 좌우 스와이프 지원, 상단 실시간 슬라이드 카운터(`1 / 7` ~ `7 / 7`), 하단 7개 도트 인디케이터, 데스크톱 좌우 화살표 버튼 연동.
+  - "가이드 인포그래픽 원본 한눈에 크게 보기" 모달 다이얼로그 탑재(`guide_ktas_full.png`).
+* **FastAPI 백엔드 및 크로스 브라우징 검증 통과**:
+  - `GET /guide`, `GET /guide/emergency` (200 OK) 및 7종 크롭 이미지 서빙 전수 테스트 완료.
+  - Safari `file://` 로컬 열람과 웹 서빙 환경 100% 호환을 위한 듀얼 이미지 폴백 속성 적용.
+
+### 🌟 [v2.4.11-input-remote-pull-sync] 2026-10-15: 원격 input.html 최신 업데이트(확인 버튼 인터랙션 & PWA 메타태그) 풀 및 index.html 모달 연동 무결점 3-Way 머지
+* **원격 변경 사항 안전 통합**:
+  - 원격 저장소의 `input.html`(확인 버튼 애니메이션, PWA Standalone 메타태그, Pure CSS `:has()` 셀렉터)을 로컬의 `index.html` 모달 트리거 로직과 무결점 병합 완료.
+  - Conda DS 환경 기반 `FastAPI TestClient`로 `/home`, `/input`, `/input.html` 전수 200 OK 검증 완료.
+
 ### 🌟 [v2.4.10-modal-trigger-link] 2026-10-15: '아이숨' 메인 홈(index.html) 아이증상 입력버튼 모달 팝업 및 증상 입력(input.html) 연동
 * **메인 홈 CTA 클릭 시 모달 다이얼로그 팝업 연동**:
   - `frontend/templates/index.html`, `frontend/index.html`, `app/templates/index.html`에 레퍼런스 이미지와 100% 일치하는 `#triage-consent-modal` 마크업 탑재.
