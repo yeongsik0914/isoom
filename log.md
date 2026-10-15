@@ -71,7 +71,8 @@
 | **[ISSUE-061]** | 프론트엔드 UI/UX 응급실 스크롤 & 기존 디자인 계승형 문진 챗봇 | 소아 응급실 병상 2개 초과 시 세로 스크롤 지원(4개소 확장) 및 input.html 기존 미니멀 UI 디자인 계승형 프로그레시브 문진 챗봇 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-062]** | 프론트엔드 모바일 UI/UX 최적화 | 온보딩 화면(splash, permission) 상단 인위적 가짜 상태 바(15:19 시간, 배터리, 와이파이) 전면 제거 및 순수 뷰포트 정돈 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-063]** | 프론트엔드 온보딩 실제 Web API 권한 요청 | permission.html 동의 버튼 클릭 시 Geolocation 및 Notification 실제 브라우저 권한 팝업 요청 및 좌표 로컬 캐싱 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
-| **[ISSUE-064]** | 프론트엔드 설정 & 법률 컴플라이언스 | settings.html 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨 전용 이용약관(terms.html) 신규 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-064]** | 프론트엔드 UI/UX 30초 통화 스크립트 | 0-Backend 순수 클라이언트 기반 실시간 환아 바이탈(월령·체온·증상) 통화 스크립트 동적 완성 및 원터치 클립보드 복사 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-065]** | 프론트엔드 설정 & 법률 컴플라이언스 | settings.html 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨 전용 이용약관(terms.html) 신규 구축 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1935,7 +1936,34 @@
 
 ---
 
-### [ISSUE-064] 설정 화면(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨(i-Soom) 전용 이용약관(terms.html) 신규 구축
+### [ISSUE-064] 결과 화면(result.html) 30초 통화 스크립트 실시간 환아 바이탈 동적 연동 및 클라이언트 사이드 완성
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 김동준 (팀원), AI 에이전트
+* **분류**: 프론트엔드 UI/UX 데이터 바인딩 / 제로-백엔드 클라이언트 사이드 하이드레이션 / 응급 편의성
+* **문제 상황**:
+  * `input.html` 챗봇을 통해 수집된 환아 바이탈 정보(월령, 체온, 증상)가 상단 바이탈 칩에는 반영되나, 하단의 핵심 기능인 `출발 전 30초 당직의 통화 스크립트`(`script-content`)는 고정된 목업 텍스트("14개월 아기가 39.2도 열과 구토 증상...")로 머물러 있었음.
+  * 부모가 [통화 대본 복사하기] 버튼을 누를 때에도 실제 입력값과 다른 정적 문구가 복사되어 실 서비스 시 전화 통화 혼선 위험 발생.
+* **원인 분석**:
+  * `sessionStorage`의 `triage_result`를 읽어오는 초기화 스크립트에서 상단 텍스트 요소(`vital-age-text` 등)만 갱신하고, 통화 스크립트 템플릿 스트링 조합 로직이 누락되어 있었음.
+* **구체적 해결 방안**:
+  1. **제로-백엔드 0ms 클라이언트 사이드 하이드레이션**:
+     - 서버 통신 비용 없이 브라우저 `sessionStorage.getItem('triage_result')`를 읽어 즉시 `age`, `temp`, `symptom`을 추출.
+     - `script-content` 엘리먼트에 `"안녕하세요, 송파어린이병원 접수처 맞으신가요? 지금 ${age} 아기가 ${temp} 열과 ${symptom} 증상이 있어 내원하려고 합니다. 현재 접수 마감 전 야간 진료 가능한가요?"` 템플릿 스트링 자동 바인딩.
+  2. **원클릭 클립보드 복사 정합성 확보**:
+     - `copyCallScript()`가 갱신된 DOM 텍스트를 실시간으로 가져와 `navigator.clipboard.writeText()`로 클립보드에 복사하고 전용 토스트 알림을 띄우도록 보증.
+  3. **템플릿 이중 동기화**:
+     - `frontend/result.html` 및 `frontend/templates/result.html`에 동시 적용하여 정적 서빙 및 Jinja2 라우트 서빙 양측에서 100% 동일한 사용자 경험 제공.
+* **적용 파일**:
+  * [frontend/result.html](file:///e:/monnlight/frontend/result.html)
+  * [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-065] 설정 화면(settings.html) 이용약관 버튼 연동 및 의료법 제27조 준수 아이숨(i-Soom) 전용 이용약관(terms.html) 신규 구축
 
 * **발생 일자**: 2026-10-15
 * **작업자**: 정영식 (팀장), AI 에이전트
