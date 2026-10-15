@@ -55,6 +55,7 @@
 | **[ISSUE-045]** | 형상 관리 & 프론트엔드 모듈 격리 | 팀원(김동준) 전담 파일(input.html, modal.html)과 타 작업자(정영식) 전담 파일(index.html) 역할 분리 및 index.html 원본 100% 롤백 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-046]** | 프론트엔드 UI 텍스트 & 의료 컴플라이언스 | modal.html 안내 문구의 소아 야간 의료법·응급 대응 최적화 및 input.html/GNB 연동 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-047]** | 프론트엔드 UI 인터랙션 | input.html 사용자 텍스트 입력 시 확인 버튼 동적 표출(레퍼런스 우측 화면 1:1) 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-048]** | 모바일 테스트 & PWA Standalone | 로컬 Wi-Fi IP 바인딩 및 QR코드 즉각 테스트 환경 구축, iOS/안드로이드 홈 바로가기 메타태그 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1328,6 +1329,33 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
   * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
   * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
+---
+
+### [ISSUE-048] 로컬 Wi-Fi IP 바인딩 및 QR코드 즉각 테스트 환경 구축, iOS/안드로이드 홈 바로가기 메타태그 탑재
+
+* **발생 일자**: 2026-10-15
+* **분류**: 모바일 웹 테스트 환경 구축 / PWA Standalone 메타 태그 / 네트워크 서빙
+* **문제 상황**:
+  * 모바일 키보드 반응과 화면 인터랙션을 실제 스마트폰(아이폰/안드로이드)에서 검증하고자 할 때, 무거운 Cloud Run 배포 없이도 10초 만에 폰으로 접속할 수 있는 초고속 테스트 파이프라인 부재.
+  * 스마트폰에서 웹 접속 시 브라우저 주소창과 하단 툴바가 가려지는 모바일 앱 전체 화면(Standalone 모드) 메타 태그 미비.
+* **원인 분석**:
+  * Uvicorn 기본 로컬 바인딩(`127.0.0.1`)은 PC 내부에서만 접근 가능하여 동일 Wi-Fi에 연결된 스마트폰의 접근이 차단됨.
+* **구체적 해결 방안**:
+  1. **로컬 Wi-Fi IPv4 바인딩**:
+     - PC의 Wi-Fi 로컬 IP(`192.168.14.189`)를 확보하고, Uvicorn 서버를 `0.0.0.0:8000`에 백그라운드 데몬으로 바인딩.
+  2. **모바일 홈 바로가기 메타 태그 탑재** ([`frontend/input.html`](file:///c:/AI-Native-Agent/monnlight/frontend/input.html), [`frontend/templates/input.html`](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)):
+     - `apple-mobile-web-app-capable="yes"`, `apple-mobile-web-app-status-bar-style="default"`, `mobile-web-app-capable="yes"`, `theme-color="#ffffff"` 탑재 완료.
+     - iOS 사파리 및 안드로이드 크롬에서 '홈 화면에 추가' 시 네이티브 앱과 동일한 주소창 없는 전체 화면 실행 지원.
+  3. **QR 코드 즉각 스캔 파이프라인**:
+     - `http://192.168.14.189:8000/input` 직결 QR 코드를 생성하여 카메라 촬영 0.1초 만에 스마트폰 테스트 가능 환경 완성.
+* **적용 파일**:
+  * [frontend/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/input.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
 
 
 
