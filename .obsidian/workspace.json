@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "전국_달빛어린이병원_및_야간심야약국_현황.md",
+                "file": "PLAN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "전국_달빛어린이병원_및_야간심야약국_현황"
+              "title": "PLAN"
             }
           }
         ]
@@ -190,19 +190,19 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
-    "scratch/__pycache__/test_seocho_check.cpython-314.pyc",
-    "scratch/__pycache__",
-    "scratch/test_seocho_check.py",
-    "scratch",
-    "tests/__pycache__/test_step7_circuit_breaker.cpython-314.pyc.1903702918960",
-    "frontend/templates/js/public_night_pharmacies.js",
-    "frontend/templates/js/nationwide_pairings.js",
-    "scripts/build_complete_app_datasets.py",
-    "PLAN.md",
+    "frontend/templates/settings/terms.html",
+    "frontend/templates/settings/settings.html",
+    "frontend/templates/emergency/emergency_guide_symptoms.html",
+    "frontend/templates/emergency/emergency_guide_checklist.html",
+    "frontend/templates/emergency/emergency_guide.html",
+    "frontend/templates/emergency/emergency_alert.html",
+    "frontend/templates/result/hospital_detail.html",
+    "frontend/templates/result/result.html",
+    "frontend/templates/triage/loading.html",
+    "frontend/templates/triage/input.html",
+    "frontend/templates/home/index.html",
     "전국_달빛어린이병원_및_야간심야약국_현황.md",
-    "data/national_night_pharmacies_2028.json",
-    "data/national_moonlight_hospitals_156.json",
-    "scripts/export_national_moonlight_and_night_pharmacy_md.py",
+    "PLAN.md",
     "q_a.md",
     "FRONTEND_BACKEND_INTEGRATION_SPEC.md",
     "docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md",

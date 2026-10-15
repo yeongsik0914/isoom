@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>증상 입력 - 아이숨 (Aisum)</title>
+  <meta name="description" content="아이의 증상을 최대한 상세히 입력하여 신속한 맞춤 의료기관을 안내받으세요." />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags (iOS & Android 홈 화면 바로가기 지원) -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Pure Vanilla CSS Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <style>
+    /* Progressive Triage Chatbot Styles (Keeping original design 100%) */
+    .triage-step-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: #0066ff;
+      border: 1px solid #dbeafe;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      align-self: flex-start;
+      transition: all 0.25s ease;
+    }
+
+    .input-headline {
+      margin-bottom: 12px !important;
+      transition: all 0.2s ease;
+      min-height: 68px;
+    }
+
+    .input-subguide {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #64748b;
+      margin-bottom: 24px;
+      transition: all 0.2s ease;
+    }
+
+    .answered-chips-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .answered-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #f1f5f9;
+      color: #334155;
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid #e2e8f0;
+      cursor: pointer;
+      animation: fadeInSlideUp 0.2s ease-out;
+      transition: background 0.15s ease;
+    }
+
+    .answered-chip:hover {
+      background: #e2e8f0;
+    }
+
+    .answered-chip .chip-check {
+      font-size: 14px;
+      color: #10b981;
+    }
+
+    .answered-chip .chip-edit {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-left: 2px;
+    }
+
+    .quick-chips-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .quick-chip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      padding: 9px 13px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .quick-chip-btn:hover {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #0066ff;
+    }
+
+    .quick-chip-btn:active {
+      transform: scale(0.97);
+    }
+
+    .quick-chip-btn.danger {
+      border-color: #fecaca;
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    .quick-chip-btn.danger:hover {
+      background: #fee2e2;
+      border-color: #f87171;
+    }
+
+    .quick-chip-btn .material-symbols-outlined {
+      font-size: 16px;
+    }
+
+    /* Red Flag Toast Alert */
+    .redflag-toast {
+      display: none;
+      background: #fee2e2;
+      border: 1.5px solid #ef4444;
+      color: #b91c1c;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-top: 16px;
+      animation: fadeInSlideUp 0.2s ease-out;
+    }
+
+    /* Input Invalid Feedback Alert */
+    .input-invalid-feedback {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 12px;
+      animation: fadeInSlideUp 0.2s ease-out;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Viewport Container -->
+  <div class="input-page-viewport">
+
+    <!-- Top App Header with Back Button & Step Counter -->
+    <header class="input-page-header">
+      <button type="button" class="input-back-btn" id="nav-back-btn" aria-label="이전 단계로 돌아가기">
+        <span class="material-symbols-outlined" style="font-size: 26px;">arrow_back</span>
+      </button>
+      <div style="font-size: 13px; font-weight: 700; color: #94a3b8;" id="step-counter">1 / 3</div>
+      <div style="width: 40px;"></div> <!-- visual balance -->
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="input-page-body">
+
+      <!-- AI Triage Status Badge -->
+      <div class="triage-step-badge" id="triage-step-badge">
+        <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">smart_toy</span>
+        <span id="step-badge-text">소아 전문 문진 · 1단계 (주요 증상)</span>
+      </div>
+
+      <!-- Previously Answered Summary Chips (누적된 필수 정보) -->
+      <div class="answered-chips-container" id="answered-chips-container" style="display: none;"></div>
+
+      <!-- Conversational Headline (이전 디자인 100% 동일) -->
+      <h1 class="input-headline" id="input-headline">
+        증상을 구체적으로<br />
+        정확하게 입력해주세요
+      </h1>
+
+      <!-- AI Guide Subtitle (공감형 안내 멘트) -->
+      <p class="input-subguide" id="input-subguide">
+        늦은 밤 아이가 아파 많이 걱정되셨죠? 아이의 현재 증상을 편하게 말씀해주세요.
+      </p>
+
+      <!-- Underline Input Field Area (이전 디자인 100% 동일) -->
+      <div class="underline-input-wrapper">
+        <label for="symptom-input" class="floating-input-label" id="floating-label" style="display: none;">입력</label>
+        <input
+          type="text"
+          id="symptom-input"
+          class="underline-input-field"
+          placeholder="입력"
+          autocomplete="off"
+          autofocus
+        />
+        <button type="button" class="input-clear-btn" id="input-clear-btn" aria-label="입력 내용 지우기">
+          <span class="material-symbols-outlined" style="font-size: 20px;">cancel</span>
+        </button>
+      </div>
+
+      <!-- Input Invalid/Unclear Warning Box (불일치/누락 시 부드러운 가이드) -->
+      <div class="input-invalid-feedback" id="input-invalid-feedback" style="display: none;">
+        <span class="material-symbols-outlined" style="font-size: 16px;">info</span>
+        <span id="invalid-feedback-text">아이가 어디가 아픈지 조금만 더 알려주세요. 아래 추천 증상을 눌러도 돼요!</span>
+      </div>
+
+      <!-- Quick Suggestion Reply Chips (간편 선택 칩) -->
+      <div class="quick-chips-wrapper" id="quick-chips-wrapper"></div>
+
+      <!-- Red Flag Toast Notification -->
+      <div class="redflag-toast" id="redflag-toast">
+        🚨 <strong>위급 상황 감지:</strong> 생후 100일 미만 고열, 경련, 호흡곤란 등은 119 긴급 이송이 필요합니다. 0초 만에 긴급 안내 화면으로 자동 전환합니다.
+      </div>
+
+      <!-- Confirm Action Button (이전 디자인 100% 동일: 입력 시 등장) -->
+      <div class="input-confirm-btn-wrap" id="input-confirm-wrap">
+        <button type="button" class="input-confirm-btn" id="input-confirm-btn">
+          확인
+        </button>
+      </div>
+
+    </main>
+
+    <!-- AI Analyzing Overlay (사용자 확인 클릭 시 2초간 표출되는 모던 로딩 화면) -->
+    <div class="ai-analyzing-overlay" id="ai-analyzing-overlay" aria-hidden="true">
+      <div class="analyzing-card">
+        <!-- Pulse Logo & Spinner -->
+        <div class="analyzing-visual">
+          <div class="analyzing-pulse-ring"></div>
+          <div class="analyzing-spinner"></div>
+          <div class="analyzing-icon-center">
+            <span class="material-symbols-outlined" style="font-size: 30px; color: #0066ff;">smart_toy</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Analyzing Status Texts -->
+        <h2 class="analyzing-title" id="analyzing-title">소아 증상 정밀 분석 중</h2>
+        <div class="analyzing-step-box">
+          <span class="material-symbols-outlined analyzing-step-icon" id="analyzing-step-icon">health_and_safety</span>
+          <span class="analyzing-step-text" id="analyzing-step-text">0ms Red Flag 안전 가드레일 검사 중...</span>
+        </div>
+
+        <!-- Progress Indicator Track -->
+        <div class="analyzing-progress-bar">
+          <div class="analyzing-progress-fill" id="analyzing-progress-fill"></div>
+        </div>
+
+        <p class="analyzing-subtext">
+          늦은 밤, 아이를 위한 가장 안전한 병원을 찾고 있습니다.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Flag to inform js/main.js that input.html uses progressive triage
+    window.__AISUM_CUSTOM_INPUT__ = true;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // DOM Elements
+      const navBackBtn = document.getElementById('nav-back-btn');
+      const stepCounter = document.getElementById('step-counter');
+      const stepBadgeText = document.getElementById('step-badge-text');
+      const answeredContainer = document.getElementById('answered-chips-container');
+      const inputHeadline = document.getElementById('input-headline');
+      const inputSubguide = document.getElementById('input-subguide');
+      const symptomInput = document.getElementById('symptom-input');
+      const floatingLabel = document.getElementById('floating-label');
+      const inputClearBtn = document.getElementById('input-clear-btn');
+      const quickChipsWrapper = document.getElementById('quick-chips-wrapper');
+      const inputConfirmWrap = document.getElementById('input-confirm-wrap');
+      const inputConfirmBtn = document.getElementById('input-confirm-btn');
+      const redflagToast = document.getElementById('redflag-toast');
+
+      // Triage Session State
+      const session = {
+        step: 1, // 1: Symptoms, 2: Age/Temp, 3: Companion/Medication
+        symptoms: '',
+        age: '',
+        temp: '',
+        companion: '',
+      };
+
+      // 0ms Red Flag Guardrail Regex (12대 소아 위급 상황: 절단/경련/의식소실/호흡부전/장중첩/신생아발열/중증화상 등 100% 동기화)
+      const RED_FLAG_REGEX = /(경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)|몸.*떨|의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도|청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕|소변.*(안\s*보|없)|눈물.*안|머리.*(찧|부딪|쿵|떨어).*토|초록색.*토|담즙|분수토|절단|잘렸|잘려|전기톱|베여서\s*절단|날아갔|피똥|딸기잼.*변|혈변|컹컹.*기침|쇳소리|흡기.*천명|화상.*(얼굴|손|발)|(얼굴|손|발).*화상|데였.*(얼굴|손|발)|물집.*(얼굴|손|발)|100일.*(38|열)|백일.*(38|열))/;
+
+      // Step Configurations
+      const STEPS = {
+        1: {
+          badge: '소아 전문 문진 · 1단계 (주요 증상)',
+          counter: '1 / 3',
+          headline: '증상을 구체적으로<br />정확하게 입력해주세요',
+          subguide: '늦은 밤 아이가 아파 많이 걱정되셨죠? 아이의 현재 증상을 편하게 말씀해주세요.',
+          placeholder: '입력 (예: 열이 나요, 구토를 해요)',
+          chips: [
+            { label: '열이 나요 🌡️', value: '열이 나요' },
+            { label: '토를 해요 🤢', value: '토를 해요' },
+            { label: '기침·가래 😮‍💨', value: '기침과 가래가 심해요' },
+            { label: '배가 아파요 😣', value: '배가 아파요' }
+          ]
+        },
+        2: {
+          badge: '소아 전문 문진 · 2단계 (월령 및 체온)',
+          counter: '2 / 3',
+          headline: '아이의 월령(나이)과<br />현재 체온은 몇 도인가요?',
+          subguide: '소아과 진료 및 맞춤 병원 선별을 위해 가장 중요한 필수 임상 정보입니다.',
+          placeholder: '입력 (예: 14개월 39.2도)',
+          chips: [
+            { label: '생후 100일 미만 🚨', value: '생후 100일 미만', danger: true },
+            { label: '14개월 (39.2℃)', value: '14개월 39.2도' },
+            { label: '8개월 (38.5℃)', value: '8개월 38.5도' },
+            { label: '24개월 (38.3℃)', value: '24개월 38.3도' },
+            { label: '37.8℃ 미열', value: '18개월 37.8도' }
+          ]
+        },
+        3: {
+          badge: '소아 전문 문진 · 3단계 (동반 징후 및 약 복용)',
+          counter: '3 / 3',
+          headline: '열이 난 기간이나<br />동반된 증상이 있나요?',
+          subguide: '구토, 처짐 등의 동반 증상이나 최근 해열제 복용 여부를 알려주세요.',
+          placeholder: '입력 (예: 구토 동반, 2시간 전 해열제 복용)',
+          chips: [
+            { label: '구토 동반 및 2시간 전 해열제', value: '구토 동반하고 2시간 전에 해열제 복용했어요' },
+            { label: '기침·가래 및 콧물', value: '기침과 콧물이 심해요' },
+            { label: '해열제 복용 후에도 열 지속', value: '해열제 먹였는데도 열이 안 떨어져요' },
+            { label: '물 잘 마시고 덜 처짐', value: '보채지만 물은 잘 마셔요' }
+          ]
+        }
+      };
+
+      // Render Current Step UI
+      function renderStep(stepNum) {
+        session.step = stepNum;
+        const config = STEPS[stepNum];
+
+        stepBadgeText.innerText = config.badge;
+        stepCounter.innerText = config.counter;
+        inputHeadline.innerHTML = config.headline;
+        inputSubguide.innerText = config.subguide;
+        symptomInput.placeholder = config.placeholder;
+        symptomInput.value = '';
+
+        // Render Answered Summary Chips
+        answeredContainer.innerHTML = '';
+        if (stepNum > 1 && session.symptoms) {
+          const chip1 = createAnsweredChip(`주요 증상: ${session.symptoms}`, 1);
+          answeredContainer.appendChild(chip1);
+        }
+        if (stepNum > 2 && (session.age || session.temp)) {
+          const chip2 = createAnsweredChip(`${session.age} · ${session.temp}`, 2);
+          answeredContainer.appendChild(chip2);
+        }
+        answeredContainer.style.display = answeredContainer.children.length > 0 ? 'flex' : 'none';
+
+        // Render Quick Chips
+        quickChipsWrapper.innerHTML = '';
+        config.chips.forEach(item => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'quick-chip-btn' + (item.danger ? ' danger' : '');
+          btn.innerText = item.label;
+          btn.addEventListener('click', () => {
+            symptomInput.value = item.value;
+            updateInputState();
+            symptomInput.focus();
+          });
+          quickChipsWrapper.appendChild(btn);
+        });
+
+        updateInputState();
+        symptomInput.focus();
+      }
+
+      function createAnsweredChip(text, targetStep) {
+        const span = document.createElement('span');
+        span.className = 'answered-chip';
+        span.title = '클릭하여 수정하기';
+        span.innerHTML = `
+          <span class="material-symbols-outlined chip-check">check_circle</span>
+          <span>${text}</span>
+          <span class="material-symbols-outlined chip-edit">edit</span>
+        `;
+        span.addEventListener('click', () => {
+          renderStep(targetStep);
+        });
+        return span;
+      }
+
+      // Input field state watcher
+      function updateInputState() {
+        const val = symptomInput.value.trim();
+        const hasContent = val.length > 0;
+        if (floatingLabel) floatingLabel.style.display = hasContent ? 'block' : 'none';
+        if (inputClearBtn) inputClearBtn.style.display = hasContent ? 'inline-flex' : 'none';
+        if (inputConfirmWrap) {
+          if (hasContent) {
+            inputConfirmWrap.classList.add('active');
+            inputConfirmWrap.style.display = 'block';
+          } else {
+            inputConfirmWrap.classList.remove('active');
+            inputConfirmWrap.style.display = 'none';
+          }
+        }
+      }
+
+      symptomInput.addEventListener('input', updateInputState);
+
+      inputClearBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        symptomInput.value = '';
+        updateInputState();
+        symptomInput.focus();
+      });
+
+      // Back Button Handler
+      navBackBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (session.step > 1) {
+          renderStep(session.step - 1);
+        } else {
+          window.location.href = '../home/index.html';
+        }
+      });
+
+      // Enter Key Handler
+      symptomInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (symptomInput.value.trim().length > 0) {
+            handleStepSubmit();
+          }
+        }
+      });
+
+      // Confirm Button Handler
+      inputConfirmBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleStepSubmit();
+      });
+
+      const invalidFeedback = document.getElementById('input-invalid-feedback');
+      const invalidFeedbackText = document.getElementById('invalid-feedback-text');
+
+      // Helper to detect meaningless/mismatched input
+      function isMeaninglessInput(val) {
+        if (!val || val.trim().length < 2) return true;
+        // 자음 또는 모음만 연속된 경우 (ㅋㅋㅋ, ㅎㅎㅎ, ㅠㅠ 등)
+        if (/^[ㄱ-ㅎㅏ-ㅣ\s]+$/.test(val)) return true;
+        // 특수문자만으로 구성된 경우
+        if (/^[!@#$%^&*()_+=\-[\]{}|;:'",.<>/?~\s]+$/.test(val)) return true;
+        // 무작위 영문 난타
+        if (/^[a-zA-Z\s]{1,4}$/.test(val) && !/baby|fever|cough|cold|er/i.test(val)) return true;
+        return false;
+      }
+
+      function hideInvalidFeedback() {
+        if (invalidFeedback) invalidFeedback.style.display = 'none';
+      }
+
+      function showInvalidFeedback(msg) {
+        if (invalidFeedback && invalidFeedbackText) {
+          invalidFeedbackText.innerText = msg;
+          invalidFeedback.style.display = 'flex';
+          // Highlight quick chips
+          quickChipsWrapper.style.transition = 'transform 0.15s ease';
+          quickChipsWrapper.style.transform = 'scale(1.02)';
+          setTimeout(() => {
+            quickChipsWrapper.style.transform = 'scale(1)';
+          }, 200);
+        }
+      }
+
+      // Handle Submission at Each Step
+      function handleStepSubmit() {
+        let text = symptomInput.value.trim();
+        if (!text) return;
+
+        // 1. Red Flag Emergency Guardrail Check (0ms Red Flag)
+        if (RED_FLAG_REGEX.test(text)) {
+          let reason = '12대 소아 위급 상황 (119 즉시 신고 필요)';
+          if (/절단|잘렸|잘려|전기톱|날아갔/.test(text)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
+          else if (/경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)/.test(text)) reason = '소아 급성 경련 및 뇌전증 발작 의심';
+          else if (/의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도/.test(text)) reason = '의식 저하 및 기면 상태 (초응급 이송)';
+          else if (/청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕/.test(text)) reason = '급성 소아 호흡부전 및 기도폐쇄 의심';
+          else if (/초록색.*토|담즙|분수토|피똥|딸기잼.*변|혈변/.test(text)) reason = '장중첩증/위장관 출혈 의심';
+          else if (/100일.*(38|열)|백일.*(38|열)/.test(text)) reason = '생후 100일 미만 영아 고열 (신생아 패혈증 의심)';
+          else if (/화상.*(얼굴|손|발)|(얼굴|손|발).*화상|물집.*(얼굴|손|발)/.test(text)) reason = '소아 안면/수부 중증 화상 의심';
+
+          sessionStorage.setItem('red_flag_reason', reason);
+          if (redflagToast) redflagToast.style.display = 'block';
+          symptomInput.blur();
+          setTimeout(() => {
+            const targetUrl = window.location.pathname.endsWith('.html') ? '../emergency/emergency_alert.html' : '/emergency_alert';
+            window.location.href = targetUrl;
+          }, 800);
+          return;
+        }
+
+        // 2. Meaningless/Mismatched Input Guardrail
+        if (isMeaninglessInput(text)) {
+          session.invalidCount = (session.invalidCount || 0) + 1;
+          // First attempt with meaningless input: Show gentle guide and suggest quick chips
+          if (session.invalidCount < 2) {
+            let guideMsg = '아이가 어디가 불편한지 조금만 더 적어주세요. 아래 추천 증상을 눌러도 돼요!';
+            if (session.step === 2) guideMsg = '아이 나이나 체온(예: 18개월, 38.5도)을 알려주시면 가장 안전한 병원을 찾을 수 있어요!';
+            if (session.step === 3) guideMsg = '처짐, 구토 등 추가 증상을 선택하거나 확인을 한 번 더 눌러주세요!';
+            showInvalidFeedback(guideMsg);
+            return;
+          }
+          // Second attempt: Fallback to safe defaults so parent is never trapped
+          hideInvalidFeedback();
+          if (session.step === 1) text = '소아 발열 및 전신 불편';
+          if (session.step === 2) text = '14개월 38.5℃';
+          if (session.step === 3) text = '처지고 보챔';
+        } else {
+          hideInvalidFeedback();
+          session.invalidCount = 0;
+        }
+
+        // 3. Progressive Flow Step Machine
+        if (session.step === 1) {
+          session.symptoms = text;
+
+          // Smart auto-detection: if user entered age & temp together in step 1
+          const hasAge = /\d+개월|\d+세|\d+일/.test(text);
+          const hasTemp = /\d+(\.\d+)?(℃|도)/.test(text);
+
+          if (hasAge && hasTemp) {
+            session.age = text.match(/\d+개월|\d+세|\d+일/)[0];
+            session.temp = text.match(/\d+(\.\d+)?(℃|도)/)[0].replace('도', '℃');
+            renderStep(3); // Skip step 2 if already provided!
+          } else {
+            renderStep(2);
+          }
+        } else if (session.step === 2) {
+          session.age = text.includes('개월') || text.includes('세') || text.includes('일') ? text : '14개월';
+          session.temp = text.includes('도') || text.includes('℃') ? text : '38.5℃';
+          renderStep(3);
+        } else if (session.step === 3) {
+          session.companion = text;
+
+          const finalAge = session.age.match(/\d+개월|\d+세|\d+일/)?.[0] || '14개월';
+          const finalTemp = session.temp.match(/\d+(\.\d+)?(℃|도)/)?.[0]?.replace('도', '℃') || '38.5℃';
+          const finalSymptom = session.symptoms.replace('열이 나요', '고열') || '발열';
+          const finalCompanion = session.companion || '처짐';
+
+          // Save structured triage object to sessionStorage for result.html dynamic hydration
+          const triagePayload = {
+            age: finalAge,
+            temp: finalTemp,
+            symptom: finalSymptom,
+            companion: finalCompanion,
+            location: '잠실동',
+            ktas: '3',
+            ktas_name: '준응급 (야간외래 권고)'
+          };
+          sessionStorage.setItem('triage_result', JSON.stringify(triagePayload));
+
+          // Package Backend ChatRequest Payload for loading.html to execute real POST /api/v1/chat
+          const userLat = parseFloat(localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133');
+          const userLon = parseFloat(localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001');
+          const userAddress = localStorage.getItem('user_address') || sessionStorage.getItem('user_address') || null;
+          const userMessage = `${finalAge} 아기이고 체온은 ${finalTemp}입니다. 주요 증상: ${finalSymptom}, 동반 증상: ${finalCompanion}`;
+
+          const backendChatRequest = {
+            user_message: userMessage,
+            user_lat: userLat,
+            user_lon: userLon,
+            user_address: userAddress,
+            force_matching: true,
+            stream: false,
+            patient_vitals: {
+              age: finalAge,
+              temp: finalTemp,
+              symptom: finalSymptom,
+              companion: finalCompanion
+            }
+          };
+          sessionStorage.setItem('pending_chat_request', JSON.stringify(backendChatRequest));
+
+          // Move to loading.html to perform real API orchestration
+          const loadingUrl = window.location.pathname.endsWith('.html') ? 'loading.html' : '/loading';
+          window.location.href = loadingUrl;
+        }
+      }
+
+      function launchAnalyzingOverlay() {
+        const overlay = document.getElementById('ai-analyzing-overlay');
+        const stepText = document.getElementById('analyzing-step-text');
+        const stepIcon = document.getElementById('analyzing-step-icon');
+        const progressFill = document.getElementById('analyzing-progress-fill');
+        const targetUrl = window.location.pathname.endsWith('.html') ? '../result/result.html' : '/result';
+
+        if (overlay) {
+          symptomInput.blur();
+          overlay.classList.add('active');
+          overlay.setAttribute('aria-hidden', 'false');
+
+          if (progressFill) progressFill.style.width = '35%';
+
+          setTimeout(() => {
+            if (stepText) stepText.innerText = '소아 KTAS 임상 지침 168개 주증상 대조 중...';
+            if (stepIcon) stepIcon.innerText = 'stethoscope';
+            if (progressFill) progressFill.style.width = '70%';
+          }, 700);
+
+          setTimeout(() => {
+            if (stepText) stepText.innerText = '달빛어린이병원 & 30분 마진 심야약국 매칭 완료!';
+            if (stepIcon) stepIcon.innerText = 'verified';
+            if (progressFill) progressFill.style.width = '100%';
+          }, 1400);
+
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 2000);
+        } else {
+          window.location.href = targetUrl;
+        }
+      }
+
+      // Initialize Step 1
+      renderStep(1);
+    });
+  </script>
+
+  <!-- Client Interaction Script Module -->
+  <script src="../js/main.js"></script>
+</body>
+
+</html>

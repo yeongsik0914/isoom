@@ -1053,8 +1053,18 @@ window.selectLiveFacilityCard = function(facilityName, facilityType) {
 
     if (selectedHospital) {
       sessionStorage.setItem('selected_hospital', JSON.stringify(selectedHospital));
-      const isHtml = window.location.pathname.endsWith('.html');
-      window.location.href = isHtml ? 'hospital_detail.html' : 'hospital_detail';
+      const path = window.location.pathname;
+      let target = '/hospital_detail';
+      if (path.endsWith('.html') || window.location.protocol === 'file:') {
+        if (path.includes('/home/') || path.includes('/triage/') || path.includes('/emergency/') || path.includes('/settings/') || path.includes('/onboarding/')) {
+          target = '../result/hospital_detail.html';
+        } else if (path.includes('/result/')) {
+          target = 'hospital_detail.html';
+        } else {
+          target = 'result/hospital_detail.html';
+        }
+      }
+      window.location.href = target;
     }
   } catch (err) {
     console.warn('Facility card navigation error:', err);

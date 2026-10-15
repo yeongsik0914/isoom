@@ -92,6 +92,7 @@
 | **[ISSUE-083]** | 공공데이터 오픈 API 엔지니어링 & 전수 통계 | 국립중앙의료원 병·의원 및 약국 오픈 API(DATA_GO_API_KEY) 기반 전국 달빛어린이병원(156개) 및 야간·심야약국(2,028개) 마크다운 표 생성 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-084]** | 전국 의료 데이터셋 통합 & 전 페이지 위치 기반 연동 | 전국 달빛어린이병원(156개)·야간약국(2,028개) 마스터 데이터셋 구축, 아이숨 전 페이지(index·result·hospital_detail) 위치 기반 실데이터 연동 및 상단 문정동 알약 주소 검색·현재 주소 직접 설정 기능 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-085]** | 프론트엔드 UI/UX 레이아웃 버그 & 태그 정합성 | 위치 설정 모달(location-select-modal) sheet-header 닫는 div 태그 누락으로 인한 컴포넌트 가로 압축 결함 해결 및 수직 렌더링 복원 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-086]** | 코드베이스 클린업 & 프론트엔드 모듈화 | 테스트 찌꺼기 파일(._* 159개 및 빈 폴더) 정리, HTML 6대 카테고리별 디렉터리 분리 및 파일간 경로 설정 전면 재정비 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -2705,4 +2706,53 @@
   - [README.md](file:///e:/monnlight/README.md)
 * **조치 결과**:
   - 모달 내 요소들이 정상적인 세로(Column) 순서(제목 & 닫기 ➔ 현재 설정된 주소 바 ➔ 주소 검색창 ➔ GPS 실시간 측정 버튼 ➔ 자주 찾는 주요 지역 그리드)로 깔끔하고 여유롭게 배치되어 텍스트 깨짐 및 가로 압축 왜곡 현상이 100% 완벽하게 해결됨.
+
+---
+
+### [ISSUE-086] 테스트 찌꺼기 파일(._* 159개 및 빈 폴더) 정리, HTML 6대 카테고리별 디렉터리 분리 및 파일간 경로 설정 전면 재정비
+
+* **발생 일자**: 2026-10-15
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **분류**: 코드베이스 클린업 / 프론트엔드 아키텍처 모듈화 / 경로 정합성
+* **문제 상황**:
+  * Mac OS 및 테스트 수행 과정에서 생성된 AppleDouble 메타데이터 찌꺼기 파일(`._*`) 159개와 임시 빈 디렉터리(`새 폴더`, `scratch/`)가 프로젝트 전역에 산재하여 저장소 용량을 낭비하고 빌드/검색 노이즈를 유발함.
+  * `frontend/` 디렉터리에 13개 HTML 파일이 플랫하게 혼재되어 있어 화면 역할(온보딩, 메인, 문진, 결과, 응급, 설정)별 유지보수 및 확장성이 저하됨.
+  * 백엔드 `pairing_service.py`가 약국 전용 파일(`national_night_pharmacies_2028.json`)을 참조하여 `test_step5_api.py` TC-503에서 페어링 검색 0건 실패 발생.
+* **원인 분석**:
+  * Cross-OS 개발 환경에서 생겨난 AppleDouble 파일에 대한 주기적 클린업 부재.
+  * 기능별 카테고리 폴더 미분리로 인한 HTML 파일 난립.
+  * 페어링 마스터(`nationwide_pairings.json`) 대신 약국 전용 마스터가 데이터 소스로 연결되어 병원 위경도 키 누락.
+* **구체적 해결 방안**:
+  1. **찌꺼기 파일 전수 제거**:
+     - `._*` AppleDouble 쓰레기 파일 159개 전수 삭제.
+     - `새 폴더`, `scratch/` 등 불필요 빈 디렉터리 완전 삭제.
+  2. **HTML 6대 카테고리별 디렉터리 분리 구축**:
+     - `onboarding/`: `splash.html`, `permission.html`
+     - `home/`: `index.html`
+     - `triage/`: `input.html`, `loading.html`
+     - `result/`: `result.html`, `hospital_detail.html`
+     - `emergency/`: `emergency_alert.html`, `emergency_guide.html`, `emergency_guide_checklist.html`, `emergency_guide_symptoms.html`
+     - `settings/`: `settings.html`, `terms.html`
+     - `frontend/templates/`에도 동일 구조 완전 동기화.
+  3. **내부 상대 경로 및 스마트 네비게이션 전면 보정**:
+     - CSS(`../css/style.css`), JS(`../js/main.js`, `nationwide_pairings.js`, `public_night_pharmacies.js`), Assets(`../assets/`) 상대 경로 전면 재조정.
+     - 화면 간 이동 링크(`href` 및 `window.location.href`)를 카테고리 간 상대 경로로 보정.
+     - `main.js`의 `selectLiveFacilityCard()`에 디렉터리 자동 감지 스마트 네비게이션 도입.
+     - 기존 루트 접근 대비 0ms 리다이렉트 스텁 생성.
+  4. **FastAPI 서버([main.py](file:///e:/monnlight/main.py)) 라우터 동기화**:
+     - `find_frontend_html()` 헬퍼 함수로 신규 카테고리 디렉터리 1순위 서빙.
+     - 카테고리별 정적 파일 마운트(`/onboarding`, `/home`, `/triage`, `/result`, `/emergency`, `/settings`) 등록.
+  5. **`pairing_service.py` 데이터 소스 정합성 복구**:
+     - `PAIRINGS_FILE`을 `data/nationwide_pairings.json`으로 교정하여 TC-503 즉각 통과.
+* **적용 파일**:
+  - `frontend/` 및 `frontend/templates/` (6대 카테고리 하위 13개 HTML)
+  - [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js) & [frontend/templates/js/main.js](file:///e:/monnlight/frontend/templates/js/main.js)
+  - [main.py](file:///e:/monnlight/main.py)
+  - [app/services/pairing_service.py](file:///e:/monnlight/app/services/pairing_service.py)
+  - [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  - [log.md](file:///e:/monnlight/log.md)
+  - [PLAN.md](file:///e:/monnlight/PLAN.md)
+  - [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - 찌꺼기 파일 159개 정리 완료, 프론트엔드 HTML 구조의 직관적 모듈화 달성, 단위/통합 테스트 13건 전수 무결점 통과(`OK`).
 

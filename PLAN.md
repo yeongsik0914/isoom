@@ -72,6 +72,7 @@
     - [10.52 국립중앙의료원 오픈 API 기반 전국 달빛어린이병원(156개) 및 야간·심야약국(2,028개) 전수 마크다운 표 구축](#1052-국립중앙의료원-오픈-api-기반-전국-달빛어린이병원156개-및-야간심야약국2028개-전수-마크다운-표-구축-2026-10-15-완결)
     - [10.53 '아이숨' 전국 156개 달빛병원·2,028개 야간약국 전 페이지 위치 기반 연동 및 문정동 알약 주소 검색·현재 주소 직접 설정 기능 완성](#1053-아이숨-전국-156개-달빛병원2028개-야간약국-전-페이지-위치-기반-연동-및-문정동-알약-주소-검색현재-주소-직접-설정-기능-완성-2026-10-15-완결)
     - [10.54 '아이숨' 위치 설정 모달 HTML 정합성 복구 및 수직 레이아웃 안정화](#1054-아이숨-위치-설정-모달-html-정합성-복구-및-수직-레이아웃-안정화-2026-10-15-완결)
+    - [10.55 코드베이스 클린업(159개 찌꺼기 파일 정리) 및 프론트엔드 HTML 6대 카테고리별 디렉터리 분리·경로 전면 재정비](#1055-코드베이스-클린업159개-찌꺼기-파일-정리-및-프론트엔드-html-6대-카테고리별-디렉터리-분리경로-전면-재정비-2026-10-15-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1289,6 +1290,32 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
   3. **템플릿-정적 배포 동기화 및 전수 테스트 통과**:
      - `frontend/templates/index.html`과 `frontend/index.html` 완전 일치 동기화.
      - 단위/통합 테스트 전수 무결점 통과(`OK`).
+
+---
+
+
+### 10.55 코드베이스 클린업(159개 찌꺼기 파일 정리) 및 프론트엔드 HTML 6대 카테고리별 디렉터리 분리·경로 전면 재정비 (2026-10-15 완결)
+* **배경 및 개요**:
+  - Cross-OS 개발 환경에서 생성된 159개의 AppleDouble 메타데이터 찌꺼기 파일(`._*`) 및 루트 빈 폴더(`새 폴더`, `scratch/`)를 전수 정리하여 코드베이스 청결도 회복.
+  - 기존에 단일 폴더에 플랫하게 혼재되어 있던 13개 HTML 자산을 기능 역할에 맞추어 6대 카테고리 디렉터리로 전면 분리 재배치하고, CSS/JS 상대 경로 및 화면 간 스마트 네비게이션을 완벽하게 재정비.
+* **주요 엔지니어링 구현 및 아키텍처**:
+  1. **HTML 6대 카테고리 디렉터리 체계 구축**:
+     - `onboarding/`: `splash.html`, `permission.html`
+     - `home/`: `index.html`
+     - `triage/`: `input.html`, `loading.html`
+     - `result/`: `result.html`, `hospital_detail.html`
+     - `emergency/`: `emergency_alert.html`, `emergency_guide.html`, `emergency_guide_checklist.html`, `emergency_guide_symptoms.html`
+     - `settings/`: `settings.html`, `terms.html`
+     - `frontend/templates/`에도 동일 구조 완전 동기화.
+  2. **경로 설정 및 스마트 네비게이션 전면 보정**:
+     - 모든 HTML의 CSS(`<link href="../css/style.css">`), JS(`<script src="../js/main.js">`), 에셋(`<img src="../assets/...">`) 상대 경로 보정.
+     - `main.js`의 `selectLiveFacilityCard()`에 호출 위치 자동 감지 스마트 네비게이션(`../result/hospital_detail.html`) 적용.
+     - 기존 루트 접근 대비 0ms 리다이렉트 스텁 유지.
+  3. **FastAPI 서버([main.py](file:///e:/monnlight/main.py)) 라우터 동기화**:
+     - `find_frontend_html()` 헬퍼 함수로 신규 카테고리 디렉터리 1순위 서빙.
+     - 카테고리별 정적 파일 마운트(`/onboarding`, `/home`, `/triage`, `/result`, `/emergency`, `/settings`) 등록.
+  4. **백엔드 데이터 소스 정합성 복구**:
+     - `pairing_service.py`의 `PAIRINGS_FILE`을 `data/nationwide_pairings.json`으로 교정하여 단위 테스트(TC-503) 전수 통과.
 
 ---
 

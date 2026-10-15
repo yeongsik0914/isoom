@@ -30,6 +30,27 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.45-html-categorical-reorganization] 2026-10-15: 테스트 찌꺼기 파일 전수 정리 및 HTML 6대 카테고리별 디렉터리 분리·경로 전면 재정비 (정영식 팀장)
+* **🧹 저장소 찌꺼기 파일 전수 클린업 (159개 `._*` 및 빈 디렉터리 제거)**:
+  - Cross-OS 환경에서 누적된 AppleDouble 파일(`._*`) 159개 전수 영구 삭제.
+  - 루트의 빈 디렉터리(`새 폴더`, `scratch/`) 제거로 코드베이스 경량화 및 청결도 회복.
+* **📁 프론트엔드 HTML 6대 카테고리별 디렉터리 분리 구축 (`frontend/` & `frontend/templates/`)**:
+  - `onboarding/`: `splash.html`, `permission.html`
+  - `home/`: `index.html`
+  - `triage/`: `input.html`, `loading.html`
+  - `result/`: `result.html`, `hospital_detail.html`
+  - `emergency/`: `emergency_alert.html`, `emergency_guide.html`, `emergency_guide_checklist.html`, `emergency_guide_symptoms.html`
+  - `settings/`: `settings.html`, `terms.html`
+* **🔗 리소스 상대 경로 & 화면 간 스마트 네비게이션 전면 보정**:
+  - 모든 HTML의 CSS(`../css/style.css`), JS(`../js/main.js` 등), 에셋(`../assets/`) 상대 경로 재조정.
+  - 화면 간 상호 링크(`href` 및 `window.location.href`)를 카테고리 간 상대 경로로 보정.
+  - `main.js`의 `selectLiveFacilityCard()`에 디렉터리 자동 판별 스마트 네비게이션 적용.
+  - 기존 루트 접속을 위한 0ms 리다이렉트 스텁 생성.
+* **⚡ FastAPI 서버 라우터 ([main.py](file:///e:/monnlight/main.py)) 카테고리 우선 서빙 갱신**:
+  - `find_frontend_html()` 헬퍼 함수로 신규 카테고리 폴더 1순위 서빙 및 6대 카테고리 정적 마운트 추가.
+* **🛠️ `pairing_service.py` 데이터 소스 정합성 복구**:
+  - `PAIRINGS_FILE`을 `data/nationwide_pairings.json`으로 교정하여 단위 테스트(TC-503) 및 API 전수 통과.
+
 ### 🌟 [v2.4.44-modal-layout-fix] 2026-10-15: 위치 설정 모달(location-select-modal) HTML 구조 정합성 복구 및 수직 레이아웃 안정화 (정영식 팀장)
 * **🛠️ 위치 설정 모달(location-select-modal) `sheet-header` 닫는 div 태그 누락 결함 해결**:
   - `frontend/templates/index.html` 및 `frontend/index.html`에서 `<div class="sheet-header">`의 닫는 태그(`</div>`) 누락으로 인해 모달 내 모든 컴포넌트(현재 주소 바, 주소 검색창, GPS 측정 버튼, 지역 그리드)가 가로 일렬(flex row)로 찌그러지며 텍스트가 1글자 단위로 세로 쓰기 되던 결함 완전 해소.

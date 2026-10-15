@@ -111,6 +111,12 @@ if os.path.exists("frontend"):
     if os.path.exists("frontend/assets"):
         app.mount("/assets", StaticFiles(directory="frontend/assets"), name="assets")
 
+    # Categorical HTML Directory Mounts
+    for cat in ["onboarding", "home", "triage", "result", "emergency", "settings"]:
+        cat_path = f"frontend/{cat}"
+        if os.path.exists(cat_path):
+            app.mount(f"/{cat}", StaticFiles(directory=cat_path), name=cat)
+
 if os.path.exists("app/static"):
     app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
@@ -146,16 +152,29 @@ async def get_ktas_viewer():
     return FileResponse("ktas_viewer.html", media_type="text/html")
 
 
+def find_frontend_html(category: str, filename: str) -> str | None:
+    """Finds HTML file with categorical path priority."""
+    candidates = [
+        f"frontend/{category}/{filename}",
+        f"frontend/templates/{category}/{filename}",
+        f"frontend/templates/{filename}",
+        f"frontend/{filename}",
+        f"app/templates/{filename}",
+        f"app/static/{filename}",
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return None
+
+
 @app.get("/splash", tags=["Frontend"], response_class=FileResponse)
 @app.get("/splash.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_splash():
     """Serves the Aisum first loading splash screen."""
-    if os.path.exists("frontend/templates/splash.html"):
-        return FileResponse("frontend/templates/splash.html", media_type="text/html")
-    if os.path.exists("frontend/splash.html"):
-        return FileResponse("frontend/splash.html", media_type="text/html")
-    if os.path.exists("app/templates/splash.html"):
-        return FileResponse("app/templates/splash.html", media_type="text/html")
+    path = find_frontend_html("onboarding", "splash.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Splash page not found"})
 
 
@@ -163,12 +182,9 @@ async def get_aisum_splash():
 @app.get("/permission.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_permission():
     """Serves the Aisum app permission specification page."""
-    if os.path.exists("frontend/templates/permission.html"):
-        return FileResponse("frontend/templates/permission.html", media_type="text/html")
-    if os.path.exists("frontend/permission.html"):
-        return FileResponse("frontend/permission.html", media_type="text/html")
-    if os.path.exists("app/templates/permission.html"):
-        return FileResponse("app/templates/permission.html", media_type="text/html")
+    path = find_frontend_html("onboarding", "permission.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Permission page not found"})
 
 
@@ -176,53 +192,46 @@ async def get_aisum_permission():
 @app.get("/index.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_home():
     """Serves the Aisum mobile web main page."""
-    if os.path.exists("frontend/templates/index.html"):
-        return FileResponse("frontend/templates/index.html", media_type="text/html")
-    if os.path.exists("frontend/index.html"):
-        return FileResponse("frontend/index.html", media_type="text/html")
-    if os.path.exists("app/templates/index.html"):
-        return FileResponse("app/templates/index.html", media_type="text/html")
-    return FileResponse("app/static/index.html", media_type="text/html")
+    path = find_frontend_html("home", "index.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Home page not found"})
 
 
 @app.get("/input", tags=["Frontend"], response_class=FileResponse)
 @app.get("/input.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_input():
     """Serves the Aisum symptom prompt input page."""
-    if os.path.exists("frontend/templates/input.html"):
-        return FileResponse("frontend/templates/input.html", media_type="text/html")
-    if os.path.exists("frontend/input.html"):
-        return FileResponse("frontend/input.html", media_type="text/html")
+    path = find_frontend_html("triage", "input.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Input page not found"})
 
 
 @app.get("/modal", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_modal():
     """Serves the Aisum emergency guidance and consent modal preview page."""
-    if os.path.exists("frontend/templates/modal.html"):
-        return FileResponse("frontend/templates/modal.html", media_type="text/html")
-    if os.path.exists("frontend/modal.html"):
-        return FileResponse("frontend/modal.html", media_type="text/html")
+    path = find_frontend_html("triage", "modal.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Modal page not found"})
 
 
 @app.get("/result", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_result():
     """Serves the Aisum tailored medical recommendations result page."""
-    if os.path.exists("frontend/templates/result.html"):
-        return FileResponse("frontend/templates/result.html", media_type="text/html")
-    if os.path.exists("frontend/result.html"):
-        return FileResponse("frontend/result.html", media_type="text/html")
+    path = find_frontend_html("result", "result.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Result page not found"})
 
 
 @app.get("/loading", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_loading():
     """Serves the Aisum AI analyzing loading animation page."""
-    if os.path.exists("frontend/templates/loading.html"):
-        return FileResponse("frontend/templates/loading.html", media_type="text/html")
-    if os.path.exists("frontend/loading.html"):
-        return FileResponse("frontend/loading.html", media_type="text/html")
+    path = find_frontend_html("triage", "loading.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Loading page not found"})
 
 
@@ -230,10 +239,9 @@ async def get_aisum_loading():
 @app.get("/hospital_detail.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_hospital_detail():
     """Serves the Aisum Hospital Detail & Real-time queue ticketing page."""
-    if os.path.exists("frontend/templates/hospital_detail.html"):
-        return FileResponse("frontend/templates/hospital_detail.html", media_type="text/html")
-    if os.path.exists("frontend/hospital_detail.html"):
-        return FileResponse("frontend/hospital_detail.html", media_type="text/html")
+    path = find_frontend_html("result", "hospital_detail.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Hospital detail page not found"})
 
 
@@ -241,10 +249,9 @@ async def get_aisum_hospital_detail():
 @app.get("/emergency_alert.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_emergency_alert():
     """Serves the Aisum 0ms Red Flag 119 emergency direct alert page."""
-    if os.path.exists("frontend/templates/emergency_alert.html"):
-        return FileResponse("frontend/templates/emergency_alert.html", media_type="text/html")
-    if os.path.exists("frontend/emergency_alert.html"):
-        return FileResponse("frontend/emergency_alert.html", media_type="text/html")
+    path = find_frontend_html("emergency", "emergency_alert.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Emergency alert page not found"})
 
 
@@ -252,46 +259,47 @@ async def get_aisum_emergency_alert():
 @app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_unified():
     """Serves the unified Aisum Emergency Guide with horizontal swipe photo carousel."""
-    if os.path.exists("frontend/templates/emergency_guide.html"):
-        return FileResponse("frontend/templates/emergency_guide.html", media_type="text/html")
-    return FileResponse("app/templates/emergency_guide.html", media_type="text/html")
+    path = find_frontend_html("emergency", "emergency_guide.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Emergency guide not found"})
 
 
 @app.get("/guide/symptoms", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_symptoms():
     """Serves the Aisum Emergency Guide (Recommendation 1: Symptoms Photo Guide)."""
-    if os.path.exists("frontend/templates/emergency_guide_symptoms.html"):
-        return FileResponse("frontend/templates/emergency_guide_symptoms.html", media_type="text/html")
-    return FileResponse("app/templates/emergency_guide_symptoms.html", media_type="text/html")
+    path = find_frontend_html("emergency", "emergency_guide_symptoms.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Symptoms guide not found"})
 
 
 @app.get("/guide/checklist", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_checklist():
     """Serves the Aisum Emergency Guide (Recommendation 2: ER Departure Checklist)."""
-    if os.path.exists("frontend/templates/emergency_guide_checklist.html"):
-        return FileResponse("frontend/templates/emergency_guide_checklist.html", media_type="text/html")
-    return FileResponse("app/templates/emergency_guide_checklist.html", media_type="text/html")
+    path = find_frontend_html("emergency", "emergency_guide_checklist.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Checklist guide not found"})
 
 
 @app.get("/settings", tags=["Frontend"], response_class=FileResponse)
 @app.get("/settings.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_settings():
     """Serves the Aisum Settings page."""
-    if os.path.exists("frontend/templates/settings.html"):
-        return FileResponse("frontend/templates/settings.html", media_type="text/html")
-    if os.path.exists("frontend/settings.html"):
-        return FileResponse("frontend/settings.html", media_type="text/html")
-    return FileResponse("app/templates/settings.html", media_type="text/html")
+    path = find_frontend_html("settings", "settings.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Settings page not found"})
 
 
 @app.get("/terms", tags=["Frontend"], response_class=FileResponse)
 @app.get("/terms.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_terms():
     """Serves the Aisum Terms of Service page."""
-    if os.path.exists("frontend/templates/terms.html"):
-        return FileResponse("frontend/templates/terms.html", media_type="text/html")
-    if os.path.exists("frontend/terms.html"):
-        return FileResponse("frontend/terms.html", media_type="text/html")
+    path = find_frontend_html("settings", "terms.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Terms page not found"})
 
 

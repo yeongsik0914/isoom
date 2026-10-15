@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>접근 권한 안내 - 아이숨 (i-Soom)</title>
+  <meta name="description" content="아이숨 서비스 이용을 위한 필수 및 선택 접근 권한 안내" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-local" />
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
+
+  <style>
+    /* Reset & Viewport Container */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      color: #0f172a;
+    }
+
+    .permission-viewport {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      max-height: 932px;
+      background-color: #ffffff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px 24px 24px 24px;
+      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.15);
+      animation: fadeInPage 0.4s ease-out;
+    }
+
+    @keyframes fadeInPage {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Main Content Area */
+    .permission-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-top: 10px;
+    }
+
+    /* Headline Title (Matching monimo 1:1) */
+    .permission-title {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #000000;
+      letter-spacing: -0.7px;
+      margin-bottom: 28px;
+    }
+
+    /* Section Sub-label */
+    .permission-section-label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #8b95a1;
+      letter-spacing: -0.2px;
+      margin-bottom: 20px;
+    }
+
+    /* Permission List (Matching monimo 1:1) */
+    .permission-list {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .permission-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .permission-icon-wrap {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .permission-icon-wrap .material-symbols-outlined {
+      font-size: 24px;
+    }
+
+    /* Icon Specific Colors from Reference */
+    .icon-location {
+      color: #0066ff; /* Vivid Blue */
+    }
+
+    .icon-notification {
+      color: #f59e0b; /* Warm Amber */
+    }
+
+    .icon-phone {
+      color: #10b981; /* Emerald Green */
+    }
+
+    .icon-camera {
+      color: #4b5563; /* Slate Charcoal */
+    }
+
+    .icon-photo {
+      color: #0d9488; /* Teal / Turquoise */
+    }
+
+    .permission-text-group {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .permission-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #191f28;
+      letter-spacing: -0.4px;
+      white-space: nowrap;
+      min-width: 48px;
+    }
+
+    .permission-desc {
+      font-size: 13.5px;
+      font-weight: 400;
+      color: #8b95a1;
+      letter-spacing: -0.3px;
+      line-height: 1.35;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Notice Footer Box (Matching monimo 1:1) */
+    .permission-notice-box {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #f2f4f6;
+    }
+
+    .permission-notice-text {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: #8b95a1;
+      line-height: 1.55;
+      letter-spacing: -0.3px;
+    }
+
+    /* Bottom Action Button Area */
+    .permission-bottom-bar {
+      margin-top: 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-confirm-permission {
+      width: 100%;
+      height: 54px;
+      background-color: #0066ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.25);
+    }
+
+    .btn-confirm-permission:active {
+      background-color: #0052cc;
+      transform: scale(0.985);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Mobile Viewport Canvas -->
+  <div class="permission-viewport" id="permissionView">
+
+    <!-- 1. Main Permission Content -->
+    <main class="permission-content">
+      <!-- Headline Title -->
+      <h1 class="permission-title">
+        앱 사용을 위해<br />
+        접근 권한을 허용해주세요
+      </h1>
+
+      <!-- Section Label: 선택 권한 -->
+      <div class="permission-section-label">선택 권한</div>
+
+      <!-- Permission Items based on MoonlightCare Backend Architecture -->
+      <div class="permission-list">
+
+        <!-- 1. 위치 (Location): PostGIS/Haversine 5~10km 병원·약국 페어링 및 응급실 거리 계산 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-location">
+            <span class="material-symbols-outlined">location_on</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">위치</span>
+            <span class="permission-desc">야간 소아과·약국·응급실 거리 계산 및 길안내</span>
+          </div>
+        </div>
+
+        <!-- 2. 알림 (Notification): 실시간 소아 병상 변동 및 조기 마감(Cut-off) SSE 스트리밍 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-notification">
+            <span class="material-symbols-outlined">notifications</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">알림</span>
+            <span class="permission-desc">소아 응급실 병상 변동 및 접수 마감 긴급 안내</span>
+          </div>
+        </div>
+
+        <!-- 3. 전화 (Phone): 119 긴급 숏서킷 및 30초 통화 스크립트 원클릭 전화 연결 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-phone">
+            <span class="material-symbols-outlined">call</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">전화</span>
+            <span class="permission-desc">119 응급 직통 연결 및 병원 출발 전 사전 확인 통화</span>
+          </div>
+        </div>
+
+        <!-- 4. 카메라 (Camera): 2024년 5월 본인확인 의무화 신분증 및 환아 증상(발진, 상처) 촬영 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-camera">
+            <span class="material-symbols-outlined">photo_camera</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">카메라</span>
+            <span class="permission-desc">본인확인 신분증 및 환아 증상(발진, 상처) 촬영</span>
+          </div>
+        </div>
+
+        <!-- 5. 사진 (Photos / Storage): 아이 증상 사진 첨부 및 처방전·진료 서류 보관 -->
+        <div class="permission-item">
+          <div class="permission-icon-wrap icon-photo">
+            <span class="material-symbols-outlined">image</span>
+          </div>
+          <div class="permission-text-group">
+            <span class="permission-name">사진</span>
+            <span class="permission-desc">아이 증상 사진 첨부 및 처방전·진료 서류 보관</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Legal / Guidance Footer Note (Matching monimo 1:1) -->
+      <div class="permission-notice-box">
+        <p class="permission-notice-text">
+          선택 권한의 경우 허용하지 않아도 서비스를 사용할 수 있으나 일부 서비스 이용이 제한될 수 있습니다.
+        </p>
+      </div>
+    </main>
+
+    <!-- 3. Bottom Confirm Action Bar -->
+    <div class="permission-bottom-bar">
+      <button type="button" class="btn-confirm-permission" id="btnConfirmPermission" onclick="onConfirmPermission()">
+        동의하고 시작하기
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    // 0. 이미 권한을 부여받은 사용자는 메인 화면으로 즉시 직행 (앱 내 권한 영구 유지)
+    (function checkExistingPermission() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const force = urlParams.get('force');
+        const isGranted = localStorage.getItem('aisum_permission_granted') === 'true';
+        if (isGranted && force !== 'true') {
+          console.log('✅ 이미 접근 권한이 영구 승인되었습니다. 메인 홈으로 바로 이동합니다.');
+          window.location.replace('../home/index.html');
+        }
+      } catch (e) {
+        console.warn('Permission check error:', e);
+      }
+    })();
+
+    // 전국 29개 페어링 거점 및 주요 대도시 포함 공간 노드 (Reverse Geocoding)
+    const AISUM_NATIONWIDE_NODES = [
+      // 수도권
+      { name: '역삼동', gu: '서울 강남구', lat: 37.5006, lon: 127.0365 },
+      { name: '방배동', gu: '서울 서초구', lat: 37.498871, lon: 126.993414 },
+      { name: '청파동', gu: '서울 용산구', lat: 37.552431, lon: 126.969145 },
+      { name: '상계동', gu: '서울 노원구', lat: 37.654812, lon: 127.060124 },
+      { name: '목동', gu: '서울 양천구', lat: 37.524812, lon: 126.868215 },
+      { name: '삼성동', gu: '서울 강남구', lat: 37.5140, lon: 127.0565 },
+      { name: '대치동', gu: '서울 강남구', lat: 37.4946, lon: 127.0628 },
+      { name: '서초동', gu: '서울 서초구', lat: 37.4918, lon: 127.0079 },
+      { name: '반포동', gu: '서울 서초구', lat: 37.5042, lon: 127.0049 },
+      { name: '잠실동', gu: '서울 송파구', lat: 37.5133, lon: 127.1001 },
+      { name: '공덕동', gu: '서울 마포구', lat: 37.5445, lon: 126.9515 },
+      { name: '여의도동', gu: '서울 영등포구', lat: 37.5218, lon: 126.9242 },
+      { name: '영통동', gu: '수원 영통구', lat: 37.288541, lon: 127.051214 },
+      { name: '정자동', gu: '성남 분당구', lat: 37.367124, lon: 127.108215 },
+      { name: '판교동', gu: '성남 분당구', lat: 37.3940, lon: 127.1110 },
+      { name: '일산동', gu: '고양 일산동구', lat: 37.643812, lon: 126.786512 },
+      { name: '동탄동', gu: '화성시 동탄', lat: 37.206512, lon: 127.072412 },
+      { name: '구월동', gu: '인천 남동구', lat: 37.452412, lon: 126.708214 },
+      { name: '청라동', gu: '인천 서구', lat: 37.534812, lon: 126.654215 },
+      { name: '송도동', gu: '인천 연수구', lat: 37.3940, lon: 126.6540 },
+      // 충청권
+      { name: '둔산동', gu: '대전 서구', lat: 36.352412, lon: 127.378512 },
+      { name: '탄방동', gu: '대전 서구', lat: 36.351214, lon: 127.388412 },
+      { name: '봉명동', gu: '대전 유성구', lat: 36.3570, lon: 127.3420 },
+      { name: '나성동', gu: '세종시', lat: 36.504812, lon: 127.251214 },
+      { name: '아름동', gu: '세종시', lat: 36.5120, lon: 127.2480 },
+      { name: '불당동', gu: '천안 서북구', lat: 36.815214, lon: 127.108412 },
+      { name: '복대동', gu: '청주 흥덕구', lat: 36.621214, lon: 127.432512 },
+      // 영남권
+      { name: '서면', gu: '부산 부산진구', lat: 35.158124, lon: 129.043512 },
+      { name: '온천동', gu: '부산 동래구', lat: 35.204812, lon: 129.083214 },
+      { name: '우동', gu: '부산 해운대구', lat: 35.1631, lon: 129.1636 },
+      { name: '만촌동', gu: '대구 수성구', lat: 35.839812, lon: 128.706512 },
+      { name: '상인동', gu: '대구 달서구', lat: 35.817412, lon: 128.536214 },
+      { name: '삼산동', gu: '울산 남구', lat: 35.538412, lon: 129.324512 },
+      { name: '장량동', gu: '포항 북구', lat: 36.068412, lon: 129.378214 },
+      { name: '팔용동', gu: '창원 의창구', lat: 35.258412, lon: 128.621214 },
+      { name: '삼계동', gu: '김해시', lat: 35.251214, lon: 128.874512 },
+      // 호남권
+      { name: '수완동', gu: '광주 광산구', lat: 35.188412, lon: 126.821214 },
+      { name: '치평동(상무)', gu: '광주 서구', lat: 35.1522, lon: 126.8525 },
+      { name: '효자동', gu: '전주 완산구', lat: 35.81716, lon: 127.102276 },
+      { name: '조례동', gu: '순천시', lat: 34.954214, lon: 127.518412 },
+      // 강원 / 제주
+      { name: '일산동', gu: '원주시', lat: 37.338412, lon: 127.941214 },
+      { name: '탑동', gu: '제주시', lat: 33.517551, lon: 126.522463 }
+    ];
+
+    function estimateDongName(lat, lon) {
+      let best = '역삼동';
+      let minD = Infinity;
+      for (const node of AISUM_NATIONWIDE_NODES) {
+        const dLat = (lat - node.lat) * (Math.PI / 180);
+        const dLon = (lon - node.lon) * (Math.PI / 180);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(lat * (Math.PI / 180)) * Math.cos(node.lat * (Math.PI / 180)) *
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const dist = 6371 * c;
+        if (dist < minD) {
+          minD = dist;
+          best = node.name;
+        }
+      }
+      return best;
+    }
+
+    // Request Actual Device / Browser Permissions (Location & Notification)
+    async function onConfirmPermission() {
+      const btn = document.getElementById('btnConfirmPermission');
+      if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.85';
+        btn.innerHTML = '<span style="display:inline-flex; align-items:center; gap:6px;"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">sync</span> 위치 권한 확인 중...</span>';
+      }
+
+      // Helper function to request Geolocation with generous timeout
+      const requestLocation = () => new Promise((resolve) => {
+        if (!('geolocation' in navigator)) {
+          resolve('unsupported');
+          return;
+        }
+
+        const timer = setTimeout(() => {
+          console.warn('Geolocation prompt timed out - proceeding with cached or fallback');
+          resolve('timeout');
+        }, 8000);
+
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            clearTimeout(timer);
+            try {
+              const lat = position.coords.latitude;
+              const lon = position.coords.longitude;
+              localStorage.setItem('user_lat', lat);
+              localStorage.setItem('user_lon', lon);
+              sessionStorage.setItem('user_lat', lat);
+              sessionStorage.setItem('user_lon', lon);
+              localStorage.setItem('aisum_user_lat', lat);
+              localStorage.setItem('aisum_user_lon', lon);
+              const dongName = estimateDongName(lat, lon);
+              localStorage.setItem('aisum_user_dong', dongName);
+              localStorage.setItem('user_dong', dongName);
+              localStorage.setItem('aisum_permission_location', 'granted');
+              console.log('📍 [Permission] 사용자 실제 위치 포착 완료:', dongName, lat, lon);
+            } catch (e) {
+              console.warn('Storage error on geolocation:', e);
+            }
+            resolve('granted');
+          },
+          (error) => {
+            clearTimeout(timer);
+            console.warn('Geolocation permission denied or failed:', error.message);
+            try {
+              localStorage.setItem('aisum_permission_location', 'denied');
+            } catch (e) {}
+            resolve('denied');
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 7500,
+            maximumAge: 10000
+          }
+        );
+      });
+
+      // 1. Request Real Geolocation Permission
+      try {
+        await requestLocation();
+      } catch (err) {
+        console.warn('Location request error:', err);
+      }
+
+      // 2. Request Real Notification Permission
+      try {
+        if ('Notification' in window && Notification.permission === 'default') {
+          const perm = await Notification.requestPermission();
+          localStorage.setItem('aisum_permission_notification', perm);
+        } else if ('Notification' in window) {
+          localStorage.setItem('aisum_permission_notification', Notification.permission);
+        }
+      } catch (err) {
+        console.warn('Notification request error:', err);
+      }
+
+      // 3. Mark Onboarding Permission Granted in LocalStorage (영구 권한 플래그 설정)
+      try {
+        localStorage.setItem('aisum_permission_granted', 'true');
+        localStorage.setItem('aisum_permission_granted_at', new Date().toISOString());
+      } catch (e) {
+        console.warn('LocalStorage error:', e);
+      }
+
+      // 4. Smooth Transition to Main Home
+      window.location.href = '../home/index.html';
+    }
+  </script>
+</body>
+
+</html>
