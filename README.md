@@ -1,4 +1,4 @@
-﻿# 👶 아이숨 (i-Soom) - 구 MoonlightCare (달빛케어)
+# 👶 아이숨 (i-Soom) - 구 MoonlightCare (달빛케어)
 
 > **"야간·휴일에 갑자기 아픈 우리 아이를 위한 가장 빠르고 안전한 소아청소년과 매칭 서비스"**  
 > 건강보험심사평가원(HIRA), 국립중앙의료원(NMC) E-Gen 실시간 병상, 한국천문연구원(KASI) 특일 데이터, Firebase Cloud Firestore, 그리고 **Gemini 3.8 Flash 멀티 에이전트** 기반의 지능형 소아 의료 응급 지원 시스템
@@ -29,6 +29,15 @@
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
+
+### 🌟 [v2.4.5-collab-merge] 2026-10-15: 정영식 팀장·김동준 팀원 프론트엔드 통합 머지(Merge) 및 Cross-OS NFD 정규화
+* **팀 협업 분기 무결점 통합 머지 (3-Way Merge 완결)**:
+  - 정영식 팀장 구현 산출물(응급실 가이드 `emergency_guide.html`, 설정 `settings.html`)과 김동준 팀원 구현 산출물(증상 입력 `input.html`, 처치정보 모달 `modal.html`)을 단 1건의 코드 손실 없이 무결점 통합.
+  - 최신 통합 커밋 `b573e46` 생성 및 원격 저장소(`origin/main`) 푸시 완결.
+* **FastAPI 백엔드 7대 핵심 엔드포인트 서빙 전수 검증**:
+  - `GET /`, `GET /home`, `GET /input`, `GET /guide`, `GET /settings`, `GET /css/style.css`, `GET /js/main.js` TestClient 100% **HTTP 200 OK** 검증 통과.
+* **Cross-OS NFD/NFC 유니코드 자모 분리 정규화**:
+  - macOS APFS와 Windows NTFS 간의 파일명 인코딩 차이로 인해 Git 인덱스에 중복 생성되었던 NFD 파일 2종(`Answer-영식.md`, `2021년 KTAS...pdf`)을 제거하고 표준 NFC로 단일화하여 향후 충돌 요소를 선제 박멸.
 
 ### 🌟 [v2.4.4-guide-settings] 2026-10-15: '아이숨(Aisum)' 응급실 가이드(emergency_guide.html) 및 설정(settings.html) 웹페이지 구축
 * **응급실 가이드(Emergency Guide) 전용 페이지 구축**:

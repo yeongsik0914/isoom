@@ -51,6 +51,7 @@
 | **[ISSUE-041]** | 프론트엔드 UI 컴포넌트 추가 | 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-042]** | 프론트엔드 UI 모달 | 응급처치정보 및 법적 안내 모달 다이얼로그(반투명 오버레이, 취소/확인) 및 Step 2 증상 문진 연계 구현 | **해결 완료 (Resolved)** | 2026-10-14 |
 | **[ISSUE-043]** | 프론트엔드 UI/UX 페이지 | 사용자 증상 프롬프트 입력 페이지(헤드라인 '증상을 구체적으로 정확하게 입력해주세요', 언더라인 인풋, 가상키보드 배제) 구현 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-044]** | Git 형상 관리 & 크로스 OS 협업 | 팀 협업 분기 충돌 방어 머지(Merge), 7대 엔드포인트 서빙 검증 및 Cross-OS NFD/NFC 정규화 | **해결 완료 (Resolved)** | 2026-10-15 |
 
 ---
 
@@ -1195,6 +1196,37 @@
   * [frontend/js/main.js](frontend/js/main.js)
   * [main.py](main.py)
   * [log.md](log.md)
+
+---
+
+### [ISSUE-044] 팀 협업 분기 충돌 방어 머지(Merge), 7대 엔드포인트 서빙 검증 및 Cross-OS NFD/NFC 정규화
+
+* **발생 일자**: 2026-10-15
+* **분류**: 형상 관리 / Git 충돌 방어 / 크로스 OS 유니코드 정규화
+* **문제 상황**:
+  * 정영식 팀장(macOS 환경)과 김동준 팀원(Windows 환경)이 각자 분기에서 작업을 진행함:
+    - 원격(`origin/main`): 응급실 가이드 페이지(`emergency_guide.html`) 및 설정 페이지(`settings.html`) 생성 (`4d22c88`, `ccde1cc`)
+    - 로컬: 증상 입력 페이지(`input.html`) 및 응급처치정보 모달 연동 (`075f450`)
+  * 상호 충돌 없이 안전하게 원격에 올려야 하는 과제가 주어졌으며, 이전 세션에서 머지 작업 도중 세션이 중단된 것 같은 불안감이 발생함.
+  * 또한, macOS(APFS)의 NFD 자모 분리 저장 방식과 Windows(NTFS)의 NFC 완성형 저장 방식으로 인해 Git 인덱스에 동일 파일(`Answer-영식.md`, `2021년 KTAS...pdf`)이 이중 등록되어 잠재적인 머지 충돌 위험이 상존함.
+* **원인 분석**:
+  1. **브랜치 분기 상태**: 서로 다른 커밋들이 원격과 로컬에 각각 존재하여 Fast-Forward 머지가 불가능하고 3-Way Merge가 필요한 상황이었음.
+  2. **유니코드 정규화 차이**: macOS에서 커밋된 파일명은 NFD(Decomposed Unicode: `\u1102\u1167...`)로 인코딩되고, Windows에서 생성된 파일명은 NFC(Composed Unicode: `\ub144...`)로 인코딩되어 Git 인덱스 상에서 별개의 두 개 파일로 인식됨.
+* **구체적 해결 방안**:
+  1. **3-Way 머지 및 무결점 통합**:
+     - 로컬 작업과 원격 작업을 무손실 수동 머지하여 커밋 `b573e46` 생성.
+     - 원격 `origin/main`으로 `git push` 실행 완료.
+  2. **FastAPI 백엔드 7대 핵심 엔드포인트 전수 검증**:
+     - Python TestClient를 통해 통합된 모든 엔드포인트(`/`, `/home`, `/input`, `/guide`, `/settings`, `/css/style.css`, `/js/main.js`)에 대해 **HTTP 200 OK** 응답 검증 완료.
+  3. **Cross-OS NFD 파일명 정규화 (선제 충돌 방어)**:
+     - Git 인덱스에 중복 등록되어 있던 NFD 파일 2종(`Answer-영식.md`, `2021년 KTAS...pdf`)을 `git rm --cached`로 인덱스에서 안전하게 제거.
+     - 로컬 디스크 상의 중복 NFD 파일을 삭제하고 순수 NFC 파일만 남겨 향후 macOS-Windows 협업 시 파일명 충돌을 원천 차단함.
+* **적용 파일**:
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+
 
 
 

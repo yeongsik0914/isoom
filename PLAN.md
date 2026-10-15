@@ -34,6 +34,7 @@
     - [10.15 '아이숨(Aisum)' 응급실 가이드 하단 플로팅 CTA 버튼 2종 전면 제거 (화면 시인성 극대화)](#1015-아이숨aisum-응급실-가이드-하단-플로팅-cta-버튼-2종-전면-제거-화면-시인성-극대화-2026-10-15-완결)
     - [10.16 '아이숨(Aisum)' 모니모 UI 레퍼런스 기반 순수 HTML/CSS 설정 웹페이지 구축 및 GNB 연동](#1016-아이숨aisum-모니모-ui-레퍼런스-기반-순수-htmlcss-설정-웹페이지-구축-및-gnb-연동-2026-10-15-완결)
     - [10.17 '아이숨(Aisum)' 모니모 레퍼런스 스타일 '앱 알림' 🔔 아이콘 및 순수 CSS iOS 토글 스위치 컴포넌트 탑재](#1017-아이숨aisum-모니모-레퍼런스-스타일-앱-알림--아이콘-및-순수-css-ios-토글-스위치-컴포넌트-탑재-2026-10-15-완결)
+    - [10.18 정영식 팀장·김동준 팀원 작업 브랜치 무결점 머지 및 Cross-OS NFD 정규화](#1018-정영식-팀장김동준-팀원-작업-브랜치-무결점-머지-및-cross-os-nfd-정규화-2026-10-15-완결)
 
 
 ---
@@ -629,6 +630,20 @@ flowchart TD
      - `:checked` 시 아이숨 시그니처 코발트 블루 배경 전환 및 20px 우측 슬라이드 애니메이션(`transition: 0.25s cubic-bezier`).
   3. **전역 템플릿 및 엔드포인트 동기화**:
      - `frontend/templates/`, `frontend/`, `app/templates/`, `app/static/` 전역 동기화 및 FastAPI TestClient 검증 완료.
+
+---
+
+### 10.18 정영식 팀장·김동준 팀원 작업 브랜치 무결점 머지 및 Cross-OS NFD 정규화 (2026-10-15 완결)
+* **기획 배경 및 문제 정의**:
+  - 팀 협업 체계 가동에 따라 정영식 팀장(macOS)이 응급실 가이드(emergency_guide.html) 및 설정 페이지(settings.html)를 개발하고, 김동준 팀원(Windows)이 증상 입력 페이지(input.html) 및 모달(modal.html)을 개발하여 각각 커밋 분기가 형성됨.
+  - 상호 충돌 없이 안전하게 원격 저장소(origin/main)에 통합 머지하고, FastAPI 서빙 및 크로스 OS 파일시스템 정합성을 검증할 필요성 대두.
+* **구체적 구현 내역**:
+  1. **3-Way 머지 및 무결점 통합 (b573e46)**:
+     - 로컬과 원격의 작업 분기를 충돌 없이 통합하고 GitHub origin/main으로 정상 푸시 완결.
+  2. **FastAPI 7대 핵심 엔드포인트 100% 서빙 검증**:
+     - /, /home, /input, /guide, /settings, /css/style.css, /js/main.js TestClient 200 OK 검증 전수 통과.
+  3. **Cross-OS NFD/NFC 파일명 정규화**:
+     - macOS의 자모 분리 NFD 파일명을 Windows NTFS 표준 NFC로 단일화하여 향후 잠재적 Git 충돌을 선제 차단.
 
 ---
 
