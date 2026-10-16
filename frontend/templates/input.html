@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>증상 입력 - 아이숨 (Aisum)</title>
-  <meta name="description" content="아이의 증상을 최대한 상세히 입력하여 신속한 맞춤 의료기관을 안내받으세요." />
+  <title>소아 전문 문진 - 아이숨 (Aisum)</title>
+  <meta name="description" content="아이의 증상, 체온, 나이, 해열제 복용 정보를 한눈에 입력하여 가장 안전한 야간 소아 의료기관을 추천받으세요." />
 
   <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,247 +19,1187 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 
-  <!-- Mobile App / PWA Standalone Meta Tags (iOS & Android 홈 화면 바로가기 지원) -->
+  <!-- Mobile App / PWA Standalone Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#ffffff" />
 
-  <!-- Pure Vanilla CSS Stylesheet -->
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 
   <style>
-    /* Progressive Triage Chatbot Styles (Keeping original design 100%) */
-    .triage-step-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #eff6ff;
-      color: #0066ff;
-      border: 1px solid #dbeafe;
-      padding: 5px 12px;
-      border-radius: 9999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 14px;
-      align-self: flex-start;
-      transition: all 0.25s ease;
+    /* ==========================================================================
+       Aisum Clean & Minimal Pediatric Triage Form Styles (v2.5 Refined)
+       ========================================================================== */
+
+    :root {
+      --primary: #0066ff;
+      --primary-soft: #eff6ff;
+      --primary-border: #bfdbfe;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-light: #f1f5f9;
+      --border-focus: #93c5fd;
     }
 
-    .input-headline {
-      margin-bottom: 12px !important;
-      transition: all 0.2s ease;
-      min-height: 68px;
+    body {
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .input-subguide {
-      font-size: 14px;
-      line-height: 1.55;
-      color: #64748b;
-      margin-bottom: 24px;
-      transition: all 0.2s ease;
-    }
-
-    .answered-chips-container {
+    .triage-viewport {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #ffffff;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+      position: relative;
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 16px;
+      flex-direction: column;
+      padding-bottom: 120px;
     }
 
-    .answered-chip {
+    /* Top Sticky Header */
+    .triage-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid #f1f5f9;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-back-btn {
+      background: none;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      background: #f1f5f9;
-      color: #334155;
-      padding: 5px 11px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      border: 1px solid #e2e8f0;
+      justify-content: center;
+      color: #1e293b;
       cursor: pointer;
-      animation: fadeInSlideUp 0.2s ease-out;
       transition: background 0.15s ease;
     }
 
-    .answered-chip:hover {
-      background: #e2e8f0;
+    .header-back-btn:active {
+      background: #f1f5f9;
     }
 
-    .answered-chip .chip-check {
-      font-size: 14px;
-      color: #10b981;
+    .header-title-box {
+      text-align: center;
     }
 
-    .answered-chip .chip-edit {
-      font-size: 13px;
-      color: #94a3b8;
-      margin-left: 2px;
+    .header-page-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
     }
 
-    .quick-chips-wrapper {
+    .header-page-sub {
+      font-size: 11px;
+      font-weight: 600;
+      color: #0066ff;
+      margin: 0;
+    }
+
+    /* Progress Bar */
+    .triage-progress-bar-wrap {
+      width: 100%;
+      height: 3px;
+      background: #f1f5f9;
+      position: relative;
+    }
+
+    .triage-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #0066ff);
+      width: 25%;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Main Container */
+    .triage-body {
+      padding: 20px 20px 30px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 18px;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    .quick-chip-btn {
+    /* Section Card */
+    .triage-section-card {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1.5px solid #f1f5f9;
+      padding: 18px 18px 20px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.02);
+      position: relative;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .triage-section-card:focus-within,
+    .triage-section-card.active-card {
+      border-color: #bfdbfe;
+      box-shadow: 0 4px 18px rgba(0, 102, 255, 0.06);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: #0066ff;
+      font-size: 12px;
+      font-weight: 800;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      justify-content: center;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+    }
+
+    .section-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .section-badge.required {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .section-badge.highlight {
+      background: #eff6ff;
+      color: #0066ff;
+    }
+
+    /* --------------------------------------------------------------------------
+       1. Section 1: Clean Symptom Input & Voice STT
+       -------------------------------------------------------------------------- */
+    .symptom-input-box {
+      position: relative;
+      margin-top: 4px;
+    }
+
+    .symptom-underline-field {
+      width: 100%;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 2px solid #e2e8f0;
+      background: transparent;
+      padding: 12px 75px 12px 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s ease;
+    }
+
+    .symptom-underline-field:focus {
+      border-bottom-color: #0066ff;
+    }
+
+    .symptom-underline-field::placeholder {
+      color: #94a3b8;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .input-action-buttons {
+      position: absolute;
+      right: 0;
+      bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .icon-action-btn {
+      background: none;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .icon-action-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .mic-record-btn {
+      background: #eff6ff;
+      color: #0066ff;
+      border: 1px solid #dbeafe;
+    }
+
+    .mic-record-btn.listening {
+      background: #fee2e2;
+      color: #dc2626;
+      border-color: #fca5a5;
+      animation: micPulseWave 1.2s infinite;
+    }
+
+    @keyframes micPulseWave {
+      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+
+    .voice-status-tip {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #dc2626;
+      background: #fef2f2;
+      border-radius: 8px;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .input-helper-tip {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .auto-sync-temp-badge {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      background: #eff6ff;
+      color: #0066ff;
+      border: 1px solid #bfdbfe;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 6px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    /* --------------------------------------------------------------------------
+       2. Section 2: Clean Radial Gauge Thermometer
+       -------------------------------------------------------------------------- */
+    .gauge-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding: 8px 0 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .gauge-svg-wrap {
+      width: 100%;
+      max-width: 310px;
+      touch-action: none;
+      position: relative;
+      cursor: grab;
+    }
+
+    .gauge-svg-wrap:active {
+      cursor: grabbing;
+    }
+
+    .gauge-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .gauge-needle-group {
+      transform-origin: 170px 180px;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .gauge-center-display {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .gauge-temp-value {
+      font-size: 34px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+
+    .gauge-temp-unit {
+      font-size: 20px;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    .gauge-temp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .gauge-unknown-overlay {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(3px);
+      border-radius: 14px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      text-align: center;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .temp-unknown-toggle-btn {
+      margin-top: 14px;
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      color: #334155;
-      padding: 9px 13px;
+      color: #475569;
+      padding: 9px 16px;
       border-radius: 12px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.15s ease;
       font-family: inherit;
     }
 
-    .quick-chip-btn:hover {
+    .temp-unknown-toggle-btn:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .temp-unknown-toggle-btn.active {
       background: #eff6ff;
-      border-color: #bfdbfe;
+      border-color: #3b82f6;
+      color: #1d4ed8;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+    }
+
+    /* --------------------------------------------------------------------------
+       3. Section 3: Clean Age Selector (100% Proportional Alignment)
+       -------------------------------------------------------------------------- */
+    .age-display-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      background: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      min-height: 72px; /* 나이 변경 시 카드 높이 덜컥임 완전 차단 */
+      box-sizing: border-box;
+    }
+
+    .age-label-sub {
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 3px;
+    }
+
+    .age-value-text {
+      font-size: 24px;
+      font-weight: 800;
       color: #0066ff;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 3px;
     }
 
-    .quick-chip-btn:active {
-      transform: scale(0.97);
+    .age-status-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 9px;
+      border-radius: 8px;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      animation: fadeIn 0.15s ease;
     }
 
-    .quick-chip-btn.danger {
-      border-color: #fecaca;
+    /* Slider Container & Mathematically Aligned Ticks */
+    .age-slider-wrap {
+      position: relative;
+      margin: 18px 8px 24px;
+    }
+
+    .age-range-input {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      outline: none;
+      margin: 0;
+    }
+
+    .age-range-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #0066ff;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 102, 255, 0.4);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .age-range-input::-webkit-slider-thumb:active {
+      transform: scale(1.15);
+    }
+
+    /* Precisely Positioned Ruler Marks matching 0, 12, 24, 48, 84 months */
+    .age-ruler-track {
+      position: relative;
+      width: 100%;
+      height: 18px;
+      margin-top: 8px;
+    }
+
+    .age-mark-item {
+      position: absolute;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+
+    .age-mark-item.pos-0  { left: 0%; transform: translateX(0); }
+    .age-mark-item.pos-24 { left: 28.6%; }
+    .age-mark-item.pos-48 { left: 57.1%; }
+    .age-mark-item.pos-84 { left: 100%; transform: translateX(-100%); }
+
+    .age-mark-dot {
+      position: absolute;
+      top: 6px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #cbd5e1;
+      transform: translateX(-50%);
+    }
+    .age-mark-dot.pos-12 { left: 14.3%; }
+
+    /* Single Essential Newborn Button */
+    .newborn-quick-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 14px;
+    }
+
+    .newborn-pill-btn {
       background: #fef2f2;
+      border: 1.5px solid #fecaca;
       color: #dc2626;
+      padding: 7px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+      font-family: inherit;
     }
 
-    .quick-chip-btn.danger:hover {
+    .newborn-pill-btn:hover {
       background: #fee2e2;
       border-color: #f87171;
     }
 
-    .quick-chip-btn .material-symbols-outlined {
-      font-size: 16px;
+    .newborn-pill-btn.active {
+      background: #dc2626;
+      color: #ffffff;
+      border-color: #dc2626;
     }
 
-    /* Red Flag Toast Alert */
+    .newborn-alert-banner {
+      display: none;
+      background: #fee2e2;
+      border: 1.5px solid #ef4444;
+      color: #991b1b;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-top: 12px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    /* --------------------------------------------------------------------------
+       4. Section 4: Antipyretic Medication & Clean Companion Input
+       -------------------------------------------------------------------------- */
+    .med-category-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .med-category-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .med-type-card {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .med-type-card:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .med-type-card.selected {
+      background: #eff6ff;
+      border-color: #3b82f6;
+    }
+
+    .med-type-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .med-type-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .med-type-desc {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .med-type-radio-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .med-type-card.selected .med-type-radio-circle {
+      border-color: #0066ff;
+      background: #0066ff;
+    }
+
+    .med-type-radio-circle::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: none;
+    }
+
+    .med-type-card.selected .med-type-radio-circle::after {
+      display: block;
+    }
+
+    .med-time-subcard {
+      display: none;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-top: 10px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .med-time-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1d4ed8;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .med-time-select-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .med-time-chip {
+      flex: 1;
+      padding: 8px 4px;
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #3b82f6;
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .med-time-chip.active {
+      background: #0066ff;
+      color: #ffffff;
+      border-color: #0066ff;
+    }
+
+    .companion-input-wrap {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .companion-simple-field {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s ease;
+    }
+
+    .companion-simple-field:focus {
+      border-color: #0066ff;
+      background: #ffffff;
+    }
+
+    .companion-simple-field::placeholder {
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* --------------------------------------------------------------------------
+       Bottom Fixed Action Floating Bar
+       -------------------------------------------------------------------------- */
+    .triage-bottom-action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 480px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid #f1f5f9;
+      padding: 12px 18px 24px;
+      z-index: 40;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .action-summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .action-summary-tags {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0066ff;
+      font-weight: 700;
+    }
+
+    .triage-submit-btn {
+      width: 100%;
+      height: 52px;
+      background: #0066ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 800;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .triage-submit-btn:hover {
+      background: #0052cc;
+    }
+
+    .triage-submit-btn:active {
+      transform: scale(0.98);
+    }
+
     .redflag-toast {
       display: none;
       background: #fee2e2;
       border: 1.5px solid #ef4444;
-      color: #b91c1c;
+      color: #991b1b;
       border-radius: 12px;
       padding: 12px 14px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       line-height: 1.5;
-      margin-top: 16px;
-      animation: fadeInSlideUp 0.2s ease-out;
+      animation: fadeIn 0.2s ease;
     }
 
-    /* Input Invalid Feedback Alert */
-    .input-invalid-feedback {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: #fef3c7;
-      border: 1px solid #fde68a;
-      color: #92400e;
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-top: 12px;
-      animation: fadeInSlideUp 0.2s ease-out;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Mobile Viewport Container -->
-  <div class="input-page-viewport">
+  <div class="triage-viewport">
 
-    <!-- Top App Header with Back Button & Step Counter -->
-    <header class="input-page-header">
-      <button type="button" class="input-back-btn" id="nav-back-btn" aria-label="이전 단계로 돌아가기">
-        <span class="material-symbols-outlined" style="font-size: 26px;">arrow_back</span>
+    <!-- Top Sticky Header -->
+    <header class="triage-header">
+      <button type="button" class="header-back-btn" id="nav-back-btn" aria-label="이전 화면으로 돌아가기">
+        <span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
       </button>
-      <div style="font-size: 13px; font-weight: 700; color: #94a3b8;" id="step-counter">1 / 3</div>
-      <div style="width: 40px;"></div> <!-- visual balance -->
+      <div class="header-title-box">
+        <h1 class="header-page-title">소아 전문 문진</h1>
+        <p class="header-page-sub">원스톱 야간 소아 진료 선별</p>
+      </div>
+      <div style="width: 40px;"></div>
     </header>
 
+    <!-- Progress Indicator Bar -->
+    <div class="triage-progress-bar-wrap">
+      <div class="triage-progress-fill" id="triage-progress-fill"></div>
+    </div>
+
     <!-- Main Content Body -->
-    <main class="input-page-body">
-
-      <!-- AI Triage Status Badge -->
-      <div class="triage-step-badge" id="triage-step-badge">
-        <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">smart_toy</span>
-        <span id="step-badge-text">소아 전문 문진 · 1단계 (주요 증상)</span>
-      </div>
-
-      <!-- Previously Answered Summary Chips (누적된 필수 정보) -->
-      <div class="answered-chips-container" id="answered-chips-container" style="display: none;"></div>
-
-      <!-- Conversational Headline (이전 디자인 100% 동일) -->
-      <h1 class="input-headline" id="input-headline">
-        증상을 구체적으로<br />
-        정확하게 입력해주세요
-      </h1>
-
-      <!-- AI Guide Subtitle (공감형 안내 멘트) -->
-      <p class="input-subguide" id="input-subguide">
-        늦은 밤 아이가 아파 많이 걱정되셨죠? 아이의 현재 증상을 편하게 말씀해주세요.
-      </p>
-
-      <!-- Underline Input Field Area (이전 디자인 100% 동일) -->
-      <div class="underline-input-wrapper">
-        <label for="symptom-input" class="floating-input-label" id="floating-label" style="display: none;">입력</label>
-        <input
-          type="text"
-          id="symptom-input"
-          class="underline-input-field"
-          placeholder="입력"
-          autocomplete="off"
-          autofocus
-        />
-        <button type="button" class="input-clear-btn" id="input-clear-btn" aria-label="입력 내용 지우기">
-          <span class="material-symbols-outlined" style="font-size: 20px;">cancel</span>
-        </button>
-      </div>
-
-      <!-- Input Invalid/Unclear Warning Box (불일치/누락 시 부드러운 가이드) -->
-      <div class="input-invalid-feedback" id="input-invalid-feedback" style="display: none;">
-        <span class="material-symbols-outlined" style="font-size: 16px;">info</span>
-        <span id="invalid-feedback-text">아이가 어디가 아픈지 조금만 더 알려주세요. 아래 추천 증상을 눌러도 돼요!</span>
-      </div>
-
-      <!-- Quick Suggestion Reply Chips (간편 선택 칩) -->
-      <div class="quick-chips-wrapper" id="quick-chips-wrapper"></div>
+    <main class="triage-body">
 
       <!-- Red Flag Toast Notification -->
       <div class="redflag-toast" id="redflag-toast">
-        🚨 <strong>위급 상황 감지:</strong> 생후 100일 미만 고열, 경련, 호흡곤란 등은 119 긴급 이송이 필요합니다. 0초 만에 긴급 안내 화면으로 자동 전환합니다.
+        🚨 <strong>위급 상황 감지:</strong> 생후 100일 미만 고열, 경련, 호흡부전 등은 119 긴급 이송 대상입니다. 0초 만에 119 긴급 화면으로 자동 전환합니다.
       </div>
 
-      <!-- Confirm Action Button (이전 디자인 100% 동일: 입력 시 등장) -->
-      <div class="input-confirm-btn-wrap" id="input-confirm-wrap">
-        <button type="button" class="input-confirm-btn" id="input-confirm-btn">
-          확인
-        </button>
-      </div>
+      <!-- ====================================================================
+           1. 주요 증상 (자연어 + 🎙️ 음성 인식 STT + 실시간 체온 자동 감지)
+           ==================================================================== -->
+      <section class="triage-section-card active-card" id="card-symptom">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-step-num">1</span>
+            <h2 class="section-title">아이의 주요 증상</h2>
+          </div>
+          <span class="section-badge required">필수 입력</span>
+        </div>
+
+        <!-- Voice Recognition Status Bar -->
+        <div class="voice-status-tip" id="voice-status-tip">
+          <span class="material-symbols-outlined" style="font-size: 16px;">graphic_eq</span>
+          <span id="voice-status-text">음성을 듣고 있어요... 편하게 말씀해주세요</span>
+        </div>
+
+        <!-- Underline Input Field with Clear & Mic Buttons -->
+        <div class="symptom-input-box">
+          <input
+            type="text"
+            id="symptom-input"
+            class="symptom-underline-field"
+            placeholder="아이가 어디가 아픈가요? (음성 가능)"
+            autocomplete="off"
+            autofocus
+          />
+          <div class="input-action-buttons">
+            <button type="button" class="icon-action-btn" id="input-clear-btn" style="display: none;" aria-label="내용 지우기">
+              <span class="material-symbols-outlined" style="font-size: 19px;">cancel</span>
+            </button>
+            <button type="button" class="icon-action-btn mic-record-btn" id="mic-record-btn" title="음성으로 증상 말하기" aria-label="음성인식 시작">
+              <span class="material-symbols-outlined" id="mic-icon" style="font-size: 20px;">mic</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Auto Sync Feedback Badge -->
+        <div class="auto-sync-temp-badge" id="auto-sync-temp-badge">
+          <span class="material-symbols-outlined" style="font-size: 14px;">sync</span>
+          <span id="auto-sync-temp-text">증상 텍스트에서 체온 38.5℃가 감지되어 다이얼에 자동 반영되었습니다.</span>
+        </div>
+
+        <div class="input-helper-tip">
+          <span class="material-symbols-outlined" style="font-size: 14px;">lightbulb</span>
+          <span>예: 쌕쌕거리며 숨차하고 구토를 두 번 했어요</span>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           2. 현재 체온 (180도 부채꼴 다이얼 + 미입력/미조작 시 기본 '모름' 자동 처리)
+           ==================================================================== -->
+      <section class="triage-section-card" id="card-temp">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-step-num">2</span>
+            <h2 class="section-title">현재 체온</h2>
+          </div>
+          <span class="section-badge" id="temp-stage-badge">터치하여 설정</span>
+        </div>
+
+        <!-- Thermometer Radial Gauge Container -->
+        <div class="gauge-container">
+          <div class="gauge-svg-wrap" id="gauge-touch-area">
+            <svg class="gauge-svg" viewBox="0 0 340 210">
+              <defs>
+                <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#10b981" />   <!-- 36.0℃ 정상 (초록) -->
+                  <stop offset="30%" stop-color="#34d399" />  <!-- 37.5℃ 미열 시작 (연초록) -->
+                  <stop offset="40%" stop-color="#f59e0b" />  <!-- 38.0℃ 발열 기준점 (황색) -->
+                  <stop offset="60%" stop-color="#f97316" />  <!-- 39.0℃ 고열 주의 (주황) -->
+                  <stop offset="80%" stop-color="#ef4444" />  <!-- 40.0℃ 초고열 위급 (적색) -->
+                  <stop offset="100%" stop-color="#991b1b" /> <!-- 41.0℃ 위험 (암적색) -->
+                </linearGradient>
+
+                <filter id="needleShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25" />
+                </filter>
+              </defs>
+
+              <!-- Track Background Arc -->
+              <path
+                d="M 30,180 A 140,140 0 0,1 310,180"
+                fill="none"
+                stroke="#f1f5f9"
+                stroke-width="20"
+                stroke-linecap="round"
+              />
+
+              <!-- Colored Temperature Gradient Arc -->
+              <path
+                d="M 30,180 A 140,140 0 0,1 310,180"
+                fill="none"
+                stroke="url(#gaugeGradient)"
+                stroke-width="18"
+                stroke-linecap="round"
+              />
+
+              <!-- Gauge Scale Ticks -->
+              <g stroke="#94a3b8" stroke-width="2" stroke-linecap="round" opacity="0.6">
+                <line x1="30" y1="180" x2="42" y2="180" />
+                <line x1="57" y1="102" x2="68" y2="107" />
+                <line x1="122" y1="48" x2="128" y2="59" />
+                <line x1="218" y1="48" x2="212" y2="59" />
+                <line x1="283" y1="102" x2="272" y2="107" />
+                <line x1="310" y1="180" x2="298" y2="180" />
+              </g>
+
+              <!-- Scale Text Labels -->
+              <g font-size="11" font-weight="700" fill="#64748b" text-anchor="middle">
+                <text x="32" y="198">36℃</text>
+                <text x="64" y="94">37℃</text>
+                <text x="126" y="38">38℃</text>
+                <text x="214" y="38">39℃</text>
+                <text x="282" y="94">40℃</text>
+                <text x="308" y="198">41℃</text>
+              </g>
+
+              <!-- Rotating Needle Group -->
+              <g id="gauge-needle" class="gauge-needle-group" filter="url(#needleShadow)">
+                <polygon points="167,180 173,180 171,44 169,44" fill="#0f172a" />
+                <circle cx="170" cy="180" r="16" fill="#0f172a" />
+                <circle cx="170" cy="180" r="7" fill="#ffffff" />
+                <circle cx="170" cy="44" r="12" fill="#0066ff" stroke="#ffffff" stroke-width="3" />
+              </g>
+            </svg>
+
+            <!-- Center Digital Temperature Readout -->
+            <div class="gauge-center-display">
+              <div class="gauge-temp-value" id="gauge-temp-text">
+                <span id="temp-number-display">38.0 <span class="gauge-temp-unit">℃</span></span>
+              </div>
+              <div class="gauge-temp-badge" id="temp-status-badge" style="background: #ffedd5; color: #c2410c;">
+                <span>🟠 발열 주의</span>
+              </div>
+            </div>
+
+            <!-- "Unknown Temperature" Semi-transparent Overlay -->
+            <div class="gauge-unknown-overlay" id="gauge-unknown-overlay" style="display: none;">
+              <span class="material-symbols-outlined" style="font-size: 32px; color: #64748b;">help_outline</span>
+              <p style="margin: 6px 0 0; font-size: 15px; font-weight: 800; color: #334155;">체온 미측정 (모름)</p>
+              <p style="margin: 2px 0 0; font-size: 12px; color: #64748b;">체온을 측정하지 않아도 안전하게 병원을 찾아드립니다</p>
+            </div>
+          </div>
+
+          <!-- "체온 모름" Toggle Button -->
+          <button type="button" class="temp-unknown-toggle-btn" id="btn-unknown-temp">
+            <span class="material-symbols-outlined" style="font-size: 17px;">question_mark</span>
+            <span id="unknown-toggle-text">체온을 재지 못했거나 몰라요</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           3. 아이 나이 (24개월 이하 개월 수, 이후 나이 표기 & 비례 눈금 100% 일치)
+           ==================================================================== -->
+      <section class="triage-section-card" id="card-age">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-step-num">3</span>
+            <h2 class="section-title">아이 나이</h2>
+          </div>
+        </div>
+
+        <!-- Clean Age Display Box with Fixed Height (Zero Layout Shift) -->
+        <div class="age-display-box">
+          <div>
+            <div class="age-label-sub">선택된 연령</div>
+            <div class="age-value-text" id="age-value-text">
+              <span id="age-main-display">14개월</span>
+            </div>
+          </div>
+          <!-- Inline Medical Alert Badge (No layout shift) -->
+          <div id="age-status-badge" class="age-status-badge">
+            <span class="material-symbols-outlined" style="font-size: 14px;">crisis_alert</span>
+            <span id="age-status-badge-text">100일 미만 주의</span>
+          </div>
+        </div>
+
+        <!-- Horizontal Range Slider with Mathematically Aligned Ruler -->
+        <div class="age-slider-wrap">
+          <input
+            type="range"
+            id="age-range-slider"
+            class="age-range-input"
+            min="0"
+            max="84"
+            step="1"
+            value="14"
+          />
+          <div class="age-ruler-track">
+            <span class="age-mark-item pos-0">0개월</span>
+            <span class="age-mark-dot pos-12" title="12개월(돌)"></span>
+            <span class="age-mark-item pos-24">24개월</span>
+            <span class="age-mark-item pos-48">4세</span>
+            <span class="age-mark-item pos-84">7세</span>
+          </div>
+        </div>
+
+        <!-- Single Essential Newborn Button -->
+        <div class="newborn-quick-row">
+          <button type="button" class="newborn-pill-btn" id="btn-newborn-100d">
+            <span class="material-symbols-outlined" style="font-size: 15px;">crisis_alert</span>
+            <span>생후 100일 미만 🚨</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           4. 해열제 복용 및 추가 증상 (소아 해열제 성분별 정밀 선택 & 심플 텍스트 인풋)
+           ==================================================================== -->
+      <section class="triage-section-card" id="card-medication">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-step-num">4</span>
+            <h2 class="section-title">해열제 복용 및 동반 상태</h2>
+          </div>
+          <span class="section-badge">선택 사항</span>
+        </div>
+
+        <div class="med-category-title">
+          <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">medication</span>
+          <span>복용한 해열제 종류를 선택해주세요</span>
+        </div>
+
+        <div class="med-category-grid" id="med-category-grid">
+          <div class="med-type-card selected" data-med-type="none">
+            <div class="med-type-info">
+              <span class="med-type-name">복용 안 함</span>
+              <span class="med-type-desc">아직 해열제를 투약하지 않았어요</span>
+            </div>
+            <div class="med-type-radio-circle"></div>
+          </div>
+
+          <div class="med-type-card" data-med-type="acetaminophen">
+            <div class="med-type-info">
+              <span class="med-type-name">아세트아미노펜 계열</span>
+              <span class="med-type-desc">빨간 챔프 시럽 · 어린이 타이레놀 · 콜대원 키즈 펜</span>
+            </div>
+            <div class="med-type-radio-circle"></div>
+          </div>
+
+          <div class="med-type-card" data-med-type="ibuprofen">
+            <div class="med-type-info">
+              <span class="med-type-name">이부프로펜 계열</span>
+              <span class="med-type-desc">파란 챔프 이부펜 · 어린이 부루펜 시럽</span>
+            </div>
+            <div class="med-type-radio-circle"></div>
+          </div>
+
+          <div class="med-type-card" data-med-type="dexibuprofen">
+            <div class="med-type-info">
+              <span class="med-type-name">덱시부프로펜 계열</span>
+              <span class="med-type-desc">맥시부펜 시럽 · 애니펜 시럽</span>
+            </div>
+            <div class="med-type-radio-circle"></div>
+          </div>
+
+          <div class="med-type-card" data-med-type="alternating">
+            <div class="med-type-info">
+              <span class="med-type-name">두 계열 교차 복용 중</span>
+              <span class="med-type-desc">아세트아미노펜과 이부/덱시부프로펜을 번갈아 투약</span>
+            </div>
+            <div class="med-type-radio-circle"></div>
+          </div>
+        </div>
+
+        <div class="med-time-subcard" id="med-time-subcard">
+          <div class="med-time-label">
+            <span class="material-symbols-outlined" style="font-size: 15px;">schedule</span>
+            <span>언제 복용했나요?</span>
+          </div>
+          <div class="med-time-select-row">
+            <button type="button" class="med-time-chip active" data-time="2시간 이내">2시간 이내</button>
+            <button type="button" class="med-time-chip" data-time="2~4시간 전">2~4시간 전</button>
+            <button type="button" class="med-time-chip" data-time="4시간 이상 경과">4시간 이상 경과</button>
+          </div>
+        </div>
+
+        <div class="companion-input-wrap">
+          <div class="med-category-title" style="margin-bottom: 6px;">
+            <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">edit_note</span>
+            <span>함께 나타나는 증상이 있나요? (선택)</span>
+          </div>
+          <input
+            type="text"
+            id="companion-simple-input"
+            class="companion-simple-field"
+            placeholder="예: 구토, 설사, 콧물, 처짐, 보챔 등"
+            autocomplete="off"
+          />
+        </div>
+      </section>
 
     </main>
 
-    <!-- AI Analyzing Overlay (사용자 확인 클릭 시 2초간 표출되는 모던 로딩 화면) -->
+    <!-- Bottom Fixed Floating Action Bar -->
+    <div class="triage-bottom-action-bar">
+      <div class="action-summary-row">
+        <span>선택 요약</span>
+        <div class="action-summary-tags" id="action-summary-text">
+          <span>14개월</span> · <span>체온 미측정</span> · <span>해열제 미복용</span>
+        </div>
+      </div>
+      <button type="button" class="triage-submit-btn" id="triage-submit-btn">
+        <span class="material-symbols-outlined" style="font-size: 21px;">local_hospital</span>
+        <span>아이숨 맞춤 야간 병원 찾기</span>
+      </button>
+    </div>
+
+    <!-- AI Analyzing Overlay -->
     <div class="ai-analyzing-overlay" id="ai-analyzing-overlay" aria-hidden="true">
       <div class="analyzing-card">
-        <!-- Pulse Logo & Spinner -->
         <div class="analyzing-visual">
           <div class="analyzing-pulse-ring"></div>
           <div class="analyzing-spinner"></div>
@@ -267,19 +1207,14 @@
             <span class="material-symbols-outlined" style="font-size: 30px; color: #0066ff;">smart_toy</span>
           </div>
         </div>
-
-        <!-- Dynamic Analyzing Status Texts -->
         <h2 class="analyzing-title" id="analyzing-title">소아 증상 정밀 분석 중</h2>
         <div class="analyzing-step-box">
           <span class="material-symbols-outlined analyzing-step-icon" id="analyzing-step-icon">health_and_safety</span>
           <span class="analyzing-step-text" id="analyzing-step-text">0ms Red Flag 안전 가드레일 검사 중...</span>
         </div>
-
-        <!-- Progress Indicator Track -->
         <div class="analyzing-progress-bar">
           <div class="analyzing-progress-fill" id="analyzing-progress-fill"></div>
         </div>
-
         <p class="analyzing-subtext">
           늦은 밤, 아이를 위한 가장 안전한 병원을 찾고 있습니다.
         </p>
@@ -288,243 +1223,619 @@
 
   </div>
 
+  <!-- Client-side Logic Script -->
   <script>
-    // Flag to inform js/main.js that input.html uses progressive triage
-    window.__AISUM_CUSTOM_INPUT__ = true;
-
     document.addEventListener('DOMContentLoaded', () => {
+      // ------------------------------------------------------------------------
+      // State Management
+      // ------------------------------------------------------------------------
+      const state = {
+        symptom: '',
+        temp: 38.0,
+        tempTouched: false,        // 사용자가 게이지나 텍스트로 체온을 조작했는지 여부
+        tempUnknown: false,        // 화면상에는 바늘과 다이얼을 정상 표시!
+        ageMonths: 14,
+        ageTouched: false,         // 사용자가 슬라이더나 버튼으로 나이를 조작했는지 여부
+        medType: 'none',
+        medTypeName: '복용 안 함',
+        medTime: '2시간 이내',
+        companionText: ''
+      };
+
+      // 0ms Red Flag Guardrail Regex
+      const RED_FLAG_REGEX = /(경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)|몸.*떨|의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도|청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕|소변.*(안\s*보|없)|눈물.*안|머리.*(찧|부딪|쿵|떨어).*토|초록색.*토|담즙|분수토|절단|잘렸|잘려|전기톱|날아갔|피똥|딸기잼.*변|혈변|컹컹.*기침|쇳소리|흡기.*천명|화상.*(얼굴|손|발)|(얼굴|손|발).*화상|물집.*(얼굴|손|발)|100일.*(38|열)|백일.*(38|열))/;
+
       // DOM Elements
-      const navBackBtn = document.getElementById('nav-back-btn');
-      const stepCounter = document.getElementById('step-counter');
-      const stepBadgeText = document.getElementById('step-badge-text');
-      const answeredContainer = document.getElementById('answered-chips-container');
-      const inputHeadline = document.getElementById('input-headline');
-      const inputSubguide = document.getElementById('input-subguide');
       const symptomInput = document.getElementById('symptom-input');
-      const floatingLabel = document.getElementById('floating-label');
       const inputClearBtn = document.getElementById('input-clear-btn');
-      const quickChipsWrapper = document.getElementById('quick-chips-wrapper');
-      const inputConfirmWrap = document.getElementById('input-confirm-wrap');
-      const inputConfirmBtn = document.getElementById('input-confirm-btn');
+      const micRecordBtn = document.getElementById('mic-record-btn');
+      const micIcon = document.getElementById('mic-icon');
+      const voiceStatusTip = document.getElementById('voice-status-tip');
+      const voiceStatusText = document.getElementById('voice-status-text');
+      const autoSyncTempBadge = document.getElementById('auto-sync-temp-badge');
+      const autoSyncTempText = document.getElementById('auto-sync-temp-text');
+
+      const gaugeNeedle = document.getElementById('gauge-needle');
+      const tempNumberDisplay = document.getElementById('temp-number-display');
+      const tempStatusBadge = document.getElementById('temp-status-badge');
+      const tempStageBadge = document.getElementById('temp-stage-badge');
+      const gaugeTouchArea = document.getElementById('gauge-touch-area');
+      const btnUnknownTemp = document.getElementById('btn-unknown-temp');
+      const gaugeUnknownOverlay = document.getElementById('gauge-unknown-overlay');
+      const unknownToggleText = document.getElementById('unknown-toggle-text');
+
+      const ageSlider = document.getElementById('age-range-slider');
+      const ageMainDisplay = document.getElementById('age-main-display');
+      const ageStatusBadge = document.getElementById('age-status-badge');
+      const ageStatusBadgeText = document.getElementById('age-status-badge-text');
+      const btnNewborn100d = document.getElementById('btn-newborn-100d');
+
+      const medCards = document.querySelectorAll('.med-type-card');
+      const medTimeSubcard = document.getElementById('med-time-subcard');
+      const medTimeChips = document.querySelectorAll('.med-time-chip');
+      const companionSimpleInput = document.getElementById('companion-simple-input');
+
+      const actionSummaryText = document.getElementById('action-summary-text');
+      const triageSubmitBtn = document.getElementById('triage-submit-btn');
+      const triageProgressFill = document.getElementById('triage-progress-fill');
       const redflagToast = document.getElementById('redflag-toast');
 
-      // Triage Session State
-      const session = {
-        step: 1, // 1: Symptoms, 2: Age/Temp, 3: Companion/Medication
-        symptoms: '',
-        age: '',
-        temp: '',
-        companion: '',
-      };
+      // ------------------------------------------------------------------------
+      // 1. Symptom Text & Voice STT Engine with Real-time Temp Detection
+      // ------------------------------------------------------------------------
+      let recognition = null;
+      let isRecording = false;
 
-      // 0ms Red Flag Guardrail Regex (12대 소아 위급 상황: 절단/경련/의식소실/호흡부전/장중첩/신생아발열/중증화상 등 100% 동기화)
-      const RED_FLAG_REGEX = /(경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)|몸.*떨|의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도|청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕|소변.*(안\s*보|없)|눈물.*안|머리.*(찧|부딪|쿵|떨어).*토|초록색.*토|담즙|분수토|절단|잘렸|잘려|전기톱|베여서\s*절단|날아갔|피똥|딸기잼.*변|혈변|컹컹.*기침|쇳소리|흡기.*천명|화상.*(얼굴|손|발)|(얼굴|손|발).*화상|데였.*(얼굴|손|발)|물집.*(얼굴|손|발)|100일.*(38|열)|백일.*(38|열))/;
+      // ------------------------------------------------------------------------
+      // Layer 1: Client-side 0ms Speech Normalization (소아 응급 특화 실시간 치환)
+      // ------------------------------------------------------------------------
+      function normalizeSpeechText(raw) {
+        if (!raw) return '';
+        let t = raw;
 
-      // Step Configurations
-      const STEPS = {
-        1: {
-          badge: '소아 전문 문진 · 1단계 (주요 증상)',
-          counter: '1 / 3',
-          headline: '증상을 구체적으로<br />정확하게 입력해주세요',
-          subguide: '늦은 밤 아이가 아파 많이 걱정되셨죠? 아이의 현재 증상을 편하게 말씀해주세요.',
-          placeholder: '입력 (예: 열이 나요, 구토를 해요)',
-          chips: [
-            { label: '열이 나요 🌡️', value: '열이 나요' },
-            { label: '토를 해요 🤢', value: '토를 해요' },
-            { label: '기침·가래 😮‍💨', value: '기침과 가래가 심해요' },
-            { label: '배가 아파요 😣', value: '배가 아파요' }
-          ]
-        },
-        2: {
-          badge: '소아 전문 문진 · 2단계 (월령 및 체온)',
-          counter: '2 / 3',
-          headline: '아이의 월령(나이)과<br />현재 체온은 몇 도인가요?',
-          subguide: '소아과 진료 및 맞춤 병원 선별을 위해 가장 중요한 필수 임상 정보입니다.',
-          placeholder: '입력 (예: 14개월 39.2도)',
-          chips: [
-            { label: '생후 100일 미만 🚨', value: '생후 100일 미만', danger: true },
-            { label: '14개월 (39.2℃)', value: '14개월 39.2도' },
-            { label: '8개월 (38.5℃)', value: '8개월 38.5도' },
-            { label: '24개월 (38.3℃)', value: '24개월 38.3도' },
-            { label: '37.8℃ 미열', value: '18개월 37.8도' }
-          ]
-        },
-        3: {
-          badge: '소아 전문 문진 · 3단계 (동반 징후 및 약 복용)',
-          counter: '3 / 3',
-          headline: '열이 난 기간이나<br />동반된 증상이 있나요?',
-          subguide: '구토, 처짐 등의 동반 증상이나 최근 해열제 복용 여부를 알려주세요.',
-          placeholder: '입력 (예: 구토 동반, 2시간 전 해열제 복용)',
-          chips: [
-            { label: '구토 동반 및 2시간 전 해열제', value: '구토 동반하고 2시간 전에 해열제 복용했어요' },
-            { label: '기침·가래 및 콧물', value: '기침과 콧물이 심해요' },
-            { label: '해열제 복용 후에도 열 지속', value: '해열제 먹였는데도 열이 안 떨어져요' },
-            { label: '물 잘 마시고 덜 처짐', value: '보채지만 물은 잘 마셔요' }
-          ]
-        }
-      };
-
-      // Render Current Step UI
-      function renderStep(stepNum) {
-        session.step = stepNum;
-        const config = STEPS[stepNum];
-
-        stepBadgeText.innerText = config.badge;
-        stepCounter.innerText = config.counter;
-        inputHeadline.innerHTML = config.headline;
-        inputSubguide.innerText = config.subguide;
-        symptomInput.placeholder = config.placeholder;
-        symptomInput.value = '';
-
-        // Render Answered Summary Chips
-        answeredContainer.innerHTML = '';
-        if (stepNum > 1 && session.symptoms) {
-          const chip1 = createAnsweredChip(`주요 증상: ${session.symptoms}`, 1);
-          answeredContainer.appendChild(chip1);
-        }
-        if (stepNum > 2 && (session.age || session.temp)) {
-          const chip2 = createAnsweredChip(`${session.age} · ${session.temp}`, 2);
-          answeredContainer.appendChild(chip2);
-        }
-        answeredContainer.style.display = answeredContainer.children.length > 0 ? 'flex' : 'none';
-
-        // Render Quick Chips
-        quickChipsWrapper.innerHTML = '';
-        config.chips.forEach(item => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'quick-chip-btn' + (item.danger ? ' danger' : '');
-          btn.innerText = item.label;
-          btn.addEventListener('click', () => {
-            symptomInput.value = item.value;
-            updateInputState();
-            symptomInput.focus();
+        // 1. 체온 한글 수사 및 구어체 정규화 (예: 삼십팔도 오부 -> 38.5도)
+        const koreanNumbers = {
+          '삼십육': '36', '삼십칠': '37', '삼십팔': '38', '삼십구': '39', '사십': '40', '사십일': '41',
+          '삼육': '36', '삼칠': '37', '삼팔': '38', '삼구': '39', '사공': '40'
+        };
+        for (const [k, v] of Object.entries(koreanNumbers)) {
+          t = t.replace(new RegExp(k + '\\s*도?\\s*(오부|5부|반|점오|쩜오)', 'g'), `${v}.5도`);
+          t = t.replace(new RegExp(k + '\\s*(점|쩜)\\s*([0-9]|영|일|이|삼|사|오|육|칠|팔|구)\\s*도?', 'g'), (m, p, d) => {
+            const digitMap = { '영': '0', '일': '1', '이': '2', '삼': '3', '사': '4', '오': '5', '육': '6', '칠': '7', '팔': '8', '구': '9' };
+            const num = digitMap[d] || d;
+            return `${v}.${num}도`;
           });
-          quickChipsWrapper.appendChild(btn);
-        });
+          t = t.replace(new RegExp(k + '\\s*도', 'g'), `${v}도`);
+        }
 
-        updateInputState();
-        symptomInput.focus();
+        // 2. 소아 빈출 오인식/구어체/약어 0ms 즉시 보정
+        const domainDict = [
+          [/해열재/g, '해열제'],
+          [/쌕색|쌕섹|색색거/g, '쌕쌕거'],
+          [/컹컹기침|개짖는\s*소리/g, '컹컹거리는 기침'],
+          [/구토햇어|구토했어여|토햇어/g, '구토를 했어요'],
+          [/분수토햇|분수처럼\s*토/g, '분수토를 했'],
+          [/오줌\s*안|쉬\s*안|기저귀.*안\s*젖/g, '소변을 보지 않고 '],
+          [/축\s*쳐/g, '축 처'],
+          [/칭얼대|칭얼거/g, '칭얼거리'],
+          [/경끼|경기\s*일으/g, '경련을 일으']
+        ];
+
+        for (const [pattern, replacement] of domainDict) {
+          t = t.replace(pattern, replacement);
+        }
+
+        return t;
       }
 
-      function createAnsweredChip(text, targetStep) {
-        const span = document.createElement('span');
-        span.className = 'answered-chip';
-        span.title = '클릭하여 수정하기';
-        span.innerHTML = `
-          <span class="material-symbols-outlined chip-check">check_circle</span>
-          <span>${text}</span>
-          <span class="material-symbols-outlined chip-edit">edit</span>
-        `;
-        span.addEventListener('click', () => {
-          renderStep(targetStep);
-        });
-        return span;
-      }
+      // Extract temperature from text (숫자 체온 및 "열이있어요", "고열", "미열" 등 증상 키워드 자동 감지)
+      function extractTemperatureFromText(text) {
+        if (!text) return null;
+        const normalized = normalizeSpeechText(text);
 
-      // Input field state watcher
-      function updateInputState() {
-        const val = symptomInput.value.trim();
-        const hasContent = val.length > 0;
-        if (floatingLabel) floatingLabel.style.display = hasContent ? 'block' : 'none';
-        if (inputClearBtn) inputClearBtn.style.display = hasContent ? 'inline-flex' : 'none';
-        if (inputConfirmWrap) {
-          if (hasContent) {
-            inputConfirmWrap.classList.add('active');
-            inputConfirmWrap.style.display = 'block';
-          } else {
-            inputConfirmWrap.classList.remove('active');
-            inputConfirmWrap.style.display = 'none';
+        // 1. 숫자 체온 우선 감지 (예: 38.5도, 39도, 37.8℃)
+        const match = normalized.match(/(3[5-9]\.[0-9]|4[0-1]\.[0-9]|3[6-9]|4[0-1])\s*(도|℃|도씨)?/);
+        if (match) {
+          const val = parseFloat(match[1]);
+          if (val >= 36.0 && val <= 41.0) {
+            return {
+              temp: Math.round(val * 10) / 10,
+              type: 'numeric',
+              description: `체온 ${Math.round(val * 10) / 10}℃가 감지되어`
+            };
           }
         }
+
+        // 2. 키워드 기반 소아 임상 표준 체온 자동 감지
+        // 초고열 (40.0℃)
+        if (/초고열|불덩이\s*같|열이\s*펄펄/.test(normalized)) {
+          return {
+            temp: 40.0,
+            type: 'keyword',
+            keyword: '초고열',
+            description: `'초고열' 증상이 감지되어 40.0℃로`
+          };
+        }
+        // 고열 (39.2℃)
+        if (/고열|불덩이|열이\s*(심해|많이|높아)/.test(normalized)) {
+          return {
+            temp: 39.2,
+            type: 'keyword',
+            keyword: '고열',
+            description: `'고열' 증상이 감지되어 39.2℃로`
+          };
+        }
+        // 미열 (37.8℃)
+        if (/미열|약간\s*열|열감/.test(normalized)) {
+          return {
+            temp: 37.8,
+            type: 'keyword',
+            keyword: '미열',
+            description: `'미열' 증상이 감지되어 37.8℃로`
+          };
+        }
+        // 일반 발열 (38.5℃)
+        if (/열이\s*있|열\s*나|발열|열이\s*올라|열\s*나서|열있/.test(normalized)) {
+          return {
+            temp: 38.5,
+            type: 'keyword',
+            keyword: '열이 있어요',
+            description: `'열이 있어요' 증상이 감지되어 38.5℃로`
+          };
+        }
+
+        return null;
       }
 
-      symptomInput.addEventListener('input', updateInputState);
+      // Extract age from text (e.g., 14개월, 4세, 5살, 신생아, 100일)
+      function extractAgeFromText(text) {
+        if (!text) return null;
+        const mMatch = text.match(/([0-9]{1,2})\s*개월/);
+        if (mMatch) return parseInt(mMatch[1], 10);
+        const yMatch = text.match(/(?:만\s*)?([1-9]|1[0-2])\s*(?:세|살)/);
+        if (yMatch) return parseInt(yMatch[1], 10) * 12;
+        if (/신생아|100일|백일/.test(text)) return 2;
+        return null;
+      }
 
-      inputClearBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        symptomInput.value = '';
-        updateInputState();
-        symptomInput.focus();
-      });
+      function handleSymptomTextChange(text) {
+        state.symptom = text;
+        updateInputUI();
 
-      // Back Button Handler
-      navBackBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (session.step > 1) {
-          renderStep(session.step - 1);
+        // 주요 증상에서 숫자 체온 및 "열이있어요", "고열", "미열" 등 자동 감지하여 바늘/수치 자동 연동
+        const detectedTempObj = extractTemperatureFromText(text);
+        if (detectedTempObj !== null) {
+          state.tempTouched = true;
+          setUnknownTemp(false);
+          updateGaugeDisplay(detectedTempObj.temp);
+
+          if (autoSyncTempBadge) {
+            autoSyncTempText.innerText = `증상에서 ${detectedTempObj.description} 다이얼에 자동 반영되었습니다.`;
+            autoSyncTempBadge.style.display = 'inline-flex';
+          }
         } else {
-          window.location.href = 'index.html';
+          if (autoSyncTempBadge) {
+            autoSyncTempBadge.style.display = 'none';
+          }
         }
-      });
 
-      // Enter Key Handler
-      symptomInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          if (symptomInput.value.trim().length > 0) {
-            handleStepSubmit();
+        // 증상 텍스트에 나이가 언급된 경우 자동 동기화
+        const detectedAge = extractAgeFromText(text);
+        if (detectedAge !== null) {
+          state.ageTouched = true;
+          updateAgeDisplay(detectedAge);
+        }
+
+        updateSummaryBar();
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'ko-KR';
+        recognition.continuous = false;
+        recognition.interimResults = true;
+
+        recognition.onstart = () => {
+          isRecording = true;
+          micRecordBtn.classList.add('listening');
+          micIcon.innerText = 'graphic_eq';
+          voiceStatusTip.style.display = 'flex';
+          voiceStatusText.innerText = '음성을 듣고 있어요... 편하게 말씀해주세요';
+        };
+
+        recognition.onresult = (event) => {
+          let transcript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            transcript += event.results[i][0].transcript;
+          }
+          if (transcript) {
+            const normalized = normalizeSpeechText(transcript);
+            symptomInput.value = normalized;
+            handleSymptomTextChange(normalized);
+          }
+        };
+
+        recognition.onerror = (event) => {
+          console.warn('STT Error:', event.error);
+          stopRecording();
+          voiceStatusTip.style.display = 'flex';
+          voiceStatusText.innerText = '마이크 접근 권한을 확인해주세요';
+          setTimeout(() => { voiceStatusTip.style.display = 'none'; }, 2500);
+        };
+
+        recognition.onend = () => {
+          stopRecording();
+        };
+      }
+
+      function stopRecording() {
+        isRecording = false;
+        if (micRecordBtn) micRecordBtn.classList.remove('listening');
+        if (micIcon) micIcon.innerText = 'mic';
+        if (voiceStatusTip) voiceStatusTip.style.display = 'none';
+      }
+
+      micRecordBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!recognition) {
+          alert('현재 브라우저에서는 음성 인식을 지원하지 않습니다. 텍스트로 입력해주세요.');
+          return;
+        }
+        if (isRecording) {
+          recognition.stop();
+        } else {
+          try {
+            recognition.start();
+          } catch (err) {
+            console.warn(err);
           }
         }
       });
 
-      // Confirm Button Handler
-      inputConfirmBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        handleStepSubmit();
+      symptomInput.addEventListener('input', () => {
+        handleSymptomTextChange(symptomInput.value.trim());
       });
 
-      const invalidFeedback = document.getElementById('input-invalid-feedback');
-      const invalidFeedbackText = document.getElementById('invalid-feedback-text');
+      inputClearBtn.addEventListener('click', () => {
+        symptomInput.value = '';
+        handleSymptomTextChange('');
+        symptomInput.focus();
+      });
 
-      // Helper to detect meaningless/mismatched input
-      function isMeaninglessInput(val) {
-        if (!val || val.trim().length < 2) return true;
-        // 자음 또는 모음만 연속된 경우 (ㅋㅋㅋ, ㅎㅎㅎ, ㅠㅠ 등)
-        if (/^[ㄱ-ㅎㅏ-ㅣ\s]+$/.test(val)) return true;
-        // 특수문자만으로 구성된 경우
-        if (/^[!@#$%^&*()_+=\-[\]{}|;:'",.<>/?~\s]+$/.test(val)) return true;
-        // 무작위 영문 난타
-        if (/^[a-zA-Z\s]{1,4}$/.test(val) && !/baby|fever|cough|cold|er/i.test(val)) return true;
+      function updateInputUI() {
+        const hasText = symptomInput.value.trim().length > 0;
+        inputClearBtn.style.display = hasText ? 'inline-flex' : 'none';
+      }
+
+      // ------------------------------------------------------------------------
+      // 2. Clean Radial Gauge Thermometer (손가락 드래그 & 자동 모름 제어)
+      // ------------------------------------------------------------------------
+      const MIN_TEMP = 36.0;
+      const MAX_TEMP = 41.0;
+
+      function tempToAngle(t) {
+        const clamped = Math.max(MIN_TEMP, Math.min(MAX_TEMP, t));
+        const ratio = (clamped - MIN_TEMP) / (MAX_TEMP - MIN_TEMP);
+        return -90 + (ratio * 180);
+      }
+
+      function angleToTemp(angle) {
+        const clampedAngle = Math.max(-90, Math.min(90, angle));
+        const ratio = (clampedAngle + 90) / 180;
+        const temp = MIN_TEMP + ratio * (MAX_TEMP - MIN_TEMP);
+        return Math.round(temp * 10) / 10;
+      }
+
+      function updateGaugeDisplay(t) {
+        state.temp = t;
+        const angle = tempToAngle(t);
+        gaugeNeedle.style.transform = `rotate(${angle}deg)`;
+        tempNumberDisplay.innerHTML = `${t.toFixed(1)} <span class="gauge-temp-unit">℃</span>`;
+
+        if (t < 37.5) {
+          tempStatusBadge.style.background = '#d1fae5';
+          tempStatusBadge.style.color = '#065f46';
+          tempStatusBadge.innerHTML = '<span>🟢 정상 체온</span>';
+          tempStageBadge.className = 'section-badge';
+          tempStageBadge.innerText = state.tempTouched ? '정상' : '터치하여 설정';
+        } else if (t < 38.0) {
+          tempStatusBadge.style.background = '#fef3c7';
+          tempStatusBadge.style.color = '#92400e';
+          tempStatusBadge.innerHTML = '<span>⚠️ 미열 관찰</span>';
+          tempStageBadge.className = 'section-badge highlight';
+          tempStageBadge.innerText = state.tempTouched ? '미열' : '터치하여 설정';
+        } else if (t < 39.0) {
+          tempStatusBadge.style.background = '#ffedd5';
+          tempStatusBadge.style.color = '#c2410c';
+          tempStatusBadge.innerHTML = '<span>🟠 발열 주의</span>';
+          tempStageBadge.className = 'section-badge highlight';
+          tempStageBadge.innerText = state.tempTouched ? '발열' : '터치하여 설정';
+        } else if (t < 40.0) {
+          tempStatusBadge.style.background = '#fee2e2';
+          tempStatusBadge.style.color = '#991b1b';
+          tempStatusBadge.innerHTML = '<span>🚨 고열 지속</span>';
+          tempStageBadge.className = 'section-badge required';
+          tempStageBadge.innerText = state.tempTouched ? '고열 주의' : '터치하여 설정';
+        } else {
+          tempStatusBadge.style.background = '#7f1d1d';
+          tempStatusBadge.style.color = '#fee2e2';
+          tempStatusBadge.innerHTML = '<span>🔥 초고열 위급</span>';
+          tempStageBadge.className = 'section-badge required';
+          tempStageBadge.innerText = state.tempTouched ? '초고열 위급' : '터치하여 설정';
+        }
+
+        if (navigator.vibrate) {
+          navigator.vibrate(5);
+        }
+
+        updateSummaryBar();
+      }
+
+      let isDraggingGauge = false;
+
+      function handleGaugePointer(e) {
+        state.tempTouched = true; // 사용자가 직접 다이얼 조작
+        if (state.tempUnknown) {
+          setUnknownTemp(false);
+        }
+
+        const rect = gaugeTouchArea.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        const centerX = rect.left + rect.width * (170 / 340);
+        const centerY = rect.top + rect.height * (180 / 210);
+
+        const dx = clientX - centerX;
+        const dy = clientY - centerY;
+
+        let deg = Math.atan2(dx, -dy) * (180 / Math.PI);
+        deg = Math.max(-90, Math.min(90, deg));
+
+        const newTemp = angleToTemp(deg);
+        updateGaugeDisplay(newTemp);
+      }
+
+      gaugeTouchArea.addEventListener('mousedown', (e) => {
+        isDraggingGauge = true;
+        handleGaugePointer(e);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDraggingGauge) return;
+        handleGaugePointer(e);
+      });
+
+      window.addEventListener('mouseup', () => {
+        isDraggingGauge = false;
+      });
+
+      gaugeTouchArea.addEventListener('touchstart', (e) => {
+        isDraggingGauge = true;
+        handleGaugePointer(e);
+      }, { passive: false });
+
+      gaugeTouchArea.addEventListener('touchmove', (e) => {
+        if (!isDraggingGauge) return;
+        e.preventDefault();
+        handleGaugePointer(e);
+      }, { passive: false });
+
+      gaugeTouchArea.addEventListener('touchend', () => {
+        isDraggingGauge = false;
+      });
+
+      function setUnknownTemp(unknown) {
+        state.tempUnknown = unknown;
+        if (unknown) {
+          gaugeUnknownOverlay.style.display = 'flex';
+          btnUnknownTemp.classList.add('active');
+          tempNumberDisplay.innerText = '체온 모름';
+          tempStatusBadge.style.background = '#f1f5f9';
+          tempStatusBadge.style.color = '#64748b';
+          tempStatusBadge.innerHTML = '<span>체온 미측정 안전 모드</span>';
+          tempStageBadge.className = 'section-badge';
+          tempStageBadge.innerText = '미측정';
+        } else {
+          gaugeUnknownOverlay.style.display = 'none';
+          btnUnknownTemp.classList.remove('active');
+          updateGaugeDisplay(state.temp);
+        }
+        updateSummaryBar();
+      }
+
+      btnUnknownTemp.addEventListener('click', () => {
+        state.tempTouched = true; // 사용자가 명시적으로 토글 누름
+        setUnknownTemp(!state.tempUnknown);
+      });
+
+      gaugeUnknownOverlay.addEventListener('click', () => {
+        state.tempTouched = true;
+        setUnknownTemp(false);
+      });
+
+      // ------------------------------------------------------------------------
+      // 3. Clean Age Logic (미조작 시 기본 '나이 모름' 처리 & 미니멀 연령 표기)
+      // ------------------------------------------------------------------------
+      function updateAgeDisplay(m) {
+        state.ageMonths = m;
+
+        // 3개월 이하 (0~3개월)는 모두 100일 미만 위험군으로 명확히 분류
+        const isUnder100 = (m <= 3);
+        state.isUnder100Days = isUnder100;
+
+        if (isUnder100) {
+          btnNewborn100d.classList.add('active');
+          if (ageStatusBadge) {
+            ageStatusBadge.style.display = 'inline-flex';
+            if (ageStatusBadgeText) {
+              ageStatusBadgeText.innerText = (m === 0) ? '신생아 위험군' : '100일 미만 위험군';
+            }
+          }
+
+          if (m === 0) {
+            ageMainDisplay.innerText = '0개월 (신생아)';
+          } else {
+            // 3개월도 전/후 분기 없이 깔끔하게 '3개월'로 표기
+            ageMainDisplay.innerText = `${m}개월`;
+          }
+        } else {
+          btnNewborn100d.classList.remove('active');
+          if (ageStatusBadge) ageStatusBadge.style.display = 'none';
+
+          if (m <= 24) {
+            ageMainDisplay.innerText = `${m}개월`;
+          } else {
+            const years = Math.floor(m / 12);
+            ageMainDisplay.innerText = `${years}세`;
+          }
+        }
+
+        ageSlider.value = m;
+        updateSummaryBar();
+      }
+
+      ageSlider.addEventListener('input', (e) => {
+        state.ageTouched = true; // 사용자가 나이 슬라이더 직접 조작
+        const val = parseInt(e.target.value, 10);
+        updateAgeDisplay(val);
+      });
+
+      btnNewborn100d.addEventListener('click', () => {
+        state.ageTouched = true;
+        if (state.ageMonths > 3) {
+          // 4개월 이상에서 누르면 100일 미만 위험군 구간인 3개월로 이동
+          updateAgeDisplay(3);
+        } else {
+          updateAgeDisplay(state.ageMonths);
+        }
+      });
+
+      // ------------------------------------------------------------------------
+      // 4. Medication Categories & Timing & Clean Companion
+      // ------------------------------------------------------------------------
+      medCards.forEach(card => {
+        card.addEventListener('click', () => {
+          medCards.forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+
+          const type = card.getAttribute('data-med-type');
+          state.medType = type;
+
+          if (type === 'none') {
+            state.medTypeName = '복용 안 함';
+            medTimeSubcard.style.display = 'none';
+          } else if (type === 'acetaminophen') {
+            state.medTypeName = '아세트아미노펜';
+            medTimeSubcard.style.display = 'block';
+          } else if (type === 'ibuprofen') {
+            state.medTypeName = '이부프로펜';
+            medTimeSubcard.style.display = 'block';
+          } else if (type === 'dexibuprofen') {
+            state.medTypeName = '덱시부프로펜';
+            medTimeSubcard.style.display = 'block';
+          } else if (type === 'alternating') {
+            state.medTypeName = '두 계열 교차복용';
+            medTimeSubcard.style.display = 'block';
+          }
+
+          updateSummaryBar();
+        });
+      });
+
+      medTimeChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          medTimeChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          state.medTime = chip.getAttribute('data-time');
+          updateSummaryBar();
+        });
+      });
+
+      companionSimpleInput.addEventListener('input', () => {
+        state.companionText = companionSimpleInput.value.trim();
+        updateSummaryBar();
+      });
+
+      // ------------------------------------------------------------------------
+      // Summary & Submit Execution (미입력/미조작 시 체온·나이 모름 기본 안전 처리)
+      // ------------------------------------------------------------------------
+      function isEffectiveTempUnknown() {
+        const hasTextTemp = extractTemperatureFromText(state.symptom) !== null;
+        if (state.tempUnknown) return true;
+        if (!state.tempTouched && !hasTextTemp) return true;
         return false;
       }
 
-      function hideInvalidFeedback() {
-        if (invalidFeedback) invalidFeedback.style.display = 'none';
+      function isEffectiveAgeUnknown() {
+        if (state.ageTouched) return false;
+        if (extractAgeFromText(state.symptom) !== null) return false;
+        return true; // 사용자가 건드리지 않았고 텍스트에도 나이가 없으면 '나이 모름'
       }
 
-      function showInvalidFeedback(msg) {
-        if (invalidFeedback && invalidFeedbackText) {
-          invalidFeedbackText.innerText = msg;
-          invalidFeedback.style.display = 'flex';
-          // Highlight quick chips
-          quickChipsWrapper.style.transition = 'transform 0.15s ease';
-          quickChipsWrapper.style.transform = 'scale(1.02)';
-          setTimeout(() => {
-            quickChipsWrapper.style.transform = 'scale(1)';
-          }, 200);
+      function updateSummaryBar() {
+        const effectiveAgeUnk = isEffectiveAgeUnknown();
+        const ageLabel = effectiveAgeUnk 
+          ? '나이 미입력(모름)' 
+          : (state.ageMonths <= 24 ? `${state.ageMonths}개월` : `${Math.floor(state.ageMonths / 12)}세`);
+
+        const tempUnknownEffective = isEffectiveTempUnknown();
+        const tempStr = tempUnknownEffective ? '체온 미측정(모름)' : `${state.temp.toFixed(1)}℃`;
+        const symStr = state.symptom || '증상 미입력';
+        const medSummary = state.medType === 'none' ? '해열제 미복용' : `${state.medTypeName}(${state.medTime})`;
+
+        actionSummaryText.innerHTML = `<span>${ageLabel}</span> · <span>${tempStr}</span> · <span>${medSummary}</span>`;
+
+        let progress = 25;
+        if (state.symptom.length > 1) progress += 25;
+        if (!tempUnknownEffective || !effectiveAgeUnk) progress += 25;
+        if (state.medType !== 'none' || state.companionText) progress += 25;
+        triageProgressFill.style.width = `${progress}%`;
+      }
+
+      // Back Button
+      document.getElementById('nav-back-btn').addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
+
+      // Submit Form
+      triageSubmitBtn.addEventListener('click', () => {
+        let symText = state.symptom.trim();
+        if (!symText) {
+          symptomInput.focus();
+          document.getElementById('card-symptom').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          document.getElementById('card-symptom').style.borderColor = '#ef4444';
+          setTimeout(() => { document.getElementById('card-symptom').style.borderColor = ''; }, 1500);
+          return;
         }
-      }
 
-      // Handle Submission at Each Step
-      function handleStepSubmit() {
-        let text = symptomInput.value.trim();
-        if (!text) return;
+        const effectiveAgeUnk = isEffectiveAgeUnknown();
+        const ageFormatted = effectiveAgeUnk 
+          ? '나이 미입력 (모름)' 
+          : (state.ageMonths <= 24 ? `${state.ageMonths}개월` : `${Math.floor(state.ageMonths / 12)}세`);
 
-        // 1. Red Flag Emergency Guardrail Check (0ms Red Flag)
-        if (RED_FLAG_REGEX.test(text)) {
+        const effectiveUnknown = isEffectiveTempUnknown();
+        const effectiveTemp = effectiveUnknown ? null : state.temp;
+        const effectiveTempStr = effectiveUnknown ? '체온 미측정 (모름)' : `${state.temp.toFixed(1)}℃`;
+
+        // 1. Red Flag 0ms Guardrail Inspection
+        const isUnder100d = !effectiveAgeUnk && (state.isUnder100Days || state.ageMonths < 3);
+        const combinedText = `${symText} ${state.companionText} ${isUnder100d ? '100일 미만' : ''} ${effectiveUnknown ? '' : effectiveTempStr}`;
+        if (RED_FLAG_REGEX.test(combinedText)) {
           let reason = '12대 소아 위급 상황 (119 즉시 신고 필요)';
-          if (/절단|잘렸|잘려|전기톱|날아갔/.test(text)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
-          else if (/경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)/.test(text)) reason = '소아 급성 경련 및 뇌전증 발작 의심';
-          else if (/의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도/.test(text)) reason = '의식 저하 및 기면 상태 (초응급 이송)';
-          else if (/청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕/.test(text)) reason = '급성 소아 호흡부전 및 기도폐쇄 의심';
-          else if (/초록색.*토|담즙|분수토|피똥|딸기잼.*변|혈변/.test(text)) reason = '장중첩증/위장관 출혈 의심';
-          else if (/100일.*(38|열)|백일.*(38|열)/.test(text)) reason = '생후 100일 미만 영아 고열 (신생아 패혈증 의심)';
-          else if (/화상.*(얼굴|손|발)|(얼굴|손|발).*화상|물집.*(얼굴|손|발)/.test(text)) reason = '소아 안면/수부 중증 화상 의심';
+          if (/절단|잘렸|잘려|전기톱|날아갔/.test(combinedText)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
+          else if (/경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)/.test(combinedText)) reason = '소아 급성 경련 및 뇌전증 발작 의심';
+          else if (/의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도/.test(combinedText)) reason = '의식 저하 및 기면 상태 (초응급 이송)';
+          else if (/청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕/.test(combinedText)) reason = '급성 소아 호흡부전 및 기도폐쇄 의심';
+          else if (/초록색.*토|담즙|분수토|피똥|딸기잼.*변|혈변/.test(combinedText)) reason = '장중첩증/위장관 출혈 의심';
+          else if (/100일.*(38|열)|백일.*(38|열)/.test(combinedText) || (isUnder100d && effectiveTemp && effectiveTemp >= 38.0)) reason = '생후 100일 미만 영아 고열 (신생아 패혈증 의심)';
+          else if (/화상.*(얼굴|손|발)|(얼굴|손|발).*화상|물집.*(얼굴|손|발)/.test(combinedText)) reason = '소아 안면/수부 중증 화상 의심';
 
           sessionStorage.setItem('red_flag_reason', reason);
           if (redflagToast) redflagToast.style.display = 'block';
-          symptomInput.blur();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
           setTimeout(() => {
             const targetUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : '/emergency_alert';
             window.location.href = targetUrl;
@@ -532,95 +1843,51 @@
           return;
         }
 
-        // 2. Meaningless/Mismatched Input Guardrail
-        if (isMeaninglessInput(text)) {
-          session.invalidCount = (session.invalidCount || 0) + 1;
-          // First attempt with meaningless input: Show gentle guide and suggest quick chips
-          if (session.invalidCount < 2) {
-            let guideMsg = '아이가 어디가 불편한지 조금만 더 적어주세요. 아래 추천 증상을 눌러도 돼요!';
-            if (session.step === 2) guideMsg = '아이 나이나 체온(예: 18개월, 38.5도)을 알려주시면 가장 안전한 병원을 찾을 수 있어요!';
-            if (session.step === 3) guideMsg = '처짐, 구토 등 추가 증상을 선택하거나 확인을 한 번 더 눌러주세요!';
-            showInvalidFeedback(guideMsg);
-            return;
-          }
-          // Second attempt: Fallback to safe defaults so parent is never trapped
-          hideInvalidFeedback();
-          if (session.step === 1) text = '소아 발열 및 전신 불편';
-          if (session.step === 2) text = '14개월 38.5℃';
-          if (session.step === 3) text = '처지고 보챔';
-        } else {
-          hideInvalidFeedback();
-          session.invalidCount = 0;
-        }
+        // 2. Format Structured Clinical Triage Payload
+        const finalSymptom = symText;
+        const medDetail = state.medType === 'none' ? '해열제 미복용' : `해열제: ${state.medTypeName}(${state.medTime})`;
+        const finalCompanion = state.companionText ? `${state.companionText}, ${medDetail}` : medDetail;
 
-        // 3. Progressive Flow Step Machine
-        if (session.step === 1) {
-          session.symptoms = text;
+        const triagePayload = {
+          age: ageFormatted,
+          temp: effectiveTempStr,
+          symptom: finalSymptom,
+          companion: finalCompanion,
+          location: '잠실동',
+          ktas: (effectiveTemp && effectiveTemp >= 39.0) ? '3' : '4',
+          ktas_name: (effectiveTemp && effectiveTemp >= 39.0) ? '준응급 (야간소아과/응급실 권고)' : '경증 (달빛어린이병원 권고)'
+        };
+        sessionStorage.setItem('triage_result', JSON.stringify(triagePayload));
 
-          // Smart auto-detection: if user entered age & temp together in step 1
-          const hasAge = /\d+개월|\d+세|\d+일/.test(text);
-          const hasTemp = /\d+(\.\d+)?(℃|도)/.test(text);
+        // 백엔드 연동: 체온 및 나이 미입력(모름) 시 백엔드에 안전하게 전달
+        const userLat = parseFloat(localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133');
+        const userLon = parseFloat(localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001');
+        const userAddress = localStorage.getItem('user_address') || sessionStorage.getItem('user_address') || null;
+        
+        const ageMsgText = effectiveAgeUnk ? '나이는 미입력(모름) 상태' : `${ageFormatted} 아기`;
+        const tempMsgText = effectiveUnknown ? '체온은 미측정(모름) 상태' : `체온은 ${effectiveTempStr}`;
+        const userMessage = `${ageMsgText}이고 ${tempMsgText}입니다. 주요 증상: ${finalSymptom}, 투약/동반: ${finalCompanion}`;
 
-          if (hasAge && hasTemp) {
-            session.age = text.match(/\d+개월|\d+세|\d+일/)[0];
-            session.temp = text.match(/\d+(\.\d+)?(℃|도)/)[0].replace('도', '℃');
-            renderStep(3); // Skip step 2 if already provided!
-          } else {
-            renderStep(2);
-          }
-        } else if (session.step === 2) {
-          session.age = text.includes('개월') || text.includes('세') || text.includes('일') ? text : '14개월';
-          session.temp = text.includes('도') || text.includes('℃') ? text : '38.5℃';
-          renderStep(3);
-        } else if (session.step === 3) {
-          session.companion = text;
-
-          const finalAge = session.age.match(/\d+개월|\d+세|\d+일/)?.[0] || '14개월';
-          const finalTemp = session.temp.match(/\d+(\.\d+)?(℃|도)/)?.[0]?.replace('도', '℃') || '38.5℃';
-          const finalSymptom = session.symptoms.replace('열이 나요', '고열') || '발열';
-          const finalCompanion = session.companion || '처짐';
-
-          // Save structured triage object to sessionStorage for result.html dynamic hydration
-          const triagePayload = {
-            age: finalAge,
-            temp: finalTemp,
+        const backendChatRequest = {
+          user_message: userMessage,
+          user_lat: userLat,
+          user_lon: userLon,
+          user_address: userAddress,
+          force_matching: true,
+          stream: false,
+          patient_vitals: {
+            age: effectiveAgeUnk ? '나이 미입력' : ageFormatted,
+            temp: effectiveTempStr,
             symptom: finalSymptom,
-            companion: finalCompanion,
-            location: '잠실동',
-            ktas: '3',
-            ktas_name: '준응급 (야간외래 권고)'
-          };
-          sessionStorage.setItem('triage_result', JSON.stringify(triagePayload));
+            companion: finalCompanion
+          }
+        };
+        sessionStorage.setItem('pending_chat_request', JSON.stringify(backendChatRequest));
 
-          // Package Backend ChatRequest Payload for loading.html to execute real POST /api/v1/chat
-          const userLat = parseFloat(localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133');
-          const userLon = parseFloat(localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001');
-          const userAddress = localStorage.getItem('user_address') || sessionStorage.getItem('user_address') || null;
-          const userMessage = `${finalAge} 아기이고 체온은 ${finalTemp}입니다. 주요 증상: ${finalSymptom}, 동반 증상: ${finalCompanion}`;
+        launchAnalyzingSequence();
+      });
 
-          const backendChatRequest = {
-            user_message: userMessage,
-            user_lat: userLat,
-            user_lon: userLon,
-            user_address: userAddress,
-            force_matching: true,
-            stream: false,
-            patient_vitals: {
-              age: finalAge,
-              temp: finalTemp,
-              symptom: finalSymptom,
-              companion: finalCompanion
-            }
-          };
-          sessionStorage.setItem('pending_chat_request', JSON.stringify(backendChatRequest));
-
-          // Move to loading.html to perform real API orchestration
-          const loadingUrl = window.location.pathname.endsWith('.html') ? 'loading.html' : '/loading';
-          window.location.href = loadingUrl;
-        }
-      }
-
-      function launchAnalyzingOverlay() {
+      function launchAnalyzingSequence() {
         const overlay = document.getElementById('ai-analyzing-overlay');
         const stepText = document.getElementById('analyzing-step-text');
         const stepIcon = document.getElementById('analyzing-step-icon');
@@ -628,7 +1895,6 @@
         const targetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : '/result';
 
         if (overlay) {
-          symptomInput.blur();
           overlay.classList.add('active');
           overlay.setAttribute('aria-hidden', 'false');
 
@@ -654,12 +1920,16 @@
         }
       }
 
-      // Initialize Step 1
-      renderStep(1);
+      // Initialize defaults
+      updateGaugeDisplay(38.0);
+      state.tempTouched = false; // 초기 로드 시 미조작 상태 (만지지 않으면 제출 시 체온 모름으로 처리)
+      state.tempUnknown = false; // 화면에는 바늘과 다이얼을 온전히 표출!
+      tempStageBadge.innerText = '터치하여 설정';
+      updateAgeDisplay(14);
+      updateSummaryBar();
     });
   </script>
 
-  <!-- Client Interaction Script Module -->
   <script src="../js/main.js"></script>
 </body>
 

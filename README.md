@@ -28,6 +28,17 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.57-pediatric-fever-standards-and-temp-sync] 2026-10-16: 체온 다이얼 수치 불일치(41.0℃ vs 39.5℃) 교정, 구어체 증상 체온 자동 감지 및 소아 표준 체온 5단계 분류 일치 (김동준 팀원)
+* **🎯 체온 다이얼 바늘 및 상태 뱃지 수치 불일치 결함 무결점 교정 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+  - 다이얼 바늘을 41.0℃로 올렸을 때 하단 알약 배지에 `39.5℃ 초고열`로 고정 출력되던 하드코딩 텍스트를 제거하고 `🔥 초고열 위급` 상태 명칭으로 일원화.
+  - 대형 수치(`41.0℃`), 바늘 회전각, 상단 배지, 하단 알약 배지 간 100% 모순 없는 정합성 달성.
+* **🗣️ 구어체 증상("열이있어요", "고열", "미열", "초고열") 체온 자동 인식 & 백엔드 연동 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html), [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py))**:
+  - 숫자가 없는 구어체 증상 입력 시에도 임상 표준 추정치(초고열 40.0℃, 고열 39.2℃, 일반 발열 38.5℃, 미열 37.8℃) 자동 인식 및 다이얼 연동.
+  - 백엔드 Gemini LLM Triage 프롬프트 및 Fallback 정규식 파서에 구어체 체온 변환 엔진 탑재 완료.
+* **📚 소아 체온 의학 표준 5단계 분류 체계 전면 동기화 (KAP 대한소아청소년과학회 & AAP 미국소아과학회 표준)**:
+  - `t < 37.5℃`: 🟢 정상 체온 / `37.5 <= t < 38.0℃`: ⚠️ 미열 관찰 / `38.0 <= t < 39.0℃`: 🟠 발열 주의 / `39.0 <= t < 40.0℃`: 🚨 고열 지속 / `t >= 40.0℃`: 🔥 초고열 위급.
+  - 기존 38.0~38.4℃ 구간이 '미열'로 잘못 표기되던 임상적 결함을 '발열 주의'로 정확히 분리 교정하고 SVG 눈금 그라데이션 재정렬 완료.
+
 ### 🌟 [v2.4.56-uvicorn-daemon-persistence-sync] 2026-10-16: 로컬호스트 연결 거부(ERR_CONNECTION_REFUSED) 복구 및 Uvicorn 영구 상주 데몬 기동 완결 (정영식 팀장)
 * **🔌 로컬호스트 소켓 연결 거부 결함 즉각 해결**:
   - 테스트 러너 종료 시그널로 인해 Uvicorn 포트가 닫혔던 원인을 규명하고, `IsDaemon: true` 영구 상주 프로세스로 Uvicorn 재기동.

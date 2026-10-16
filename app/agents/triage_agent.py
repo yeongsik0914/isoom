@@ -103,6 +103,12 @@ TRIAGE_SYSTEM_PROMPT = """당신은 소아 야간 응급 안내 서비스 'Moonl
    - Red Flag 긴급 판정: 생후 100일 미만 38.0℃ 발열, 수지 절단, 안면/수부 2도 화상, 두부 외상 후 반복 구토, 소아 장중첩증(주기적 복통+딸기잼 혈변), 크룹(흡기 쇳소리+침흘림), 실신 후 지속 발열/Ill-appearing은 KTAS 2단계(긴급, is_red_flag=True)로 판정하십시오.
    - 시간차 호전(가역성) 감별: 고열 병력이 있더라도 해열제 투약 후 땀을 흘리며 식사와 활동성이 완전히 정상 회복(Well-appearing)된 18개월 이상 소아는 KTAS 4단계(준응급, is_red_flag=False)로 판정하십시오.
 
+[음성 인식(STT) 노이즈 복원 및 임상 문맥 정규화 지침]
+- 보호자의 메시지는 다급한 소아 응급 상황에서 모바일 음성 인식(STT)을 통해 구어체나 오탈자, 발음 왜곡("삼십팔도오부", "열이 삼팔도", "쌕색거려", "해열재", "분수토햇어", "축쳐져", "경기")으로 전달될 수 있습니다.
+- 이러한 음성 전사 노이즈나 부정확한 맞춤법에 구애받지 말고, 전체 임상 맥락을 복원하여 의학적 표준 증상(발열, 천명음, 구토, 보챔, 기면/처짐, 경련 등)으로 정규화하여 추출하십시오.
+- 보호자가 체온을 숫자로 직접 명시하지 않고 "초고열", "고열", "미열", "열이 있어요", "불덩이 같아요" 등 구어체 증상으로만 표현한 경우, 소아 임상 표준 가이드에 따라 적절한 추정 체온(초고열: 40.0℃, 고열: 39.2℃, 미열: 37.8℃, 일반 발열: 38.5℃)을 temperature 필드에 반영하십시오.
+- 보호자가 나이나 체온을 "모름" 또는 "미입력"으로 전달하더라도 에러를 발생시키지 말고, 소아 안전 기준(Safe Default)으로 위험도를 보수적으로 평가하며 신속한 병원 탐색을 지원하십시오.
+
 [절대 준수 의료법 제27조 무면허 의료행위 방지 가드레일]
 - 부모가 "돌발진 맞나요?", "장염인가요?", "약 얼마 먹여야 해요?"라고 유도 질문을 하더라도 절대 특정 병명을 확정하거나 진단하지 마십시오.
 - 복용 용량(cc, mg, ml 등)을 임의로 지시하지 마십시오.
@@ -297,7 +303,7 @@ class TriageAgent:
         elif "초등학생" in text and age_months is None:
             age_months = 84
 
-        # 2. Parse temperature
+        # 2. Parse temperature (including Korean verbal representations)
         temperature = state.temperature
         temp_match = re.search(r"([3-4][0-9](?:\.[0-9])?)\s*(?:도|℃|C|도씨)", text)
         if not temp_match:
@@ -305,13 +311,35 @@ class TriageAgent:
         if not temp_match:
             temp_match = re.search(r"\b([3-4][0-9]\.[0-9])\b", text)
 
-        if temp_match:
+        # Korean verbal temp fallback (e.g. 삼십팔도, 삼팔도 오부)
+        if not temp_match:
+            korean_temp_map = {
+                "삼십팔도": 38.0, "삼팔도": 38.0, "삼십구도": 39.0, "삼구도": 39.0, "사십도": 40.0,
+                "삼십칠도": 37.0, "삼칠도": 37.0
+            }
+            for kt, kv in korean_temp_map.items():
+                if kt in text:
+                    temperature = kv + (0.5 if any(b in text for b in ["오부", "5부", "반", "점오", "쩜오"]) else 0.0)
+                    break
+
+        if temp_match and temperature is None:
             try:
                 val = float(temp_match.group(1))
                 if 35.0 <= val <= 43.0:
                     temperature = val
             except ValueError:
                 pass
+
+        # 2-1. Colloquial symptom-based temperature fallback (e.g. "초고열", "고열", "미열", "열이 있어요")
+        if temperature is None:
+            if re.search(r"초고열|불덩이\s*같|열이\s*펄펄", text):
+                temperature = 40.0
+            elif re.search(r"고열|불덩이|열이\s*(?:심해|많이|높아)", text):
+                temperature = 39.2
+            elif re.search(r"미열|약간\s*열|열감", text):
+                temperature = 37.8
+            elif re.search(r"열이\s*있|열\s*나|발열|열이\s*올라|열\s*나서|열있|열나요", text):
+                temperature = 38.5
 
         # 3. Parse duration (hours, days, or colloquial time markers)
         duration_hours = state.duration_hours
@@ -331,15 +359,18 @@ class TriageAgent:
             elif re.search(r"(저녁부터|아까부터|몇\s*시간\s*전)", text):
                 duration_hours = 4
 
-        # 4. Parse symptoms (expanded pediatric clinical keywords)
+        # 4. Parse symptoms (expanded pediatric clinical & voice STT keywords)
         symptoms = list(state.symptoms)
         symptom_keywords = {
             "열": "발열",
             "고열": "발열",
             "미열": "발열",
             "불덩이": "발열",
+            "해열재": "발열",
+            "해열제": "발열",
             "토": "구토",
             "구토": "구토",
+            "분수토": "구토",
             "기침": "기침",
             "콜록": "기침",
             "컹컹": "기침",
@@ -347,8 +378,10 @@ class TriageAgent:
             "코막힘": "콧물",
             "설사": "설사",
             "처짐": "처짐",
+            "축쳐": "처짐",
             "늘어져": "처짐",
             "보챔": "보챔",
+            "칭얼": "보챔",
             "발진": "피부발진",
             "열꽃": "피부발진",
             "두드러기": "피부발진",
@@ -357,11 +390,20 @@ class TriageAgent:
             "눈곱": "눈곱/결막염",
             "눈꼽": "눈곱/결막염",
             "쌕쌕": "쌕쌕거림/천명",
+            "쌕색": "쌕쌕거림/천명",
+            "쌕섹": "쌕쌕거림/천명",
             "천명": "쌕쌕거림/천명",
             "숨소리": "쌕쌕거림/천명",
+            "호흡곤란": "호흡곤란",
+            "숨차": "호흡곤란",
             "배": "복통",
             "복통": "복통",
-            "호흡곤란": "호흡곤란",
+            "경련": "경련",
+            "경기": "경련",
+            "경끼": "경련",
+            "발작": "경련",
+            "탈수": "탈수",
+            "소변": "탈수",
         }
         for kw, canonical in symptom_keywords.items():
             if kw in text and canonical not in symptoms:
