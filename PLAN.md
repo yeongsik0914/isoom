@@ -1402,6 +1402,26 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
 
 ---
 
+### 10.60 프론트엔드 전 화면 상호 연결 무결성 완비 및 로컬 서빙 아키텍처 (2026-10-16 완결)
+* **배경 및 개요**:
+  - `frontend/templates/` 내 13개 화면 파일 간의 상호 링크, 모달 트리거, 뒤로가기 버튼, 스크립트 리다이렉트 흐름을 전수 점검하여 무결점 순환 동선 완성.
+  - 브라우저에서 `http://localhost:8000/` 루트 접근 시 자동으로 메인 홈(`index.html`)이 표출되는 콘텐츠 협상 라우터 구축 및 Uvicorn 로컬 데몬 기동.
+* **주요 엔지니어링 구현 및 아키텍처**:
+  1. **13개 템플릿 화면 간 링크 정규화**:
+     - `index.html` (홈) ➔ `input.html` (문진) ➔ `loading.html` (실시간 API) ➔ `result.html` (추천 결과) ➔ `hospital_detail.html` (상세/접수) 순환 동선 완비.
+     - 0ms Red Flag 감지 시 `emergency_alert.html` 119 다이얼 직통 연결 및 상호 이동 링크 완비.
+     - `emergency_guide.html`, `settings.html`, `terms.html` 서브 페이지의 뒤로가기 및 하단 GNB 탭 연동 완결.
+  2. **FastAPI 루트(`/`) 콘텐츠 협상(Content Negotiation)**:
+     - `main.py`의 `root(request: Request)`에서 `Accept` 헤더 분석을 통해 웹 브라우저(`text/html`) 접근 시 즉시 `index.html`을 반환하고, API 테스트 클라이언트 시 기존 JSON 메타데이터를 반환하는 듀얼 아키텍처 확립 (`TC-501` 100% PASS 유지).
+  3. **중복 자산 태그 정리**:
+     - `result.html` 및 `index.html` 하단 중복 스크립트 태그 단일화.
+     - `splash.html`, `terms.html`, `emergency_guide.html`, `settings.html`, `index.html` CSS 로더 태그 표준화.
+  4. **무결점 검증**:
+     - HTTP 클라이언트 응답 전수 확인 (루트, input, result, hospital_detail, emergency_alert 모두 HTTP 200 OK).
+     - 백엔드 단위/통합 테스트 스위트 13건 전수 통과 (`Ran 13 tests in 54.022s, OK`).
+
+---
+
 ## 11. 프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵
 
 > **전용 상세 백서**: [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) (프론트엔드-백엔드 100% 결합 연동 명세서 전문 수록)

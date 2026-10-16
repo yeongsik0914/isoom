@@ -95,6 +95,7 @@
 95. [Q87. [HTML 템플릿 단일화 & 404 라우팅 결함 완전 해결] 중복 분산 HTML 파일의 frontend/templates/ 단일 진실의 원천(Single Source of Truth) 통합 및 스마트 Fallback 라우터 구축 보고](#q87-html-템플릿-단일화--404-라우팅-결함-완전-해결-중복-분산-html-파일의-frontendtemplates-단일-진실의-원천single-source-of-truth-통합-및-스마트-fallback-라우터-구축-보고)
 96. [Q88. [프론트엔드 에셋·스타일·스크립트 중복 폴더 전면 제거] templates/ 폴더 내 정적 자산 배제(HTML 전용 순수 보관소) 및 frontend/ 단일 리소스 참조 체계 확립 보고](#q88-프론트엔드-에셋스타일스크립트-중복-폴더-전면-제거-templates-폴더-내-정적-자산-배제html-전용-순수-보관소-및-frontend-단일-리소스-참조-체계-확립-보고)
 97. [Q89. [데이터셋 클린업] data/ 폴더 내 KTAS 임상 데이터셋·위치 좌표 보존 및 비최신·중복 약국 데이터셋(public_night_pharmacies.json) 정돈 보고](#q89-데이터셋-클린업-data-폴더-내-ktas-임상-데이터셋위치-좌표-보존-및-비최신중복-약국-데이터셋public_night_pharmaciesjson-정돈-보고)
+98. [Q90. [화면 연동 완결 & 로컬호스트 서빙] 프론트엔드 전 화면 상호 연결 무결성 검증, 브라우저 콘텐츠 협상 루트 서빙 및 로컬 실행 보고](#q90-화면-연동-완결--로컬호스트-서빙-프론트엔드-전-화면-상호-연결-무결성-검증-브라우저-콘텐츠-협상-루트-서빙-및-로컬-실행-보고)
 
 ---
 
@@ -5839,5 +5840,87 @@ E:\monnlight\data\
 ├── national_night_pharmacies_2028.json    (✨ 공공 API 기반 전국 2,028개 야간약국 최신 데이터셋 - 1.4 MB)
 └── nationwide_pairings.json               (✨ 156개 병원 - 2,028개 약국 1:1 페어링 마스터 - 252 KB)
 ```
+
+---
+
+### Q90. [화면 연동 완결 & 로컬호스트 서빙] 프론트엔드 전 화면 상호 연결 무결성 검증, 브라우저 콘텐츠 협상 루트 서빙 및 로컬 실행 보고
+
+* **기록 일시**: 2026-10-16
+* **질문 내용**:
+  > 프론트 화면 파일이 잘 연결되도록 수정해주고 로컬 열어서 보여줘
+
+---
+
+#### 💡 상세 분석 및 조치 내역
+
+#### 1. 🔗 프론트엔드 13개 화면 파일 간 상호 링크 체계 전수 점검 및 정규화
+`frontend/templates/` 내 모든 화면 간 이동 버튼, 앵커 태그(`<a>`), 스크립트 리다이렉트(`window.location.href`)를 전수 검사하여 끊김 없는 완전한 순환 동선을 확립하였습니다:
+
+```mermaid
+flowchart TD
+    Splash["스플래시 화면<br/>(splash.html)"] -->|권한 미부여 시| Perm["권한 안내 화면<br/>(permission.html)"]
+    Splash -->|권한 기부여 시| Home["아이숨 메인 홈<br/>(index.html)"]
+    Perm -->|동의하고 시작| Home
+    
+    Home -->|아이 증상 입력하고 병원 찾기| Modal["의료 가이드 & 동의 모달"]
+    Modal -->|동의하고 증상 입력하기| Input["소아 전문 문진 1~3단계<br/>(input.html)"]
+    Home -->|실시간 병원 카드 클릭| Detail["병원 상세 & 실시간 접수<br/>(hospital_detail.html)"]
+    Home -->|GNB 탭 2| Guide["소아전용 응급실 가이드<br/>(emergency_guide.html)"]
+    Home -->|GNB 탭 3| Setting["설정 화면<br/>(settings.html)"]
+
+    Input -->|0ms Red Flag 감지| Alert["🚨 119 초응급 직행<br/>(emergency_alert.html)"]
+    Input -->|문진 완료 제출| Loading["AI 분석 로딩 화면<br/>(loading.html)"]
+    
+    Loading -->|POST /api/v1/chat 성공| Result["맞춤 의료기관 안내<br/>(result.html)"]
+    Loading -->|응급 상황 감지| Alert
+    
+    Result -->|달빛병원 카드 클릭| Detail
+    Result -->|소아 응급실 탭| ResultER["실시간 소아 가용병상 탭"]
+    Result -->|증상 다시 입력| Input
+    Result -->|홈으로 이동| Home
+    
+    Detail -->|이전 화면 버튼| Result
+    Detail -->|홈 버튼| Home
+    
+    Alert -->|119 전화걸기| Tel["tel:119"]
+    Alert -->|소아 응급실 병상 보기| ResultER
+    Alert -->|증상 다시 입력| Input
+    
+    Setting -->|이용약관| Terms["서비스 이용약관<br/>(terms.html)"]
+    Terms -->|확인 / 뒤로가기| Setting
+```
+
+* **주요 정돈 내역**:
+  - `result.html` 및 `index.html` 하단에 중복 로드되던 스크립트 태그(`nationwide_pairings.js`, `public_night_pharmacies.js`)를 단일 진실의 원천으로 정돈.
+  - `splash.html`, `terms.html`, `emergency_guide.html`, `settings.html`, `index.html`의 CSS 로더를 동일 표준(`../css/style.css` + `/css/style.css`)으로 통일.
+
+---
+
+#### 2. ⚡ 브라우저 콘텐츠 협상(Content Negotiation) 기반 루트(`/`) 엔드포인트 혁신
+* **기존 문제**: 브라우저에서 `http://localhost:8000/`으로 바로 접속 시 JSON 메타데이터가 표출되어 사용자가 화면을 보려면 `/home`이나 `/index.html`을 별도로 입력해야 했음.
+* **해결 방안 ([main.py](file:///e:/monnlight/main.py))**:
+  - `Accept` 헤더 분석을 통해 일반 웹 브라우저 접속(`text/html`)인 경우 자동으로 `index.html` 메인 화면을 즉시 서빙하고, API 클라이언트 요청 시에는 JSON 메타데이터를 반환하는 스마트 콘텐츠 협상 탑재.
+  - 이를 통해 기존 `TC-501` 테스트 무결점을 100% 유지하면서, 브라우저 접속 시에는 즉각 아름다운 웹 UI가 표출되도록 구현 완료.
+
+---
+
+#### 3. 🌐 로컬 서버 기동 및 브라우저 실행 검증
+1. **백엔드 Uvicorn 데몬 기동**:
+   - `python -m uvicorn main:app --host 127.0.0.1 --port 8000` 백그라운드 프로세스 기동 완료.
+2. **HTTP 엔드포인트 무결점 전수 확인**:
+   - `GET /` (Accept: text/html) ➔ **HTTP 200 OK** (타이틀: 아이숨)
+   - `GET /input.html` ➔ **HTTP 200 OK**
+   - `GET /result.html` ➔ **HTTP 200 OK**
+   - `GET /hospital_detail.html` ➔ **HTTP 200 OK**
+   - `GET /emergency_alert.html` ➔ **HTTP 200 OK**
+3. **사용자 기본 브라우저 실시간 기동**:
+   - `Start-Process "http://localhost:8000"` 명령을 통해 팀장님의 Windows 데스크톱 기본 브라우저(Chrome/Edge)에 `http://localhost:8000`을 실시간 팝업 완료.
+
+---
+
+#### 4. 🧪 테스트 스위트 전수 통과 (100% PASS)
+* `python -m unittest tests/test_step5_api.py tests/test_step8_frontend_integration.py`
+* **결과**: `Ran 13 tests in 54.022s` ➔ **OK (전체 통과)**
+
 
 

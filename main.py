@@ -17,7 +17,7 @@ import os
 from typing import AsyncGenerator
 
 import uvicorn
-from fastapi import FastAPI, status
+from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -119,8 +119,15 @@ if os.path.exists("app/static"):
 
 
 @app.get("/", tags=["System"])
-async def root():
-    """Root metadata and API service information."""
+async def root(request: Request):
+    """Root metadata and API service information, or mobile web app for browser clients."""
+    accept = request.headers.get("accept", "")
+    # Serve mobile web main page if requested by a web browser
+    if "text/html" in accept and "application/json" not in accept:
+        path = find_frontend_html("home", "index.html")
+        if path and os.path.exists(path):
+            return FileResponse(path, media_type="text/html")
+
     return {
         "service": "MoonlightCare API",
         "version": "1.0.0",

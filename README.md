@@ -30,6 +30,18 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.50-frontend-linkage-and-local-serving] 2026-10-16: 프론트엔드 전 화면 상호 연결 무결성 완비, 브라우저 콘텐츠 협상 루트 서빙 및 로컬 실행 (정영식 팀장)
+* **🔗 13개 템플릿 화면 상호 연결 링크 전수 정규화**:
+  - `index.html` ➔ `input.html` ➔ `loading.html` ➔ `result.html` ➔ `hospital_detail.html`로 이어지는 정상 매칭 및 뒤로가기 순환 동선 완성.
+  - 0ms Red Flag 위급 상황 감지 시 `emergency_alert.html` 119 다이얼 직통 연결 및 상호 이동 링크 완비.
+  - `result.html` 및 `index.html` 내 중복 스크립트/CSS 로더 태그 단일화 최적화.
+* **⚡ FastAPI [main.py](file:///e:/monnlight/main.py) 콘텐츠 협상(Content Negotiation) 루트(`/`) 서빙**:
+  - 브라우저 접속(`text/html`) 시 자동으로 `index.html` 메인 화면 즉시 서빙, API 클라이언트 접속 시 JSON 메타데이터 반환.
+  - 브라우저 주소창에 `http://localhost:8000` 입력 시 즉각 아이숨 메인 웹 UI 팝업.
+* **🌐 로컬 Uvicorn 서버 백그라운드 가동 & 13개 테스트 전수 100% PASS**:
+  - 백그라운드 데몬 가동 및 Windows 기본 브라우저 실시간 팝업 검증 완료.
+  - 단위/통합 테스트 13건 전수 무결점 통과(`Ran 13 tests in 54.022s, OK`).
+
 ### 🌟 [v2.4.49-data-cleanup] 2026-10-16: data/ 디렉터리 내 KTAS 임상·위치 데이터셋 보존 및 비최신·중복 약국 데이터셋(public_night_pharmacies.json) 정돈 (정영식 팀장)
 * **🔒 KTAS 임상 데이터셋 & 응급실 위치 좌표 100% 무결점 보존**:
   - 소아 168개 주증상·17대 계통·활력징후 임상 기준표(`ktas_pediatric_dataset.json`, 388KB) 및 서울 530개 응급의료기관 위경도 캐시(`seoul_emergency_coords.json`, 37KB) 영구 보존.

@@ -97,6 +97,7 @@
 | **[ISSUE-088]** | 템플릿 아키텍처 & 라우팅 결함 | HTML 4중 중복 난립 및 서브패스 상대경로 404 결함 해소 (frontend/templates/ 단일화 및 스마트 Fallback 라우터) | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-089]** | 정적 리소스 아키텍처 & 중복 제거 | frontend/ 내 assets, css, js 폴더 중복 제거 및 templates/ 순수 HTML 전용화 체계 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-090]** | 데이터셋 아키텍처 & 클린업 | data/ 폴더 내 KTAS 임상 데이터셋·위치 좌표 엄격 보존 및 비최신·중복 약국 데이터셋(public_night_pharmacies.json) 안전 삭제 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-091]** | 프론트엔드 연동 & 로컬 서빙 아키텍처 | 13개 화면 상호 링크 무결점 정합성 확립, 브라우저 콘텐츠 협상 기반 루트(/) 서빙 및 Uvicorn 로컬 기동 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -2895,5 +2896,52 @@
   * [README.md](file:///e:/monnlight/README.md)
 * **조치 결과**:
   * KTAS 및 응급실 위치 데이터셋의 100% 무결점 보존, 비최신/중복 데이터 파일 정리 완료, 최신 공공 API 기반 3대 마스터 데이터셋 체계 확립.
+
+---
+
+### [ISSUE-091] 프론트엔드 전 화면 상호 링크 무결점 정합성 확립, 브라우저 콘텐츠 협상 기반 루트(/) 서빙 및 Uvicorn 로컬 기동 검증
+
+* **발생 일자**: 2026-10-16
+* **분류**: 풀스택 아키텍처 / 프론트엔드 라우팅 / 로컬 서빙 환경
+* **문제 상황**:
+  * 팀장님의 요청: 프론트 화면 파일들이 잘 연결되도록 수정하고 로컬호스트를 열어서 보여줄 것을 요청.
+  * 기존 구조에서 브라우저가 `http://localhost:8000/` 루트 URL로 진입 시 HTML이 아닌 JSON 메타데이터가 반환되어 직관적인 메인 홈 UI 접근이 저해됨.
+  * `result.html` 및 `index.html` 하단에 일부 스크립트 태그가 중복 로드되어 리소스 낭비 잔존.
+* **원인 분석**:
+  * `main.py`의 루트 엔드포인트(`@app.get("/")`)가 백엔드 API 명세 메타데이터 반환 전용으로 하드코딩되어 있었음.
+  * 기존 단위 테스트(`TC-501`)에서 루트의 JSON 응답을 검증하고 있어 단순 HTML 반환으로 대체할 경우 테스트가 실패할 위험 존재.
+* **구체적 해결 방안**:
+  1. **스마트 콘텐츠 협상(Content Negotiation) 루트 라우터 도입**:
+     - `main.py`의 `root(request: Request)`에 `Accept` 헤더 기반 동적 분기 탑재.
+     - 웹 브라우저 접속(`text/html` 포함 및 `application/json` 미지정) 시 즉시 `frontend/templates/index.html` 메인 화면을 서빙.
+     - API 테스트 클라이언트(`application/json` 또는 일반 API 호출) 접속 시 기존 JSON 메타데이터를 그대로 반환하여 `TC-501` 테스트 무결점을 100% 유지.
+  2. **13개 템플릿 화면 간 순환 링크 전수 정규화**:
+     - `index.html` ➔ `input.html` ➔ `loading.html` ➔ `result.html` ➔ `hospital_detail.html`로 이어지는 정상 매칭 동선 검증.
+     - 0ms Red Flag 감지 시 `emergency_alert.html`로의 직행 및 119 다이얼 연결 검증.
+     - `emergency_guide.html`, `settings.html`, `terms.html` 등 서브 화면의 뒤로가기 및 GNB 순환 링크 완결.
+  3. **중복 스크립트 및 CSS 링크 정돈**:
+     - `result.html`과 `index.html` 하단 중복 스크립트 태그(`nationwide_pairings.js`, `public_night_pharmacies.js`)를 단일 태그로 정리.
+     - `splash.html`, `terms.html`, `emergency_guide.html`, `settings.html`, `index.html`의 CSS 링크 태그를 표준 2줄 구조로 최적화.
+  4. **로컬 Uvicorn 서버 백그라운드 기동 및 브라우저 실행**:
+     - `python -m uvicorn main:app --host 127.0.0.1 --port 8000` 백그라운드 데몬 가동.
+     - `Start-Process "http://localhost:8000"`을 실행하여 팀장님의 Windows 기본 브라우저에 실시간 웹 화면 팝업 완료.
+     - HTTP 클라이언트 응답 전수 검증: `/`, `/input.html`, `/result.html`, `/hospital_detail.html`, `/emergency_alert.html` 전체 100% HTTP 200 OK 확인.
+  5. **회귀 테스트 검증**:
+     - `python -m unittest tests/test_step5_api.py tests/test_step8_frontend_integration.py` 실행 (13개 테스트 전수 100% PASS, 54.022s).
+* **적용 파일**:
+  * [main.py](file:///e:/monnlight/main.py)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html)
+  * [frontend/templates/splash.html](file:///e:/monnlight/frontend/templates/splash.html)
+  * [frontend/templates/terms.html](file:///e:/monnlight/frontend/templates/terms.html)
+  * [frontend/templates/emergency_guide.html](file:///e:/monnlight/frontend/templates/emergency_guide.html)
+  * [frontend/templates/settings.html](file:///e:/monnlight/frontend/templates/settings.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * 웹 브라우저 `http://localhost:8000` 접속 시 즉시 아이숨 메인 화면 정상 표출, 13개 전체 화면 간 이동 및 뒤로가기 무결점 완비, 31개 전체 엔드포인트 100% 200 OK 및 회귀 테스트 100% 합격.
+
 
 
