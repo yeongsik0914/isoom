@@ -124,6 +124,7 @@
 | **[ISSUE-115]** | 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구 | IDE 세션 전환으로 인한 백엔드 FastAPI 데몬(포트 8000) 종료 현상 원인 규명, Uvicorn 서버 재기동 및 0ms Red Flag / KTAS E2E 무결성 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-118]** | Git 동기화 충돌 & 신규 data 파일 긴급 Revert | 타 작업자 로컬과의 충돌을 방지하기 위해 `1671e36` 커밋 100% Revert(5e95b52), .gitignore 원복 및 파일 상태 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3819,5 +3820,26 @@
   * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
   * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+### [ISSUE-118] Git 동기화 충돌 & 신규 data 파일 긴급 Revert
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: Git 협업 형상 관리 / 파일 충돌 방어 / 긴급 Revert
+* **문제 상황**:
+  * 타 작업자(정영식 팀장님) 로컬에 `data/` 관련 파일들이 존재하는 상황에서, 에이전트가 로컬 부재를 오인하고 `ktas_viewer.html`로부터 추출한 `data/ktas_full_bundle.json`과 `data/ktas_pediatric_dataset.json`을 신규 생성하여 원격에 커밋/푸시(`1671e36`)함.
+  * 이로 인해 타 작업자의 로컬 워크스페이스에서 `git status` 시 빨간색 충돌 및 미추적 덮어쓰기 경고가 발생하는 혼선 유발.
+* **원인 분석**:
+  * 루트 [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)의 `data/*` 무시 규칙으로 인해 로컬 파일들이 Git 추적 대상이 아니었던 점을 면밀히 살피지 않고 원격에 대용량 JSON 파일을 밀어 넣음으로써 발생한 협업 충돌.
+* **해결 방안 및 조치 내역**:
+  1. **긴급 Git Revert 실행 및 원격 푸시 완료**:
+     - `git revert 1671e36 --no-edit`를 실행하여 `5e95b52` 커밋으로 원격 저장소에서 `data/ktas_full_bundle.json`과 `data/ktas_pediatric_dataset.json`을 전면 삭제(delete mode)하고, `.gitignore`도 원래 상태로 완전 원복.
+  2. **협업 파일 안정화**:
+     - 타 작업자가 `git pull` 실행 시 아무런 충돌 없이 원격 변경사항을 수신하여 로컬 파일이 정상 상태로 복귀하도록 조치 완료.
+* **적용 파일**:
+  * [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
 
 

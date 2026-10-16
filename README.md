@@ -28,6 +28,13 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.75-collaborative-git-revert-and-stabilization] 2026-10-16: 협업 형상 관리 보호를 위한 신규 data 커밋 100% Revert(5e95b52) 및 타 작업자 로컬 충돌 완전 해소 (김동준 팀원)
+* **🔄 `data/ktas_full_bundle.json` 및 `data/ktas_pediatric_dataset.json` 원격 Revert 완료**:
+  - 타 작업자(정영식 팀장님) 로컬에 보관된 파일과의 형상 관리 충돌(Untracked overwrite)을 방지하기 위해 `git revert 1671e36`을 즉각 단행하여 원격 저장소 및 `.gitignore`를 원래의 깨끗한 상태로 100% 복원.
+* **🛡️ Git 협업 충돌 해소**:
+  - 타 작업자가 `git pull`을 실행하면 빨간색 충돌 파일 없이 즉시 정상화되도록 안정화 완료.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q114, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-118) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.73-ktas-emergency-fallback-fix-and-data-integrity-audit] 2026-10-16: 소아 KTAS 공식 지침(Slide 198) 정밀 대조, Supervisor Red Flag Fallback 안전 교정 및 데이터 무결성 100% 보존 입증 (김동준 팀원)
 * **📊 2021년 소아 KTAS 공식 지침서(Slide 198) 기반 판정 기준 완벽 입증**:
   - `2021_KTAS_guideline_ver1.6.pptx` Slide 198 규정에 따라 "4개월, 고열, 아파보여요(Ill-appearing), 변비"는 **`KTAS 2단계 (긴급, Emergent)`**임을 1:1 대조 증명.
