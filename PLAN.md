@@ -82,6 +82,8 @@
     - [10.64 FastAPI Uvicorn 핫 리로드 로컬 서버 백그라운드 기동 및 웹 브라우저 실시간 연동](#1064-fastapi-uvicorn-핫-리로드-로컬-서버-백그라운드-기동-및-웹-브라우저-실시간-연동-2026-10-16-완결)
     - [10.65 실시간 야간 의료시설 현황 목록의 반경 15km 이내 필터링 제한 및 상단 뱃지·탭 카운트 동기화 아키텍처](#1065-실시간-야간-의료시설-현황-목록의-반경-15km-이내-필터링-제한-및-상단-뱃지탭-카운트-동기화-아키텍처-2026-10-16-완결)
     - [10.66 로컬호스트 소켓 연결 거부(ERR_CONNECTION_REFUSED) 복구 및 Uvicorn 데몬 영구 상주 아키텍처](#1066-로컬호스트-소켓-연결-거부err_connection_refused-복구-및-uvicorn-데몬-영구-상주-아키텍처-2026-10-16-완결)
+    - [10.67 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처](#1067-전국-달빛병원야간약국-24시간-주기-공공-api-변경분hash-diffing-자동-업데이트-파이프라인-아키텍처-2026-10-16-완결)
+    - [10.68 전국 달빛어린이병원(156개)·심야약국(2,028개) 24시간 주기 In-Memory Hash Diffing 델타 동기화 서비스 및 관리자 API/CLI 완비](#1068-전국-달빛어린이병원156개심야약국2028개-24시간-주기-in-memory-hash-diffing-델타-동기화-서비스-및-관리자-apicli-완비-2026-10-16-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1533,6 +1535,44 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
 
 ---
 
+### 10.67 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 (2026-10-16 완결)
+* **배경 및 개요**:
+  - `data/*.json`을 `frontend/js/*.js` 번들로 컴파일하여 클라이언트 0ms LBS를 제공하는 체계를 기반으로, 24시간 주기 공공데이터포털(E-Gen) API 호출 및 변경분(Delta)만 감지·갱신하는 Incremental Sync 파이프라인 설계.
+* **주요 엔지니어링 구현 원칙**:
+  1. **APScheduler 24시간 크론 잡 (`app/services/scheduler.py`)**:
+     - `Job 2: Daily 04:00 AM Static Data & Pairing Sync`를 확장하여 이용자 트래픽 최저점인 매일 새벽 4시 자동 가동.
+  2. **기관코드(PK) 기반 In-Memory Hash Diffing**:
+     - 기존 데이터셋과 신규 API 응답 간의 주요 필드(운영시간, 주소, 전화번호, 좌표) SHA-256 해시 대조.
+     - `diff_count == 0`일 경우 0ms Skip 처리하여 불필요한 디스크 I/O와 브라우저 캐시 무효화 원천 차단.
+  3. **변경 감지 시 자동 번들링 컴파일러 연계**:
+     - 신규/수정/삭제 변동 발생 시에만 `data/*.json` 갱신 및 `scripts/build_frontend_datasets.py` 자동 호출로 `frontend/js/*.js` 재생성.
+  4. **온디맨드 관리자 CLI 도구 지원**:
+     - `python scripts/sync_national_datasets_delta.py`를 통한 즉시 수동 델타 검증 지원.
+
+---
+
+### 10.68 전국 달빛어린이병원(156개)·심야약국(2,028개) 24시간 주기 In-Memory Hash Diffing 델타 동기화 서비스 및 관리자 API/CLI 완비 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 전국 156개 달빛어린이병원과 2,028개 야간약국의 정적 데이터셋(`data/*.json`)과 프론트엔드 자바스크립트 번들(`frontend/js/*.js`)은 변경 빈도가 낮으나 진료 시간, 전화번호, 폐업/신설 등의 변동 사항이 발생할 수 있음.
+  - 매일 24시간 주기로 공공데이터포털(E-Gen) API를 전수 호출하더라도, 변경 사항이 없는 대다수의 경우 1.4MB에 달하는 정적 파일을 매번 덮어쓰면 서버 디스크 I/O 낭비 및 브라우저 클라이언트의 0ms HTTP 캐시가 강제 무효화되는 비효율이 발생함.
+* **4대 핵심 엔지니어링 구현**:
+  1. **In-Memory Hash Diffing & 0ms Skip 보호 ([app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py))**:
+     - 기관코드(PK: `hpid`, `dutyAddr`, `dutyName`) 기준으로 핵심 필드(기관명, 주소, 전화번호, 요일별/공휴일 진료시간, WGS84 좌표)의 SHA-256 해시를 산출.
+     - 기존 로컬 데이터셋과 신규 API 응답 간의 Added, Modified, Removed를 메모리 상에서 판별.
+     - `diff_count == 0`인 경우 디스크 쓰기와 자바스크립트 컴파일을 0ms 만에 Skip하여 브라우저 캐시 및 서버 디스크를 100% 보존.
+  2. **변경 감지 시 원자적 번들링 빌더 (`build_frontend_datasets.py`) 자동 연동**:
+     - 변동 사항 발생 시에만 `data/*.json`을 안전하게 덮어쓰고, `frontend/js/*.js` 및 `frontend/templates/js/*.js` 번들을 단일 트랜잭션으로 자동 컴파일.
+  3. **3-Track 백그라운드 스케줄러 자동 결합 ([app/services/scheduler.py](file:///e:/monnlight/app/services/scheduler.py))**:
+     - 기존 `Job 2: Daily 04:00 AM Static Data & Pairing Sync`의 `sync_static_datasets()`에 비동기 통합되어, 매일 새벽 4시마다 무인 자동 점검 및 증분 반영.
+  4. **수동 CLI 도구 및 RESTful 관리자 엔드포인트 완비**:
+     - CLI: `python scripts/sync_national_datasets_delta.py [--force]`로 관리자가 온디맨드로 즉시 동기화 검증 가능 (`[scripts/sync_national_datasets_delta.py](file:///e:/monnlight/scripts/sync_national_datasets_delta.py)`).
+     - API: `POST /api/v1/emergency/sync-static` 엔드포인트 신설로 웹 관리자 대시보드 및 CI/CD 파이프라인에서 트리거 가능 (`[app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)`).
+* **단위 및 통합 검증 ([tests/test_national_dataset_sync.py](file:///e:/monnlight/tests/test_national_dataset_sync.py))**:
+  - TC-SYNC-001(해시 일치성 검증), TC-SYNC-002(변경분 감지 - 추가/수정/삭제), TC-SYNC-003(변경분 없을 시 Skip 검증), TC-SYNC-004(변경분 있을 시 파일 업데이트 및 JS 컴파일 검증), TC-SYNC-005(강제 업데이트 플래그 검증), TC-SYNC-006(스케줄러 잡 비동기 호출 검증), TC-SYNC-007(관리자 API POST 엔드포인트 검증) 7개 전수 통과.
+  - 전체 단위/통합 테스트 스위트 90개 전수 무결점 통과 (`Ran 90 tests in 220.528s, OK`).
+
+---
+
 ## 11. 프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵
 
 > **전용 상세 백서**: [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) (프론트엔드-백엔드 100% 결합 연동 명세서 전문 수록)
@@ -1565,5 +1605,5 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
 
 현재 MoonlightCare 프로젝트는 **Step 1(기반 파이프라인)**부터 **Step 6(E2E 통합)**, **차세대 2계층 Red Flag V2 모듈**, **Step 7(공공 API 서킷 브레이커 & 3-Tier Multi-Storage Fallback 아키텍처)**, **Step 8(프론트엔드 결합 백엔드 1단계: 임상 DTO 확장 & force_matching FSM 모드)**, 그리고 **팀 프로젝트 협업 및 4대 문서 지속 누적 관리 거버넌스(v2.1.1)**에 이르는 전체 개발 로드맵을 완벽하게 완수하였습니다.
 
-현재 **총 83개 단위/통합 테스트 전수 무결점 통과(`Ran 83 tests, OK`)** 및 **40대 소아 임상 골든 케이스 Evals 100.0% 합격(평균 99.5점)**을 달성하여, 실시간 장애 복원력과 의료 AI 임상 안전성, 법적 방어(의료법 제27조), 클라우드 비용 효율(FinOps), 그리고 팀 협업 코드-문서 무결성 전 영역에서 상용 서비스 론칭 기준을 완전히 충족하였습니다.
+현재 **총 90개 단위/통합 테스트 전수 무결점 통과(`Ran 90 tests in 220.528s, OK`)** 및 **40대 소아 임상 골든 케이스 Evals 100.0% 합격(평균 99.5점)**을 달성하여, 실시간 장애 복원력과 의료 AI 임상 안전성, 법적 방어(의료법 제27조), 클라우드 비용 효율(FinOps), 그리고 팀 협업 코드-문서 무결성 전 영역에서 상용 서비스 론칭 기준을 완전히 충족하였습니다.
 

@@ -227,11 +227,21 @@ async def coord_to_address(
         except Exception as e:
             logger.warning(f"Kakao coord2address exception: {e}")
 
-    # Fallback 기본 반환
+    # Fallback 기본 반환: 좌표와 가장 가까운 POI 위치를 찾아 실제 행정동과 주소 반환
+    closest_dong = "문정동"
+    closest_addr = "서울특별시 송파구 문정동"
+    min_dist = float("inf")
+    for loc in FALLBACK_POI_LOCATIONS:
+        d = (loc["lat"] - lat) ** 2 + (loc["lon"] - lon) ** 2
+        if d < min_dist:
+            min_dist = d
+            closest_dong = loc["dong"]
+            closest_addr = loc.get("road_address") or loc.get("jibun_address") or f"서울특별시 송파구 {closest_dong}"
+
     return {
         "status": "fallback",
-        "dong": "내 위치",
-        "full_address": "현재 GPS 측정 위치",
+        "dong": closest_dong,
+        "full_address": closest_addr,
         "lat": lat,
         "lon": lon,
         "source": "fallback_gps"

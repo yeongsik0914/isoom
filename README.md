@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-83%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-90%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -27,6 +27,28 @@
 ---
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
+
+### 🌟 [v2.4.58-daily-delta-sync-pipeline-complete] 2026-10-16: 전국 달빛어린이병원·야간약국 24시간 In-Memory Hash Diffing 델타 동기화 서비스·스케줄러·관리자 API/CLI 완비 및 90개 전수 테스트 통과 (정영식 팀장)
+* **🔄 In-Memory Hash Diffing 기반 0ms Skip 델타 동기화 서비스 완공 ([app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py))**:
+  - 전국 156개 달빛어린이병원 및 2,028개 야간약국의 기관코드(PK) 기반 SHA-256 주요 필드 해시 대조 알고리즘 구축.
+  - 신규(Added), 수정(Modified), 삭제(Removed) 변동 감지 기능 구현 및 `diff == 0` 시 불필요한 디스크 I/O와 브라우저 캐시 무효화를 0ms 만에 Skip하는 최적화 엔진 적용.
+  - 실제 변경분 발생 시에만 `data/*.json` 저장 및 `scripts/build_frontend_datasets.py` 자동 호출로 `frontend/js/*.js` 원자적 번들링 완결.
+* **⏰ 3-Track 백그라운드 스케줄러 비동기 결합 ([app/services/scheduler.py](file:///e:/monnlight/app/services/scheduler.py))**:
+  - `Job 2: Daily 04:00 AM Static Data & Pairing Sync` 내 `sync_static_datasets()`에 증분 델타 동기화를 비동기 결합하여 매일 새벽 4시 완전 무인 자동 동기화 실현.
+* **🛠️ 온디맨드 관리자 CLI 도구 & RESTful 엔드포인트 신설**:
+  - CLI: `python scripts/sync_national_datasets_delta.py [--force]`로 관리자가 온디맨드로 즉시 동기화 검증 가능 (`[scripts/sync_national_datasets_delta.py](file:///e:/monnlight/scripts/sync_national_datasets_delta.py)`).
+  - API: `POST /api/v1/emergency/sync-static` 엔드포인트 신설로 웹 관리자 대시보드 및 CI/CD 파이프라인에서 트리거 가능 (`[app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)`).
+* **🧪 7개 신규 단위·통합 테스트 구축 및 90개 전체 회귀 테스트 전수 통과**:
+  - `tests/test_national_dataset_sync.py`: TC-SYNC-001~007 7개 테스트 100% 통과.
+  - 전체 단위/통합 테스트 스위트 90개 전수 통과 (`Ran 90 tests, OK`).
+
+### 🌟 [v2.4.57-daily-delta-sync-architecture] 2026-10-16: 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 수립 (정영식 팀장)
+* **🔄 24시간 주기 증분 동기화(Incremental Delta Sync) 설계**:
+  - `APScheduler`의 04:00 AM 정적 데이터 크론 잡을 기반으로, 공공데이터포털(E-Gen) API를 호출하여 병원/약국 최신 스냅샷 수집.
+  - 기관코드(PK) 기반 In-Memory Hash Diffing을 적용하여 신규(Added), 수정(Modified), 삭제(Removed) 감지.
+  - `diff_count == 0`일 때 불필요한 디스크 I/O와 브라우저 캐시 무효화를 0회로 유지하는 엔터프라이즈급 최적화 원칙 확립.
+* **🔨 변경 발생 시 자동 번들링 빌더 (`build_frontend_datasets.py`) 연계**:
+  - 변경분이 감지된 경우에만 `data/*.json` 및 `frontend/js/*.js`를 자동 컴파일하여 클라이언트 0ms LBS 무지연 제공 보장.
 
 ### 🌟 [v2.4.56-uvicorn-daemon-persistence-sync] 2026-10-16: 로컬호스트 연결 거부(ERR_CONNECTION_REFUSED) 복구 및 Uvicorn 영구 상주 데몬 기동 완결 (정영식 팀장)
 * **🔌 로컬호스트 소켓 연결 거부 결함 즉각 해결**:

@@ -104,6 +104,8 @@
 | **[ISSUE-095]** | 로컬 개발 환경 & 브라우저 실시간 서빙 | Uvicorn 핫 리로드 로컬 서버 기동, 포트 충돌 방어 및 기본 웹 브라우저 실시간 연동 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-096]** | LBS 공간 필터링 & 프론트엔드 최적화 | 메인 홈 실시간 야간 의료시설 현황 목록의 반경 15km 이내 필터링 제한 및 상단 뱃지·탭 카운트 동기화 & 로컬 서버 브라우저 재실행 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-097]** | 로컬 개발 환경 & 서버 지속성 | 브라우저 로컬호스트 접속 거부(ERR_CONNECTION_REFUSED) 원인 규명 및 Uvicorn 데몬 영구 상주 기동 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-098]** | 데이터 엔지니어링 & LBS 증분 동기화 | 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-099]** | 데이터 엔지니어링 & LBS 증분 동기화 | 전국 달빛병원·야간약국 24시간 증분 동기화 모듈 구현, 백엔드 스케줄러 결합, 관리자 API 및 CLI 완비 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3170,6 +3172,75 @@
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
 * **조치 결과**:
   * 브라우저 접속 거부 결함이 완벽히 해결되었으며, 새로고침 시 15km 필터링이 적용된 아이숨 메인 홈이 정상 표출됨.
+
+---
+
+### [ISSUE-098] 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 수립
+
+* **발생 일자**: 2026-10-16
+* **분류**: 데이터 엔지니어링 / 증분 동기화(CDC) / 배치 스케줄링
+* **문제 상황**:
+  * 메인 홈 실시간 의료시설 목록은 `data/*.json`을 `frontend/js/*.js` 번들로 컴파일하여 클라이언트 0ms LBS를 제공하고 있으나, 지자체 및 보건복지부의 신규 달빛병원 지정, 운영시간 변동, 약국 폐업/신설 정보를 최신 상태로 유지하기 위한 24시간 주기 변경분 감지(Hash Diffing) 파이프라인 설계 필요성 대두.
+* **원인 분석**:
+  * 매일 2,000여 개 전수 데이터를 단순 덮어쓰기할 경우 불필요한 디스크 I/O가 발생하고 브라우저 캐시가 낭비되므로, 기관코드(Primary Key) 기반으로 실제 변동 사항(Added, Modified, Removed)이 존재할 때만 선택적으로 갱신하는 델타 동기화(Delta Diffing) 파이프라인이 최적의 엔지니어링 표준임.
+* **구체적 해결 방안**:
+  1. **APScheduler 24시간 크론 잡 (`app/services/scheduler.py`)**:
+     - `Job 2: Daily 04:00 AM Static Data & Pairing Sync`를 확장하여 공공데이터포털(E-Gen) API 배치 호출.
+  2. **기관코드 PK 기반 In-Memory Hash Diffing 엔진**:
+     - 기존 `data/*.json`과 신규 API 응답 간의 해시 및 주요 속성(진료시간, 주소, 전화번호, 좌표)을 대조.
+     - `diff_count == 0`일 경우 0ms Skip 처리하여 디스크 I/O 및 브라우저 캐시 무효화 0회 달성.
+  3. **변경분 발생 시 자동 파일 갱신 & 번들 빌더 연동**:
+     - `diff_count > 0`인 경우에만 `data/*.json`을 갱신하고 `scripts/build_frontend_datasets.py`를 호출하여 `frontend/js/*.js` 자동 재생성.
+  4. **운용 지원 도구 마련**:
+     - 수동 온디맨드 델타 검증 스크립트(`scripts/sync_national_datasets_delta.py`) 및 관리자 트리거 엔드포인트 기획.
+* **적용 파일**:
+  * [app/services/scheduler.py](file:///e:/monnlight/app/services/scheduler.py)
+  * [scripts/build_frontend_datasets.py](file:///e:/monnlight/scripts/build_frontend_datasets.py)
+  * [scripts/export_national_moonlight_and_night_pharmacy_md.py](file:///e:/monnlight/scripts/export_national_moonlight_and_night_pharmacy_md.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 최신 공공 API 데이터 신선도와 프론트엔드 0ms 무지연 성능을 양립시키는 24시간 델타 업데이트 표준 아키텍처 수립 완료.
+
+---
+
+### [ISSUE-099] 전국 달빛병원·야간약국 24시간 증분 동기화 모듈 구현, 백엔드 스케줄러 결합, 관리자 API 및 CLI 완비
+
+* **발생 일자**: 2026-10-16
+* **분류**: 데이터 엔지니어링 / 증분 동기화(CDC) / 배치 스케줄링
+* **문제 상황**:
+  * `[ISSUE-098]`에서 수립된 24시간 델타 업데이트 아키텍처를 실제 동작 가능한 소스코드, 스케줄러 자동 실행 파이프라인, 관리자 온디맨드 API, 수동 CLI 도구로 완성하여 배포할 필요성 발생.
+* **원인 분석**:
+  * 단순 파일 덮어쓰기 배제, 기관코드(PK) 기반의 SHA-256 In-Memory Hash Diffing 엔진을 통한 0ms Skip 및 변경분 자동 번들링 컴파일러가 유기적으로 연동되어야 함.
+* **구체적 해결 방안**:
+  1. **핵심 델타 동기화 서비스 구축 (`app/services/national_dataset_sync_service.py`)**:
+     - `compute_item_hash()`: 진료시간, 주소, 전화번호, 좌표 등 핵심 속성 SHA-256 해시 생성.
+     - `detect_dataset_deltas()`: 기관코드 PK 기반 Added, Modified, Removed 분별.
+     - `sync_national_datasets_with_diffing()`: 0ms Skip 방어벽 및 변경 시 `data/*.json` 갱신 및 `frontend/js/*.js` 자동 재컴파일.
+  2. **APScheduler 24시간 크론 잡 결합 (`app/services/scheduler.py`)**:
+     - `sync_static_datasets()` 내 `sync_national_datasets_with_diffing`을 `asyncio.to_thread`로 비동기 호출하여 매일 04:00 AM KST에 백그라운드 자동 기동.
+  3. **관리자 온디맨드 API 엔드포인트 구축 (`app/api/v1/emergency.py`)**:
+     - `POST /api/v1/emergency/sync-static`: 즉시 24시간 증분 동기화를 트리거하고 결과를 JSON으로 응답하는 엔드포인트 구현 (HTTP 200 OK 테스트 완료).
+  4. **수동 실행 CLI 도구 완성 (`scripts/sync_national_datasets_delta.py`)**:
+     - `python scripts/sync_national_datasets_delta.py [--force]`로 언제든 터미널에서 델타 검증 및 강제 갱신 가능.
+  5. **단위/통합 테스트 작성 및 통과 (`tests/test_national_dataset_sync.py`)**:
+     - 7개 신규 테스트 케이스 100% 통과 (총 90개 테스트 전수 통과).
+* **적용 파일**:
+  * [app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py)
+  * [scripts/sync_national_datasets_delta.py](file:///e:/monnlight/scripts/sync_national_datasets_delta.py)
+  * [app/services/scheduler.py](file:///e:/monnlight/app/services/scheduler.py)
+  * [app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)
+  * [tests/test_national_dataset_sync.py](file:///e:/monnlight/tests/test_national_dataset_sync.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 24시간 주기 공공데이터 변경분 자동 업데이트 및 클라이언트 0ms 무지연 LBS 서빙 파이프라인 구축을 성공적으로 완료함.
+
+
 
 
 
