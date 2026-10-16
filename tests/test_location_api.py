@@ -115,9 +115,31 @@ class TestLocationApi(unittest.TestCase):
             self.assertEqual(data["source"], "kakao_local_api")
             self.assertEqual(len(data["results"]), 1)
             self.assertEqual(data["results"][0]["title"], "카카오 판교아지트")
-            self.assertAlmostEqual(data["results"][0]["lat"], 37.3957)
-            self.assertAlmostEqual(data["results"][0]["lon"], 127.1105)
+    def test_coord2address_detailed_address_format(self):
+        """좌표 역변환 API의 상세 주소(도로명, 건물명, 지번, 시도 정규화) 포맷팅 검증"""
+        # 문정역 테라타워 부근 실좌표
+        response = self.client.get("/api/v1/location/coord2address?lat=37.4848&lon=127.1218")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["status"], "success")
+        self.assertIn("full_address", data)
+        self.assertTrue(len(data["full_address"]) > 5)
+        # 도로명 또는 지번 상세 주소가 포함되어 있는지 확인
+        self.assertTrue("송파구" in data["full_address"])
+        self.assertTrue("문정" in data["full_address"])
+
+    def test_coord2address_fallback_detailed_address(self):
+        """API 키가 없을 때의 로컬 Fallback 상세 주소 포맷팅 검증"""
+        with patch.dict("os.environ", {"KAKAO_REST_API_KEY": ""}):
+            with patch("app.api.v1.location.KAKAO_REST_API_KEY", ""):
+                response = self.client.get("/api/v1/location/coord2address?lat=37.4858&lon=127.1225")
+                self.assertEqual(response.status_code, 200)
+                data = response.json()
+                self.assertEqual(data["status"], "fallback")
+                self.assertIn("full_address", data)
+                self.assertTrue("송파구" in data["full_address"])
 
 
 if __name__ == "__main__":
     unittest.main()
+

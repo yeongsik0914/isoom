@@ -199,35 +199,129 @@ async def coord_to_address(
     lon: float = Query(..., ge=124.0, le=132.0, description="WGS84 경도")
 ) -> Dict[str, Any]:
     """
-    GPS 위경도 좌표 ➔ 행정동/법정동 도로명 주소 역변환 API (Reverse Geocoding)
+    GPS 위경도 좌표 ➔ 행정동/법정동/지번/도로명 상세 주소 역변환 API (Reverse Geocoding)
+    카카오 로컬 API(coord2address, coord2regioncode)를 결합하여 도로명, 건물명, 지번을 완벽히 포함한 상세 주소 반환
     """
+    sido_standard_map = {
+        "서울": "서울특별시",
+        "경기": "경기도",
+        "인천": "인천광역시",
+        "부산": "부산광역시",
+        "대구": "대구광역시",
+        "광주": "광주광역시",
+        "대전": "대전광역시",
+        "울산": "울산광역시",
+        "세종": "세종특별자치시",
+        "강원": "강원특별자치도",
+        "충북": "충청북도",
+        "충남": "충청남도",
+        "전북": "전북특별자치도",
+        "전남": "전라남도",
+        "경북": "경상북도",
+        "경남": "경상남도",
+        "제주": "제주특별자치도",
+    }
+
     api_key = os.getenv("KAKAO_REST_API_KEY", "") or KAKAO_REST_API_KEY
     if api_key:
-        url = "https://dapi.kakao.com/v2/local/geo/coord2address.json"
         headers = {"Authorization": f"KakaoAK {api_key}"}
         try:
-            async with httpx.AsyncClient(timeout=3.0) as client:
-                res = await client.get(url, params={"x": lon, "y": lat}, headers=headers)
+            async with httpx.AsyncClient(timeout=3.5) as client:
+                # 1. Primary: coord2address.json (좌표 ➔ 도로명/지번 상세 주소 변환)
+                addr_url = "https://dapi.kakao.com/v2/local/geo/coord2address.json"
+                res = await client.get(addr_url, params={"x": lon, "y": lat}, headers=headers)
                 if res.status_code == 200:
                     data = res.json()
                     docs = data.get("documents", [])
                     if docs:
-                        road = docs[0].get("road_address") or {}
-                        jibun = docs[0].get("address") or {}
+                        doc = docs[0]
+                        road = doc.get("road_address") or {}
+                        jibun = doc.get("address") or {}
+
                         dong = jibun.get("region_3depth_name") or road.get("region_3depth_name") or "현재 위치"
-                        full_addr = road.get("address_name") or jibun.get("address_name") or "현재 위치"
+                        road_addr = road.get("address_name") or ""
+                        bldg_name = road.get("building_name") or ""
+                        jibun_addr = jibun.get("address_name") or ""
+
+                        # 1-1. 도로명 주소가 있는 경우 (도로명 + 법정동/건물명 괄호 병기 상세화)
+                        if road_addr:
+                            # 시도명 표준화
+                            for short_sido, std_sido in sido_standard_map.items():
+                                if road_addr.startswith(short_sido + " "):
+                                    road_addr = std_sido + road_addr[len(short_sido):]
+                                    break
+
+                            extras = []
+                            if dong and dong not in road_addr:
+                                extras.append(dong)
+                            if bldg_name and bldg_name not in road_addr:
+                                extras.append(bldg_name)
+
+                            extra_str = f" ({', '.join(extras)})" if extras else ""
+                            full_address = f"{road_addr}{extra_str}"
+                            return {
+                                "status": "success",
+                                "dong": dong,
+                                "full_address": full_address,
+                                "road_address": road_addr,
+                                "building_name": bldg_name,
+                                "jibun_address": jibun_addr,
+                                "lat": lat,
+                                "lon": lon,
+                                "source": "kakao_reverse_geocoding_road"
+                            }
+
+                        # 1-2. 도로명 없이 지번 주소만 있는 경우 (번지수 포함 지번 주소 표준화)
+                        if jibun_addr:
+                            for short_sido, std_sido in sido_standard_map.items():
+                                if jibun_addr.startswith(short_sido + " "):
+                                    jibun_addr = std_sido + jibun_addr[len(short_sido):]
+                                    break
+                            return {
+                                "status": "success",
+                                "dong": dong,
+                                "full_address": jibun_addr,
+                                "road_address": None,
+                                "building_name": bldg_name,
+                                "jibun_address": jibun_addr,
+                                "lat": lat,
+                                "lon": lon,
+                                "source": "kakao_reverse_geocoding_jibun"
+                            }
+
+                # 2. Secondary: coord2regioncode.json (지번/도로명 검색 불가 지역 - 공원, 하천, 도로망 등)
+                region_url = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json"
+                reg_res = await client.get(region_url, params={"x": lon, "y": lat}, headers=headers)
+                if reg_res.status_code == 200:
+                    reg_data = reg_res.json()
+                    reg_docs = reg_data.get("documents", [])
+                    if reg_docs:
+                        b_doc = next((d for d in reg_docs if d.get("region_type") == "B"), reg_docs[0])
+                        h_doc = next((d for d in reg_docs if d.get("region_type") == "H"), None)
+
+                        b_name = b_doc.get("address_name") or ""
+                        dong = b_doc.get("region_3depth_name") or "현재 위치"
+
+                        if h_doc and h_doc.get("region_3depth_name") and h_doc.get("region_3depth_name") != dong:
+                            full_address = f"{b_name} ({h_doc.get('region_3depth_name')})"
+                        else:
+                            full_address = b_name
+
                         return {
                             "status": "success",
                             "dong": dong,
-                            "full_address": full_addr,
+                            "full_address": full_address,
+                            "road_address": None,
+                            "building_name": "",
+                            "jibun_address": full_address,
                             "lat": lat,
                             "lon": lon,
-                            "source": "kakao_reverse_geocoding"
+                            "source": "kakao_coord2regioncode"
                         }
         except Exception as e:
             logger.warning(f"Kakao coord2address exception: {e}")
 
-    # Fallback 기본 반환: 좌표와 가장 가까운 POI 위치를 찾아 실제 행정동과 주소 반환
+    # 3. Fallback 기본 반환: 좌표와 가장 가까운 POI 위치를 찾아 실제 번지수가 포함된 상세 도로명/지번 반환
     closest_dong = "문정동"
     closest_addr = "서울특별시 송파구 문정동"
     min_dist = float("inf")
@@ -236,7 +330,18 @@ async def coord_to_address(
         if d < min_dist:
             min_dist = d
             closest_dong = loc["dong"]
-            closest_addr = loc.get("road_address") or loc.get("jibun_address") or f"서울특별시 송파구 {closest_dong}"
+            r_addr = loc.get("road_address") or ""
+            j_addr = loc.get("jibun_address") or ""
+            b_name = loc.get("name") if loc.get("category") not in ["지역"] else ""
+
+            if r_addr and b_name:
+                closest_addr = f"{r_addr} ({closest_dong}, {b_name})"
+            elif r_addr:
+                closest_addr = f"{r_addr} ({closest_dong})"
+            elif j_addr:
+                closest_addr = j_addr
+            else:
+                closest_addr = f"서울특별시 송파구 {closest_dong}"
 
     return {
         "status": "fallback",

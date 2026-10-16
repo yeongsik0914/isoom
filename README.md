@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-90%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-92%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -27,6 +27,18 @@
 ---
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
+
+### 🌟 [v2.4.59-gps-detailed-address-resolution] 2026-10-16: '현재 위치로 설정' 시 상세 주소(도로명·건물명·지번) 유실 결함 해소 및 카카오 2-Tier 역지오코딩 완벽 연동, 92개 전수 테스트 통과 (정영식 팀장)
+* **📍 백엔드 2-Tier 지능형 역지오코딩 엔진 고도화 ([app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py))**:
+  - 카카오 `coord2address` API의 도로명 주소와 건물명(`building_name`), 법정동을 유기적으로 결합하여 상세 주소(`서울특별시 송파구 송파대로 167 (문정동, 문정역테라타워)`) 포맷팅 구축.
+  - 도로명 미부여 필지의 경우 시도명 표준화("서울" ➔ "서울특별시") 및 본번-부번 지번 상세 주소(`서울특별시 송파구 문정동 315-2`) 보존.
+  - 지번 검색 불가 공원/도로망 지점 대상 카카오 `coord2regioncode` 2차 Fallback 연동 및 L3 Fallback 상세 랜드마크 주소 반환 체계 완비.
+* **🛡️ 프론트엔드 상세 주소 무손실 보존 파이프라인 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - `finalizeLocation` 내부에서 `window.AISUM_LOCATIONS_DB`의 짧은 동 이름으로 상세 주소를 강제 덮어쓰던 레거시 안티패턴 코드 전면 적출.
+  - '현재 위치로 설정' 클릭 시 모달 상단 '현재 설정된 주소' 바(`modal-current-address-bar`), 상단 알약 버튼, LocalStorage(`aisum_user_address`) 간 실시간 원자적 동기화 구현.
+* **🧪 단위/통합 테스트 스위트 확장 및 92개 전수 통과 ([tests/test_location_api.py](file:///e:/monnlight/tests/test_location_api.py))**:
+  - 신규 상세 주소 포맷팅 및 Fallback 주소 검증 테스트 추가 (8개 테스트 전수 통과).
+  - 전체 단위/통합/E2E 테스트 스위트 92개 전수 무결점 통과 (`Ran 92 tests, OK`).
 
 ### 🌟 [v2.4.58-daily-delta-sync-pipeline-complete] 2026-10-16: 전국 달빛어린이병원·야간약국 24시간 In-Memory Hash Diffing 델타 동기화 서비스·스케줄러·관리자 API/CLI 완비 및 90개 전수 테스트 통과 (정영식 팀장)
 * **🔄 In-Memory Hash Diffing 기반 0ms Skip 델타 동기화 서비스 완공 ([app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py))**:

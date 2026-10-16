@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md",
+                "file": "전국_달빛어린이병원_및_야간심야약국_현황.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE"
+              "title": "전국_달빛어린이병원_및_야간심야약국_현황"
             }
           }
         ]
@@ -190,6 +190,7 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md",
     "app/services/__pycache__/national_dataset_sync_service.cpython-314.pyc",
     "tests/__pycache__/test_national_dataset_sync.cpython-314.pyc",
     "tests/test_national_dataset_sync.py",
@@ -201,7 +202,6 @@
     "scripts/apply_kakao_location_search.py",
     "app/api/v1/location.py",
     "PLAN.md",
-    "frontend/templates/settings/terms.html",
     "전국_달빛어린이병원_및_야간심야약국_현황.md",
     "q_a.md",
     "FRONTEND_BACKEND_INTEGRATION_SPEC.md",

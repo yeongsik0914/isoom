@@ -106,6 +106,7 @@
 | **[ISSUE-097]** | 로컬 개발 환경 & 서버 지속성 | 브라우저 로컬호스트 접속 거부(ERR_CONNECTION_REFUSED) 원인 규명 및 Uvicorn 데몬 영구 상주 기동 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-098]** | 데이터 엔지니어링 & LBS 증분 동기화 | 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-099]** | 데이터 엔지니어링 & LBS 증분 동기화 | 전국 달빛병원·야간약국 24시간 증분 동기화 모듈 구현, 백엔드 스케줄러 결합, 관리자 API 및 CLI 완비 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-100]** | 프론트엔드 LBS & 역지오코딩 정합성 | '현재 위치로 설정' 시 프론트엔드 덮어쓰기 버그로 인한 상세 주소 유실 해소 및 카카오 2-Tier 역지오코딩 상세 주소(도로명·건물명·지번) 완벽 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3239,6 +3240,40 @@
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
 * **조치 결과**:
   * 24시간 주기 공공데이터 변경분 자동 업데이트 및 클라이언트 0ms 무지연 LBS 서빙 파이프라인 구축을 성공적으로 완료함.
+
+---
+
+### [ISSUE-100] '현재 위치로 설정' 시 프론트엔드 덮어쓰기 버그로 인한 상세 주소 유실 해소 및 카카오 2-Tier 역지오코딩 상세 주소(도로명·건물명·지번) 완벽 연동
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 LBS / 백엔드 역지오코딩 / 데이터 무결성
+* **문제 상황**:
+  * 메인 홈 위치 모달에서 사용자가 '현재 위치로 설정' 버튼을 클릭했을 때, 모달 상단 '현재 설정된 주소'에 번지수와 건물명이 포함된 상세 주소가 노출되지 않고 단순 동 단위(`서울특별시 송파구 문정동`)로 뭉개져 표시되는 현상 발생.
+* **원인 분석**:
+  1. `frontend/js/main.js`의 `finalizeLocation` 내부에서 `fullAddr.startsWith('서울특별시 송파구 ')`를 검사하여 `window.AISUM_LOCATIONS_DB`의 짧은 동 기본 문자열로 덮어쓰는 레거시 안티패턴 코드가 잔존하여 상세 주소를 강제로 소실시킴.
+  2. 백엔드 `app/api/v1/location.py`의 `coord2address` 엔드포인트에서 카카오 API의 건물명(`building_name`), 도로명 번호(`main_building_no`), 지번 본번/부번(`main_address_no`)을 유기적으로 조합하지 않고 단순 `address_name`만 단편적으로 반환함.
+* **구체적 해결 방안**:
+  1. **백엔드 2-Tier 역지오코딩 엔진 고도화 (`app/api/v1/location.py`)**:
+     - 카카오 `coord2address.json`의 도로명 주소와 지번 주소를 시도명 표준화("서울" ➔ "서울특별시") 후, 건물명과 법정동을 결합한 상세 주소(`서울특별시 송파구 송파대로 167 (문정동, 문정역테라타워)`) 포맷팅 적용.
+     - 도로명 미부여 지점의 경우 지번 본번/부번 상세 주소(`서울특별시 송파구 문정동 315-2`) 표준화.
+     - 지번 검색 불가 공원/도로망 지점 대상 카카오 `coord2regioncode.json` 2차 Fallback 연계로 행정동/법정동 보정.
+     - API 키 장애 시 로컬 Fallback POI도 상세 번지수 및 랜드마크명을 포함하도록 개선.
+  2. **프론트엔드 상세 주소 무손실 보존 (`frontend/js/main.js`)**:
+     - `finalizeLocation` 내 강제 덮어쓰기 조건문 전면 적출.
+     - 모달 상단 바(`modal-current-address-bar`), 상단 알약 버튼, LocalStorage(`aisum_user_address`) 간 실시간 원자적 동기화 구축.
+  3. **단위 테스트 스위트 확장 (`tests/test_location_api.py`)**:
+     - 상세 도로명/건물명/지번 포맷팅 및 Fallback 상세 주소 반환 검증 2개 테스트 추가, 8개 전수 통과 (전체 테스트 92개 통과).
+* **적용 파일**:
+  * [app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [tests/test_location_api.py](file:///e:/monnlight/tests/test_location_api.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 현재 위치로 설정 시 기기의 실제 위경도 기반 상세 도로명/건물명/지번 주소가 모달 상단 및 앱 전역에 정확하고 선명하게 100% 반영됨.
+
 
 
 

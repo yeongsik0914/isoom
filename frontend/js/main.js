@@ -249,15 +249,20 @@ window.updateLocationDisplay = function(dongName, lat, lon, customFullAddr) {
     pillBtn.setAttribute('aria-label', `현재 위치 변경: ${name}`);
   }
 
-  // Determine full address: customFullAddr 우선, 없으면 fallback
+  // Determine full address: customFullAddr 우선, 없으면 기 저장 주소, 그 외 fallback
   let fullAddr = customFullAddr;
   if (!fullAddr) {
     const isManual = localStorage.getItem('aisum_location_manual') === 'true';
     if (isManual) {
       fullAddr = localStorage.getItem('aisum_user_address') || `서울특별시 송파구 ${name}`;
     } else {
-      const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === name);
-      fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : `서울특별시 송파구 ${name}`;
+      const savedAddr = localStorage.getItem('aisum_user_address');
+      if (savedAddr && savedAddr !== '현재 위치' && savedAddr !== '현재 GPS 측정 위치') {
+        fullAddr = savedAddr;
+      } else {
+        const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === name);
+        fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : `서울특별시 송파구 ${name}`;
+      }
     }
   }
 
@@ -293,7 +298,7 @@ window.updateLocationDisplay = function(dongName, lat, lon, customFullAddr) {
   }
   const barEl = document.getElementById('modal-current-address-bar');
   if (barEl) {
-    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:16px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
   }
 };
 
@@ -320,7 +325,7 @@ window.autoDetectUserLocation = function() {
         const resp = await fetch(`/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
         if (resp.ok) {
           const data = await resp.json();
-          if (data && data.full_address && data.full_address !== '현재 GPS 측정 위치') {
+          if (data && data.full_address && data.full_address !== '현재 위치' && data.full_address !== '현재 GPS 측정 위치') {
             fullAddr = data.full_address;
             if (data.dong && data.dong !== '현재 위치' && data.dong !== '내 위치') {
               dong = data.dong;
@@ -329,7 +334,7 @@ window.autoDetectUserLocation = function() {
         }
       } catch (e) {}
 
-      console.log('📍 [Aisum GPS] 브라우저 실시간 위치 감지 완료:', dong, lat, lon);
+      console.log('📍 [Aisum GPS] 브라우저 실시간 위치 감지 완료:', dong, lat, lon, fullAddr);
       window.updateLocationDisplay(dong, lat, lon, fullAddr);
       window.initLiveFacilities();
     },
@@ -384,22 +389,22 @@ window.refreshUserCurrentLocation = function() {
     btn.innerHTML = '<span class="material-symbols-outlined gps-icon" style="animation:spin 1s linear infinite;">sync</span><div class="gps-text-wrap"><span class="gps-main-text">현재 위치 측정 중...</span><span class="gps-sub-text">기기 실제 GPS 좌표를 실시간 조회하고 있습니다</span></div>';
   }
 
-  // 1. 수동 선택 상태 및 이전 검색 주소 즉시 초기화
+  // 1. 수동 선택 상태 초기화
   try {
     localStorage.removeItem('aisum_location_manual');
-    localStorage.removeItem('aisum_user_address');
   } catch (e) {}
 
   const finalizeLocation = async (lat, lon) => {
     let dong = window.estimateDongFromCoords(lat, lon);
-    let fullAddr = `서울특별시 송파구 ${dong}`;
+    let fullAddr = '';
 
     // 2. 카카오 역지오코딩 백엔드 API (coord2address) 실시간 호출
     try {
       const resp = await fetch(`/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
       if (resp.ok) {
         const data = await resp.json();
-        if (data && data.full_address && data.full_address !== '현재 GPS 측정 위치') {
+        if (data && data.full_address && data.full_address !== '현재 위치' && data.full_address !== '현재 GPS 측정 위치') {
+          // 카카오 역지오코딩이 반환한 상세 도로명/건물명/지번 주소를 100% 보존
           fullAddr = data.full_address;
           if (data.dong && data.dong !== '현재 위치' && data.dong !== '내 위치') {
             dong = data.dong;
@@ -410,12 +415,10 @@ window.refreshUserCurrentLocation = function() {
       console.warn('Reverse geocoding API error, using local fallback:', e);
     }
 
-    // 3. 만약 fullAddr가 기본 형식이면 DB에서 더 정밀한 주소 매칭
-    if (fullAddr.startsWith('서울특별시 송파구 ') && window.AISUM_LOCATIONS_DB) {
-      const matched = window.AISUM_LOCATIONS_DB.find((item) => item.name === dong);
-      if (matched && matched.fullAddr) {
-        fullAddr = matched.fullAddr;
-      }
+    // 3. 만약 API 응답이 없거나 실패한 경우에만 로컬 DB에서 안전하게 fallback 주소 구성
+    if (!fullAddr) {
+      const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === dong);
+      fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : `서울특별시 송파구 ${dong}`;
     }
 
     if (btn) {
@@ -424,22 +427,28 @@ window.refreshUserCurrentLocation = function() {
       btn.innerHTML = originalHtml;
     }
 
-    // 4. UI 및 LocalStorage에 현재 주소 완벽 동기화 (모달 상단 현재 설정된 주소 바 포함)
+    // 4. UI 및 LocalStorage에 상세 주소 완벽 동기화 (모달 상단 현재 설정된 주소 바 즉각 반영)
     window.updateLocationDisplay(dong, lat, lon, fullAddr);
+
+    // 모달 상단 주소 바 엘리먼트 즉시 시각 갱신
+    const barEl = document.getElementById('modal-current-address-bar');
+    if (barEl) {
+      barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
+    }
 
     if (typeof window.initLiveFacilities === 'function') {
       window.initLiveFacilities();
     }
     if (typeof window.showAisumToast === 'function') {
-      window.showAisumToast(`📍 현재 위치(${dong})로 설정되었습니다.`);
+      window.showAisumToast(`📍 현재 위치로 설정되었습니다: ${dong}`);
     }
 
-    // 사용자가 바뀐 주소를 모달에서 시각적으로 확인할 수 있도록 450ms 후 모달 자동 닫기
+    // 사용자가 바뀐 상세 주소를 모달에서 눈으로 충분히 확인할 수 있도록 650ms 후 모달 자동 닫기
     setTimeout(() => {
       if (typeof window.closeLocationModal === 'function') {
         window.closeLocationModal();
       }
-    }, 450);
+    }, 650);
   };
 
   const handleGpsFallback = () => {
