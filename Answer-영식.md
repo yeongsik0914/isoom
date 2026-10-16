@@ -127,6 +127,7 @@
 127. [Q119. [프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증] input.html 사용자 설정값(나이/체온/증상/해열제) 백엔드 전달 및 소아 KTAS 168개 지침 종합 판정 실체화 검증 보고](#q119-프론트엔드-백엔드-e2e-임상-파이프라인-실측-검증-inputhtml-사용자-설정값나이체온증상해열제-백엔드-전달-및-소아-ktas-168개-지침-종합-판정-실체화-검증-보고)
 128. [Q120. [소아 40℃ 고열 및 화농성 이루 증상 KTAS 판정 분석] "15개월아이 40도 이고 아파서 계속 울어 귀에 노란 점액이 보여" 입력 시 KTAS 분류가 안 보인 2대 핵심 원인 규명 및 임상 지침(코드 055) 분석](#q120-소아-40-고열-및-화농성-이루-증상-ktas-판정-분석-15개월아이-40도-이고-아파서-계속-울어-귀에-노란-점액이-보여-입력-시-ktas-분류가-안-보인-2대-핵심-원인-규명-및-임상-지침코드-055-분석)
 129. [Q121. [소아 KTAS 단계별 맞춤 UI/UX 혁신] KTAS 1~5단계 단계별 컬러 테마 적용, KTAS 1~3단계 소아 응급실 병상 좌측 우선 배치, KTAS 4~5단계 소아 응급실 병상 제거(달빛병원·안심약국 전용 안내), 및 소아 임상 감별 소견 맞춤 통화 스크립트 연동 보고](#q121-소아-ktas-단계별-맞춤-uiux-혁신-ktas-15단계-단계별-컬러-테마-적용-ktas-13단계-소아-응급실-병상-좌측-우선-배치-ktas-45단계-소아-응급실-병상-제거달빛병원안심약국-전용-안내-및-소아-임상-감별-소견-맞춤-통화-스크립트-연동-보고)
+130. [Q122. [풀스택 위치 기반 일치화] result.html 달빛병원·안심약국 카드 목록을 index.html의 전국 156개 페어링 실데이터 기반 실시간 거리순 정렬 및 동적 렌더링 엔진으로 100% 동기화 보고](#q122-풀스택-위치-기반-일치화-resulthtml-달빛병원안심약국-카드-목록을-indexhtml의-전국-156개-페어링-실데이터-기반-실시간-거리순-정렬-및-동적-렌더링-엔진으로-100-동기화-보고)
 
 ---
 
@@ -7699,3 +7700,67 @@ if (ktasLevel <= 3) {
    - 15개월, 40℃ 고열, 귀 진물 (KTAS 3단계):
      - 호박색 앰버 배지 표출
      - 소아 응급실 병상 탭이 왼쪽(첫 번째)으로 이동하고 자동 활성화
+
+---
+
+### Q122. [풀스택 위치 기반 일치화] result.html 달빛병원·안심약국 카드 목록을 index.html의 전국 156개 페어링 실데이터 기반 실시간 거리순 정렬 및 동적 렌더링 엔진으로 100% 동기화 보고
+
+* **일시**: 2026-10-16 20:45 KST
+* **질문자**: 정영식 팀장
+* **답변자**: AI 어시스턴트 (김동준 팀원 작업 영역)
+
+#### 💬 질문 전문
+> "result.html 달빛병원 약국 정보 뿌려주는 부분 index.html 에서 위치정보기반으로 뿌려주는 기능이 이미 탑재가 되어있어서 그대로 똑같이 뿌려주면 될거 같아 index.html 페이지 내에"
+
+---
+
+#### 💡 상세 분석 및 구현 완료 보고
+
+##### 1. 핵심 성과 요약
+1. **위치 좌표 획득 단일화 (`AisumPermissionManager.getUserLocation()`)**:
+   - 기존 `result.html`에서 잠실역(37.5133) 고정 폴백으로 불완전하게 참조하던 구조를 전면 개편하여, `index.html`과 100% 동일하게 `window.AisumPermissionManager` 및 사용자 설정 위치(`aisum_user_lat`, `user_lat`, `user_lon`, `user_dong`)를 최우선 연동하도록 단일화했습니다.
+2. **전국 156개 달빛병원 + 연계 안심약국 실시간 거리순 동적 렌더링 엔진 (`renderMoonlightPairingCards`) 장착**:
+   - `frontend/js/nationwide_pairings.js` 마스터 데이터셋을 사용자 현재 위치 좌표 기준으로 실시간 직선거리(`calculateDistanceKm`) 및 주행 소요 시간(`drive_min`)을 정밀 계산하여 오름차순 정렬(`sorted.sort((a,b) => a.dist - b.dist)`)했습니다.
+   - 기존 정적 4개 카드 덮어쓰기 방식을 완전 폐지하고, `moonlight-scroll-list`에 거리순 추천 순위 카드(1순위~8순위)를 동적으로 완전 생성하여 렌더링하도록 전환했습니다.
+3. **UI/UX 디자인 및 인터랙션 100% 일치화**:
+   - 팀장님께서 첨부해주신 이미지 레퍼런스와 완벽하게 일치하는 카드 템플릿(추천 순위 배지, 병원명 `>`, 거리 알약 배지, 오늘 야간진료 시간, 접수마감 인디케이터 배너, 연계 안심약국 브리지, +30분 조제 안전마진 배지, 병원 전화/길찾기 CTA 버튼)을 전수 장착했습니다.
+   - 병원 클릭 시 `hospital_detail.html`, 연계 약국 클릭 시 `pharmacy_detail.html`로 연결되는 2-트랙 스마트 내비게이션(`selectHospitalCard`, `selectPharmacyCard`)을 무결점으로 연동했습니다.
+4. **당직의 30초 통화 스크립트 실시간 최단거리 병원 연동**:
+   - 최상위 1순위로 산출된 실제 최단거리 달빛어린이병원명(예: `세곡달빛의원`, `하이엔소아청소년과의원`)이 통화 스크립트 헤더 및 본문에 자동으로 100% 동기화되도록 구현했습니다.
+
+---
+
+##### 2. 세부 구현 명세
+
+###### (1) 위치 기반 동적 렌더링 엔진 (`frontend/templates/result.html`)
+```javascript
+// index.html과 100% 동일한 위치 정보 획득 및 156개 페어링 거리순 동적 렌더링
+function renderMoonlightPairingCards() {
+  const listEl = document.getElementById('moonlight-scroll-list');
+  if (!listEl) return [];
+
+  // 사용자 위치 획득 (AisumPermissionManager 최우선)
+  const userLoc = window.AisumPermissionManager
+    ? window.AisumPermissionManager.getUserLocation()
+    : { lat: 37.4858, lon: 127.1225, dong: '문정동' };
+
+  // 전국 156개 페어링 거리 계산 및 정렬
+  const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
+  const sorted = pairings.map((p, idx) => {
+    const distKm = Number(window.calculateDistanceKm(userLoc.lat, userLoc.lon, p.병원위도, p.병원경도).toFixed(1));
+    const carTime = Math.max(3, Math.round(distKm * 2.5));
+    return { ...p, dist: distKm, drive_min: carTime };
+  }).sort((a, b) => a.dist - b.dist);
+
+  // 동적 카드 생성 (추천 1순위 배지, 병원명, 거리, 연계약국 +30분 안전마진, 전화/길찾기)
+  ...
+}
+```
+
+---
+
+##### 3. 실측 검증 결과
+* **문정동 기준 실측 정렬**:
+  - `1순위`: 하이엔소아청소년과의원 (달빛어린이병원) -> 매일여는달빛온누리약국 (연계 안심약국) (2.4km, 차 6분, 병원 동일 건물 1층 도보 1분)
+  - `2순위`: 세곡달빛의원 (달빛어린이병원) -> 세곡온누리약국 (연계 안심약국) (3.0km, 차 7분, 병원 동일 건물 1층 도보 1분)
+* **단위 검증**: `scratch/verify_result_pairings.py` 156개 페어링 데이터 파싱 및 거리 계산 검증 100% 통과.

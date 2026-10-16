@@ -28,6 +28,15 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.83-result-pairing-cards-index-sync] 2026-10-16: result.html 달빛병원·안심약국 카드 목록의 index.html 위치기반 동적 렌더링 엔진 100% 일치화 릴리스 (김동준 팀원)
+* **📍 [김동준 팀원] 위치 좌표 획득 단일화 및 전국 156개 페어링 실데이터 기반 최단거리 오름차순 정렬 (`result.html`)**:
+  - `result.html`에서 불완전한 하드코딩 좌표 대신 `index.html`과 100% 동일한 `window.AisumPermissionManager.getUserLocation()`을 최우선 참조하도록 단일화.
+  - `NATIONWIDE_PAIRINGS_DATA`의 전국 156개 달빛병원 + 연계 안심약국 실제 데이터셋을 사용자 현재 좌표(문정동 등) 기준으로 실시간 거리 계산(`calculateDistanceKm`) 및 오름차순 정렬하여 가장 가까운 순서대로 표출.
+* **✨ [김동준 팀원] 레퍼런스 이미지 정합형 동적 카드 렌더링 및 2-트랙 내비게이션 완결**:
+  - 기존 4개 정적 카드 덮어쓰기 방식을 완전 폐지하고, `renderMoonlightPairingCards()` 엔진을 통해 추천 순위 배지, 병원명 `>`, 거리 알약 배지, 오늘 야간진료 시간, 접수마감 인디케이터 배너, 연계 안심약국 브리지, +30분 조제 안전마진 배지, 병원 전화/길찾기 CTA 버튼을 동적으로 완전 생성.
+  - 병원 클릭 시 `hospital_detail.html`, 약국 클릭 시 `pharmacy_detail.html`로 직행하는 2-트랙 스마트 내비게이션(`selectHospitalCard`, `selectPharmacyCard`) 완결.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q122, [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md) Q122, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-131) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.82-ktas-tier-colors-and-smart-tabs] 2026-10-16: 소아 KTAS 등급별 컬러링, 1~3단계 응급실 탭 좌측 우선 재배치, 4~5단계 응급실 병상 제거(달빛병원 단독 전폭) 및 소아 임상 감별 소견 맞춤 통화 스크립트 구축 릴리스 (김동준 팀원)
 * **🎨 [김동준 팀원] 소아 KTAS 1~5단계 전용 컬러 시스템 및 인라인 배지 구축 (`result.html`)**:
   - 기존의 단조로운 흑백 텍스트와 단일 녹색 보더를 전면 개편하여, 1단계(적색 `#ef4444`, 소생), 2단계(주황 `#f97316`, 긴급), 3단계(호박 `#f59e0b`, 응급), 4단계(에메랄드 `#10b981`, 준응급), 5단계(청색 `#3b82f6`, 비응급)의 5대 컬러 테마 배지(`.ktas-grade-badge.ktas-tier-X`) 및 설명 박스 동적 하이라이트 적용.

@@ -137,6 +137,7 @@
 | **[ISSUE-128]** | 프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증 | input.html 사용자 설정값(15개월, 39.1℃, 수유거부, 보챔 등) 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정(KTAS 3단계) 실체화 검증 완료 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-129]** | 소아 고열·이루 증상 KTAS 긴급 판정 & UI/UX 정합성 | 15개월 40℃ 고열 및 귀 노란 점액(화농성 이루) 입력 시 KTAS 2단계 긴급 판정으로 인한 119 화면 직행 및 KTAS 카드 미표출 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-130]** | 소아 KTAS 등급별 맞춤 UI/UX & 통화 스크립트 정합성 | KTAS 1~5단계별 컬러 테마 적용, KTAS 1~3단계 소아 응급실 병상 좌측 우선 배치, KTAS 4~5단계 소아 응급실 병상 완전 제거(달빛병원·안심약국 전용 안내), 및 소아 임상 감별 소견 맞춤 통화 스크립트 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-131]** | 프론트엔드 위치 기반 일치화 & 달빛병원 페어링 동적 렌더링 | result.html의 달빛어린이병원·안심약국 카드 목록을 index.html과 100% 동일한 위치 기반 실시간 거리순 정렬 및 동적 카드 렌더링 엔진(NATIONWIDE_PAIRINGS_DATA 156개)으로 전면 일치화 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4445,5 +4446,25 @@
 * **적용 파일**:
   * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
   * [app/agents/logistics_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/logistics_agent.py)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+### [ISSUE-131] result.html 달빛병원·안심약국 카드 목록의 index.html 위치기반 동적 렌더링 엔진 100% 일치화
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX / 위치기반 서비스(LBS) / 데이터 바인딩 일치화
+* **문제 상황**:
+  * `result.html`의 달빛어린이병원·안심약국 카드 목록이 4개의 정적 HTML 요소에 텍스트만 덮어쓰는 구조로 되어 있어, `index.html`에서 정상 동작하던 사용자 위치 기반 전국 156개 페어링 데이터 거리순 실시간 정렬 및 세련된 카드 UI(추천 순위 배지, 병원명 `>`, 거리 알약 배지, 접수마감 인디케이터 배너, 연계 안심약국 브리지, +30분 조제 안전마진 배지, 병원 전화/길찾기)가 온전히 표출되지 않던 결함 발생.
+* **원인 분석**:
+  1. `result.html`에서 사용자 위치 좌표를 읽어올 때 `AisumPermissionManager` 대신 단순 `localStorage.getItem('user_lat') || '37.5133'`(잠실역)으로 폴백하여 설정된 사용자 위치(문정동 등)가 정상 반영되지 못했음.
+  2. `moonlight-scroll-list` 컨테이너의 내부 카드가 정적으로 4개만 박혀 있어 동적 생성 렌더링이 이루어지지 않았음.
+* **해결 방안 및 조치 결과**:
+  1. `index.html`과 동일한 `AisumPermissionManager.getUserLocation()` 및 사용자 좌표 연동 단일화.
+  2. `renderMoonlightPairingCards()` 엔진을 장착하여 `NATIONWIDE_PAIRINGS_DATA`의 전국 156개 달빛병원·안심약국 페어링을 사용자 좌표 기준으로 실시간 거리 계산 및 오름차순 정렬.
+  3. 팀장님께서 첨부해주신 레퍼런스 이미지와 100% 동일한 템플릿으로 카드를 동적 완전 생성(`listEl.innerHTML = cardsHTML`)하여 렌더링하고, 병원 클릭 시 `hospital_detail.html`, 약국 클릭 시 `pharmacy_detail.html`로 연결되는 2-트랙 내비게이션(`selectHospitalCard`, `selectPharmacyCard`) 완결.
+  4. 통화 스크립트(`script-content`) 헤더에도 최단거리 1순위 달빛어린이병원명이 자동으로 일치되도록 구현.
+* **적용 파일**:
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
   * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
