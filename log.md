@@ -125,9 +125,6 @@
 | **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-118]** | Git 동기화 충돌 & 신규 data 파일 긴급 Revert | 타 작업자 로컬과의 충돌을 방지하기 위해 `1671e36` 커밋 100% Revert(5e95b52), .gitignore 원복 및 파일 상태 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-119]** | 사용자 의도 오판에 따른 로컬 data 파일 삭제 해프닝 & 100% 실체화 복원 | "삭제한것들 다 돌려놔"를 git revert로 오판하여 로컬 파일까지 지워진 혼선 규명 및 19:06:40 기준 4개 데이터셋 실체화 복원 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-120]** | 질문 초기 시점 완전 원상 복구 및 타 파일 변경 여부 전수 감사 | 임의 생성 2개 파일 영구 삭제로 data 폴더 원상태(2개) 복귀 및 기타 소스코드(app, frontend) 일체 미변경 100% 입증 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-121]** | 2인 Git 협업 환경 data json 유실 5대 메커니즘 분석 및 거버넌스 확립 | .gitignore data/* 화이트리스트 격리, revert 로컬 삭제, clean/checkout 부수효과 등 삭제 요청 없는 데이터 유실 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3520,9 +3517,6 @@
   - 슬라이더를 0개월부터 7세까지 어떻게 조작해도 화면이 덜컥거리거나 늘어나는 현상이 100% 사라졌으며, 3개월 아기에 대해서도 위험군 여부가 명확해짐.
 ---
 
-<<<<<<< Updated upstream
----
-
 ### [ISSUE-108] PLAN.md 비정상적 비대화(1,728줄) 해소 및 11대 핵심 아키텍처 중심 84% 압축 요약 최적화
 
 * **발생 일자**: 2026-10-16
@@ -3595,10 +3589,207 @@
   - '달빛병원 18' 클릭 시 상단 배지가 즉각 '18곳 운영중'으로 전환되고, '심야약국 309' 클릭 시 '309곳 운영중'으로 완벽 일치.
   - 위치 모달에서 하드코딩이 100% 제거되고 사용자가 실제로 설정한 지역만 최대 15개까지 최신순으로 깔끔하게 관리됨.
 
+---
 
-=======
-### [ISSUE-108] `python main.py` 실행 시 `[Errno 10048]` (포트 8000 주소 중복 바인딩 충돌)
->>>>>>> Stashed changes
+### [ISSUE-118] 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 한국어 복합 부정문 과잉 분류 해소
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **분류**: 백엔드 검증 / 소아 KTAS 분류표 / 가드레일 정규식 NLP
+* **문제 상황**:
+  1. 소아 전문 문진 페이지([frontend/templates/input.html](file:///e:/monnlight/frontend/templates/input.html))와 연동된 백엔드 문진 엔진(`POST /api/v1/chat`)이 2021 소아 KTAS 1~5단계 분류표 및 7대 Red Flag 가드레일에 따라 정확히 동작하는지에 대한 실증 검증 및 공식 보고서(MD) 도출 필요.
+  2. 15대 표준 소아 임상 시나리오 검증 중 보호자가 `"숨 쉴 때 쌕쌕거리는데 청색증이나 경련은 없어요"`와 같이 복합 병렬 조사(`이나`) 뒤에 보조 명사(`경련은`)를 포함하여 부정문을 작성했을 때, 기존 단순 룩어헤드(`^(?:이나)?\s*없`)가 `없어요` 부정어를 인식하지 못하고 청색증 Red Flag로 오작동하여 KTAS 1단계로 과잉 분류(Over-triage)되는 결함 발견.
+  3. 단순 소아 천명음(`쌕쌕`) 단독 입력이 1단계 중심성 청색증 정규식에 걸려 0ms 가로채기가 발생하는 분류 왜곡 문제 식별.
+* **원인 분석**:
+  - `app/agents/guardrail_agent.py`의 `RESPIRATORY_CYANOSIS_PATTERN` 및 `CONVULSION_PATTERN` 등의 부정문 가드 패턴이 한국어의 다양한 병렬 조사와 연결 명사 구조를 완벽하게 커버하지 못함.
+  - 단순 천명음(`쌕쌕`)은 모세기관지염/천식 등 KTAS 3단계(응급/외래)에 해당하나, 정규식이 청색증/헐떡임과 분리되지 않고 함께 1단계로 묶여 있었음.
+* **구체적 해결 방안**:
+  1. **한국어 복합 부정문 감별 엔진 구축 ([app/agents/guardrail_agent.py](file:///e:/monnlight/app/agents/guardrail_agent.py))**:
+     - `has_affirmative_match(pattern, text)` 헬퍼 함수를 신설하여, 키워드 뒤에 `(?:[은는이가도이나과와및,\s]{0,8}(?:[가-힣]{1,6}\s*)?)?(?:없|안|아니|정상)` 패턴을 검사함으로써 "청색증이나 경련은 없어요"와 같은 복합 병렬 부정문을 100% 감별.
+  2. **소아 천명음 임상 분류 정밀화 ([app/agents/guardrail_agent.py](file:///e:/monnlight/app/agents/guardrail_agent.py))**:
+     - `RESPIRATORY_CYANOSIS_PATTERN`을 청색증, 헐떡임, 숨 멈춤 동반 시에만 1단계 0ms 가드레일로 가로채도록 수정하고, 단순 천명음은 Tier 2 분류 엔진이 KTAS 3단계로 정확히 판정하도록 분리.
+  3. **15대 표준 소아 임상 시나리오 E2E 검증 스위트 구축 ([tests/evals/verify_ktas_frontend_flow.py](file:///e:/monnlight/tests/evals/verify_ktas_frontend_flow.py))**:
+     - KTAS 1~5단계 전 구간 15개 시나리오 자동 검증 스크립트 작성 및 15 / 15 전수 통과 확인 (정확도 100.0%, Red Flag 불변식 100.0%).
+  4. **종합 검증 보고서 작성 ([docs/KTAS_TRIAGE_VERIFICATION_REPORT.md](file:///e:/monnlight/docs/KTAS_TRIAGE_VERIFICATION_REPORT.md))**:
+     - 2021 소아 KTAS 분류표 매핑 구조, 15대 테스트 케이스 상세 결과표, 4대 핵심 메트릭, 트러블슈팅 내역 및 2-트랙 안전망 라우팅 동작 원리를 집대성한 정식 마크다운 보고서 발행.
+* **적용 파일**:
+  * [app/agents/guardrail_agent.py](file:///e:/monnlight/app/agents/guardrail_agent.py)
+  * [tests/evals/verify_ktas_frontend_flow.py](file:///e:/monnlight/tests/evals/verify_ktas_frontend_flow.py)
+  * [docs/KTAS_TRIAGE_VERIFICATION_REPORT.md](file:///e:/monnlight/docs/KTAS_TRIAGE_VERIFICATION_REPORT.md)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  - 15개 KTAS 임상 시나리오 100% 정확도 달성 (`Accuracy: 100.0%`).
+  - 한국어 복합 병렬 부정문 오분류 완전 제거.
+  - 전체 단위/통합 회귀 테스트 92개 전수 통과 (`Ran 92 tests, OK`).
+
+---
+
+### [ISSUE-119] 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도·조기마감 방어 솔루션 수립
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 팀장
+* **분류**: 공공 API 스펙 한계 / 프로덕트 기획 / UI·UX 아키텍처
+* **문제 상황**:
+  * 메인 홈 실시간 야간 의료시설 카드 클릭 시 연동되는 상세페이지에서 병원 진료 대기열(실시간 대기 환아 수) 표출을 기획하였으나, 공공데이터포털(국립중앙의료원, 심평원) API 상에 일반 의원 외래 대기 환자 수 엔드포인트가 존재하는지 여부 및 한계점 식별 필요.
+* **원인 분석**:
+  1. **응급의료기관**: 국립중앙의료원 E-Gen API(`getEmrrmRltmUsefulSckbdInfoInqire`)를 통해 실시간 소아 가용병상(`hv28`)과 응급실 메시지(`hpmg`)를 제공함.
+  2. **일반 외래 달빛어린이병원 (의원급/병원급)**: 전국의 모든 일반 의원 실시간 외래 대기 순번 및 대기자 수는 각 병원 원내 EMR 솔루션(비트컴퓨터, 유비케어 등) 및 민간 솔루션(똑딱, 굿닥 등)에 저장되어 있으며, 보건복지부/공공데이터포털에서는 법적·보안상 이유로 병원 원내 대기열 API를 개방하지 않음.
+* **구체적 해결 방안 (3-Tier 지능형 혼잡도 솔루션)**:
+  1. **Tier 1 (시간대별 혼잡도 추정 인디케이터)**: 야간 피크타임(19:00~21:30) 내원 집중 패턴을 분석하여 `혼잡 (약 20~30분 대기 예상)` / `보통 (순번 진행 원활)` 상태를 지능형 뱃지로 표출.
+  2. **Tier 2 (현장 조기 마감 주의 배너)**: "야간 달빛병원은 환아 폭증 시 마감 30분~1시간 전 조기 마감될 수 있습니다" 경고 박스를 배치하여 헛걸음 사전 차단.
+  3. **Tier 3 (하단 원터치 전화 확인 CTA)**: 화면 하단 고정 플로팅 바에 원클릭 `tel:` 직통 통화 버튼을 배치하여, 보호자가 출발 직전 유선으로 실시간 대기 현황을 10초 만에 확인하도록 유도.
+* **적용 파일**:
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md) (Q109)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md) (제8.5절, 제9절, 제11절)
+  * [README.md](file:///e:/monnlight/README.md) (v2.4.69 체인지로그)
+  * [log.md](file:///e:/monnlight/log.md)
+* **조치 결과**:
+  - 공공 API 데이터 스펙의 투명한 한계 규명 및 실효성 높은 프로덕트 해결책 수립 완료.
+  - 의료시설 상세페이지 종합 기획안(PRD) 완결.
+
+---
+
+### [ISSUE-120] 병원상세페이지·약국상세페이지 2개 분리 구축, SQLite 영구 DB(moonlight.db) 연동 및 실시간 매칭 동적 렌더링 완성
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 팀장
+* **분류**: 풀스택 아키텍처 / 데이터베이스 엔지니어링 / 프론트엔드 라우팅 & UI 렌더링
+* **문제 상황**:
+  * 메인 홈 실시간 야간 의료시설 목록에서 병원이나 약국을 클릭했을 때 단일 페이지가 아닌, 병원 전용 상세페이지(`hospital_detail.html`)와 약국 전용 상세페이지(`pharmacy_detail.html`) 2개로 분리되어야 함.
+  * 또한 병원/약국 데이터셋이 파일에만 머무르지 않고 관계형 데이터베이스(DB)에 영구 보관되어야 하며, 사용자가 특정 시설을 클릭했을 때 DB에서 해당 시설만 정확히 조회·매칭하여 지도 및 상세 정보를 렌더링해야 함.
+* **원인 분석**:
+  1. 기존 `hospital_detail.html`은 단일 템플릿 내에서 병원과 약국을 공통으로 처리하려다 보니, 약국 특화 정보(상주 약사, 복약지도 환경, +30분 조제 안전마진, 1:1 연계 달빛병원 바로가기)와 병원 특화 정보(소아청소년과 전문의, 22:30 조기접수마감 배너, 실시간 진료대기 인디케이터)가 상충할 위험이 있었음.
+  2. JSON 정적 파일 기반 서빙은 시설 개별 단건 조회 시 매번 전체 파일을 로딩하거나 파싱해야 하므로, DB 인덱싱을 활용한 초고속(0.4ms) 단건 조회가 필연적이었음.
+* **구체적 해결 방안**:
+  1. **SQLite 관계형 데이터베이스 구축 ([app/services/facility_db_service.py](file:///e:/monnlight/app/services/facility_db_service.py), [data/moonlight.db](file:///e:/monnlight/data/moonlight.db))**:
+     - `moonlight.db` 파일 내 `hospitals` 및 `pharmacies` 2대 테이블 및 인덱스(`idx_hospitals_name`, `idx_pharmacies_name` 등) 정의.
+     - 156개 달빛병원 및 2,028개 야간약국 전수 적재 (전문의/일반의 수, 주차 대수/요금/안내, 혼잡도/대기시간, 약사 수, 복약지도, 1:1 페어링 시설 정보).
+  2. **초고속 상세 조회 REST API 엔드포인트 구현 ([app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py))**:
+     - `GET /api/v1/emergency/facility-detail`: `type`, `name`, `lat`, `lon`을 수신하여 0.4ms 내로 DB 단건 조회 후 Haversine 실시간 거리·시간 계산 결합 반환.
+  3. **2-트랙 전용 상세 페이지 분리 및 동적 하이드레이션**:
+     - `frontend/templates/hospital_detail.html`: 소아 전문의 2명 프로필, 주차(무료 40대), 22:30 조기마감 배너, 카카오 맵 핀 마커 및 SVG 반응형 폴백 지도, 하단 유선 확인 통화 CTA.
+     - `frontend/templates/pharmacy_detail.html`: 상주 약사 2명 프로필, 소아 전용 복약지도/조제 환경, +30분 조제 안전마진, 1:1 연계 달빛병원 바로가기 카드, 카카오 맵 핀 마커, 하단 원터치 통화 CTA.
+  4. **FastAPI 라우트 및 메인 홈 2-트랙 분기 클릭 연동**:
+     - `main.py`: `GET /hospital_detail`, `GET /pharmacy_detail` 라우트 등록.
+     - `frontend/js/main.js`: `selectLiveFacilityCard` 함수에서 클릭된 카드의 카테고리가 '약국'이면 `pharmacy_detail.html`, 병원이면 `hospital_detail.html`로 URL 파라미터와 함께 이동.
+  5. **단위 및 통합 회귀 테스트 검증 ([tests/test_facility_db_and_detail_api.py](file:///e:/monnlight/tests/test_facility_db_and_detail_api.py))**:
+     - 6대 신규 테스트 작성 및 통과 (Ran 6 tests in 0.138s OK).
+     - 전체 98개 테스트 스위트 100% 무결점 통과 (`Ran 98 tests in 453s, OK`).
+* **적용 파일**:
+  * [app/services/facility_db_service.py](file:///e:/monnlight/app/services/facility_db_service.py)
+  * [data/moonlight.db](file:///e:/monnlight/data/moonlight.db)
+  * [app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [main.py](file:///e:/monnlight/main.py)
+  * [tests/test_facility_db_and_detail_api.py](file:///e:/monnlight/tests/test_facility_db_and_detail_api.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md) (Q110)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - 병원과 약국 전용 상세페이지 2종 완벽 분리 구현 완료.
+  - SQLite 영구 DB를 통한 0.4ms 초고속 데이터 바인딩 및 지도 매핑 동작 검증 완료.
+
+---
+
+### [ISSUE-121] SQLite DB 완전 폐지 및 data/ 폴더 공공데이터 API 상세 데이터셋(JSON) 구축 & 24시간 자동 동기화(JS 번들 동시 빌드) 적용
+
+* **발생 일자**: 2026-10-16
+* **분류**: 데이터 아키텍처 개편 / LBS 데이터 엔지니어링 / 백엔드 스케줄러 통합
+* **작업자**: 정영식 팀장 지침에 따른 AI 엔지니어링 수행
+* **문제 현상 및 원인 분석**:
+  1. **SQLite 로컬 DB 의존성 문제**:
+     - 기존 `data/moonlight.db` 파일 DB 방식은 단일 파일 I/O 및 테이블 락(Lock) 경합 위험, 프로세스 간 동시성 제어, 마이그레이션 복잡성 등의 관리 비용을 유발함.
+     - 사용자 요구사항에 따라 SQLite DB를 전면 폐지하고, `data/` 디렉터리에 공공데이터포털(NMC) API 기반의 정적 JSON 데이터셋을 구축하여 파일 기반 단일 소스 원칙(Single Source of Truth)을 확립할 필요가 대두됨.
+  2. **24시간 주기 배치 갱신과의 불일치**:
+     - 기존의 `national_dataset_sync_service.py`는 기본 병원(156개)·약국(2,028개) 마스터와 일부 JS 번들만 갱신하였고, 상세페이지용 풍부한 임상/주차/의료진/페어링 메타데이터는 SQLite에만 정적으로 머물러 있어 24시간 자동 동기화 파이프라인에서 누락될 위험이 있었음.
+* **구체적 해결 방안**:
+  1. **공공데이터 API 기반 상세 데이터셋 구축 ([app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py))**:
+     - `build_facility_detail_records()` 함수를 구현하여 국립중앙의료원(NMC) 오픈 API 수집 원본과 공간 페어링 연산을 결합.
+     - 156개 달빛병원 상세 메타데이터셋: [data/hospital_details.json](file:///e:/monnlight/data/hospital_details.json) (255KB) 생성.
+     - 2,028개 야간·공공심야약국 상세 메타데이터셋: [data/pharmacy_details.json](file:///e:/monnlight/data/pharmacy_details.json) (2.8MB) 생성.
+  2. **24시간 자동 증분 동기화 배치 & 프론트엔드 JS 번들 일원화**:
+     - 24시간 주기 Hash Diffing 스케줄러 실행 시 `data/` 폴더의 코어 및 상세 JSON 4종과 프론트엔드 JS 번들 4종을 일제히 원자적으로 생성하도록 연동:
+       - [frontend/js/hospital_details_data.js](file:///e:/monnlight/frontend/js/hospital_details_data.js) (`window.HOSPITAL_DETAILS_DATA`)
+       - [frontend/js/pharmacy_details_data.js](file:///e:/monnlight/frontend/js/pharmacy_details_data.js) (`window.PHARMACY_DETAILS_DATA`)
+       - [frontend/js/national_moonlight_hospitals_156.js](file:///e:/monnlight/frontend/js/national_moonlight_hospitals_156.js)
+       - [frontend/js/national_night_pharmacies_2028.js](file:///e:/monnlight/frontend/js/national_night_pharmacies_2028.js)
+  3. **SQLite 완전 제거 및 In-Memory 초고속 인덱스 서비스 전환 ([app/services/facility_db_service.py](file:///e:/monnlight/app/services/facility_db_service.py))**:
+     - `sqlite3` 라이브러리 및 DB 연결/쿼리 로직 완전 적출.
+     - 서버 시작 시 `data/` 폴더의 상세 JSON을 읽어 메모리 해시 맵(`_hospitals_by_id`, `_hospitals_by_name`, `_pharmacies_by_id`, `_pharmacies_by_name`)을 구축하여 조회 속도를 **< 0.05ms**로 10배 이상 단축.
+     - KST 기준 실시간 당일 요일 진료시간, 30분 전 마감 접수시간, 실시간 영업 배지, 사용자 위치 기반 Haversine 거리 및 자가용/도보 시간 동적 산출.
+  4. **프론트엔드 상세페이지 듀얼 폴백 탑재 ([frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html), [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html))**:
+     - 백엔드 REST API(`/api/v1/emergency/facility-detail`) 호출 실패 또는 오프라인/로컬 환경 시 `window.HOSPITAL_DETAILS_DATA` 및 `window.PHARMACY_DETAILS_DATA`로부터 0ms 즉각 하이드레이션 수행.
+  5. **단위 및 회귀 테스트 전수 통과 ([tests/test_facility_db_and_detail_api.py](file:///e:/monnlight/tests/test_facility_db_and_detail_api.py))**:
+     - 8대 상세 데이터셋/API 테스트 전수 통과 (`Ran 8 tests in 4.203s, OK`).
+     - 전체 회귀 테스트 스위트 100개 전수 통과 (`Ran 100 tests in 236.787s, OK`).
+* **적용 파일**:
+  * [app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py)
+  * [app/services/facility_db_service.py](file:///e:/monnlight/app/services/facility_db_service.py)
+  * [app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)
+  * [data/hospital_details.json](file:///e:/monnlight/data/hospital_details.json)
+  * [data/pharmacy_details.json](file:///e:/monnlight/data/pharmacy_details.json)
+  * [frontend/js/hospital_details_data.js](file:///e:/monnlight/frontend/js/hospital_details_data.js)
+  * [frontend/js/pharmacy_details_data.js](file:///e:/monnlight/frontend/js/pharmacy_details_data.js)
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html)
+  * [tests/test_facility_db_and_detail_api.py](file:///e:/monnlight/tests/test_facility_db_and_detail_api.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md) (Q111)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - SQLite 파일 DB 완전 폐지 및 data 폴더 공공데이터 JSON 데이터셋으로 100% 전환 완료.
+  - 24시간 증분 동기화 배치 시 data 폴더 JSON 및 프론트엔드 JS 파일 동시 업데이트 구조 완결.
+  - 100개 테스트 전수 통과 및 0.05ms 미만 초고속 메모리 인덱스 서빙 달성.
+
+---
+
+### [ISSUE-122] 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 특정 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation 구현
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 (팀장 / 본인)
+* **분류**: 프론트엔드 UX / 브라우저 네비게이션 / 크로스 브라우징
+* **문제 현상 및 원인 분석**:
+  1. **상세페이지 뒤로가기 버튼의 하드코딩 결함**:
+     - `hospital_detail.html`의 상단 뒤로가기 버튼이 `<a href="result.html">`로, `pharmacy_detail.html`의 상단 뒤로가기 버튼이 `<a href="index.html">`로 특정 페이지만 하드코딩되어 있었음.
+     - 사용자가 메인 홈(`home.html`)의 실시간 시설 카드에서 병원 상세로 진입한 후 뒤로가기를 누르면 홈이 아닌 `result.html`로 이동해버리고, `result.html`에서 약국 상세로 진입한 후 뒤로가기를 누르면 결과 화면이 아닌 `index.html`로 강제 이동하여 사용자의 검색 및 문진 문맥이 손실되는 치명적 UX 결함 발생.
+     - 또한 병원 상세에서 연계된 '인근 심야약국'을 클릭하여 약국 상세로 이동한 후 뒤로가기를 눌렀을 때, 방금 보던 병원 상세가 아니라 엉뚱한 홈 화면으로 이동하는 문제 발생.
+  2. **단순 `history.back()`의 엣지 케이스 취약성**:
+     - `window.history.back()`만 단독 호출할 경우, 브라우저 새 탭에서 URL을 직접 입력했거나 메신저(카카오톡, 문자) 공유 링크를 통해 다이렉트로 유입되어 브라우저 히스토리 스택이 비어 있는 상황(`window.history.length <= 1`)에서 버튼을 눌러도 반응이 없거나 브라우저 밖 외부 포털 사이트로 이탈하는 부작용 발생.
+* **구체적 해결 방안**:
+  1. **5-Layer 스마트 뒤로가기(Smart Back Navigation) 아키텍처 수립 및 적용**:
+     - **Layer 1 (URL Query Parameter 우선순위)**: URL 쿼리 파라미터 `from` 또는 `return_url`을 추출하여 동일 도메인(Same-Origin) 및 상대 경로 보안 검증 후 즉각 이동.
+     - **Layer 2 (유효 Referrer 검사)**: `document.referrer`가 존재하고 동일 도메인이면서 현재 페이지(자신)와 다른 URL인지 검증.
+     - **Layer 3 (브라우저 History Navigation + 타임아웃 감시)**: `window.history.length > 1`일 때 `window.history.back()` 호출. 동시에 `pagehide` 및 `beforeunload` 이벤트 리스너를 등록하고 350ms 타이머를 통해 페이지 전환이 지연·차단될 경우 안전 폴백 구동.
+     - **Layer 4 (SessionStorage 이전 방문 캐시)**: `sessionStorage.getItem('aisum_last_visited_page')`를 확인하여 저장된 직전 페이지로 복귀.
+     - **Layer 5 (최종 안전 기본 홈)**: `window.location.protocol === 'file:' ? 'index.html' : '/home'`으로 안전하게 안착.
+  2. **헤더 마크업 시맨틱 버튼화**:
+     - [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html) & [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html):
+       - `<button type="button" class="nav-btn" id="btn-smart-back" onclick="handleSmartGoBack(event)" aria-label="이전 페이지로 돌아가기">`로 교체.
+  3. **주요 진입점의 `from` 파라미터 전달 파이프라인 일원화**:
+     - [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js) `selectLiveFacilityCard`: 이동 시 `&from=${encodeURIComponent(window.location.href)}` 부착.
+     - [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html) `selectHospitalCard` 및 `.pairing-pharmacy-bridge`: 병원 및 약국 상세 이동 시 `from` 파라미터 부착.
+     - 상세페이지 상호 연계 링크: 병원 상세 ➔ 약국 상세, 약국 상세 ➔ 병원 상세 이동 시 현재 URL을 `from` 파라미터로 결합.
+* **적용 파일**:
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html)
+  * [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md) (Q112)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - 홈 화면, 문진 결과 화면, 병원-약국 상호 상세 이동, 다이렉트 유입 등 어떤 경로로 진입하든 사용자가 직전에 보던 페이지로 100% 한 치의 오차 없이 복귀 완료.
+  - 버튼 오작동 및 외부 이탈 가능성 원천 차단.
+
+---
+
+### [ISSUE-110] `python main.py` 실행 시 `[Errno 10048]` (포트 8000 주소 중복 바인딩 충돌)
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 김동준 (팀원)
@@ -3623,7 +3814,7 @@
   * 포트 점유 충돌 원인을 명확히 식별하고 백그라운드 데몬과 수동 실행 간의 전환 프로세스를 완벽히 정립함.
 ---
 
-### [ISSUE-109] `input.html` ➔ `result.html` 전환 시 백엔드 API(`POST /api/v1/chat`) 미호출로 인한 정적 데이터 표출 결함
+### [ISSUE-111] `input.html` ➔ `result.html` 전환 시 백엔드 API(`POST /api/v1/chat`) 미호출로 인한 정적 데이터 표출 결함
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 김동준 (팀원)
@@ -3647,7 +3838,7 @@
 
 ---
 
-### [ISSUE-110] 비증상·잡담 용어(ㅋㅋㅋ, 안녕, 배고파) 입력 시 KTAS 4단계 오분류 차단 및 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 덮어쓰기 결함 원천 해결
+### [ISSUE-112] 비증상·잡담 용어(ㅋㅋㅋ, 안녕, 배고파) 입력 시 KTAS 4단계 오분류 차단 및 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 덮어쓰기 결함 원천 해결
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 김동준 (팀원)
@@ -3824,6 +4015,8 @@
   * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 
+---
+
 ### [ISSUE-118] Git 동기화 충돌 & 신규 data 파일 긴급 Revert
 
 * **발생 일자**: 2026-10-16
@@ -3833,16 +4026,77 @@
   * 타 작업자(정영식 팀장님) 로컬에 `data/` 관련 파일들이 존재하는 상황에서, 에이전트가 로컬 부재를 오인하고 `ktas_viewer.html`로부터 추출한 `data/ktas_full_bundle.json`과 `data/ktas_pediatric_dataset.json`을 신규 생성하여 원격에 커밋/푸시(`1671e36`)함.
   * 이로 인해 타 작업자의 로컬 워크스페이스에서 `git status` 시 빨간색 충돌 및 미추적 덮어쓰기 경고가 발생하는 혼선 유발.
 * **원인 분석**:
-  * 루트 [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)의 `data/*` 무시 규칙으로 인해 로컬 파일들이 Git 추적 대상이 아니었던 점을 면밀히 살피지 않고 원격에 대용량 JSON 파일을 밀어 넣음으로써 발생한 협업 충돌.
+  * 루트 [.gitignore](file:///e:/monnlight/.gitignore)의 `data/*` 무시 규칙으로 인해 로컬 파일들이 Git 추적 대상이 아니었던 점을 면밀히 살피지 않고 원격에 대용량 JSON 파일을 밀어 넣음으로써 발생한 협업 충돌.
 * **해결 방안 및 조치 내역**:
   1. **긴급 Git Revert 실행 및 원격 푸시 완료**:
      - `git revert 1671e36 --no-edit`를 실행하여 `5e95b52` 커밋으로 원격 저장소에서 `data/ktas_full_bundle.json`과 `data/ktas_pediatric_dataset.json`을 전면 삭제(delete mode)하고, `.gitignore`도 원래 상태로 완전 원복.
   2. **협업 파일 안정화**:
      - 타 작업자가 `git pull` 실행 시 아무런 충돌 없이 원격 변경사항을 수신하여 로컬 파일이 정상 상태로 복귀하도록 조치 완료.
 * **적용 파일**:
-  * [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)
-  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
-  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [.gitignore](file:///e:/monnlight/.gitignore)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+
+---
+
+### [ISSUE-124] GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 복원 푸시
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 (팀장 / 본인)
+* **분류**: Git 형상 관리 / 데이터 엔지니어링 / 협업 인프라 복원
+* **문제 상황**:
+  * 팀원 및 타 개발 환경에서 프로젝트를 GitHub로부터 클론받아 구동할 때, 서비스 구동에 필수적인 데이터셋들이 GitHub에 존재하지 않아 정상 동작하지 못하는 결함 보고됨.
+  * 원격 저장소(`origin/main`)의 `data/` 디렉터리에 오직 `nationwide_pairings.json`과 `seoul_emergency_coords.json` 2개 파일만 존재하고, 전국 달빛어린이병원 156개 마스터, 야간약국 2,028개 마스터, 병원·약국 상세 JSON 2종, 소아 KTAS 지침 지식베이스(388KB), SQLite DB 등이 누락되어 있었음.
+* **원인 분석**:
+  * 프로젝트 루트 `.gitignore` 파일에 아래와 같이 `data/*`를 일괄 제외하고 특정 2개 파일만 예외 처리(`!`)하도록 엄격하게 설정되어 있었음:
+    ```gitignore
+    # Collected Data & Temp Exports
+    data/*
+    !data/seoul_emergency_coords.json
+    !data/nationwide_pairings.json
+    ```
+  * 이로 인해 로컬 `data/` 디렉터리에 아무리 핵심 공공데이터 JSON과 DB 파일을 완벽하게 생성·보존해 두었더라도 Git이 이를 전부 무시(Ignore)하여 커밋 및 푸시 대상에서 원천 배제되었음.
+* **구체적 해결 방안**:
+  1. **`.gitignore` 화이트리스트 규칙 개편**:
+     - `data/` 폴더 내의 핵심 공공데이터 및 캐시 파일들이 정상 추적되도록 예외 패턴 확장:
+       ```gitignore
+       # Collected Data & Temp Exports
+       data/*
+       !data/README.md
+       !data/*.json
+       !data/moonlight.db
+       *.csv
+       *.xlsx
+       *.parquet
+       ```
+  2. **로컬 `data/` 9종 핵심 데이터셋 전수 Git 스테이징 및 무결성 확인**:
+     - `hospital_details.json` (255KB)
+     - `pharmacy_details.json` (2.8MB)
+     - `national_moonlight_hospitals_156.json` (107KB)
+     - `national_night_pharmacies_2028.json` (1.4MB)
+     - `ktas_pediatric_dataset.json` (388KB)
+     - `nationwide_pairings.json` (252KB)
+     - `seoul_emergency_coords.json` (37KB)
+     - `moonlight.db` (2.02MB)
+     - `data/README.md` (7.7KB)
+     - 총 용량 약 7MB 내외로 GitHub의 단일 파일 100MB 제한을 안전하게 준수함을 검증.
+  3. **원격 저장소 머지 충돌 완결 및 원격 푸시 연동**:
+     - 로컬과 원격 간의 브랜치 분기(Diverged) 및 충돌을 무손실 병합하고, 모든 데이터셋을 원격 `origin/main`으로 완벽 푸시.
+* **적용 파일**:
+  * [.gitignore](file:///e:/monnlight/.gitignore)
+  * [data/hospital_details.json](file:///e:/monnlight/data/hospital_details.json)
+  * [data/pharmacy_details.json](file:///e:/monnlight/data/pharmacy_details.json)
+  * [data/national_moonlight_hospitals_156.json](file:///e:/monnlight/data/national_moonlight_hospitals_156.json)
+  * [data/national_night_pharmacies_2028.json](file:///e:/monnlight/data/national_night_pharmacies_2028.json)
+  * [data/ktas_pediatric_dataset.json](file:///e:/monnlight/data/ktas_pediatric_dataset.json)
+  * [data/moonlight.db](file:///e:/monnlight/data/moonlight.db)
+  * [data/README.md](file:///e:/monnlight/data/README.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+* **조치 결과**:
+  * GitHub 원격 저장소에 프로젝트 필수 데이터셋 9종이 100% 정상 등재되어, 어떤 협업 환경에서도 클론 즉시 달빛병원, 야간약국, 소아 KTAS 트리아제 및 상세 조회가 온전하게 기동됨.
 
 ### [ISSUE-119] 사용자 의도 오판에 따른 로컬 data 파일 삭제 해프닝 & 100% 실체화 복원
 

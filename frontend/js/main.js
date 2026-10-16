@@ -1326,124 +1326,53 @@ window.renderLiveFacilities = function(filter) {
 };
 
 // ============================================================================
-// 🏥 Facility Card Navigation & Data Bridge (병원/약국 카드 클릭 시 상세 페이지 데이터 바인딩)
+// 🏥 Facility Card Navigation & Data Bridge (병원/약국 카드 클릭 시 2-트랙 상세 페이지 라우팅)
 // ============================================================================
 window.selectLiveFacilityCard = function(facilityName, facilityType) {
   try {
+    const isHospital = (facilityType === 'hospital');
+    const path = window.location.pathname;
+    const isFileProtocol = (window.location.protocol === 'file:');
+
+    // 1. Determine target HTML
+    let targetPage = isHospital ? 'hospital_detail.html' : 'pharmacy_detail.html';
+    if (!path.endsWith('.html') && !isFileProtocol) {
+      targetPage = isHospital ? '/hospital_detail' : '/pharmacy_detail';
+    }
+
+    const fromParam = encodeURIComponent(window.location.href);
+    const targetUrl = `${targetPage}?name=${encodeURIComponent(facilityName)}&type=${facilityType}&from=${fromParam}`;
+
+    // 2. Cache minimal state to sessionStorage for instantaneous fallback
+    try {
+      sessionStorage.setItem('aisum_last_visited_page', window.location.href);
+    } catch (e) {}
+
     const master = window.__LIVE_FACILITIES_MASTER__;
-    const userLoc = window.AisumPermissionManager
-      ? window.AisumPermissionManager.getUserLocation()
-      : { lat: 37.4858, lon: 127.1225, dong: '문정동' };
-
-    let selectedHospital = null;
-
     if (master) {
-      if (facilityType === 'hospital') {
-        const hosp = master.hospital.find(h => h.name === facilityName)
-          || (master.rawHospitals && master.rawHospitals.find(h => h.name === facilityName))
-          || master.hospital[0];
+      if (isHospital) {
+        const hosp = (master.hospital && master.hospital.find(h => h.name === facilityName))
+          || (master.rawHospitals && master.rawHospitals.find(h => h.name === facilityName));
         if (hosp) {
-          // 해당 병원과 가장 가까운 심야약국 자동 매핑 (15km 내 약국 우선, 없으면 전수 약국에서 검색)
-          let nearestPharm = null;
-          const pharmPool = (master.pharmacy && master.pharmacy.length > 0)
-            ? master.pharmacy
-            : (master.rawPharmacies || []);
-          if (pharmPool.length > 0) {
-            let minD = Infinity;
-            pharmPool.forEach(p => {
-              const d = window.calculateDistanceKm(hosp.lat, hosp.lon, p.lat, p.lon);
-              if (d < minD) {
-                minD = d;
-                nearestPharm = {
-                  name: p.name,
-                  tel: p.phone,
-                  duty_time: p.closing,
-                  margin: 30,
-                  guide: `병원 인근 ${(d * 1000).toFixed(0)}m (도보 ${Math.max(1, Math.round(d * 14))}분)`,
-                  address: p.address
-                };
-              }
-            });
-          }
-
-          selectedHospital = {
-            name: hosp.name,
-            dist: hosp.distKm ? Number(hosp.distKm.toFixed(1)) : 1.2,
-            drive_min: Math.max(2, Math.round(hosp.distKm * 2.3)),
-            duty_time: hosp.closing,
-            tel: hosp.phone,
-            address: hosp.address,
-            waiting_count: 3,
-            hours: hosp.hours || {
-              weekday: hosp.raw?.평일진료 || '09:00 ~ 21:00',
-              saturday: hosp.raw?.토요진료 || '09:00 ~ 18:00',
-              sunday: hosp.raw?.일요진료 || '09:00 ~ 18:00'
-            },
-            guide: hosp.guide || '보건복지부 지정 달빛어린이병원',
-            pharmacy: nearestPharm || {
-              name: '인근 심야약국',
-              tel: '02-120',
-              duty_time: '심야 운영',
-              margin: 30,
-              guide: '병원 인근 약국',
-              address: ''
-            }
-          };
+          sessionStorage.setItem('selected_hospital', JSON.stringify(hosp));
         }
       } else {
-        // 심야약국 클릭 시: 해당 약국과 가장 가까운 달빛병원 매핑
-        const pharm = master.pharmacy.find(p => p.name === facilityName) || master.pharmacy[0];
+        const pharm = (master.pharmacy && master.pharmacy.find(p => p.name === facilityName))
+          || (master.rawPharmacies && master.rawPharmacies.find(p => p.name === facilityName));
         if (pharm) {
-          let nearestHosp = master.hospital[0];
-          if (master.hospital && master.hospital.length > 0) {
-            let minD = Infinity;
-            master.hospital.forEach(h => {
-              const d = window.calculateDistanceKm(pharm.lat, pharm.lon, h.lat, h.lon);
-              if (d < minD) {
-                minD = d;
-                nearestHosp = h;
-              }
-            });
-          }
-
-          selectedHospital = {
-            name: nearestHosp ? nearestHosp.name : '달빛어린이병원',
-            dist: pharm.distKm ? Number(pharm.distKm.toFixed(1)) : 1.0,
-            drive_min: Math.max(2, Math.round(pharm.distKm * 2.3)),
-            duty_time: nearestHosp ? nearestHosp.closing : '야간 진료',
-            tel: nearestHosp ? nearestHosp.phone : '',
-            address: nearestHosp ? nearestHosp.address : '',
-            waiting_count: 3,
-            hours: nearestHosp ? nearestHosp.hours : {
-              weekday: '09:00 ~ 21:00',
-              saturday: '09:00 ~ 18:00',
-              sunday: '09:00 ~ 18:00'
-            },
-            guide: nearestHosp ? nearestHosp.guide : '',
-            pharmacy: {
-              name: pharm.name,
-              tel: pharm.phone,
-              duty_time: pharm.closing,
-              margin: 30,
-              guide: '공식 심야약국 (선택 약국)',
-              address: pharm.address
-            }
-          };
+          sessionStorage.setItem('selected_pharmacy', JSON.stringify(pharm));
         }
       }
     }
 
-    if (selectedHospital) {
-      sessionStorage.setItem('selected_hospital', JSON.stringify(selectedHospital));
-      const path = window.location.pathname;
-      let target = 'hospital_detail.html';
-      if (!path.endsWith('.html') && window.location.protocol !== 'file:') {
-        target = '/hospital_detail';
-      }
-      window.location.href = target;
-    }
+    // 3. Navigate to detail page
+    window.location.href = targetUrl;
   } catch (err) {
     console.warn('Facility card navigation error:', err);
+    // Safe fallback navigation
+    const target = (facilityType === 'hospital') ? 'hospital_detail.html' : 'pharmacy_detail.html';
+    const fromParam = encodeURIComponent(window.location.href);
+    window.location.href = `${target}?name=${encodeURIComponent(facilityName)}&from=${fromParam}`;
   }
 };
 
