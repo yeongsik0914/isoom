@@ -125,6 +125,7 @@
 | **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-118]** | Git 동기화 충돌 & 신규 data 파일 긴급 Revert | 타 작업자 로컬과의 충돌을 방지하기 위해 `1671e36` 커밋 100% Revert(5e95b52), .gitignore 원복 및 파일 상태 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-125]** | 프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증 | input.html 사용자 설정값(15개월, 39.1℃, 수유거부, 보챔 등) 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정(KTAS 3단계) 실체화 검증 완료 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4177,3 +4178,34 @@
   * [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)
   * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+### [ISSUE-125] input.html 프론트엔드 입력값 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정 E2E 실측 검증
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드-백엔드 E2E 검증 / 소아 KTAS 종합 판정 / 임상 파이프라인 정합성
+* **문제 상황**:
+  * 사용자가 `input.html` 페이지에서 설정하는 나이, 체온, 증상, 해열제 복용 등의 사용자 설정값이 백엔드로 제대로 전달되고 있는지, 그리고 백엔드에서 이를 종합적으로 판단하여 KTAS 단계를 나누는 로직이 실제로 정상 동작하고 있는지에 대한 실증적 검증 요청.
+* **원인 분석 및 아키텍처 점검**:
+  1. `input.html`의 5대 사용자 설정 영역:
+     - 아이 나이: 슬라이더 조작 시 `state.ageMonths: 15` 저장
+     - 체온 다이얼: 180도 부채꼴 게이지 드래그 시 `state.temp: 39.1` 저장
+     - 주요 증상: 자연어 및 STT 음성 인식 텍스트 바인딩
+     - 해열제/동반 상태: 라디오 카드 선택 및 투약 시간, 동반 증상 바인딩
+  2. 전송 구조:
+     - `launchAnalyzingSequence` 함수를 통해 `POST /api/v1/chat` 엔드포인트로 JSON 페이로드 전송.
+  3. 백엔드 처리 파이프라인:
+     - `GuardrailAgent` -> `TriageAgent` (Gemini 3.8 Flash + `data/ktas_pediatric_dataset.json` 168개 주증상) -> `MatchingAgent` -> `LogisticsAgent`.
+* **해결 방안 및 실측 검증 결과**:
+  1. **실서버 API 실측 호출 검증 (`scratch/verify_input_backend_flow.py`)**:
+     - 환아 월령(15개월), 체온(39.1℃), 증상(고열, 발열, 지속적인 울음, 수유 거부, 식욕 부진), 투약(해열제 미복용)을 실제 `http://127.0.0.1:8000/api/v1/chat`으로 전송.
+     - 백엔드 응답: `ktas_level: 3`, `ktas_level_name: "응급"`, `is_emergency: false`, `current_step: "COMPLETED"`.
+     - 생성된 임상 소견 (`clinical_rationale`):
+       *"15개월 환아로 39.1℃의 고열과 함께 지속적인 보챔 및 식이 거부를 보이고 있으나, 경련, 호흡 곤란, 청색증 등 생명 위협 징후는 관찰되지 않아 KTAS 3단계(응급)로 잠정 분류합니다."*
+  2. **프론트엔드 렌더링 무결성 확인**:
+     - 사용자가 첨부한 스크린샷 화면의 상단 바이탈 칩, 0ms 가드레일 통과 뱃지, KTAS 3단계 카드 및 감별 소견 문구가 백엔드의 실제 분석 결과와 100% 일치함을 규명함.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [app/api/v1/chat.py](file:///c:/AI-Native-Agent/monnlight/app/api/v1/chat.py)
+  * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)

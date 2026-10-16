@@ -28,6 +28,13 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.78-input-triage-e2e-verification-and-team-sync] 2026-10-16: input.html 사용자 설정값 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정 E2E 실측 검증 완료 (김동준 팀원)
+* **🔬 input.html 사용자 설정 5대 필드 백엔드 전송 무결성 실측 검증**:
+  - 아이 나이(15개월), 체온(39.1℃), 주요 증상(고열, 발열, 지속적인 울음, 수유 거부, 식욕 부진), 해열제 복용 상태(미복용), GPS 좌표가 `POST /api/v1/chat`으로 100% 손실 없이 전송됨을 전수 확인.
+* **🩺 Gemini 3.8 Flash + 168개 소아 KTAS 지침 종합 판정 실체화 검증**:
+  - 단순 체온 수치뿐만 아니라 환아 월령(15개월), 식이 섭취 불능(탈수 위험), 지속적 울음(보챔)을 종합 임상 분석하여 KTAS 3단계(응급) 도출 및 맞춤형 `clinical_rationale` 실시간 생성 확인.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q115, [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md) Q58, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-125) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.75-collaborative-git-revert-and-stabilization] 2026-10-16: 협업 형상 관리 보호를 위한 신규 data 커밋 100% Revert(5e95b52) 및 타 작업자 로컬 충돌 완전 해소 (김동준 팀원)
 * **🔄 `data/ktas_full_bundle.json` 및 `data/ktas_pediatric_dataset.json` 원격 Revert 완료**:
   - 타 작업자(정영식 팀장님) 로컬에 보관된 파일과의 형상 관리 충돌(Untracked overwrite)을 방지하기 위해 `git revert 1671e36`을 즉각 단행하여 원격 저장소 및 `.gitignore`를 원래의 깨끗한 상태로 100% 복원.
