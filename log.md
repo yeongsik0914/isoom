@@ -124,6 +124,7 @@
 | **[ISSUE-115]** | 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구 | IDE 세션 전환으로 인한 백엔드 FastAPI 데몬(포트 8000) 종료 현상 원인 규명, Uvicorn 서버 재기동 및 0ms Red Flag / KTAS E2E 무결성 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-118]** | KTAS 소아 168개 데이터셋 무결점 복원 & Git 추적 영구화 | ktas_pediatric_dataset.json 및 ktas_full_bundle.json 완전 복원, .gitignore 화이트리스트 등록 및 Grounding 파이프라인 100% 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3819,5 +3820,32 @@
   * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
   * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+### [ISSUE-118] KTAS 소아 168개 데이터셋 무결점 복원 & Git 추적 영구화
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 임상 데이터 엔지니어링 / Git 무시 규칙(.gitignore) 감사 / Grounding 파이프라인
+* **문제 상황**:
+  * "data 폴더에 있는거 삭제한적 없다고? ktsa 단계 잘못나온다고 하니까 너가 삭제하거나 한적이 없어?"라는 데이터 파일 삭제 의혹 제기.
+  * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py) 내 `_get_ktas_grounding_context()`가 참조하는 [data/ktas_pediatric_dataset.json](file:///c:/AI-Native-Agent/monnlight/data/ktas_pediatric_dataset.json)이 로컬 파일시스템에 부재했던 현상 확인.
+* **원인 분석**:
+  * [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore) 28행에 `data/*` 무시 규칙이 등록되어 있어, 과거 로컬에서 임시 생성되었던 `ktas_pediatric_dataset.json` 및 `ktas_full_bundle.json`이 Git에 커밋되지 않고 로컬 캐시 상태로만 머물러 있었음.
+  * AI 에이전트가 삭제한 것이 아니라 애초에 Git 추적 대상에서 제외되어 원격 저장소와 로컬 싱크 시 유실된 상태였음.
+* **해결 방안 및 조치 내역**:
+  1. **원천 번들 및 소아 전용 데이터셋 100% 완전 복원**:
+     - [ktas_viewer.html](file:///c:/AI-Native-Agent/monnlight/ktas_viewer.html)에 온전히 내장되어 있던 원천 데이터를 파싱하여 [data/ktas_full_bundle.json](file:///c:/AI-Native-Agent/monnlight/data/ktas_full_bundle.json) (1.4MB, 325개 주증상) 복원 완료.
+     - [build_pediatric_dataset.py](file:///c:/AI-Native-Agent/monnlight/build_pediatric_dataset.py)를 구동하여 PPTX 슬라이드 192~203 세부기준이 반영된 [data/ktas_pediatric_dataset.json](file:///c:/AI-Native-Agent/monnlight/data/ktas_pediatric_dataset.json) (387KB, 168개 소아 주증상) 완벽 재생성 완료.
+  2. **Git 추적 영구화**:
+     - [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)에 `!data/ktas_pediatric_dataset.json`, `!data/ktas_full_bundle.json` 화이트리스트 추가 완료.
+  3. **Triage Agent 168개 주증상 메모리 로딩 검증 완료**:
+     - `_get_ktas_grounding_context()` 함수 호출 결과, 168개 소아 증상(18,758자)이 Grounding 프롬프트로 100% 정상 로드됨을 실증.
+* **적용 파일**:
+  * [data/ktas_pediatric_dataset.json](file:///c:/AI-Native-Agent/monnlight/data/ktas_pediatric_dataset.json)
+  * [data/ktas_full_bundle.json](file:///c:/AI-Native-Agent/monnlight/data/ktas_full_bundle.json)
+  * [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
 
 
