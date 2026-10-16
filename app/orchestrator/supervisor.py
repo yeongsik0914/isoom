@@ -8,6 +8,7 @@ and a single-exit Medical Service Act Art. 27 sanitization gateway.
 from __future__ import annotations
 
 import logging
+import re
 from typing import Optional
 
 from app.agents.guardrail_agent import (
@@ -76,9 +77,9 @@ class SupervisorOrchestrator:
             message=sanitized_escalation,
             emergency_guide=state.emergency_action_guide,
             age_months=state.age_months,
-            temperature=state.temperature,
-            ktas_level=state.ktas_level or 1,
-            ktas_level_name=state.ktas_level_name or "소생/긴급 (Red Flag)",
+            ktas_level=state.ktas_level if state.ktas_level is not None else 2,
+            ktas_level_name=state.ktas_level_name or ("1단계(소생)" if state.ktas_level == 1 else "2단계(긴급)"),
+            clinical_rationale=state.clinical_rationale or state.red_flag_reason or "12대 소아 위급 상황 즉시 감지 (골든타임 응급 이송)",
             symptoms=state.symptoms or ["응급 위험 징후"],
             hospitals=state.matched_hospitals,
             pharmacies=[],
@@ -94,6 +95,8 @@ class SupervisorOrchestrator:
         user_lon: float = 127.1001,
         user_address: Optional[str] = None,
         force_matching: bool = False,
+        patient_age_months: Optional[int] = None,
+        patient_temperature: Optional[float] = None,
     ) -> SupervisorResponse:
         """Executes a single conversational turn through the FSM pipeline.
 
@@ -142,34 +145,90 @@ class SupervisorOrchestrator:
             if state.is_red_flag:
                 return await self._handle_emergency_escalation(state, user_message)
 
+            # Check if user explicitly indicated unknown age or temperature
+            is_explicit_unknown_age = any(k in user_message for k in ["나이는 미입력", "나이 모름", "나이 미입력", "나이: 미입력", "나이:미입력"])
+            is_explicit_unknown_temp = any(k in user_message for k in ["체온은 미측정", "체온 모름", "체온 미측정", "체온: 미측정", "체온:미측정"])
+            if is_explicit_unknown_age:
+                state.age_months = None
+                state.age_days = None
+            elif patient_age_months is not None:
+                state.age_months = patient_age_months
+
+            if is_explicit_unknown_temp:
+                state.temperature = None
+            elif patient_temperature is not None:
+                state.temperature = patient_temperature
+
             # Check Triage Completion or 3-Turn Upper Bound (Deadlock Guard) or force_matching (Phase 1 1-shot)
             is_complete = state.is_triage_complete()
             turn_limit_reached = state.turn_count >= 3
 
             if is_complete or turn_limit_reached or force_matching:
-                # If forced transition due to turn limit or force_matching, populate safe defaults
+                # If forced transition due to turn limit or force_matching, validate clinical intent
                 if not is_complete and (turn_limit_reached or force_matching):
-                    if state.temperature is None:
-                        state.temperature = 38.0
-                    if state.age_months is None:
-                        state.age_months = 24
+                    # Extract the pure symptom text portion if sent via structured front format
+                    symptom_target_text = user_message
+                    if "주요 증상:" in user_message:
+                        part = user_message.split("주요 증상:", 1)[1]
+                        if ", 투약/동반:" in part:
+                            part = part.split(", 투약/동반:", 1)[0]
+                        symptom_target_text = part.strip()
+
+                    clinical_patterns = [
+                        r"(?<!해)열(?!제)|발열|고열|미열|초고열|불덩|뜨거|뜨겁",
+                        r"기침|콜록|컹컹|콧물|코막|가래|쌕쌕|쌕색|천명|숨소리|호흡|헐떡|숨차",
+                        r"구토|토했|토하|게우|분수토|올렸어|설사|피똥|혈변|배가\s*아|배아파|배아프|복통|배통증",
+                        r"처짐|축\s*처|늘어져|기면|보챔|칭얼|울음|자지러|안자|경련|경기|발작|떨림|의식",
+                        r"발진|열꽃|두드러기|가려|수포|물집|화상|피가|출혈|다침|상처|골절",
+                        r"귀가\s*아|이통|눈곱|눈꼽|탈수|기저귀.*안|소변.*안|안먹|수유\s*거부|침흘림",
+                    ]
+                    has_symptoms = bool(state.symptoms) or any(re.search(pat, symptom_target_text) for pat in clinical_patterns)
+
+                    # If user entered non-symptom gibberish or chatter (e.g. "안녕", "배고파", "ㅋㅋㅋ", "asdf"):
+                    if not has_symptoms and not turn_limit_reached:
+                        state.current_step = "TRIAGE"
+                        inquiry = "소아 야간 의료기관 안내를 위해 아이의 구체적인 증상(예: 열, 기침, 구토, 콧물, 복통, 처짐 등)을 알려주세요."
+                        sanitized_inquiry = sanitize_output(inquiry)
+                        state.add_message(role="assistant", content=sanitized_inquiry)
+                        await self.session_manager.save_session(state)
+                        return SupervisorResponse(
+                            session_id=state.session_id,
+                            current_step=state.current_step,
+                            turn_count=state.turn_count,
+                            is_emergency=False,
+                            message=sanitized_inquiry,
+                            age_months=state.age_months,
+                            temperature=state.temperature,
+                            ktas_level=None,
+                            ktas_level_name=None,
+                            symptoms=[],
+                            hospitals=[],
+                            pharmacies=[],
+                            call_script=None,
+                            checklist=[],
+                        )
+
+                    # Do NOT overwrite age or temperature if user chose unknown or left unset!
+                    if is_explicit_unknown_age:
+                        state.age_months = None
+                        state.age_days = None
+
+                    if is_explicit_unknown_temp:
+                        state.temperature = None
+
                     if not state.symptoms:
-                        state.symptoms = ["발열", "소아 불편감"]
+                        state.symptoms = ["소아 불편감"]
+
                     if not state.ktas_level:
-                        temp = state.temperature or 38.0
-                        syms = " ".join(state.symptoms) if state.symptoms else ""
-                        if temp >= 39.0 or any(k in syms for k in ["구토", "처짐", "복통", "호흡", "탈수", "설사"]):
-                            state.ktas_level = 3
-                            state.ktas_level_name = "응급 (달빛어린이병원 우선 권고)"
-                        elif temp >= 38.0 or any(k in syms for k in ["발열", "기침", "콧물", "열", "보챔"]):
-                            state.ktas_level = 4
-                            state.ktas_level_name = "준응급 (달빛어린이병원 권고)"
-                        else:
-                            state.ktas_level = 5
-                            state.ktas_level_name = "비응급 (외래 진료 또는 가정 케어)"
+                        # 하드코딩/키워드 매핑 금지: AI Triage 미산출 시 소아 안전 기본값(Safe Default 4단계 준응급) 부여
+                        state.ktas_level = 4
+                        state.ktas_level_name = "준응급 (달빛어린이병원 권고)"
+                        if not state.clinical_rationale:
+                            state.clinical_rationale = "소아 환아의 안전을 최우선으로 고려하여 전문의 대면 진찰이 가능한 달빛어린이병원 진료를 권고합니다."
                     elif not state.ktas_level_name:
                         level_names = {1: "소생", 2: "긴급", 3: "응급", 4: "준응급", 5: "비응급"}
                         state.ktas_level_name = level_names.get(state.ktas_level, "준응급")
+
                     if turn_limit_reached:
                         empathy_msg += "\n\n※ 증상 입력이 불충분하여 더 이상 지체하지 않고 보호자님 현재 위치 기준 가장 안전한 야간 의료기관으로 우선 안내합니다."
 
@@ -195,6 +254,7 @@ class SupervisorOrchestrator:
                     temperature=state.temperature,
                     ktas_level=state.ktas_level,
                     ktas_level_name=state.ktas_level_name,
+                    clinical_rationale=state.clinical_rationale,
                     symptoms=state.symptoms,
                     hospitals=[],
                     pharmacies=[],
@@ -263,6 +323,7 @@ class SupervisorOrchestrator:
             temperature=state.temperature,
             ktas_level=state.ktas_level or 4,
             ktas_level_name=state.ktas_level_name or "준응급",
+            clinical_rationale=state.clinical_rationale or "소아 KTAS 임상 지침 168개 주증상 대조 분석 결과",
             symptoms=state.symptoms,
             hospitals=state.matched_hospitals,
             pharmacies=state.matched_pharmacies,

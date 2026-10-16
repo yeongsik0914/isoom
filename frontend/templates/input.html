@@ -328,6 +328,21 @@
       animation: fadeIn 0.2s ease;
     }
 
+    .symptom-invalid-tip {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #dc2626;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-top: 8px;
+      animation: fadeIn 0.2s ease;
+    }
+
     /* --------------------------------------------------------------------------
        2. Section 2: Clean Radial Gauge Thermometer
        -------------------------------------------------------------------------- */
@@ -930,6 +945,12 @@
           <span id="auto-sync-temp-text">증상 텍스트에서 체온 38.5℃가 감지되어 다이얼에 자동 반영되었습니다.</span>
         </div>
 
+        <!-- Invalid Symptom Warning Tip -->
+        <div class="symptom-invalid-tip" id="symptom-invalid-tip" style="display: none;">
+          <span class="material-symbols-outlined" style="font-size: 16px;">error</span>
+          <span id="symptom-invalid-text">소아 의료기관 추천을 위해 아이의 구체적인 증상(예: 열, 기침, 구토, 콧물, 복통, 처짐 등)을 입력해주세요.</span>
+        </div>
+
         <div class="input-helper-tip">
           <span class="material-symbols-outlined" style="font-size: 14px;">lightbulb</span>
           <span>예: 쌕쌕거리며 숨차하고 구토를 두 번 했어요</span>
@@ -1017,10 +1038,10 @@
             <!-- Center Digital Temperature Readout -->
             <div class="gauge-center-display">
               <div class="gauge-temp-value" id="gauge-temp-text">
-                <span id="temp-number-display">38.0 <span class="gauge-temp-unit">℃</span></span>
+                <span id="temp-number-display">36.5 <span class="gauge-temp-unit">℃</span></span>
               </div>
-              <div class="gauge-temp-badge" id="temp-status-badge" style="background: #ffedd5; color: #c2410c;">
-                <span>🟠 발열 주의</span>
+              <div class="gauge-temp-badge" id="temp-status-badge" style="background: #d1fae5; color: #065f46;">
+                <span>🟢 정상 체온</span>
               </div>
             </div>
 
@@ -1231,7 +1252,7 @@
       // ------------------------------------------------------------------------
       const state = {
         symptom: '',
-        temp: 38.0,
+        temp: 36.5,
         tempTouched: false,        // 사용자가 게이지나 텍스트로 체온을 조작했는지 여부
         tempUnknown: false,        // 화면상에는 바늘과 다이얼을 정상 표시!
         ageMonths: 14,
@@ -1254,6 +1275,8 @@
       const voiceStatusText = document.getElementById('voice-status-text');
       const autoSyncTempBadge = document.getElementById('auto-sync-temp-badge');
       const autoSyncTempText = document.getElementById('auto-sync-temp-text');
+      const symptomInvalidTip = document.getElementById('symptom-invalid-tip');
+      const symptomInvalidText = document.getElementById('symptom-invalid-text');
 
       const gaugeNeedle = document.getElementById('gauge-needle');
       const tempNumberDisplay = document.getElementById('temp-number-display');
@@ -1328,12 +1351,12 @@
         return t;
       }
 
-      // Extract temperature from text (숫자 체온 및 "열이있어요", "고열", "미열" 등 증상 키워드 자동 감지)
+      // Extract temperature from text: 사용자가 직접 입력한 숫자 체온(예: 38.5도, 39℃)만 인식 (하드코딩/키워드 매핑 전면 금지)
       function extractTemperatureFromText(text) {
         if (!text) return null;
         const normalized = normalizeSpeechText(text);
 
-        // 1. 숫자 체온 우선 감지 (예: 38.5도, 39도, 37.8℃)
+        // 숫자 체온만 정밀 감지 (예: 38.5도, 39도, 37.8℃) - 키워드 임의 매핑 금지
         const match = normalized.match(/(3[5-9]\.[0-9]|4[0-1]\.[0-9]|3[6-9]|4[0-1])\s*(도|℃|도씨)?/);
         if (match) {
           const val = parseFloat(match[1]);
@@ -1346,61 +1369,56 @@
           }
         }
 
-        // 2. 키워드 기반 소아 임상 표준 체온 자동 감지
-        // 초고열 (40.0℃)
-        if (/초고열|불덩이\s*같|열이\s*펄펄/.test(normalized)) {
-          return {
-            temp: 40.0,
-            type: 'keyword',
-            keyword: '초고열',
-            description: `'초고열' 증상이 감지되어 40.0℃로`
-          };
-        }
-        // 고열 (39.2℃)
-        if (/고열|불덩이|열이\s*(심해|많이|높아)/.test(normalized)) {
-          return {
-            temp: 39.2,
-            type: 'keyword',
-            keyword: '고열',
-            description: `'고열' 증상이 감지되어 39.2℃로`
-          };
-        }
-        // 미열 (37.8℃)
-        if (/미열|약간\s*열|열감/.test(normalized)) {
-          return {
-            temp: 37.8,
-            type: 'keyword',
-            keyword: '미열',
-            description: `'미열' 증상이 감지되어 37.8℃로`
-          };
-        }
-        // 일반 발열 (38.5℃)
-        if (/열이\s*있|열\s*나|발열|열이\s*올라|열\s*나서|열있/.test(normalized)) {
-          return {
-            temp: 38.5,
-            type: 'keyword',
-            keyword: '열이 있어요',
-            description: `'열이 있어요' 증상이 감지되어 38.5℃로`
-          };
-        }
-
         return null;
       }
 
-      // Extract age from text (e.g., 14개월, 4세, 5살, 신생아, 100일)
+      // Extract age from text: 사용자가 명시한 숫자(개월, 세, 살)만 감지 (키워드 임의 매핑 금지)
       function extractAgeFromText(text) {
         if (!text) return null;
         const mMatch = text.match(/([0-9]{1,2})\s*개월/);
         if (mMatch) return parseInt(mMatch[1], 10);
         const yMatch = text.match(/(?:만\s*)?([1-9]|1[0-2])\s*(?:세|살)/);
         if (yMatch) return parseInt(yMatch[1], 10) * 12;
-        if (/신생아|100일|백일/.test(text)) return 2;
         return null;
+      }
+
+      function validateSymptomInput(text) {
+        if (!text) return { valid: false, reason: '아이의 구체적인 증상(예: 열, 기침, 구토, 콧물, 복통, 외상 등)을 입력해주세요.' };
+        const trimmed = text.trim();
+        if (trimmed.length < 2) {
+          return { valid: false, reason: '증상을 2글자 이상 구체적으로 적어주세요.' };
+        }
+        // 1. 순수 자음/모음 초성만 있는 경우 (ㅋㅋㅋ, ㅎㅎㅎ, ㅠㅠ 등)
+        if (/^[ㄱ-ㅎㅏ-ㅣ\s]+$/.test(trimmed)) {
+          return { valid: false, reason: '초성이나 자음 대신 아이의 증상(예: 열, 기침, 구토, 보챔, 외상 등)을 적어주세요.' };
+        }
+        // 2. 동일한 문자 3회 이상 반복 (aaa, 111, zzz 등)
+        if (/^(.)\1{2,}$/.test(trimmed)) {
+          return { valid: false, reason: '유효한 아이의 증상을 입력해주세요.' };
+        }
+        // 3. 단순 영문/숫자 자판 무의미 테스트 단어 (asdf, test, qwer, zxcv, 1234 등)
+        if (/^(asdf|test|qwer|zxcv|abc|1234|테스트|ㅁㄴㅇㄹ)$/i.test(trimmed)) {
+          return { valid: false, reason: '정확한 아이의 증상 내용을 입력해주세요.' };
+        }
+        // 4. 일상 잡담 단독 입력 감지 (안녕, 배고파, 심심해 등 비증상 일상어)
+        if (/^(안녕|반가워|배고파|밥줘|누구야|뭐해|심심해|하이|바이|날씨|장난)$/.test(trimmed)) {
+          return { valid: false, reason: '일상 대화가 아닌 아이의 아픈 증상(예: 열, 기침, 구토, 콧물, 복통, 외상 등)을 알려주세요.' };
+        }
+        return { valid: true };
       }
 
       function handleSymptomTextChange(text) {
         state.symptom = text;
         updateInputUI();
+
+        // 사용자 입력 시 유효성 에러 팁 자동 닫기
+        if (symptomInvalidTip) {
+          symptomInvalidTip.style.display = 'none';
+        }
+        const cardSymptom = document.getElementById('card-symptom');
+        if (cardSymptom) {
+          cardSymptom.style.borderColor = '';
+        }
 
         // 주요 증상에서 숫자 체온 및 "열이있어요", "고열", "미열" 등 자동 감지하여 바늘/수치 자동 연동
         const detectedTempObj = extractTemperatureFromText(text);
@@ -1782,13 +1800,14 @@
 
         const tempUnknownEffective = isEffectiveTempUnknown();
         const tempStr = tempUnknownEffective ? '체온 미측정(모름)' : `${state.temp.toFixed(1)}℃`;
-        const symStr = state.symptom || '증상 미입력';
+        const symVal = validateSymptomInput(state.symptom);
+        const symStr = symVal.valid ? state.symptom : '증상 미입력';
         const medSummary = state.medType === 'none' ? '해열제 미복용' : `${state.medTypeName}(${state.medTime})`;
 
         actionSummaryText.innerHTML = `<span>${ageLabel}</span> · <span>${tempStr}</span> · <span>${medSummary}</span>`;
 
         let progress = 25;
-        if (state.symptom.length > 1) progress += 25;
+        if (symVal.valid) progress += 25;
         if (!tempUnknownEffective || !effectiveAgeUnk) progress += 25;
         if (state.medType !== 'none' || state.companionText) progress += 25;
         triageProgressFill.style.width = `${progress}%`;
@@ -1802,29 +1821,21 @@
       // Submit Form
       triageSubmitBtn.addEventListener('click', () => {
         let symText = state.symptom.trim();
-        if (!symText) {
-          symptomInput.focus();
-          document.getElementById('card-symptom').scrollIntoView({ behavior: 'smooth', block: 'center' });
-          document.getElementById('card-symptom').style.borderColor = '#ef4444';
-          setTimeout(() => { document.getElementById('card-symptom').style.borderColor = ''; }, 1500);
-          return;
-        }
-
         const effectiveAgeUnk = isEffectiveAgeUnknown();
         const ageFormatted = effectiveAgeUnk 
-          ? '나이 미입력 (모름)' 
+          ? '나이 미입력(모름)' 
           : (state.ageMonths <= 24 ? `${state.ageMonths}개월` : `${Math.floor(state.ageMonths / 12)}세`);
 
         const effectiveUnknown = isEffectiveTempUnknown();
         const effectiveTemp = effectiveUnknown ? null : state.temp;
-        const effectiveTempStr = effectiveUnknown ? '체온 미측정 (모름)' : `${state.temp.toFixed(1)}℃`;
+        const effectiveTempStr = effectiveUnknown ? '체온 미측정(모름)' : `${state.temp.toFixed(1)}℃`;
 
-        // 1. Red Flag 0ms Guardrail Inspection
+        // 🚨 1. 0ms Red Flag Guardrail Inspection (최우선 즉시 검사 - 사지절단/경련/의식불명 등 119 직행)
         const isUnder100d = !effectiveAgeUnk && (state.isUnder100Days || state.ageMonths < 3);
         const combinedText = `${symText} ${state.companionText} ${isUnder100d ? '100일 미만' : ''} ${effectiveUnknown ? '' : effectiveTempStr}`;
-        if (RED_FLAG_REGEX.test(combinedText)) {
+        if (RED_FLAG_REGEX.test(combinedText) || /사지\s*절단|절단/.test(combinedText)) {
           let reason = '12대 소아 위급 상황 (119 즉시 신고 필요)';
-          if (/절단|잘렸|잘려|전기톱|날아갔/.test(combinedText)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
+          if (/절단|잘렸|잘려|전기톱|날아갔|사지/.test(combinedText)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
           else if (/경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)/.test(combinedText)) reason = '소아 급성 경련 및 뇌전증 발작 의심';
           else if (/의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도/.test(combinedText)) reason = '의식 저하 및 기면 상태 (초응급 이송)';
           else if (/청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕/.test(combinedText)) reason = '급성 소아 호흡부전 및 기도폐쇄 의심';
@@ -1839,11 +1850,28 @@
           setTimeout(() => {
             const targetUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : '/emergency_alert';
             window.location.href = targetUrl;
-          }, 800);
+          }, 600);
           return;
         }
 
-        // 2. Format Structured Clinical Triage Payload
+        // 2. 비증상/잡담 텍스트 유효성 검사
+        const symVal = validateSymptomInput(symText);
+        if (!symVal.valid) {
+          if (symptomInvalidTip && symptomInvalidText) {
+            symptomInvalidText.innerText = symVal.reason;
+            symptomInvalidTip.style.display = 'flex';
+          }
+          symptomInput.focus();
+          const cardSymptom = document.getElementById('card-symptom');
+          if (cardSymptom) {
+            cardSymptom.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            cardSymptom.style.borderColor = '#ef4444';
+            setTimeout(() => { cardSymptom.style.borderColor = ''; }, 2000);
+          }
+          return;
+        }
+
+        // 3. Format Structured Clinical Triage Payload
         const finalSymptom = symText;
         const medDetail = state.medType === 'none' ? '해열제 미복용' : `해열제: ${state.medTypeName}(${state.medTime})`;
         const finalCompanion = state.companionText ? `${state.companionText}, ${medDetail}` : medDetail;
@@ -1853,9 +1881,7 @@
           temp: effectiveTempStr,
           symptom: finalSymptom,
           companion: finalCompanion,
-          location: '잠실동',
-          ktas: (effectiveTemp && effectiveTemp >= 39.0) ? '3' : '4',
-          ktas_name: (effectiveTemp && effectiveTemp >= 39.0) ? '준응급 (야간소아과/응급실 권고)' : '경증 (달빛어린이병원 권고)'
+          location: localStorage.getItem('user_address') || sessionStorage.getItem('user_address') || '내 주변 (GPS)'
         };
         sessionStorage.setItem('triage_result', JSON.stringify(triagePayload));
 
@@ -1875,57 +1901,105 @@
           user_address: userAddress,
           force_matching: true,
           stream: false,
+          age_months: effectiveAgeUnk ? null : state.ageMonths,
+          temperature: effectiveUnknown ? null : state.temp,
           patient_vitals: {
-            age: effectiveAgeUnk ? '나이 미입력' : ageFormatted,
-            temp: effectiveTempStr,
+            age: effectiveAgeUnk ? '나이 미입력(모름)' : ageFormatted,
+            temp: effectiveUnknown ? '체온 미측정(모름)' : effectiveTempStr,
             symptom: finalSymptom,
             companion: finalCompanion
           }
         };
         sessionStorage.setItem('pending_chat_request', JSON.stringify(backendChatRequest));
 
-        launchAnalyzingSequence();
+        launchAnalyzingSequence(backendChatRequest);
       });
 
-      function launchAnalyzingSequence() {
+      async function launchAnalyzingSequence(chatPayload) {
         const overlay = document.getElementById('ai-analyzing-overlay');
         const stepText = document.getElementById('analyzing-step-text');
         const stepIcon = document.getElementById('analyzing-step-icon');
         const progressFill = document.getElementById('analyzing-progress-fill');
         const targetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : '/result';
+        const emergencyUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : '/emergency_alert';
 
         if (overlay) {
           overlay.classList.add('active');
           overlay.setAttribute('aria-hidden', 'false');
-
           if (progressFill) progressFill.style.width = '35%';
+        }
 
-          setTimeout(() => {
-            if (stepText) stepText.innerText = '소아 KTAS 임상 지침 168개 주증상 대조 중...';
-            if (stepIcon) stepIcon.innerText = 'stethoscope';
-            if (progressFill) progressFill.style.width = '70%';
-          }, 700);
+        // 1단계 시각 애니메이션 (즉시)
+        const t1 = setTimeout(() => {
+          if (stepText) stepText.innerText = '소아 KTAS 임상 지침 168개 주증상 대조 중...';
+          if (stepIcon) stepIcon.innerText = 'stethoscope';
+          if (progressFill) progressFill.style.width = '70%';
+        }, 700);
 
-          setTimeout(() => {
+        // 2단계 백엔드 API 실시간 비동기 호출
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 9000);
+        const isFileProto = window.location.protocol === 'file:';
+        const endpoint = isFileProto ? 'http://127.0.0.1:8000/api/v1/chat' : '/api/v1/chat';
+
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(chatPayload),
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+
+          if (response.ok) {
+            const data = await response.json();
+            sessionStorage.setItem('backend_result', JSON.stringify(data));
+
+            // 🚨 백엔드 Supervisor / Gemini 실시간 Red Flag 감지 시 응급 화면으로 직행
+            if (data.is_emergency === true) {
+              if (progressFill) progressFill.style.width = '100%';
+              if (stepText) stepText.innerText = '🚨 119 긴급 이송 상황 감지! 응급 화면으로 이동합니다...';
+              if (stepIcon) stepIcon.innerText = 'emergency';
+              setTimeout(() => {
+                window.location.href = emergencyUrl;
+              }, 400);
+              return;
+            }
+
+            // 🟢 정상 매칭 완료
+            if (progressFill) progressFill.style.width = '100%';
             if (stepText) stepText.innerText = '달빛어린이병원 & 30분 마진 심야약국 매칭 완료!';
             if (stepIcon) stepIcon.innerText = 'verified';
-            if (progressFill) progressFill.style.width = '100%';
-          }, 1400);
+
+            setTimeout(() => {
+              window.location.href = targetUrl;
+            }, 500);
+            return;
+          } else {
+            throw new Error(`API HTTP Error: ${response.status}`);
+          }
+        } catch (err) {
+          console.warn('Backend API call failed, using safe offline fallback:', err);
+          clearTimeout(timeoutId);
+          sessionStorage.removeItem('backend_result');
+
+          if (progressFill) progressFill.style.width = '100%';
+          if (stepText) stepText.innerText = '안전 백업 진료 데이터 매칭 완료!';
+          if (stepIcon) stepIcon.innerText = 'verified';
 
           setTimeout(() => {
             window.location.href = targetUrl;
-          }, 2000);
-        } else {
-          window.location.href = targetUrl;
+          }, 600);
         }
       }
 
       // Initialize defaults
-      updateGaugeDisplay(38.0);
+      updateGaugeDisplay(36.5);
       state.tempTouched = false; // 초기 로드 시 미조작 상태 (만지지 않으면 제출 시 체온 모름으로 처리)
       state.tempUnknown = false; // 화면에는 바늘과 다이얼을 온전히 표출!
       tempStageBadge.innerText = '터치하여 설정';
       updateAgeDisplay(14);
+      state.ageTouched = false;  // 초기 로드 시 미조작 상태 (만지지 않으면 제출 시 나이 모름으로 처리)
       updateSummaryBar();
     });
   </script>

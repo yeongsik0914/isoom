@@ -116,11 +116,20 @@
 | **[ISSUE-107]** | 연령 슬라이더 모바일 UX & 소아 100일 미만 분류 | 2개월 이하 선택 시 카드 확장(Layout Shift) 현상 원천 제거(인라인 뱃지화) 및 3개월 100일 미만 위험군 단일 명확화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-108]** | 프로젝트 거버넌스 & 개발 백서 최적화 | PLAN.md 비정상적 비대화(1,728줄) 해소 및 11대 핵심 아키텍처 중심 84% 압축 요약 최적화(271줄 경량화) | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-109]** | 프론트엔드 LBS UI & 위치 검색 모달 | 선택 탭(병원/약국/전체)별 상단 배지 운영 시설 수 실시간 동기화 및 '자주 찾는 주요 지역' 사용자 실제 검색 히스토리 동적 관리(HTML 하드코딩 제거, 최대 15개 제한, 최신순 자동 갱신) | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-110]** | 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 부정문 방어 | 2021 소아 KTAS 1~5단계 및 7대 Red Flag 가드레일 연동 15대 표준 소아 임상 시나리오 전수 검증(100% 통과), 한국어 복합 병렬 부정문("청색증이나 경련은 없어요") 과잉 분류(Over-triage) 차단 엔진(`has_affirmative_match`) 신설 및 종합 검증 보고서(MD) 작성 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-111]** | 공공데이터 API 스펙 한계 & 상세페이지 기획 | 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도 인디케이터·22:30 조기접수마감 주의 배너·출발 전 유선 확인 CTA 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-112]** | 풀스택 DB 연동 & 2-트랙 상세페이지 구축 | 병원상세페이지(hospital_detail.html)·약국상세페이지(pharmacy_detail.html) 2개 분리 생성, SQLite 영구 DB(moonlight.db) 156개 병원·2,028개 약국 전수 적재 및 클릭 시 단건 조회·동적 하이드레이션 완성 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-113]** | 데이터 아키텍처 전환 & 24h 증분 동기화 배치 연동 | SQLite DB 완전 폐지, data/ 폴더 공공데이터 API 상세 데이터셋(hospital_details.json, pharmacy_details.json) 구축, 24시간 주기 배치(JS 번들 동시 빌드) 통합 및 <0.05ms In-Memory 인덱스 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-114]** | 프론트엔드 UX & 스마트 네비게이션 | 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation(URL from 파라미터 + referrer + history.back + sessionStorage + fallback) 구현 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-110]** | Uvicorn 서버 실행 & 네트워크 포트 | `python main.py` 실행 시 WinError 10048(포트 8000 기점유 충돌) 원인 규명 및 백그라운드 데몬 프로세스 관리 지침 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-111]** | 문진 화면(input) ➔ 결과 화면(result) 백엔드 직결 | `launchAnalyzingSequence` 내 `POST /api/v1/chat` 비동기 통신 부재로 인한 정적 데이터 바인딩 결함 해소 및 KTAS 2-트랙 자동 라우팅 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-112]** | 문진 NLP 가드레일 & 미입력 바이탈 정합성 | 비증상·잡담 용어(ㅋㅋㅋ, 안녕, 배고파) 입력 시 KTAS 4단계 오분류 차단 및 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 변조 결함 원천 해결 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-113]** | 프론트엔드 체온 UI/UX & 임상 기본값 정합성 | 체온 게이지 기본값 소아 발열(38.0℃) 노출에 따른 사용자 혼선 방지 및 의학 표준 정상 체온(36.5℃) 기본 초기화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-114]** | 프론트엔드 유효성 검증 순서 & KTAS 백엔드 동적 바인딩 | 증상 화이트리스트 검증 결함으로 인한 '사지절단' Red Flag 오차단 해결 및 백엔드 KTAS 1~5단계·매칭 시설 100% 동적 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-115]** | 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구 | IDE 세션 전환으로 인한 백엔드 FastAPI 데몬(포트 8000) 종료 현상 원인 규명, Uvicorn 서버 재기동 및 0ms Red Flag / KTAS E2E 무결성 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-118]** | 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 부정문 방어 | 2021 소아 KTAS 1~5단계 및 7대 Red Flag 가드레일 연동 15대 표준 소아 임상 시나리오 전수 검증(100% 통과), 한국어 복합 병렬 부정문("청색증이나 경련은 없어요") 과잉 분류(Over-triage) 차단 엔진(`has_affirmative_match`) 신설 및 종합 검증 보고서(MD) 작성 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-119]** | 공공데이터 API 스펙 한계 & 상세페이지 기획 | 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도 인디케이터·22:30 조기접수마감 주의 배너·출발 전 유선 확인 CTA 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-120]** | 풀스택 DB 연동 & 2-트랙 상세페이지 구축 | 병원상세페이지(hospital_detail.html)·약국상세페이지(pharmacy_detail.html) 2개 분리 생성, SQLite 영구 DB(moonlight.db) 156개 병원·2,028개 약국 전수 적재 및 클릭 시 단건 조회·동적 하이드레이션 완성 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-121]** | 데이터 아키텍처 전환 & 24h 증분 동기화 배치 연동 | SQLite DB 완전 폐지, data/ 폴더 공공데이터 API 상세 데이터셋(hospital_details.json, pharmacy_details.json) 구축, 24시간 주기 배치(JS 번들 동시 빌드) 통합 및 <0.05ms In-Memory 인덱스 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-122]** | 프론트엔드 UX & 스마트 네비게이션 | 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation(URL from 파라미터 + referrer + history.back + sessionStorage + fallback) 구현 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-123]** | GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 푸시 | `.gitignore`의 `data/*` 일괄 무시 규칙으로 인한 핵심 공공데이터 JSON 7종 및 DB 파일 누락 원인 진단, 예외 화이트리스트 규칙(`!data/*.json`, `!data/moonlight.db`, `!data/README.md`) 적용 및 원격 Git 추적 푸시 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3511,7 +3520,6 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 * **조치 결과**:
   - 슬라이더를 0개월부터 7세까지 어떻게 조작해도 화면이 덜컥거리거나 늘어나는 현상이 100% 사라졌으며, 3개월 아기에 대해서도 위험군 여부가 명확해짐.
-
 ---
 
 ### [ISSUE-108] PLAN.md 비정상적 비대화(1,728줄) 해소 및 11대 핵심 아키텍처 중심 84% 압축 요약 최적화
@@ -3588,7 +3596,7 @@
 
 ---
 
-### [ISSUE-110] 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 한국어 복합 부정문 과잉 분류 해소
+### [ISSUE-118] 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 한국어 복합 부정문 과잉 분류 해소
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 정영식 팀장, AI 페어 프로그래머
@@ -3624,7 +3632,7 @@
 
 ---
 
-### [ISSUE-111] 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도·조기마감 방어 솔루션 수립
+### [ISSUE-119] 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도·조기마감 방어 솔루션 수립
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 정영식 팀장
@@ -3649,7 +3657,7 @@
 
 ---
 
-### [ISSUE-112] 병원상세페이지·약국상세페이지 2개 분리 구축, SQLite 영구 DB(moonlight.db) 연동 및 실시간 매칭 동적 렌더링 완성
+### [ISSUE-120] 병원상세페이지·약국상세페이지 2개 분리 구축, SQLite 영구 DB(moonlight.db) 연동 및 실시간 매칭 동적 렌더링 완성
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 정영식 팀장
@@ -3693,7 +3701,7 @@
 
 ---
 
-### [ISSUE-113] SQLite DB 완전 폐지 및 data/ 폴더 공공데이터 API 상세 데이터셋(JSON) 구축 & 24시간 자동 동기화(JS 번들 동시 빌드) 적용
+### [ISSUE-121] SQLite DB 완전 폐지 및 data/ 폴더 공공데이터 API 상세 데이터셋(JSON) 구축 & 24시간 자동 동기화(JS 번들 동시 빌드) 적용
 
 * **발생 일자**: 2026-10-16
 * **분류**: 데이터 아키텍처 개편 / LBS 데이터 엔지니어링 / 백엔드 스케줄러 통합
@@ -3745,7 +3753,7 @@
 
 ---
 
-### [ISSUE-114] 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 특정 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation 구현
+### [ISSUE-122] 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 특정 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation 구현
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 정영식 (팀장 / 본인)
@@ -3784,15 +3792,294 @@
   - 홈 화면, 문진 결과 화면, 병원-약국 상호 상세 이동, 다이렉트 유입 등 어떤 경로로 진입하든 사용자가 직전에 보던 페이지로 100% 한 치의 오차 없이 복귀 완료.
   - 버튼 오작동 및 외부 이탈 가능성 원천 차단.
 
+---
+
+### [ISSUE-110] `python main.py` 실행 시 `[Errno 10048]` (포트 8000 주소 중복 바인딩 충돌)
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 로컬 개발 환경 / 네트워크 소켓 바인딩 충돌
+* **문제 상황**:
+  * 사용자가 터미널에서 `python main.py`를 실행했을 때 아래와 같은 소켓 바인딩 충돌 에러가 발생하며 서버가 기동 직후 즉시 셧다운됨:
+    ```text
+    ERROR:    [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8000): [winerror 10048] 각 소켓 주소(프로토콜/네트워크 주소/포트)는 하나만 사용할 수 있습니다
+    INFO:     Waiting for application shutdown.
+    ```
+* **원인 분석**:
+  1. 모바일 실기기 테스트 및 STT 음성 인식 기능을 지원하기 위해 이미 백그라운드 상주 데몬(`uvicorn main:app --host 0.0.0.0 --port 8000`, PID 4772)이 실행 중인 상태였음.
+  2. 또한 외부 터널 프로세스(`localtunnel`, PID 24480)가 해당 8000번 포트에 결합되어 실시간 프록시 세션을 유지하고 있었음.
+  3. Windows OS 환경에서는 동일 소켓(`0.0.0.0:8000`)에 대해 복수의 프로세스가 동시에 바인딩할 수 없으므로 `WSAEADDRINUSE (WinError 10048)`가 발생함.
+* **구체적 해결 방안**:
+  1. **현재 서버 생존 상태 확인**: 백엔드 서버는 백그라운드에서 100% 정상 가동 중이므로 `http://localhost:8000` 및 모바일 URL에서 즉시 이용 가능함을 안내.
+  2. **사용자 직접 실행 가이드**: 터미널에서 직접 실행하고 싶은 경우 기존 점유 프로세스(`taskkill /F /PID 4772` 또는 PowerShell `Stop-Process`)를 종료 후 재실행하도록 프로세스 정리 가이드 제공.
+* **적용 파일**:
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+* **조치 결과**:
+  * 포트 점유 충돌 원인을 명확히 식별하고 백그라운드 데몬과 수동 실행 간의 전환 프로세스를 완벽히 정립함.
+---
+
+### [ISSUE-111] `input.html` ➔ `result.html` 전환 시 백엔드 API(`POST /api/v1/chat`) 미호출로 인한 정적 데이터 표출 결함
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드-백엔드 E2E API 파이프라인 결함
+* **문제 상황**:
+  * `input.html`에서 사용자가 체온, 연령, 주요 증상을 입력하고 "AI 증상 분석 시작"을 눌렀을 때, 2초 분석 애니메이션 이후 `result.html`로 이동하나 실제 Gemini KTAS 등급이나 백엔드 통화 대본이 반영되지 않고 정적 기본 카드만 표출되는 현상 발생.
+* **원인 분석**:
+  1. `input.html`의 `launchAnalyzingSequence()` 함수가 2초 애니메이션 타이머만 가동하고 `fetch('/api/v1/chat')`를 호출하지 않은 채 단순 페이지 이동(`window.location.href`)을 수행하고 있었음.
+  2. 이에 따라 `sessionStorage`에 `backend_result`가 누락되어 `result.html`이 클라이언트 정적 폴백 모드로만 작동함.
+* **구체적 해결 방안**:
+  1. **실제 비동기 `fetch('/api/v1/chat')` 결합**: `launchAnalyzingSequence(backendChatRequest)`에서 애니메이션 중 병렬로 API를 호출하여 `backend_result`를 저장하도록 연동 완료.
+  2. **Supervisor Red Flag 119 직행**: `data.is_emergency === true` 시 `emergency_alert.html`로 즉시 라우팅.
+  3. **result.html 동적 바이탈 & KTAS 1~3단계 응급 탭 자동 전환**: KTAS 3 이하일 경우 응급실 탭 자동 활성화.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+* **조치 결과**:
+  * 고열/기면, 경증 감기, 신생아 고열 등 3개 임상 케이스에서 백엔드 KTAS, 병원, 약국, 통화 대본이 100% 실시간으로 연동되어 결과 화면에 정상 렌더링됨을 검증함.
+
+---
+
+### [ISSUE-112] 비증상·잡담 용어(ㅋㅋㅋ, 안녕, 배고파) 입력 시 KTAS 4단계 오분류 차단 및 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 덮어쓰기 결함 원천 해결
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 문진 NLP 가드레일 & 임상 바이탈 정합성 & 백엔드 오케스트레이션
+* **문제 상황**:
+  1. `input.html`에서 사용자가 체온이나 나이를 건드리지 않고 "보챔" 증상만 입력하고 병원 찾기를 눌렀을 때, `result.html` 결과 화면에 `24개월`, `38℃ (발열)`로 자동 임의 지정되어 표출되는 심각한 바이탈 왜곡 현상 발생.
+  2. 증상이 아닌 이상한 용어, 초성, 일상 잡담("ㅋㅋㅋ", "asdf", "안녕", "배고파" 등)을 입력했음에도 실제 질환으로 오인식하여 KTAS 4단계(준응급)로 분류하고 병원을 추천해버리는 결함 발생.
+* **원인 분석**:
+  1. **백엔드 supervisor.py 하드코딩 결함**: `supervisor.py` 내 `if not is_complete and (turn_limit_reached or force_matching):` 블록에서 필수 임상 데이터가 비어있다는 이유로 `state.temperature = 38.0`, `state.age_months = 24`를 무조건 강제 주입하여 클라이언트의 "모름/미입력" 상태를 파괴함.
+  2. **단일 음절 키워드 매칭 오류**: `triage_agent.py`의 `kw in text` 단순 부분일치 방식 때문에 사용자가 "해열제 미복용"을 선택했음에도 "해**열**제"의 "열"이 발열로, "배고파"의 "배"가 복통으로 오인식됨.
+  3. **클라이언트 1차 가드레일 부재**: `input.html`에서 빈 문자열(`!symText`)만 검사하고 초성/잡담/무의미한 텍스트에 대한 임상 유효성 필터링이 없었음.
+  4. **result.html 렌더링 결함**: 체온 미측정임에도 `vital-chip highlight` 클래스가 적용되어 빨간색 배지로 표출되고 `(발열)` 접미사가 강제 연결됨.
+* **구체적 해결 방안**:
+  1. **클라이언트 증상 가드레일 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+     - `validateSymptomInput(text)` 함수 구축 (초성 `ㅋㅋㅋ`, 동일 문자 반복, 키보드 테스트 문자열 `asdf`, 일상 잡담 `안녕/배고파` 감지 차단, 60대 소아 임상 표준 증상 키워드 필수 검증).
+     - 유효하지 않은 입력 시 카드가 빨간색으로 흔들리며 인라인 경고 박스(`.symptom-invalid-tip`) 표출 및 제출 차단.
+  2. **백엔드 FSM 임상 가드레일 ([app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py))**:
+     - "주요 증상:" 영역을 정밀 슬라이싱하여 소아 질환 정규표현식 검사(`clinical_patterns`) 수행.
+     - 무의미어/잡담 유입 시 KTAS 등급 및 병원 매칭을 일체 부여하지 않고 `current_step = 'TRIAGE'`를 유지하며 재입력 요청 멘트 반환.
+     - 사용자가 미입력(모름)을 선택한 경우 `state.age_months = None`, `state.temperature = None`을 온전히 보존하도록 보호.
+  3. **triage_agent.py 정규식 패턴화 ([app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py))**:
+     - 1글자 단어 단순 `in text` 검사를 `(?<!해)열(?!제)`, `배가\s*아|복통` 등 문맥 정규표현식으로 교체.
+  4. **결과 화면 바이탈 렌더링 교정 ([frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**:
+     - 체온 미측정 시 `highlight` 클래스를 제거하여 중립 회색 뱃지로 전환하고 `(발열)` 접미사 배제.
+     - 30초 통화 스크립트에서도 "체온은 아직 측정하지 못했으나...", "아이가..."로 자연스럽게 생성.
+  5. **서버 재기동 및 실시간 E2E HTTP API 검증**:
+     - 이전 코드를 상주 실행 중이던 프로세스(PID 6544)를 종료하고 최신 코드로 백엔드 데몬을 재구동.
+     - `POST /api/v1/chat` 호출 결과 `age_months: None`, `temperature: None`, `ktas_level: 4`, `symptoms: ['보챔']` 및 잡담 차단(`current_step: TRIAGE`) 확인.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
+  * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+* **조치 결과**:
+  * 증상 외 쓸모없는 용어/초성 입력 시 즉각적인 클라이언트/백엔드 이중 필터링으로 가짜 KTAS 4단계 분류를 원천 차단함.
+  * 나이와 체온을 조작하지 않았을 때 강제로 24개월과 38℃가 들어가던 중대 결함을 해결하여 `나이 미입력(모름)`, `체온 미측정(모름)`(회색 뱃지)으로 완벽하게 연동·표출됨.
 
 
+### [ISSUE-113] 체온 게이지 기본값 소아 발열(38.0℃) 노출에 따른 사용자 혼선 방지 및 의학 표준 정상 체온(36.5℃) 기본 초기화
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX / 소아 임상 표준 바이탈 정합성
+* **문제 상황**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html) 문진 화면의 "2. 현재 체온" 다이얼에 최초 진입 시, 사용자가 아무런 조작을 하지 않았음에도 중앙 디지털 표시가 `38.0 ℃`, 상태 뱃지가 `🟠 발열 주의`로 표출되고 바늘이 발열 구간을 가리키는 문제 발생.
+  * 소아 환아 보호자가 "아직 체온을 입력하지도 않았는데 왜 이미 발열로 지정되어 있는가?" 하는 심각한 혼선과 백엔드 연동에 대한 불신을 초래함.
+* **원인 분석**:
+  * 초기 퍼블리싱 단계에서 다이얼 시각 테스트용으로 `38.0℃`가 HTML 기본 텍스트(`<span id="temp-number-display">38.0 ℃</span>`) 및 `state.temp = 38.0`, `updateGaugeDisplay(38.0)`로 하드코딩되어 유지되고 있었음.
+  * 의학적으로 소아의 정상 체온은 36.5℃ ~ 37.4℃이며, 38.0℃는 이상 상태(발열)이므로 기본값으로 부적절함.
+* **해결 방안 및 조치 내역**:
+  1. **HTML 기본 텍스트 및 뱃지 교정**:
+     - `#temp-number-display`: `38.0 ℃` ➔ `36.5 ℃`로 변경.
+     - `#temp-status-badge`: `🟠 발열 주의` ➔ `🟢 정상 체온` (에메랄드 그린 배경 `#d1fae5`, 글자색 `#065f46`)으로 변경.
+     - `#temp-stage-badge`: `터치하여 설정` 대기 상태 유지.
+  2. **스크립트 상태 및 바늘 각도 동기화**:
+     - `state.temp = 36.5`로 변경.
+     - 페이지 로드 완료 시 `updateGaugeDisplay(36.5)`를 실행하여 바늘이 초록색 정상 구간(-72deg)을 가리키도록 설정.
+     - `state.tempTouched = false` 유지: 보호자가 바늘을 조작하지 않으면 병원 찾기 클릭 시 안전하게 `체온 미측정(모름)`으로 전달되는 로직과 완벽히 호환됨.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
 
 
+### [ISSUE-114] 증상 화이트리스트 검증 결함으로 인한 '사지절단' Red Flag 오차단 해결 및 백엔드 KTAS 1~5단계·매칭 시설 100% 동적 연동
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX / 멀티 에이전트 E2E 연동 / KTAS 지능형 분류
+* **문제 상황**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)에서 사용자가 '사지절단' 등 초응급 위급 증상을 입력하고 병원 찾기를 눌렀을 때, 119 긴급 화면으로 직행하거나 백엔드로 전송되지 않고 "아이의 구체적인 증상을 알려주세요"라는 인라인 에러 박스가 뜨며 차단되는 결함 발생.
+  * 백엔드의 KTAS 1~5단계 정밀 분류 로직 및 위치 기반 추천 의료기관이 결과 화면([frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))에 완전하게 바인딩되지 않고 프론트엔드 하드코딩 추정에 의존하던 문제 확인.
+* **원인 분석**:
+  1. **화이트리스트(Whitelist) 검증 안티패턴**:
+     - `validateSymptomInput` 내에 60여 개의 내과적 질환 단어(`PEDIATRIC_CLINICAL_KEYWORDS`)만 등록되어 있어, '사지', '절단', '외상' 등 외과적 응급 키워드가 누락됨.
+  2. **가드레일 검사 순서 역전**:
+     - `triageSubmitBtn` 클릭 시 `validateSymptomInput`이 0ms Red Flag 검사보다 먼저 실행되어 조기 `return`되면서 `RED_FLAG_REGEX`와 백엔드 API에 도달하지 못함.
+  3. **결과 화면의 백엔드 필드 미활용**:
+     - `result.html`에서 `data.ktas_level`과 `data.hospitals`를 전적으로 활용하지 않고 로컬 정적 데이터에 의존하던 결함 존재.
+* **해결 방안 및 조치 내역**:
+  1. **가드레일 검사 우선순위 재정립 ([input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+     - `RED_FLAG_REGEX` 검사를 최우선으로 배치하여 '사지절단', '절단', '경련', '의식불명' 입력 시 0ms 내 즉각 `emergency_alert.html`로 전환.
+  2. **네거티브 필터링(블랙리스트) 전면 전환 ([input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+     - 화이트리스트를 전면 적출하고 순수 초성(`ㅋㅋㅋ`), 키보드 연타(`asdf`), 단독 일상 잡담(`안녕`, `배고파`)만 차단.
+     - 실제 모든 임상/외상 표현은 백엔드 Gemini 3.8 Flash KTAS 엔진으로 무손실 전달.
+  3. **결과 화면 백엔드 동적 바인딩 완성 ([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**:
+     - 백엔드 `SupervisorResponse`의 `ktas_level` (1~5단계), `ktas_level_name`, `hospitals`, `pharmacies`, `call_script`를 1:1 동적 바인딩하도록 개편.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
 
 
+### [ISSUE-115] 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구
 
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 백엔드 프로세스 데몬 관리 / 인프라 가용성 / E2E 연동 검증
+* **문제 상황**:
+  * 이전 대화 세션 종료 및 새 세션 진입 과정에서 백그라운드로 실행 중이던 FastAPI Uvicorn 서버(포트 8000) 프로세스가 비활성화됨.
+  * 사용자가 브라우저(`http://localhost:8000/input`)에서 사지절단 또는 일반 증상 입력 후 병원 찾기 클릭 시, 백엔드 연결 대기 상태가 지속되어 "진행이 멈춘 것인가?"라는 사용자 혼선 발생.
+* **원인 분석**:
+  * IDE 서브프로세스 수명 주기에 따라 이전 세션의 백그라운드 태스크가 세션 종료 시 함께 정리됨.
+  * 시스템에 포트 8000 리스너가 비어 있어 클라이언트 `fetch('/api/v1/chat')` 요청이 응답을 받지 못함.
+* **해결 방안 및 조치 내역**:
+  1. **FastAPI 백엔드 데몬 재기동**:
+     - 가상환경 Python(`miniconda3/envs/DS/python.exe`)을 통해 `main.py`를 백그라운드 데몬으로 안전 재기동 완료.
+     - `GET /health` 헬스체크 호출을 통해 서버 정상성(`healthy`) 및 APScheduler 3-Track 데몬 동작 확인.
+  2. **E2E 실시간 API 파이프라인 무결성 검증**:
+     - 사지절단 입력 시: 0ms Red Flag 및 KTAS 1단계 긴급 응급 가이드 반환 검증 완료.
+     - 일반 증상(발열/감기) 입력 시: 소아 KTAS 4단계(준응급) 및 달빛어린이병원 3곳 실시간 정렬 반환 검증 완료.
+* **적용 파일**:
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 
+### [ISSUE-116] 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달
 
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 자바스크립트 버그 / 백엔드 DTO 스키마 / KTAS 실시간 렌더링 / 무손실 데이터 엔지니어링
+* **문제 상황**:
+  * 사용자가 [input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)에서 증상을 입력하고 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))으로 이동했으나, 상단 카드에 백엔드 KTAS 분류 결과가 표출되지 않고 정적 HTML 텍스트(`KTAS 분류 분석 중...`, `소아 KTAS 임상 지침 168개 주증상을 대조하여 맞춤 병원과 안심약국을 안내합니다.`, `14개월`, `39.2℃ (고열)`, `#구토`)가 고정되어 있었음.
+  * 나이와 체온을 조작하지 않았음에도 '모름' 대신 14개월, 36.5℃ 또는 구어체 단어 매핑으로 인한 숫자가 임의 부여되는 현상 발생.
+* **원인 분석**:
+  1. **[result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html) 구문 오류**: 1434~1477행 `if (pairings.length > 0) ... else ...` 블록에서 닫는 중괄호 `}`가 누락되어 브라우저 JS 파서가 `SyntaxError: Unexpected token 'catch'`를 발생시키며 스크립트 실행이 중단됨.
+  2. **백엔드 DTO 누락**: `TriageExtractionResult`의 `clinical_rationale` 필드가 상위 오케스트레이터의 응답 DTO인 [SupervisorResponse](file:///c:/AI-Native-Agent/monnlight/app/schemas/supervisor.py)에 누락되어 있어 프론트엔드로 전달되지 못함.
+  3. **임의 키워드 매핑 잔재**: `input.html`과 백엔드 파서에서 '고열' ➔ 39.2℃, '초등학생' ➔ 84개월 등의 임의 숫자 매핑 로직 존재.
+* **해결 방안 및 조치 내역**:
+  1. **[result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html) 구문 오류 수정 및 모듈화**:
+     - 닫는 중괄호 완결 및 `node --check`를 통한 인라인 스크립트 문법 검증 100% 통과.
+     - `renderResultData()` 함수 모듈화 및 `ktasDescEl`에 `data.clinical_rationale` 실시간 바인딩.
+     - 백엔드 응답 지연 시를 대비한 `/api/v1/chat` 비동기 Fallback Fetch 탑재.
+  2. **백엔드 DTO 확장 및 하드코딩 적출**:
+     - `app/schemas/supervisor.py` 내 `SupervisorResponse`에 `clinical_rationale: Optional[str] = None` 필드 추가.
+     - `app/orchestrator/supervisor.py`에서 Gemini 소아 KTAS 감별 소견을 프론트엔드로 100% 무손실 전달.
+     - 키워드 매핑 분기를 전면 제거하고 오직 Gemini AI 분류 및 안전 기본값(Safe Default)으로 표준화.
+  3. **[input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html) 및 백엔드 파서 키워드 매핑 전면 제거**:
+     - '고열', '미열', '초등학생' 등 구어체 키워드 숫자 매핑 전면 삭제. 오직 명시된 숫자만 파싱.
+     - 체온 다이얼과 나이 슬라이더를 건드리지 않은 경우 `state.tempTouched = false`, `state.ageTouched = false` 유지 ➔ `temperature: null`, `age_months: null`, `체온 미측정(모름)`, `나이 미입력(모름)`으로 100% 무손실 전달 보장.
+* **적용 파일**:
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [app/schemas/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/schemas/supervisor.py)
+  * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
+  * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)
+  * [scratch/test_e2e_flow.py](file:///c:/AI-Native-Agent/monnlight/scratch/test_e2e_flow.py)
+
+### [ISSUE-117] 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 임상 의학 KTAS 정합성 / 백엔드 Fallback 로직 결함 / 데이터 무결성 감사 / 거버넌스
+* **문제 상황**:
+  * "4개월이고 고열에 아파보여요 변비가 있어요" 증상 질의 시, 사용자가 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))에서 KTAS 1단계(소생)로 오표출되거나 프로젝트 파일 기준과 상이한 응답이 나오는 것으로 체감됨.
+  * "데이터를 삭제하여 KTAS 등급을 구별하지 못하는 것인가?"라는 데이터 무결성 의문 제기.
+* **원인 분석**:
+  1. **Supervisor Fallback 코드 결함**:
+     - [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py) 라인 81에서 `ktas_level=state.ktas_level or 1`로 기본값이 1단계로 하드코딩되어 있었음.
+     - Red Flag 에스컬레이션 시 `state.ktas_level`이 None인 상태로 반환되면 무조건 1단계(소생)로 왜곡 전달됨.
+  2. **소아 KTAS 공식 기준 불일치**:
+     - 공식 지침서([2021_KTAS_guideline_ver1.6.pptx](file:///c:/AI-Native-Agent/monnlight/2021_KTAS_guideline_ver1.6.pptx) Slide 198): `3-18개월이면서 T ≥ 38°C 이고 아파 보임(Ill-appearing)`은 **KTAS 2단계(긴급)**에 해당. (1단계 소생은 심정지, 무호흡, 혼수 등 즉각적 심폐소생 처치 환자).
+  3. **데이터 유실 여부 조사 결과**:
+     - `git status` 및 `git log --diff-filter=D` 전수 조사 결과, 데이터셋 파일은 단 1바이트도 삭제되지 않고 100% 온전하게 보존되어 있었음 (오판별 원인은 데이터 삭제가 아닌 코드 Fallback 결함).
+* **해결 방안 및 조치 내역**:
+  1. **Supervisor 기본값 안전화**:
+     - `supervisor.py`의 `_handle_emergency_escalation`에서 `ktas_level=state.ktas_level if state.ktas_level is not None else 2`로 긴급 2단계 기준 기본값으로 교정.
+  2. **소아 KTAS 공식 지침 대조 검증**:
+     - 백엔드 Gemini 3.8 Flash 엔진 호출 결과 `ktas_level: 2`, `ktas_level_name: "긴급"`, `is_emergency: true`, `clinical_rationale: "생후 4개월 영아에서 고열과 함께 겉보기에 아파 보이는 상태(Ill-appearing)... KTAS 2단계(긴급)"` 정상 산출 재확인.
+  3. **데이터 무결성 검증 완료**:
+     - `2021_KTAS_guideline_ver1.6.pptx`(42MB), `data/nationwide_pairings.json`, `data/seoul_emergency_coords.json` 등 원천 파일 전수 생존 확인.
+* **적용 파일**:
+  * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+---
+
+### [ISSUE-123] GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 푸시
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 (팀장 / 본인)
+* **분류**: Git 형상 관리 / 데이터 엔지니어링 / 협업 인프라 복원
+* **문제 상황**:
+  * 팀원 및 타 개발 환경에서 프로젝트를 GitHub로부터 클론받아 구동할 때, 서비스 구동에 필수적인 데이터셋들이 GitHub에 존재하지 않아 정상 동작하지 못하는 결함 보고됨.
+  * 원격 저장소(`origin/main`)의 `data/` 디렉터리에 오직 `nationwide_pairings.json`과 `seoul_emergency_coords.json` 2개 파일만 존재하고, 전국 달빛어린이병원 156개 마스터, 야간약국 2,028개 마스터, 병원·약국 상세 JSON 2종, 소아 KTAS 지침 지식베이스(388KB), SQLite DB 등이 누락되어 있었음.
+* **원인 분석**:
+  * 프로젝트 루트 `.gitignore` 파일에 아래와 같이 `data/*`를 일괄 제외하고 특정 2개 파일만 예외 처리(`!`)하도록 엄격하게 설정되어 있었음:
+    ```gitignore
+    # Collected Data & Temp Exports
+    data/*
+    !data/seoul_emergency_coords.json
+    !data/nationwide_pairings.json
+    ```
+  * 이로 인해 로컬 `data/` 디렉터리에 아무리 핵심 공공데이터 JSON과 DB 파일을 완벽하게 생성·보존해 두었더라도 Git이 이를 전부 무시(Ignore)하여 커밋 및 푸시 대상에서 원천 배제되었음.
+* **구체적 해결 방안**:
+  1. **`.gitignore` 화이트리스트 규칙 개편**:
+     - `data/` 폴더 내의 핵심 공공데이터 및 캐시 파일들이 정상 추적되도록 예외 패턴 확장:
+       ```gitignore
+       # Collected Data & Temp Exports
+       data/*
+       !data/README.md
+       !data/*.json
+       !data/moonlight.db
+       *.csv
+       *.xlsx
+       *.parquet
+       ```
+  2. **로컬 `data/` 9종 핵심 데이터셋 전수 Git 스테이징 및 무결성 확인**:
+     - `hospital_details.json` (255KB)
+     - `pharmacy_details.json` (2.8MB)
+     - `national_moonlight_hospitals_156.json` (107KB)
+     - `national_night_pharmacies_2028.json` (1.4MB)
+     - `ktas_pediatric_dataset.json` (388KB)
+     - `nationwide_pairings.json` (252KB)
+     - `seoul_emergency_coords.json` (37KB)
+     - `moonlight.db` (2.02MB)
+     - `data/README.md` (7.7KB)
+     - 총 용량 약 7MB 내외로 GitHub의 단일 파일 100MB 제한을 안전하게 준수함을 검증.
+  3. **원격 저장소 머지 충돌 완결 및 원격 푸시 연동**:
+     - 로컬과 원격 간의 브랜치 분기(Diverged) 및 충돌을 무손실 병합하고, 모든 데이터셋을 원격 `origin/main`으로 완벽 푸시.
+* **적용 파일**:
+  * [.gitignore](file:///e:/monnlight/.gitignore)
+  * [data/hospital_details.json](file:///e:/monnlight/data/hospital_details.json)
+  * [data/pharmacy_details.json](file:///e:/monnlight/data/pharmacy_details.json)
+  * [data/national_moonlight_hospitals_156.json](file:///e:/monnlight/data/national_moonlight_hospitals_156.json)
+  * [data/national_night_pharmacies_2028.json](file:///e:/monnlight/data/national_night_pharmacies_2028.json)
+  * [data/ktas_pediatric_dataset.json](file:///e:/monnlight/data/ktas_pediatric_dataset.json)
+  * [data/moonlight.db](file:///e:/monnlight/data/moonlight.db)
+  * [data/README.md](file:///e:/monnlight/data/README.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+* **조치 결과**:
+  * GitHub 원격 저장소에 프로젝트 필수 데이터셋 9종이 100% 정상 등재되어, 어떤 협업 환경에서도 클론 즉시 달빛병원, 야간약국, 소아 KTAS 트리아제 및 상세 조회가 온전하게 기동됨.
 
 
 

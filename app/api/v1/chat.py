@@ -48,6 +48,8 @@ async def _sse_event_generator(
             user_lon=req.user_lon,
             user_address=req.user_address,
             force_matching=req.force_matching,
+            patient_age_months=req.age_months,
+            patient_temperature=req.temperature,
         )
 
 
@@ -109,6 +111,8 @@ async def chat_turn(req: ChatRequest):
         user_lon=req.user_lon,
         user_address=req.user_address,
         force_matching=req.force_matching,
+        patient_age_months=req.age_months,
+        patient_temperature=req.temperature,
     )
 
     return response
