@@ -25,7 +25,6 @@ DS/
 .vscode/
 
 # Collected Data & Temp Exports
-data/*
 !data/README.md
 !data/*.json
 !data/moonlight.db

@@ -28,19 +28,24 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
-### 🌟 [v2.4.79-pediatric-ear-fever-ktas-triage-analysis] 2026-10-16: 15개월 40℃ 고열 및 화농성 이루 증상 KTAS 긴급 판정 분석 및 119 화면 직행 원인 규명 (김동준 팀원)
-* **👂 소아 40℃ 고열 및 귀 노란 점액(코드 055 귀 삼출물) KTAS 임상 분석 완결**:
-  - 15개월 영아의 40.0℃ 초고열 + 지속적인 울음(보챔) + 귀 삼출물(급성 중이염/유양돌기염 의심)을 백엔드가 KTAS 2단계(긴급) 또는 3단계(응급)로 정확히 산출함을 실측 확인.
-* **🚨 KTAS 2단계 긴급 판정 시 119 화면 직행에 따른 KTAS 카드 미표출 UX 결함 규명**:
+### 🌟 [v2.4.80-collaborative-release-and-team-sync] 2026-10-16: 2인 협업 형상 무결점 통합 릴리스 & 소아 KTAS 트리아제 및 스마트 네비게이션 완성 (정영식 팀장 & 김동준 팀원)
+* **🩺 [v2.4.79-A / 김동준] 소아 40℃ 고열 및 화농성 이루 증상 KTAS 긴급 판정 분석 및 119 화면 직행 원인 규명**:
+  - 15개월 영아의 40.0℃ 초고열 + 지속적인 울음(보챔) + 귀 삼출물(코드 055, 급성 중이염/유양돌기염 의심)을 백엔드가 KTAS 2단계(긴급) 및 3단계(응급)로 정확히 산출함을 실측 확인.
   - `is_emergency: true` 시 `emergency_alert.html`로 전환되면서 KTAS 등급 카드가 화면에 표시되지 않던 원인을 명쾌히 규명하고 개선안 도출.
-* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q116, [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md) Q59, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-126) 전면 동기화 완료**.
-
-### 🌟 [v2.4.78-input-triage-e2e-verification-and-team-sync] 2026-10-16: input.html 사용자 설정값 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정 E2E 실측 검증 완료 (김동준 팀원)
-* **🔬 input.html 사용자 설정 5대 필드 백엔드 전송 무결성 실측 검증**:
+* **🚫 [v2.4.79-B / 정영식] 실시간 야간 의료시설 카드 클릭 시 동의 모달 오표출 및 뒤로가기 시 모달 잔류 결함 원천 해결**:
+  - `facilityStack` 및 `facilityCards`에 잔존하던 레거시 모달 오픈 이벤트를 완전히 삭제하여, 홈 화면에서 병원/약국 카드 클릭 시 동의 모달 팝업 없이 즉시 상세페이지로 직행하도록 완결.
+  - `window.addEventListener('pageshow', () => { closeModal(); })`를 장착하여 뒤로가기(bfcache 복원) 시 모달이 화면에 절대 남지 않도록 100% 강제 닫기 조치.
+* **🔬 [v2.4.78-A / 김동준] input.html 사용자 설정 5대 필드 백엔드 전송 무결성 및 소아 KTAS 168개 지침 E2E 실측 검증**:
   - 아이 나이(15개월), 체온(39.1℃), 주요 증상(고열, 발열, 지속적인 울음, 수유 거부, 식욕 부진), 해열제 복용 상태(미복용), GPS 좌표가 `POST /api/v1/chat`으로 100% 손실 없이 전송됨을 전수 확인.
-* **🩺 Gemini 3.8 Flash + 168개 소아 KTAS 지침 종합 판정 실체화 검증**:
   - 단순 체온 수치뿐만 아니라 환아 월령(15개월), 식이 섭취 불능(탈수 위험), 지속적 울음(보챔)을 종합 임상 분석하여 KTAS 3단계(응급) 도출 및 맞춤형 `clinical_rationale` 실시간 생성 확인.
-* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q115, [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md) Q58, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-125) 전면 동기화 완료**.
+* **🔙 [v2.4.78-B / 정영식] 병원·약국 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 해결 및 5-Layer 무결점 복귀 완성**:
+  - `file:///` 로컬 파일 환경에서 절대 경로 주입 시 발생하는 브라우저 로컬 리소스 접근 차단(`Not allowed to load local resource`) 결함 원천 해결.
+  - `<head>` 내비게이션 선제 초기화 및 상대경로 자동 정규화 엔진(`sanitizeTarget`) 장착.
+  - `window.history.back()` 최우선 실행 + 200ms 언로드 감시 폴백 구조로 홈/결과/상세 3대 여정(`홈 -> 병원 상세 -> 홈`, `결과 -> 약국 상세 -> 결과`) 100% 매끄러운 복귀 완결.
+  - 심야약국 상세페이지(`pharmacy_detail.html`) 헤더 홈 바로가기 버튼 추가.
+* **📦 [v2.4.77 / 정영식] GitHub 원격 저장소 data/ 폴더 필수 데이터셋 전수 추적 및 복구**:
+  - `.gitignore` 내 `data/*` 일괄 제외 규칙으로 인해 로컬에만 존재하고 원격에 누락되어 있던 전국 달빛병원 156개, 야간약국 2,028개, 병원 상세(255KB), 약국 상세(2.8MB), 소아 KTAS 지침(388KB) 등 핵심 데이터셋 7종 및 DB 파일의 Git 추적 제외 상태 해제.
+  - `.gitignore`를 수정하여 `!data/*.json`, `!data/moonlight.db`, `!data/README.md`를 허용함으로써 새로운 환경 및 협업자 환경에서 클론 즉시 서비스가 100% 무결점으로 기동되도록 완결.
 
 ### 🌟 [v2.4.75-collaborative-git-revert-and-stabilization] 2026-10-16: 협업 형상 관리 보호를 위한 신규 data 커밋 100% Revert(5e95b52) 및 타 작업자 로컬 충돌 완전 해소 (김동준 팀원)
 * **🔄 `data/ktas_full_bundle.json` 및 `data/ktas_pediatric_dataset.json` 원격 Revert 완료**:

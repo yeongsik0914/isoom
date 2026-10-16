@@ -1527,11 +1527,14 @@
               pharmBridgeEl.title = `${h.pharmacy.name} 상세 정보 보기`;
               pharmBridgeEl.onclick = function(e) {
                 e.stopPropagation();
+                const isFile = (window.location.protocol === 'file:');
+                const isHtml = window.location.pathname.endsWith('.html');
+                const returnUrl = (isFile || isHtml) ? 'result.html' : (window.location.pathname + window.location.search || '/result');
                 try {
-                  sessionStorage.setItem('aisum_last_visited_page', window.location.href);
+                  sessionStorage.setItem('aisum_last_visited_page', returnUrl);
                 } catch (err) {}
-                const targetPage = (window.location.pathname.endsWith('.html') || (window.location.protocol === 'file:')) ? 'pharmacy_detail.html' : '/pharmacy_detail';
-                window.location.href = `${targetPage}?name=${encodeURIComponent(h.pharmacy.name)}&from=${encodeURIComponent(window.location.href)}`;
+                const targetPage = (isHtml || isFile) ? 'pharmacy_detail.html' : '/pharmacy_detail';
+                window.location.href = `${targetPage}?name=${encodeURIComponent(h.pharmacy.name)}&from=${encodeURIComponent(returnUrl)}`;
               };
             }
           }
@@ -1629,11 +1632,14 @@
       ];
       const selected = hospList[idx] || hospList[0];
       sessionStorage.setItem('selected_hospital', JSON.stringify(selected));
+      const isFile = (window.location.protocol === 'file:');
+      const isHtml = window.location.pathname.endsWith('.html');
+      const returnUrl = (isFile || isHtml) ? 'result.html' : (window.location.pathname + window.location.search || '/result');
       try {
-        sessionStorage.setItem('aisum_last_visited_page', window.location.href);
+        sessionStorage.setItem('aisum_last_visited_page', returnUrl);
       } catch (e) {}
-      const targetPage = (window.location.pathname.endsWith('.html') || (window.location.protocol === 'file:')) ? 'hospital_detail.html' : '/hospital_detail';
-      const fromParam = encodeURIComponent(window.location.href);
+      const targetPage = (isHtml || isFile) ? 'hospital_detail.html' : '/hospital_detail';
+      const fromParam = encodeURIComponent(returnUrl);
       window.location.href = `${targetPage}?name=${encodeURIComponent(selected.name)}&from=${fromParam}`;
     }
   </script>

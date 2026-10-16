@@ -125,8 +125,16 @@
 | **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-118]** | Git 동기화 충돌 & 신규 data 파일 긴급 Revert | 타 작업자 로컬과의 충돌을 방지하기 위해 `1671e36` 커밋 100% Revert(5e95b52), .gitignore 원복 및 파일 상태 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-125]** | 프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증 | input.html 사용자 설정값(15개월, 39.1℃, 수유거부, 보챔 등) 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정(KTAS 3단계) 실체화 검증 완료 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-126]** | 소아 고열·이루 증상 KTAS 긴급 판정 & UI/UX 정합성 | 15개월 40℃ 고열 및 귀 노란 점액(화농성 이루) 입력 시 KTAS 2단계 긴급 판정으로 인한 119 화면 직행 및 KTAS 카드 미표출 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-119]** | 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 부정문 방어 | 2021 소아 KTAS 1~5단계 및 7대 Red Flag 가드레일 연동 15대 표준 소아 임상 시나리오 전수 검증(100% 통과), 한국어 복합 병렬 부정문("청색증이나 경련은 없어요") 과잉 분류(Over-triage) 차단 엔진(`has_affirmative_match`) 신설 및 종합 검증 보고서(MD) 작성 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-120]** | 공공데이터 API 스펙 한계 & 상세페이지 기획 | 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도 인디케이터·22:30 조기접수마감 주의 배너·출발 전 유선 확인 CTA 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-121]** | 풀스택 DB 연동 & 2-트랙 상세페이지 구축 | 병원상세페이지(hospital_detail.html)·약국상세페이지(pharmacy_detail.html) 2개 분리 생성, SQLite 영구 DB(moonlight.db) 156개 병원·2,028개 약국 전수 적재 및 클릭 시 단건 조회·동적 하이드레이션 완성 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-122]** | 데이터 아키텍처 전환 & 24h 증분 동기화 배치 연동 | SQLite DB 완전 폐지, data/ 폴더 공공데이터 API 상세 데이터셋(hospital_details.json, pharmacy_details.json) 구축, 24시간 주기 배치(JS 번들 동시 빌드) 통합 및 <0.05ms In-Memory 인덱스 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-123]** | 프론트엔드 UX & 스마트 네비게이션 | 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation(URL from 파라미터 + referrer + history.back + sessionStorage + fallback) 구현 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-124]** | GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 복원 푸시 | `.gitignore`의 `data/*` 일괄 무시 규칙으로 인한 핵심 공공데이터 JSON 7종 및 DB 파일 누락 원인 진단, 예외 화이트리스트 규칙(`!data/*.json`, `!data/moonlight.db`, `!data/README.md`) 적용 및 원격 Git 추적 푸시 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-125]** | 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 및 히스토리 스택 복귀 결함 완벽 해결 | `file:///` 프로토콜 상의 절대 URL 내비게이션 보안 차단(`Not allowed to load local resource`) 및 스크립트 실행 타이밍 결함 해소, `<head>` 내비게이션 선제 초기화, 상대경로 정규화(`sanitizeTarget`), `window.history.back()` 최우선 실행 및 200ms 감시 폴백 구조로 홈/결과/상세 3대 여정 100% 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-126]** | 실시간 야간 의료시설 카드 클릭 시 동의 모달 오표출 및 뒤로가기 시 모달 잔류 결함 원천 해결 | `frontend/js/main.js`의 `facilityStack` 컨테이너에 잔존하던 레거시 `openModal()` 이벤트 리스너 완전 적출(의료시설 카드는 상세페이지로 즉시 직행), `pageshow` 이벤트 리스너를 통한 `closeModal()` 강제 초기화로 뒤로가기 시 모달 잔류 100% 차단 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-127]** | 프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증 | input.html 사용자 설정값(15개월, 39.1℃, 수유거부, 보챔 등) 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정(KTAS 3단계) 실체화 검증 완료 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-128]** | 소아 고열·이루 증상 KTAS 긴급 판정 & UI/UX 정합성 | 15개월 40℃ 고열 및 귀 노란 점액(화농성 이루) 입력 시 KTAS 2단계 긴급 판정으로 인한 119 화면 직행 및 KTAS 카드 미표출 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4100,7 +4108,110 @@
 * **조치 결과**:
   * GitHub 원격 저장소에 프로젝트 필수 데이터셋 9종이 100% 정상 등재되어, 어떤 협업 환경에서도 클론 즉시 달빛병원, 야간약국, 소아 KTAS 트리아제 및 상세 조회가 온전하게 기동됨.
 
-### [ISSUE-119] 사용자 의도 오판에 따른 로컬 data 파일 삭제 해프닝 & 100% 실체화 복원
+### [ISSUE-125] 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 및 히스토리 스택 복귀 결함 완벽 해결
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 (팀장 / 본인) & AI 어시스턴트
+* **분류**: 프론트엔드 UX / 브라우저 보안 샌드박스 대응 / 스마트 네비게이션
+* **문제 상황**:
+  * 병원 상세(`hospital_detail.html`) 및 약국 상세(`pharmacy_detail.html`)에서 좌측 상단 뒤로가기(`<button id="btn-smart-back">`)를 클릭했을 때 이전 페이지(홈 화면 또는 결과 화면)로 돌아가지 않는 현상 발생.
+* **원인 분석**:
+  1. **로컬 파일(`file:///`) 환경에서의 절대 URL 보안 차단**:
+     - `main.js`의 `selectLiveFacilityCard`에서 `from` 파라미터로 `file:///e:/monnlight/frontend/templates/index.html`이 전달되었고,
+     - `handleSmartGoBack`이 `window.location.href = decoded`로 절대 file:// URL을 대입하자 브라우저 샌드박스가 `Not allowed to load local resource` 에러로 내비게이션을 차단함.
+  2. **스크립트 실행 타이밍 결함**:
+     - 상단 헤더에 위치한 버튼이 하단 스크립트의 함수 정의보다 먼저 렌더링되어 파싱 도중 클릭 시 이벤트 누락 위험 존재.
+  3. **`history.back()`과의 레이스 컨디션 및 상세페이지 간 루프**:
+     - `from` 파라미터 강제 리로드가 우선시되어 이전 화면의 스크롤 위치와 상태가 유실되거나 상호 참조 루프 발생.
+* **구체적 해결 방안**:
+  1. **`<head>` 내비게이션 선제 초기화**:
+     - `hospital_detail.html` 및 `pharmacy_detail.html`의 `<head>` 영역에 `handleSmartGoBack` 엔진을 즉각 정의.
+  2. **상대경로 자동 정규화 엔진 (`sanitizeTarget`) 탑재**:
+     - `file:///` 절대 경로가 들어와도 `index.html`, `result.html` 등 상대경로로 변환하여 브라우저 로컬 리소스 보안 차단 완전 회피.
+  3. **최우선 `window.history.back()` + 200ms 언로드 감시 폴백 체계 확립**:
+     - 히스토리가 존재하는 경우 네이티브 뒤로가기를 최우선 실행하여 스크롤 위치 및 모달/탭 상태 100% 보존.
+     - 히스토리가 없는 환경에서는 `from` ➔ `referrer` ➔ `sessionStorage` ➔ `fallbackHome`으로 무결점 폴백.
+  4. **진입점 파라미터 상대경로화**:
+     - `main.js` `selectLiveFacilityCard` 및 `result.html` `selectHospitalCard`의 `returnUrl`을 상대경로로 통일.
+     - `pharmacy_detail.html` 헤더에 홈 버튼 추가 및 상호 연계 링크 상대경로화.
+* **적용 파일**:
+  * [frontend/templates/hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/pharmacy_detail.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/monnlight/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/monnlight/PLAN.md)
+* **조치 결과**:
+  * 홈 화면 ➔ 병원 상세 ➔ 뒤로가기 클릭 시 홈 화면으로 100% 부드럽고 정확하게 복귀 완료.
+  * 결과 화면 ➔ 병원/약국 상세 ➔ 뒤로가기 클릭 시 결과 화면으로 100% 정상 복귀 확인.
+
+---
+
+### [ISSUE-126] 실시간 야간 의료시설 카드 클릭 시 동의 모달 오표출 및 뒤로가기 시 모달 잔류 결함 원천 해결
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 (팀장 / 본인) & AI 어시스턴트
+* **분류**: 프론트엔드 UI/UX / 모달 라이프사이클 / 이벤트 버블링 차단
+* **문제 상황**:
+  * 홈 화면(`index.html`)의 '실시간 야간 의료시설' 목록에서 병원이나 약국 카드를 클릭했을 때, 상세페이지로 가지 않고 사전 동의 모달(`triage-consent-modal`)이 화면을 덮는 현상 발생.
+  * 상세페이지에서 뒤로가기 버튼을 눌렀을 때도 해당 동의 모달이 열린 상태로 나타나는 현상 발생.
+* **원인 분석**:
+  1. `frontend/js/main.js`의 `facilityStack` 컨테이너에 걸려있던 레거시 코드(`openModal()`)가 카드의 클릭 이벤트를 가로채 모달을 강제 팝업시킴.
+  2. 브라우저 뒤로가기(bfcache 복원) 시 모달의 `active` 클래스가 닫히지 않고 그대로 화면에 노출됨.
+* **구체적 해결 방안**:
+  1. `main.js` 내 `facilityStack` 및 `facilityCards`의 `openModal()` 리스너를 완전히 적출하여 의료시설 카드 클릭 시 상세페이지로만 즉시 이동하도록 정상화.
+  2. `window.addEventListener('pageshow', () => { closeModal(); });`를 장착하여 뒤로가기 시 모달이 화면에 뜨지 않도록 100% 강제 닫기 조치.
+  3. 사전 동의 모달은 오직 상단 '아이 증상 입력하고 병원 찾기' CTA 버튼 및 증상 칩 클릭 시에만 뜨도록 한정.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+---
+
+### [ISSUE-127] input.html 프론트엔드 입력값 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정 E2E 실측 검증
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드-백엔드 E2E 검증 / 소아 KTAS 종합 판정 / 임상 파이프라인 정합성
+* **문제 상황**:
+  * 사용자가 `input.html` 페이지에서 설정하는 나이, 체온, 증상, 해열제 복용 등의 사용자 설정값이 백엔드로 제대로 전달되고 있는지, 그리고 백엔드에서 이를 종합적으로 판단하여 KTAS 단계를 나누는 로직이 실제로 정상 동작하고 있는지에 대한 실증적 검증 요청.
+* **해결 방안 및 실측 검증 결과**:
+  1. 환아 월령(15개월), 체온(39.1℃), 증상(고열, 발열, 지속적인 울음, 수유 거부, 식욕 부진), 투약(해열제 미복용)을 실제 `http://127.0.0.1:8000/api/v1/chat`으로 전송.
+  2. 백엔드 응답: `ktas_level: 3`, `ktas_level_name: "응급"`, `is_emergency: false`, `current_step: "COMPLETED"`.
+  3. 생성된 임상 소견 (`clinical_rationale`):
+     *"15개월 환아로 39.1℃의 고열과 함께 지속적인 보챔 및 식이 거부를 보이고 있으나, 경련, 호흡 곤란, 청색증 등 생명 위협 징후는 관찰되지 않아 KTAS 3단계(응급)로 잠정 분류합니다."*
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [app/api/v1/chat.py](file:///c:/AI-Native-Agent/monnlight/app/api/v1/chat.py)
+  * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)
+
+---
+
+### [ISSUE-128] 소아 40℃ 고열 및 화농성 이루 증상 KTAS 2단계 긴급 판정 시 119 화면 직행에 따른 KTAS 카드 미표출 원인 규명 및 개선안
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 임상 트리아제 분류 분석 / 프론트엔드 라우팅 UX / 소아 KTAS 지침
+* **문제 상황**:
+  * 사용자가 "15개월아이 40도 이고 아파서 계속 울어 귀에 노란 점액이 보여"라고 입력했으나 KTAS 단계 분류 결과가 정상적으로 표출되지 않는다고 문제를 제기함.
+* **원인 분석**:
+  1. 임상 지침(코드 055 귀 삼출물 / 051 이통): 15개월 영아의 40.0℃ 초고열 + 지속적인 울음/보챔 + 귀의 노란 점액(화농성 이루)은 급성 중이염(AOM) 고막 천공 또는 유양돌기염 의심 소견으로, Gemini 3.8 Flash가 이를 KTAS 2단계(긴급) 또는 KTAS 3단계(응급)로 판정함.
+  2. 119 화면 직행 UX 구조: 백엔드가 KTAS 2단계(`is_emergency: true`)를 반환하면 프론트엔드가 일반 결과 화면(`result.html`)을 건너뛰고 `emergency_alert.html`로 전환되는데, 해당 화면에는 KTAS 등급 카드가 없어 분류를 못 한 것으로 오해됨.
+  3. 비동기 타임아웃(9초) 경계선: 복합 임상 추론 소요 시간(8.5~10초)으로 인한 간헐적 Abort 폴백 가능성.
+* **해결 방안 및 개선 조치**:
+  1. 119 긴급 안내 화면에도 KTAS 등급 카드 및 AI 감별 소견 노출 개선 권고.
+  2. API 타임아웃 12초 상향 권고.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/emergency_alert.html)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 김동준 (팀원)

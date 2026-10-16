@@ -1340,12 +1340,13 @@ window.selectLiveFacilityCard = function(facilityName, facilityType) {
       targetPage = isHospital ? '/hospital_detail' : '/pharmacy_detail';
     }
 
-    const fromParam = encodeURIComponent(window.location.href);
+    const returnUrl = (isFileProtocol || path.endsWith('.html')) ? 'index.html' : (window.location.pathname + window.location.search || '/home');
+    const fromParam = encodeURIComponent(returnUrl);
     const targetUrl = `${targetPage}?name=${encodeURIComponent(facilityName)}&type=${facilityType}&from=${fromParam}`;
 
     // 2. Cache minimal state to sessionStorage for instantaneous fallback
     try {
-      sessionStorage.setItem('aisum_last_visited_page', window.location.href);
+      sessionStorage.setItem('aisum_last_visited_page', returnUrl);
     } catch (e) {}
 
     const master = window.__LIVE_FACILITIES_MASTER__;
@@ -1677,30 +1678,10 @@ if (!window.__AISUM_INITIALIZED__) {
       });
     });
 
-    // 3. Trigger Open: 병원 카드 클릭 시 모달 열기 (이벤트 위임 방식으로 동적 실시간 카드 100% 지원)
-    const facilityStack = document.getElementById('facility-card-stack');
-    if (facilityStack) {
-      facilityStack.addEventListener('click', (e) => {
-        if (e.target.closest('.call-btn') || e.target.closest('a[href^="tel:"]')) {
-          return; // 전화 걸기는 기본 다이얼 동작 유지
-        }
-        const card = e.target.closest('.facility-card');
-        if (card) {
-          e.preventDefault();
-          openModal();
-        }
-      });
-    }
-
-    // 정적 카드 폴백 리스너
-    facilityCards.forEach((card) => {
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('.call-btn') || e.target.closest('a[href^="tel:"]')) {
-          return;
-        }
-        e.preventDefault();
-        openModal();
-      });
+    // 3. 실시간 야간 의료시설 카드는 모달을 열지 않고 상세페이지로 직행하므로 모달 오픈 리스너 완전 제거
+    // 뒤로가기(pageshow / bfcache 복원) 시 모달이 화면에 남아있지 않도록 항상 강제 닫기
+    window.addEventListener('pageshow', () => {
+      closeModal();
     });
 
     // 4. Modal Action: '취소' 버튼 클릭 시 모달 닫기
