@@ -1074,8 +1074,18 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
   const filteredHospitals = hospitals.filter(h => h.distKm <= MAX_RADIUS_KM);
   const filteredPharmacies = pharmacies.filter(p => p.distKm <= MAX_RADIUS_KM);
 
-  // 4. 전체(all) 탭: 15km 이내 병원 + 약국 통합 최단거리 오름차순 정렬
-  const allList = [...filteredHospitals, ...filteredPharmacies].sort((a, b) => a.distKm - b.distKm);
+  // 4. 전체(all) 탭: 병원 최우선 1:1 교차(Interleaving) 정렬 (병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 ...)
+  const interleavedList = [];
+  const maxLen = Math.max(filteredHospitals.length, filteredPharmacies.length);
+  for (let i = 0; i < maxLen; i++) {
+    if (i < filteredHospitals.length) {
+      interleavedList.push(filteredHospitals[i]);
+    }
+    if (i < filteredPharmacies.length) {
+      interleavedList.push(filteredPharmacies[i]);
+    }
+  }
+  const allList = interleavedList;
 
   // 5. 전역 마스터 객체 등록 (15km 필터링 적용 및 원본 보관)
   window.__LIVE_FACILITIES_MASTER__ = {

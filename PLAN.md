@@ -1658,6 +1658,39 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
 
 ---
 
+### 10.73 실시간 야간 의료시설 전체 탭 병원 최우선 1:1 교차(Interleaving) 랭킹 알고리즘 아키텍처 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 반경 15km 이내 시설 목록에서 심야약국 밀집도(391곳)가 달빛병원(17곳)에 비해 20배 이상 높아, 단순 물리적 거리(`distKm`)로 정렬 시 사용자 반경 0.5km 이내의 약국들이 상단 목록을 독점하는 의료 우선순위 역전 문제가 발생함.
+  - 야간 소아 진료가 시급한 부모의 입장을 최우선으로 반영하여, 최단거리 달빛어린이병원을 최상단 1등으로 보장하고 병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 형태로 1:1 교차(Interleaving) 노출하는 랭킹 엔진이 요구됨.
+* **4대 핵심 엔지니어링 구현**:
+  1. **1:1 인터리빙 교차 결합 알고리즘 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `filteredHospitals`와 `filteredPharmacies`를 각각 거리순 정렬 후, `for` 루프에서 병원 1개, 약국 1개를 순서대로 Push하는 1:1 교차 파이프라인 구축.
+     - `interleavedList = [병원 #1, 약국 #1, 병원 #2, 약국 #2, ...]`.
+     - 병원이 모두 소진된 이후(`i >= filteredHospitals.length`)에는 남은 약국들이 거리순으로 연속하여 안전하게 이어지도록 방어.
+  2. **의료 탐색 시너지 극대화**:
+     - 부모가 1순위 병원 카드를 확인하는 동시에 바로 아래에서 인근 연계 약국을 확인하거나, 2순위 대안 병원을 직관적으로 비교할 수 있는 의료적 동선 편의성 제공.
+  3. **카테고리 탭 정합성 유지**:
+     - '전체' 탭은 1:1 교차 목록 렌더링, '🌙 달빛병원' 탭은 병원 전수 거리순 렌더링, '💊 심야약국' 탭은 약국 전수 거리순 렌더링 유지 및 탭 전환 시 상단 스크롤 리셋.
+  4. **통합 테스트 및 무결점 검증 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - 프론트엔드 연동 3개 테스트 전수 통과 및 92개 단위/통합 테스트 무결점 통과 유지.
+
+---
+
+### 10.74 메인 홈 증상 문진 Hero 카드 타이틀 가운데 정렬 및 시각적 위계 최적화 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 메인 홈 상단의 증상 문진 Hero 카드(`.hero-card`) 메인 타이틀("아이가 어디가 아픈가요?")이 좌측 정렬되어 있고 임의의 `<br>` 마크업이 포함되어 있어, 하단 중앙 정렬 풀위드 CTA 버튼과의 시각적 수직 중심선이 일치하지 않아 사용자의 시선 집중도가 저하됨.
+* **4대 핵심 엔지니어링 구현**:
+  1. **헤드라인 컨테이너 중앙 정렬 (`frontend/css/style.css`)**:
+     - `.hero-body`: `display: flex; align-items: center; justify-content: center; text-align: center; margin-bottom: 14px;` 적용.
+  2. **타이틀 텍스트 대칭 배치 (`frontend/css/style.css`)**:
+     - `.hero-title`: `font-size: 22px; font-weight: 800; text-align: center; width: 100%;` 적용으로 버튼과의 완벽한 수직 대칭축 확립.
+  3. **마크업 정리 (`frontend/templates/index.html`)**:
+     - 임의의 `<br>` 태그를 제거하고 CSS 여백 표준화.
+  4. **통합 테스트 및 무결점 검증 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - 프론트엔드 연동 3개 테스트 전수 통과 및 92개 단위/통합 테스트 무결점 통과 유지.
+
+---
+
 ## 11. 프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵
 
 > **전용 상세 백서**: [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) (프론트엔드-백엔드 100% 결합 연동 명세서 전문 수록)

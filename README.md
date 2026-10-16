@@ -28,6 +28,23 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.64-hero-card-title-center-alignment] 2026-10-16: 메인 홈 증상 문진 Hero 카드 타이틀("아이가 어디가 아픈가요?") 중앙 정렬 및 여백 최적화 (정영식 팀장)
+* **🎯 타이틀 텍스트 완벽한 수평 중앙 정렬 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - 증상 문진 Hero 카드(`.hero-card`) 내 헤드라인 타이틀(`.hero-title`) 및 컨테이너(`.hero-body`)에 `display: flex; align-items: center; justify-content: center; text-align: center;`를 적용하여 카드 너비 정중앙 배치.
+  - 하단 풀위드 CTA 버튼("아이 증상 입력하고 병원 찾기")과 완벽한 수직 대칭축을 형성하여 시각적 몰입도와 심미성 극대화.
+* **🧹 HTML 마크업 정돈 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+  - 임의로 삽입되어 있던 `<br>` 태그를 제거하고 CSS `margin-bottom: 14px`로 컴포넌트 간 여백 표준화.
+
+### 🌟 [v2.4.63-live-facilities-hospital-first-interleaving-sort] 2026-10-16: 실시간 야간 의료시설 전체 탭 병원 최우선 1:1 교차(Interleaving) 정렬(병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 ...) 랭킹 알고리즘 구현 (정영식 팀장)
+* **🏥 달빛어린이병원 최우선 1등 노출 보장 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - 기존 단순 거리순 정렬 시 사용자 주변 근거리(0.2~0.5km) 심야약국들의 상위 독점으로 인해 소아 야간 진료 병원이 한참 뒤로 밀리던 의료 우선순위 역전 결함 해소.
+  - 내 위치 기준 최단거리 달빛어린이병원이 전체 탭 1번째 카드로 최상단에 즉시 노출되도록 보장.
+* **🔄 1:1 인터리빙(Interleaving) 교차 정렬 파이프라인**:
+  - `filteredHospitals`와 `filteredPharmacies`를 1:1로 번갈아 배치하여 `[병원 #1] ➔ [약국 #1] ➔ [병원 #2] ➔ [약국 #2] ...` 형태로 교차 렌더링.
+  - 병원 17곳이 소진된 이후에는 남은 심야약국들이 거리순으로 연속하여 안전하게 이어지도록 구성.
+* **🎯 필터 탭 정합성 유지**:
+  - '전체' 탭은 병원 최우선 1:1 교차 렌더링, '🌙 달빛병원' 탭은 병원만 100% 거리순, '💊 심야약국' 탭은 약국만 100% 거리순 렌더링 및 탭 전환 시 상단 스크롤 리셋 유지.
+
 ### 🌟 [v2.4.62-main-home-fixed-shell-and-facility-exclusive-scroll] 2026-10-16: 메인 홈 고정 앱 셸(Fixed App Shell) 구축 및 실시간 야간 의료시설 전용 내부 스크롤 격리 완결 (정영식 팀장)
 * **🔒 메인 홈 바깥 스크롤 완전 차단 (No Outer Scroll) ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
   - `body.main-home-body`에 `height: 100vh; height: 100dvh; overflow: hidden;`을 선언하여 모바일과 데스크톱 브라우저에서 바깥 스크롤이 0px도 발생하지 않도록 화면 고정.

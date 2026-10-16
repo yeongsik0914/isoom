@@ -437,18 +437,21 @@ body.main-home-body {
 
 .hero-body {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
 }
 
 .hero-title {
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 800;
   line-height: 1.28;
   color: var(--slate-900);
   letter-spacing: -0.5px;
+  text-align: center;
+  width: 100%;
 }
 
 .hero-badge-art {

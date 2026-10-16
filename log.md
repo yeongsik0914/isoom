@@ -110,6 +110,8 @@
 | **[ISSUE-101]** | 프론트엔드 UI/UX & 스크롤 아키텍처 | 실시간 야간 의료시설 카드 목록 무한 확장 방어 및 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-102]** | 프론트엔드 UI/UX & 컴팩트 레이아웃 | 실시간 야간 의료시설 카드 내부/외부 여백 과다 해소(패딩·간격 컴팩트화) 및 '더 많은 의료시설 확인' 버튼 전면 제거·스크롤 전수 렌더링 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-103]** | 프론트엔드 UI/UX & 고정 앱 셸 아키텍처 | 실시간 의료현황 칸 외 메인 뷰포트 바깥 스크롤 완전 고정(Fixed App Shell) 및 시설 전용 스크롤(Exclusive Inner Scroll) 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-104]** | 프론트엔드 LBS & 시설 랭킹 알고리즘 | 실시간 야간 의료시설 '전체' 탭 심야약국 독점 해소 및 병원 최우선 1:1 교차(Interleaving) 정렬(병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 ...) 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-105]** | 프론트엔드 UI/UX & 타이포그래피 정렬 | 메인 홈 증상 문진 Hero 카드 타이틀("아이가 어디가 아픈가요?") 중앙 정렬 및 여백 최적화 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3379,6 +3381,63 @@
 * **조치 결과**:
   * 상단 헤더, 알약 버튼, 증상 문진 배너, 필터 탭, 하단 GNB 바가 화면에 완벽하게 고정(Sticky/Fixed)됨.
   * 오직 "실시간 야간 의료시설" 카드 목록 내부에서만 부드러운 스크롤이 동작하여 네이티브 앱 수준의 쾌적한 UX 완성.
+
+---
+
+### [ISSUE-104] 실시간 야간 의료시설 '전체' 탭 심야약국 독점 해소 및 병원 최우선 1:1 교차(Interleaving) 정렬 구축
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 LBS / 시설 정렬 및 사용자 경험(UX) 랭킹 최적화
+* **문제 상황**:
+  * 메인 홈 '전체' 탭에서 반경 15km 이내 시설 목록을 열람할 때, 물리적 거리 기준으로만 단순 정렬되어 있어 사용자 반경 0.5km 이내의 심야약국들만 화면 상단에 수십 개 연속으로 노출됨.
+  * 아이가 야간에 급성 질환으로 아파 병원 진료가 가장 시급한 부모 관점에서, 정작 달빛어린이병원을 찾으려면 스크롤을 한참 내려야 하는 심각한 의료 우선순위 역전 문제가 발생함.
+* **원인 분석**:
+  * 심야약국 데이터셋(전국 2,028개, 서울 반경 15km 내 약 391곳)이 달빛어린이병원(전국 156개, 서울 반경 15km 내 17곳)에 비해 20배 이상 밀집되어 있어, `[...hospitals, ...pharmacies].sort((a,b) => a.distKm - b.distKm)` 시 약국이 상위 인덱스를 독점함.
+* **구체적 해결 방안**:
+  1. **1:1 인터리빙(Interleaving) 교차 정렬 파이프라인 구현 (`frontend/js/main.js`)**:
+     - `filteredHospitals`와 `filteredPharmacies`를 각각 거리순 정렬한 뒤, `for` 루프에서 병원을 1순위로 push하고 바로 뒤에 약국을 push하는 1:1 교차 로직 구현.
+     - `interleavedList`: `[병원 #1] ➔ [약국 #1] ➔ [병원 #2] ➔ [약국 #2] ➔ [병원 #3] ➔ [약국 #3] ...`
+     - 병원(17곳)이 모두 소진된 이후에는 남은 심야약국들이 거리순으로 연속하여 안전하게 이어지도록 처리.
+  2. **개별 탭 순수성 보존**:
+     - '🌙 달빛병원' 탭 클릭 시에는 달빛병원만 100% 거리순 노출.
+     - '💊 심야약국' 탭 클릭 시에는 심야약국만 100% 거리순 노출.
+     - 탭 전환 시 `scrollTop = 0`으로 즉시 상단 리셋.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 메인 홈 첫 진입 시 가장 가까운 달빛어린이병원이 최상단 1등 카드로 즉각 노출되고, 병원과 약국이 1:1로 번갈아 교차 배치되어 최적의 소아 야간 의료 탐색 UX를 완성함.
+
+---
+
+### [ISSUE-105] 메인 홈 증상 문진 Hero 카드 타이틀("아이가 어디가 아픈가요?") 중앙 정렬 및 여백 최적화
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 UI/UX / 타이포그래피 정렬 및 레이아웃 밸런스
+* **문제 상황**:
+  * 메인 홈 상단의 증상 문진 Hero 카드(`.hero-card`) 내부 헤드라인인 "아이가 어디가 아픈가요?" 텍스트가 좌측 정렬되어 있고 임의의 `<br>` 태그가 삽입되어 있어, 하단 풀위드 CTA 버튼과의 시각적 수직 중심축이 어긋나 보이고 모바일 뷰 집중도가 저하됨.
+* **원인 분석**:
+  * 초기 프로토타입 디자인에서 우측 배지 아트와 함께 좌측 정렬 플렉스 레이아웃을 사용하던 코드가 잔존하여, 배지 제거 후 텍스트만 남아있을 때 좌측으로 치우쳐 렌더링됨.
+* **구체적 해결 방안**:
+  1. **불필요한 줄바꿈 마크업 적출 (`frontend/templates/index.html`)**:
+     - `hero-body` 하단의 임의 `<br>` 태그를 제거하고 CSS 마진으로 간격을 표준화.
+  2. **중앙 정렬 스타일링 적용 (`frontend/css/style.css`)**:
+     - `.hero-body`: `display: flex; align-items: center; justify-content: center; text-align: center; margin-bottom: 14px;`
+     - `.hero-title`: `font-size: 22px; font-weight: 800; text-align: center; width: 100%;`
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * "아이가 어디가 아픈가요?" 메인 타이틀이 카드 너비의 정중앙에 단정하게 배치되어, 아래 "아이 증상 입력하고 병원 찾기" 버튼과 완벽한 시각적 중심축을 이루어 사용자 가독성 및 UI 완성도가 향상됨.
+
+
 
 
 
