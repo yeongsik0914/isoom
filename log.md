@@ -132,6 +132,7 @@
 | **[ISSUE-123]** | 프론트엔드 UX & 스마트 네비게이션 | 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation(URL from 파라미터 + referrer + history.back + sessionStorage + fallback) 구현 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-124]** | GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 복원 푸시 | `.gitignore`의 `data/*` 일괄 무시 규칙으로 인한 핵심 공공데이터 JSON 7종 및 DB 파일 누락 원인 진단, 예외 화이트리스트 규칙(`!data/*.json`, `!data/moonlight.db`, `!data/README.md`) 적용 및 원격 Git 추적 푸시 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-125]** | 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 및 히스토리 스택 복귀 결함 완벽 해결 | `file:///` 프로토콜 상의 절대 URL 내비게이션 보안 차단(`Not allowed to load local resource`) 및 스크립트 실행 타이밍 결함 해소, `<head>` 내비게이션 선제 초기화, 상대경로 정규화(`sanitizeTarget`), `window.history.back()` 최우선 실행 및 200ms 감시 폴백 구조로 홈/결과/상세 3대 여정 100% 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-126]** | 실시간 야간 의료시설 카드 클릭 시 동의 모달 오표출 및 뒤로가기 시 모달 잔류 결함 원천 해결 | `frontend/js/main.js`의 `facilityStack` 컨테이너에 잔존하던 레거시 `openModal()` 이벤트 리스너 완전 적출(의료시설 카드는 상세페이지로 즉시 직행), `pageshow` 이벤트 리스너를 통한 `closeModal()` 강제 초기화로 뒤로가기 시 모달 잔류 100% 차단 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4146,6 +4147,39 @@
 * **조치 결과**:
   * 홈 화면 ➔ 병원 상세 ➔ 뒤로가기 클릭 시 홈 화면으로 100% 부드럽고 정확하게 복귀 완료.
   * 결과 화면 ➔ 병원/약국 상세 ➔ 뒤로가기 클릭 시 결과 화면으로 100% 정상 복귀 확인.
+
+---
+
+### [ISSUE-126] 실시간 야간 의료시설 카드 클릭 시 동의 모달 오표출 및 뒤로가기 시 모달 잔류 결함 원천 해결
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 (팀장 / 본인) & AI 어시스턴트
+* **분류**: 프론트엔드 UI/UX / 모달 라이프사이클 / 이벤트 버블링 차단
+* **문제 상황**:
+  * 홈 화면(`index.html`)의 '실시간 야간 의료시설' 목록에서 병원이나 약국 카드를 클릭했을 때, 상세페이지로 가지 않고 "아이숨은 보호자님이 입력하신 증상 정보를 바탕으로..." 사전 동의 모달(`triage-consent-modal`)이 화면을 덮는 현상 발생.
+  * 상세페이지에서 뒤로가기 버튼을 눌렀을 때도 해당 동의 모달이 열린 상태로 나타나는 현상 발생.
+* **원인 분석**:
+  1. **레거시 모달 트리거 이벤트 가로채기**:
+     - `frontend/js/main.js`의 `facilityStack` 컨테이너에 걸려있던 옛날 코드(`facilityStack.addEventListener('click', () => { openModal(); })`)가 카드의 `onclick` 내비게이션보다 앞서 실행되며 모달을 강제 팝업시킴.
+  2. **브라우저 bfcache 복원 시 모달 상태 잔류**:
+     - 뒤로가기로 홈 화면에 복귀할 때 모달의 `active` 클래스가 닫히지 않고 그대로 화면에 노출됨.
+* **구체적 해결 방안**:
+  1. **의료시설 카드 모달 트리거 전면 삭제**:
+     - `main.js` 내 `facilityStack` 및 `facilityCards`의 `openModal()` 리스너를 완전히 적출하여 의료시설 카드 클릭 시 상세페이지(`hospital_detail.html` / `pharmacy_detail.html`)로만 즉시 이동하도록 정상화.
+  2. **`pageshow` 이벤트 리스너를 통한 뒤로가기 모달 초기화**:
+     - `window.addEventListener('pageshow', () => { closeModal(); });`를 장착하여 뒤로가기로 홈 화면에 돌아올 때 어떤 경우에도 모달이 열린 채로 표시되지 않도록 100% 강제 닫기 조치.
+  3. **모달 오픈 경로 한정**:
+     - 사전 동의 모달은 오직 상단 '아이 증상 입력하고 병원 찾기' CTA 버튼 및 증상 칩 클릭 시에만 뜨도록 정상화.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [q_a.md](file:///e:/monnlight/q_a.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 실시간 야간 의료시설 카드를 클릭하면 동의 모달이 전혀 뜨지 않고 병원/약국 상세페이지로 즉각 이동.
+  * 뒤로가기 시에도 모달이 뜨지 않고 홈 화면의 의료시설 목록이 깨끗하게 표출됨.
 
 
 

@@ -28,6 +28,13 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.79-fix-facility-card-modal-interception] 2026-10-16: 실시간 야간 의료시설 카드 클릭 시 동의 모달 오표출 및 뒤로가기 시 모달 잔류 결함 원천 해결 (정영식 팀장)
+* **🚫 의료시설 카드 클릭 시 사전 동의 모달(`triage-consent-modal`) 오픈 리스너 완전 적출**:
+  - `facilityStack` 및 `facilityCards`에 잔존하던 레거시 모달 오픈 이벤트를 완전히 삭제하여, 홈 화면에서 병원/약국 카드 클릭 시 동의 모달 팝업 없이 즉시 상세페이지로 직행하도록 완결.
+* **🛡️ 브라우저 뒤로가기(`pageshow`) 시 모달 자동 초기화 안전망 구축**:
+  - `window.addEventListener('pageshow', () => { closeModal(); })`를 장착하여 뒤로가기(bfcache 복원) 시 모달이 화면에 절대 남지 않도록 100% 강제 닫기 조치.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///e:/monnlight/Answer-영식.md) Q117, [log.md](file:///e:/monnlight/log.md) ISSUE-126) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.78-smart-back-navigation-robustness] 2026-10-16: 병원·약국 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 해결 및 5-Layer 무결점 복귀 완성 (정영식 팀장)
 * **🔙 상세페이지 좌측 상단 뒤로가기 버튼(`handleSmartGoBack`) 100% 정상화**:
   - `file:///` 로컬 파일 환경에서 절대 경로 주입 시 발생하는 브라우저 로컬 리소스 접근 차단(`Not allowed to load local resource`) 결함 원천 해결.

@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.57 (병원·약국 상세페이지 5-Layer Smart Back Navigation 브라우저 로컬 리소스 보안 차단 완전 해결, 9종 캐노니컬 데이터셋 영구 보존 및 원격 동기화 완료)  
+> **문서 버전**: v2.58 (실시간 야간 의료시설 카드 클릭 시 사전 동의 모달 가로채기 완전 적출 및 pageshow 뒤로가기 모달 잔류 차단 아키텍처 확립, v2.4.79)  
 > **최종 갱신 일자**: 2026-10-16  
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*  
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스.
