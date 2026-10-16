@@ -28,6 +28,22 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.77-full-restoration-to-initial-state-and-zero-code-mutation] 2026-10-16: 최초 질의 시점(0858ae2)으로 완전 원상 복구 및 코드 무결성 전수 검증 (김동준 팀원)
+* **🔄 로컬 `data/` 폴더 최초 질문 시점 원상 복구 완료**:
+  - 임의 생성했던 `ktas_full_bundle.json` 및 `ktas_pediatric_dataset.json`을 영구 삭제하여, 사용자가 최초 질문하셨을 때의 원래 2개 파일(`nationwide_pairings.json`, `seoul_emergency_coords.json`) 체계로 100% 원상 복귀.
+* **🛡️ 기타 소스코드 무결성 100% 검증 (`git diff 0858ae2 HEAD`)**:
+  - 백엔드(`app/`), 프론트엔드(`frontend/`), 테스트(`tests/`), 설정 파일 등 일체의 코드가 변경/되돌림 없이 원본 그대로 보존됨을 전수 확인.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q117, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-120) 전면 동기화 완료**.
+
+### 🌟 [v2.4.76-local-ktas-dataset-restoration-and-zero-git-conflict] 2026-10-16: 로컬 data 폴더 소아 KTAS 데이터셋 100% 실체화 복원 및 Git 격리 확립 (김동준 팀원)
+* **💾 로컬 `data/` 디렉터리 KTAS 핵심 데이터셋 100% 완전 복원 완료**:
+  - `ktas_viewer.html` 내장 원천 데이터 파싱을 통해 `data/ktas_full_bundle.json` (657,298 bytes, 325개 주증상) 복원.
+  - `build_pediatric_dataset.py`를 실행하여 PPTX 슬라이드 192~203 기준 `data/ktas_pediatric_dataset.json` (387,923 bytes, 168개 소아 주증상 DB) 실체화 완료.
+  - 현재 로컬 `data/` 디렉터리 내 4대 파일(`ktas_full_bundle.json`, `ktas_pediatric_dataset.json`, `nationwide_pairings.json`, `seoul_emergency_coords.json`) 정상 상주 확인.
+* **🛡️ Git 충돌 제로(.gitignore data/*) 격리 확립**:
+  - 로컬 파일시스템에는 물리적으로 상주하여 TriageAgent가 168개 소아 주증상을 0ms로 참조하되, Git에는 Untracked로 격리되어 타 작업자 환경에 빨간 파일 충돌을 원천 차단.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q115~Q116, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-119) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.75-collaborative-git-revert-and-stabilization] 2026-10-16: 협업 형상 관리 보호를 위한 신규 data 커밋 100% Revert(5e95b52) 및 타 작업자 로컬 충돌 완전 해소 (김동준 팀원)
 * **🔄 `data/ktas_full_bundle.json` 및 `data/ktas_pediatric_dataset.json` 원격 Revert 완료**:
   - 타 작업자(정영식 팀장님) 로컬에 보관된 파일과의 형상 관리 충돌(Untracked overwrite)을 방지하기 위해 `git revert 1671e36`을 즉각 단행하여 원격 저장소 및 `.gitignore`를 원래의 깨끗한 상태로 100% 복원.

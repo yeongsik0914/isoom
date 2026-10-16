@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.55 (협업 형상 관리 보호를 위한 data 신규 커밋 긴급 Revert 및 타 작업자 로컬 충돌 완전 해소 완료)  
+> **문서 버전**: v2.57 (최초 질의 시점으로 100% 원상 복구 및 코드 무결성 전수 검증)  
 > **최종 갱신 일자**: 2026-10-16  
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*  
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화.
@@ -76,7 +76,7 @@ monnlight/
 │   │   └── location.py           # 카카오 로컬 REST API 주소/키워드 검색 & 역지오코딩
 │   ├── schemas/              # Pydantic v2 데이터 전송 객체 (DTO)
 │   └── config.py             # pydantic-settings 기반 전역 환경설정
-├── data/                     # 불변 마스터 데이터셋 (KTAS, 전국 병원/약국 JSON)
+├── data/                     # 마스터 데이터셋 (nationwide_pairings.json, seoul_emergency_coords.json)
 ├── frontend/                 # 순수 HTML5/CSS3/Vanilla JS 프론트엔드
 │   ├── templates/            # 13대 표준 화면 템플릿
 │   ├── css/style.css         # Calm Harbor 라이트 테마 & 모바일 셸 스타일시트

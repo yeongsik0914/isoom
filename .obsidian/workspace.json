@@ -190,6 +190,8 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "data/ktas_pediatric_dataset.json",
+    "data/ktas_full_bundle.json",
     "scratch/test_e2e_flow.py",
     "Answer-영식.md",
     "q_a.md",
@@ -201,8 +203,6 @@
     "tests/__pycache__/test_step6_e2e.cpython-312.pyc",
     "tests/__pycache__/test_step5_api.cpython-312.pyc",
     "tests/__pycache__/test_step4_orchestrator.cpython-312.pyc",
-    "tests/__pycache__/test_step3_agents.cpython-312.pyc",
-    "tests/__pycache__/test_step2_guardrail.cpython-312.pyc",
     "docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md",
     "PLAN.md",
     "전국_달빛어린이병원_및_야간심야약국_현황.md",
