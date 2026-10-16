@@ -268,16 +268,16 @@
       margin-bottom: 18px;
     }
 
-    /* 3-Column Metrics Bar */
+    /* 2-Column Verified Metrics Bar */
     .metrics-bar-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       background: #f8fafc;
       border-radius: 14px;
-      padding: 12px 8px;
+      padding: 12px 16px;
       border: 1px solid #e2e8f0;
       text-align: center;
-      gap: 4px;
+      gap: 12px;
     }
 
     .metric-col {
@@ -806,15 +806,11 @@
       <h2 class="hospital-main-name" id="detail-hospital-name">송파어린이병원</h2>
       <p class="hospital-subtitle" id="detail-hospital-sub">소아청소년과 전문의 상주 야간 안심진료</p>
 
-      <!-- 3-Column Metrics Bar -->
+      <!-- 2-Column Verified Metrics Bar (거리 & 주차 실측 데이터) -->
       <div class="metrics-bar-grid">
         <div class="metric-col">
-          <span class="metric-label">현재 대기</span>
-          <span class="metric-val highlight-blue" id="live-queue-count">실시간 확인중...</span>
-        </div>
-        <div class="metric-col">
           <span class="metric-label">내 위치 거리</span>
-          <span class="metric-val" id="detail-hospital-dist">계산중...</span>
+          <span class="metric-val highlight-blue" id="detail-hospital-dist">계산중...</span>
         </div>
         <div class="metric-col">
           <span class="metric-label">주차 지원</span>
@@ -845,7 +841,7 @@
             <div class="doctor-name-title" id="doctor-name-title">Dr. 소아청소년과 전문의 진료팀</div>
             <div class="doctor-desc" id="doctor-desc-text">
               소아청소년과 전문의 상주 · 소아 급성발열, 호흡기 질환, 수액 치료 전문<br>
-              <strong style="color: #0066ff;" id="doctor-queue-status">현재 대기 환아 진료 진행 중</strong> (순번 진행 원활)
+              <strong style="color: #0066ff;" id="doctor-queue-status">야간 진료 접수 운영 중</strong> (현장 순번 진료)
             </div>
           </div>
         </div>
@@ -1013,8 +1009,8 @@
 
         <div style="background: #f8fafc; border-radius: 12px; padding: 12px; margin: 14px 0; border: 1px solid #e2e8f0; font-size: 13px; text-align: left;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-            <span style="color: #64748b;">내 앞 대기 환아</span>
-            <strong style="color: #0066ff;" id="ticket-waiting-summary">4팀 (약 20분 예상)</strong>
+            <span style="color: #64748b;">진료 접수 방식</span>
+            <strong style="color: #0066ff;" id="ticket-waiting-summary">현장 내원 순번 접수</strong>
           </div>
           <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
             <span style="color: #64748b;">진료 담당의</span>
@@ -1149,13 +1145,7 @@
         const liveTimeEl = document.getElementById('hospital-live-time');
         if (liveTimeEl) liveTimeEl.innerText = activeHospital.status_badge || `실시간 야간진료 중 (~${activeHospital.closing_time || '23:00'})`;
 
-        // 3-Column Metrics
-        const queueEl = document.getElementById('live-queue-count');
-        if (queueEl) {
-          const waitMin = activeHospital.estimated_wait_min || 20;
-          queueEl.innerText = `대기 약 ${waitMin}분 (${activeHospital.congestion_level ? activeHospital.congestion_level.split(' ')[0] : '보통'})`;
-        }
-
+        // 2-Column Verified Metrics (거리 & 주차 실측 데이터)
         const distEl = document.getElementById('detail-hospital-dist');
         if (distEl) {
           distEl.innerText = `${activeHospital.dist_km} km (차 ${activeHospital.drive_min}분)`;
@@ -1181,7 +1171,7 @@
         if (docDescEl) {
           docDescEl.innerHTML = `
             소아청소년과 전문의 <strong>${activeHospital.pediatric_specialists || 2}명</strong> 상주 · 소아 급성발열, 호흡기 질환, 수액 치료 전문<br>
-            <strong style="color: #0066ff;" id="doctor-queue-status">현재 대기 환아 진료 진행 중</strong> (${activeHospital.congestion_level || '순번 진행 원활'})
+            <strong style="color: #0066ff;" id="doctor-queue-status">야간 진료 접수 운영 중</strong> (현장 순번 진료)
           `;
         }
 
@@ -1298,7 +1288,7 @@
       const ticketDept = document.getElementById('ticket-hospital-dept');
       if (ticketDept) ticketDept.innerText = `${activeHospital.name} 야간소아진료실`;
       const ticketWait = document.getElementById('ticket-waiting-summary');
-      if (ticketWait) ticketWait.innerText = `예상 대기 약 ${activeHospital.estimated_wait_min || 20}분`;
+      if (ticketWait) ticketWait.innerText = '현장 내원 순번 접수 (방문 필수)';
     }
 
     function closeTicketModal() {
