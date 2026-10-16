@@ -126,6 +126,7 @@
 | **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-118]** | Git 동기화 충돌 & 신규 data 파일 긴급 Revert | 타 작업자 로컬과의 충돌을 방지하기 위해 `1671e36` 커밋 100% Revert(5e95b52), .gitignore 원복 및 파일 상태 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-125]** | 프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증 | input.html 사용자 설정값(15개월, 39.1℃, 수유거부, 보챔 등) 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정(KTAS 3단계) 실체화 검증 완료 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-126]** | 소아 고열·이루 증상 KTAS 긴급 판정 & UI/UX 정합성 | 15개월 40℃ 고열 및 귀 노란 점액(화농성 이루) 입력 시 KTAS 2단계 긴급 판정으로 인한 119 화면 직행 및 KTAS 카드 미표출 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4209,3 +4210,24 @@
   * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
   * [app/api/v1/chat.py](file:///c:/AI-Native-Agent/monnlight/app/api/v1/chat.py)
   * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)
+
+### [ISSUE-126] 소아 40℃ 고열 및 화농성 이루 증상 KTAS 2단계 긴급 판정 시 119 화면 직행에 따른 KTAS 카드 미표출 원인 규명 및 개선안
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 임상 트리아제 분류 분석 / 프론트엔드 라우팅 UX / 소아 KTAS 지침
+* **문제 상황**:
+  * 사용자가 "15개월아이 40도 이고 아파서 계속 울어 귀에 노란 점액이 보여"라고 입력했으나 KTAS 단계 분류 결과가 정상적으로 표출되지 않는다고 문제를 제기함.
+* **원인 분석**:
+  1. **임상 지침 (코드 055 귀 삼출물 / 051 이통)**: 15개월 영아의 40.0℃ 초고열 + 지속적인 울음/보챔 + 귀의 노란 점액(화농성 이루)은 급성 중이염(AOM) 고막 천공 또는 유양돌기염 의심 소견으로, Gemini 3.8 Flash가 이를 **KTAS 2단계 (긴급)** 또는 **KTAS 3단계 (응급)**로 판정함.
+  2. **119 화면 직행 UX 구조**: 백엔드가 KTAS 2단계(`is_emergency: true`)를 반환하면 프론트엔드가 일반 결과 화면(`result.html`)을 건너뛰고 `emergency_alert.html`로 전환되는데, 해당 화면에는 KTAS 등급 카드가 없어 분류를 못 한 것으로 오해됨.
+  3. **비동기 타임아웃(9초) 경계선**: 복합 임상 추론 소요 시간(8.5~10초)으로 인한 간헐적 Abort 폴백 가능성.
+* **해결 방안 및 개선 조치**:
+  1. 원인 규명 및 2021 소아 KTAS 지침 대조 분석 완료.
+  2. 119 긴급 안내 화면에도 KTAS 등급 카드 및 AI 감별 소견 노출 개선 권고.
+  3. API 타임아웃 12초 상향 권고.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/emergency_alert.html)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
