@@ -28,6 +28,24 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.67-dynamic-badge-count-and-user-location-history] 2026-10-16: 선택 탭(병원/약국/전체)별 상단 배지 운영 시설 수 실시간 동기화 및 '자주 찾는 주요 지역' 사용자 실제 검색 히스토리 동적 관리(HTML 하드코딩 제거, 최대 15개 제한, 최신순 자동 갱신) (정영식 팀장)
+* **🎯 탭 선택별 상단 배지 운영 시설 수 1:1 실시간 동기화 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - `updateFacilityCountBadge(filter)` 엔진을 탑재하여 사용자가 '🌙 달빛병원 18' 선택 시 상단 배지가 `마천동 반경 15km 18곳 운영중`으로, '💊 심야약국 309' 선택 시 `309곳 운영중`으로, '전체 327' 선택 시 `327곳 운영중`으로 즉각 동기화 (기존 327곳 고정 결함 완벽 해결).
+* **📍 '자주 찾는 주요 지역' HTML 하드코딩 완전 적출 및 실검색 동적 히스토리화 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html), [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - 기존 HTML 및 JavaScript 내 하드코딩되어 있던 더미 지역 칩(잠실동, 가락동 등) 및 태그(`현재: 잠실동`)를 전면 제거.
+  - 사용자가 실제로 검색창에서 검색하여 설정하거나 GPS로 측정한 지역만 LocalStorage(`aisum_recent_locations`)에 최대 15개까지 최신순(FIFO/LRU)으로 관리.
+  - 동일 지역 재선택 시 기존 항목을 제거하고 최상단으로 자동 최신화하며, 15개 초과 시 가장 오래된 이전 정보 자동 소멸.
+  - 초기 이력 부재 시 "최근 설정한 지역이 없습니다" 점선 안내 컴포넌트 표출.
+
+### 🌟 [v2.4.66-plan-md-optimization-and-whitepaper-refactoring] 2026-10-16: 종합 기획안 & 개발 백서(PLAN.md) 84.3% 압축 요약 최적화 및 11대 핵심 아키텍처 재편 (정영식 팀장)
+* **📚 1,728줄 비대화 백서의 11대 핵심 장 중심 압축 집약 ([PLAN.md](file:///e:/monnlight/PLAN.md))**:
+  - 기존 1,728줄(202KB)에 달하던 과도한 마이크로 체인지로그(74개 세부 작업)와 중복 서술을 전면 정리하고, 순수 시스템 아키텍처 및 핵심 명세 중심으로 **271줄(26KB, 84.3% 감축)** 최적화 달성.
+  - 제1장(서비스 정체성), 제2장(데이터 실증 파이프라인), 제3장(모듈 트리), 제4장(2계층 Red Flag V2), 제5장(풀스택 데이터 흐름), 제6장(24시간 NMC 동기화), 제7장(서킷 브레이커 & 3-Tier Multi-Storage), 제8장(Fixed App Shell & 1:1 교차 LBS), 제9장(13대 화면 및 7대 컴포넌트 결합 명세), 제10장(92개 전수 테스트 통과 명세), 제11장(향후 백로그)으로 체계화.
+* **🛡️ 4대 거버넌스 문서 동기화 완결 ([Answer-영식.md](file:///e:/monnlight/Answer-영식.md), [log.md](file:///e:/monnlight/log.md))**:
+  - `Answer-영식.md` Q106 목차 및 본문 상세 기록 완료.
+  - `log.md` [ISSUE-108] 트러블슈팅 및 리팩토링 상세 내역 등록 완료.
+  - 92개 테스트 무결점 통과 상태 유지 (`Ran 92 tests, OK`).
+
 ### 🌟 [v2.4.65-pediatric-fever-standards-and-temp-sync] 2026-10-16: 소아 전문 문진(input.html) 체온 다이얼 5단계 의학 표준화, 구어체 체온 자동 인식, 100일 미만 위험군 인라인 뱃지화 및 레이아웃 시프트 0px 달성 (김동준 팀원)
 * **🎯 체온 다이얼 바늘 및 상태 뱃지 수치 불일치 결함 무결점 교정 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
   - 다이얼 바늘을 41.0℃로 올렸을 때 하단 알약 배지에 `39.5℃ 초고열`로 고정 출력되던 하드코딩 텍스트를 제거하고 `🔥 초고열 위급` 상태 명칭으로 일원화.

@@ -430,6 +430,11 @@ window.refreshUserCurrentLocation = function() {
     // 4. UI 및 LocalStorage에 상세 주소 완벽 동기화 (모달 상단 현재 설정된 주소 바 즉각 반영)
     window.updateLocationDisplay(dong, lat, lon, fullAddr);
 
+    // 최근 이용 지역 히스토리에 추가 (GPS 측정 위치도 사용자 이용 지역으로 보존, 최대 15개)
+    if (typeof window.addRecentLocation === 'function') {
+      window.addRecentLocation(dong, lat, lon, fullAddr);
+    }
+
     // 모달 상단 주소 바 엘리먼트 즉시 시각 갱신
     const barEl = document.getElementById('modal-current-address-bar');
     if (barEl) {
@@ -477,12 +482,110 @@ window.refreshUserCurrentLocation = function() {
   );
 };
 
+// ============================================================================
+// 📍 User Recent Locations History Manager (사용자 실제 검색/설정 지역 히스토리 관리 - 최대 15개)
+// ============================================================================
+const AISUM_RECENT_LOCATIONS_KEY = 'aisum_recent_locations';
+const MAX_RECENT_LOCATIONS = 15;
+
+function extractGuName(fullAddr, defaultDong) {
+  if (fullAddr) {
+    const match = fullAddr.match(/([가-힣]+(?:구|군|시))\s/);
+    if (match) return match[1];
+  }
+  return '지역';
+}
+
+window.getRecentLocations = function() {
+  try {
+    const raw = localStorage.getItem(AISUM_RECENT_LOCATIONS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    return [];
+  }
+};
+
+window.addRecentLocation = function(dongName, lat, lon, fullAddr) {
+  if (!dongName || dongName === '현재 위치' || dongName === '내 위치') return;
+  const name = dongName.trim();
+  const addr = (fullAddr || `서울특별시 송파구 ${name}`).trim();
+  const gu = extractGuName(addr, name);
+
+  let list = window.getRecentLocations();
+  // 1. 기존 동일 지역(동 이름 또는 전체 주소) 중복 제거 (기존 정보는 최신화 위해 제거)
+  list = list.filter((item) => item.name !== name && item.fullAddr !== addr);
+
+  // 2. 최상단(맨 앞)에 새 위치 추가
+  list.unshift({
+    name: name,
+    gu: gu,
+    lat: lat || 37.4858,
+    lon: lon || 127.1225,
+    fullAddr: addr,
+    timestamp: Date.now()
+  });
+
+  // 3. 최대 15개까지만 유지 (15개 초과 시 오래된 정보 자동 제거)
+  if (list.length > MAX_RECENT_LOCATIONS) {
+    list = list.slice(0, MAX_RECENT_LOCATIONS);
+  }
+
+  try {
+    localStorage.setItem(AISUM_RECENT_LOCATIONS_KEY, JSON.stringify(list));
+  } catch (e) {}
+
+  // 열려있는 모달 그리드 동적 갱신
+  if (typeof window.renderRecentLocationsGrid === 'function') {
+    window.renderRecentLocationsGrid();
+  }
+};
+
+window.renderRecentLocationsGrid = function() {
+  const grid = document.getElementById('quick-locations-grid');
+  if (!grid) return;
+
+  const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '문정동';
+  const recentList = window.getRecentLocations();
+
+  // 사용자가 실제로 검색/이용한 지역이 없는 경우 (HTML 하드코딩 완전 배제)
+  if (recentList.length === 0) {
+    grid.innerHTML = `
+      <div class="recent-locations-empty" style="grid-column: 1 / -1; padding: 24px 12px; text-align: center; color: #94a3b8; font-size: 13px; line-height: 1.6; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+        <span class="material-symbols-outlined" style="font-size: 26px; color: #94a3b8; display: block; margin-bottom: 4px;">manage_search</span>
+        <strong style="color: #475569; font-size: 13.5px;">최근 설정한 지역이 없습니다</strong><br />
+        상단 검색창에서 동이나 도로명을 검색하여 위치를 설정해보세요.
+      </div>
+    `;
+    return;
+  }
+
+  let chipsHtml = '';
+  recentList.forEach((loc) => {
+    const isActive = loc.name === currentDong;
+    const chipAddr = loc.fullAddr || `서울특별시 ${loc.gu} ${loc.name}`;
+    chipsHtml += `
+      <button type="button" class="loc-chip-btn ${isActive ? 'active' : ''}" data-dong="${escapeSearchHtml(loc.name)}" onclick="window.setUserCustomLocation('${escapeSearchHtml(loc.name)}', ${loc.lat}, ${loc.lon}, '${escapeSearchHtml(chipAddr)}')">
+        <span class="chip-name">${escapeSearchHtml(loc.name)}</span>
+        <span class="chip-gu">${escapeSearchHtml(loc.gu || '')}</span>
+      </button>
+    `;
+  });
+  grid.innerHTML = chipsHtml;
+};
+
 window.setUserCustomLocation = function(dongName, lat, lon, fullAddr) {
   const userAddr = fullAddr || `서울특별시 송파구 ${dongName}`;
   try {
     localStorage.setItem('aisum_location_manual', 'true');
     localStorage.setItem('aisum_user_address', userAddr);
   } catch (e) {}
+
+  // 사용자가 검색/선택한 실제 지역을 최근 이용 지역 히스토리에 추가 (최대 15개, 최신순 갱신)
+  if (typeof window.addRecentLocation === 'function') {
+    window.addRecentLocation(dongName, lat, lon, userAddr);
+  }
 
   window.updateLocationDisplay(dongName, lat, lon, userAddr);
   if (typeof window.closeLocationModal === 'function') {
@@ -910,22 +1013,9 @@ window.openLocationModal = function() {
     barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:16px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
   }
 
-  // Render quick locations grid
-  const grid = document.getElementById('quick-locations-grid');
-  if (grid) {
-    const popular = (window.AISUM_LOCATIONS_DB || []).filter((item) => item.isPopular);
-    let chipsHtml = '';
-    popular.forEach((loc) => {
-      const isActive = loc.name === currentDong;
-      const chipAddr = loc.fullAddr || `서울특별시 ${loc.gu} ${loc.name}`;
-      chipsHtml += `
-        <button type="button" class="loc-chip-btn ${isActive ? 'active' : ''}" data-dong="${loc.name}" onclick="window.setUserCustomLocation('${loc.name}', ${loc.lat}, ${loc.lon}, '${escapeSearchHtml(chipAddr)}')">
-          <span class="chip-name">${loc.name}</span>
-          <span class="chip-gu">${loc.gu}</span>
-        </button>
-      `;
-    });
-    grid.innerHTML = chipsHtml;
+  // Render quick locations grid based on user's actual search history (max 15, no hardcoded entries)
+  if (typeof window.renderRecentLocationsGrid === 'function') {
+    window.renderRecentLocationsGrid();
   }
 };
 
@@ -1103,12 +1193,35 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
   const hospCount = filteredHospitals.length;
   const pharmCount = filteredPharmacies.length;
 
+window.updateFacilityCountBadge = function(filter) {
   const countBadge = document.getElementById('live-facilities-count');
-  if (countBadge) {
-    countBadge.textContent = totalCount > 0
-      ? `${userLoc.dong} 반경 15km ${totalCount.toLocaleString()}곳 운영중`
-      : `${userLoc.dong} 반경 15km 내 운영 시설 없음`;
+  if (!countBadge || !window.__LIVE_FACILITIES_MASTER__) return;
+
+  const master = window.__LIVE_FACILITIES_MASTER__;
+  const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
+  const userDong = master.userDong || '내 위치';
+
+  const totalCount = (master.all || []).length;
+  const hospCount = (master.hospital || []).length;
+  const pharmCount = (master.pharmacy || []).length;
+
+  let targetCount = totalCount;
+  let emptyNoun = '의료시설';
+
+  if (currentFilter === 'hospital') {
+    targetCount = hospCount;
+    emptyNoun = '달빛어린이병원';
+  } else if (currentFilter === 'pharmacy') {
+    targetCount = pharmCount;
+    emptyNoun = '심야약국';
   }
+
+  if (targetCount > 0) {
+    countBadge.textContent = `${userDong} 반경 15km ${targetCount.toLocaleString()}곳 운영중`;
+  } else {
+    countBadge.textContent = `${userDong} 반경 15km 내 운영 ${emptyNoun} 없음`;
+  }
+};
 
   const countAll = document.getElementById('count-all');
   if (countAll) countAll.textContent = totalCount.toLocaleString();
@@ -1118,6 +1231,9 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
 
   const countPharm = document.getElementById('count-pharmacy');
   if (countPharm) countPharm.textContent = pharmCount.toLocaleString();
+
+  // 상단 뱃지 카운트 실데이터 동기화 (현재 선택된 탭 필터 수에 맞춤)
+  window.updateFacilityCountBadge(window.__CURRENT_FACILITY_FILTER__ || 'all');
 
   // 7. 현재 필터에 맞춰 즉시 렌더링
   window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
@@ -1350,6 +1466,11 @@ window.filterLiveFacilities = function(filter) {
   if (tabPharm) {
     tabPharm.classList.toggle('active', filter === 'pharmacy');
     tabPharm.setAttribute('aria-selected', filter === 'pharmacy' ? 'true' : 'false');
+  }
+
+  // 상단 뱃지 카운트를 선택한 병원/약국 필터 수에 맞게 실시간 동기화
+  if (typeof window.updateFacilityCountBadge === 'function') {
+    window.updateFacilityCountBadge(filter);
   }
 
   window.renderLiveFacilities(filter);

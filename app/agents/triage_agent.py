@@ -106,7 +106,8 @@ TRIAGE_SYSTEM_PROMPT = """당신은 소아 야간 응급 안내 서비스 'Moonl
 [음성 인식(STT) 노이즈 복원 및 임상 문맥 정규화 지침]
 - 보호자의 메시지는 다급한 소아 응급 상황에서 모바일 음성 인식(STT)을 통해 구어체나 오탈자, 발음 왜곡("삼십팔도오부", "열이 삼팔도", "쌕색거려", "해열재", "분수토햇어", "축쳐져", "경기")으로 전달될 수 있습니다.
 - 이러한 음성 전사 노이즈나 부정확한 맞춤법에 구애받지 말고, 전체 임상 맥락을 복원하여 의학적 표준 증상(발열, 천명음, 구토, 보챔, 기면/처짐, 경련 등)으로 정규화하여 추출하십시오.
-- 보호자가 체온을 숫자로 직접 명시하지 않고 "초고열", "고열", "미열", "열이 있어요", "불덩이 같아요" 등 구어체 증상으로만 표현한 경우, 소아 임상 표준 가이드에 따라 적절한 추정 체온(초고열: 40.0℃, 고열: 39.2℃, 미열: 37.8℃, 일반 발열: 38.5℃)을 temperature 필드에 반영하십시오.
+- 보호자가 숫자가 아닌 한글 음성으로 체온을 말한 경우("삼십팔도 오부" -> 38.5, "삼십구도" -> 39.0) 정확히 수치화하여 temperature 필드에 반영하십시오.
+- 보호자가 구체적 체온 수치를 언급하지 않고 단순히 "열나요", "열이 있어요", "미열이 있어요" 등 증상 명칭만 표현한 경우, temperature 필드는 null로 두고 증상 목록(symptoms)에 반영하여 다음 턴에서 구체적인 현재 체온을 확인하십시오. (단, "초고열", "불덩이 같아요" 등 즉각적 위급 표현이면서 체온 측정이 불가능한 극단적 상황일 때만 추정치 39.5℃ 이상을 보수적으로 고려하십시오.)
 - 보호자가 나이나 체온을 "모름" 또는 "미입력"으로 전달하더라도 에러를 발생시키지 말고, 소아 안전 기준(Safe Default)으로 위험도를 보수적으로 평가하며 신속한 병원 탐색을 지원하십시오.
 
 [절대 준수 의료법 제27조 무면허 의료행위 방지 가드레일]
@@ -330,16 +331,12 @@ class TriageAgent:
             except ValueError:
                 pass
 
-        # 2-1. Colloquial symptom-based temperature fallback (e.g. "초고열", "고열", "미열", "열이 있어요")
+        # 2-1. Colloquial symptom-based temperature fallback (Extreme urgent markers only)
+        # Generic symptoms like "열나요", "미열" remain in symptoms for multi-turn triage clarification.
         if temperature is None:
             if re.search(r"초고열|불덩이\s*같|열이\s*펄펄", text):
                 temperature = 40.0
-            elif re.search(r"고열|불덩이|열이\s*(?:심해|많이|높아)", text):
-                temperature = 39.2
-            elif re.search(r"미열|약간\s*열|열감", text):
-                temperature = 37.8
-            elif re.search(r"열이\s*있|열\s*나|발열|열이\s*올라|열\s*나서|열있|열나요", text):
-                temperature = 38.5
+
 
         # 3. Parse duration (hours, days, or colloquial time markers)
         duration_hours = state.duration_hours
