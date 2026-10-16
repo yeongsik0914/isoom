@@ -189,7 +189,7 @@ graph TD
 | **위치 모달 (주소 검색)** | `GET /api/v1/location` | `query`, `type=address` | 카카오 도로명/지번 주소 목록 및 WGS84 좌표 |
 | **위치 모달 (키워드 검색)** | `GET /api/v1/location` | `query`, `type=keyword` | 카카오 장소명/건물명 랜드마크 목록 및 좌표 |
 | **위치 모달 (현재 위치)** | `GET /api/v1/location` | `lat`, `lon` (역지오코딩) | 도로명+건물명 결합 무손실 상세 주소 반환 |
-| **`input.html` (증상 제출)** | `POST /api/v1/chat` | `user_message`, `force_matching=True`, `patient_vitals` | 0ms Red Flag 분기 또는 `SupervisorResponse` (KTAS+페어링, None 바이탈 보존) 반환, 체온 다이얼 소아 표준 정상 체온(36.5℃, 🟢 정상 체온) 기본 초기화 |
+| **`input.html` (증상 제출)** | `POST /api/v1/chat` | `user_message`, `force_matching=True`, `patient_vitals` | 0ms Red Flag(사지절단 등) 최우선 분기, 네거티브 블랙리스트 필터링, Gemini 3.8 Flash 168개 소아 KTAS 1~5단계 및 추천 시설 100% 동적 바인딩 |
 | **`emergency_guide.html`** | `GET /api/v1/emergency/nearby` | `lat`, `lon`, `limit=5` | 소아 전문 응급실 실시간 잔여병상(`hv28`) 및 공지 배지 |
 | **관리자 동기화 (온디맨드)** | `POST /api/v1/emergency/sync-static` | `force=True` (선택) | 24시간 Hash Diffing 증분 동기화 결과 JSON |
 

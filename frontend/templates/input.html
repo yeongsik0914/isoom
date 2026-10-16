@@ -1421,42 +1421,27 @@
         return null;
       }
 
-      // 소아 임상 증상 유효성 검사 (초성/잡담/무의미한 텍스트 필터링)
-      const PEDIATRIC_CLINICAL_KEYWORDS = [
-        "열", "발열", "고열", "미열", "초고열", "불덩", "체온", "뜨거", "뜨겁",
-        "기침", "콜록", "컹컹", "콧물", "코막", "가래", "쌕쌕", "쌕색", "천명", "숨", "호흡", "헐떡",
-        "토", "구토", "분수토", "게우", "설사", "변", "피똥", "혈변", "배", "복통", "아파", "아프",
-        "처짐", "축처", "늘어져", "기면", "보챔", "칭얼", "울음", "자지러", "안자", "경련", "경기", "발작",
-        "떨림", "의식", "발진", "열꽃", "두드러기", "가려", "수포", "물집", "화상", "피", "출혈",
-        "다침", "상처", "골절", "귀", "이통", "눈", "눈곱", "입", "침", "탈수", "소변", "안먹", "거부"
-      ];
-
       function validateSymptomInput(text) {
-        if (!text) return { valid: false, reason: '아이의 구체적인 증상(예: 열, 기침, 구토, 콧물, 복통, 처짐 등)을 입력해주세요.' };
+        if (!text) return { valid: false, reason: '아이의 구체적인 증상(예: 열, 기침, 구토, 콧물, 복통, 외상 등)을 입력해주세요.' };
         const trimmed = text.trim();
         if (trimmed.length < 2) {
           return { valid: false, reason: '증상을 2글자 이상 구체적으로 적어주세요.' };
         }
         // 1. 순수 자음/모음 초성만 있는 경우 (ㅋㅋㅋ, ㅎㅎㅎ, ㅠㅠ 등)
         if (/^[ㄱ-ㅎㅏ-ㅣ\s]+$/.test(trimmed)) {
-          return { valid: false, reason: '초성이나 자음 대신 아이의 증상(예: 열, 기침, 구토, 보챔 등)을 적어주세요.' };
+          return { valid: false, reason: '초성이나 자음 대신 아이의 증상(예: 열, 기침, 구토, 보챔, 외상 등)을 적어주세요.' };
         }
         // 2. 동일한 문자 3회 이상 반복 (aaa, 111, zzz 등)
         if (/^(.)\1{2,}$/.test(trimmed)) {
           return { valid: false, reason: '유효한 아이의 증상을 입력해주세요.' };
         }
-        // 3. 단순 영문 자판 무의미 테스트 단어 (asdf, test, qwer, zxcv, 1234 등)
+        // 3. 단순 영문/숫자 자판 무의미 테스트 단어 (asdf, test, qwer, zxcv, 1234 등)
         if (/^(asdf|test|qwer|zxcv|abc|1234|테스트|ㅁㄴㅇㄹ)$/i.test(trimmed)) {
           return { valid: false, reason: '정확한 아이의 증상 내용을 입력해주세요.' };
         }
-        // 4. 소아 임상 증상 키워드 존재 여부 확인
-        const hasClinicalWord = PEDIATRIC_CLINICAL_KEYWORDS.some(kw => trimmed.includes(kw));
-        if (!hasClinicalWord) {
-          // 일상 잡담 단어 감지 (안녕, 배고파, 심심해 등)
-          if (/안녕|반가|배고파|밥줘|누구|뭐해|심심|하이|바이|날씨|장난/.test(trimmed)) {
-            return { valid: false, reason: '일상 대화가 아닌 아이의 아픈 증상(예: 열, 기침, 콧물, 구토 등)을 알려주세요.' };
-          }
-          return { valid: false, reason: '소아 의료기관 추천을 위해 아이의 구체적인 증상(예: 열, 기침, 구토, 콧물, 복통, 처짐 등)을 알려주세요.' };
+        // 4. 일상 잡담 단독 입력 감지 (안녕, 배고파, 심심해 등 비증상 일상어)
+        if (/^(안녕|반가워|배고파|밥줘|누구야|뭐해|심심해|하이|바이|날씨|장난)$/.test(trimmed)) {
+          return { valid: false, reason: '일상 대화가 아닌 아이의 아픈 증상(예: 열, 기침, 구토, 콧물, 복통, 외상 등)을 알려주세요.' };
         }
         return { valid: true };
       }
@@ -1875,6 +1860,40 @@
       // Submit Form
       triageSubmitBtn.addEventListener('click', () => {
         let symText = state.symptom.trim();
+        const effectiveAgeUnk = isEffectiveAgeUnknown();
+        const ageFormatted = effectiveAgeUnk 
+          ? '나이 미입력 (모름)' 
+          : (state.ageMonths <= 24 ? `${state.ageMonths}개월` : `${Math.floor(state.ageMonths / 12)}세`);
+
+        const effectiveUnknown = isEffectiveTempUnknown();
+        const effectiveTemp = effectiveUnknown ? null : state.temp;
+        const effectiveTempStr = effectiveUnknown ? '체온 미측정 (모름)' : `${state.temp.toFixed(1)}℃`;
+
+        // 🚨 1. 0ms Red Flag Guardrail Inspection (최우선 즉시 검사 - 사지절단/경련/의식불명 등 119 직행)
+        const isUnder100d = !effectiveAgeUnk && (state.isUnder100Days || state.ageMonths < 3);
+        const combinedText = `${symText} ${state.companionText} ${isUnder100d ? '100일 미만' : ''} ${effectiveUnknown ? '' : effectiveTempStr}`;
+        if (RED_FLAG_REGEX.test(combinedText) || /사지\s*절단|절단/.test(combinedText)) {
+          let reason = '12대 소아 위급 상황 (119 즉시 신고 필요)';
+          if (/절단|잘렸|잘려|전기톱|날아갔|사지/.test(combinedText)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
+          else if (/경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)/.test(combinedText)) reason = '소아 급성 경련 및 뇌전증 발작 의심';
+          else if (/의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도/.test(combinedText)) reason = '의식 저하 및 기면 상태 (초응급 이송)';
+          else if (/청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕/.test(combinedText)) reason = '급성 소아 호흡부전 및 기도폐쇄 의심';
+          else if (/초록색.*토|담즙|분수토|피똥|딸기잼.*변|혈변/.test(combinedText)) reason = '장중첩증/위장관 출혈 의심';
+          else if (/100일.*(38|열)|백일.*(38|열)/.test(combinedText) || (isUnder100d && effectiveTemp && effectiveTemp >= 38.0)) reason = '생후 100일 미만 영아 고열 (신생아 패혈증 의심)';
+          else if (/화상.*(얼굴|손|발)|(얼굴|손|발).*화상|물집.*(얼굴|손|발)/.test(combinedText)) reason = '소아 안면/수부 중증 화상 의심';
+
+          sessionStorage.setItem('red_flag_reason', reason);
+          if (redflagToast) redflagToast.style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          setTimeout(() => {
+            const targetUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : '/emergency_alert';
+            window.location.href = targetUrl;
+          }, 600);
+          return;
+        }
+
+        // 2. 비증상/잡담 텍스트 유효성 검사
         const symVal = validateSymptomInput(symText);
         if (!symVal.valid) {
           if (symptomInvalidTip && symptomInvalidText) {
@@ -1891,40 +1910,7 @@
           return;
         }
 
-        const effectiveAgeUnk = isEffectiveAgeUnknown();
-        const ageFormatted = effectiveAgeUnk 
-          ? '나이 미입력 (모름)' 
-          : (state.ageMonths <= 24 ? `${state.ageMonths}개월` : `${Math.floor(state.ageMonths / 12)}세`);
-
-        const effectiveUnknown = isEffectiveTempUnknown();
-        const effectiveTemp = effectiveUnknown ? null : state.temp;
-        const effectiveTempStr = effectiveUnknown ? '체온 미측정 (모름)' : `${state.temp.toFixed(1)}℃`;
-
-        // 1. Red Flag 0ms Guardrail Inspection
-        const isUnder100d = !effectiveAgeUnk && (state.isUnder100Days || state.ageMonths < 3);
-        const combinedText = `${symText} ${state.companionText} ${isUnder100d ? '100일 미만' : ''} ${effectiveUnknown ? '' : effectiveTempStr}`;
-        if (RED_FLAG_REGEX.test(combinedText)) {
-          let reason = '12대 소아 위급 상황 (119 즉시 신고 필요)';
-          if (/절단|잘렸|잘려|전기톱|날아갔/.test(combinedText)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
-          else if (/경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)/.test(combinedText)) reason = '소아 급성 경련 및 뇌전증 발작 의심';
-          else if (/의식|기절|실신|쓰러|축\s*늘어|반응.*없|깨워도/.test(combinedText)) reason = '의식 저하 및 기면 상태 (초응급 이송)';
-          else if (/청색증|파랗게|갈비뼈.*쑥|숨.*(헐떡|못\s*쉬)|쌕쌕/.test(combinedText)) reason = '급성 소아 호흡부전 및 기도폐쇄 의심';
-          else if (/초록색.*토|담즙|분수토|피똥|딸기잼.*변|혈변/.test(combinedText)) reason = '장중첩증/위장관 출혈 의심';
-          else if (/100일.*(38|열)|백일.*(38|열)/.test(combinedText) || (isUnder100d && effectiveTemp && effectiveTemp >= 38.0)) reason = '생후 100일 미만 영아 고열 (신생아 패혈증 의심)';
-          else if (/화상.*(얼굴|손|발)|(얼굴|손|발).*화상|물집.*(얼굴|손|발)/.test(combinedText)) reason = '소아 안면/수부 중증 화상 의심';
-
-          sessionStorage.setItem('red_flag_reason', reason);
-          if (redflagToast) redflagToast.style.display = 'block';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-
-          setTimeout(() => {
-            const targetUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : '/emergency_alert';
-            window.location.href = targetUrl;
-          }, 800);
-          return;
-        }
-
-        // 2. Format Structured Clinical Triage Payload
+        // 3. Format Structured Clinical Triage Payload
         const finalSymptom = symText;
         const medDetail = state.medType === 'none' ? '해열제 미복용' : `해열제: ${state.medTypeName}(${state.medTime})`;
         const finalCompanion = state.companionText ? `${state.companionText}, ${medDetail}` : medDetail;
@@ -1934,9 +1920,7 @@
           temp: effectiveTempStr,
           symptom: finalSymptom,
           companion: finalCompanion,
-          location: '잠실동',
-          ktas: (effectiveTemp && effectiveTemp >= 39.0) ? '3' : '4',
-          ktas_name: (effectiveTemp && effectiveTemp >= 39.0) ? '준응급 (야간소아과/응급실 권고)' : '경증 (달빛어린이병원 권고)'
+          location: localStorage.getItem('user_address') || sessionStorage.getItem('user_address') || '내 주변 (GPS)'
         };
         sessionStorage.setItem('triage_result', JSON.stringify(triagePayload));
 

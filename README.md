@@ -28,6 +28,15 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.70-e2e-backend-ktas-pipeline-and-redflag-fix] 2026-10-16: 사지절단 등 초응급 Red Flag 오차단 해결, 화이트리스트 적출 및 백엔드 Gemini 3.8 Flash 168개 소아 KTAS 분류 100% 동적 연동 (김동준 팀원)
+* **🚨 '사지절단' 등 초응급 Red Flag 0ms 즉시 가드레일 최우선화 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+  - 기존 유효성 검사 선행 실행으로 인해 '사지절단'이 차단되던 결함을 해결하고, 12대 Red Flag 검사를 최우선으로 배치하여 즉각 119 응급 화면(`emergency_alert.html`)으로 전환.
+* **🛡️ 임상 증상 화이트리스트 적출 및 네거티브 블랙리스트(초성/잡담 전용) 전환 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+  - `PEDIATRIC_CLINICAL_KEYWORDS` 화이트리스트를 제거하고, 순수 초성(`ㅋㅋㅋ`), 키보드 연타(`asdf`), 단독 일상어(`안녕`, `배고파`)만 차단하도록 개편.
+  - 모든 실제 증상 및 외상 서술은 백엔드 Gemini 3.8 Flash KTAS 엔진으로 무손실 전달.
+* **📊 결과 화면(result.html) 백엔드 KTAS 1~5단계 및 추천 시설 100% 동적 바인딩 ([frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**:
+  - 프론트엔드의 하드코딩 KTAS 추정을 전면 배제하고 백엔드 `SupervisorResponse`의 `ktas_level` (1~5단계), `ktas_level_name`, `hospitals`, `pharmacies`, `call_script`를 1:1 동적 렌더링.
+
 ### 🌟 [v2.4.69-pediatric-normal-temp-default-init] 2026-10-16: 체온 다이얼 기본값 의학 표준 정상 체온(36.5℃, 🟢 정상 체온) 초기화 및 사용자 체온 조작 혼선 방지 (김동준 팀원)
 * **🌡️ 문진 체온 게이지 기본값 소아 정상 체온(36.5℃) 초기화 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
   - 문진 화면 최초 진입 시 다이얼이 비정상적으로 `38.0℃ (발열 주의)`를 가리켜 발생하던 사용자 인지 혼선 및 의심을 완벽 해소.

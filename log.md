@@ -120,6 +120,7 @@
 | **[ISSUE-111]** | 문진 화면(input) ➔ 결과 화면(result) 백엔드 직결 | `launchAnalyzingSequence` 내 `POST /api/v1/chat` 비동기 통신 부재로 인한 정적 데이터 바인딩 결함 해소 및 KTAS 2-트랙 자동 라우팅 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-112]** | 문진 NLP 가드레일 & 미입력 바이탈 정합성 | 비증상·잡담 용어(ㅋㅋㅋ, 안녕, 배고파) 입력 시 KTAS 4단계 오분류 차단 및 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 변조 결함 원천 해결 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-113]** | 프론트엔드 체온 UI/UX & 임상 기본값 정합성 | 체온 게이지 기본값 소아 발열(38.0℃) 노출에 따른 사용자 혼선 방지 및 의학 표준 정상 체온(36.5℃) 기본 초기화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-114]** | 프론트엔드 유효성 검증 순서 & KTAS 백엔드 동적 바인딩 | 증상 화이트리스트 검증 결함으로 인한 '사지절단' Red Flag 오차단 해결 및 백엔드 KTAS 1~5단계·매칭 시설 100% 동적 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3702,3 +3703,31 @@
      - `state.tempTouched = false` 유지: 보호자가 바늘을 조작하지 않으면 병원 찾기 클릭 시 안전하게 `체온 미측정(모름)`으로 전달되는 로직과 완벽히 호환됨.
 * **적용 파일**:
   * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+
+
+### [ISSUE-114] 증상 화이트리스트 검증 결함으로 인한 '사지절단' Red Flag 오차단 해결 및 백엔드 KTAS 1~5단계·매칭 시설 100% 동적 연동
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX / 멀티 에이전트 E2E 연동 / KTAS 지능형 분류
+* **문제 상황**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)에서 사용자가 '사지절단' 등 초응급 위급 증상을 입력하고 병원 찾기를 눌렀을 때, 119 긴급 화면으로 직행하거나 백엔드로 전송되지 않고 "아이의 구체적인 증상을 알려주세요"라는 인라인 에러 박스가 뜨며 차단되는 결함 발생.
+  * 백엔드의 KTAS 1~5단계 정밀 분류 로직 및 위치 기반 추천 의료기관이 결과 화면([frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))에 완전하게 바인딩되지 않고 프론트엔드 하드코딩 추정에 의존하던 문제 확인.
+* **원인 분석**:
+  1. **화이트리스트(Whitelist) 검증 안티패턴**:
+     - `validateSymptomInput` 내에 60여 개의 내과적 질환 단어(`PEDIATRIC_CLINICAL_KEYWORDS`)만 등록되어 있어, '사지', '절단', '외상' 등 외과적 응급 키워드가 누락됨.
+  2. **가드레일 검사 순서 역전**:
+     - `triageSubmitBtn` 클릭 시 `validateSymptomInput`이 0ms Red Flag 검사보다 먼저 실행되어 조기 `return`되면서 `RED_FLAG_REGEX`와 백엔드 API에 도달하지 못함.
+  3. **결과 화면의 백엔드 필드 미활용**:
+     - `result.html`에서 `data.ktas_level`과 `data.hospitals`를 전적으로 활용하지 않고 로컬 정적 데이터에 의존하던 결함 존재.
+* **해결 방안 및 조치 내역**:
+  1. **가드레일 검사 우선순위 재정립 ([input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+     - `RED_FLAG_REGEX` 검사를 최우선으로 배치하여 '사지절단', '절단', '경련', '의식불명' 입력 시 0ms 내 즉각 `emergency_alert.html`로 전환.
+  2. **네거티브 필터링(블랙리스트) 전면 전환 ([input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+     - 화이트리스트를 전면 적출하고 순수 초성(`ㅋㅋㅋ`), 키보드 연타(`asdf`), 단독 일상 잡담(`안녕`, `배고파`)만 차단.
+     - 실제 모든 임상/외상 표현은 백엔드 Gemini 3.8 Flash KTAS 엔진으로 무손실 전달.
+  3. **결과 화면 백엔드 동적 바인딩 완성 ([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**:
+     - 백엔드 `SupervisorResponse`의 `ktas_level` (1~5단계), `ktas_level_name`, `hospitals`, `pharmacies`, `call_script`를 1:1 동적 바인딩하도록 개편.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)

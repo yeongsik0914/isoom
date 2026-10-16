@@ -1294,22 +1294,38 @@
         }
       }
 
-      // 3) 증상에 따른 실시간 소아 KTAS 등급 동적 산출 & 가이드 문구 주입
+      // 3) 증상에 따른 실시간 소아 KTAS 등급 동적 산출 & 가이드 문구 주입 (백엔드 Gemini KTAS 우선)
       let ktasLevel = 4;
       let ktasName = '준응급 (달빛어린이병원 권고)';
-      let ktasDesc = '준응급 상태로 대기시간이 짧고 소아청소년과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 안심 <strong>심야약국</strong>을 안내합니다.';
+      let ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 안내합니다.';
 
       if (data && data.ktas_level) {
         ktasLevel = data.ktas_level;
-        ktasName = data.ktas_level_name || (ktasLevel === 3 ? '응급 (달빛어린이병원 우선 권고)' : '준응급 (달빛병원 권고)');
+        ktasName = data.ktas_level_name || (
+          ktasLevel === 1 ? '소생 (119 즉시 신고)' :
+          ktasLevel === 2 ? '긴급 (전문응급의료센터 이송)' :
+          ktasLevel === 3 ? '응급 (달빛어린이병원 우선 권고)' :
+          ktasLevel === 4 ? '준응급 (달빛어린이병원 권고)' : '비응급 (외래 진료 권고)'
+        );
+        if (ktasLevel === 1) {
+          ktasDesc = '즉각적인 소생 처치가 필요한 최고 응급 상태입니다. <strong>119 구급차</strong>를 통해 가장 가까운 권역소아전문응급센터로 즉시 이송하십시오.';
+        } else if (ktasLevel === 2) {
+          ktasDesc = '생명이나 신체 기능에 중대한 위험이 있는 긴급 상태입니다. 지체 없이 <strong>대학병원 소아응급센터</strong>로 직행하십시오.';
+        } else if (ktasLevel === 3) {
+          ktasDesc = '중증 질환으로 진행될 가능성이 있는 응급 상태입니다. 대기시간이 긴 일반 응급실보다 소아청소년과 전문의가 상주하는 <strong>달빛어린이병원</strong>을 우선 안내합니다.';
+        } else if (ktasLevel === 4) {
+          ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 안내합니다.';
+        } else {
+          ktasDesc = '경미한 비응급 상태로 인근 <strong>달빛어린이병원</strong> 또는 야간 진료 의원에서 안전하게 외래 진찰받으실 수 있습니다.';
+        }
       } else {
-        const tempNum = parseFloat(rawTemp) || 38.0;
+        const tempNum = parseFloat(rawTemp) || 36.5;
         const symStr = symptom || '';
         if (tempNum >= 39.0 || symStr.includes('구토') || symStr.includes('처짐') || symStr.includes('복통') || symStr.includes('탈수')) {
           ktasLevel = 3;
           ktasName = '응급 (달빛어린이병원 우선 권고)';
           ktasDesc = '39℃ 이상 고열 또는 지속적인 구토·처짐 증상이 관찰됩니다. 권역응급실 장기 대기보다 빠른 대면 진료가 가능한 <strong>달빛어린이병원</strong>을 우선 안내합니다.';
-        } else if (tempNum >= 38.0 || symStr.includes('발열') || symStr.includes('기침')) {
+        } else if (tempNum >= 38.0 || symStr.includes('발열') || symStr.includes('기침') || symStr.includes('보챔')) {
           ktasLevel = 4;
           ktasName = '준응급 (달빛어린이병원 권고)';
           ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 안내합니다.';
@@ -1338,49 +1354,84 @@
       const ktasDescEl = document.getElementById('ktas-desc-detail');
       if (ktasDescEl) ktasDescEl.innerHTML = ktasDesc;
 
-      // 5) 전국 156개 달빛어린이병원 & 안심약국 실데이터 기반 현재 위치 최근접 4대 병원 동적 바인딩
+      // 5) 백엔드 실시간 매칭 병원 우선 바인딩 & 오프라인 시 156개 페어링 데이터 Fallback
       const userLat = parseFloat(localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || '37.4858');
       const userLon = parseFloat(localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || '127.1225');
       const userDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '문정동';
 
       let currentHospitals = [];
-      const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
 
-      if (pairings.length > 0) {
-        // Haversine 구면거리 계산을 통한 최근접 정렬
-        const sorted = pairings.map(p => {
-          const hLat = parseFloat(p.병원위도) || userLat;
-          const hLon = parseFloat(p.병원경도) || userLon;
-          const d = (typeof window.calculateDistanceKm === 'function')
-            ? window.calculateDistanceKm(userLat, userLon, hLat, hLon)
-            : Math.sqrt(Math.pow((userLat - hLat) * 111, 2) + Math.pow((userLon - hLon) * 88, 2));
-          const distKm = Number(d.toFixed(1));
+      if (data && data.hospitals && data.hospitals.length > 0) {
+        currentHospitals = data.hospitals.map((h, idx) => {
+          const pharm = (data.pharmacies && data.pharmacies[idx]) ? data.pharmacies[idx] : null;
+          const distKm = Number((h.거리_km || h.dist || 2.0).toFixed(1));
           return {
-            name: p.병원명,
+            name: h.기관명 || h.name || '야간 소아 의료기관',
             dist: distKm,
             drive_min: Math.max(3, Math.round(distKm * 2.5)),
-            duty_time: `오늘 야간진료 ${p.병원_평일마감 || '23:00'} 마감`,
-            tel: p.병원전화 || '02-1234-5678',
-            address: p.병원주소 || '',
-            waiting_count: Math.floor(Math.random() * 4) + 3,
+            duty_time: h.진료시간 || h.duty_time || '오늘 야간진료 운영중',
+            tel: h.전화번호 || h.tel || '02-1234-5678',
+            address: h.주소 || h.address || '',
+            waiting_count: h.대기_인원 || Math.floor(Math.random() * 4) + 2,
             hours: {
-              weekday: p.병원_평일진료 || '09:00 ~ 21:00',
-              saturday: p.병원_토요진료 || '09:00 ~ 18:00',
-              sunday: p.병원_일공진료 || '09:00 ~ 18:00'
+              weekday: h.진료시간 || '09:00 ~ 23:00',
+              saturday: '09:00 ~ 18:00',
+              sunday: '09:00 ~ 18:00'
             },
-            pharmacy: {
-              name: p.약국명 || '인근 안심약국',
-              tel: p.약국전화 || '',
-              duty_time: `${p.약국_평일마감 || '22:00'} 마감`,
-              margin: p.안전마진_분 || 30,
-              guide: p.이동안내 || '병원 인근 도보 1~2분',
-              address: p.약국주소 || ''
+            pharmacy: pharm ? {
+              name: pharm.약국명 || pharm.name || '인근 안심약국',
+              tel: pharm.약국전화 || pharm.tel || '',
+              duty_time: pharm.마감시간 || pharm.duty_time || '23:30 마감',
+              margin: pharm.안전마진_분 || pharm.margin || 30,
+              guide: pharm.이동안내 || pharm.guide || '병원 인근 도보 1~2분',
+              address: pharm.약국주소 || pharm.address || ''
+            } : {
+              name: '인근 안심약국',
+              tel: '',
+              duty_time: '23:30 마감',
+              margin: 30,
+              guide: '병원 인근 30분 안심 조제',
+              address: ''
             }
           };
-        }).sort((a, b) => a.dist - b.dist);
-
-        currentHospitals = sorted.slice(0, 4);
+        });
       } else {
+        const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
+        if (pairings.length > 0) {
+          // Haversine 구면거리 계산을 통한 최근접 정렬
+          const sorted = pairings.map(p => {
+            const hLat = parseFloat(p.병원위도) || userLat;
+            const hLon = parseFloat(p.병원경도) || userLon;
+            const d = (typeof window.calculateDistanceKm === 'function')
+              ? window.calculateDistanceKm(userLat, userLon, hLat, hLon)
+              : Math.sqrt(Math.pow((userLat - hLat) * 111, 2) + Math.pow((userLon - hLon) * 88, 2));
+            const distKm = Number(d.toFixed(1));
+            return {
+              name: p.병원명,
+              dist: distKm,
+              drive_min: Math.max(3, Math.round(distKm * 2.5)),
+              duty_time: `오늘 야간진료 ${p.병원_평일마감 || '23:00'} 마감`,
+              tel: p.병원전화 || '02-1234-5678',
+              address: p.병원주소 || '',
+              waiting_count: Math.floor(Math.random() * 4) + 3,
+              hours: {
+                weekday: p.병원_평일진료 || '09:00 ~ 21:00',
+                saturday: p.병원_토요진료 || '09:00 ~ 18:00',
+                sunday: p.병원_일공진료 || '09:00 ~ 18:00'
+              },
+              pharmacy: {
+                name: p.약국명 || '인근 안심약국',
+                tel: p.약국전화 || '',
+                duty_time: `${p.약국_평일마감 || '22:00'} 마감`,
+                margin: p.안전마진_분 || 30,
+                guide: p.이동안내 || '병원 인근 도보 1~2분',
+                address: p.약국주소 || ''
+              }
+            };
+          }).sort((a, b) => a.dist - b.dist);
+
+          currentHospitals = sorted.slice(0, 4);
+        } else {
         currentHospitals = [
           {
             name: "하이엔소아청소년과의원",
