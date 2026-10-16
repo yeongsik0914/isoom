@@ -28,6 +28,15 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.81-interactive-leaflet-map-integration] 2026-10-16: 병원·약국 상세페이지 실시간 대화형 지도 연동 및 Leaflet 커스텀 펄스 핀 마커 구축 (정영식 팀장)
+* **🗺️ 카카오 SDK 401 인증 한계 극복 및 Leaflet.js + OpenStreetMap 엔진 전면 탑재**:
+  - `KAKAO_REST_API_KEY`의 JS SDK 미지원 및 로컬 도메인 미등록으로 인한 그라데이션 박스 폴백 현상을 해소하고, 상용 API 키나 도메인 제약 없이 전국 도로망·건물 타일을 100% 무결점으로 렌더링하는 Leaflet(v1.9.4) 엔진 구축.
+* **📍 병원·약국 상세페이지 2종 동시 적용**:
+  - `hospital_detail.html`: 로열 블루 펄스 마커(`local_hospital`) + `🌙 달빛어린이병원` 팝업 자동 활성화.
+  - `pharmacy_detail.html`: 에메랄드 그린 펄스 마커(`medication`) + `💊 안심 심야약국` 팝업 자동 활성화.
+* **📐 지도 뷰포트 확대**: 지도 컨테이너 높이를 190px에서 `220px`로 확대하여 지형 및 핀 시인성 대폭 강화.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///e:/monnlight/Answer-영식.md) Q119, [log.md](file:///e:/monnlight/log.md) ISSUE-128) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.80-remove-inaccurate-wait-time-metrics] 2026-10-16: 야간 병원 상세 화면의 부정확한 가상 대기 시간 지표 완전 삭제 및 2열 실측 메트릭 바(거리·주차) 개편 (정영식 팀장)
 * **🚫 공공 API 미제공 가상 대기시간('현재 대기') 칼럼 완전 삭제**:
   - 국립중앙의료원(NMC) 및 심평원 등 공공 API에서 제공하지 않는 일반 소아과의 비실측 대기시간('대기 약 20분')을 전면 제거하여 보호자의 현장 혼선 및 조기마감 피해 방지.

@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.59 (병원 상세 화면의 공공 API 미제공 가상 대기 시간 지표 완전 삭제 및 2열 실측 메트릭 바(거리·주차) 개편 아키텍처 확립, v2.4.80)  
+> **문서 버전**: v2.60 (병원·약국 상세페이지 Leaflet & OpenStreetMap 실시간 대화형 지도 엔진 및 커스텀 펄스 핀 연동 아키텍처 확립, v2.4.81)  
 > **최종 갱신 일자**: 2026-10-16  
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*  
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스.
@@ -195,8 +195,8 @@ graph TD
 3. `modal.html`: 사전 처치정보 및 의료법 제27조 안내 다이얼로그
 4. `loading.html`: AI 트리아제 로딩 애니메이션
 5. `result.html`: KTAS 판정 및 병원-약국 맞춤 결과
-6. `hospital_detail.html`: 달빛어린이병원 전용 상세 페이지 (소아 전문의/일반의 현황, 주차 면수/요금/안내, 요일별 진료시간표, 인-페이지 카카오 지도 매핑, 22:30 조기마감 주의 배너, 2열 실측 메트릭 바(내 위치 거리·주차 지원), 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
-7. `pharmacy_detail.html`: 심야약국 전용 상세 페이지 (상주 약사 현황, 복약지도 안내, +30분 조제 안전마진 표시, 요일별 심야 운영시간표, 인-페이지 카카오 지도 매핑, 1:1 연계 달빛어린이병원 카드, 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
+6. `hospital_detail.html`: 달빛어린이병원 전용 상세 페이지 (소아 전문의/일반의 현황, 주차 면수/요금/안내, 요일별 진료시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 로열 블루 펄스 핀 마커), 22:30 조기마감 주의 배너, 2열 실측 메트릭 바(내 위치 거리·주차 지원), 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
+7. `pharmacy_detail.html`: 심야약국 전용 상세 페이지 (상주 약사 현황, 복약지도 안내, +30분 조제 안전마진 표시, 요일별 심야 운영시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 에메랄드 그린 펄스 핀 마커), 1:1 연계 달빛어린이병원 카드, 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
 8. `emergency_alert.html`: 0ms Red Flag 119 긴급 직행 화면
 9. `emergency_guide.html`: 소아 응급처치 포토 슬라이더 & 통화 스크립트
 10. `settings.html`: 모니모 스타일 자녀 정보 & 알림 설정
