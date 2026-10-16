@@ -226,8 +226,8 @@ def build_pairings():
             f.write(js_content)
         logger.info(f"Saved: {out_js}")
 
-    # 3. Save public_night_pharmacies (all night pharmacies)
-    out_pharm_json = DATA_DIR / "public_night_pharmacies.json"
+    # 3. Save national_night_pharmacies_2028 (all night pharmacies)
+    out_pharm_json = DATA_DIR / "national_night_pharmacies_2028.json"
     with open(out_pharm_json, "w", encoding="utf-8") as f:
         json.dump(pharmacies, f, ensure_ascii=False, indent=2)
     logger.info(f"Saved: {out_pharm_json}")

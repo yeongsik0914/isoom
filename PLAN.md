@@ -73,6 +73,9 @@
     - [10.53 '아이숨' 전국 156개 달빛병원·2,028개 야간약국 전 페이지 위치 기반 연동 및 문정동 알약 주소 검색·현재 주소 직접 설정 기능 완성](#1053-아이숨-전국-156개-달빛병원2028개-야간약국-전-페이지-위치-기반-연동-및-문정동-알약-주소-검색현재-주소-직접-설정-기능-완성-2026-10-15-완결)
     - [10.54 '아이숨' 위치 설정 모달 HTML 정합성 복구 및 수직 레이아웃 안정화](#1054-아이숨-위치-설정-모달-html-정합성-복구-및-수직-레이아웃-안정화-2026-10-15-완결)
     - [10.55 코드베이스 클린업(159개 찌꺼기 파일 정리) 및 프론트엔드 HTML 6대 카테고리별 디렉터리 분리·경로 전면 재정비](#1055-코드베이스-클린업159개-찌꺼기-파일-정리-및-프론트엔드-html-6대-카테고리별-디렉터리-분리경로-전면-재정비-2026-10-15-완결)
+    - [10.56 풀스택 로컬 테스트 아키텍처 및 Uvicorn 일체형 서빙 체계](#1056-풀스택-로컬-테스트-아키텍처-및-uvicorn-일체형-서빙-체계-2026-10-16-완결)
+    - [10.57 frontend/templates/ 단일 템플릿 체계 및 스마트 라우터 아키텍처](#1057-frontendtemplates-단일-템플릿-체계-및-스마트-라우터-아키텍처-2026-10-16-완결)
+    - [10.58 frontend/ 단일 정적 리소스(assets/css/js) 및 templates/ 순수 HTML 아키텍처](#1058-frontend-단일-정적-리소스assetscssjs-및-templates-순수-html-아키텍처-2026-10-16-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1261,7 +1264,7 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
   - 첨부된 디자인 이미지(`📍 문정동 ∨`)와 일치하도록 기본 위치를 문정동(송파구)으로 바인딩하고, 알약 클릭 시 주소 검색 및 사용자가 입력한 주소로 현재 위치를 직접 지정할 수 있는 편의 기능 탑재.
 * **주요 엔지니어링 구현 및 파이프라인**:
   1. **전국 마스터 데이터셋 및 브라우저 번들 빌더 자동화 ([scripts/build_complete_app_datasets.py](file:///e:/monnlight/scripts/build_complete_app_datasets.py))**:
-     - 전국 156개 달빛병원과 2,028개 야간약국을 구면거리로 매칭하여 `data/nationwide_pairings.json` 및 `data/public_night_pharmacies.json` 구축.
+     - 전국 156개 달빛병원과 2,028개 야간약국을 구면거리로 매칭하여 `data/nationwide_pairings.json` 및 `data/national_night_pharmacies_2028.json` 구축.
      - 브라우저 전역 로더 `window.NATIONWIDE_PAIRINGS_DATA` 및 `window.PUBLIC_NIGHT_PHARMACIES_DATA`를 `frontend/js/` 및 `frontend/templates/js/`에 자동 동기화.
   2. **메인 홈 상단 위치 알약 및 주소 검색·직접 설정 UI/UX 고도화**:
      - `current-location-pill` 기본값을 `문정동` (위도 37.4858, 경도 127.1225)으로 설정 및 이미지 100% 일치 구현.
@@ -1316,6 +1319,86 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
      - 카테고리별 정적 파일 마운트(`/onboarding`, `/home`, `/triage`, `/result`, `/emergency`, `/settings`) 등록.
   4. **백엔드 데이터 소스 정합성 복구**:
      - `pairing_service.py`의 `PAIRINGS_FILE`을 `data/nationwide_pairings.json`으로 교정하여 단위 테스트(TC-503) 전수 통과.
+
+
+---
+
+### 10.56 풀스택 로컬 테스트 아키텍처 및 Uvicorn 일체형 서빙 체계 (2026-10-16 완결)
+* **배경 및 개요**:
+  - 프론트엔드 모듈 개발 후 단순 브라우저 파일 직접 열람(`file:///`) 방식의 한계(CORS 차단 `Origin: null`, 백엔드 프로세스 미기동으로 인한 `ERR_CONNECTION_REFUSED`, 백그라운드 스케줄러 및 AI FSM 오케스트레이터 미가동)를 극복.
+  - '파이썬 메인 터미널 구동'과 '웹 브라우저 로컬호스트 접속'을 분리된 선택지가 아닌 '원인과 결과(한 세트)'로 명확히 정립하고 일체형 로컬 테스트 체계를 수립.
+* **주요 엔지니어링 구현 및 아키텍처**:
+  1. **FastAPI Uvicorn 통합 서빙 파이프라인**:
+     - `main.py`에서 백엔드 REST API(`app.include_router(api_v1_router, prefix="/api/v1")`)와 프론트엔드 정적 파일 마운트(`/frontend`, `/css`, `/js`, `/assets`, `/onboarding`, `/home`, `/triage`, `/result`, `/emergency`, `/settings`)를 일체형으로 통합 제공.
+     - 웹 브라우저와 API 통신 출처를 동일한 `http://localhost:8000`으로 묶어 CORS 에러 발생률 0% 및 로컬 루프백 0ms 초고속 통신 보장.
+  2. **3단계 풀스택 로컬 테스트 프로토콜**:
+     - **1단계 (서버 기동)**: `uvicorn main:app --reload --host 0.0.0.0 --port 8000` 실행 ➔ 캐시 프리워밍(좌표/페어링) 및 APScheduler 3-Track 백그라운드 데몬 가동.
+     - **2단계 (화면 접속)**: 크롬 등 브라우저로 `http://localhost:8000/splash` (온보딩) 또는 `http://localhost:8000/home` (메인 홈) 접속.
+     - **3단계 (E2E 검증)**: 개발자 도구(F12) Network 탭에서 `input.html` ➔ `loading.html` ➔ `result.html`로 이어지는 비동기 `POST /api/v1/chat` 및 KTAS 분류 결과 동적 하이드레이션 실시간 검증.
+  3. **모바일 실기기 무선 테스트 환경**:
+     - 호스트 `0.0.0.0` 바인딩을 기반으로 동일 Wi-Fi에 연결된 스마트폰에서 `http://[PC_IPv4]:8000/splash` 접속을 지원하여 실제 모바일 기기에서의 터치 UX 및 LBS 위치 권한 흐름을 실시간 검증 가능하도록 구축.
+
+
+---
+
+### 10.57 frontend/templates/ 단일 템플릿 체계 및 스마트 라우터 아키텍처 (2026-10-16 완결)
+* **배경 및 개요**:
+  - `frontend/` 및 `templates/` 하위 서브폴더에 4중으로 복제되어 있던 52개 HTML 파일의 중복 난립을 해소하고, `frontend/templates/` 단일 디렉터리를 **단일 진실의 원천(Single Source of Truth)**으로 확립.
+  - 메인 홈(`localhost:8000/home`)에서 증상 입력 버튼 클릭 시 상대경로 해석으로 인해 `/home/input.html` 404 Not Found가 발생하던 결함을 원천 차단하기 위해 **FastAPI 스마트 Fallback 라우터** 구축.
+* **주요 엔지니어링 구현 및 아키텍처**:
+  1. **`frontend/templates/` 단일 템플릿 저장소 통합**:
+     - 13개 완성본 정식 HTML(`splash.html`, `permission.html`, `index.html`, `input.html`, `loading.html`, `result.html`, `hospital_detail.html`, `emergency_alert.html`, `emergency_guide.html`, `emergency_guide_checklist.html`, `emergency_guide_symptoms.html`, `settings.html`, `terms.html`)을 `frontend/templates/` 루트에 딱 1개씩 단일 보관.
+     - 4중 분산되어 있던 중복 서브폴더 12개 및 가짜 리다이렉트 스텁 파일 39개 전수 영구 삭제.
+  2. **HTML/JS 내부 네비게이션 플랫(Flat) 최적화**:
+     - 동일 디렉터리 내 직행 링크 체계로 전면 전환(`index.html` ➔ `input.html`, `result.html` ➔ `hospital_detail.html` 등).
+     - `main.js`의 `modalConfirmBtn`, `selectLiveFacilityCard`, `symptomInput` 핸들러 네비게이션을 단일 템플릿 직행 링크로 단순화.
+  3. **FastAPI 서버([main.py](file:///e:/monnlight/main.py)) 스마트 Fallback 라우터 장착**:
+     - `find_frontend_html()`이 `frontend/templates/{filename}`을 최우선 검색하도록 개편.
+     - `@app.get("/{subpath:path}/{filename}.html")`: `/home/input.html`, `/triage/loading.html` 등 과거 서브패스로 진입하는 모든 요청을 가로채 `templates/{filename}.html`을 200 OK로 즉각 서빙.
+     - `@app.get("/{filename}.html")`: 루트 직접 파일 접근도 200 OK 서빙.
+  4. **전수 검증 성과**:
+     - TestClient 기반 31개 전체 URL 조합(서브패스 포함) 전수 HTTP 200 OK 무결점 통과 확인 (Zero 404 달성).
+     - 단위/통합 테스트 13건 전수 무결점 통과(`OK`).
+
+---
+
+### 10.58 frontend/ 단일 정적 리소스(assets/css/js) 및 templates/ 순수 HTML 아키텍처 (2026-10-16 완결)
+* **배경 및 개요**:
+  - `frontend/` 루트와 `frontend/templates/` 하위에 이중으로 중복 존재하던 `assets/`, `css/`, `js/` 디렉터리의 중복을 완전히 제거.
+  - `frontend/templates/`는 **오직 순수 13개 HTML 파일만 존재하는 단일 템플릿 전용 저장소**로 역할을 완벽히 제한하고, `js/` 폴더 내 HTML 파일 부재 원칙을 철저히 준수.
+* **주요 엔지니어링 구현 및 아키텍처**:
+  1. **`templates/` 내 중복 폴더 전면 삭제**:
+     - `frontend/templates/` 내부의 `assets/`, `css/`, `js/` 디렉터리 전수 영구 삭제.
+     - `templates/` 안에는 HTML 파일을 제외한 그 어떤 폴더나 중복 파일도 일체 존재하지 않도록 정돈.
+  2. **`frontend/` 단일 정적 리소스 원천 확립**:
+     - 스타일시트(`css/style.css`), 자바스크립트(`js/main.js` 외 2종), 이미지 자산(`assets/images/`)을 `frontend/` 루트 하위에 단 하나씩만 보관.
+  3. **`js/` 폴더 내 HTML 부재 원칙 준수**:
+     - `frontend/js/` 안에는 오직 순수 스크립트 3종만 존재하며, HTML 파일은 0개임을 전수 검증.
+  4. **HTML 템플릿 리소스 참조 태그 정규화**:
+     - `templates/*.html` 파일들이 상위 단일 리소스(`../css/style.css`, `../js/main.js`, `../assets/...`)를 직접 참조하도록 정규화 완료.
+  5. **무결점 검증**:
+     - TestClient 기반 31개 전체 엔드포인트 HTTP 200 OK 무결점 유지 확인.
+
+
+---
+
+### 10.59 data/ 정적 데이터셋 아키텍처 정비 및 최신 마스터 일원화 (2026-10-16 완결)
+* **배경 및 개요**:
+  - `data/` 디렉터리에 보관 중이던 공공데이터포털 API 기반 약국 데이터셋의 구버전 중복 파일(`public_night_pharmacies.json`)을 안전하게 정리.
+  - 시스템 임상 판단의 핵심인 KTAS 소아 분류 데이터셋과 530개 응급실 위치 좌표 데이터셋은 엄격히 보존하고, 최신 공공 API 3대 실데이터 마스터 체계 확립.
+* **주요 엔지니어링 구현 및 아키텍처**:
+  1. **핵심 데이터셋 100% 무결점 보존**:
+     - KTAS 소아 168개 주증상 분류 데이터셋: `data/ktas_pediatric_dataset.json` (388 KB)
+     - 서울 530개 응급의료기관 위경도 좌표 데이터셋: `data/seoul_emergency_coords.json` (37 KB)
+  2. **공공데이터포털 API 기반 최신 3대 마스터 체계 확립**:
+     - 전국 156개 달빛어린이병원 최신 마스터: `data/national_moonlight_hospitals_156.json` (107 KB)
+     - 전국 2,028개 야간·심야약국 최신 마스터: `data/national_night_pharmacies_2028.json` (1.4 MB)
+     - 최신 156개 병원 - 2,028개 약국 1:1 페어링 마스터: `data/nationwide_pairings.json` (252 KB)
+  3. **비최신/중복 약국 데이터셋 영구 정리**:
+     - `national_night_pharmacies_2028.json`과 동일한 해시를 공유하던 구버전 복제본 `data/public_night_pharmacies.json` 안전 삭제.
+     - 데이터 배치 스크립트(`scripts/fetch_real_moonlight_hospitals.py`, `scripts/build_complete_app_datasets.py`)의 참조 경로를 최신 공식 명칭으로 일원화.
+  4. **무결점 검증**:
+     - 백엔드 API 및 프론트엔드 통합 단위/통합 테스트 스위트 13건 전수 무결점 통과(`OK`).
 
 ---
 

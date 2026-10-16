@@ -93,6 +93,10 @@
 | **[ISSUE-084]** | 전국 의료 데이터셋 통합 & 전 페이지 위치 기반 연동 | 전국 달빛어린이병원(156개)·야간약국(2,028개) 마스터 데이터셋 구축, 아이숨 전 페이지(index·result·hospital_detail) 위치 기반 실데이터 연동 및 상단 문정동 알약 주소 검색·현재 주소 직접 설정 기능 탑재 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-085]** | 프론트엔드 UI/UX 레이아웃 버그 & 태그 정합성 | 위치 설정 모달(location-select-modal) sheet-header 닫는 div 태그 누락으로 인한 컴포넌트 가로 압축 결함 해결 및 수직 렌더링 복원 | **해결 완료 (Resolved)** | 2026-10-15 |
 | **[ISSUE-086]** | 코드베이스 클린업 & 프론트엔드 모듈화 | 테스트 찌꺼기 파일(._* 159개 및 빈 폴더) 정리, HTML 6대 카테고리별 디렉터리 분리 및 파일간 경로 설정 전면 재정비 | **해결 완료 (Resolved)** | 2026-10-15 |
+| **[ISSUE-087]** | 풀스택 아키텍처 & 로컬 개발 환경 | 브라우저 file:/// 단순 열람 시 CORS 차단 및 백엔드 연동 불가 결함 해소 (FastAPI Uvicorn 로컬호스트 서빙 전환) | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-088]** | 템플릿 아키텍처 & 라우팅 결함 | HTML 4중 중복 난립 및 서브패스 상대경로 404 결함 해소 (frontend/templates/ 단일화 및 스마트 Fallback 라우터) | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-089]** | 정적 리소스 아키텍처 & 중복 제거 | frontend/ 내 assets, css, js 폴더 중복 제거 및 templates/ 순수 HTML 전용화 체계 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-090]** | 데이터셋 아키텍처 & 클린업 | data/ 폴더 내 KTAS 임상 데이터셋·위치 좌표 엄격 보존 및 비최신·중복 약국 데이터셋(public_night_pharmacies.json) 안전 삭제 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -2755,4 +2759,141 @@
   - [README.md](file:///e:/monnlight/README.md)
 * **조치 결과**:
   - 찌꺼기 파일 159개 정리 완료, 프론트엔드 HTML 구조의 직관적 모듈화 달성, 단위/통합 테스트 13건 전수 무결점 통과(`OK`).
+
+---
+
+### [ISSUE-087] 브라우저 file:/// 단순 열람 시 CORS 차단 및 백엔드 연동 불가 결함 해소 (FastAPI Uvicorn 로컬호스트 서빙 전환)
+
+* **발생 일자**: 2026-10-16
+* **분류**: 풀스택 아키텍처 / 개발 및 테스트 환경 / 네트워크 & CORS
+* **문제 상황**:
+  * 프론트엔드 개발 및 테스트 시 파일 탐색기에서 HTML 파일을 더블클릭하여 `file:///` 스키마로 직접 열어 테스트 진행.
+  * 백엔드 모듈(FastAPI, 0ms Red Flag 가드레일, AI FSM 오케스트레이터, 전국 페어링 LBS API)과 프론트엔드를 결합할 때, 터미널 파이썬 실행과 로컬호스트 브라우저 접속의 개념적 혼선 발생.
+  * `file:///` 환경에서는 자바스크립트 `fetch()` 호출 시 브라우저의 Same-Origin Policy에 의해 `Origin: null`로 간주되어 CORS 에러 발생 및 백엔드 미구동 시 `ERR_CONNECTION_REFUSED` 발생.
+* **원인 분석**:
+  * 웹 브라우저는 보안상의 이유로 로컬 파일 시스템(`file:///`)에서 외부 HTTP API(`http://localhost:8000/api/v1/chat`)를 호출하는 비동기 요청을 기본 차단함.
+  * 백엔드 데몬(APScheduler 5분 병상 폴링), 인메모리 캐시, FSM 세션 매니저는 파이썬 프로세스가 터미널에서 구동 중일 때만 상주하므로 파이썬 미실행 시 모든 API가 침묵함.
+* **구체적 해결 방안**:
+  1. **개념 정립**:
+     - '파이썬 메인 터미널 구동'과 '로컬호스트 접속'은 상호 배타적 선택지가 아니며, **"터미널에서 파이썬 서버 구동 ➔ 웹 브라우저에서 로컬호스트 열기"**의 '원인과 결과(한 세트)' 관계임을 규명.
+  2. **FastAPI 일체형 풀스택 서빙 구조 확립**:
+     - `main.py`에 구축된 정적 파일 마운트(`/home`, `/input`, `/result`, `/splash`, `/css`, `/js`, `/assets`)를 활용하여 브라우저와 API가 동일 출처(`http://localhost:8000`)를 공유하도록 가이드.
+     - CORS 에러 0% 및 0ms 루프백 로컬 통신 보장.
+  3. **실행 가이드 표준화**:
+     - 개발 모드 핫 리로드 실행 명령: `uvicorn main:app --reload --host 0.0.0.0 --port 8000`
+     - 접속 URL 표준화: `http://localhost:8000/splash` (온보딩), `http://localhost:8000/home` (메인홈), `http://localhost:8000/docs` (Swagger UI)
+     - 동일 Wi-Fi 내 모바일 실기기 무선 테스트 환경 안내 (`http://[내PC IP]:8000/splash`)
+* **적용 파일**:
+  - [main.py](file:///e:/monnlight/main.py)
+  - [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  - [log.md](file:///e:/monnlight/log.md)
+  - [PLAN.md](file:///e:/monnlight/PLAN.md)
+  - [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - 브라우저 단순 `file:///` 열람 방식의 한계를 극복하고, Uvicorn 로컬 웹 서버 기반의 100% 풀스택 실시간 연동 테스트 체계 확립.
+
+---
+
+### [ISSUE-088] HTML 4중 중복 난립 및 서브패스 상대경로 404 결함 해소 (frontend/templates/ 단일화 및 스마트 Fallback 라우터)
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 아키텍처 / 템플릿 관리 / 라우팅 & 네비게이션
+* **문제 상황**:
+  * 메인 홈(`localhost:8000/home`)에서 '동의하고 증상 입력하기' 버튼 클릭 시 브라우저가 `localhost:8000/home/input.html`로 이동하면서 `{"detail":"Not Found"}` (HTTP 404) 에러 발생.
+  * 동일한 13개 HTML 파일이 `frontend/` 루트, `templates/` 루트, 각 카테고리 서브폴더(`home/`, `triage/`, `result/`, `emergency/`, `settings/`, `onboarding/`)에 4중으로 복제(총 52개)되어 있어 유지보수 혼선 극심.
+* **원인 분석**:
+  * `templates/` 루트 파일들이 400바이트 크기의 가짜 리다이렉트 스텁이었고, 실제 완성본은 하위 서브폴더에 격리되어 있었음.
+  * `main.js`의 `modalConfirmBtn`이 `window.location.href = 'input.html'`을 호출할 때, 현재 경로가 `/home/`인 상태에서 상대경로 해석으로 `/home/input.html`을 요청하게 됨.
+  * `frontend/home/` 안에는 `input.html`이 없어 FastAPI StaticFiles 마운트가 404 Not Found를 반환함.
+* **구체적 해결 방안**:
+  1. **`frontend/templates/` 단일 저장소(Single Source of Truth) 통합**:
+     - 실제 완성본 HTML 13개(`splash.html`, `permission.html`, `index.html`, `input.html`, `loading.html`, `result.html`, `hospital_detail.html`, `emergency_alert.html`, `emergency_guide.html`, `emergency_guide_checklist.html`, `emergency_guide_symptoms.html`, `settings.html`, `terms.html`)를 `frontend/templates/` 루트에 딱 1개씩 단일 보관.
+     - 4중 분산되어 있던 중복 서브폴더 12개 및 가짜 리다이렉트 스텁 파일 39개 전수 영구 삭제.
+  2. **HTML 및 JS 내부 경로 플랫(Flat) 최적화**:
+     - 동일 폴더 기준으로 모든 링크를 통일(`index.html` ➔ `input.html` ➔ `loading.html` ➔ `result.html` ➔ `hospital_detail.html` 등).
+     - `main.js`의 `modalConfirmBtn`, `selectLiveFacilityCard`, `symptomInput` 핸들러 네비게이션을 단일 폴더 파일 직행 링크로 단순화.
+  3. **FastAPI 서버([main.py](file:///e:/monnlight/main.py)) 스마트 Fallback 라우터 장착**:
+     - `find_frontend_html()`이 `frontend/templates/{filename}`을 최우선 검색하도록 개편.
+     - `@app.get("/{subpath:path}/{filename}.html")` 라우터를 신설하여, 브라우저가 `/home/input.html`, `/triage/loading.html` 등 과거 서브패스로 요청하더라도 자동으로 `templates/{filename}.html`을 찾아 200 OK로 즉각 서빙(Zero 404 보장).
+     - `@app.get("/{filename}.html")` 루트 직접 접근 라우터 완비.
+* **적용 파일**:
+  - `frontend/templates/*.html` (13개 완성본 단일 템플릿 파일)
+  - [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js) & [frontend/templates/js/main.js](file:///e:/monnlight/frontend/templates/js/main.js)
+  - [main.py](file:///e:/monnlight/main.py)
+  - [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  - [log.md](file:///e:/monnlight/log.md)
+  - [PLAN.md](file:///e:/monnlight/PLAN.md)
+  - [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - 중복 파일 39개 및 불필요 서브폴더 완전 제거, `frontend/templates/` 단일 진실의 원천 확립.
+  - TestClient 기반 31개 전체 URL 전수 200 OK 통과 및 `Ran 13 tests, OK` 회귀 검증 완결.
+
+---
+
+### [ISSUE-089] frontend/ 내 assets, css, js 폴더 중복 제거 및 templates/ 순수 HTML 전용화 체계 구축
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 아키텍처 / 정적 리소스 관리 / 디렉터리 클린업
+* **문제 상황**:
+  * `frontend/` 루트와 `frontend/templates/` 하위에 `assets/`, `css/`, `js/` 디렉터리가 이중으로 중복 존재하여 용량 낭비 및 동기화 혼선 발생.
+  * 템플릿 디렉터리 내부에 정적 자산과 스크립트가 혼재되어 템플릿 순수성 훼손.
+* **원인 분석**:
+  * 과거 프론트엔드 마이그레이션 과정에서 `templates/` 하위에도 동일한 정적 자원들을 미러링 복사해 두어 중복 보관됨.
+* **구체적 해결 방안**:
+  1. **`templates/` 내 중복 폴더 전면 삭제**:
+     - `frontend/templates/` 내부의 `assets/`, `css/`, `js/` 디렉터리를 전수 영구 삭제.
+     - `frontend/templates/`는 오직 순수 13개 HTML 파일만 존재하는 단일 템플릿 전용 저장소로 역할 제한.
+  2. **`frontend/` 단일 정적 리소스 원천 확립**:
+     - 스타일시트(`css/style.css`), 자바스크립트(`js/main.js` 외 2종), 이미지(`assets/images/`)를 `frontend/` 루트 하위에 단 하나씩만 보관.
+  3. **`js/` 폴더 내 HTML 파일 부재 검증**:
+     - `frontend/js/` 안에는 순수 JS 파일 3종만 존재하며, HTML 파일이 0개임을 전수 검증 완료.
+  4. **HTML 템플릿 리소스 참조 태그 정규화**:
+     - `templates/*.html` 파일들에서 상위 디렉터리 리소스(`../css/style.css`, `../js/main.js`, `../assets/...`)를 직접 참조하도록 일괄 정돈.
+* **적용 파일**:
+  - `frontend/templates/` (내부 css, js, assets 삭제 및 13개 HTML 태그 정돈)
+  - `frontend/css/`, `frontend/js/`, `frontend/assets/` (단일 원천 유지)
+  - [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  - [log.md](file:///e:/monnlight/log.md)
+  - [PLAN.md](file:///e:/monnlight/PLAN.md)
+  - [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - `templates/` 폴더의 순수 HTML화 완결, 정적 자산 중복 제거로 디렉터리 청결도 극대화, 31개 전체 엔드포인트 HTTP 200 OK 무결점 유지.
+
+---
+
+### [ISSUE-090] data/ 폴더 내 KTAS 임상 데이터셋·위치 좌표 엄격 보존 및 비최신·중복 약국 데이터셋(public_night_pharmacies.json) 안전 삭제
+
+* **발생 일자**: 2026-10-16
+* **분류**: 정적 데이터셋 아키텍처 / 데이터 무결성 / 디렉터리 클린업
+* **문제 상황**:
+  * 공공데이터포털 API를 요청하여 구축한 전국 2,028개 야간약국 최신 데이터셋(`national_night_pharmacies_2028.json`)이 존재함에도, 구버전 명칭의 동일한 파일(`public_night_pharmacies.json`)이 `data/` 디렉터리에 잔류하여 1.4MB의 스토리지 낭비 및 데이터 파이프라인 참조 혼선 유발.
+  * 사용자의 엄격 지침: KTAS 분류 데이터셋 및 위치 좌표 데이터셋은 절대 보존하고, 최신 데이터셋이 아닌 비최신/중복 데이터셋만 선별 삭제 요청.
+* **원인 분석**:
+  * 초기 데이터셋 수집 배치에서 생성된 `public_night_pharmacies.json`과 이후 정규화된 `national_night_pharmacies_2028.json`이 동일한 SHA-256 해시를 공유하며 공존함.
+  * 일부 스크립트(`fetch_real_moonlight_hospitals.py`, `build_complete_app_datasets.py`)에 구버전 파일명 참조가 잔존하여 이중 유지되고 있었음.
+* **구체적 해결 방안**:
+  1. **보존 대상 검증 및 락(Lock) 확인**:
+     - KTAS 분류 데이터셋: `data/ktas_pediatric_dataset.json` (388KB) - 보존 확인.
+     - 위치 좌표 데이터셋: `data/seoul_emergency_coords.json` (37KB) - 보존 확인.
+     - 병원/약국 최신 실데이터: `data/national_moonlight_hospitals_156.json` (107KB), `data/national_night_pharmacies_2028.json` (1.4MB), `data/nationwide_pairings.json` (252KB) - 최신 공식 원천으로 유지.
+  2. **비최신/중복 데이터셋 삭제**:
+     - `data/public_night_pharmacies.json` 영구 삭제 조치.
+  3. **데이터 파이프라인 참조 정합성 보정**:
+     - `scripts/fetch_real_moonlight_hospitals.py` 및 `scripts/build_complete_app_datasets.py`의 약국 참조/저장 경로를 최신 공식 명칭인 `national_night_pharmacies_2028.json`으로 일원화.
+  4. **카탈로그 문서 최신화**:
+     - `data/README.md`에 최신 156개 달빛어린이병원 및 2,028개 야간약국 데이터셋 명세 반영.
+  5. **회귀 테스트 검증**:
+     - `python -m unittest tests/test_step5_api.py tests/test_step8_frontend_integration.py` 실행 (13개 테스트 전수 100% PASS).
+* **적용 파일**:
+  * `data/public_night_pharmacies.json` (삭제 완료)
+  * `scripts/fetch_real_moonlight_hospitals.py`
+  * `scripts/build_complete_app_datasets.py`
+  * `data/README.md`
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * KTAS 및 응급실 위치 데이터셋의 100% 무결점 보존, 비최신/중복 데이터 파일 정리 완료, 최신 공공 API 기반 3대 마스터 데이터셋 체계 확립.
+
 

@@ -30,6 +30,44 @@
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
 
+### 🌟 [v2.4.49-data-cleanup] 2026-10-16: data/ 디렉터리 내 KTAS 임상·위치 데이터셋 보존 및 비최신·중복 약국 데이터셋(public_night_pharmacies.json) 정돈 (정영식 팀장)
+* **🔒 KTAS 임상 데이터셋 & 응급실 위치 좌표 100% 무결점 보존**:
+  - 소아 168개 주증상·17대 계통·활력징후 임상 기준표(`ktas_pediatric_dataset.json`, 388KB) 및 서울 530개 응급의료기관 위경도 캐시(`seoul_emergency_coords.json`, 37KB) 영구 보존.
+* **🗑️ 공공데이터포털 API 기반 비최신·중복 약국 데이터셋 안전 삭제**:
+  - 최신 2,028개 야간약국 데이터셋(`national_night_pharmacies_2028.json`, 1.4MB)과 100% 동일한 해시를 가진 구버전 복제본 `public_night_pharmacies.json` 영구 삭제.
+  - 최신 공공 API 3대 마스터 세트(`national_moonlight_hospitals_156.json`, `national_night_pharmacies_2028.json`, `nationwide_pairings.json`)로 참조 일원화.
+* **📚 `data/README.md` 데이터셋 카탈로그 최신화 & 13개 전체 테스트 100% PASS**:
+  - 데이터셋 명세 및 동기화 주기 문서를 최신 실데이터 규격에 맞춰 개편.
+  - API 및 프론트엔드 통합 테스트 스위트(`test_step5_api.py`, `test_step8_frontend_integration.py`) 13개 전수 100% 통과 확인.
+
+### 🌟 [v2.4.48-clean-frontend-assets-dedup] 2026-10-16: frontend/ 내 assets, css, js 폴더 중복 제거 및 templates/ 순수 HTML 전용화 체계 완비 (정영식 팀장)
+* **🧹 templates/ 내 중복 정적 폴더(assets, css, js) 전면 삭제**:
+  - `frontend/templates/` 내부에 중복 보관되어 있던 `assets/`, `css/`, `js/` 폴더를 전수 영구 삭제하여, `templates/`를 오직 13개 순수 HTML만 보관하는 단일 템플릿 저장소로 역할 분리.
+* **🎨 frontend/ 단일 정적 리소스 원천 및 js/ 내 HTML 부재 원칙 확립**:
+  - `frontend/assets/`(이미지 11종), `frontend/css/`(style.css), `frontend/js/`(main.js 외 2종)를 단일 원천으로 확립.
+  - `frontend/js/` 안에는 순수 자바스크립트 파일만 존재하며 HTML 파일이 0개임을 전수 검증 완료.
+* **🔗 13개 템플릿 HTML 리소스 참조 태그 정규화 & 31개 엔드포인트 100% 200 OK**:
+  - `templates/*.html`에서 상위 단일 리소스(`../css/style.css`, `../js/main.js`, `../assets/...`)를 직접 참조하도록 일괄 정돈.
+  - TestClient 기반 31개 전체 엔드포인트 HTTP 200 OK 무결점 유지.
+
+### 🌟 [v2.4.47-unified-templates-and-smart-router] 2026-10-16: HTML 파일 frontend/templates/ 단일 진실의 원천(Single Source of Truth) 통합 및 스마트 Fallback 라우터 구축 (정영식 팀장)
+* **📁 frontend/templates/ 단일 템플릿 저장소 전면 통합 & 중복 39개 파일 전수 제거**:
+  - `frontend/` 루트, `templates/` 루트 및 6대 카테고리 서브폴더에 4중으로 흩어져 있던 52개 파일을 단일화하여, 완성본 HTML 13개만 `frontend/templates/` 루트에 딱 1개씩 단일 보관.
+  - 가짜 400바이트 리다이렉트 스텁 13개 및 12개 중복 서브폴더 전수 영구 삭제로 아키텍처 극단적 경량화.
+* **⚡ FastAPI [main.py](file:///e:/monnlight/main.py) 스마트 Fallback 라우터 구축 (Zero 404 보장)**:
+  - 브라우저가 `/home/input.html`, `/triage/loading.html` 등 과거 서브패스로 진입하더라도 자동으로 `templates/{filename}.html`을 찾아 200 OK로 즉각 서빙하는 만능 라우터 장착.
+  - TestClient 기반 31개 전체 URL 조합(서브패스 포함) 전수 HTTP 200 OK 무결점 통과 확인.
+* **🔗 HTML/JS 내부 네비게이션 플랫(Flat) 최적화**:
+  - `index.html` ➔ `input.html`, `selectLiveFacilityCard` ➔ `hospital_detail.html` 등 모든 페이지 간 이동을 동일 폴더 직행 링크로 통일.
+
+### 🌟 [v2.4.46-fullstack-local-test-architecture] 2026-10-16: '파이썬 메인 터미널 구동' & '로컬호스트 브라우저 접속' 풀스택 일체형 로컬 테스트 체계 확립 (정영식 팀장)
+* **🎯 풀스택 로컬 테스트 아키텍처 개념 정립 및 표준화**:
+  - '파이썬 메인 파일 터미널 구동'과 '웹 브라우저 로컬호스트 접속'을 분리된 선택지가 아닌 '원인과 결과(한 세트)'로 명확히 정립.
+  - 탐색기 더블클릭(`file:///`) 방식의 기술적 한계(CORS 차단 `Origin: null`, 백엔드 프로세스 미구동 `ERR_CONNECTION_REFUSED`, APScheduler/FSM 미기동) 규명 및 FastAPI Uvicorn 기반 일체형 로컬 서빙 가이드 표준화.
+* **🌐 로컬 풀스택 통합 서빙 및 실기기 무선 테스트 환경 안내**:
+  - 개발 모드 핫 리로드 명령(`uvicorn main:app --reload --host 0.0.0.0 --port 8000`) 및 주요 엔드포인트(`/splash`, `/home`, `/input`, `/docs`, `/health`) 라우팅 체계 정돈.
+  - 동일 Wi-Fi 망 내 스마트폰 실기기 무선 테스트(`http://[내PC IP]:8000/splash`) 경로 확립.
+
 ### 🌟 [v2.4.45-html-categorical-reorganization] 2026-10-15: 테스트 찌꺼기 파일 전수 정리 및 HTML 6대 카테고리별 디렉터리 분리·경로 전면 재정비 (정영식 팀장)
 * **🧹 저장소 찌꺼기 파일 전수 클린업 (159개 `._*` 및 빈 디렉터리 제거)**:
   - Cross-OS 환경에서 누적된 AppleDouble 파일(`._*`) 159개 전수 영구 삭제.

@@ -83,11 +83,13 @@ def sync_moonlight_dataset(input_file: Optional[Path] = None) -> List[Dict[str, 
 
 def sync_public_night_pharmacies() -> List[Dict[str, Any]]:
     """Loads, validates, and synchronizes the public late-night pharmacy dataset."""
-    pharm_json = DATA_DIR / "public_night_pharmacies.json"
+    pharm_json = DATA_DIR / "national_night_pharmacies_2028.json"
+    if not pharm_json.exists():
+        pharm_json = DATA_DIR / "public_night_pharmacies.json"
     pharm_js = FRONTEND_JS_DIR / "public_night_pharmacies.js"
 
     if not pharm_json.exists():
-        logger.error(f"Public night pharmacies file not found: {pharm_json}")
+        logger.error(f"Night pharmacies file not found: {pharm_json}")
         return []
 
     with open(pharm_json, "r", encoding="utf-8") as f:

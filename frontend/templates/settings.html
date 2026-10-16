@@ -1,14 +1,290 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=settings/settings.html">
-  <title>아이숨 리다이렉트</title>
-  <script>
-    window.location.replace('settings/settings.html' + window.location.search + window.location.hash);
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>설정 - 아이숨 (Aisum)</title>
+  <meta name="description" content="소아 야간 의료 &amp; 응급 매칭 케어 서비스 아이숨(Aisum) 설정" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
+  <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
 </head>
+
 <body>
-  <p>페이지를 이동 중입니다... <a href="settings/settings.html">클릭하여 이동</a></p>
+
+  <!-- Mobile Viewport Canvas (Centered Preview Container) -->
+  <div class="mobile-viewport" id="app">
+
+    <!-- 1. Top Settings Header Bar -->
+    <header class="settings-header">
+      <div class="settings-header-left">
+        <a href="index.html" class="back-link-btn" aria-label="메인 홈으로 이동">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+      </div>
+      <h1 class="settings-header-title">설정</h1>
+      <div class="settings-header-right"></div>
+    </header>
+
+    <!-- 2. Main Settings Content -->
+    <main class="settings-body">
+
+      <!-- ================================================================= -->
+      <!-- CATEGORY 1: 일반                                                  -->
+      <!-- ================================================================= -->
+      <section class="settings-group" aria-labelledby="group-general-title">
+        <div class="settings-group-header">
+          <h2 class="settings-group-title" id="group-general-title">일반</h2>
+        </div>
+
+        <!-- 1-1. 자녀의 기본 정보 변경 -->
+        <button type="button" class="settings-item-row" id="child-info-row-btn" aria-label="자녀의 기본 정보 변경" onclick="openChildInfoModal()">
+          <span class="settings-item-label">자녀의 기본 정보 변경</span>
+          <div class="settings-item-right">
+            <span class="settings-item-value accent" id="child-info-display">2023년생 (만 3세)</span>
+            <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
+          </div>
+        </button>
+        <script>
+          (function() {
+            try {
+              var raw = localStorage.getItem('aisum_child_info');
+              var displayEl = document.getElementById('child-info-display');
+              if (raw && displayEl) {
+                var info = JSON.parse(raw);
+                var year = info.birthYear || '2023';
+                var age = Math.max(0, 2026 - parseInt(year, 10));
+                var genderStr = info.gender ? (info.gender === 'female' ? '여아' : '남아') : '';
+                displayEl.textContent = year + '년생' + (genderStr ? ' (' + genderStr + ', 만 ' + age + '세)' : ' (만 ' + age + '세)');
+              }
+            } catch(e) {}
+          })();
+        </script>
+
+        <!-- 1-2. 글자 크기 설정 (셀렉트박스 방식 & 즉시 하이드레이션) -->
+        <div class="settings-item-row" aria-label="글자 크기 설정">
+          <label for="font-size-select" class="settings-item-label">글자 크기</label>
+          <div class="settings-item-right">
+            <div class="settings-select-wrapper">
+              <select id="font-size-select" class="settings-select-box" aria-label="글자 크기 선택" onchange="onFontSizeChange(this.value)">
+                <option value="small">작게</option>
+                <option value="normal">보통</option>
+                <option value="large">크게</option>
+              </select>
+              <span class="material-symbols-outlined select-chevron-icon" aria-hidden="true">expand_more</span>
+            </div>
+            <script>
+              (function() {
+                try {
+                  var s = localStorage.getItem('aisum_font_size') || 'normal';
+                  var el = document.getElementById('font-size-select');
+                  if (el) {
+                    el.value = s;
+                    for (var i = 0; i < el.options.length; i++) {
+                      el.options[i].selected = (el.options[i].value === s);
+                    }
+                  }
+                } catch(e) {}
+              })();
+            </script>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Divider -->
+      <div class="settings-section-divider" aria-hidden="true"></div>
+
+      <!-- ================================================================= -->
+      <!-- 앱 알림 (모니모 레퍼런스 스타일 단독 토글)                         -->
+      <!-- ================================================================= -->
+      <section class="settings-group" aria-label="앱 알림 설정">
+        <div class="settings-item-row settings-toggle-row">
+          <div class="settings-item-left">
+            <span class="material-symbols-outlined settings-item-icon">notifications</span>
+            <span class="settings-item-label">앱 알림</span>
+          </div>
+          <label class="ios-toggle-switch" for="app-notification-toggle">
+            <input type="checkbox" id="app-notification-toggle" checked aria-label="앱 알림 켜기/끄기" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Section Divider -->
+      <div class="settings-section-divider" aria-hidden="true"></div>
+
+      <!-- ================================================================= -->
+      <!-- CATEGORY 2: 사용자 지원                                            -->
+      <!-- ================================================================= -->
+      <section class="settings-group" aria-labelledby="group-support-title">
+        <div class="settings-group-header">
+          <h2 class="settings-group-title" id="group-support-title">사용자 지원</h2>
+        </div>
+
+        <!-- 2-1. 공지사항 -->
+        <button type="button" class="settings-item-row" aria-label="공지사항">
+          <span class="settings-item-label">공지사항</span>
+          <div class="settings-item-right">
+            <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
+          </div>
+        </button>
+
+        <!-- 2-2. 1:1 문의 -->
+        <button type="button" class="settings-item-row" aria-label="1:1 문의">
+          <span class="settings-item-label">1:1 문의</span>
+          <div class="settings-item-right">
+            <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
+          </div>
+        </button>
+      </section>
+
+      <!-- Section Divider -->
+      <div class="settings-section-divider" aria-hidden="true"></div>
+
+      <!-- ================================================================= -->
+      <!-- CATEGORY 3: 정보                                                  -->
+      <!-- ================================================================= -->
+      <section class="settings-group" aria-labelledby="group-info-title">
+        <div class="settings-group-header">
+          <h2 class="settings-group-title" id="group-info-title">정보</h2>
+        </div>
+
+        <!-- 3-1. 아이숨 가이드북 -->
+        <button type="button" class="settings-item-row" aria-label="아이숨 가이드북">
+          <span class="settings-item-label">아이숨 가이드북</span>
+          <div class="settings-item-right">
+            <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
+          </div>
+        </button>
+
+        <!-- 3-2. 아이숨 이용약관 -->
+        <a href="terms.html" class="settings-item-row" aria-label="아이숨 이용약관">
+          <span class="settings-item-label">아이숨 이용약관</span>
+          <div class="settings-item-right">
+            <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
+          </div>
+        </a>
+
+        <!-- 3-3. 오픈소스 라이선스 -->
+        <button type="button" class="settings-item-row" aria-label="오픈소스 라이선스">
+          <span class="settings-item-label">오픈소스 라이선스</span>
+          <div class="settings-item-right">
+            <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
+          </div>
+        </button>
+
+        <!-- 3-4. 앱 버전 -->
+        <div class="settings-item-row" aria-label="앱 버전: 1.0.0 (최신)">
+          <span class="settings-item-label">앱 버전</span>
+          <div class="settings-item-right">
+            <span class="settings-item-value">1.0.0 (최신)</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 4. 자녀 기본 정보 변경 모달 다이얼로그 -->
+    <div class="modal-overlay" id="child-info-modal" aria-hidden="true">
+      <div class="modal-dialog-card child-info-modal-card">
+        <div class="child-info-modal-header">
+          <h2 class="modal-title">자녀 기본 정보 변경</h2>
+          <p class="child-info-modal-desc">연령과 성별에 맞춘 최적의 소아 야간 진료과를 매칭합니다.</p>
+        </div>
+
+        <div class="child-info-form">
+          <!-- 자녀 호칭/이름 -->
+          <div class="child-form-group">
+            <label for="child-name-input" class="child-form-label">자녀 호칭 (선택)</label>
+            <input type="text" id="child-name-input" class="child-form-input" placeholder="예: 첫째, 우리아이, 민준이" maxlength="10" />
+          </div>
+
+          <!-- 출생연도 선택 -->
+          <div class="child-form-group">
+            <label for="child-birth-select" class="child-form-label">출생연도</label>
+            <div class="child-select-wrapper settings-select-wrapper">
+              <select id="child-birth-select" class="child-select-box">
+                <option value="2026">2026년생 (0세 / 신생아·영아)</option>
+                <option value="2025">2025년생 (만 1세 / 돌 전후)</option>
+                <option value="2024">2024년생 (만 2세 / 유아)</option>
+                <option value="2023" selected>2023년생 (만 3세)</option>
+                <option value="2022">2022년생 (만 4세)</option>
+                <option value="2021">2021년생 (만 5세)</option>
+                <option value="2020">2020년생 (만 6세)</option>
+                <option value="2019">2019년생 (만 7세)</option>
+                <option value="2018">2018년생 이전 (만 8세 이상 / 학령기)</option>
+              </select>
+              <span class="material-symbols-outlined select-chevron-icon" aria-hidden="true">expand_more</span>
+            </div>
+          </div>
+
+          <!-- 성별 선택 토글 -->
+          <div class="child-form-group">
+            <label class="child-form-label">성별</label>
+            <div class="child-gender-toggle-group">
+              <button type="button" class="gender-btn active" id="gender-btn-male" onclick="setChildGender('male')">
+                <span class="material-symbols-outlined">boy</span>
+                <span>남아</span>
+              </button>
+              <button type="button" class="gender-btn" id="gender-btn-female" onclick="setChildGender('female')">
+                <span class="material-symbols-outlined">girl</span>
+                <span>여아</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions-dual">
+          <button type="button" class="modal-btn-cancel" onclick="closeChildInfoModal()">취소</button>
+          <button type="button" class="modal-btn-primary" onclick="saveChildInfo()">저장하기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 토스트 알림 메시지 바 -->
+    <div class="aisum-toast" id="aisum-toast" aria-live="polite">자녀 기본 정보가 저장되었습니다.</div>
+
+    <!-- 3. Fixed Bottom Navigation Bar (GNB) -->
+    <nav class="bottom-nav" aria-label="주요 메뉴">
+      <!-- Tab 1: 홈 -->
+      <a href="index.html" class="nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span class="nav-label">홈</span>
+      </a>
+
+      <!-- Tab 2: 응급실 가이드 -->
+      <a href="emergency_guide.html" class="nav-item">
+        <span class="material-symbols-outlined">emergency</span>
+        <span class="nav-label">응급실 가이드</span>
+      </a>
+
+      <!-- Tab 3: 설정 (Active) -->
+      <a href="settings.html" class="nav-item active" aria-current="page">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="nav-label">설정</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
+  <script src="../js/main.js"></script>
 </body>
+
 </html>

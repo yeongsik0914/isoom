@@ -111,11 +111,8 @@ if os.path.exists("frontend"):
     if os.path.exists("frontend/assets"):
         app.mount("/assets", StaticFiles(directory="frontend/assets"), name="assets")
 
-    # Categorical HTML Directory Mounts
-    for cat in ["onboarding", "home", "triage", "result", "emergency", "settings"]:
-        cat_path = f"frontend/{cat}"
-        if os.path.exists(cat_path):
-            app.mount(f"/{cat}", StaticFiles(directory=cat_path), name=cat)
+if os.path.exists("frontend/templates"):
+    app.mount("/templates", StaticFiles(directory="frontend/templates"), name="templates")
 
 if os.path.exists("app/static"):
     app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -153,19 +150,20 @@ async def get_ktas_viewer():
 
 
 def find_frontend_html(category: str, filename: str) -> str | None:
-    """Finds HTML file with categorical path priority."""
+    """Finds HTML file from unified templates directory with backward compatibility."""
     candidates = [
-        f"frontend/{category}/{filename}",
-        f"frontend/templates/{category}/{filename}",
         f"frontend/templates/{filename}",
+        f"frontend/templates/{category}/{filename}" if category else None,
+        f"frontend/{category}/{filename}" if category else None,
         f"frontend/{filename}",
         f"app/templates/{filename}",
         f"app/static/{filename}",
     ]
     for c in candidates:
-        if os.path.exists(c):
+        if c and os.path.exists(c):
             return c
     return None
+
 
 
 @app.get("/splash", tags=["Frontend"], response_class=FileResponse)
@@ -319,6 +317,26 @@ async def get_aisum_js():
     if os.path.exists("frontend/js/main.js"):
         return FileResponse("frontend/js/main.js", media_type="application/javascript")
     return JSONResponse(status_code=404, content={"detail": "JS not found"})
+
+
+@app.get("/{subpath:path}/{filename}.html", include_in_schema=False)
+async def fallback_subpath_html(subpath: str, filename: str):
+    """Smart fallback router: intercepts requests like /home/input.html and serves from templates/."""
+    target_filename = f"{filename}.html"
+    path = find_frontend_html("", target_filename)
+    if path and os.path.exists(path):
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": f"Page {target_filename} not found"})
+
+
+@app.get("/{filename}.html", include_in_schema=False)
+async def fallback_direct_html(filename: str):
+    """Direct root HTML router: /index.html, /input.html, /result.html, etc."""
+    target_filename = f"{filename}.html"
+    path = find_frontend_html("", target_filename)
+    if path and os.path.exists(path):
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": f"Page {target_filename} not found"})
 
 
 @app.get("/health", tags=["System"])

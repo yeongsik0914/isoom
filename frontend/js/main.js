@@ -1054,15 +1054,9 @@ window.selectLiveFacilityCard = function(facilityName, facilityType) {
     if (selectedHospital) {
       sessionStorage.setItem('selected_hospital', JSON.stringify(selectedHospital));
       const path = window.location.pathname;
-      let target = '/hospital_detail';
-      if (path.endsWith('.html') || window.location.protocol === 'file:') {
-        if (path.includes('/home/') || path.includes('/triage/') || path.includes('/emergency/') || path.includes('/settings/') || path.includes('/onboarding/')) {
-          target = '../result/hospital_detail.html';
-        } else if (path.includes('/result/')) {
-          target = 'hospital_detail.html';
-        } else {
-          target = 'result/hospital_detail.html';
-        }
+      let target = 'hospital_detail.html';
+      if (!path.endsWith('.html') && window.location.protocol !== 'file:') {
+        target = '/hospital_detail';
       }
       window.location.href = target;
     }
