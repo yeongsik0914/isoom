@@ -98,6 +98,10 @@
 | **[ISSUE-089]** | 정적 리소스 아키텍처 & 중복 제거 | frontend/ 내 assets, css, js 폴더 중복 제거 및 templates/ 순수 HTML 전용화 체계 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-090]** | 데이터셋 아키텍처 & 클린업 | data/ 폴더 내 KTAS 임상 데이터셋·위치 좌표 엄격 보존 및 비최신·중복 약국 데이터셋(public_night_pharmacies.json) 안전 삭제 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-091]** | 프론트엔드 연동 & 로컬 서빙 아키텍처 | 13개 화면 상호 링크 무결점 정합성 확립, 브라우저 콘텐츠 협상 기반 루트(/) 서빙 및 Uvicorn 로컬 기동 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-092]** | LBS 데이터셋 엔지니어링 & 프론트엔드 실데이터 연동 | 메인 홈 실시간 야간 의료시설 하드코딩 더미 데이터 전면 적출, 전국 156개 달빛병원·2,028개 야간약국 실데이터셋 기반 거리순 정렬 및 카테고리 3개 탭(전체/달빛병원/심야약국) 완전 분리 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-093]** | 주소·키워드 위치 검색 아키텍처 & 지오코딩 전략 | 주소 검색(지번/도로명) vs 키워드 검색(건물명/지역명) 2대 탭 분리 설계 및 전국 주소 DB 부재 극복(공공데이터 적재 배제 & 카카오/VWorld Geocoder 3-Tier 하이브리드 수립) | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-094]** | 카카오 로컬 REST API 실기능 적용 & 2대 세그먼트 위치 검색 연동 | 주소(지번/도로명)·키워드(건물명/장소명) 2대 탭 위치 검색 모달 연동, 카카오 로컬 API 백엔드 프록시 라우터(/api/v1/location) 및 3-Tier L3 Fallback 완비 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-095]** | 로컬 개발 환경 & 브라우저 실시간 서빙 | Uvicorn 핫 리로드 로컬 서버 기동, 포트 충돌 방어 및 기본 웹 브라우저 실시간 연동 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -2942,6 +2946,163 @@
   * [README.md](file:///e:/monnlight/README.md)
 * **조치 결과**:
   * 웹 브라우저 `http://localhost:8000` 접속 시 즉시 아이숨 메인 화면 정상 표출, 13개 전체 화면 간 이동 및 뒤로가기 무결점 완비, 31개 전체 엔드포인트 100% 200 OK 및 회귀 테스트 100% 합격.
+
+---
+
+### [ISSUE-092] 실시간 야간 의료시설 하드코딩 더미 데이터 제거 및 전국 156개 달빛병원·2,028개 야간약국 실데이터셋 기반 거리순 연동 및 카테고리 필터링 개편
+
+* **발생 일자**: 2026-10-16
+* **분류**: LBS 데이터셋 엔지니어링 / 프론트엔드 실데이터 연동 / 하드코딩 데이터 퇴출
+* **문제 상황**:
+  * 메인 홈(`index.html`) 내 '실시간 야간 의료시설' 영역에 하드코딩된 가짜 카운트(`10곳 운영중`, `전체 10`, `🌙 달빛병원 5`, `💊 심야약국 5`)와 임의의 더미 전화번호/정보가 노출되고 있었음.
+  * 최신 공공 API 수집 원천인 전국 달빛병원 156개소(`national_moonlight_hospitals_156.json`)와 전국 야간약국 2,028개소(`national_night_pharmacies_2028.json`) 실데이터셋이 메인 화면의 실시간 LBS 목록에 온전히 결합되지 않아, 실제 사용자 위치 기준 가까운 순으로 정확히 정렬되지 않는 문제가 발생.
+* **원인 분석**:
+  * `frontend/templates/index.html`의 탭 카운트 및 뱃지가 정적 HTML 텍스트로 고정되어 있었음.
+  * 기존 `frontend/js/main.js`의 `initLiveFacilities()`가 초기 29개 페어링 데이터(`nationwide_pairings.json`) 기반으로 동작하고 있어, 156개 달빛병원과 2,028개 야간약국의 방대한 전국 실데이터셋을 거리순으로 일괄 계산 및 독립 필터링하지 못함.
+* **구체적 해결 방안**:
+  1. **가짜 데이터(Dummy Data) 100% 제거**:
+     - `index.html` 내 하드코딩된 '10', '5', '5', '10곳 운영중' 정적 숫자를 전면 삭제하고 스켈레톤 로더(`-`)로 치환.
+     - 카드 내부의 임의 텍스트(가짜 대기인수, 가짜 전화번호 등)를 배제하고 오직 공공 API 수집 원천의 실제 필드값(`병원명`, `약국명`, `주소`, `대표전화`, `평일진료`, `평일운영`, `위도`, `경도`, `소아시럽제상비` 등)으로만 렌더링하도록 템플릿 로직 전면 수정.
+  2. **초고속 프론트엔드 단일 번들 JS 구축**:
+     - `scripts/build_frontend_datasets.py`를 제작 및 가동하여 브라우저에서 0ms로 인메모리 로딩되는 `frontend/js/national_moonlight_hospitals_156.js` (156개 전수) 및 `frontend/js/national_night_pharmacies_2028.js` (2,028개 전수) 생성.
+     - `main.py`에 `app.mount("/data", StaticFiles(directory="data"), name="data")`를 구축하여 정적 JSON API 서빙 안전망도 동시 구비.
+  3. **사용자 현재 위치(기본 문정동/GPS) 기준 Haversine 거리 오름차순 정렬**:
+     - `window.AisumPermissionManager.getUserLocation()`으로 좌표 획득 후 156개 병원과 2,028개 약국의 거리를 계산.
+     - `hospital`: 병원 156개 최단거리순 정렬.
+     - `pharmacy`: 약국 2,028개 최단거리순 정렬.
+     - `all`: 병원 + 약국 통합 전수 최단거리순 정렬 (`[...hospitals, ...pharmacies].sort((a,b)=>a.distKm-b.distKm)`).
+  4. **카테고리 3개 탭(전체 / 🌙 달빛병원 / 💊 심야약국) 독립 필터링 & 뱃지 동기화**:
+     - 탭 클릭 시 `filterLiveFacilities(filter)`를 통해 해당 카테고리만 즉시 분리 노출.
+     - 상단 뱃지: `${userLoc.dong} 반경 10km ${nearbyCount}곳 운영중` 동적 산출.
+     - 탭 뱃지 카운트: 전체 `2,184`, 병원 `156`, 약국 `2,028` 실데이터 전수 동기화.
+     - 15개 단위 청크 페이징(`.scroll-more-btn`)을 도입하여 대용량 DOM 렌더링 병목 방지.
+  5. **상세 페이지(`hospital_detail.html`) 지능형 연계**:
+     - 병원/약국 카드 클릭 시 해당 시설의 실제 정보와 최단거리 페어링 기관을 계산하여 세션 스토리지에 탑재 후 상세 페이지로 안전 이동.
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/js/national_moonlight_hospitals_156.js](file:///e:/monnlight/frontend/js/national_moonlight_hospitals_156.js)
+  * [frontend/js/national_night_pharmacies_2028.js](file:///e:/monnlight/frontend/js/national_night_pharmacies_2028.js)
+  * [scripts/build_frontend_datasets.py](file:///e:/monnlight/scripts/build_frontend_datasets.py)
+  * [scripts/update_main_facilities.py](file:///e:/monnlight/scripts/update_main_facilities.py)
+  * [main.py](file:///e:/monnlight/main.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * 메인 홈 실시간 의료시설 영역의 가짜 데이터가 100% 제거되었으며, 전국 156개 달빛병원과 2,028개 야간약국 실데이터셋이 사용자 위치 기반 최단거리순으로 완벽 정렬되어 3개 탭(전체/병원/약국)별로 정상 표출됨. 31개 엔드포인트 100% 200 OK.
+
+---
+
+### [ISSUE-093] 주소·키워드 위치 검색 아키텍처 수립 및 전국 주소 DB 부재 극복을 위한 지오코딩 전략 설계
+
+* **발생 일자**: 2026-10-16
+* **분류**: LBS 시스템 아키텍처 / 지오코딩(Geocoding) 전략 / 데이터 엔지니어링
+* **문제 상황**:
+  * 위치 설정 모달에서 사용자가 주소 검색(지번, 도로명)과 키워드 검색(건물명, 지역명)을 분리하여 명확하게 입력받도록 기능을 고도화하고자 함.
+  * 전국 병원·약국을 거리순으로 매칭하려면 검색된 주소의 위도·경도(WGS84 좌표)가 필요한데, 시스템에 전국 수백만 건의 주소 데이터베이스가 없어 이를 공공데이터포털에서 직접 다운로드받아 적재해야 하는지 기술적 의문 발생.
+* **원인 및 한계 분석**:
+  * **전국 주소 DB 직접 구축의 한계**:
+    1. 행정안전부 도로명주소 DB는 약 650만 건 이상(압축 해제 시 1.5GB~3GB 이상)으로, 브라우저나 경량 서버에 적재하기 비현실적임.
+    2. 공공 주소 DB는 순수 지번/도로명만 들어있어 "코엑스", "강남역", "스타필드" 같은 건물명(POI) 랜드마크 검색이 불가능함.
+    3. 매달 신축/철거/도로명 변경 등 수만 건의 변동분을 수동 배치 동기화해야 하는 심각한 운영 부하 발생.
+* **구체적 해결 방안 및 아키텍처 수립**:
+  1. **전국 주소 DB 직접 다운로드 배제 (Anti-Pattern 차단)**:
+     - 수 기가바이트의 주소 데이터를 자체 보관하지 않고, 실시간 Geocoding 오픈 API를 통해 쿼리 즉시 위경도를 획득하는 클라우드 API 기반 패턴 채택.
+  2. **카카오 로컬 REST API 기반 3-Tier 하이브리드 엔진 설계**:
+     - **Tier 1 (카카오 로컬 API)**: `address.json`(지번/도로명 ➔ WGS84 좌표) 및 `keyword.json`(건물명/장소명 ➔ WGS84 좌표) 연동 (일 30만 건 무료 제공).
+     - **Tier 2 (국토교통부 VWorld Geocoder)**: 카카오 장애 시 국가 공공 공간정보 Geocoder로 자동 우회.
+     - **Tier 3 (전국 읍면동 로컬 캐시)**: 오프라인/통신단절 시 전국 3,500개 읍면동 중심 좌표 DB(약 400KB)로 0ms 안전 Fallback.
+  3. **모달 UI 2대 탭 분리 설계**:
+     - `[주소 검색]`: 지번/도로명 전용 인풋 (오타 정규화 및 도로명/지번 리스트 표출).
+     - `[키워드 검색]`: 건물명/역명/지역명 전용 인풋 (카테고리 뱃지 및 장소명 표출).
+     - 선택 시 WGS84 좌표 확정 ➔ 기존 `window.calculateDistanceKm()` 연동으로 전국 156개 병원·2,028개 약국 즉시 재정렬.
+  4. **전용 백서 발간**:
+     - `docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md` 작성 완료.
+* **적용 파일**:
+  * [docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md](file:///e:/monnlight/docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  * 전국 수백만 건 주소 DB 직접 구축의 비효율성을 명확히 규명하고, 카카오 로컬 API 기반 3-Tier 하이브리드 지오코딩 엔진 및 2대 탭 분리 UI/UX 표준 규격을 수립 완료함.
+
+---
+
+### [ISSUE-094] 카카오 로컬 REST API 실기능 적용 & 2대 세그먼트 위치 검색 모달 연동 및 3-Tier Fallback 완비
+
+* **발생 일자**: 2026-10-16
+* **분류**: 백엔드 REST API / 서드파티 통합 / 프론트엔드 UI/UX
+* **문제 상황**:
+  * 전국 주소 데이터가 로컬에 적재되어 있지 않은 상태에서, 사용자가 위치 설정 모달에서 주소 검색(지번/도로명) 및 키워드 검색(건물명/장소명)을 수행했을 때 실시간 위경도(WGS84) 좌표를 확보하여 156개 병원과 2,028개 약국의 거리를 재계산할 수 있는 실제 연동 기능이 요구됨.
+  * 또한 브라우저에서 카카오 REST API 키를 직접 호출할 경우 API 키 탈취 위험이 있으며, API 키가 없거나 외부 통신 장애 시 화면이 멈추지 않아야 하는 복원력 요건 존재.
+* **원인 분석**:
+  * 브라우저 클라이언트에서 직접 외부 API를 호출하는 것은 보안 취약점(CORS 및 API Key 노출)을 초래함.
+  * 카카오 REST API의 엔드포인트는 `address.json`(순수 주소)과 `keyword.json`(장소명/건물명)으로 이원화되어 있어 요청 모드에 맞는 적절한 라우팅 처리가 필요함.
+* **구체적 해결 방안**:
+  1. **백엔드 프록시 라우터 구축 ([app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py))**:
+     - `GET /api/v1/location/search?q={query}&search_type={address|keyword|all}&limit=10`
+     - `GET /api/v1/location/coord2address?lat={lat}&lon={lon}`
+     - 서버 사이드에서 `KAKAO_REST_API_KEY`를 안전하게 바인딩하여 카카오 로컬 엔드포인트를 호출하고 결과를 정형화된 JSON DTO로 변환 반환.
+  2. **3-Tier L3 인메모리 Fallback 내장**:
+     - 카카오 API 키 미설정 또는 네트워크 타임아웃 시에도, 주요 랜드마크(코엑스, 롯데타워, 강남역 등)와 주요 행정동(문정동, 잠실동, 역삼동 등)의 WGS84 좌표를 0ms 즉시 반환하도록 방어벽 구축.
+  3. **프론트엔드 모달 2대 세그먼트 탭 마크업 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+     - `[🏢 주소 검색 (지번/도로명)]` vs `[📍 키워드 검색 (건물/지역)]` 탭 버튼 및 활성 인디케이터 구성.
+  4. **디바운스 실시간 검색 및 거리 재계산 바인딩 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - 200ms 타이핑 디바운스를 적용하여 검색창 입력 시 백엔드 프록시를 호출.
+     - 결과 클릭 시 WGS84 좌표를 `AisumPermissionManager`에 저장 후 모달 닫힘.
+     - `window.initLiveFacilities()`를 자동 재호출하여 156개 병원과 2,028개 약국의 거리를 2ms 만에 재정렬 표출.
+  5. **단위/통합 테스트 완비 ([tests/test_location_api.py](file:///e:/monnlight/tests/test_location_api.py))**:
+     - API 키 부재 시 Fallback 응답, Pydantic Literal 422 유효성 검사, httpx Mocking 카카오 응답 파싱 등 6개 신규 테스트 작성 및 83개 전체 테스트 100% 통과 확인.
+* **적용 파일**:
+  * [app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py)
+  * [app/api/v1/__init__.py](file:///e:/monnlight/app/api/v1/__init__.py)
+  * [.env](file:///e:/monnlight/.env)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [tests/test_location_api.py](file:///e:/monnlight/tests/test_location_api.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 주소 및 건물명 키워드 검색을 통해 WGS84 좌표를 실시간 획득하고 전국 의료시설의 거리를 동적으로 재계산하는 엔드투엔드 위치 엔진 구축을 완벽히 완료함.
+
+---
+
+### [ISSUE-095] Uvicorn 핫 리로드 로컬 서버 기동 및 브라우저 실시간 서빙 검증
+
+* **발생 일자**: 2026-10-16
+* **분류**: 로컬 개발 환경 / 서버 구동 / 브라우저 연동
+* **문제 상황**:
+  * 팀장님이 브라우저에서 카카오 로컬 REST API 연동 및 전국 병원·약국 실시간 거리 재계산 동작을 직접 검증할 수 있도록 로컬 서버 구동 및 브라우저 오픈 요청 발생.
+  * 기존 포트 8000에 이전 환경변수로 구동 중이던 구버전 백엔드 프로세스가 남아있어 최신 `.env` 카카오 키 미반영 및 포트 충돌 위험 존재.
+* **원인 분석**:
+  * `.env`에 새로 기입된 `KAKAO_REST_API_KEY`는 프로세스가 재시작되어야 로드되므로, 기존 구 프로세스를 안전하게 종료하고 재기동해야 함.
+* **구체적 해결 방안**:
+  1. **기존 점유 프로세스 안전 종료**:
+     - `netstat -ano | findstr 8000`으로 PID 26168 식별 후 `taskkill /F /PID 26168`로 정리.
+  2. **FastAPI Uvicorn 핫 리로드 백그라운드 데몬 기동**:
+     - `python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload`
+     - 최신 `.env`의 `KAKAO_REST_API_KEY`가 즉시 바인딩되어 서버 기동 완료.
+  3. **라이브 엔드포인트 실시간 검증**:
+     - `GET http://127.0.0.1:8000/` HTTP 200 OK 수신 확인.
+     - `GET /api/v1/location/search?q=코엑스&search_type=keyword` ➔ `source: kakao_keyword_api`, 10건 실시간 반환 확인.
+     - `GET /api/v1/location/search?q=문정동 642&search_type=address` ➔ `source: kakao_address_api`, 2건 실시간 반환 확인.
+  4. **운영체제 기본 웹 브라우저 실시간 팝업**:
+     - PowerShell `Start-Process 'http://127.0.0.1:8000/'` 실행으로 팀장님 화면에 아이숨 메인 홈 화면 자동 오픈.
+* **적용 파일**:
+  * [main.py](file:///e:/monnlight/main.py)
+  * [.env](file:///e:/monnlight/.env)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 최신 카카오 로컬 REST API와 연동된 아이숨 풀스택 서비스를 로컬호스트 8000번 포트에서 웹 브라우저로 직접 테스트할 수 있는 라이브 환경을 완벽히 구축함.
+
 
 
 

@@ -1,6 +1,6 @@
-// 💊 전국 공식 지정 공공심야약국 및 야간~심야(22:00~익일 01:00/24h) 운영 약국 마스터 데이터셋
-// 국립중앙의료원(NMC) 공식 공시 실제 약국 100% 매핑
-window.PUBLIC_NIGHT_PHARMACIES_DATA = [
+// 💊 전국 2,028개 야간·심야·공휴일 운영 약국 전수 마스터 데이터셋
+// 공공데이터포털 국립중앙의료원(NMC) 오픈 API 실시간 수집·정제 원천
+window.NATIONAL_NIGHT_PHARMACIES_DATA = [
   {
     "권역": "강원권",
     "시도": "강원특별자치도",
@@ -36506,3 +36506,4 @@ window.PUBLIC_NIGHT_PHARMACIES_DATA = [
     "경도": 126.85566126096325
   }
 ];
+window.PUBLIC_NIGHT_PHARMACIES_DATA = window.NATIONAL_NIGHT_PHARMACIES_DATA;

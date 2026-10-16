@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PLAN.md",
+                "file": "docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PLAN"
+              "title": "ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE"
             }
           }
         ]
@@ -190,19 +190,19 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "app/api/v1/__pycache__/location.cpython-314.pyc",
+    "tests/__pycache__/test_location_api.cpython-314.pyc",
+    "tests/test_location_api.py",
+    "scripts/apply_kakao_location_search.py",
+    "app/api/v1/location.py",
+    "PLAN.md",
     "frontend/templates/settings/terms.html",
     "frontend/templates/settings/settings.html",
     "frontend/templates/emergency/emergency_guide_symptoms.html",
     "frontend/templates/emergency/emergency_guide_checklist.html",
     "frontend/templates/emergency/emergency_guide.html",
     "frontend/templates/emergency/emergency_alert.html",
-    "frontend/templates/result/hospital_detail.html",
-    "frontend/templates/result/result.html",
-    "frontend/templates/triage/loading.html",
-    "frontend/templates/triage/input.html",
-    "frontend/templates/home/index.html",
     "전국_달빛어린이병원_및_야간심야약국_현황.md",
-    "PLAN.md",
     "q_a.md",
     "FRONTEND_BACKEND_INTEGRATION_SPEC.md",
     "docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md",

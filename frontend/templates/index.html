@@ -91,20 +91,20 @@
         <div class="section-header">
           <div class="section-title-wrap">
             <h2 class="section-title" id="facility-heading">실시간 야간 의료시설</h2>
-            <span class="count-badge" id="live-facilities-count">10곳 운영중</span>
+            <span class="count-badge" id="live-facilities-count">실시간 계산중...</span>
           </div>
         </div>
 
         <!-- Filter Segmented Tabs -->
         <div class="filter-tabs" role="tablist" aria-label="의료기관 필터">
           <button type="button" class="filter-tab active" id="tab-filter-all" data-filter="all" role="tab" aria-selected="true" onclick="filterLiveFacilities('all')">
-            전체 <span id="count-all">10</span>
+            전체 <span id="count-all">-</span>
           </button>
           <button type="button" class="filter-tab" id="tab-filter-hospital" data-filter="hospital" role="tab" aria-selected="false" onclick="filterLiveFacilities('hospital')">
-            🌙 달빛병원 <span id="count-hospital">5</span>
+            🌙 달빛병원 <span id="count-hospital">-</span>
           </button>
           <button type="button" class="filter-tab" id="tab-filter-pharmacy" data-filter="pharmacy" role="tab" aria-selected="false" onclick="filterLiveFacilities('pharmacy')">
-            💊 심야약국 <span id="count-pharmacy">5</span>
+            💊 심야약국 <span id="count-pharmacy">-</span>
           </button>
         </div>
 
@@ -224,14 +224,42 @@
         <span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 주소: <strong style="color:#0f172a;">서울특별시 송파구 문정동</strong></span>
       </div>
 
-      <!-- 1. Address & Keyword Search Input (주소 검색 / 키워드 검색) -->
+      <!-- Search Mode Segmented Tabs (주소 검색 vs 키워드 검색) -->
+      <div class="location-mode-tabs" role="tablist" style="display:flex;gap:8px;margin-bottom:12px;">
+        <button 
+          type="button" 
+          class="loc-mode-tab active" 
+          id="tab-mode-address" 
+          role="tab" 
+          aria-selected="true" 
+          onclick="window.switchLocationSearchMode('address')"
+          style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:700;border:1.5px solid #0066ff;background:#f0f7ff;color:#0066ff;cursor:pointer;transition:all 0.15s ease;"
+        >
+          <span class="material-symbols-outlined" style="font-size:17px;">signpost</span>
+          <span>주소 검색 (지번/도로명)</span>
+        </button>
+        <button 
+          type="button" 
+          class="loc-mode-tab" 
+          id="tab-mode-keyword" 
+          role="tab" 
+          aria-selected="false" 
+          onclick="window.switchLocationSearchMode('keyword')"
+          style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:600;border:1.5px solid #e2e8f0;background:#ffffff;color:#64748b;cursor:pointer;transition:all 0.15s ease;"
+        >
+          <span class="material-symbols-outlined" style="font-size:17px;">apartment</span>
+          <span>키워드 검색 (건물/지역)</span>
+        </button>
+      </div>
+
+      <!-- 1. Address & Keyword Search Input -->
       <div class="location-search-box">
-        <span class="material-symbols-outlined search-icon">search</span>
+        <span class="material-symbols-outlined search-icon" id="location-search-icon">signpost</span>
         <input 
           type="text" 
           id="location-search-input" 
           class="location-search-input" 
-          placeholder="동, 구, 시 또는 키워드 검색 (예: 잠실동, 강남, 분당, 해운대)" 
+          placeholder="지번 또는 도로명 입력 (예: 문정동 642, 송파대로 201)" 
           autocomplete="off" 
           spellcheck="false" 
         />
@@ -274,6 +302,8 @@
   </div>
 
   <!-- Single Source JavaScript Modules -->
+  <script src="../js/national_moonlight_hospitals_156.js"></script>
+  <script src="../js/national_night_pharmacies_2028.js"></script>
   <script src="../js/nationwide_pairings.js"></script>
   <script src="../js/public_night_pharmacies.js"></script>
   <script src="../js/main.js"></script>

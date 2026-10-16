@@ -117,6 +117,9 @@ if os.path.exists("frontend/templates"):
 if os.path.exists("app/static"):
     app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
+if os.path.exists("data"):
+    app.mount("/data", StaticFiles(directory="data"), name="data")
+
 
 @app.get("/", tags=["System"])
 async def root(request: Request):

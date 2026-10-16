@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-77%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-83%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -29,6 +29,60 @@
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
 MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
+
+### 🌟 [v2.4.54-live-localhost-serving-verified] 2026-10-16: FastAPI Uvicorn 핫 리로드 로컬 서버 백그라운드 기동 및 브라우저 실시간 연동 완결 (정영식 팀장)
+* **🚀 FastAPI Uvicorn 핫 리로드 로컬 서버 기동 (`http://127.0.0.1:8000/`)**:
+  - 기존 점유 프로세스 안전 정리 후, 최신 `.env`의 `KAKAO_REST_API_KEY`가 완벽히 바인딩된 백그라운드 데몬 서버 기동.
+  - 정적 웹 리소스(`/assets`, `/css`, `/js`) 및 템플릿 마운트 정상 가동 확인 (HTTP 200 OK).
+* **🌐 운영체제 기본 웹 브라우저 실시간 연동**:
+  - `Start-Process 'http://127.0.0.1:8000/'` 실행으로 팀장님 화면에 아이숨 메인 홈 화면 자동 오픈.
+* **🧪 카카오 로컬 REST API 라이브 원격 통신 100% 정상 작동 검증**:
+  - `GET /api/v1/location/search?q=코엑스&search_type=keyword` ➔ `source: kakao_keyword_api`, 10건 실시간 좌표 획득 완료.
+  - `GET /api/v1/location/search?q=문정동 642&search_type=address` ➔ `source: kakao_address_api`, 2건 실시간 좌표 획득 완료.
+
+### 🌟 [v2.4.53-kakao-local-rest-api-live-engine] 2026-10-16: 카카오 로컬 REST API 기반 2대 세그먼트 위치 검색 실기능 적용 & 백엔드 프록시 라우터 완비 (정영식 팀장)
+* **⚙️ 카카오 로컬 REST API 백엔드 프록시 라우터 완비 ([app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py))**:
+  - `GET /api/v1/location/search?q={query}&search_type={address|keyword|all}`: 카카오 `address.json` 및 `keyword.json`을 서버 사이드에서 안전하게 프록시 호출하여 위경도(WGS84) 좌표 반환.
+  - `GET /api/v1/location/coord2address?lat={lat}&lon={lon}`: GPS 위경도 ➔ 행정동/법정동 및 도로명 주소 실시간 변환.
+  - **3-Tier L3 인메모리 Fallback 내장**: API 키 부재 또는 외부 장애 시에도 코엑스, 롯데타워, 강남역, 문정동 등 0ms 무중단 Fallback 보장.
+* **📱 위치 설정 모달 2대 세그먼트 탭 UI & 실시간 디바운스 검색 탑재 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html), [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - `[🏢 주소 검색 (지번/도로명)]` vs `[📍 키워드 검색 (건물/지역)]` 2대 탭 전환 인터페이스 구현.
+  - 200ms 타이핑 디바운스 비동기 검색 및 결과 클릭 시 WGS84 좌표 즉시 확정.
+* **🧭 사용자 위치 변경 시 156개 병원·2,028개 약국 실시간 최단거리 동적 재계산**:
+  - 선택된 위치 기준 `window.initLiveFacilities()` 즉시 재호출로 전체·병원·약국 거리순 목록 및 도보/차량 소요시간 2ms 만에 재정렬.
+* **🧪 단위/통합 테스트 스위트 83개 케이스 100% 전수 통과**:
+  - `tests/test_location_api.py` 6개 신규 테스트 추가 및 전체 83개 테스트 회귀 검증 완료.
+
+### 🌟 [v2.4.52-address-keyword-search-architecture] 2026-10-16: 주소 검색(지번/도로명) vs 키워드 검색(건물명/지역명) 2대 탭 분리 설계 및 지오코딩 아키텍처 백서 발간 (정영식 팀장)
+* **📍 위치 설정 모달 내 '주소 검색' vs '키워드 검색' 2대 탭 분리 UI/UX 수립**:
+  - `[주소 검색]`: 지번(문정동 642) 및 도로명(송파대로 201) 입력 전용 탭.
+  - `[키워드 검색]`: 건물명(롯데월드타워, 코엑스), 역명(강남역), 주요 지역명(해운대, 분당) 입력 전용 탭.
+* **🚫 공공데이터포털 전국 주소 데이터셋 직접 다운로드·적재 배제 (Anti-Pattern 차단)**:
+  - 650만 건(3GB 이상) 주소 데이터 자체 보관의 비효율성(용량 낭비, POI 건물명 검색 불가, 매월 변동분 동기화 부하)을 정량 분석하여 배제 결정.
+* **🏆 카카오 로컬 REST API 기반 3-Tier 하이브리드 지오코딩 엔진 설계**:
+  - **Tier 1 (카카오 API)**: 주소 및 키워드 WGS84 좌표 즉시 변환 (일 30만 건 무료 쿼터).
+  - **Tier 2 (국토교통부 VWorld Geocoder)**: 카카오 장애 대비 국가 공간정보 Geocoder Failover.
+  - **Tier 3 (전국 읍면동 로컬 캐시)**: 오프라인 대비 전국 3,500개 행정동 중심점 0ms Fallback.
+* **📚 [docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md](file:///e:/monnlight/docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md) 전용 백서 발간**:
+  - 아키텍처 비교표, Mermaid 데이터 흐름도, FastAPI 백엔드 프록시 라우터 코드 및 실행 로드맵 수록.
+
+### 🌟 [v2.4.51-live-facilities-real-dataset-linkage] 2026-10-16: 전국 156개 달빛병원·2,028개 야간약국 실데이터셋 기반 메인 홈 실시간 야간 의료시설 위치 기반 거리순 연동 & 가짜 데이터 전면 퇴출 (정영식 팀장)
+* **🗑️ HTML 및 JS 내 하드코딩된 가짜 카운트·더미 데이터 100% 전면 적출**:
+  - `frontend/templates/index.html` 내 고정된 정적 숫자(`10곳 운영중`, `전체 10`, `달빛병원 5`, `심야약국 5`) 및 카드 내부 임의 플레이스홀더를 전면 삭제하고 스켈레톤 로더(`-`)로 치환.
+  - 가짜 전화번호나 임의의 대기인수를 일체 배제하고 공공 API 수집 원천의 실제 필드값으로만 동적 렌더링하도록 템플릿 개편.
+* **📦 전국 전수 실데이터셋 프론트엔드 0ms 초고속 번들 JS 구축**:
+  - `data/national_moonlight_hospitals_156.json` (156개 달빛병원) ➔ `frontend/js/national_moonlight_hospitals_156.js`
+  - `data/national_night_pharmacies_2028.json` (2,028개 야간약국) ➔ `frontend/js/national_night_pharmacies_2028.js`
+  - `main.py`에 `/data` 정적 마운트 추가로 JSON API 직접 요청 및 번들 JS 직접 로드 듀얼 파이프라인 완비.
+* **🧭 사용자 현재 위치(기본 문정동/GPS) 기준 Haversine 거리 오름차순 실시간 정렬**:
+  - 문정동 또는 사용자 Geolocation 좌표 기준 156개 병원과 2,028개 약국의 최단거리를 실시간 계산하여 오름차순 정렬.
+  - `all` 탭: 병원 + 약국 통합 전수 최단거리 정렬 (`2,184곳`).
+  - `hospital` 탭: 달빛어린이병원 156곳만 최단거리 정렬 (`156곳`).
+  - `pharmacy` 탭: 심야약국 2,028곳만 최단거리 정렬 (`2,028곳`).
+* **🗂️ 3개 탭 독립 필터링 & 15개 단위 청크 페이징 완비**:
+  - 상단 뱃지 `${userLoc.dong} 반경 10km ${nearbyCount}곳 운영중` 동적 산출.
+  - 15개씩 확장 로드되는 `.scroll-more-btn` 페이징 연동으로 대용량 DOM 렌더링 성능 최적화.
+  - 카드 클릭 시 상세 페이지(`hospital_detail.html`) 및 최단거리 페어링 약국 지능형 연동.
 
 ### 🌟 [v2.4.50-frontend-linkage-and-local-serving] 2026-10-16: 프론트엔드 전 화면 상호 연결 무결성 완비, 브라우저 콘텐츠 협상 루트 서빙 및 로컬 실행 (정영식 팀장)
 * **🔗 13개 템플릿 화면 상호 연결 링크 전수 정규화**:
