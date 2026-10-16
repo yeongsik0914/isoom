@@ -1475,6 +1475,21 @@
               const guide = h.pharmacy.guide || '병원 인근 도보 1~2분';
               pharmMetaEl.innerHTML = `${guide} · 오늘 야간영업 <strong>${h.pharmacy.duty_time || '23:30 마감'}</strong>`;
             }
+
+            // Clickable paired pharmacy bridge to pharmacy_detail
+            const pharmBridgeEl = card.querySelector('.pairing-pharmacy-bridge');
+            if (pharmBridgeEl && h.pharmacy.name) {
+              pharmBridgeEl.style.cursor = 'pointer';
+              pharmBridgeEl.title = `${h.pharmacy.name} 상세 정보 보기`;
+              pharmBridgeEl.onclick = function(e) {
+                e.stopPropagation();
+                try {
+                  sessionStorage.setItem('aisum_last_visited_page', window.location.href);
+                } catch (err) {}
+                const targetPage = (window.location.pathname.endsWith('.html') || (window.location.protocol === 'file:')) ? 'pharmacy_detail.html' : '/pharmacy_detail';
+                window.location.href = `${targetPage}?name=${encodeURIComponent(h.pharmacy.name)}&from=${encodeURIComponent(window.location.href)}`;
+              };
+            }
           }
         }
       });
@@ -1527,7 +1542,12 @@
       ];
       const selected = hospList[idx] || hospList[0];
       sessionStorage.setItem('selected_hospital', JSON.stringify(selected));
-      window.location.href = window.location.pathname.endsWith('.html') ? 'hospital_detail.html' : '/hospital_detail';
+      try {
+        sessionStorage.setItem('aisum_last_visited_page', window.location.href);
+      } catch (e) {}
+      const targetPage = (window.location.pathname.endsWith('.html') || (window.location.protocol === 'file:')) ? 'hospital_detail.html' : '/hospital_detail';
+      const fromParam = encodeURIComponent(window.location.href);
+      window.location.href = `${targetPage}?name=${encodeURIComponent(selected.name)}&from=${fromParam}`;
     }
   </script>
 

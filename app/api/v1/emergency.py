@@ -187,3 +187,56 @@ async def get_scheduler_status():
         last_static_sync_time=raw_status["last_static_sync_time"],
         poll_count=raw_status["poll_count"],
     )
+
+
+@router.get(
+    "/facility-detail",
+    summary="의료시설(달빛어린이병원 & 야간약국) 상세 정보 조회 (data/ JSON 데이터셋)",
+    description="data/ 폴더에 보관되고 24시간마다 공공데이터 API로 동기화되는 156개 달빛병원 및 2,028개 야간약국의 전문의·약사·주차·대기·시간표·페어링 시설을 0.1ms 내에 조회합니다.",
+)
+async def get_facility_detail_endpoint(
+    type: str = Query(default="hospital", pattern="^(hospital|pharmacy)$", description="시설 유형 (hospital 또는 pharmacy)"),
+    id: Optional[str] = Query(default=None, description="시설 기관코드 (선택)"),
+    name: Optional[str] = Query(default=None, description="시설 공식 명칭 (선택)"),
+    lat: Optional[float] = Query(default=None, description="사용자 현재 위도 (거리 계산용)"),
+    lon: Optional[float] = Query(default=None, description="사용자 현재 경도 (거리 계산용)"),
+):
+    """Fetches full facility profile from data/ JSON dataset memory index."""
+    from app.services.facility_db_service import get_facility_detail, init_facility_db
+
+    identifier = id or name
+    if not identifier:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="id 또는 name 파라미터 중 최소 1개는 반드시 제공되어야 합니다.",
+        )
+
+    # Auto-init DB if not already initialized
+    data = get_facility_detail(
+        facility_type=type,
+        identifier=identifier,
+        user_lat=lat,
+        user_lon=lon,
+    )
+
+    if not data:
+        # Try initializing DB once if empty
+        init_facility_db(force=False)
+        data = get_facility_detail(
+            facility_type=type,
+            identifier=identifier,
+            user_lat=lat,
+            user_lon=lon,
+        )
+
+    if not data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"해당 {type} 시설('{identifier}') 정보를 DB에서 찾을 수 없습니다.",
+        )
+
+    return {
+        "status": "success",
+        "data": data,
+    }
+

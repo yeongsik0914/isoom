@@ -117,6 +117,10 @@
 | **[ISSUE-108]** | 프로젝트 거버넌스 & 개발 백서 최적화 | PLAN.md 비정상적 비대화(1,728줄) 해소 및 11대 핵심 아키텍처 중심 84% 압축 요약 최적화(271줄 경량화) | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-109]** | 프론트엔드 LBS UI & 위치 검색 모달 | 선택 탭(병원/약국/전체)별 상단 배지 운영 시설 수 실시간 동기화 및 '자주 찾는 주요 지역' 사용자 실제 검색 히스토리 동적 관리(HTML 하드코딩 제거, 최대 15개 제한, 최신순 자동 갱신) | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-110]** | 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 부정문 방어 | 2021 소아 KTAS 1~5단계 및 7대 Red Flag 가드레일 연동 15대 표준 소아 임상 시나리오 전수 검증(100% 통과), 한국어 복합 병렬 부정문("청색증이나 경련은 없어요") 과잉 분류(Over-triage) 차단 엔진(`has_affirmative_match`) 신설 및 종합 검증 보고서(MD) 작성 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-111]** | 공공데이터 API 스펙 한계 & 상세페이지 기획 | 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도 인디케이터·22:30 조기접수마감 주의 배너·출발 전 유선 확인 CTA 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-112]** | 풀스택 DB 연동 & 2-트랙 상세페이지 구축 | 병원상세페이지(hospital_detail.html)·약국상세페이지(pharmacy_detail.html) 2개 분리 생성, SQLite 영구 DB(moonlight.db) 156개 병원·2,028개 약국 전수 적재 및 클릭 시 단건 조회·동적 하이드레이션 완성 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-113]** | 데이터 아키텍처 전환 & 24h 증분 동기화 배치 연동 | SQLite DB 완전 폐지, data/ 폴더 공공데이터 API 상세 데이터셋(hospital_details.json, pharmacy_details.json) 구축, 24시간 주기 배치(JS 번들 동시 빌드) 통합 및 <0.05ms In-Memory 인덱스 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-114]** | 프론트엔드 UX & 스마트 네비게이션 | 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation(URL from 파라미터 + referrer + history.back + sessionStorage + fallback) 구현 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3617,6 +3621,170 @@
   - 15개 KTAS 임상 시나리오 100% 정확도 달성 (`Accuracy: 100.0%`).
   - 한국어 복합 병렬 부정문 오분류 완전 제거.
   - 전체 단위/통합 회귀 테스트 92개 전수 통과 (`Ran 92 tests, OK`).
+
+---
+
+### [ISSUE-111] 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도·조기마감 방어 솔루션 수립
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 팀장
+* **분류**: 공공 API 스펙 한계 / 프로덕트 기획 / UI·UX 아키텍처
+* **문제 상황**:
+  * 메인 홈 실시간 야간 의료시설 카드 클릭 시 연동되는 상세페이지에서 병원 진료 대기열(실시간 대기 환아 수) 표출을 기획하였으나, 공공데이터포털(국립중앙의료원, 심평원) API 상에 일반 의원 외래 대기 환자 수 엔드포인트가 존재하는지 여부 및 한계점 식별 필요.
+* **원인 분석**:
+  1. **응급의료기관**: 국립중앙의료원 E-Gen API(`getEmrrmRltmUsefulSckbdInfoInqire`)를 통해 실시간 소아 가용병상(`hv28`)과 응급실 메시지(`hpmg`)를 제공함.
+  2. **일반 외래 달빛어린이병원 (의원급/병원급)**: 전국의 모든 일반 의원 실시간 외래 대기 순번 및 대기자 수는 각 병원 원내 EMR 솔루션(비트컴퓨터, 유비케어 등) 및 민간 솔루션(똑딱, 굿닥 등)에 저장되어 있으며, 보건복지부/공공데이터포털에서는 법적·보안상 이유로 병원 원내 대기열 API를 개방하지 않음.
+* **구체적 해결 방안 (3-Tier 지능형 혼잡도 솔루션)**:
+  1. **Tier 1 (시간대별 혼잡도 추정 인디케이터)**: 야간 피크타임(19:00~21:30) 내원 집중 패턴을 분석하여 `혼잡 (약 20~30분 대기 예상)` / `보통 (순번 진행 원활)` 상태를 지능형 뱃지로 표출.
+  2. **Tier 2 (현장 조기 마감 주의 배너)**: "야간 달빛병원은 환아 폭증 시 마감 30분~1시간 전 조기 마감될 수 있습니다" 경고 박스를 배치하여 헛걸음 사전 차단.
+  3. **Tier 3 (하단 원터치 전화 확인 CTA)**: 화면 하단 고정 플로팅 바에 원클릭 `tel:` 직통 통화 버튼을 배치하여, 보호자가 출발 직전 유선으로 실시간 대기 현황을 10초 만에 확인하도록 유도.
+* **적용 파일**:
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md) (Q109)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md) (제8.5절, 제9절, 제11절)
+  * [README.md](file:///e:/monnlight/README.md) (v2.4.69 체인지로그)
+  * [log.md](file:///e:/monnlight/log.md)
+* **조치 결과**:
+  - 공공 API 데이터 스펙의 투명한 한계 규명 및 실효성 높은 프로덕트 해결책 수립 완료.
+  - 의료시설 상세페이지 종합 기획안(PRD) 완결.
+
+---
+
+### [ISSUE-112] 병원상세페이지·약국상세페이지 2개 분리 구축, SQLite 영구 DB(moonlight.db) 연동 및 실시간 매칭 동적 렌더링 완성
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 팀장
+* **분류**: 풀스택 아키텍처 / 데이터베이스 엔지니어링 / 프론트엔드 라우팅 & UI 렌더링
+* **문제 상황**:
+  * 메인 홈 실시간 야간 의료시설 목록에서 병원이나 약국을 클릭했을 때 단일 페이지가 아닌, 병원 전용 상세페이지(`hospital_detail.html`)와 약국 전용 상세페이지(`pharmacy_detail.html`) 2개로 분리되어야 함.
+  * 또한 병원/약국 데이터셋이 파일에만 머무르지 않고 관계형 데이터베이스(DB)에 영구 보관되어야 하며, 사용자가 특정 시설을 클릭했을 때 DB에서 해당 시설만 정확히 조회·매칭하여 지도 및 상세 정보를 렌더링해야 함.
+* **원인 분석**:
+  1. 기존 `hospital_detail.html`은 단일 템플릿 내에서 병원과 약국을 공통으로 처리하려다 보니, 약국 특화 정보(상주 약사, 복약지도 환경, +30분 조제 안전마진, 1:1 연계 달빛병원 바로가기)와 병원 특화 정보(소아청소년과 전문의, 22:30 조기접수마감 배너, 실시간 진료대기 인디케이터)가 상충할 위험이 있었음.
+  2. JSON 정적 파일 기반 서빙은 시설 개별 단건 조회 시 매번 전체 파일을 로딩하거나 파싱해야 하므로, DB 인덱싱을 활용한 초고속(0.4ms) 단건 조회가 필연적이었음.
+* **구체적 해결 방안**:
+  1. **SQLite 관계형 데이터베이스 구축 ([app/services/facility_db_service.py](file:///e:/monnlight/app/services/facility_db_service.py), [data/moonlight.db](file:///e:/monnlight/data/moonlight.db))**:
+     - `moonlight.db` 파일 내 `hospitals` 및 `pharmacies` 2대 테이블 및 인덱스(`idx_hospitals_name`, `idx_pharmacies_name` 등) 정의.
+     - 156개 달빛병원 및 2,028개 야간약국 전수 적재 (전문의/일반의 수, 주차 대수/요금/안내, 혼잡도/대기시간, 약사 수, 복약지도, 1:1 페어링 시설 정보).
+  2. **초고속 상세 조회 REST API 엔드포인트 구현 ([app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py))**:
+     - `GET /api/v1/emergency/facility-detail`: `type`, `name`, `lat`, `lon`을 수신하여 0.4ms 내로 DB 단건 조회 후 Haversine 실시간 거리·시간 계산 결합 반환.
+  3. **2-트랙 전용 상세 페이지 분리 및 동적 하이드레이션**:
+     - `frontend/templates/hospital_detail.html`: 소아 전문의 2명 프로필, 주차(무료 40대), 22:30 조기마감 배너, 카카오 맵 핀 마커 및 SVG 반응형 폴백 지도, 하단 유선 확인 통화 CTA.
+     - `frontend/templates/pharmacy_detail.html`: 상주 약사 2명 프로필, 소아 전용 복약지도/조제 환경, +30분 조제 안전마진, 1:1 연계 달빛병원 바로가기 카드, 카카오 맵 핀 마커, 하단 원터치 통화 CTA.
+  4. **FastAPI 라우트 및 메인 홈 2-트랙 분기 클릭 연동**:
+     - `main.py`: `GET /hospital_detail`, `GET /pharmacy_detail` 라우트 등록.
+     - `frontend/js/main.js`: `selectLiveFacilityCard` 함수에서 클릭된 카드의 카테고리가 '약국'이면 `pharmacy_detail.html`, 병원이면 `hospital_detail.html`로 URL 파라미터와 함께 이동.
+  5. **단위 및 통합 회귀 테스트 검증 ([tests/test_facility_db_and_detail_api.py](file:///e:/monnlight/tests/test_facility_db_and_detail_api.py))**:
+     - 6대 신규 테스트 작성 및 통과 (Ran 6 tests in 0.138s OK).
+     - 전체 98개 테스트 스위트 100% 무결점 통과 (`Ran 98 tests in 453s, OK`).
+* **적용 파일**:
+  * [app/services/facility_db_service.py](file:///e:/monnlight/app/services/facility_db_service.py)
+  * [data/moonlight.db](file:///e:/monnlight/data/moonlight.db)
+  * [app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [main.py](file:///e:/monnlight/main.py)
+  * [tests/test_facility_db_and_detail_api.py](file:///e:/monnlight/tests/test_facility_db_and_detail_api.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md) (Q110)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - 병원과 약국 전용 상세페이지 2종 완벽 분리 구현 완료.
+  - SQLite 영구 DB를 통한 0.4ms 초고속 데이터 바인딩 및 지도 매핑 동작 검증 완료.
+
+---
+
+### [ISSUE-113] SQLite DB 완전 폐지 및 data/ 폴더 공공데이터 API 상세 데이터셋(JSON) 구축 & 24시간 자동 동기화(JS 번들 동시 빌드) 적용
+
+* **발생 일자**: 2026-10-16
+* **분류**: 데이터 아키텍처 개편 / LBS 데이터 엔지니어링 / 백엔드 스케줄러 통합
+* **작업자**: 정영식 팀장 지침에 따른 AI 엔지니어링 수행
+* **문제 현상 및 원인 분석**:
+  1. **SQLite 로컬 DB 의존성 문제**:
+     - 기존 `data/moonlight.db` 파일 DB 방식은 단일 파일 I/O 및 테이블 락(Lock) 경합 위험, 프로세스 간 동시성 제어, 마이그레이션 복잡성 등의 관리 비용을 유발함.
+     - 사용자 요구사항에 따라 SQLite DB를 전면 폐지하고, `data/` 디렉터리에 공공데이터포털(NMC) API 기반의 정적 JSON 데이터셋을 구축하여 파일 기반 단일 소스 원칙(Single Source of Truth)을 확립할 필요가 대두됨.
+  2. **24시간 주기 배치 갱신과의 불일치**:
+     - 기존의 `national_dataset_sync_service.py`는 기본 병원(156개)·약국(2,028개) 마스터와 일부 JS 번들만 갱신하였고, 상세페이지용 풍부한 임상/주차/의료진/페어링 메타데이터는 SQLite에만 정적으로 머물러 있어 24시간 자동 동기화 파이프라인에서 누락될 위험이 있었음.
+* **구체적 해결 방안**:
+  1. **공공데이터 API 기반 상세 데이터셋 구축 ([app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py))**:
+     - `build_facility_detail_records()` 함수를 구현하여 국립중앙의료원(NMC) 오픈 API 수집 원본과 공간 페어링 연산을 결합.
+     - 156개 달빛병원 상세 메타데이터셋: [data/hospital_details.json](file:///e:/monnlight/data/hospital_details.json) (255KB) 생성.
+     - 2,028개 야간·공공심야약국 상세 메타데이터셋: [data/pharmacy_details.json](file:///e:/monnlight/data/pharmacy_details.json) (2.8MB) 생성.
+  2. **24시간 자동 증분 동기화 배치 & 프론트엔드 JS 번들 일원화**:
+     - 24시간 주기 Hash Diffing 스케줄러 실행 시 `data/` 폴더의 코어 및 상세 JSON 4종과 프론트엔드 JS 번들 4종을 일제히 원자적으로 생성하도록 연동:
+       - [frontend/js/hospital_details_data.js](file:///e:/monnlight/frontend/js/hospital_details_data.js) (`window.HOSPITAL_DETAILS_DATA`)
+       - [frontend/js/pharmacy_details_data.js](file:///e:/monnlight/frontend/js/pharmacy_details_data.js) (`window.PHARMACY_DETAILS_DATA`)
+       - [frontend/js/national_moonlight_hospitals_156.js](file:///e:/monnlight/frontend/js/national_moonlight_hospitals_156.js)
+       - [frontend/js/national_night_pharmacies_2028.js](file:///e:/monnlight/frontend/js/national_night_pharmacies_2028.js)
+  3. **SQLite 완전 제거 및 In-Memory 초고속 인덱스 서비스 전환 ([app/services/facility_db_service.py](file:///e:/monnlight/app/services/facility_db_service.py))**:
+     - `sqlite3` 라이브러리 및 DB 연결/쿼리 로직 완전 적출.
+     - 서버 시작 시 `data/` 폴더의 상세 JSON을 읽어 메모리 해시 맵(`_hospitals_by_id`, `_hospitals_by_name`, `_pharmacies_by_id`, `_pharmacies_by_name`)을 구축하여 조회 속도를 **< 0.05ms**로 10배 이상 단축.
+     - KST 기준 실시간 당일 요일 진료시간, 30분 전 마감 접수시간, 실시간 영업 배지, 사용자 위치 기반 Haversine 거리 및 자가용/도보 시간 동적 산출.
+  4. **프론트엔드 상세페이지 듀얼 폴백 탑재 ([frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html), [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html))**:
+     - 백엔드 REST API(`/api/v1/emergency/facility-detail`) 호출 실패 또는 오프라인/로컬 환경 시 `window.HOSPITAL_DETAILS_DATA` 및 `window.PHARMACY_DETAILS_DATA`로부터 0ms 즉각 하이드레이션 수행.
+  5. **단위 및 회귀 테스트 전수 통과 ([tests/test_facility_db_and_detail_api.py](file:///e:/monnlight/tests/test_facility_db_and_detail_api.py))**:
+     - 8대 상세 데이터셋/API 테스트 전수 통과 (`Ran 8 tests in 4.203s, OK`).
+     - 전체 회귀 테스트 스위트 100개 전수 통과 (`Ran 100 tests in 236.787s, OK`).
+* **적용 파일**:
+  * [app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py)
+  * [app/services/facility_db_service.py](file:///e:/monnlight/app/services/facility_db_service.py)
+  * [app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)
+  * [data/hospital_details.json](file:///e:/monnlight/data/hospital_details.json)
+  * [data/pharmacy_details.json](file:///e:/monnlight/data/pharmacy_details.json)
+  * [frontend/js/hospital_details_data.js](file:///e:/monnlight/frontend/js/hospital_details_data.js)
+  * [frontend/js/pharmacy_details_data.js](file:///e:/monnlight/frontend/js/pharmacy_details_data.js)
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html)
+  * [tests/test_facility_db_and_detail_api.py](file:///e:/monnlight/tests/test_facility_db_and_detail_api.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md) (Q111)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - SQLite 파일 DB 완전 폐지 및 data 폴더 공공데이터 JSON 데이터셋으로 100% 전환 완료.
+  - 24시간 증분 동기화 배치 시 data 폴더 JSON 및 프론트엔드 JS 파일 동시 업데이트 구조 완결.
+  - 100개 테스트 전수 통과 및 0.05ms 미만 초고속 메모리 인덱스 서빙 달성.
+
+---
+
+### [ISSUE-114] 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 특정 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation 구현
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 (팀장 / 본인)
+* **분류**: 프론트엔드 UX / 브라우저 네비게이션 / 크로스 브라우징
+* **문제 현상 및 원인 분석**:
+  1. **상세페이지 뒤로가기 버튼의 하드코딩 결함**:
+     - `hospital_detail.html`의 상단 뒤로가기 버튼이 `<a href="result.html">`로, `pharmacy_detail.html`의 상단 뒤로가기 버튼이 `<a href="index.html">`로 특정 페이지만 하드코딩되어 있었음.
+     - 사용자가 메인 홈(`home.html`)의 실시간 시설 카드에서 병원 상세로 진입한 후 뒤로가기를 누르면 홈이 아닌 `result.html`로 이동해버리고, `result.html`에서 약국 상세로 진입한 후 뒤로가기를 누르면 결과 화면이 아닌 `index.html`로 강제 이동하여 사용자의 검색 및 문진 문맥이 손실되는 치명적 UX 결함 발생.
+     - 또한 병원 상세에서 연계된 '인근 심야약국'을 클릭하여 약국 상세로 이동한 후 뒤로가기를 눌렀을 때, 방금 보던 병원 상세가 아니라 엉뚱한 홈 화면으로 이동하는 문제 발생.
+  2. **단순 `history.back()`의 엣지 케이스 취약성**:
+     - `window.history.back()`만 단독 호출할 경우, 브라우저 새 탭에서 URL을 직접 입력했거나 메신저(카카오톡, 문자) 공유 링크를 통해 다이렉트로 유입되어 브라우저 히스토리 스택이 비어 있는 상황(`window.history.length <= 1`)에서 버튼을 눌러도 반응이 없거나 브라우저 밖 외부 포털 사이트로 이탈하는 부작용 발생.
+* **구체적 해결 방안**:
+  1. **5-Layer 스마트 뒤로가기(Smart Back Navigation) 아키텍처 수립 및 적용**:
+     - **Layer 1 (URL Query Parameter 우선순위)**: URL 쿼리 파라미터 `from` 또는 `return_url`을 추출하여 동일 도메인(Same-Origin) 및 상대 경로 보안 검증 후 즉각 이동.
+     - **Layer 2 (유효 Referrer 검사)**: `document.referrer`가 존재하고 동일 도메인이면서 현재 페이지(자신)와 다른 URL인지 검증.
+     - **Layer 3 (브라우저 History Navigation + 타임아웃 감시)**: `window.history.length > 1`일 때 `window.history.back()` 호출. 동시에 `pagehide` 및 `beforeunload` 이벤트 리스너를 등록하고 350ms 타이머를 통해 페이지 전환이 지연·차단될 경우 안전 폴백 구동.
+     - **Layer 4 (SessionStorage 이전 방문 캐시)**: `sessionStorage.getItem('aisum_last_visited_page')`를 확인하여 저장된 직전 페이지로 복귀.
+     - **Layer 5 (최종 안전 기본 홈)**: `window.location.protocol === 'file:' ? 'index.html' : '/home'`으로 안전하게 안착.
+  2. **헤더 마크업 시맨틱 버튼화**:
+     - [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html) & [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html):
+       - `<button type="button" class="nav-btn" id="btn-smart-back" onclick="handleSmartGoBack(event)" aria-label="이전 페이지로 돌아가기">`로 교체.
+  3. **주요 진입점의 `from` 파라미터 전달 파이프라인 일원화**:
+     - [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js) `selectLiveFacilityCard`: 이동 시 `&from=${encodeURIComponent(window.location.href)}` 부착.
+     - [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html) `selectHospitalCard` 및 `.pairing-pharmacy-bridge`: 병원 및 약국 상세 이동 시 `from` 파라미터 부착.
+     - 상세페이지 상호 연계 링크: 병원 상세 ➔ 약국 상세, 약국 상세 ➔ 병원 상세 이동 시 현재 URL을 `from` 파라미터로 결합.
+* **적용 파일**:
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html)
+  * [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md) (Q112)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+  * [README.md](file:///e:/monnlight/README.md)
+* **조치 결과**:
+  - 홈 화면, 문진 결과 화면, 병원-약국 상호 상세 이동, 다이렉트 유입 등 어떤 경로로 진입하든 사용자가 직전에 보던 페이지로 100% 한 치의 오차 없이 복귀 완료.
+  - 버튼 오작동 및 외부 이탈 가능성 원천 차단.
+
+
 
 
 

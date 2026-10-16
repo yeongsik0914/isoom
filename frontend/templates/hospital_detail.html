@@ -686,11 +686,11 @@
 
     <!-- 1. Top Navigation Bar -->
     <header class="detail-nav-header">
-      <a href="result.html" class="nav-btn" aria-label="이전 결과 화면으로 가기">
+      <button type="button" class="nav-btn" id="btn-smart-back" onclick="handleSmartGoBack(event)" aria-label="이전 페이지로 돌아가기">
         <span class="material-symbols-outlined" style="font-size: 22px;">arrow_back</span>
-      </a>
+      </button>
       <h1 class="nav-title">병원 상세 및 실시간 접수</h1>
-      <a href="index.html" class="nav-btn" aria-label="홈으로 가기">
+      <a href="index.html" onclick="if(window.location.protocol!=='file:'){window.location.href='/home';return false;}" class="nav-btn" aria-label="홈으로 가기">
         <span class="material-symbols-outlined" style="font-size: 20px;">home</span>
       </a>
     </header>
@@ -715,15 +715,15 @@
       <div class="metrics-bar-grid">
         <div class="metric-col">
           <span class="metric-label">현재 대기</span>
-          <span class="metric-val highlight-blue" id="live-queue-count">4팀 (약 20분)</span>
+          <span class="metric-val highlight-blue" id="live-queue-count">실시간 확인중...</span>
         </div>
         <div class="metric-col">
           <span class="metric-label">내 위치 거리</span>
-          <span class="metric-val" id="detail-hospital-dist">1.8 km (차 6분)</span>
+          <span class="metric-val" id="detail-hospital-dist">계산중...</span>
         </div>
         <div class="metric-col">
           <span class="metric-label">주차 지원</span>
-          <span class="metric-val">지하 무료 2시간</span>
+          <span class="metric-val" id="detail-parking-metric">무료 주차 지원</span>
         </div>
       </div>
     </section>
@@ -738,7 +738,7 @@
             <span class="material-symbols-outlined" style="color: #0066ff;">stethoscope</span>
             야간 당직 전문의 현황
           </h3>
-          <span style="font-size: 12px; color: #10b981; font-weight: 600;">진료중</span>
+          <span style="font-size: 12px; color: #10b981; font-weight: 600;" id="doctor-live-badge">진료중</span>
         </div>
 
         <div class="doctor-profile-box">
@@ -746,10 +746,10 @@
             <span class="material-symbols-outlined" style="font-size: 32px; color: #0066ff;">person</span>
           </div>
           <div class="doctor-info-wrap">
-            <span class="doctor-badge-status" id="doctor-room-badge">야간소아진료실 (2층)</span>
-            <div class="doctor-name-title" id="doctor-name-title">Dr. 소아청소년과 당직전문의</div>
+            <span class="doctor-badge-status" id="doctor-room-badge">소아청소년과 전문의</span>
+            <div class="doctor-name-title" id="doctor-name-title">Dr. 소아청소년과 전문의 진료팀</div>
             <div class="doctor-desc" id="doctor-desc-text">
-              소아청소년과 전문의 · 소아 급성발열 및 호흡기 질환 전문<br>
+              소아청소년과 전문의 상주 · 소아 급성발열, 호흡기 질환, 수액 치료 전문<br>
               <strong style="color: #0066ff;" id="doctor-queue-status">현재 대기 환아 진료 진행 중</strong> (순번 진행 원활)
             </div>
           </div>
@@ -760,7 +760,7 @@
           <span class="material-symbols-outlined">warning</span>
           <div class="warning-notice-text" id="hospital-deadline-notice">
             <strong id="hospital-deadline-title">야간 접수 마감 주의 (22:30 마감)</strong><br>
-            환아 폭증 시 마감 30분 전 조기 마감될 수 있으므로, 출발 전 전화 확인 또는 하단 번호표 발급을 권장합니다.
+            환아 폭증 시 마감 30분 전 조기 마감될 수 있으므로, 출발 전 전화 확인 또는 하단 길안내 확인을 권장합니다.
           </div>
         </div>
       </section>
@@ -772,21 +772,21 @@
             <span class="material-symbols-outlined" style="color: #0066ff;">schedule</span>
             진료 시간표
           </h3>
-          <span style="font-size: 12px; color: #64748b;">E-Gen 실시간 동기화</span>
+          <span style="font-size: 12px; color: #64748b;">DB 실시간 동기화</span>
         </div>
 
         <div class="time-table-list">
           <div class="time-row active-today">
-            <span>오늘 (평일 야간진료)<span class="today-tag">오늘</span></span>
+            <span>오늘 진료시간<span class="today-tag">오늘</span></span>
             <span id="detail-today-hours">09:00 ~ 23:00 (접수마감 22:30)</span>
           </div>
           <div class="time-row">
-            <span>토요일</span>
-            <span>09:00 ~ 22:00 (접수마감 21:30)</span>
+            <span>토요일 진료</span>
+            <span id="detail-sat-hours">09:00 ~ 18:00</span>
           </div>
           <div class="time-row">
             <span>일요일 및 공휴일</span>
-            <span>09:00 ~ 22:00 (달빛어린이병원 운영)</span>
+            <span id="detail-sun-hours">09:00 ~ 18:00 (달빛어린이병원 운영)</span>
           </div>
         </div>
       </section>
@@ -796,7 +796,7 @@
         <div class="pharmacy-header">
           <div class="pharmacy-title-area">
             <span class="material-symbols-outlined" style="color: #0066ff; font-size: 22px;">medication</span>
-            <h3 id="pharmacy-name">송파달빛약국</h3>
+            <h3 id="pharmacy-name">연계 안심약국</h3>
           </div>
           <span class="margin-badge">
             <span class="material-symbols-outlined" style="font-size: 15px;">verified</span>
@@ -805,23 +805,23 @@
         </div>
 
         <p style="font-size: 13px; color: #475569;" id="pharmacy-desc">
-          병원 바로 옆 <strong>도보 1분 (80m)</strong> · 오늘 야간영업 <strong>23:30 마감</strong>
+          병원 인근 <strong>도보 1~2분</strong> · 오늘 야간영업 <strong>23:30 마감</strong>
         </p>
 
         <div class="pharmacy-tag-row">
           <span class="p-tag">소아 시럽제 상비</span>
-          <span class="p-tag">호흡기 네블라이저 치료제 구비</span>
+          <span class="p-tag">호흡기 네블라이저 구비</span>
           <span class="p-tag">해열제 교차복용 복약지도</span>
         </div>
 
         <div class="pharmacy-action-btns">
-          <a href="tel:024007576" class="p-action-btn" id="btn-pharmacy-call">
+          <a href="tel:" class="p-action-btn" id="btn-pharmacy-call">
             <span class="material-symbols-outlined" style="font-size: 17px; color: #0066ff;">call</span>
             약국 문의
           </a>
-          <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="p-action-btn" id="btn-pharmacy-map">
-            <span class="material-symbols-outlined" style="font-size: 17px; color: #0066ff;">near_me</span>
-            약국 길찾기
+          <a href="#" class="p-action-btn" id="btn-pharmacy-detail">
+            <span class="material-symbols-outlined" style="font-size: 17px; color: #0066ff;">info</span>
+            약국 상세 보기
           </a>
         </div>
       </section>
@@ -835,10 +835,20 @@
           </h3>
         </div>
 
+        <!-- In-Page Interactive Map Viewport -->
+        <div id="hospital-map-container" style="width: 100%; height: 190px; border-radius: 14px; background: #e2e8f0; margin-bottom: 12px; overflow: hidden; position: relative; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center;">
+          <!-- Map Canvas or Fallback Visual -->
+          <div id="hospital-kakao-map" style="width: 100%; height: 100%;"></div>
+          <div id="hospital-map-overlay-badge" style="position: absolute; bottom: 10px; left: 10px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; pointer-events: none; z-index: 5;">
+            <span class="material-symbols-outlined" style="font-size: 14px; color: #60a5fa;">pin_drop</span>
+            <span id="hospital-map-badge-text">달빛어린이병원 위치</span>
+          </div>
+        </div>
+
         <div class="address-copy-box">
           <div class="address-text-wrap">
-            <strong style="color: #0f172a;" id="detail-address-text">서울특별시 송파구 올림픽로 300</strong><br>
-            <span style="font-size: 12px; color: #64748b;" id="detail-address-sub">가까운 지하철역 도보 3분 · 지하주차장 무료</span>
+            <strong style="color: #0f172a;" id="detail-address-text">주소 정보를 불러오는 중...</strong><br>
+            <span style="font-size: 12px; color: #64748b;" id="detail-parking-text">주차 정보를 불러오는 중...</span>
           </div>
           <button type="button" class="copy-btn" onclick="copyAddress()">
             <span class="material-symbols-outlined" style="font-size: 15px;">content_copy</span>
@@ -940,215 +950,345 @@
   </div>
 
   <script>
-    let activeHospital = {
-      name: "하이엔소아청소년과의원",
-      dist: 2.4,
-      drive_min: 7,
-      duty_time: "오늘 야간진료 23:00 마감",
-      tel: "02-400-7575",
-      address: "서울특별시 송파구 송파대로 111",
-      waiting_count: 4,
-      hours: {
-        weekday: "09:00 ~ 23:00",
-        saturday: "09:00 ~ 18:00",
-        sunday: "09:00 ~ 18:00"
-      },
-      pharmacy: {
-        name: "문정스타약국",
-        tel: "02-400-7576",
-        duty_time: "23:30 마감",
-        margin: 30,
-        guide: "병원 동일 건물 1층 도보 1분"
+    // 0. Smart History Navigation (이전 접속했던 페이지로 정확히 복귀)
+    window.handleSmartGoBack = function(event) {
+      if (event) {
+        try {
+          event.preventDefault();
+          event.stopPropagation();
+        } catch (e) {}
       }
-    };
 
-    // 1. Hydrate Hospital Data from SessionStorage, NATIONWIDE_PAIRINGS_DATA, or Backend API
-    document.addEventListener('DOMContentLoaded', async () => {
+      const isFileProtocol = (window.location.protocol === 'file:');
+      const fallbackHome = isFileProtocol ? 'index.html' : '/home';
+
+      // 1. URL 쿼리 파라미터의 from / return_url 우선 확인
       try {
-        const stored = sessionStorage.getItem('selected_hospital');
-        if (stored) {
-          activeHospital = Object.assign(activeHospital, JSON.parse(stored));
-        } else {
-          const userLat = parseFloat(localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || '37.4858');
-          const userLon = parseFloat(localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || '127.1225');
-          const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
-
-          if (pairings.length > 0) {
-            let best = null;
-            let minDist = Infinity;
-            pairings.forEach(p => {
-              const hLat = parseFloat(p.병원위도) || userLat;
-              const hLon = parseFloat(p.병원경도) || userLon;
-              const d = Math.sqrt(Math.pow((userLat - hLat) * 111, 2) + Math.pow((userLon - hLon) * 88, 2));
-              if (d < minDist) {
-                minDist = d;
-                best = p;
-              }
-            });
-
-            if (best) {
-              const distKm = Number(minDist.toFixed(1));
-              activeHospital = {
-                name: best.병원명,
-                dist: distKm,
-                drive_min: Math.max(3, Math.round(distKm * 2.5)),
-                duty_time: `오늘 야간진료 ${best.병원_평일마감 || '23:00'} 마감`,
-                tel: best.병원전화 || '02-1234-5678',
-                address: best.병원주소 || '서울특별시 송파구 문정동',
-                waiting_count: 4,
-                hours: {
-                  weekday: best.병원_평일진료 || '09:00 ~ 21:00',
-                  saturday: best.병원_토요진료 || '09:00 ~ 18:00',
-                  sunday: best.병원_일공진료 || '09:00 ~ 18:00',
-                },
-                pharmacy: {
-                  name: best.약국명 || '인근 안심약국',
-                  tel: best.약국전화 || '',
-                  duty_time: `${best.약국_평일마감 || '22:00'} 마감`,
-                  margin: best.안전마진_분 || 30,
-                  guide: best.이동안내 || '동일 건물 도보 1분'
-                }
-              };
-            }
-          } else {
-            // 백엔드 실제 엔드포인트 비동기 호출 (GET /api/v1/emergency/pairings)
-            try {
-              const res = await fetch(`/api/v1/emergency/pairings?lat=${userLat}&lon=${userLon}&limit=1`);
-              if (res.ok) {
-                const pData = await res.json();
-                if (pData.pairings && pData.pairings.length > 0) {
-                  const top = pData.pairings[0];
-                  activeHospital = {
-                    name: top.병원명,
-                    dist: typeof top.거리_km === 'number' ? Number(top.거리_km.toFixed(1)) : parseFloat(top.거리_km),
-                    drive_min: Math.max(3, Math.round((top.거리_km || 1.8) * 2.5)),
-                    tel: top.병원전화,
-                    address: top.병원주소,
-                    duty_time: `오늘 야간진료 ${top.병원_평일마감 || '23:00'} 마감`,
-                    waiting_count: 4,
-                    hours: {
-                      weekday: top.병원_평일진료 || '08:30 ~ 21:00',
-                      saturday: top.병원_토요진료 || '08:30 ~ 18:00',
-                      sunday: top.병원_일공진료 || '09:00 ~ 18:00',
-                    },
-                    pharmacy: {
-                      name: top.약국명,
-                      tel: top.약국전화,
-                      duty_time: `${top.약국_평일마감 || '21:30'} 마감`,
-                      margin: top.안전마진_분 || 30,
-                      guide: top.이동안내 || '동일 건물 도보 1분'
-                    }
-                  };
-                }
-              }
-            } catch (apiErr) {
-              console.log('실제 병원 페어링 API 비동기 폴백:', apiErr);
-            }
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromUrl = urlParams.get('from') || urlParams.get('return_url') || urlParams.get('back');
+        if (fromUrl) {
+          const decoded = decodeURIComponent(fromUrl);
+          // 보안 검증: Same-Origin, 상대경로, 혹은 file 프로토콜 허용
+          if (decoded.startsWith('/') || !decoded.includes('://') || decoded.startsWith(window.location.origin) || isFileProtocol) {
+            window.location.href = decoded;
+            return;
           }
         }
       } catch (e) {
-        console.warn('Failed to parse selected_hospital:', e);
+        console.warn('SmartBack URL parse error:', e);
       }
 
-      // Title & Hero Name
-      document.title = `${activeHospital.name} 상세 - 아이숨(i-Soom)`;
-      const nameEl = document.getElementById('detail-hospital-name');
-      if (nameEl) nameEl.innerText = activeHospital.name;
-
-      // Extract time info
-      let closingTime = "23:00";
-      if (activeHospital.duty_time) {
-        const match = activeHospital.duty_time.match(/(\d{2}:\d{2})/);
-        if (match) closingTime = match[1];
-      }
-      const [chH, chM] = closingTime.split(':').map(Number);
-      const deadMinutes = chH * 60 + chM - 30;
-      const deadH = String(Math.floor(deadMinutes / 60)).padStart(2, '0');
-      const deadM = String(deadMinutes % 60).padStart(2, '0');
-      const deadlineTime = `${deadH}:${deadM}`;
-
-      const visitMinutes = deadMinutes - 15;
-      const vH = String(Math.floor(visitMinutes / 60)).padStart(2, '0');
-      const vM = String(visitMinutes % 60).padStart(2, '0');
-      const visitTime = `${vH}:${vM}`;
-
-      // Hero Badges & Metrics
-      const liveTimeEl = document.getElementById('hospital-live-time');
-      if (liveTimeEl) liveTimeEl.innerText = `실시간 야간진료 중 (~${closingTime})`;
-
-      const queueWaitMin = (activeHospital.waiting_count || 4) * 5;
-      const queueEl = document.getElementById('live-queue-count');
-      if (queueEl) queueEl.innerText = `${activeHospital.waiting_count || 4}팀 (약 ${queueWaitMin}분)`;
-
-      const distEl = document.getElementById('detail-hospital-dist');
-      if (distEl) distEl.innerText = `${activeHospital.dist} km (차 ${activeHospital.drive_min || Math.round(activeHospital.dist * 3)}분)`;
-
-      // Notice Banner
-      const deadlineTitleEl = document.getElementById('hospital-deadline-title');
-      if (deadlineTitleEl) deadlineTitleEl.innerText = `야간 접수 마감 주의 (${deadlineTime} 마감)`;
-
-      // Operating Hours Table
-      const todayHoursEl = document.getElementById('detail-today-hours');
-      if (todayHoursEl) {
-        const weekdayStr = (activeHospital.hours && activeHospital.hours.weekday) ? activeHospital.hours.weekday : `09:00 ~ ${closingTime}`;
-        todayHoursEl.innerText = `${weekdayStr} (접수마감 ${deadlineTime})`;
+      // 2. document.referrer 검사
+      const referrer = document.referrer;
+      let hasValidReferrer = false;
+      if (referrer) {
+        try {
+          const refUrl = new URL(referrer);
+          if (isFileProtocol || refUrl.origin === window.location.origin) {
+            const curBase = window.location.href.split('#')[0];
+            const refBase = referrer.split('#')[0];
+            if (curBase !== refBase) {
+              hasValidReferrer = true;
+            }
+          }
+        } catch (e) {}
       }
 
-      // Paired Pharmacy
-      if (activeHospital.pharmacy) {
+      // 3. 브라우저 히스토리 스택이 1개 초과인 경우 window.history.back() 호출
+      if (window.history.length > 1) {
+        let didNavigate = false;
+        const markNav = () => { didNavigate = true; };
+        window.addEventListener('pagehide', markNav, { once: true });
+        window.addEventListener('beforeunload', markNav, { once: true });
+
+        window.history.back();
+
+        // 350ms 후에도 이전 페이지로 이동하지 않은 경우 안전 폴백 실행
+        setTimeout(() => {
+          if (!didNavigate) {
+            if (hasValidReferrer && referrer) {
+              window.location.href = referrer;
+            } else {
+              const lastVisited = sessionStorage.getItem('aisum_last_visited_page');
+              if (lastVisited && lastVisited !== window.location.href) {
+                window.location.href = lastVisited;
+              } else {
+                window.location.href = fallbackHome;
+              }
+            }
+          }
+        }, 350);
+        return;
+      }
+
+      // 4. 히스토리가 없는 경우(직접 진입/새 탭): 유효한 referrer가 있으면 referrer로 이동
+      if (hasValidReferrer && referrer) {
+        window.location.href = referrer;
+        return;
+      }
+
+      // 5. sessionStorage에 저장된 이전 페이지가 있으면 복귀
+      const lastVisited = sessionStorage.getItem('aisum_last_visited_page');
+      if (lastVisited && lastVisited !== window.location.href) {
+        window.location.href = lastVisited;
+        return;
+      }
+
+      // 6. 최종 안전 기본값: 홈 화면으로 이동
+      window.location.href = fallbackHome;
+    };
+
+    let activeHospital = {
+      id: "",
+      name: "하이엔소아청소년과의원",
+      dist_km: 1.8,
+      drive_min: 6,
+      walk_min: 25,
+      is_open_now: true,
+      status_badge: "실시간 야간진료 중 (~23:00)",
+      today_hours: "09:00 ~ 23:00 (접수마감 22:30)",
+      today_deadline: "22:30",
+      hours_weekday: "09:00 ~ 23:00",
+      hours_saturday: "09:00 ~ 18:00",
+      hours_sunday: "09:00 ~ 18:00",
+      phone: "02-400-7575",
+      address: "서울특별시 송파구 송파대로 111",
+      lat: 37.4858,
+      lon: 127.1225,
+      pediatric_specialists: 3,
+      general_doctors: 1,
+      doctor_desc: "소아청소년과 전문의 3명 상주 · 소아 급성발열, 호흡기 질환, 수액 치료 전문\n야간 소아 전담 진료팀 운영 중 (순번 진행 원활)",
+      parking_available: 1,
+      parking_spaces: 35,
+      parking_fee: "무료 (진료 시 2시간)",
+      parking_guide: "지하 1~2층 자주식 주차장 (SUV 입차 가능)",
+      congestion_level: "보통 (순번 진행 원활)",
+      estimated_wait_min: 20,
+      paired_pharmacy_name: "문정스타약국",
+      paired_pharmacy_phone: "02-400-7576",
+      paired_pharmacy_address: "동일 건물 1층",
+      paired_pharmacy_closing: "23:30 마감",
+      paired_pharmacy_dist_m: 80
+    };
+
+    // 1. Fetch from Database API and Hydrate UI
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const qName = urlParams.get('name') || '';
+        const qId = urlParams.get('id') || '';
+
+        const userLat = parseFloat(localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || '37.4858');
+        const userLon = parseFloat(localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || '127.1225');
+
+        let fetchedData = null;
+
+        // Try Dataset API first
+        if (qName || qId) {
+          try {
+            const apiTarget = `/api/v1/emergency/facility-detail?type=hospital&name=${encodeURIComponent(qName)}&id=${encodeURIComponent(qId)}&lat=${userLat}&lon=${userLon}`;
+            const res = await fetch(apiTarget);
+            if (res.ok) {
+              const resJson = await res.json();
+              if (resJson.status === 'success' && resJson.data) {
+                fetchedData = resJson.data;
+              }
+            }
+          } catch (apiErr) {
+            console.warn('[HospitalDetail] API fetch failed, falling back to local dataset JS:', apiErr);
+          }
+        }
+
+        // 2. Local JS Dataset Fallback (window.HOSPITAL_DETAILS_DATA from 24h sync)
+        if (!fetchedData && window.HOSPITAL_DETAILS_DATA && window.HOSPITAL_DETAILS_DATA.length) {
+          const cleanQ = (qName || '').replace(' (달빛어린이병원)', '').trim();
+          const found = window.HOSPITAL_DETAILS_DATA.find(item => 
+            (qId && item.id === qId) ||
+            (cleanQ && item.name && (item.name === cleanQ || item.name.includes(cleanQ) || cleanQ.includes(item.name)))
+          );
+          if (found) {
+            fetchedData = Object.assign({}, found);
+            console.info('[HospitalDetail] Successfully resolved from window.HOSPITAL_DETAILS_DATA:', found.name);
+          }
+        }
+
+        if (fetchedData) {
+          activeHospital = Object.assign(activeHospital, fetchedData);
+        } else {
+          // SessionStorage or Pairings Fallback
+          const stored = sessionStorage.getItem('selected_hospital');
+          if (stored) {
+            const sObj = JSON.parse(stored);
+            activeHospital.name = sObj.name || activeHospital.name;
+            activeHospital.phone = sObj.tel || sObj.phone || activeHospital.phone;
+            activeHospital.address = sObj.address || activeHospital.address;
+            activeHospital.dist_km = sObj.dist || activeHospital.dist_km;
+            activeHospital.drive_min = sObj.drive_min || activeHospital.drive_min;
+            if (sObj.pharmacy) {
+              activeHospital.paired_pharmacy_name = sObj.pharmacy.name || activeHospital.paired_pharmacy_name;
+              activeHospital.paired_pharmacy_phone = sObj.pharmacy.tel || activeHospital.paired_pharmacy_phone;
+              activeHospital.paired_pharmacy_closing = sObj.pharmacy.duty_time || activeHospital.paired_pharmacy_closing;
+            }
+          }
+        }
+
+        // 2. Render Hospital Metadata to DOM
+        document.title = `${activeHospital.name} 상세 및 접수 - 아이숨(i-Soom)`;
+
+        // Title & Badge
+        const nameEl = document.getElementById('detail-hospital-name');
+        if (nameEl) nameEl.innerText = activeHospital.name;
+
+        const liveTimeEl = document.getElementById('hospital-live-time');
+        if (liveTimeEl) liveTimeEl.innerText = activeHospital.status_badge || `실시간 야간진료 중 (~${activeHospital.closing_time || '23:00'})`;
+
+        // 3-Column Metrics
+        const queueEl = document.getElementById('live-queue-count');
+        if (queueEl) {
+          const waitMin = activeHospital.estimated_wait_min || 20;
+          queueEl.innerText = `대기 약 ${waitMin}분 (${activeHospital.congestion_level ? activeHospital.congestion_level.split(' ')[0] : '보통'})`;
+        }
+
+        const distEl = document.getElementById('detail-hospital-dist');
+        if (distEl) {
+          distEl.innerText = `${activeHospital.dist_km} km (차 ${activeHospital.drive_min}분)`;
+        }
+
+        const parkingMetricEl = document.getElementById('detail-parking-metric');
+        if (parkingMetricEl) {
+          parkingMetricEl.innerText = activeHospital.parking_available ? (activeHospital.parking_fee || '무료 2시간') : '인근 유료 주차';
+        }
+
+        // Doctor Section
+        const docBadgeEl = document.getElementById('doctor-room-badge');
+        if (docBadgeEl) {
+          docBadgeEl.innerText = `전문의 ${activeHospital.pediatric_specialists || 2}명 상주`;
+        }
+
+        const docTitleEl = document.getElementById('doctor-name-title');
+        if (docTitleEl) {
+          docTitleEl.innerText = `Dr. ${activeHospital.name.replace(/의원|병원/g, '')} 소아전담팀`;
+        }
+
+        const docDescEl = document.getElementById('doctor-desc-text');
+        if (docDescEl) {
+          docDescEl.innerHTML = `
+            소아청소년과 전문의 <strong>${activeHospital.pediatric_specialists || 2}명</strong> 상주 · 소아 급성발열, 호흡기 질환, 수액 치료 전문<br>
+            <strong style="color: #0066ff;" id="doctor-queue-status">현재 대기 환아 진료 진행 중</strong> (${activeHospital.congestion_level || '순번 진행 원활'})
+          `;
+        }
+
+        // Warning Deadline Banner
+        const deadlineTitleEl = document.getElementById('hospital-deadline-title');
+        if (deadlineTitleEl) {
+          deadlineTitleEl.innerText = `야간 접수 마감 주의 (${activeHospital.today_deadline || '22:30'} 마감)`;
+        }
+
+        // Operating Hours
+        const todayHoursEl = document.getElementById('detail-today-hours');
+        if (todayHoursEl) todayHoursEl.innerText = activeHospital.today_hours || '09:00 ~ 23:00 (접수마감 22:30)';
+
+        const satHoursEl = document.getElementById('detail-sat-hours');
+        if (satHoursEl) satHoursEl.innerText = activeHospital.hours_saturday || '09:00 ~ 18:00';
+
+        const sunHoursEl = document.getElementById('detail-sun-hours');
+        if (sunHoursEl) sunHoursEl.innerText = activeHospital.hours_sunday || '09:00 ~ 18:00 (달빛어린이병원 운영)';
+
+        // Paired Pharmacy Card
         const pNameEl = document.getElementById('pharmacy-name');
-        if (pNameEl) pNameEl.innerText = activeHospital.pharmacy.name;
+        if (pNameEl) pNameEl.innerText = activeHospital.paired_pharmacy_name || '인근 안심 심야약국';
 
         const pDescEl = document.getElementById('pharmacy-desc');
         if (pDescEl) {
-          const guide = activeHospital.pharmacy.guide || '병원 바로 옆 도보 1~2분';
-          pDescEl.innerHTML = `${guide} · 오늘 야간영업 <strong>${activeHospital.pharmacy.duty_time || '23:30 마감'}</strong>`;
-        }
-
-        const pMapEl = document.getElementById('btn-pharmacy-map');
-        if (pMapEl) {
-          pMapEl.href = `https://map.kakao.com/link/search/${encodeURIComponent(activeHospital.pharmacy.name)}`;
+          const distM = activeHospital.paired_pharmacy_dist_m || 80;
+          pDescEl.innerHTML = `병원 인근 <strong>도보 ${Math.max(1, Math.round(distM / 65))}분 (${distM}m)</strong> · 오늘 야간영업 <strong>${activeHospital.paired_pharmacy_closing || '23:30 마감'}</strong>`;
         }
 
         const pCallEl = document.getElementById('btn-pharmacy-call');
-        if (pCallEl && activeHospital.pharmacy.tel) {
-          pCallEl.href = `tel:${activeHospital.pharmacy.tel.replace(/-/g, '')}`;
+        if (pCallEl && activeHospital.paired_pharmacy_phone) {
+          pCallEl.href = `tel:${activeHospital.paired_pharmacy_phone.replace(/[^0-9]/g, '')}`;
+        }
+
+        const pDetailEl = document.getElementById('btn-pharmacy-detail');
+        if (pDetailEl && activeHospital.paired_pharmacy_name) {
+          const targetPharmacyPage = (window.location.pathname.endsWith('.html') || (window.location.protocol === 'file:')) ? 'pharmacy_detail.html' : '/pharmacy_detail';
+          pDetailEl.href = `${targetPharmacyPage}?name=${encodeURIComponent(activeHospital.paired_pharmacy_name)}&from=${encodeURIComponent(window.location.href)}`;
+        }
+
+        // Location & Parking
+        const addrEl = document.getElementById('detail-address-text');
+        if (addrEl) addrEl.innerText = activeHospital.address || '주소 정보 확인';
+
+        const parkingTextEl = document.getElementById('detail-parking-text');
+        if (parkingTextEl) {
+          parkingTextEl.innerText = `${activeHospital.parking_guide || '지하 주차장 완비'} (총 ${activeHospital.parking_spaces || 30}대 지원)`;
+        }
+
+        // Map Links
+        const kakaoMapBtn = document.getElementById('btn-kakao-map');
+        if (kakaoMapBtn) {
+          kakaoMapBtn.href = `https://map.kakao.com/link/to/${encodeURIComponent(activeHospital.name)},${activeHospital.lat},${activeHospital.lon}`;
+        }
+
+        const naverMapBtn = document.getElementById('btn-naver-map');
+        if (naverMapBtn) {
+          naverMapBtn.href = `https://map.naver.com/v5/search/${encodeURIComponent(activeHospital.name)}`;
+        }
+
+        // Bottom Call CTA
+        const callBtn = document.getElementById('btn-hospital-call');
+        if (callBtn && activeHospital.phone) {
+          callBtn.href = `tel:${activeHospital.phone.replace(/[^0-9]/g, '')}`;
+        }
+
+        // 3. Render Interactive In-Page Map
+        renderInPageMap(activeHospital.lat, activeHospital.lon, activeHospital.name);
+
+      } catch (err) {
+        console.warn('[HospitalDetail] Initialization error:', err);
+      }
+    });
+
+    // In-Page Map Renderer with Visual Fallback
+    function renderInPageMap(lat, lon, name) {
+      const container = document.getElementById('hospital-kakao-map');
+      if (!container) return;
+
+      // Check if Kakao Maps SDK is loaded
+      if (window.kakao && window.kakao.maps) {
+        try {
+          const loc = new kakao.maps.LatLng(lat, lon);
+          const options = { center: loc, level: 3 };
+          const map = new kakao.maps.Map(container, options);
+          const marker = new kakao.maps.Marker({ position: loc, map: map });
+          const infowindow = new kakao.maps.InfoWindow({
+            content: `<div style="padding:5px 8px;font-size:12px;font-weight:700;color:#0f172a;white-space:nowrap;">${name}</div>`
+          });
+          infowindow.open(map, marker);
+          return;
+        } catch (mapErr) {
+          console.warn('[Map] Kakao SDK runtime error, falling back to visual pin:', mapErr);
         }
       }
 
-      // Address & Map Links
-      const addrEl = document.getElementById('detail-address-text');
-      if (addrEl && activeHospital.address) addrEl.innerText = activeHospital.address;
-
-      const kakaoMapEl = document.getElementById('btn-kakao-map');
-      if (kakaoMapEl) {
-        kakaoMapEl.href = `https://map.kakao.com/link/search/${encodeURIComponent(activeHospital.name)}`;
-      }
-
-      const naverMapEl = document.getElementById('btn-naver-map');
-      if (naverMapEl) {
-        naverMapEl.href = `https://map.naver.com/v5/search/${encodeURIComponent(activeHospital.name)}`;
-      }
-
-      // Bottom Call Button
-      const callBtn = document.getElementById('btn-hospital-call');
-      if (callBtn && activeHospital.tel) {
-        callBtn.href = `tel:${activeHospital.tel.replace(/-/g, '')}`;
-      }
-
-      // Mobile Ticket Modal Hydration
-      const ticketDeptEl = document.getElementById('ticket-hospital-dept');
-      if (ticketDeptEl) ticketDeptEl.innerText = `${activeHospital.name} 야간소아진료실`;
-
-      const ticketQueueEl = document.getElementById('ticket-waiting-summary');
-      if (ticketQueueEl) ticketQueueEl.innerText = `${activeHospital.waiting_count || 4}팀 (약 ${queueWaitMin}분 예상)`;
-
-      const ticketVisitEl = document.getElementById('ticket-visit-time');
-      if (ticketVisitEl) ticketVisitEl.innerText = `${visitTime}까지 내원 필수`;
-    });
+      // Elegant Fallback Map Canvas with SVG Pin & Radial Radar
+      container.innerHTML = `
+        <div style="width:100%;height:100%;background:linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer;" onclick="window.open('https://map.kakao.com/link/to/${encodeURIComponent(name)},${lat},${lon}', '_blank')">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,102,255,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:6px;box-shadow:0 0 0 10px rgba(0,102,255,0.06);animation:pulseDot 2s infinite;">
+            <span class="material-symbols-outlined" style="font-size:32px;color:#0066ff;">location_on</span>
+          </div>
+          <strong style="font-size:13.5px;color:#0f172a;font-weight:800;letter-spacing:-0.3px;">${name}</strong>
+          <span style="font-size:11.5px;color:#0369a1;margin-top:2px;">클릭 시 카카오맵 실시간 내비게이션 연결 ↗</span>
+        </div>
+      `;
+    }
 
     function openTicketModal() {
       document.getElementById('ticket-modal').style.display = 'flex';
+      const ticketDept = document.getElementById('ticket-hospital-dept');
+      if (ticketDept) ticketDept.innerText = `${activeHospital.name} 야간소아진료실`;
+      const ticketWait = document.getElementById('ticket-waiting-summary');
+      if (ticketWait) ticketWait.innerText = `예상 대기 약 ${activeHospital.estimated_wait_min || 20}분`;
     }
 
     function closeTicketModal() {
@@ -1161,9 +1301,9 @@
     }
 
     function copyAddress() {
-      const address = activeHospital.address || "서울특별시 송파구 올림픽로 300";
+      const address = activeHospital.address || "병원 주소";
       navigator.clipboard.writeText(address).then(() => {
-        showToast('병원 주소가 복사되었습니다.');
+        showToast('병원 주소가 클립보드에 복사되었습니다.');
       }).catch(() => {
         showToast('주소: ' + address);
       });
@@ -1179,7 +1319,7 @@
     }
   </script>
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
-  <script src="../js/nationwide_pairings.js"></script>
+  <script src="../js/hospital_details_data.js"></script>
   <script src="../js/nationwide_pairings.js"></script>
   <script src="../js/main.js"></script>
 </body>

@@ -253,6 +253,16 @@ async def get_aisum_hospital_detail():
     return JSONResponse(status_code=404, content={"detail": "Hospital detail page not found"})
 
 
+@app.get("/pharmacy_detail", tags=["Frontend"], response_class=FileResponse)
+@app.get("/pharmacy_detail.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_pharmacy_detail():
+    """Serves the Aisum Pharmacy Detail & Night Compounding Guidance page."""
+    path = find_frontend_html("result", "pharmacy_detail.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Pharmacy detail page not found"})
+
+
 @app.get("/emergency_alert", tags=["Frontend"], response_class=FileResponse)
 @app.get("/emergency_alert.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_emergency_alert():
