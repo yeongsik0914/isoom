@@ -190,6 +190,7 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "scratch/merge_with_32f7699.py",
     "scratch/resolve_all_conflicts.py",
     "scratch/conflicts_dump.txt",
     "scratch/inspect_conflicts.py",
@@ -200,7 +201,6 @@
     "scripts/__pycache__/benchmark_50_scenarios.cpython-312.pyc",
     "scripts/__pycache__",
     "scratch/update_log_and_readme.py",
-    "scratch/update_qa.py",
     "docs/KTAS_TRIAGE_VERIFICATION_REPORT.md",
     "data/README.md",
     "Answer-영식.md",

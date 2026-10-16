@@ -133,8 +133,9 @@
 | **[ISSUE-124]** | GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 복원 푸시 | `.gitignore`의 `data/*` 일괄 무시 규칙으로 인한 핵심 공공데이터 JSON 7종 및 DB 파일 누락 원인 진단, 예외 화이트리스트 규칙(`!data/*.json`, `!data/moonlight.db`, `!data/README.md`) 적용 및 원격 Git 추적 푸시 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-125]** | 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 및 히스토리 스택 복귀 결함 완벽 해결 | `file:///` 프로토콜 상의 절대 URL 내비게이션 보안 차단(`Not allowed to load local resource`) 및 스크립트 실행 타이밍 결함 해소, `<head>` 내비게이션 선제 초기화, 상대경로 정규화(`sanitizeTarget`), `window.history.back()` 최우선 실행 및 200ms 감시 폴백 구조로 홈/결과/상세 3대 여정 100% 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-126]** | 실시간 야간 의료시설 카드 클릭 시 동의 모달 오표출 및 뒤로가기 시 모달 잔류 결함 원천 해결 | `frontend/js/main.js`의 `facilityStack` 컨테이너에 잔존하던 레거시 `openModal()` 이벤트 리스너 완전 적출(의료시설 카드는 상세페이지로 즉시 직행), `pageshow` 이벤트 리스너를 통한 `closeModal()` 강제 초기화로 뒤로가기 시 모달 잔류 100% 차단 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-127]** | 프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증 | input.html 사용자 설정값(15개월, 39.1℃, 수유거부, 보챔 등) 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정(KTAS 3단계) 실체화 검증 완료 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-128]** | 소아 고열·이루 증상 KTAS 긴급 판정 & UI/UX 정합성 | 15개월 40℃ 고열 및 귀 노란 점액(화농성 이루) 입력 시 KTAS 2단계 긴급 판정으로 인한 119 화면 직행 및 KTAS 카드 미표출 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-127]** | 병원 상세페이지 가상 대기 시간 지표 완전 삭제 및 2열 실측 메트릭 바(거리·주차) 개편 | 공공 API에서 미제공되는 부정확한 가상 대기 시간('현재 대기') 노출로 인한 보호자 현장 혼선 및 의료적 위험 방지, '현재 대기' 칼럼 전면 적출 및 2열 실측 그리드(`grid-template-columns: 1fr 1fr;`) 개편, 당직의 및 번호표 모달 내원 순번 안내 가이드 정규화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-128]** | 프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증 | input.html 사용자 설정값(15개월, 39.1℃, 수유거부, 보챔 등) 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정(KTAS 3단계) 실체화 검증 완료 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-129]** | 소아 고열·이루 증상 KTAS 긴급 판정 & UI/UX 정합성 | 15개월 40℃ 고열 및 귀 노란 점액(화농성 이루) 입력 시 KTAS 2단계 긴급 판정으로 인한 119 화면 직행 및 KTAS 카드 미표출 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4172,6 +4173,79 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 
 ---
+### [ISSUE-127] 병원 상세페이지 가상 대기 시간 지표 완전 삭제 및 2열 실측 메트릭 바(거리·주차) 개편
+
+* **발생 일자**: 2026-10-16 20:05
+* **작업자**: 정영식 (팀장 / 본인) & AI 어시스턴트
+* **분류**: 프론트엔드 UI/UX 신뢰도 개선 / 의료 데이터 컴플라이언스
+* **문제 상황 및 사용자 피드백**:
+  * 병원 상세페이지([hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)) 상단 메트릭 바에 `현재 대기: 대기 약 20분 (보통)` 지표가 노출되고 있었음.
+  * 정영식 팀장 지적: *"여기서 현재 대기 시간을 정확하게 알 수 없지 않아? 그러면 없애야할 거 같은데"*
+* **원인 분석**:
+  * 공공데이터포털, 응급의료포털(NMC E-Gen), 심평원 등 어떤 공공 API도 일반 소아과/달빛어린이병원의 실시간 외래 대기 인원 및 예상 대기 시간을 제공하지 않음.
+  * 병원 내부 EMR/키오스크 연동 없이 표시되는 추정 대기시간은 야간에 급히 내원하는 보호자에게 극심한 현장 혼선 및 조기마감 피해, 민원 및 의료적 위험을 유발할 수 있음.
+* **구체적 해결 방안**:
+  1. **2열 실측 메트릭 바 CSS 전환**:
+     - `.metrics-bar-grid`의 그리드 칼럼을 `grid-template-columns: 1fr 1fr;`로 변경하고 여백(padding/gap)을 최적화.
+  2. **가상 대기 칼럼 및 스크립트 전면 적출**:
+     - `현재 대기` 칼럼 HTML 태그와 JS 내 `live-queue-count` 렌더링 코드를 완전 삭제.
+     - `내 위치 거리`에 `highlight-blue` 스타일을 적용하여 디자인 완성도 유지.
+  3. **연계 안내 문구 안전 가이드 정규화**:
+     - 전문의 섹션: `현재 대기 환아 진료 진행 중` ➔ `야간 진료 접수 운영 중 (현장 순번 진료)`로 교체.
+     - 번호표 모달: `내 앞 대기 환아 4팀` ➔ `진료 접수 방식: 현장 내원 순번 접수`로 교체.
+  4. **E2E 단위 검증**:
+     - 파이썬 기반 `http://127.0.0.1:8000/hospital_detail` 응답 검증을 통해 `현재 대기` 텍스트 미포함 및 2열 그리드 서빙 확인.
+* **적용 파일**:
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [q_a.md](file:///e:/monnlight/q_a.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 부정확한 가상 대기시간이 화면에서 완전히 사라지고, 실측 데이터인 `내 위치 거리`와 `주차 지원` 2열 메트릭 바가 안정적이고 깔끔하게 표출됨.
+
+---
+
+### [ISSUE-128] input.html 프론트엔드 입력값 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정 E2E 실측 검증
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드-백엔드 E2E 검증 / 소아 KTAS 종합 판정 / 임상 파이프라인 정합성
+* **문제 상황**:
+  * 사용자가 `input.html` 페이지에서 설정하는 나이, 체온, 증상, 해열제 복용 등의 사용자 설정값이 백엔드로 제대로 전달되고 있는지, 그리고 백엔드에서 이를 종합적으로 판단하여 KTAS 단계를 나누는 로직이 실제로 정상 동작하고 있는지에 대한 실증적 검증 요청.
+* **해결 방안 및 실측 검증 결과**:
+  1. 환아 월령(15개월), 체온(39.1℃), 증상(고열, 발열, 지속적인 울음, 수유 거부, 식욕 부진), 투약(해열제 미복용)을 실제 `http://127.0.0.1:8000/api/v1/chat`으로 전송.
+  2. 백엔드 응답: `ktas_level: 3`, `ktas_level_name: "응급"`, `is_emergency: false`, `current_step: "COMPLETED"`.
+  3. 생성된 임상 소견 (`clinical_rationale`):
+     *"15개월 환아로 39.1℃의 고열과 함께 지속적인 보챔 및 식이 거부를 보이고 있으나, 경련, 호흡 곤란, 청색증 등 생명 위협 징후는 관찰되지 않아 KTAS 3단계(응급)로 잠정 분류합니다."*
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [app/api/v1/chat.py](file:///c:/AI-Native-Agent/monnlight/app/api/v1/chat.py)
+  * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)
+
+---
+
+### [ISSUE-129] 소아 40℃ 고열 및 화농성 이루 증상 KTAS 2단계 긴급 판정 시 119 화면 직행에 따른 KTAS 카드 미표출 원인 규명 및 개선안
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 임상 트리아제 분류 분석 / 프론트엔드 라우팅 UX / 소아 KTAS 지침
+* **문제 상황**:
+  * 사용자가 "15개월아이 40도 이고 아파서 계속 울어 귀에 노란 점액이 보여"라고 입력했으나 KTAS 단계 분류 결과가 정상적으로 표출되지 않는다고 문제를 제기함.
+* **원인 분석**:
+  1. 임상 지침(코드 055 귀 삼출물 / 051 이통): 15개월 영아의 40.0℃ 초고열 + 지속적인 울음/보챔 + 귀의 노란 점액(화농성 이루)은 급성 중이염(AOM) 고막 천공 또는 유양돌기염 의심 소견으로, Gemini 3.8 Flash가 이를 KTAS 2단계(긴급) 또는 KTAS 3단계(응급)로 판정함.
+  2. 119 화면 직행 UX 구조: 백엔드가 KTAS 2단계(`is_emergency: true`)를 반환하면 프론트엔드가 일반 결과 화면(`result.html`)을 건너뛰고 `emergency_alert.html`로 전환되는데, 해당 화면에는 KTAS 등급 카드가 없어 분류를 못 한 것으로 오해됨.
+  3. 비동기 타임아웃(9초) 경계선: 복합 임상 추론 소요 시간(8.5~10초)으로 인한 간헐적 Abort 폴백 가능성.
+* **해결 방안 및 개선 조치**:
+  1. 119 긴급 안내 화면에도 KTAS 등급 카드 및 AI 감별 소견 노출 개선 권고.
+  2. API 타임아웃 12초 상향 권고.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/emergency_alert.html)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 
 ### [ISSUE-127] input.html 프론트엔드 입력값 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정 E2E 실측 검증
 
