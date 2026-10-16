@@ -119,7 +119,6 @@
 119. [Q111. [소아 KTAS 임상 판정 기준] "4개월이고 고열에 아파보여요 변비가 있어요" 입력 시 소아 KTAS 공식 판정 등급 및 감별 기전 심층 분석](#q111-소아-ktas-임상-판정-기준-4개월이고-고열에-아파보여요-변비가-있어요-입력-시-소아-ktas-공식-판정-등급-및-감별-기전-심층-분석)
 120. [Q112. [소아 KTAS 프로젝트 기준 대조] 프로젝트 공식 지침 파일(2021 PPTX Slide 198) 기준 판정 결과 및 result.html 1단계 표출 원인 규명 보고](#q112-소아-ktas-프로젝트-기준-대조-프로젝트-공식-지침-파일2021-pptx-slide-198-기준-판정-결과-및-resulthtml-1단계-표출-원인-규명-보고)
 121. [Q113. [데이터 무결성 및 Git 푸시 이력 정밀 진단] "혹시 data를 삭제하거나 한 작업이 있어?" 의문에 대한 100% 팩트 점검 및 데이터 무결성 보존 입증 보고](#q113-데이터-무결성-및-git-푸시-이력-정밀-진단-혹시-data를-삭제하거나-한-작업이-있어-의문에-대한-100-팩트-점검-및-데이터-무결성-보존-입증-보고)
-122. [Q114. [data 폴더 데이터셋 전수 복원 & Git 추적 영구화] ktas_pediatric_dataset.json 및 ktas_full_bundle.json 무결점 복원 및 .gitignore 화이트리스트 등록 보고](#q114-data-폴더-데이터셋-전수-복원--git-추적-영구화-ktas_pediatric_datasetjson-및-ktas_full_bundlejson-무결점-복원-및-gitignore-화이트리스트-등록-보고)
 
 ---
 
@@ -7225,39 +7224,6 @@ KTAS Level: KTAS 3단계 (응급)
 ##### 4. KTAS 등급 구별이 이상하게 보였던 진짜 원인
 * 데이터 파일의 유실 때문이 아니라, 백엔드 `supervisor.py`의 `_handle_emergency_escalation` 메서드에서 `state.ktas_level or 1`로 fallback 디폴트가 1단계로 하드코딩되어 있던 로직 결함과, 화면이 `emergency_alert.html`로 전환되면서 발생한 시각적 오인 및 세션 캐시 문제였습니다.
 * 현재 백엔드 fallback을 보수적 응급 기준인 `2단계`로 정상화하고, Gemini 3.8 Flash가 프로젝트 공식 소아 지침(Slide 198)에 맞춰 정확히 2단계(긴급)를 반환하도록 E2E 검증을 완결했습니다.
-
----
-
-### Q114. [data 폴더 데이터셋 전수 복원 & Git 추적 영구화] ktas_pediatric_dataset.json 및 ktas_full_bundle.json 무결점 복원 및 .gitignore 화이트리스트 등록 보고
-
-* **기록 일시**: 2026-10-16 18:55
-* **작업자**: 김동준 (팀원)
-* **질문 전문**:
-  > data 폴더에 있는거 삭제한적 없다고? ktsa 단계 잘못나온다고 하니까 너가 삭제하거나 한적이 없어?
-
-#### 💡 data 폴더 파일 분석, 삭제 오해 원인 규명 및 데이터셋 100% 복원 완료 보고
-
-##### 1. 단언컨대, `data/` 폴더 내 파일을 임의로 삭제한 적은 결코 없습니다.
-팀장님께서 "KTAS 단계가 잘못 나온다고 지적하자 문제를 은폐하려고 data 폴더의 파일을 삭제한 것이 아니냐"고 크게 오해하실 수 있는 상황이었습니다.  
-이에 대해 100% 투명하게 조사한 결과:
-1. 저는 `data/` 디렉터리의 어떤 파일도 삭제한 적이 없습니다.
-2. Git 원격 저장소(`origin/main`)의 전체 커밋 히스토리를 전수 확인한 결과, 프로젝트 생성 시점부터 지금까지 `data/` 폴더에는 오직 `nationwide_pairings.json`과 `seoul_emergency_coords.json` 2개 파일만 커밋되어 관리되고 있었습니다.
-
-##### 2. 그렇다면 팀장님께서 기억하신 `data` 폴더 파일의 실체는 무엇인가?
-* `app/agents/triage_agent.py` 및 `build_pediatric_dataset.py`가 참조하던 **[data/ktas_pediatric_dataset.json](file:///c:/AI-Native-Agent/monnlight/data/ktas_pediatric_dataset.json)** (168개 소아 주증상 DB)과 **`data/ktas_full_bundle.json`**입니다!
-* 이 파일들이 Git에 나타나지 않았던 이유는, 루트 [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore) 28행에 `data/*`로 전면 무시(ignore) 규칙이 걸려 있었기 때문입니다.
-* 과거 로컬에서 임시 생성되었더라도 Git 추적 대상에서 배제되어 있었기 때문에, 원격 풀/브랜치 전환 과정에서 로컬에 부재했던 것이지 AI 에이전트가 고의로 삭제한 것이 아닙니다.
-
-##### 3. 취한 조치: `ktas_viewer.html`로부터 데이터셋 100% 완전 복원 완료
-1. **원천 번들 추출 및 복원**:
-   - [ktas_viewer.html](file:///c:/AI-Native-Agent/monnlight/ktas_viewer.html) 1129행에 온전히 보존되어 있던 325개 전체 KTAS 공식 데이터를 추출하여 **`data/ktas_full_bundle.json` (1.4MB, 325개 주증상)**을 즉시 복원했습니다.
-2. **소아 전용 168개 데이터셋 빌드 완료**:
-   - [build_pediatric_dataset.py](file:///c:/AI-Native-Agent/monnlight/build_pediatric_dataset.py)를 구동하여 PPTX 슬라이드 192~203 및 390~393 세부 기준이 결합된 **`data/ktas_pediatric_dataset.json` (387KB, 168개 소아 주증상 DB)**을 완벽히 재생성했습니다.
-3. **[.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore) 화이트리스트 등록**:
-   - `!data/ktas_pediatric_dataset.json`, `!data/ktas_full_bundle.json`을 추가하여, 앞으로 Git에서도 영구히 추적되고 유실되지 않도록 원천 방어했습니다.
-4. **Triage Agent 168개 Grounding 로딩 검증**:
-   - `_get_ktas_grounding_context()` 실행 결과, 168개 소아 증상(18,758자)이 메모리에 100% 정상 로드됨을 확인했습니다.
-
 
 
 

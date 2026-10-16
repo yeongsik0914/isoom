@@ -28,8 +28,6 @@ DS/
 data/*
 !data/seoul_emergency_coords.json
 !data/nationwide_pairings.json
-!data/ktas_pediatric_dataset.json
-!data/ktas_full_bundle.json
 *.csv
 *.xlsx
 *.parquet

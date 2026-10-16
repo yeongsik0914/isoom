@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.54 (KTAS 소아 168개 및 전체 325개 데이터셋 무결점 복원, .gitignore 화이트리스트 등록 및 Grounding 파이프라인 영구화 완료)  
+> **문서 버전**: v2.53 (소아 KTAS 공식 지침 Slide 198 정합성 확립, Supervisor Red Flag Fallback 교정 및 데이터 무결성 100% 보존 감사 완료)  
 > **최종 갱신 일자**: 2026-10-16  
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*  
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화.

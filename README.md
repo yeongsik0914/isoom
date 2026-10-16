@@ -28,15 +28,6 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
-### 🌟 [v2.4.74-ktas-dataset-full-restore-and-git-tracking] 2026-10-16: KTAS 소아 168개 및 전체 325개 데이터셋 무결점 복원, .gitignore 화이트리스트 등록 및 Grounding 파이프라인 영구화 (김동준 팀원)
-* **📦 `data/ktas_pediatric_dataset.json` (387KB) 및 `data/ktas_full_bundle.json` (1.4MB) 100% 완전 복원**:
-  - `ktas_viewer.html` 내 보존 데이터셋을 파싱하여 원천 번들(325개 증상) 복원 및 `build_pediatric_dataset.py`를 통해 PPTX 192~203 슬라이드 결합 168개 소아 전용 임상 DB 완벽 재생성.
-* **🛡️ [.gitignore](file:///c:/AI-Native-Agent/monnlight/.gitignore) 화이트리스트 등록**:
-  - `!data/ktas_pediatric_dataset.json`, `!data/ktas_full_bundle.json`을 추가하여 향후 Git 형상 관리에서 영구히 추적 및 보호되도록 조치.
-* **🩺 Triage Agent Grounding 실시간 로딩 검증**:
-  - `_get_ktas_grounding_context()`를 통해 168개 소아 주증상 기준이 Gemini 3.8 Flash 프롬프트에 100% 무손실 주입됨을 확인.
-* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q114, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-118) 전면 동기화 완료**.
-
 ### 🌟 [v2.4.73-ktas-emergency-fallback-fix-and-data-integrity-audit] 2026-10-16: 소아 KTAS 공식 지침(Slide 198) 정밀 대조, Supervisor Red Flag Fallback 안전 교정 및 데이터 무결성 100% 보존 입증 (김동준 팀원)
 * **📊 2021년 소아 KTAS 공식 지침서(Slide 198) 기반 판정 기준 완벽 입증**:
   - `2021_KTAS_guideline_ver1.6.pptx` Slide 198 규정에 따라 "4개월, 고열, 아파보여요(Ill-appearing), 변비"는 **`KTAS 2단계 (긴급, Emergent)`**임을 1:1 대조 증명.
