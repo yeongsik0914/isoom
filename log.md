@@ -121,6 +121,7 @@
 | **[ISSUE-112]** | 문진 NLP 가드레일 & 미입력 바이탈 정합성 | 비증상·잡담 용어(ㅋㅋㅋ, 안녕, 배고파) 입력 시 KTAS 4단계 오분류 차단 및 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 변조 결함 원천 해결 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-113]** | 프론트엔드 체온 UI/UX & 임상 기본값 정합성 | 체온 게이지 기본값 소아 발열(38.0℃) 노출에 따른 사용자 혼선 방지 및 의학 표준 정상 체온(36.5℃) 기본 초기화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-114]** | 프론트엔드 유효성 검증 순서 & KTAS 백엔드 동적 바인딩 | 증상 화이트리스트 검증 결함으로 인한 '사지절단' Red Flag 오차단 해결 및 백엔드 KTAS 1~5단계·매칭 시설 100% 동적 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-115]** | 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구 | IDE 세션 전환으로 인한 백엔드 FastAPI 데몬(포트 8000) 종료 현상 원인 규명, Uvicorn 서버 재기동 및 0ms Red Flag / KTAS E2E 무결성 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3731,3 +3732,28 @@
 * **적용 파일**:
   * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
   * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+
+
+### [ISSUE-115] 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 백엔드 프로세스 데몬 관리 / 인프라 가용성 / E2E 연동 검증
+* **문제 상황**:
+  * 이전 대화 세션 종료 및 새 세션 진입 과정에서 백그라운드로 실행 중이던 FastAPI Uvicorn 서버(포트 8000) 프로세스가 비활성화됨.
+  * 사용자가 브라우저(`http://localhost:8000/input`)에서 사지절단 또는 일반 증상 입력 후 병원 찾기 클릭 시, 백엔드 연결 대기 상태가 지속되어 "진행이 멈춘 것인가?"라는 사용자 혼선 발생.
+* **원인 분석**:
+  * IDE 서브프로세스 수명 주기에 따라 이전 세션의 백그라운드 태스크가 세션 종료 시 함께 정리됨.
+  * 시스템에 포트 8000 리스너가 비어 있어 클라이언트 `fetch('/api/v1/chat')` 요청이 응답을 받지 못함.
+* **해결 방안 및 조치 내역**:
+  1. **FastAPI 백엔드 데몬 재기동**:
+     - 가상환경 Python(`miniconda3/envs/DS/python.exe`)을 통해 `main.py`를 백그라운드 데몬으로 안전 재기동 완료.
+     - `GET /health` 헬스체크 호출을 통해 서버 정상성(`healthy`) 및 APScheduler 3-Track 데몬 동작 확인.
+  2. **E2E 실시간 API 파이프라인 무결성 검증**:
+     - 사지절단 입력 시: 0ms Red Flag 및 KTAS 1단계 긴급 응급 가이드 반환 검증 완료.
+     - 일반 증상(발열/감기) 입력 시: 소아 KTAS 4단계(준응급) 및 달빛어린이병원 3곳 실시간 정렬 반환 검증 완료.
+* **적용 파일**:
+  * [main.py](file:///c:/AI-Native-Agent/monnlight/main.py)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)

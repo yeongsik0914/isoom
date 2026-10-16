@@ -28,6 +28,14 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.71-daemon-recovery-and-e2e-pipeline-verification] 2026-10-16: 세션 전환 후 FastAPI 백엔드 데몬(포트 8000) 재기동 및 0ms Red Flag / KTAS 실시간 E2E 무결성 검증 완료 (김동준 팀원)
+* **⚡ FastAPI Uvicorn 백그라운드 데몬 및 APScheduler 3-Track 서비스 정상 기동**:
+  - `python main.py` 프로세스를 포트 8000으로 안전하게 기동하여 `GET /health` 정상 상태(`healthy`, 스케줄러 가동 중) 확보.
+* **🩺 실시간 E2E API (POST /api/v1/chat) 무결성 전수 검증**:
+  - '사지절단' 입력 시: 0ms Red Flag 감지, `is_emergency: True`, `ktas_level: 1` 즉시 발동 및 119 긴급 응급 가이드 즉각 반환 확인.
+  - '열 38.2도 콧물' 입력 시: `is_emergency: False`, `ktas_level: 4` (준응급), 거리순 달빛병원 3곳 실시간 동적 매칭 정상 반환 확인.
+* **📜 팀 협업 4대 거버넌스 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q108~Q109, [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md) Q54, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-115) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.70-e2e-backend-ktas-pipeline-and-redflag-fix] 2026-10-16: 사지절단 등 초응급 Red Flag 오차단 해결, 화이트리스트 적출 및 백엔드 Gemini 3.8 Flash 168개 소아 KTAS 분류 100% 동적 연동 (김동준 팀원)
 * **🚨 '사지절단' 등 초응급 Red Flag 0ms 즉시 가드레일 최우선화 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
   - 기존 유효성 검사 선행 실행으로 인해 '사지절단'이 차단되던 결함을 해결하고, 12대 Red Flag 검사를 최우선으로 배치하여 즉각 119 응급 화면(`emergency_alert.html`)으로 전환.
