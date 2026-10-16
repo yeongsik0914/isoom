@@ -28,6 +28,13 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.69-pediatric-normal-temp-default-init] 2026-10-16: 체온 다이얼 기본값 의학 표준 정상 체온(36.5℃, 🟢 정상 체온) 초기화 및 사용자 체온 조작 혼선 방지 (김동준 팀원)
+* **🌡️ 문진 체온 게이지 기본값 소아 정상 체온(36.5℃) 초기화 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+  - 문진 화면 최초 진입 시 다이얼이 비정상적으로 `38.0℃ (발열 주의)`를 가리켜 발생하던 사용자 인지 혼선 및 의심을 완벽 해소.
+  - HTML 중앙 디지털 표시를 `36.5 ℃`, 상태 뱃지를 `🟢 정상 체온` (에메랄드 그린 배경 `#d1fae5`, 글자색 `#065f46`)으로 교정.
+  - 초기화 스크립트에서 `updateGaugeDisplay(36.5)`를 실행하여 부채꼴 바늘이 초록색 정상 구간(-72deg)에 위치하도록 설정.
+  - `state.tempTouched = false` 유지: 보호자가 다이얼을 직접 조작하지 않거나 증상 텍스트에 열 관련 내용이 없으면, 병원 찾기 클릭 시 안전하게 `체온 미측정(모름)`으로 백엔드에 전달되는 로직과 100% 호환.
+
 ### 🌟 [v2.4.68-clinical-symptom-guardrail-and-unknown-vitals-fix] 2026-10-16: 비증상·잡담 필터링 가드레일 탑재, 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 덮어쓰기 원천 해결 및 실시간 연동 검증 (김동준 팀원)
 * **🛡️ 비증상·잡담 텍스트(ㅋㅋㅋ, asdf, 안녕, 배고파) 필터링 및 가짜 KTAS 4단계 오분류 차단 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html), [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py))**:
   - 클라이언트 `validateSymptomInput(text)` 함수를 통해 초성(`ㅋㅋㅋ`), 동일 문자 반복, 영문 자판 무의미어(`asdf`), 일상 대화(`안녕`, `배고파`) 입력 시 빨간색 경고 박스(`.symptom-invalid-tip`) 표출 및 제출 차단.

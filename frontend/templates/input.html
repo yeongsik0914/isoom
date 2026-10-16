@@ -1038,10 +1038,10 @@
             <!-- Center Digital Temperature Readout -->
             <div class="gauge-center-display">
               <div class="gauge-temp-value" id="gauge-temp-text">
-                <span id="temp-number-display">38.0 <span class="gauge-temp-unit">℃</span></span>
+                <span id="temp-number-display">36.5 <span class="gauge-temp-unit">℃</span></span>
               </div>
-              <div class="gauge-temp-badge" id="temp-status-badge" style="background: #ffedd5; color: #c2410c;">
-                <span>🟠 발열 주의</span>
+              <div class="gauge-temp-badge" id="temp-status-badge" style="background: #d1fae5; color: #065f46;">
+                <span>🟢 정상 체온</span>
               </div>
             </div>
 
@@ -1252,7 +1252,7 @@
       // ------------------------------------------------------------------------
       const state = {
         symptom: '',
-        temp: 38.0,
+        temp: 36.5,
         tempTouched: false,        // 사용자가 게이지나 텍스트로 체온을 조작했는지 여부
         tempUnknown: false,        // 화면상에는 바늘과 다이얼을 정상 표시!
         ageMonths: 14,
@@ -2047,7 +2047,7 @@
       }
 
       // Initialize defaults
-      updateGaugeDisplay(38.0);
+      updateGaugeDisplay(36.5);
       state.tempTouched = false; // 초기 로드 시 미조작 상태 (만지지 않으면 제출 시 체온 모름으로 처리)
       state.tempUnknown = false; // 화면에는 바늘과 다이얼을 온전히 표출!
       tempStageBadge.innerText = '터치하여 설정';
