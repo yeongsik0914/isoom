@@ -139,6 +139,7 @@
 | **[ISSUE-130]** | 소아 KTAS 등급별 맞춤 UI/UX & 통화 스크립트 정합성 | KTAS 1~5단계별 컬러 테마 적용, KTAS 1~3단계 소아 응급실 병상 좌측 우선 배치, KTAS 4~5단계 소아 응급실 병상 완전 제거(달빛병원·안심약국 전용 안내), 및 소아 임상 감별 소견 맞춤 통화 스크립트 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-131]** | 프론트엔드 위치 기반 일치화 & 달빛병원 페어링 동적 렌더링 | result.html의 달빛어린이병원·안심약국 카드 목록을 index.html과 100% 동일한 위치 기반 실시간 거리순 정렬 및 동적 카드 렌더링 엔진(NATIONWIDE_PAIRINGS_DATA 156개)으로 전면 일치화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-132]** | 프론트엔드 라우팅 & 소아 KTAS 긴급 결과 표출 통합 | `input.html`에서 KTAS 1·2단계(소생/긴급) 및 12대 Red Flag 분류 시 `emergency_alert.html` 직행으로 인한 결과 단절 해소 및 `result.html` 소아 응급실 병상 화면으로 100% 통합 표출 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-133]** | 프론트엔드 Web GIS / 지도 시각화 / UX 개선 | 병원·약국 상세페이지 카카오 지도 SDK 401 오류 해소 및 Leaflet & OpenStreetMap 기반 실시간 대화형 지도·커스텀 핀 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4492,3 +4493,38 @@
   - [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html)
   - [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
 
+---
+
+### [ISSUE-133] 병원·약국 상세페이지 카카오 지도 SDK 401 오류 해소 및 Leaflet 기반 실시간 대화형 지도·커스텀 핀 연동
+
+* **발생 일자**: 2026-10-16 20:35
+* **작업자**: 정영식 (팀장 / 본인) & AI 어시스턴트
+* **분류**: 프론트엔드 Web GIS / 지도 시각화 / UX 개선
+* **문제 상황 및 사용자 피드백**:
+  * 상세페이지 내 오시는 길 지도 뷰포트에서 실제 지도 타일이 나타나지 않고, 파란색/초록색 그라데이션 박스와 SVG 아이콘만 표시됨.
+  * 정영식 팀장 피드백: *"여기 지도에 시설의 위치가 뜨게 보여지면 좋을 것 같아 병원이랑, 약국 상세 페이지 둘다 나오도록 수정해줘"*
+* **원인 분석**:
+  * 카카오 지도 JS SDK(`//dapi.kakao.com/v2/maps/sdk.js`)는 `KAKAO_REST_API_KEY`로 인증할 수 없으며(401 Unauthorized), 카카오 콘솔에 웹 플랫폼 사이트 도메인이 미등록된 환경(localhost, 127.0.0.1, file:///)에서 맵 로드가 전면 차단됨.
+  * 이로 인해 `window.kakao.maps` 초기화 에러가 발생하여 안전 폴백 UI로 전환되었음.
+* **구체적 해결 방안**:
+  1. **Leaflet.js + OpenStreetMap 엔진 도입**:
+     - 상용 API 키나 도메인 등록 없이도 100% 무결점 동작하는 오픈소스 GIS 엔진인 Leaflet(v1.9.4)과 OSM 타일 서버 연동.
+     - [hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html) 및 [pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html) `<head>`에 Leaflet CSS, `<body>` 하단에 Leaflet JS 탑재.
+  2. **지도 뷰포트 높이 최적화**:
+     - 기존 190px에서 `height: 220px;`로 확대하여 지도 지형 및 인포 팝업의 시인성 대폭 개선.
+  3. **브랜드 맞춤형 커스텀 펄스 핀 마커 (`L.divIcon`)**:
+     - 병원: 로열 블루 펄스 애니메이션 + `local_hospital` 아이콘 + 팝업 카드(`🌙 달빛어린이병원`).
+     - 약국: 에메랄드 그린 펄스 애니메이션 + `medication` 아이콘 + 팝업 카드(`💊 안심 심야약국`).
+     - 페이지 진입 시 자동으로 해당 시설의 좌표에 마커가 표시되고 팝업이 오픈되도록 구성.
+  4. **다중 맵 인스턴스 충돌 방지**:
+     - `_currentHospitalMap` / `_currentPharmacyMap` 관리로 페이지 재진입 시 기존 Leaflet 인스턴스 메모리 누수 방지 및 `map.invalidateSize()` 비동기 동기화 처리.
+* **적용 파일**:
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [q_a.md](file:///e:/monnlight/q_a.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 병원과 약국 상세페이지 모두에서 실제 지도(도로, 골목, 건물) 위에 해당 시설의 정확한 위치 마커 핀과 팝업이 선명하게 노출됨.

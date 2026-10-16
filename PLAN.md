@@ -1,8 +1,8 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.60 (병원 상세 가상 대기시간 칼럼 완전 적출 및 2열 실측 메트릭 개편, 소아 KTAS E2E 임상 파이프라인 무결점 확립, v2.4.80)  
-> **최종 갱신 일자**: 2026-10-16  
-> **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*  
+> **문서 버전**: v2.60 (병원 상세 가상 대기시간 칼럼 완전 적출 및 2열 실측 메트릭 개편, 소아 KTAS E2E 임상 파이프라인 무결점 확립, v2.4.80)
+> **최종 갱신 일자**: 2026-10-16
+> **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스.
 
 ---
@@ -178,8 +178,8 @@ graph TD
 3. `modal.html`: 사전 처치정보 및 의료법 제27조 안내 다이얼로그
 4. `loading.html`: AI 트리아제 로딩 애니메이션
 5. `result.html`: KTAS 판정 및 병원-약국 맞춤 결과
-6. `hospital_detail.html`: 달빛어린이병원 전용 상세 페이지 (소아 전문의/일반의 현황, 주차 면수/요금/안내, 요일별 진료시간표, 인-페이지 카카오 지도 매핑, 22:30 조기마감 주의 배너, 2열 실측 메트릭 바(내 위치 거리·주차 지원), 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
-7. `pharmacy_detail.html`: 심야약국 전용 상세 페이지 (상주 약사 현황, 복약지도 안내, +30분 조제 안전마진 표시, 요일별 심야 운영시간표, 인-페이지 카카오 지도 매핑, 1:1 연계 달빛어린이병원 카드, 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
+6. `hospital_detail.html`: 달빛어린이병원 전용 상세 페이지 (소아 전문의/일반의 현황, 주차 면수/요금/안내, 요일별 진료시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 로열 블루 펄스 핀 마커), 22:30 조기마감 주의 배너, 2열 실측 메트릭 바(내 위치 거리·주차 지원), 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
+7. `pharmacy_detail.html`: 심야약국 전용 상세 페이지 (상주 약사 현황, 복약지도 안내, +30분 조제 안전마진 표시, 요일별 심야 운영시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 에메랄드 그린 펄스 핀 마커), 1:1 연계 달빛어린이병원 카드, 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
 8. `emergency_alert.html`: 0ms Red Flag 119 긴급 직행 화면
 9. `emergency_guide.html`: 소아 응급처치 포토 슬라이더 & 통화 스크립트
 10. `settings.html`: 모니모 스타일 자녀 정보 & 알림 설정
@@ -251,11 +251,15 @@ graph TD
    - `input.html` 문진 시 KTAS 1, 2단계 및 12대 Red Flag 판정 시 `emergency_alert.html`로 전환되던 UX 단절 완전 해소 ➔ 종합 결과 화면(`result.html`)으로 100% 통합 라우팅.
    - `result.html` 상단에 `#ktas-emergency-call-banner` (🚨 초응급 이송 권고, `119 즉시 전화` 원터치 다이얼, `응급처치 가이드` 링크) 동적 마운트.
    - `소아 응급실 병상 (우선 권고)` 탭 첫 번째 좌측 배치 및 실시간 병상(`hv28`), 소아 임상 감별 소견, 당직의 통화 스크립트 전면 연계.
-5. **[완료] 필수 캐노니컬 데이터셋 Git 형상관리 복원 & `.gitignore` 최적화 (Phase 3)**:
+5. **[완료] 병원·약국 상세페이지 Leaflet & OpenStreetMap 대화형 지도 및 커스텀 펄스 핀 탑재 (Phase 2-E)**:
+   - 카카오 JS SDK 401 Unauthorized(도메인 미등록/REST키 불일치) 제약 완전 극복 ➔ 오픈소스 Leaflet(v1.9.4) + OpenStreetMap(OSM) 타일 엔진 통합.
+   - `hospital_detail.html` (로열 블루 펄스 핀 + 달빛병원 팝업) 및 `pharmacy_detail.html` (에메랄드 그린 펄스 핀 + 안심약국 팝업) 실시간 대화형 지도 렌더링.
+   - 뷰포트 높이 220px 확장 및 오프라인 SVG 레이더 폴백 2차 안전망 유지.
+6. **[완료] 필수 캐노니컬 데이터셋 Git 형상관리 복원 & `.gitignore` 최적화 (Phase 3)**:
    - GitHub 클론 및 협업 환경에서 데이터 유실 방지를 위해 `data/` 내 핵심 JSON 7종 및 DB 파일 Git 추적 대상 정상 포함.
-6. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
+7. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
    - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
-7. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
+8. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
    - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
-8. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
+9. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
    - Service Worker 캐싱을 통해 네트워크 단절 시에도 12대 Red Flag 가이드 및 최근 조회 시설 오프라인 열람 지원.

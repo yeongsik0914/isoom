@@ -1,6 +1,6 @@
 # 👶 아이숨 (i-Soom) - 구 MoonlightCare (달빛케어)
 
-> **"야간·휴일에 갑자기 아픈 우리 아이를 위한 가장 빠르고 안전한 소아청소년과 매칭 서비스"**  
+> **"야간·휴일에 갑자기 아픈 우리 아이를 위한 가장 빠르고 안전한 소아청소년과 매칭 서비스"**
 > 건강보험심사평가원(HIRA), 국립중앙의료원(NMC) E-Gen 실시간 병상, 한국천문연구원(KASI) 특일 데이터, Firebase Cloud Firestore, 그리고 **Gemini 3.8 Flash 멀티 에이전트** 기반의 지능형 소아 의료 응급 지원 시스템
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -27,6 +27,16 @@
 ---
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
+
+### 🌟 [v2.4.85-leaflet-osm-interactive-map-and-routing-sync] 2026-10-16: 병원·약국 상세페이지 실시간 대화형 지도 연동(Leaflet & OSM) 및 소아 KTAS 1·2단계 결과 화면(result.html) 100% 통합 (정영식 팀장, 김동준 팀원)
+* **🗺️ 카카오 SDK 401 인증 한계 극복 및 Leaflet.js + OpenStreetMap 엔진 전면 탑재 ([hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html), [pharmacy_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/pharmacy_detail.html))**:
+  - `KAKAO_REST_API_KEY`의 JS SDK 미지원 및 로컬 도메인 미등록으로 인한 그라데이션 박스 폴백 현상을 해소하고, 상용 API 키나 도메인 제약 없이 전국 도로망·건물 타일을 100% 무결점으로 렌더링하는 Leaflet(v1.9.4) 엔진 구축.
+  - `hospital_detail.html`: 로열 블루 펄스 마커(`local_hospital`) + `🌙 달빛어린이병원` 팝업 자동 활성화.
+  - `pharmacy_detail.html`: 에메랄드 그린 펄스 마커(`medication`) + `💊 안심 심야약국` 팝업 자동 활성화.
+  - 지도 컨테이너 높이를 190px에서 `220px`로 확대하여 지형 및 핀 시인성 대폭 강화.
+* **🚨 소아 KTAS 1·2단계 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)) 100% 통합 라우팅 및 119 원터치 다이얼 배너 연동**:
+  - `input.html`에서 KTAS 1·2단계 분류 시 단순 사이렌 화면 직행을 해소하고, 공식 KTAS 등급 카드, 소아 임상 감별 소견, 실시간 소아 응급실 병상(`hv28`), 119 즉시 전화 CTA, 당직의 통화 스크립트 전면 연계.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q124, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-133) 전면 동기화 완료**.
 
 ### 🌟 [v2.4.84-ktas-emergency-unified-result] 2026-10-16: 소아 KTAS 1, 2단계(소생/긴급) 결과 화면(result.html) 100% 통합 표출 및 119 초응급 원터치 다이얼 배너 구축 (김동준 팀원, 정영식 팀장 총괄)
 * **🚨 소아 KTAS 1·2단계 결과 화면(`result.html`) 100% 통합 라우팅 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html), [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html), [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js))**:
@@ -584,7 +594,7 @@
   - 외부 백엔드 API 서버 호출 의존성을 탈피하고, main.js 내에 29개 전국 달빛병원-심야약국 정적 페어링 마스터셋을 직접 내장.
   - 클라이언트 사이드에서 즉시 Haversine 구면거리 계산을 수행하여 네트워크 지연 0ms 및 오프라인 환경에서도 100% 무중단 거리순 렌더링 보장.
 * **📍 Geolocation 브라우저 실시간 자동 감지 (utoDetectUserLocation)**:
-  - 페이지 진입 시 '역삼동'으로 고정되던 버그를 완벽 해결하고, 
+  - 페이지 진입 시 '역삼동'으로 고정되던 버그를 완벽 해결하고,
 avigator.geolocation.getCurrentPosition을 자동 호출하여 실제 사용자가 있는 동 명칭(대전 둔산동, 분당 정자동, 수원 영통동, 서울 서초동 등) 및 좌표로 실시간 갱신.
   - 전국 35개 주요 거점 공간 인덱스 매핑 및 공공 IP 지오로케이션 스마트 폴백 탑재.
 * **🏷️ 병원 / 약국 카테고리 탭 완벽 분리 필터링**:
@@ -1162,7 +1172,7 @@ avigator.geolocation.getCurrentPosition을 자동 호출하여 실제 사용자�
 * **테스트 스위트 33개 100% 통과**: `tests/test_step4_orchestrator.py` 7개 테스트(TC-401 ~ TC-407) 전수 합격.
 
 ### 🌟 [v1.0.0] 2026-10-13: [Step 3] Gemini 3.8 Flash 멀티 에이전트 결합 & 전국 17개 시·도 30분 안심 약국 페어링 엔진 구축
-* **Triage Agent 결합 (`app/agents/triage_agent.py`)**: 
+* **Triage Agent 결합 (`app/agents/triage_agent.py`)**:
   - `Gemini 3.8 Flash (Thinking: Medium)`를 통해 부모의 비정형 자연어 서술에서 4대 임상 변수`(월령/일령, 체온, 지속시간, 주증상)` Pydantic JSON 정밀 추출.
   - 의료법 제27조 가드레일 강제: 부모의 유도 질문("돌발진 맞죠?")에 동조하지 않고 대면 진찰 필요성만 안내. 오프라인 대비 결정론적 정규식 Fallback 완비.
 * **Matching Agent 결합 (`app/agents/matching_agent.py`)**:

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>병원 상세 및 실시간 접수 - 아이숨(i-Soom)</title>
-  
+
   <!-- PWA Standalone & iOS Safari Fullscreen Support -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -15,13 +17,19 @@
   <!-- Google Fonts & Material Symbols -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Pretendard:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Leaflet Interactive Map Engine CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
   <!-- Dual CSS Loader (Safari & Chrome Cross-Browsing Support) -->
   <link rel="stylesheet" href="../css/style.css">
   <script>
-    (function() {
+    (function () {
       var link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = (window.location.protocol === 'file:') ? '../css/style.css' : '/css/style.css';
@@ -29,12 +37,12 @@
     })();
 
     // 0. Smart History Navigation Engine (어떤 환경에서도 이전 페이지 100% 무결점 복귀)
-    window.handleSmartGoBack = function(event) {
+    window.handleSmartGoBack = function (event) {
       if (event) {
         try {
           event.preventDefault();
           event.stopPropagation();
-        } catch (e) {}
+        } catch (e) { }
       }
 
       const isFile = (window.location.protocol === 'file:');
@@ -71,7 +79,7 @@
         if (rawFrom) {
           fromTarget = sanitizeTarget(rawFrom);
         }
-      } catch (e) {}
+      } catch (e) { }
 
       // 2. document.referrer 확인
       let refTarget = '';
@@ -82,7 +90,7 @@
           if (refTarget.includes(curPath) || curPath.includes(refTarget)) {
             refTarget = '';
           }
-        } catch (e) {}
+        } catch (e) { }
       }
 
       // 3. sessionStorage에 저장된 이전 진입 페이지 확인
@@ -96,7 +104,7 @@
             sessionTarget = '';
           }
         }
-      } catch (e) {}
+      } catch (e) { }
 
       const directTarget = fromTarget || refTarget || sessionTarget;
 
@@ -109,7 +117,7 @@
 
         try {
           window.history.back();
-        } catch (histErr) {}
+        } catch (histErr) { }
 
         setTimeout(() => {
           if (!navTriggered) {
@@ -152,7 +160,8 @@
       flex-direction: column;
       position: relative;
       box-shadow: 0 0 24px rgba(0, 0, 0, 0.06);
-      padding-bottom: 110px; /* Safe padding for bottom fixed CTA */
+      padding-bottom: 110px;
+      /* Safe padding for bottom fixed CTA */
     }
 
     /* Top Navigation Bar */
@@ -249,9 +258,20 @@
     }
 
     @keyframes pulseDot {
-      0% { transform: scale(0.9); opacity: 0.8; }
-      50% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(0.9); opacity: 0.8; }
+      0% {
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
     }
 
     .hospital-main-name {
@@ -660,7 +680,7 @@
     }
 
     .btn-bottom-call {
-      width: 120px;
+      width: 600px;
       height: 52px;
       border-radius: 14px;
       background: #f1f5f9;
@@ -734,8 +754,15 @@
     }
 
     @keyframes modalSlideUp {
-      from { transform: translateY(30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
     .ticket-emblem-circle {
@@ -773,19 +800,48 @@
       z-index: 300;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
+
+    /* Leaflet Interactive Map Custom Style */
+    .leaflet-container {
+      width: 100%;
+      height: 100%;
+      font-family: 'Pretendard', sans-serif !important;
+      z-index: 1;
+    }
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+      padding: 2px;
+    }
+    .leaflet-popup-content {
+      margin: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.4;
+      text-align: center;
+    }
+    @keyframes mapPinPulse {
+      0% { transform: scale(0.8); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 0.2; }
+      100% { transform: scale(0.8); opacity: 0.8; }
+    }
   </style>
 </head>
+
 <body>
 
   <div class="app-viewport">
 
     <!-- 1. Top Navigation Bar -->
     <header class="detail-nav-header">
-      <button type="button" class="nav-btn" id="btn-smart-back" onclick="handleSmartGoBack(event)" aria-label="이전 페이지로 돌아가기">
+      <button type="button" class="nav-btn" id="btn-smart-back" onclick="handleSmartGoBack(event)"
+        aria-label="이전 페이지로 돌아가기">
         <span class="material-symbols-outlined" style="font-size: 22px;">arrow_back</span>
       </button>
-      <h1 class="nav-title">병원 상세 및 실시간 접수</h1>
-      <a href="index.html" onclick="if(window.location.protocol!=='file:'){window.location.href='/home';return false;}" class="nav-btn" aria-label="홈으로 가기">
+      <h1 class="nav-title">병원 상세 내역</h1>
+      <a href="index.html" onclick="if(window.location.protocol!=='file:'){window.location.href='/home';return false;}"
+        class="nav-btn" aria-label="홈으로 가기">
         <span class="material-symbols-outlined" style="font-size: 20px;">home</span>
       </a>
     </header>
@@ -797,10 +853,10 @@
           <span class="material-symbols-outlined" style="font-size: 15px;">dark_mode</span>
           보건복지부 지정 달빛어린이병원
         </span>
-        <span class="badge-open-live" id="hospital-live-badge">
+        <!-- <span class="badge-open-live" id="hospital-live-badge">
           <span class="live-dot"></span>
           <span id="hospital-live-time">실시간 야간진료 중 (~23:00)</span>
-        </span>
+        </span> -->
       </div>
 
       <h2 class="hospital-main-name" id="detail-hospital-name">송파어린이병원</h2>
@@ -927,10 +983,12 @@
         </div>
 
         <!-- In-Page Interactive Map Viewport -->
-        <div id="hospital-map-container" style="width: 100%; height: 190px; border-radius: 14px; background: #e2e8f0; margin-bottom: 12px; overflow: hidden; position: relative; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center;">
+        <div id="hospital-map-container"
+          style="width: 100%; height: 220px; border-radius: 14px; background: #e2e8f0; margin-bottom: 12px; overflow: hidden; position: relative; border: 1px solid #cbd5e1;">
           <!-- Map Canvas or Fallback Visual -->
           <div id="hospital-kakao-map" style="width: 100%; height: 100%;"></div>
-          <div id="hospital-map-overlay-badge" style="position: absolute; bottom: 10px; left: 10px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; pointer-events: none; z-index: 5;">
+          <div id="hospital-map-overlay-badge"
+            style="position: absolute; bottom: 10px; left: 10px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; pointer-events: none; z-index: 500;">
             <span class="material-symbols-outlined" style="font-size: 14px; color: #60a5fa;">pin_drop</span>
             <span id="hospital-map-badge-text">달빛어린이병원 위치</span>
           </div>
@@ -948,10 +1006,12 @@
         </div>
 
         <div class="map-app-links">
-          <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-kakao-map" id="btn-kakao-map">
+          <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-kakao-map"
+            id="btn-kakao-map">
             카카오맵 길안내
           </a>
-          <a href="https://map.naver.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-naver-map" id="btn-naver-map">
+          <a href="https://map.naver.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-naver-map"
+            id="btn-naver-map">
             네이버지도 길안내
           </a>
         </div>
@@ -990,10 +1050,10 @@
         <span class="material-symbols-outlined" style="font-size: 20px; color: #0066ff;">call</span>
         <span>병원 전화</span>
       </a>
-      <button type="button" class="btn-bottom-ticket" onclick="openTicketModal()">
+      <!-- <button type="button" class="btn-bottom-ticket" onclick="openTicketModal()">
         <span class="material-symbols-outlined" style="font-size: 22px;">confirmation_number</span>
         <span>모바일 번호표 접수하기</span>
-      </button>
+      </button> -->
     </div>
 
     <!-- 9. Mobile Ticket Dialog Modal -->
@@ -1007,7 +1067,8 @@
 
         <div class="ticket-number-display" id="ticket-number-display">19번</div>
 
-        <div style="background: #f8fafc; border-radius: 12px; padding: 12px; margin: 14px 0; border: 1px solid #e2e8f0; font-size: 13px; text-align: left;">
+        <div
+          style="background: #f8fafc; border-radius: 12px; padding: 12px; margin: 14px 0; border: 1px solid #e2e8f0; font-size: 13px; text-align: left;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
             <span style="color: #64748b;">진료 접수 방식</span>
             <strong style="color: #0066ff;" id="ticket-waiting-summary">현장 내원 순번 접수</strong>
@@ -1023,10 +1084,12 @@
         </div>
 
         <div style="display: flex; gap: 8px;">
-          <button type="button" onclick="closeTicketModal()" style="flex: 1; height: 46px; border-radius: 12px; border: 1px solid #cbd5e1; background: #ffffff; color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer;">
+          <button type="button" onclick="closeTicketModal()"
+            style="flex: 1; height: 46px; border-radius: 12px; border: 1px solid #cbd5e1; background: #ffffff; color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer;">
             닫기
           </button>
-          <button type="button" onclick="confirmTicket()" style="flex: 1; height: 46px; border-radius: 12px; border: none; background: #0066ff; color: #ffffff; font-size: 14px; font-weight: 700; cursor: pointer;">
+          <button type="button" onclick="confirmTicket()"
+            style="flex: 1; height: 46px; border-radius: 12px; border: none; background: #0066ff; color: #ffffff; font-size: 14px; font-weight: 700; cursor: pointer;">
             확인 완료
           </button>
         </div>
@@ -1105,7 +1168,7 @@
         // 2. Local JS Dataset Fallback (window.HOSPITAL_DETAILS_DATA from 24h sync)
         if (!fetchedData && window.HOSPITAL_DETAILS_DATA && window.HOSPITAL_DETAILS_DATA.length) {
           const cleanQ = (qName || '').replace(' (달빛어린이병원)', '').trim();
-          const found = window.HOSPITAL_DETAILS_DATA.find(item => 
+          const found = window.HOSPITAL_DETAILS_DATA.find(item =>
             (qId && item.id === qId) ||
             (cleanQ && item.name && (item.name === cleanQ || item.name.includes(cleanQ) || cleanQ.includes(item.name)))
           );
@@ -1249,31 +1312,73 @@
       }
     });
 
-    // In-Page Map Renderer with Visual Fallback
+    // In-Page Map Renderer with Leaflet Engine & Visual Fallback
     function renderInPageMap(lat, lon, name) {
       const container = document.getElementById('hospital-kakao-map');
       if (!container) return;
 
-      // Check if Kakao Maps SDK is loaded
-      if (window.kakao && window.kakao.maps) {
+      const validLat = parseFloat(lat) || 37.4858;
+      const validLon = parseFloat(lon) || 127.1225;
+
+      // 1. Try Leaflet Interactive OpenStreetMap (100% Reliable Nationwide Tiles)
+      if (window.L && window.L.map) {
         try {
-          const loc = new kakao.maps.LatLng(lat, lon);
-          const options = { center: loc, level: 3 };
-          const map = new kakao.maps.Map(container, options);
-          const marker = new kakao.maps.Marker({ position: loc, map: map });
-          const infowindow = new kakao.maps.InfoWindow({
-            content: `<div style="padding:5px 8px;font-size:12px;font-weight:700;color:#0f172a;white-space:nowrap;">${name}</div>`
+          if (window._currentHospitalMap) {
+            try { window._currentHospitalMap.remove(); } catch (remErr) {}
+            window._currentHospitalMap = null;
+          }
+
+          container.innerHTML = '';
+          const map = L.map(container, {
+            center: [validLat, validLon],
+            zoom: 16,
+            zoomControl: true,
+            attributionControl: false
           });
-          infowindow.open(map, marker);
+          window._currentHospitalMap = map;
+
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap'
+          }).addTo(map);
+
+          // Custom Royal Blue Pulse Pin
+          const hospitalIcon = L.divIcon({
+            className: 'custom-map-pin hospital-pin',
+            html: `
+              <div style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                <div style="position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(0,102,255,0.3);animation:mapPinPulse 2s infinite;"></div>
+                <div style="position:relative;width:30px;height:30px;border-radius:50%;background:#0066ff;border:2.5px solid #ffffff;box-shadow:0 3px 10px rgba(0,102,255,0.45);display:flex;align-items:center;justify-content:center;color:#ffffff;">
+                  <span class="material-symbols-outlined" style="font-size:17px;">local_hospital</span>
+                </div>
+              </div>
+            `,
+            iconSize: [40, 40],
+            iconAnchor: [20, 20],
+            popupAnchor: [0, -22]
+          });
+
+          const marker = L.marker([validLat, validLon], { icon: hospitalIcon }).addTo(map);
+          marker.bindPopup(`
+            <div style="padding:2px 4px;text-align:center;">
+              <strong style="font-size:13px;color:#0f172a;display:block;margin-bottom:3px;">${name}</strong>
+              <span style="font-size:11px;color:#0066ff;font-weight:700;">🌙 달빛어린이병원</span>
+            </div>
+          `).openPopup();
+
+          setTimeout(() => {
+            try { map.invalidateSize(); } catch (e) {}
+          }, 250);
+
           return;
-        } catch (mapErr) {
-          console.warn('[Map] Kakao SDK runtime error, falling back to visual pin:', mapErr);
+        } catch (leafletErr) {
+          console.warn('[Map] Leaflet initialization error, falling back to visual pin:', leafletErr);
         }
       }
 
-      // Elegant Fallback Map Canvas with SVG Pin & Radial Radar
+      // 2. Elegant Fallback Map Canvas with SVG Pin & Radial Radar
       container.innerHTML = `
-        <div style="width:100%;height:100%;background:linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer;" onclick="window.open('https://map.kakao.com/link/to/${encodeURIComponent(name)},${lat},${lon}', '_blank')">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer;" onclick="window.open('https://map.kakao.com/link/to/${encodeURIComponent(name)},${validLat},${validLon}', '_blank')">
           <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,102,255,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:6px;box-shadow:0 0 0 10px rgba(0,102,255,0.06);animation:pulseDot 2s infinite;">
             <span class="material-symbols-outlined" style="font-size:32px;color:#0066ff;">location_on</span>
           </div>
@@ -1318,9 +1423,12 @@
       }, 2500);
     }
   </script>
+  <!-- Leaflet Interactive Map Engine JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
   <script src="../js/hospital_details_data.js"></script>
   <script src="../js/nationwide_pairings.js"></script>
   <script src="../js/main.js"></script>
 </body>
+
 </html>
