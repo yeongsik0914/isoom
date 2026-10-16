@@ -85,6 +85,7 @@
     - [10.67 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처](#1067-전국-달빛병원야간약국-24시간-주기-공공-api-변경분hash-diffing-자동-업데이트-파이프라인-아키텍처-2026-10-16-완결)
     - [10.68 전국 달빛어린이병원(156개)·심야약국(2,028개) 24시간 주기 In-Memory Hash Diffing 델타 동기화 서비스 및 관리자 API/CLI 완비](#1068-전국-달빛어린이병원156개심야약국2028개-24시간-주기-in-memory-hash-diffing-델타-동기화-서비스-및-관리자-apicli-완비-2026-10-16-완결)
     - [10.69 '현재 위치로 설정' 시 상세 주소(도로명·건물명·지번) 유실 결함 해소 및 카카오 2-Tier 역지오코딩 아키텍처](#1069-현재-위치로-설정-시-상세-주소도로명건물명지번-유실-결함-해소-및-카카오-2-tier-역지오코딩-아키텍처-2026-10-16-완결)
+    - [10.70 실시간 야간 의료시설 카드 목록 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 및 탭 스크롤 리셋 아키텍처](#1070-실시간-야간-의료시설-카드-목록-독립-스크롤-뷰포트max-height--sleek-scrollbar-및-탭-스크롤-리셋-아키텍처-2026-10-16-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1591,6 +1592,69 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
   4. **단위 테스트 스위트 확장 및 검증 ([tests/test_location_api.py](file:///e:/monnlight/tests/test_location_api.py))**:
      - 신규 상세 도로명/건물명/지번 포맷팅 및 Fallback 상세 주소 검증 2개 테스트 추가 (8개 테스트 100% 통과).
      - 전체 단위/통합/E2E 테스트 스위트 92개 전수 무결점 통과 (`Ran 92 tests, OK`).
+
+---
+
+### 10.70 실시간 야간 의료시설 카드 목록 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 및 탭 스크롤 리셋 아키텍처 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 메인 홈 화면(`index.html`)에서 반경 15km 이내의 실시간 달빛병원과 심야약국이 최대 수십 개 렌더링되면서 전체 웹 뷰포트가 과도하게 길어져, 상단 119/문진 CTA 영역 및 하단 고정 GNB 바와의 균형이 저해되고 탐색 피로도가 급증함.
+  - 의료시설 목록 카드 영역만 적정 높이로 고정하고, 그 내부에서만 매끄럽게 스크롤되도록 하는 독립 스크롤 뷰포트(Containerized Scroll Viewport) 아키텍처가 요구됨.
+* **4대 핵심 엔지니어링 구현**:
+  1. **독립 스크롤 뷰포트 CSS 아키텍처 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `.facility-card-stack`에 `max-height: 480px;`, `overflow-y: auto;`, `overflow-x: hidden;` 부여.
+     - 모바일 웹 및 iOS Safari 관성 스크롤(`-webkit-overflow-scrolling: touch;`)과 부드러운 스크롤(`scroll-behavior: smooth;`) 결합.
+     - 5px 너비의 모던 미니멀 스크롤바(`::-webkit-scrollbar`) 커스텀 스타일링 적용.
+  2. **하단 탐색 버튼 스크롤 인터랙션 결합 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+     - "스크롤하여 더 많은 의료시설 확인" 버튼(`.scroll-more-btn`) 클릭 시 `.facility-card-stack`을 260px 부드럽게 자동 스크롤하도록 `onclick` 핸들러 결합.
+  3. **카테고리 탭 변경 시 자동 상단 리셋 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - '전체' / '🌙 달빛병원' / '💊 심야약국' 탭 전환 시 `scrollTop = 0`으로 즉각 초기화하여 항상 1등 시설부터 쾌적하게 열람 가능하도록 최적화.
+  4. **통합 연동 검증 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - 프론트엔드 연동 3개 테스트 전수 통과 및 92개 단위/통합 테스트 무결점 통과 유지.
+
+---
+
+### 10.71 실시간 야간 의료시설 카드 여백(Padding/Gap) 컴팩트 최적화 및 '더 많은 의료시설 확인' 버튼 전면 제거·스크롤 전수 탐색 구현 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 실시간 야간 의료시설 카드 내부 패딩(`16px`)과 간격(`12px`), 텍스트/아이콘 마진이 다소 넓어 480px 높이의 스크롤 뷰포트 내에서 한 번에 2개 남짓의 카드만 노출되는 정보 밀도 저하 문제가 확인됨.
+  - 또한 스크롤 뷰포트 하단에 위치한 "더 많은 의료시설 확인" 버튼은 이미 스크롤이 가능한 영역에서 중복 인터랙션을 유발하여 UX 직관성을 저하시킴.
+* **4대 핵심 엔지니어링 구현**:
+  1. **카드 스택 및 개별 카드 여백 컴팩트 CSS 최적화 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `.facility-card-stack`: `gap: 8px;`, `padding: 2px 4px 6px 2px;`, `max-height: 520px;`로 재조정하여 하단 네비게이션 직전까지 시원한 탐색 공간 확보.
+     - `.facility-card`: 패딩 `16px` ➔ `11px 13px`, `border-radius: 14px;`, 내부 요소 `gap: 8px;`로 압축.
+     - `.facility-icon-wrap`: `36px x 36px` (아이콘 `20px`).
+     - 타이포그래피: 시설명 `15px` (`line-height: 1.25`), 주소/설명 `11.5px` (`line-height: 1.35`), 뱃지 `10.5px`.
+     - 액션 요소: 전화 버튼 `34px x 34px` (아이콘 `17px`), 카드 푸터 상단 마진 `7px`.
+  2. **'더 많은 의료시설 확인' 버튼 전면 삭제 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html) & [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `index.html`에서 `<div class="scroll-more-btn-wrap">` 및 버튼 엘리먼트 완전 적출.
+     - `style.css`에서 관련 스타일 클래스를 `display: none !important;`로 영구 배제.
+  3. **스크롤 컨테이너 전수 렌더링 전환 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `renderLiveFacilities`에서 15개 단위 슬라이스 및 더보기 버튼 조작 로직을 제거하고, `sliceList = displayList`로 전체 목록을 스크롤 영역에 즉시 렌더링.
+     - 휠 및 터치 제스처만으로 반경 15km 내 408곳 전체를 끊김 없이 연속 열람 가능.
+  4. **통합 테스트 및 무결점 검증 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - 프론트엔드 연동 3개 테스트 전수 통과 및 전체 단위/통합 테스트 스위트 92개 전수 무결점 통과 확인.
+
+---
+
+### 10.72 메인 홈 전용 고정 앱 셸(Fixed App Shell) 및 실시간 의료현황 전용 스크롤(Exclusive Inner Scroll) 아키텍처 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 모바일 웹 또는 데스크톱 브라우저에서 메인 홈(`index.html`)을 탐색할 때, 브라우저 전체 창이 위아래로 스크롤되어 상단 앱 헤더, 위치 알약 버튼, "아이가 어디가 아픈가요?" Hero 카드가 상단 뷰포트 밖으로 밀려 올라가는 바깥 스크롤(Outer Scroll) 현상이 발생함.
+  - 상단 헤더, 문진 CTA 카드, 실시간 야간 시설 타이틀/탭, 하단 GNB 내비게이션 바는 화면에 완전 고정(Fixed)시키고, 오직 "실시간 야간 의료시설" 카드 목록 내부에서만 스크롤되도록 격리하는 Fixed App Shell 아키텍처가 요구됨.
+* **4대 핵심 엔지니어링 구현**:
+  1. **바깥 스크롤 완전 차단 (Outer Scroll Locked) ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `body.main-home-body`: `height: 100vh; height: 100dvh; overflow: hidden;`
+     - `.mobile-viewport.main-home-shell`: `height: 100vh; height: 100dvh; max-height: 100dvh; overflow: hidden; display: flex; flex-direction: column;`
+     - 데스크톱 환경(`@media (min-width: 640px)`): `height: min(920px, calc(100vh - 24px));`로 창 높이 안에 쏙 들어가도록 바인딩.
+  2. **상단 및 하단 주요 컴포넌트 완전 고정 (`flex-shrink: 0`)**:
+     - `.app-header` (상단 헤더 + 위치 알약): `flex-shrink: 0;` (58px 고정).
+     - `.hero-card` (증상 문진 CTA 배너): `flex-shrink: 0;` (고정).
+     - `.section-header` 및 `.filter-tabs`: `flex-shrink: 0;` (고정).
+     - `.bottom-nav`: `position: absolute; bottom: 0;` (하단 완전 고정).
+  3. **실시간 의료시설 영역 전용 스크롤 (`flex: 1; min-height: 0; overflow-y: auto`)**:
+     - `.facilities-section`: `flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden;`
+     - `.facility-card-stack`: `flex: 1; min-height: 0; height: 100%; max-height: none; overflow-y: auto; overflow-x: hidden;`
+     - 상하 고정 요소를 제외한 뷰포트 남은 높이 전체를 100% 점유하며, 오직 실시간 의료현황 카드 목록 내부에서만 수백 개 카드가 끊김 없이 부드럽게 스크롤됨.
+  4. **서브 페이지 영향 격리 및 DOM 정합성 유지 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+     - `main-home-body`, `main-home-shell` 클래스로 메인 페이지만 독립 스코핑하여 다른 서브 페이지 스크롤 동작을 보존하고 잉여 닫는 div 태그 삭제.
 
 ---
 

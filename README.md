@@ -28,6 +28,36 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.62-main-home-fixed-shell-and-facility-exclusive-scroll] 2026-10-16: 메인 홈 고정 앱 셸(Fixed App Shell) 구축 및 실시간 야간 의료시설 전용 내부 스크롤 격리 완결 (정영식 팀장)
+* **🔒 메인 홈 바깥 스크롤 완전 차단 (No Outer Scroll) ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - `body.main-home-body`에 `height: 100vh; height: 100dvh; overflow: hidden;`을 선언하여 모바일과 데스크톱 브라우저에서 바깥 스크롤이 0px도 발생하지 않도록 화면 고정.
+  - `.mobile-viewport.main-home-shell`의 높이를 `100dvh`로 바인딩하고 데스크톱에서는 `height: min(920px, calc(100vh - 24px));`로 화면 높이 내에 깔끔하게 들어맞도록 제어.
+* **📌 상단 헤더·CTA 카드·GNB 내비게이션 완벽 고정 (`flex-shrink: 0`)**:
+  - 상단 앱 헤더(`.app-header`, 58px), 증상 문진 배너(`.hero-card`), 실시간 시설 헤더 및 3개 탭 필터(`.filter-tabs`), 하단 GNB 바(`.bottom-nav`)를 완벽하게 고정하여 화면 흔들림 및 상단 밀려 올라감 원천 차단.
+* **📲 실시간 의료시설 전용 동적 스크롤 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - `.facilities-section`과 `.facility-card-stack`에 `flex: 1; min-height: 0; overflow-y: auto;`를 부여하여, 상하 고정 요소를 제외한 남은 뷰포트 공간 전체를 100% 점유하면서 오직 실시간 의료시설 칸 내부에서만 수백 개 카드가 부드럽게 스크롤되도록 완성.
+* **🛡️ 서브 페이지 스크롤 격리 및 DOM 정합성 복원 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+  - 전용 클래스(`main-home-body`, `main-home-shell`) 스코핑으로 `input.html`, `result.html` 등 다른 화면의 자연스러운 스크롤에는 일체 영향이 없도록 완벽 분리 및 잉여 닫는 div 태그 삭제.
+
+### 🌟 [v2.4.61-live-facilities-compact-ui-and-full-scroll] 2026-10-16: 실시간 야간 의료시설 카드 여백(Padding/Gap) 컴팩트 최적화 및 '더 많은 의료시설 확인' 버튼 전면 제거·스크롤 전수 탐색 구현 (정영식 팀장)
+* **📐 카드 스택 및 개별 카드 여백 컴팩트화 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - 실시간 야간 의료시설 카드 스택(`.facility-card-stack`) 간격 `gap: 12px` ➔ `8px`, 패딩 `4px 4px 12px 2px` ➔ `2px 4px 6px 2px`, 최대 높이 `520px`로 재조정.
+  - 개별 카드(`.facility-card`) 내부 패딩 `16px` ➔ `11px 13px`, 라운드 `18px` ➔ `14px`, 내부 요소 간격 `12px` ➔ `8px`로 축소.
+  - 아이콘 래퍼(`36px`), 시설명(`15px`), 주소/설명(`11.5px`), 전화버튼(`34px`), 카드 푸터 여백(`7px`) 등 컴포넌트 전반의 타이포그래피와 마진을 컴팩트하게 정돈하여 뷰포트 내 동시 노출 카드 수를 2개에서 3~4개로 확장.
+* **🗑️ '더 많은 의료시설 확인' 버튼 전면 삭제 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html) & [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - `index.html` 내 불필요한 `<div class="scroll-more-btn-wrap">` 마크업을 완전히 제거하여 DOM 복잡도를 낮추고 모바일 뷰 하단 시각적 간섭을 배제.
+* **🚀 스크롤 뷰포트 내 전수 탐색 렌더링 전환 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - 페이징 슬라이스 및 더보기 증분 로직을 제거하고 `sliceList = displayList`로 전체 시설을 즉시 렌더링하여, 사용자가 내부 스크롤 조작만으로 반경 15km 내 408곳 전체를 끊김 없이 부드럽게 탐색할 수 있도록 고도화.
+
+### 🌟 [v2.4.60-live-facilities-independent-scroll-viewport] 2026-10-16: 실시간 야간 의료시설 카드 목록 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 구축 및 모달 탭 스크롤 리셋 완결 (정영식 팀장)
+* **📜 독립 내부 스크롤 뷰포트 구축 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - 메인 홈 실시간 야간 의료시설 목록(`.facility-card-stack`)에 `max-height: 480px`, `overflow-y: auto`, `scroll-behavior: smooth`를 적용하여 수십 개 카드 나열로 인한 페이지 무한 확장 방지.
+  - 5px 너비의 모던 미니멀 스크롤바(`::-webkit-scrollbar`) 커스텀 스타일링 적용 및 iOS 모바일 터치 관성 스크롤 완비.
+* **👇 하단 스크롤 버튼 부드러운 스크롤 인터랙션 결합 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+  - "스크롤하여 더 많은 의료시설 확인" 버튼 클릭 시 `.facility-card-stack`을 260px 부드럽게 자동 스크롤 이동하도록 `onclick` 핸들러 연결.
+* **🔄 탭 필터 전환 시 자동 스크롤 리셋 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - '전체' / '🌙 달빛병원' / '💊 심야약국' 탭 변경 시 `scrollTop = 0`으로 즉각 초기화하여 항상 최단거리 1등 시설부터 쾌적하게 열람 가능.
+
 ### 🌟 [v2.4.59-gps-detailed-address-resolution] 2026-10-16: '현재 위치로 설정' 시 상세 주소(도로명·건물명·지번) 유실 결함 해소 및 카카오 2-Tier 역지오코딩 완벽 연동, 92개 전수 테스트 통과 (정영식 팀장)
 * **📍 백엔드 2-Tier 지능형 역지오코딩 엔진 고도화 ([app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py))**:
   - 카카오 `coord2address` API의 도로명 주소와 건물명(`building_name`), 법정동을 유기적으로 결합하여 상세 주소(`서울특별시 송파구 송파대로 167 (문정동, 문정역테라타워)`) 포맷팅 구축.

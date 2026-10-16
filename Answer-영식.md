@@ -106,6 +106,9 @@
 106. [Q98. [데이터 엔지니어링 구현 완료] 전국 달빛어린이병원 & 야간약국 24시간 주기 공공 API 증분 동기화(Hash Diffing) 파이프라인 구축 및 온디맨드 CLI/API 검증 보고](#q98-데이터-엔지니어링-구현-완료-전국-달빛어린이병원--야간약국-24시간-주기-공공-api-증분-동기화hash-diffing-파이프라인-구축-및-온디맨드-cliapi-검증-보고)
 107. [Q99. [실동작 점검 & 전수 검증 완료] 전국 달빛어린이병원 & 야간약국 24시간 주기 공공 API 증분 동기화(Hash Diffing) 파이프라인 실기동 및 90개 테스트 전수 통과 최종 확인 보고](#q99-실동작-점검--전수-검증-완료-전국-달빛어린이병원--야간약국-24시간-주기-공공-api-증분-동기화hash-diffing-파이프라인-실기동-및-90개-테스트-전수-통과-최종-확인-보고)
 108. [Q100. [LBS 역지오코딩 결함 해결] '현재 위치로 설정' 클릭 시 상세 주소(도로명·건물명·지번 번지수) 유실 원인 규명 및 카카오 2-Tier 역지오코딩 연동을 통한 상세 주소 완벽 보존 보고](#q100-lbs-역지오코딩-결함-해결-현재-위치로-설정-클릭-시-상세-주소도로명건물명지번-번지수-유실-원인-규명-및-카카오-2-tier-역지오코딩-연동을-통한-상세-주소-완벽-보존-보고)
+109. [Q101. [메인 홈 UI/UX 개선] 실시간 야간 의료시설 카드 목록 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 구축 및 부드러운 스크롤 인터랙션 완결 보고](#q101-메인-홈-uiux-개선-실시간-야간-의료시설-카드-목록-독립-스크롤-뷰포트max-height--sleek-scrollbar-구축-및-부드러운-스크롤-인터랙션-완결-보고)
+110. [Q102. [메인 홈 UI 컴팩트화 & 스크롤 최적화] 실시간 야간 의료시설 카드 내부/외부 여백(Padding/Gap) 축소 및 '더 많은 의료시설 확인' 버튼 전면 제거·전수 스크롤 탐색 구현 보고](#q102-메인-홈-ui-컴팩트화--스크롤-최적화-실시간-야간-의료시설-카드-내부외부-여백paddinggap-축소-및-더-많은-의료시설-확인-버튼-전면-제거전수-스크롤-탐색-구현-보고)
+111. [Q103. [메인 홈 고정 앱 셸 구축] 실시간 야간 의료시설 칸을 제외한 메인 뷰포트 바깥 스크롤 완전 고정(Fixed App Shell) 및 시설 전용 스크롤(Exclusive Scroll) 구현 보고](#q103-메인-홈-고정-앱-셸-구축-실시간-야간-의료시설-칸을-제외한-메인-뷰포트-바깥-스크롤-완전-고정fixed-app-shell-및-시설-전용-스크롤exclusive-scroll-구현-보고)
 
 ---
 
@@ -6595,4 +6598,150 @@ graph TD
 2. **단위 및 회귀 테스트 스위트 전수 통과**:
    - `tests/test_location_api.py`: 신규 상세 주소 포맷팅 검증 2개 테스트 추가, 8개 테스트 100% 통과.
    - 전체 단위/통합 테스트 스위트: **총 92개 테스트 100% 전수 무결점 통과 (`Ran 92 tests, OK`)**.
+
+---
+
+### Q101. [메인 홈 UI/UX 개선] 실시간 야간 의료시설 카드 목록 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 구축 및 부드러운 스크롤 인터랙션 완결 보고
+
+* **기록 일시**: 2026-10-16 15:07 (KST)
+* **질문 내용**:
+  > 메인페이지에서 실시간 야간의료 시설 칸을 지정해서 그 부분만 스크롤 되도록 해줘
+
+---
+
+#### 💡 상세 분석 및 완결 조치 결과 보고
+
+팀장님께서 요청해 주신 **"메인 홈 화면(index.html)에서 수십 개에 달하는 실시간 야간 의료시설 카드들이 페이지 전체를 무한히 길어지게 만드는 대신, 해당 시설 카드 목록 영역(`.facility-card-stack`)에 적정 높이의 독립 스크롤 뷰포트를 지정하여 해당 칸만 부드럽게 스크롤되도록 하는 UI/UX 고도화"**를 완벽하게 구현하였습니다!
+
+---
+
+#### 1. 핵심 UI/UX 구현 내역
+
+##### 1) 독립 스크롤 뷰포트 CSS 스타일링 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))
+* **적정 높이 및 독립 내부 스크롤 설정**:
+  - `.facility-card-stack`에 `max-height: 480px;`, `overflow-y: auto;`, `overflow-x: hidden;`을 부여하여 모바일 및 데스크톱 환경에서 카드 2.5~3개가 한눈에 들어오면서 아래 카드가 살짝 잘려 보이는 자연스러운 스크롤 어포던스(Affordance) 제공.
+  - `-webkit-overflow-scrolling: touch;` 및 `scroll-behavior: smooth;`를 적용하여 iOS Safari 및 모바일 웹 환경에서 부드러운 관성 스크롤 보장.
+* **미니멀 모던 스크롤바(Sleek Scrollbar) 커스텀**:
+  - 너비 5px의 섬세하고 현대적인 스크롤바 트랙(`rgba(241, 245, 249, 0.6)`) 및 둥근 썸(`background: #cbd5e1; hover: #94a3b8;`) 디자인 시스템 적용.
+
+##### 2) 하단 스크롤 버튼 인터랙션 결합 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))
+* **"스크롤하여 더 많은 의료시설 확인" 버튼 (`.scroll-more-btn`) 클릭 액션**:
+  - `onclick="const s = document.getElementById('facility-card-stack'); if(s) s.scrollBy({top: 260, behavior: 'smooth'});"`를 결합하여, 사용자가 버튼을 터치/클릭할 때마다 내부 스크롤 영역이 1개 카드 높이(260px)만큼 아래로 부드럽게 자동 스크롤 이동하도록 구현.
+
+##### 3) 탭 필터 전환 시 자동 상단 리셋 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))
+* **`filterLiveFacilities` 탭 연동 최적화**:
+  - '전체' / '🌙 달빛병원' / '💊 심야약국' 탭을 전환할 때, 스택의 `scrollTop = 0`으로 즉시 상단 리셋하여 사용자가 다른 카테고리를 선택했을 때 항상 1순위 최단거리 시설부터 쾌적하게 열람할 수 있도록 개선.
+
+---
+
+#### 2. 검증 결과
+
+1. **로컬 서버 실시간 렌더링 검증**:
+   - `http://127.0.0.1:8000/` 접속 시 실시간 야간 의료시설 칸이 `max-height: 480px` 높이 안에서 독립적으로 스크롤되며, 헤더/검색창/CTA 배너 및 하단 고정 GNB 바와 완벽하게 조화됨을 확인.
+2. **테스트 스위트 전수 통과**:
+   - `tests/test_step8_frontend_integration.py` 프론트엔드 연동 3개 테스트 100% 통과.
+   - 전체 단위/통합/E2E 테스트 스위트: **총 92개 테스트 100% 무결점 통과 (`Ran 92 tests, OK`)**.
+
+---
+
+### Q102. [메인 홈 UI 컴팩트화 & 스크롤 최적화] 실시간 야간 의료시설 카드 내부/외부 여백(Padding/Gap) 축소 및 '더 많은 의료시설 확인' 버튼 전면 제거·전수 스크롤 탐색 구현 보고
+
+* **기록 일시**: 2026-10-16
+* **질문 내용**:
+  > 스크롤 기능은 좋은데 칸의 여백이 많은 것 같아서 조정 해주고  
+  > 더 많은 의료시설 확인 버튼 삭제해줘  
+  > *(첨부 이미지: 실시간 야간 의료시설 목록 화면 및 하단 '더 많은 의료시설 확인 (45 / 408곳)' 버튼)*
+
+---
+
+#### 💡 상세 분석 및 조치 내역
+
+팀장님께서 피드백 주신 **"카드 칸의 여백 과다로 인한 정보 밀도 저하"**와 **"불필요한 '더 많은 의료시설 확인' 버튼 노출"** 문제를 완전히 해결하기 위해, 카드 스택과 개별 카드의 내부/외부 패딩을 컴팩트한 모던 UI 비율로 전면 재조정하고, 더보기 버튼을 영구 삭제한 후 스크롤 컨테이너 내에서 반경 15km 이내 모든 시설을 바로 열람할 수 있도록 개선하였습니다.
+
+##### 1) 카드 스택 및 개별 카드 여백 컴팩트 축소 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))
+* **카드 간격 및 패딩 최적화**:
+  - `.facility-card-stack`: 카드 간 간격 `gap: 12px` ➔ `8px`, 패딩 `4px 4px 12px 2px` ➔ `2px 4px 6px 2px`로 축소.
+  - `.facility-card`: 카드 내부 상하좌우 패딩 `16px` ➔ `11px 13px`, 모서리 라운드 `18px` ➔ `14px`, 내부 요소 간격 `gap: 12px` ➔ `8px`로 컴팩트화.
+  - 카드 1개당 세로 높이가 약 145px에서 약 110px로 축소되어 동일 뷰포트 내에서 3~4개의 시설이 알차고 시원하게 노출됨.
+* **아이콘 및 텍스트 비율 정밀 보정**:
+  - `.facility-icon-wrap`: `44px x 44px` (아이콘 24px) ➔ `36px x 36px` (아이콘 20px), 라운드 `13px` ➔ `10px`.
+  - `.facility-name`: `16px` ➔ `15px` (`line-height: 1.25`).
+  - `.facility-desc`: `12.5px` ➔ `11.5px` (`line-height: 1.35`).
+  - `.badge-row`: `gap: 6px; margin-bottom: 4px` ➔ `gap: 4px; margin-bottom: 2px`.
+  - `.call-btn`: `40px x 40px` ➔ `34px x 34px` (아이콘 17px).
+  - `.card-footer`: 상단 마진 `padding-top: 10px` ➔ `7px`, 폰트 `12px` ➔ `11.5px`.
+
+##### 2) "더 많은 의료시설 확인" 버튼 전면 삭제 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html) & [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))
+* **HTML 마크업 제거**:
+  - `index.html` 내 `<div class="scroll-more-btn-wrap">` 및 `<button class="scroll-more-btn">` 블록을 완전히 삭제하여 불필요한 DOM 요소와 겹침 현상 원천 차단.
+* **CSS 스타일 정리**:
+  - `.scroll-more-btn-wrap`에 `display: none !important;` 및 비활성화 처리 반영.
+
+##### 3) 스크롤 뷰포트 내 전수 탐색 렌더링 전환 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))
+* **페이징 슬라이스 제거 및 전수 렌더링**:
+  - 기존의 15개 단위 슬라이스(`displayList.slice(0, visibleCount)`)와 더보기 클릭 증분 로직을 전면 제거하고, `const sliceList = displayList;`로 즉시 전체 시설 목록을 렌더링하도록 전환.
+  - 사용자는 추가 버튼 클릭 없이 내부 스크롤 영역(`.facility-card-stack`)에서 휠이나 터치 스크롤만으로 반경 15km 이내의 모든 달빛어린이병원 및 심야약국을 부드럽게 끝까지 탐색 가능.
+
+---
+
+#### 2. 검증 결과
+
+1. **시각적 밀도 향상 확인**:
+   - 실시간 야간 의료시설 카드의 상하 여백이 컴팩트하게 정돈되어, 카드 스택 높이 내에서 더 많은 의료시설 정보가 직관적이고 깔끔하게 표시됨.
+2. **더보기 버튼 제거 및 전수 스크롤 작동**:
+   - 화면 하단에 자리잡고 있던 "더 많은 의료시설 확인" 버튼이 제거되었으며, 스택 내 마우스 휠 및 터치 제스처로 반경 15km 내 408곳 전체가 버벅임 없이 자연스럽게 스크롤됨.
+3. **테스트 스위트 전수 통과**:
+   - `python -m unittest tests/test_step8_frontend_integration.py` 프론트엔드 연동 3개 테스트 100% 통과.
+   - 단위/통합/E2E 테스트 스위트 전체 무결점 통과 확인.
+
+---
+
+### Q103. [메인 홈 고정 앱 셸 구축] 실시간 야간 의료시설 칸을 제외한 메인 뷰포트 바깥 스크롤 완전 고정(Fixed App Shell) 및 시설 전용 스크롤(Exclusive Scroll) 구현 보고
+
+* **기록 일시**: 2026-10-16
+* **질문 내용**:
+  > 메인페이지 내에서 실시간 의료현황 칸을 제외한 다른 구간에서는 스크롤이 되지 않도록 고정해줘
+
+---
+
+#### 💡 상세 분석 및 조치 내역
+
+팀장님께서 요청하신 **"메인 홈 화면에서 실시간 의료현황 칸 외 다른 영역의 스크롤 고정"**은 모바일 네이티브 앱(Native Mobile App)과 동일한 **Fixed App Shell + Inner Exclusive Scroll** 아키텍처를 구현하는 작업입니다.
+
+기존 웹 뷰포트에서는 화면 전체(`body`, `.mobile-viewport`)에 높이 제약이 엄격하지 않아 브라우저 창이나 긴 콘텐츠로 인해 상단 헤더, 알약 버튼, 119/문진 CTA 카드가 위로 밀려 올라가는 바깥 스크롤(Outer Scroll)이 발생할 여지가 있었습니다. 이를 원천 차단하고 **오직 실시간 의료현황 스택 영역 내부에서만 카드가 스크롤**되도록 완벽히 고정하였습니다.
+
+##### 1) 메인 홈 전용 Fixed App Shell 클래스 설계 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))
+* **전용 클래스 스코핑**:
+  - `index.html`의 `<body>`에 `main-home-body`, 최상위 컨테이너에 `main-home-shell` 클래스를 부여하여 다른 서브 페이지(`input.html`, `result.html`, `emergency_guide.html`)의 자연스러운 스크롤은 100% 보존하면서 오직 메인 홈 페이지만 정확히 타겟팅.
+* **잉여 닫는 태그 정리**:
+  - `facility-card-stack` 하단에 남아있던 잉여 `</div>`를 제거하여 HTML DOM 트리 정합성 완전 복원.
+
+##### 2) 메인 홈 바깥 스크롤 원천 차단 및 Flexbox 파이프라인 구축 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))
+* **바깥 스크롤 완전 차단 (Outer Scroll Locked)**:
+  - `body.main-home-body`: `height: 100vh; height: 100dvh; overflow: hidden;` 선언으로 모바일(iOS Safari 주소창 출렁임/당겨서 새로고침 방어) 및 데스크톱 바깥 스크롤 0px 달성.
+  - `.mobile-viewport.main-home-shell`: `height: 100vh; height: 100dvh; max-height: 100dvh; overflow: hidden; display: flex; flex-direction: column;` 설정. 데스크톱 환경에서는 `height: min(920px, calc(100vh - 24px));`로 창 높이 안에 쏙 들어가도록 고정.
+* **상단/하단 고정 컴포넌트 (`flex-shrink: 0`)**:
+  - `.app-header` (상단 헤더 + 위치 알약 + 알림): `flex-shrink: 0;` (58px 고정).
+  - `.hero-card` (증상 문진 CTA 배너): `flex-shrink: 0;` (상단 고정).
+  - `.section-header` 및 `.filter-tabs` (실시간 시설 타이틀 & 3개 탭): `flex-shrink: 0;` (고정).
+  - `.bottom-nav` (하단 GNB 네비게이션): `position: absolute; bottom: 0;` (하단 고정).
+* **실시간 의료시설 영역 전용 스크롤 (`flex: 1; min-height: 0; overflow-y: auto`)**:
+  - `.facilities-section`: `flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden;`으로 상하 고정 영역을 제외한 **남은 뷰포트 공간을 100% 동적 점유**.
+  - `.facility-card-stack`: 기존 고정 높이(`max-height: 520px`) 대신 `flex: 1; min-height: 0; height: 100%; max-height: none; overflow-y: auto; overflow-x: hidden;` 적용.
+  - 결과적으로 **상단 헤더, 히어로 카드, 타이틀, 탭 필터, 하단 내비게이션 바는 화면에 완벽하게 고정**되고, **오직 실시간 의료현황 카드 목록 칸 내부에서만** 수백 개의 카드가 부드럽게 스크롤됩니다.
+
+---
+
+#### 2. 검증 결과
+
+1. **바깥 스크롤 방어 검증**:
+   - 브라우저 창을 위아래로 마우스 드래그하거나 휠을 굴려도 상단 헤더와 CTA 영역이 전혀 밀려 올라가지 않고 100% 고정 상태 유지 확인.
+2. **실시간 의료현황 내부 스크롤 완벽 작동**:
+   - 실시간 야간 의료시설 카드 스택 내부에서만 마우스 휠 및 터치 제스처로 408곳 전체가 부드럽게 끝까지 스크롤 탐색됨 확인.
+3. **테스트 스위트 전수 통과**:
+   - `python -m unittest tests/test_step8_frontend_integration.py` 프론트엔드 연동 3개 테스트 100% 통과.
+   - 전체 단위/통합/E2E 테스트 스위트: **총 92개 테스트 무결점 통과 (`Ran 92 tests, OK`)**.
+
+
+
 

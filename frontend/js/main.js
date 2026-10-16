@@ -1109,17 +1109,7 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
   const countPharm = document.getElementById('count-pharmacy');
   if (countPharm) countPharm.textContent = pharmCount.toLocaleString();
 
-  // 7. 더보기 버튼 이벤트 연동
-  const moreBtn = document.querySelector('.scroll-more-btn');
-  if (moreBtn && !moreBtn.dataset.bound) {
-    moreBtn.dataset.bound = 'true';
-    moreBtn.addEventListener('click', () => {
-      window.__FACILITY_VISIBLE_COUNT__ += window.__FACILITY_PAGE_STEP__;
-      window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
-    });
-  }
-
-  // 8. 현재 필터에 맞춰 즉시 렌더링
+  // 7. 현재 필터에 맞춰 즉시 렌더링
   window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
 };
 
@@ -1130,8 +1120,6 @@ window.renderLiveFacilities = function(filter) {
   const master = window.__LIVE_FACILITIES_MASTER__;
   const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
   const displayList = master[currentFilter] || master.all || [];
-
-  const moreBtn = document.querySelector('.scroll-more-btn');
 
   // 목록이 비어있는 경우 (반경 15km 이내 시설이 없음)
   if (displayList.length === 0) {
@@ -1145,15 +1133,13 @@ window.renderLiveFacilities = function(filter) {
         </div>
       </article>
     `;
-    if (moreBtn) {
-      moreBtn.style.display = 'none';
-    }
+    const moreBtn = document.querySelector('.scroll-more-btn');
+    if (moreBtn) moreBtn.style.display = 'none';
     return;
   }
 
-  // 카드 렌더링 범위 (페이징 슬라이스)
-  const visibleCount = window.__FACILITY_VISIBLE_COUNT__ || 15;
-  const sliceList = displayList.slice(0, visibleCount);
+  // 시설 목록 전수 렌더링 (내부 스크롤 뷰포트를 통해 부드럽게 전체 탐색 가능)
+  const sliceList = displayList;
 
   // Render cards HTML
   let cardsHTML = '';
@@ -1206,19 +1192,10 @@ window.renderLiveFacilities = function(filter) {
 
   stack.innerHTML = cardsHTML;
 
-  // 더보기 버튼 텍스트 상태 동기화
+  // 더보기 버튼이 남아있는 경우 숨김 처리
+  const moreBtn = document.querySelector('.scroll-more-btn');
   if (moreBtn) {
-    moreBtn.style.display = '';
-    const textSpan = moreBtn.querySelector('span:last-child');
-    if (textSpan) {
-      if (visibleCount >= displayList.length) {
-        textSpan.textContent = `반경 15km 내 전체 ${displayList.length.toLocaleString()}곳 확인 완료`;
-        moreBtn.style.opacity = '0.7';
-      } else {
-        textSpan.textContent = `더 많은 의료시설 확인 (${Math.min(visibleCount, displayList.length).toLocaleString()} / ${displayList.length.toLocaleString()}곳)`;
-        moreBtn.style.opacity = '1';
-      }
-    }
+    moreBtn.style.display = 'none';
   }
 };
 
@@ -1366,6 +1343,10 @@ window.filterLiveFacilities = function(filter) {
   }
 
   window.renderLiveFacilities(filter);
+  const stack = document.getElementById('facility-card-stack');
+  if (stack) {
+    stack.scrollTop = 0;
+  }
 };
 
 // BFCache (Back-Forward Cache) and navigation restoration

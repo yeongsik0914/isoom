@@ -143,6 +143,98 @@ button {
   }
 }
 
+/* ============================================================================
+   🔒 Fixed App Shell Layout for Main Home (실시간 의료현황 칸 외 스크롤 완전 고정)
+   ============================================================================ */
+body.main-home-body {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  body.main-home-body {
+    align-items: center;
+    padding: 12px 0;
+  }
+}
+
+.mobile-viewport.main-home-shell {
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 74px; /* GNB Bottom Space */
+}
+
+@media (min-width: 640px) {
+  .mobile-viewport.main-home-shell {
+    height: min(920px, calc(100vh - 24px));
+    max-height: calc(100vh - 24px);
+    min-height: auto;
+    border-radius: 36px;
+    border: 8px solid #ffffff;
+    box-shadow: var(--shadow-phone);
+  }
+}
+
+.main-home-shell .app-header {
+  flex-shrink: 0;
+}
+
+.main-home-shell .main-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px 8px;
+  gap: 12px;
+}
+
+.main-home-shell .hero-card {
+  flex-shrink: 0;
+}
+
+.main-home-shell .facilities-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.main-home-shell .section-header {
+  flex-shrink: 0;
+}
+
+.main-home-shell .filter-tabs {
+  flex-shrink: 0;
+}
+
+.main-home-shell .facility-card-stack {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px 4px 6px 2px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.main-home-shell .bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  flex-shrink: 0;
+}
+
 /* Material Symbols Utility */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
@@ -586,23 +678,47 @@ button {
   box-shadow: 0 2px 8px rgba(0, 102, 255, 0.25);
 }
 
-/* Facility Cards */
+/* Facility Cards (독립 내부 스크롤 뷰포트 영역) */
 .facility-card-stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+  max-height: 520px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px 4px 6px 2px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 14px;
+}
+
+/* Custom Sleek Scrollbar for Facility Card Stack */
+.facility-card-stack::-webkit-scrollbar {
+  width: 5px;
+}
+.facility-card-stack::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.6);
+  border-radius: 10px;
+}
+.facility-card-stack::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+.facility-card-stack::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 .facility-card {
   background: var(--card-bg);
-  border-radius: 18px;
-  padding: 16px;
+  border-radius: 14px;
+  padding: 11px 13px;
   border: 1px solid rgba(226, 232, 240, 0.85);
   box-shadow: var(--shadow-card);
   transition: all var(--transition-fast);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .facility-card:hover {
@@ -615,19 +731,19 @@ button {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
 }
 
 .facility-main {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 .facility-icon-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   background-color: var(--primary-surface);
   color: var(--primary);
   display: flex;
@@ -642,7 +758,7 @@ button {
 }
 
 .facility-icon-wrap .material-symbols-outlined {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .facility-meta {
@@ -654,14 +770,14 @@ button {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
+  gap: 4px;
+  margin-bottom: 2px;
 }
 
 .tag-badge {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
-  padding: 2px 6px;
+  padding: 1.5px 5px;
   border-radius: 4px;
 }
 
@@ -698,24 +814,25 @@ button {
 }
 
 .facility-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--slate-900);
   letter-spacing: -0.3px;
+  line-height: 1.25;
 }
 
 .facility-desc {
-  font-size: 12.5px;
+  font-size: 11.5px;
   color: var(--slate-600);
-  margin-top: 2px;
-  line-height: 1.4;
+  margin-top: 1px;
+  line-height: 1.35;
   letter-spacing: -0.2px;
 }
 
 /* Call Trigger Button */
 .call-btn {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--pill-radius);
   background-color: var(--slate-100);
   border: 1px solid var(--slate-200);
@@ -726,6 +843,10 @@ button {
   text-decoration: none;
   flex-shrink: 0;
   transition: all var(--transition-fast);
+}
+
+.call-btn .material-symbols-outlined {
+  font-size: 17px;
 }
 
 .call-btn:hover {
@@ -744,9 +865,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 10px;
+  padding-top: 7px;
   border-top: 1px solid rgba(226, 232, 240, 0.65);
-  font-size: 12px;
+  font-size: 11.5px;
 }
 
 .distance-info {
@@ -758,7 +879,7 @@ button {
 }
 
 .distance-info .material-symbols-outlined {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--slate-400);
 }
 
@@ -766,41 +887,14 @@ button {
   background-color: var(--primary-surface);
   color: var(--primary);
   font-weight: 600;
-  padding: 2.5px 8px;
+  padding: 2px 7px;
   border-radius: 6px;
+  font-size: 11px;
 }
 
-/* Scroll Expand Trigger */
+/* Scroll Expand Trigger - Deprecated */
 .scroll-more-btn-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 6px 0 12px;
-}
-
-.scroll-more-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background-color: var(--card-bg);
-  border: 1px solid var(--slate-200);
-  color: var(--slate-600);
-  font-size: 12.5px;
-  font-weight: 600;
-  padding: 7px 16px;
-  border-radius: var(--pill-radius);
-  box-shadow: var(--shadow-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.scroll-more-btn:hover {
-  background-color: var(--slate-50);
-  border-color: var(--slate-300);
-  color: var(--slate-900);
-}
-
-.scroll-more-btn:active {
-  transform: scale(0.97);
+  display: none !important;
 }
 
 /* 3. Bottom Navigation Bar */
