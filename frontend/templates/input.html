@@ -1351,12 +1351,12 @@
         return t;
       }
 
-      // Extract temperature from text (숫자 체온 및 "열이있어요", "고열", "미열" 등 증상 키워드 자동 감지)
+      // Extract temperature from text: 사용자가 직접 입력한 숫자 체온(예: 38.5도, 39℃)만 인식 (하드코딩/키워드 매핑 전면 금지)
       function extractTemperatureFromText(text) {
         if (!text) return null;
         const normalized = normalizeSpeechText(text);
 
-        // 1. 숫자 체온 우선 감지 (예: 38.5도, 39도, 37.8℃)
+        // 숫자 체온만 정밀 감지 (예: 38.5도, 39도, 37.8℃) - 키워드 임의 매핑 금지
         const match = normalized.match(/(3[5-9]\.[0-9]|4[0-1]\.[0-9]|3[6-9]|4[0-1])\s*(도|℃|도씨)?/);
         if (match) {
           const val = parseFloat(match[1]);
@@ -1369,55 +1369,16 @@
           }
         }
 
-        // 2. 키워드 기반 소아 임상 표준 체온 자동 감지
-        // 초고열 (40.0℃)
-        if (/초고열|불덩이\s*같|열이\s*펄펄/.test(normalized)) {
-          return {
-            temp: 40.0,
-            type: 'keyword',
-            keyword: '초고열',
-            description: `'초고열' 증상이 감지되어 40.0℃로`
-          };
-        }
-        // 고열 (39.2℃)
-        if (/고열|불덩이|열이\s*(심해|많이|높아)/.test(normalized)) {
-          return {
-            temp: 39.2,
-            type: 'keyword',
-            keyword: '고열',
-            description: `'고열' 증상이 감지되어 39.2℃로`
-          };
-        }
-        // 미열 (37.8℃)
-        if (/미열|약간\s*열|열감/.test(normalized)) {
-          return {
-            temp: 37.8,
-            type: 'keyword',
-            keyword: '미열',
-            description: `'미열' 증상이 감지되어 37.8℃로`
-          };
-        }
-        // 일반 발열 (38.5℃)
-        if (/열이\s*있|열\s*나|발열|열이\s*올라|열\s*나서|열있/.test(normalized)) {
-          return {
-            temp: 38.5,
-            type: 'keyword',
-            keyword: '열이 있어요',
-            description: `'열이 있어요' 증상이 감지되어 38.5℃로`
-          };
-        }
-
         return null;
       }
 
-      // Extract age from text (e.g., 14개월, 4세, 5살, 신생아, 100일)
+      // Extract age from text: 사용자가 명시한 숫자(개월, 세, 살)만 감지 (키워드 임의 매핑 금지)
       function extractAgeFromText(text) {
         if (!text) return null;
         const mMatch = text.match(/([0-9]{1,2})\s*개월/);
         if (mMatch) return parseInt(mMatch[1], 10);
         const yMatch = text.match(/(?:만\s*)?([1-9]|1[0-2])\s*(?:세|살)/);
         if (yMatch) return parseInt(yMatch[1], 10) * 12;
-        if (/신생아|100일|백일/.test(text)) return 2;
         return null;
       }
 
@@ -1862,12 +1823,12 @@
         let symText = state.symptom.trim();
         const effectiveAgeUnk = isEffectiveAgeUnknown();
         const ageFormatted = effectiveAgeUnk 
-          ? '나이 미입력 (모름)' 
+          ? '나이 미입력(모름)' 
           : (state.ageMonths <= 24 ? `${state.ageMonths}개월` : `${Math.floor(state.ageMonths / 12)}세`);
 
         const effectiveUnknown = isEffectiveTempUnknown();
         const effectiveTemp = effectiveUnknown ? null : state.temp;
-        const effectiveTempStr = effectiveUnknown ? '체온 미측정 (모름)' : `${state.temp.toFixed(1)}℃`;
+        const effectiveTempStr = effectiveUnknown ? '체온 미측정(모름)' : `${state.temp.toFixed(1)}℃`;
 
         // 🚨 1. 0ms Red Flag Guardrail Inspection (최우선 즉시 검사 - 사지절단/경련/의식불명 등 119 직행)
         const isUnder100d = !effectiveAgeUnk && (state.isUnder100Days || state.ageMonths < 3);
@@ -1940,9 +1901,11 @@
           user_address: userAddress,
           force_matching: true,
           stream: false,
+          age_months: effectiveAgeUnk ? null : state.ageMonths,
+          temperature: effectiveUnknown ? null : state.temp,
           patient_vitals: {
-            age: effectiveAgeUnk ? '나이 미입력' : ageFormatted,
-            temp: effectiveTempStr,
+            age: effectiveAgeUnk ? '나이 미입력(모름)' : ageFormatted,
+            temp: effectiveUnknown ? '체온 미측정(모름)' : effectiveTempStr,
             symptom: finalSymptom,
             companion: finalCompanion
           }
@@ -2036,6 +1999,7 @@
       state.tempUnknown = false; // 화면에는 바늘과 다이얼을 온전히 표출!
       tempStageBadge.innerText = '터치하여 설정';
       updateAgeDisplay(14);
+      state.ageTouched = false;  // 초기 로드 시 미조작 상태 (만지지 않으면 제출 시 나이 모름으로 처리)
       updateSummaryBar();
     });
   </script>

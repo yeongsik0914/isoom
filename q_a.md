@@ -61,6 +61,7 @@
 52. [Q52. 체온 게이지 기본값 소아 발열(38.0℃) 노출에 따른 사용자 혼선 해결 및 표준 정상 체온(36.5℃) 기본 초기화](#q52-체온-게이지-기본값-소아-발열380-노출에-따른-사용자-혼선-해결-및-표준-정상-체온365-기본-초기화)
 53. [Q53. 사지절단 등 초응급 Red Flag 증상 오차단 버그 원인 규명, 화이트리스트 검증 결함 적출 및 백엔드 Gemini 3.8 Flash 168개 소아 KTAS 지능형 분류 파이프라인 E2E 연동 완결](#q53-사지절단-등-초응급-red-flag-증상-오차단-버그-원인-규명-화이트리스트-검증-결함-적출-및-백엔드-gemini-38-flash-168개-소아-ktas-지능형-분류-파이프라인-e2e-연동-완결)
 54. [Q54. 세션 전환 시 백엔드 데몬 종료 원인 규명, FastAPI 서버 재기동 및 0ms Red Flag / KTAS 실시간 E2E 무결성 검증 완료](#q54-세션-전환-시-백엔드-데몬-종료-원인-규명-fastapi-서버-재기동-및-0ms-red-flag--ktas-실시간-e2e-무결성-검증-완료)
+55. [Q55. [소아 KTAS 화면 미표출 결함 해결 및 바이탈 미입력/모름 무손실 연동] result.html SyntaxError 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩](#q55-소아-ktas-화면-미표출-결함-해결-및-바이탈-미입력모름-무손실-연동-resulthtml-syntaxerror-해결-inputhtml-키워드-매핑-적출-및-clinical_rationale-실시간-바인딩)
 
 ---
 
@@ -1933,3 +1934,67 @@ python main.py
 * 현재 브라우저에서 `http://localhost:8000/input` (새로고침 F5 권장) 접속 시:
   1. **`사지절단`** 입력 후 병원 찾기 클릭 ➔ 에러 없이 즉시 **🚨 119 긴급 이송 화면(`emergency_alert.html`)**으로 직행.
   2. 일반 증상(예: `열 38.2도 콧물`) 입력 후 병원 찾기 클릭 ➔ 백엔드 Gemini AI가 분석한 **KTAS 4단계(준응급) 및 실시간 추천 병원 카드([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**가 100% 동적 렌더링됩니다.
+
+---
+
+### Q55. [소아 KTAS 화면 미표출 결함 해결 및 바이탈 미입력/모름 무손실 연동] result.html SyntaxError 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩
+
+* **기록 일시**: 2026-10-16 18:05
+* **작업자**: 김동준 (팀원)
+* **사용자 질문**:
+  > 백엔드가 전혀 적용되지 않고 있어. 일단 내 프로젝트 파악을 먼저 해봐. 그리고 input.html 화면에서 설정하는 사용자의 입력에 따라 ktas 등급을 분류하는 파일이 있을거고 이 결과가 업로드한 이미지에 나타나야 하는데 못뿌려주고 있어. 또 input.html 페이지에서 현재 체온, 아이 나이 사용자가 설정하질 않고 건드리지 않으면 모름으로 전달하라고 했잖아. 하드코딩, 키워드 매핑 금지해서 작업해
+
+#### 💡 원인 정밀 규명, 아키텍처 개편 및 E2E 실시간 검증 결과
+
+##### 1. 업로드한 이미지에서 백엔드 KTAS 분류 결과가 나타나지 못했던 근본 원인
+1. **[result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html) 내 치명적 자바스크립트 문법 오류(SyntaxError)**:
+   - 1434~1477행 `if (pairings.length > 0) ... else ...` 블록에서 닫는 중괄호 `}`가 1개 누락되어 브라우저 JS 파서가 `Uncaught SyntaxError: Unexpected token 'catch'`를 발생시키며 스크립트 실행이 전면 중단되었습니다.
+   - 이에 따라 `renderResultData()`가 아예 호출되지 못하고, 정적 HTML에 박혀 있던 더미 텍스트(`KTAS 분류 분석 중...`, `소아 KTAS 임상 지침 168개 주증상을 대조하여 맞춤 병원과 안심약국을 안내합니다.`, `14개월`, `39.2℃ (고열)`, `#구토`)가 박제되어 있었습니다.
+2. **백엔드 DTO 내 `clinical_rationale` 필드 누락**:
+   - `app/agents/triage_agent.py`에서 Gemini 3.8 Flash가 소아 KTAS 지침 168개 주증상을 근거로 전문 임상 감별 소견(`clinical_rationale`)을 도출했으나,
+   - 상위 오케스트레이터의 응답 DTO인 [SupervisorResponse](file:///c:/AI-Native-Agent/monnlight/app/schemas/supervisor.py)에 해당 필드가 누락되어 프론트엔드로 전달되지 못하고 있었습니다.
+3. **[input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html) 및 백엔드 내 임의 키워드 매핑 잔재**:
+   - `extractTemperatureFromText`에서 '고열' 입력 시 39.2℃, '미열' 입력 시 37.8℃로 임의 숫자를 자동 부여하고 있었음.
+   - `extractAgeFromText`에서 '신생아' 입력 시 2개월로 강제 할당하고 있었음.
+   - 백엔드 [supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py) 및 [triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)에서도 '초등학생' ➔ 84개월, '초고열' ➔ 40.0℃ 등 임의 키워드 숫자가 존재했음.
+
+##### 2. 하드코딩·키워드 매핑 전면 적출 및 무손실 전달 조치 내역
+1. **[result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html) 구문 오류 복구 & 2중 안전 렌더링 파이프라인**:
+   - 누락된 닫는 중괄호 완전 복구 및 `node --check` 문법 검증 100% 통과.
+   - `renderResultData()`를 모듈화하여 `sessionStorage('backend_result')` 수신 시 즉시 0초 렌더링.
+   - 비동기 지연 수신 시에도 `/api/v1/chat` fallback fetch를 통해 응답 즉시 화면의 `ktas-grade-text`와 `ktas-desc-detail`에 백엔드 소견 실시간 바인딩.
+2. **[app/schemas/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/schemas/supervisor.py) & [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)**:
+   - `SupervisorResponse`에 `clinical_rationale: Optional[str] = None` 필드 추가.
+   - Gemini가 분석한 실제 소아 임상 근거 문장을 응답에 100% 포함하여 프론트엔드로 전달.
+   - 키워드 기반의 임의 KTAS 3/4단계 조건 분기를 전면 제거하고, Gemini AI 산출 실패 시 소아 안전 기본값(Safe Default 4단계 준응급)으로만 방어.
+3. **[input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html) 및 백엔드 파서 키워드 매핑 전면 제거**:
+   - 증상 텍스트에서 '고열', '미열', '초등학생' 등의 단어에 임의 숫자를 할당하던 모든 로직 전면 삭제.
+   - 오직 사용자가 숫자를 명시한 경우(예: '38.5도', '14개월')에만 수치로 파싱.
+   - 사용자가 게이지나 슬라이더를 건드리지 않은 경우 `state.tempTouched = false`, `state.ageTouched = false`가 유지되어 `temperature: null`, `age_months: null`, `체온 미측정(모름)`, `나이 미입력(모름)`으로 100% 무손실 전달 보장.
+
+##### 3. E2E 실시간 파이프라인 검증 결과 (Python & Uvicorn 데몬)
+* **테스트 시나리오**: 나이 슬라이더 및 체온 다이얼을 전혀 건드리지 않은 상태에서 "아이가 갑자기 구토를 여러 번 해요" 제출:
+```
+============================================================
+ MoonLightCare 백엔드 KTAS 및 바이탈 모름 E2E 파이프라인 검증
+============================================================
+HTTP Status: 200
+KTAS Level: KTAS 3단계 (응급)
+환아 월령 (age_months): None (None = 모름 보존)
+환아 체온 (temperature): None (None = 모름 보존)
+추출 증상 (symptoms): ['구토']
+소아 임상 감별 소견 (clinical_rationale):
+-> 소아에서 체온과 월령이 미상인 상태이나, 급성으로 반복되는 구토 증상이 확인되어 탈수 위험 및 급성 복부 질환 가능성을 고려하여 보수적으로 KTAS 3단계(응급)로 평가함.
+추천 달빛병원 수: 3개
+추천 안심약국 수: 2개
+============================================================
+[result.html DOM 바인딩 시뮬레이션]
+1. 바이탈 칩 - 나이 (#vital-age-text): '나이 미입력(모름)'
+2. 바이탈 칩 - 체온 (#vital-temp-text): '체온 미측정(모름)'
+3. 바이탈 칩 - 증상 (#vital-symptom-text): '#구토'
+4. KTAS 등급 타이틀 (#ktas-grade-text): 'KTAS 3단계 (응급)'
+5. KTAS 상세 설명 (#ktas-desc-detail): '소아 임상 감별 소견: 소아에서 체온과 월령이 미상인 상태이나, 급성으로 반복되는 구토 증상이 확인되어 탈수 위험 및 급성 복부 질환 가능성을 ...'
+============================================================
+```
+* **결론**: 사용자가 업로드한 이미지에 더 이상 고정된 정적 텍스트가 남지 않고, 백엔드 Gemini 3.8 Flash가 도출한 `KTAS 3단계 (응급)` 및 임상 감별 소견이 100% 동적으로 나타나며, 건드리지 않은 나이/체온은 안전하게 `나이 미입력(모름)`, `체온 미측정(모름)`으로 표출됩니다.
+

@@ -301,8 +301,6 @@ class TriageAgent:
         school_grade_match = re.search(r"초등학교\s*([1-6])\s*학년", text)
         if school_grade_match and age_months is None:
             age_months = (6 + int(school_grade_match.group(1))) * 12
-        elif "초등학생" in text and age_months is None:
-            age_months = 84
 
         # 2. Parse temperature (including Korean verbal representations)
         temperature = state.temperature
@@ -331,11 +329,7 @@ class TriageAgent:
             except ValueError:
                 pass
 
-        # 2-1. Colloquial symptom-based temperature fallback (Extreme urgent markers only)
-        # Generic symptoms like "열나요", "미열" remain in symptoms for multi-turn triage clarification.
-        if temperature is None:
-            if re.search(r"초고열|불덩이\s*같|열이\s*펄펄", text):
-                temperature = 40.0
+        # 하드코딩/키워드 매핑 금지: 보호자가 체온 숫자를 언급하지 않은 경우 임의 온도를 부여하지 않고 None 유지
 
 
         # 3. Parse duration (hours, days, or colloquial time markers)

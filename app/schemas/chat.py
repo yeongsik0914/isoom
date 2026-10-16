@@ -21,6 +21,9 @@ class ChatRequest(BaseModel):
         default=False,
         description="1턴 즉시 매칭 강제 플래그 (Phase 1 단발성 증상 입력 화면 input.html 전용: 결측치 안전 기본값 채움)",
     )
+    patient_vitals: Optional[dict[str, Any]] = Field(default=None, description="단발성 문진 화면 전달 바이탈 정보")
+    age_months: Optional[int] = Field(default=None, description="환아 월령 (미입력/모름 시 None)")
+    temperature: Optional[float] = Field(default=None, description="환아 체온 (미입력/모름 시 None)")
 
 
 

@@ -122,6 +122,7 @@
 | **[ISSUE-113]** | 프론트엔드 체온 UI/UX & 임상 기본값 정합성 | 체온 게이지 기본값 소아 발열(38.0℃) 노출에 따른 사용자 혼선 방지 및 의학 표준 정상 체온(36.5℃) 기본 초기화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-114]** | 프론트엔드 유효성 검증 순서 & KTAS 백엔드 동적 바인딩 | 증상 화이트리스트 검증 결함으로 인한 '사지절단' Red Flag 오차단 해결 및 백엔드 KTAS 1~5단계·매칭 시설 100% 동적 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-115]** | 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구 | IDE 세션 전환으로 인한 백엔드 FastAPI 데몬(포트 8000) 종료 현상 원인 규명, Uvicorn 서버 재기동 및 0ms Red Flag / KTAS E2E 무결성 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3757,3 +3758,36 @@
   * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
   * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+### [ISSUE-116] 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 자바스크립트 버그 / 백엔드 DTO 스키마 / KTAS 실시간 렌더링 / 무손실 데이터 엔지니어링
+* **문제 상황**:
+  * 사용자가 [input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)에서 증상을 입력하고 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))으로 이동했으나, 상단 카드에 백엔드 KTAS 분류 결과가 표출되지 않고 정적 HTML 텍스트(`KTAS 분류 분석 중...`, `소아 KTAS 임상 지침 168개 주증상을 대조하여 맞춤 병원과 안심약국을 안내합니다.`, `14개월`, `39.2℃ (고열)`, `#구토`)가 고정되어 있었음.
+  * 나이와 체온을 조작하지 않았음에도 '모름' 대신 14개월, 36.5℃ 또는 구어체 단어 매핑으로 인한 숫자가 임의 부여되는 현상 발생.
+* **원인 분석**:
+  1. **[result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html) 구문 오류**: 1434~1477행 `if (pairings.length > 0) ... else ...` 블록에서 닫는 중괄호 `}`가 누락되어 브라우저 JS 파서가 `SyntaxError: Unexpected token 'catch'`를 발생시키며 스크립트 실행이 중단됨.
+  2. **백엔드 DTO 누락**: `TriageExtractionResult`의 `clinical_rationale` 필드가 상위 오케스트레이터의 응답 DTO인 [SupervisorResponse](file:///c:/AI-Native-Agent/monnlight/app/schemas/supervisor.py)에 누락되어 있어 프론트엔드로 전달되지 못함.
+  3. **임의 키워드 매핑 잔재**: `input.html`과 백엔드 파서에서 '고열' ➔ 39.2℃, '초등학생' ➔ 84개월 등의 임의 숫자 매핑 로직 존재.
+* **해결 방안 및 조치 내역**:
+  1. **[result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html) 구문 오류 수정 및 모듈화**:
+     - 닫는 중괄호 완결 및 `node --check`를 통한 인라인 스크립트 문법 검증 100% 통과.
+     - `renderResultData()` 함수 모듈화 및 `ktasDescEl`에 `data.clinical_rationale` 실시간 바인딩.
+     - 백엔드 응답 지연 시를 대비한 `/api/v1/chat` 비동기 Fallback Fetch 탑재.
+  2. **백엔드 DTO 확장 및 하드코딩 적출**:
+     - `app/schemas/supervisor.py` 내 `SupervisorResponse`에 `clinical_rationale: Optional[str] = None` 필드 추가.
+     - `app/orchestrator/supervisor.py`에서 Gemini 소아 KTAS 감별 소견을 프론트엔드로 100% 무손실 전달.
+     - 키워드 매핑 분기를 전면 제거하고 오직 Gemini AI 분류 및 안전 기본값(Safe Default)으로 표준화.
+  3. **[input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html) 및 백엔드 파서 키워드 매핑 전면 제거**:
+     - '고열', '미열', '초등학생' 등 구어체 키워드 숫자 매핑 전면 삭제. 오직 명시된 숫자만 파싱.
+     - 체온 다이얼과 나이 슬라이더를 건드리지 않은 경우 `state.tempTouched = false`, `state.ageTouched = false` 유지 ➔ `temperature: null`, `age_months: null`, `체온 미측정(모름)`, `나이 미입력(모름)`으로 100% 무손실 전달 보장.
+* **적용 파일**:
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [app/schemas/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/schemas/supervisor.py)
+  * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
+  * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)
+  * [scratch/test_e2e_flow.py](file:///c:/AI-Native-Agent/monnlight/scratch/test_e2e_flow.py)
+

@@ -28,6 +28,18 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.72-dynamic-ktas-render-and-lossless-vitals-pipeline] 2026-10-16: 소아 KTAS 화면 미표출 결함 완전 해결, result.html SyntaxError 복구, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 (김동준 팀원)
+* **🔧 [result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html) 자바스크립트 구문 오류(SyntaxError) 해결 및 2중 안전 렌더링 확립**:
+  - 1434~1477행 `if (pairings.length > 0) ... else ...` 블록 내 닫는 중괄호 `}` 누락으로 인한 `SyntaxError: Unexpected token 'catch'`를 완벽히 해결하여 JS 스크립트 실행 중단 결함 해소 (`node --check` 100% 검증).
+  - 정적 더미 텍스트(`KTAS 분류 분석 중...`, `소아 KTAS 임상 지침 168개 주증상을 대조하여...`) 대신 백엔드 Gemini 3.8 Flash가 판정한 KTAS 등급(`data.ktas_level`, `data.ktas_level_name`) 및 전문 임상 감별 소견(`data.clinical_rationale`)이 실시간으로 상단 카드에 즉시 바인딩되도록 파이프라인 개편.
+* **🩺 백엔드 [SupervisorResponse](file:///c:/AI-Native-Agent/monnlight/app/schemas/supervisor.py) `clinical_rationale` 필드 확장 및 키워드 매핑 적출**:
+  - `SupervisorResponse` DTO에 `clinical_rationale` 필드를 추가하여 Gemini AI의 소아 KTAS 168개 주증상 대조 소견을 프론트엔드로 100% 무손실 전달.
+  - 백엔드 [supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py) 및 [triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py) 내 '초등학생' ➔ 84개월, '초고열' ➔ 40.0℃ 등 임의 키워드 매핑 로직 전면 적출.
+* **🛡️ [input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html) 체온/나이 미조작 시 '모름' 기본값 무손실 전달 및 키워드 매핑 전면 배제**:
+  - 증상 텍스트에서 '고열', '미열' 등 단어 감지 시 임의 숫자를 자동 부여하던 매핑 로직 전면 삭제. 오직 사용자가 숫자를 명시한 경우에만 파싱.
+  - 사용자가 체온 다이얼이나 나이 슬라이더를 건드리지 않은 경우 `state.tempTouched = false`, `state.ageTouched = false`가 유지되어 백엔드에 `temperature: null`, `age_months: null`, 결과 화면에 `체온 미측정(모름)`, `나이 미입력(모름)`으로 100% 안전하게 전달.
+* **🧪 E2E 파이프라인 검증 완료**: 나이/체온 미조작 상태에서 구토 증상 제출 시 `KTAS 3단계 (응급)`, `환아 나이/체온: None(모름 보존)`, Gemini 임상 감별 소견 정상 수신 및 렌더링 확인.
+
 ### 🌟 [v2.4.71-daemon-recovery-and-e2e-pipeline-verification] 2026-10-16: 세션 전환 후 FastAPI 백엔드 데몬(포트 8000) 재기동 및 0ms Red Flag / KTAS 실시간 E2E 무결성 검증 완료 (김동준 팀원)
 * **⚡ FastAPI Uvicorn 백그라운드 데몬 및 APScheduler 3-Track 서비스 정상 기동**:
   - `python main.py` 프로세스를 포트 8000으로 안전하게 기동하여 `GET /health` 정상 상태(`healthy`, 스케줄러 가동 중) 확보.

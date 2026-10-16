@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.51 (세션 전환 대응 백엔드 데몬 인프라 복구 및 사지절단 0ms Red Flag / KTAS E2E 무결성 검증)  
+> **문서 버전**: v2.52 (소아 KTAS 화면 표출 결함 완전 해결, result.html SyntaxError 복구, input.html 키워드 매핑 적출 및 바이탈 미입력/모름 무손실 연동)  
 > **최종 갱신 일자**: 2026-10-16  
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*  
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화.
@@ -157,7 +157,7 @@ graph TD
   - 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 변조 방지 및 회색 뱃지(`체온 미측정(모름)`) 무손실 연동.
   - 180도 부채꼴 게이지 다이얼 체온계, 연령 슬라이더, 해열제 성분별 정밀 카테고리화.
 * **`loading.html`**: AI 분석 2초 키프레임 오버레이 및 백엔드 비동기 통신.
-* **`result.html`**: 1턴 완결 `force_matching` FSM 응답 기반 5대 임상 바이탈(월령, 체온, KTAS 레벨, 증상) 및 1:1 안심 페어링 카드 동적 바인딩.
+* **`result.html`**: 1턴 완결 `force_matching` FSM 응답 기반 5대 임상 바이탈(월령, 체온, KTAS 레벨, 증상) 및 1:1 안심 페어링 카드 동적 바인딩. Gemini 3.8 Flash 임상 감별 소견(`clinical_rationale`) 실시간 표출 및 미입력 바이탈 '모름' 무손실 렌더링.
 
 ### 8.4 위치 검색 모달 & 사용자 실검색 기반 최근 이용 지역 관리 ([location.py](app/api/v1/location.py) & [main.js](frontend/js/main.js))
 * **2대 탭 검색**: 지번/도로명(주소 검색) vs 건물명/지역명(키워드 검색) 분리.
@@ -217,8 +217,8 @@ graph TD
 
 ## 11. 추가 심화 고도화 백로그 (Advanced Backlog)
 
-1. **`result.js` 클라이언트 바인딩 고도화 (Phase 1)**:
-   - `sessionStorage`에 저장된 `SupervisorResponse`의 5대 임상 바이탈 및 1:1 안심 페어링 데이터를 `result.html` DOM에 동적 하이드레이션하는 전용 렌더러 완성.
+1. **`result.html` 백엔드 임상 감별 소견 실시간 바인딩 완료 (Phase 1 [완료])**:
+   - `result.html` 내 JS SyntaxError 완전 복구, `SupervisorResponse.clinical_rationale` 실시간 표출, 미입력 바이탈 '모름' 무손실 렌더링 파이프라인 완결.
 2. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 2)**:
    - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
 3. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 3)**:

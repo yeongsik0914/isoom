@@ -21,6 +21,7 @@ class SupervisorResponse(BaseModel):
     temperature: Optional[float] = Field(default=None, description="환아 측정 체온 (℃)")
     ktas_level: Optional[int] = Field(default=None, description="KTAS 분류 등급 (1~5)")
     ktas_level_name: Optional[str] = Field(default=None, description="KTAS 등급 명칭 (e.g. '응급', '준응급', '비응급')")
+    clinical_rationale: Optional[str] = Field(default=None, description="소아 KTAS 임상 감별 근거 및 판정 사유")
     symptoms: list[str] = Field(default_factory=list, description="환아 주요 증상 목록")
 
     hospitals: list[dict[str, Any]] = Field(default_factory=list, description="소아 가용 응급실 또는 달빛어린이병원 (TOP 3)")

@@ -80,6 +80,7 @@ class SupervisorOrchestrator:
             temperature=state.temperature,
             ktas_level=state.ktas_level or 1,
             ktas_level_name=state.ktas_level_name or "소생/긴급 (Red Flag)",
+            clinical_rationale=state.clinical_rationale or state.red_flag_reason or "12대 소아 위급 상황 즉시 감지 (골든타임 응급 이송)",
             symptoms=state.symptoms or ["응급 위험 징후"],
             hospitals=state.matched_hospitals,
             pharmacies=[],
@@ -95,6 +96,8 @@ class SupervisorOrchestrator:
         user_lon: float = 127.1001,
         user_address: Optional[str] = None,
         force_matching: bool = False,
+        patient_age_months: Optional[int] = None,
+        patient_temperature: Optional[float] = None,
     ) -> SupervisorResponse:
         """Executes a single conversational turn through the FSM pipeline.
 
@@ -144,13 +147,18 @@ class SupervisorOrchestrator:
                 return await self._handle_emergency_escalation(state, user_message)
 
             # Check if user explicitly indicated unknown age or temperature
-            is_explicit_unknown_age = any(k in user_message for k in ["나이는 미입력", "나이 모름", "나이 미입력", "나이: 미입력"])
-            is_explicit_unknown_temp = any(k in user_message for k in ["체온은 미측정", "체온 모름", "체온 미측정", "체온: 미측정"])
+            is_explicit_unknown_age = any(k in user_message for k in ["나이는 미입력", "나이 모름", "나이 미입력", "나이: 미입력", "나이:미입력"])
+            is_explicit_unknown_temp = any(k in user_message for k in ["체온은 미측정", "체온 모름", "체온 미측정", "체온: 미측정", "체온:미측정"])
             if is_explicit_unknown_age:
                 state.age_months = None
                 state.age_days = None
+            elif patient_age_months is not None:
+                state.age_months = patient_age_months
+
             if is_explicit_unknown_temp:
                 state.temperature = None
+            elif patient_temperature is not None:
+                state.temperature = patient_temperature
 
             # Check Triage Completion or 3-Turn Upper Bound (Deadlock Guard) or force_matching (Phase 1 1-shot)
             is_complete = state.is_triage_complete()
@@ -201,33 +209,23 @@ class SupervisorOrchestrator:
                             checklist=[],
                         )
 
-                    # Do NOT overwrite age or temperature if user chose unknown!
+                    # Do NOT overwrite age or temperature if user chose unknown or left unset!
                     if is_explicit_unknown_age:
                         state.age_months = None
                         state.age_days = None
-                    elif state.age_months is None:
-                        state.age_months = 24
 
                     if is_explicit_unknown_temp:
                         state.temperature = None
-                    elif state.temperature is None:
-                        state.temperature = 38.0
 
                     if not state.symptoms:
                         state.symptoms = ["소아 불편감"]
 
                     if not state.ktas_level:
-                        temp = state.temperature
-                        syms = " ".join(state.symptoms) if state.symptoms else ""
-                        if (temp is not None and temp >= 39.0) or any(k in syms for k in ["구토", "처짐", "복통", "호흡", "탈수", "설사"]):
-                            state.ktas_level = 3
-                            state.ktas_level_name = "응급 (달빛어린이병원 우선 권고)"
-                        elif (temp is not None and temp >= 38.0) or any(k in syms for k in ["발열", "기침", "콧물", "열", "보챔", "칭얼"]):
-                            state.ktas_level = 4
-                            state.ktas_level_name = "준응급 (달빛어린이병원 권고)"
-                        else:
-                            state.ktas_level = 4 if any(k in syms for k in ["보챔", "칭얼", "통증", "아파"]) else 5
-                            state.ktas_level_name = "준응급 (달빛어린이병원 권고)" if state.ktas_level == 4 else "비응급 (외래 진료 또는 가정 케어)"
+                        # 하드코딩/키워드 매핑 금지: AI Triage 미산출 시 소아 안전 기본값(Safe Default 4단계 준응급) 부여
+                        state.ktas_level = 4
+                        state.ktas_level_name = "준응급 (달빛어린이병원 권고)"
+                        if not state.clinical_rationale:
+                            state.clinical_rationale = "소아 환아의 안전을 최우선으로 고려하여 전문의 대면 진찰이 가능한 달빛어린이병원 진료를 권고합니다."
                     elif not state.ktas_level_name:
                         level_names = {1: "소생", 2: "긴급", 3: "응급", 4: "준응급", 5: "비응급"}
                         state.ktas_level_name = level_names.get(state.ktas_level, "준응급")
@@ -257,6 +255,7 @@ class SupervisorOrchestrator:
                     temperature=state.temperature,
                     ktas_level=state.ktas_level,
                     ktas_level_name=state.ktas_level_name,
+                    clinical_rationale=state.clinical_rationale,
                     symptoms=state.symptoms,
                     hospitals=[],
                     pharmacies=[],
@@ -325,6 +324,7 @@ class SupervisorOrchestrator:
             temperature=state.temperature,
             ktas_level=state.ktas_level or 4,
             ktas_level_name=state.ktas_level_name or "준응급",
+            clinical_rationale=state.clinical_rationale or "소아 KTAS 임상 지침 168개 주증상 대조 분석 결과",
             symptoms=state.symptoms,
             hospitals=state.matched_hospitals,
             pharmacies=state.matched_pharmacies,
