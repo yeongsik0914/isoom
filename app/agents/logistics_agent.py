@@ -37,7 +37,9 @@ LOGISTICS_SYSTEM_PROMPT = """당신은 소아 야간 응급 안내 서비스 'Mo
 [역할 및 지침]
 1. '30초 유선 확인 통화 스크립트'를 생성하십시오:
    - 당황한 보호자가 병원 안내데스크나 응급실에 전화하여 그대로 읽을 수 있는 30초 분량의 문장이어야 합니다.
-   - 아기의 월령, 현재 체온, 증상 지속 시간, 주요 증상을 명확히 포함하고 소아 진료 가능 여부를 확인하십시오.
+   - [소아 임상 감별 소견] 결과를 충실히 반영하여 의사/접수처에 내원 이유를 명확하게 전달하십시오.
+   - 환아의 월령, 체온, 증상 지속 시간, 주요 증상을 사실에 기반하여 기재하십시오. (체온이 미측정인 경우 "체온은 아직 측정 전이나" 등으로 표현하고 절대로 임의로 고열을 날조하지 마십시오.)
+   - 현재 접수 마감 전 야간 진료 및 가용 병상 확인을 요청하십시오.
 2. '2024년 5월 요양기관 본인확인 의무화 지참 서류 및 준비물 체크리스트'를 생성하십시오:
    - 보호자 신분증 (주민등록증, 모바일 신분증 등)
    - 19세 미만 환아 가족관계 확인용 주민등록등본 또는 가족관계증명서
@@ -102,15 +104,31 @@ class LogisticsAgent:
                 else "소아 응급실"
             )
 
+            age_display = (
+                f"생후 {state.age_months}개월"
+                if state.age_months is not None
+                else (f"생후 {state.age_days}일" if state.age_days is not None else "월령 확인 중 (미상)")
+            )
+            temp_display = (
+                f"{state.temperature}℃"
+                if state.temperature is not None
+                else "체온 미측정 (측정 전)"
+            )
+            symptoms_display = ", ".join(state.symptoms) if state.symptoms else "임상 관찰 필요"
+            clinical_rationale_display = (
+                state.clinical_rationale or "소아 임상 관찰 및 전문의 대면 진찰 권고"
+            )
+
             prompt = (
                 f"{LOGISTICS_SYSTEM_PROMPT}\n\n"
-                f"[환아 정보]\n"
-                f"- 월령: {state.age_months or state.age_days or '미상'}\n"
-                f"- 체온: {state.temperature or '고열'}℃\n"
+                f"[환아 및 임상 감별 소견 정보]\n"
+                f"- 방문 예정 병원: {hosp_name}\n"
+                f"- 월령: {age_display}\n"
+                f"- 체온: {temp_display}\n"
                 f"- 증상 지속 시간: {state.duration_hours or 1}시간 경과\n"
-                f"- 주증상: {', '.join(state.symptoms) if state.symptoms else '발열'}\n"
-                f"- 방문 예정 병원: {hosp_name}\n\n"
-                "위 정보를 반영하여 LogisticsCardResult JSON으로 반환하십시오."
+                f"- 주증상: {symptoms_display}\n"
+                f"- 소아 임상 감별 소견: {clinical_rationale_display}\n\n"
+                "위 환아 상태와 [소아 임상 감별 소견]을 정확히 반영하여 통화 스크립트와 체크리스트를 LogisticsCardResult JSON으로 반환하십시오."
             )
 
             response = self._client.models.generate_content(
@@ -146,16 +164,31 @@ class LogisticsAgent:
         age_text = (
             f"생후 {state.age_months}개월"
             if state.age_months is not None
-            else (f"생후 {state.age_days}일" if state.age_days is not None else "소아")
+            else (f"생후 {state.age_days}일" if state.age_days is not None else "아이")
         )
-        temp_text = f"{state.temperature}도" if state.temperature is not None else "고열"
-        dur_text = f"{state.duration_hours}시간째" if state.duration_hours is not None else ""
-        symptoms_text = ", ".join(state.symptoms) if state.symptoms else "발열 증상"
+        if state.temperature is not None:
+            temp_text = f"체온이 {state.temperature}도이고 "
+        else:
+            temp_text = "체온은 아직 측정 전이나 "
+
+        dur_text = f"{state.duration_hours}시간째 " if state.duration_hours is not None else ""
+        symptoms_text = ", ".join(state.symptoms) if state.symptoms else "이상 증상"
+
+        # 임상 감별 소견이 있으면 스크립트에 결합
+        if state.clinical_rationale:
+            # 너무 길 경우 첫 문장 위주로 활용
+            rationale_first = state.clinical_rationale.split(".")[0].strip()
+            rationale_snippet = f"현재 {rationale_first} 상태로 확인되어 "
+        else:
+            rationale_snippet = ""
+
+        # 기관명 뒤에 '접수처'가 중복되지 않도록 정제
+        hosp_clean = hosp_name.replace("접수처", "").strip() or "의료기관"
 
         call_script = (
-            f"\"안녕하세요, {hosp_name} 접수처 맞으신가요? "
-            f"지금 {age_text} 아이가 체온 {temp_text}로 {dur_text} {symptoms_text}이 있어 출발하려고 합니다. "
-            "현재 소아과 전문의 선생님 진료 및 가용 병상 접수가 가능한 상태인지 확인 부탁드립니다.\""
+            f"\"안녕하세요, {hosp_clean} 접수처 맞으신가요? "
+            f"지금 {age_text}에게 {dur_text}{symptoms_text} 증상이 있어 내원하려고 합니다. "
+            f"{rationale_snippet}{temp_text}현재 야간 진료 및 당직 전문의 접수가 가능한지 확인 부탁드립니다.\""
         )
 
         document_checklist = [

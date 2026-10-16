@@ -166,11 +166,72 @@
     .triage-desc-text {
       font-size: 13px;
       line-height: 1.55;
-      color: #475569;
+      color: #334155;
       background: #f8fafc;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border-left: 3px solid #10b981;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border-left: 4px solid #10b981;
+      transition: all 0.25s ease;
+    }
+
+    /* KTAS 단계별 테두리 및 배경 하이라이트 */
+    .triage-desc-text.ktas-tier-1 {
+      border-left-color: #ef4444;
+      background: #fef2f2;
+    }
+    .triage-desc-text.ktas-tier-2 {
+      border-left-color: #f97316;
+      background: #fff7ed;
+    }
+    .triage-desc-text.ktas-tier-3 {
+      border-left-color: #f59e0b;
+      background: #fffbeb;
+    }
+    .triage-desc-text.ktas-tier-4 {
+      border-left-color: #10b981;
+      background: #ecfdf5;
+    }
+    .triage-desc-text.ktas-tier-5 {
+      border-left-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    /* KTAS 단계별 인라인 뱃지 */
+    .ktas-grade-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      margin-bottom: 6px;
+    }
+    .ktas-grade-badge.ktas-tier-1 {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+    .ktas-grade-badge.ktas-tier-2 {
+      background: #ffedd5;
+      color: #c2410c;
+      border: 1px solid #fdba74;
+    }
+    .ktas-grade-badge.ktas-tier-3 {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fcd34d;
+    }
+    .ktas-grade-badge.ktas-tier-4 {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .ktas-grade-badge.ktas-tier-5 {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
     }
 
     /* 2. Track Tab Switcher */
@@ -719,8 +780,10 @@
           </span>
         </div>
 
-        <div class="triage-desc-text">
-          <strong id="ktas-grade-text">소아 KTAS 등급 분석 중...</strong><br />
+        <div class="triage-desc-text" id="triage-desc-container">
+          <div>
+            <span class="ktas-grade-badge ktas-tier-4" id="ktas-grade-text">소아 KTAS 등급 분석 중...</span>
+          </div>
           <span id="ktas-desc-detail">백엔드 지능형 소아 KTAS 168개 임상 지침 엔진과 실시간 동기화 중입니다.</span>
         </div>
       </section>
@@ -1148,26 +1211,41 @@
   <!-- Interactive Mock Script (Zero Backend Required) -->
   <script>
     // 1. Tab Switching (Moonlight vs Emergency)
+    window.currentKtasLevel = 4; // Default level
+
     function switchTrackTab(tabKey) {
       const btnMoonlight = document.getElementById('tab-btn-moonlight');
       const btnEmergency = document.getElementById('tab-btn-emergency');
       const paneMoonlight = document.getElementById('pane-moonlight');
       const paneEmergency = document.getElementById('pane-emergency');
 
+      // KTAS 4, 5등급 단계이면 소아 응급실 병상은 접근 차단 및 달빛병원 전용 유지
+      if (window.currentKtasLevel >= 4 && tabKey === 'emergency') {
+        tabKey = 'moonlight';
+      }
+
       if (tabKey === 'moonlight') {
-        btnMoonlight.classList.add('active');
-        btnMoonlight.setAttribute('aria-selected', 'true');
-        btnEmergency.classList.remove('active');
-        btnEmergency.setAttribute('aria-selected', 'false');
-        paneMoonlight.classList.remove('hidden');
-        paneEmergency.classList.add('hidden');
+        if (btnMoonlight) {
+          btnMoonlight.classList.add('active');
+          btnMoonlight.setAttribute('aria-selected', 'true');
+        }
+        if (btnEmergency) {
+          btnEmergency.classList.remove('active');
+          btnEmergency.setAttribute('aria-selected', 'false');
+        }
+        if (paneMoonlight) paneMoonlight.classList.remove('hidden');
+        if (paneEmergency) paneEmergency.classList.add('hidden');
       } else {
-        btnEmergency.classList.add('active');
-        btnEmergency.setAttribute('aria-selected', 'true');
-        btnMoonlight.classList.remove('active');
-        btnMoonlight.setAttribute('aria-selected', 'false');
-        paneEmergency.classList.remove('hidden');
-        paneMoonlight.classList.add('hidden');
+        if (btnEmergency) {
+          btnEmergency.classList.add('active');
+          btnEmergency.setAttribute('aria-selected', 'true');
+        }
+        if (btnMoonlight) {
+          btnMoonlight.classList.remove('active');
+          btnMoonlight.setAttribute('aria-selected', 'false');
+        }
+        if (paneEmergency) paneEmergency.classList.remove('hidden');
+        if (paneMoonlight) paneMoonlight.classList.add('hidden');
       }
     }
 
@@ -1340,15 +1418,69 @@
         }
       }
 
+      window.currentKtasLevel = ktasLevel;
+
+      // 3-1) KTAS 등급별 배경 박스 및 타이틀 배지 스타일 동적 적용
+      const triageContainer = document.getElementById('triage-desc-container');
+      if (triageContainer) {
+        triageContainer.className = `triage-desc-text ktas-tier-${ktasLevel}`;
+      }
+
       const cleanKtasName = (ktasName || '').replace(/[()]/g, '').trim();
       const ktasTitleEl = document.getElementById('ktas-grade-text');
-      if (ktasTitleEl) ktasTitleEl.innerText = `KTAS ${ktasLevel}단계 (${cleanKtasName})`;
+      if (ktasTitleEl) {
+        ktasTitleEl.className = `ktas-grade-badge ktas-tier-${ktasLevel}`;
+        ktasTitleEl.innerText = `KTAS ${ktasLevel}단계 (${cleanKtasName})`;
+      }
+
       const ktasDescEl = document.getElementById('ktas-desc-detail');
       if (ktasDescEl) {
         if (data && data.clinical_rationale) {
           ktasDescEl.innerHTML = `<strong>소아 임상 감별 소견:</strong> ${data.clinical_rationale}`;
         } else {
           ktasDescEl.innerHTML = ktasDesc;
+        }
+      }
+
+      // 3-2) KTAS 단계별 탭 순서 반전 및 4·5단계 소아 응급실 병상 제거
+      const tabsContainer = document.querySelector('.track-tabs-container');
+      const btnMoonlight = document.getElementById('tab-btn-moonlight');
+      const btnEmergency = document.getElementById('tab-btn-emergency');
+      const paneEmergency = document.getElementById('pane-emergency');
+
+      if (tabsContainer && btnMoonlight && btnEmergency) {
+        if (ktasLevel <= 3) {
+          // KTAS 1, 2, 3단계: 소아 응급실 병원이 우선적으로 왼쪽으로 가게 순서 교체
+          btnEmergency.style.display = 'flex';
+          btnEmergency.style.flex = '1';
+          btnMoonlight.style.display = 'flex';
+          btnMoonlight.style.flex = '1';
+
+          // 소아 응급실 탭을 첫 번째(왼쪽)로 이동
+          tabsContainer.insertBefore(btnEmergency, btnMoonlight);
+
+          const erText = btnEmergency.querySelector('span:last-child');
+          if (erText) erText.innerText = '소아 응급실 병상 (우선 권고)';
+
+          const mlText = btnMoonlight.querySelector('span:last-child');
+          if (mlText) mlText.innerText = '달빛병원·약국 (4)';
+        } else {
+          // KTAS 4, 5단계: 소아 응급실 병상은 제거하여 달빛병원·약국만 단독 표시
+          btnEmergency.style.display = 'none';
+          if (paneEmergency) {
+            paneEmergency.classList.add('hidden');
+            paneEmergency.style.display = 'none';
+          }
+
+          btnMoonlight.style.display = 'flex';
+          btnMoonlight.style.flex = '1';
+          btnMoonlight.style.width = '100%';
+
+          // 달빛병원을 앞으로
+          tabsContainer.insertBefore(btnMoonlight, btnEmergency);
+
+          const mlText = btnMoonlight.querySelector('span:last-child');
+          if (mlText) mlText.innerText = '달빛병원 + 안심약국 (소아 준응급 전용 안내)';
         }
       }
 
@@ -1473,16 +1605,43 @@
         }
       }
 
-      // 4) 출발 전 30초 당직의 통화 스크립트 동적 완성
-      const topHospName = currentHospitals[0] ? currentHospitals[0].name : "달빛어린이병원";
+      // 4) 출발 전 30초 당직의 통화 스크립트 동적 완성 (소아 임상 감별 소견 100% 동기화)
+      const topHospName = currentHospitals[0] ? currentHospitals[0].name : (ktasLevel <= 3 ? "권역 소아전문응급센터" : "달빛어린이병원");
+      const topHospClean = topHospName.replace(/접수처/g, '').trim() || topHospName;
       const scriptBox = document.getElementById('script-content');
       if (scriptBox) {
-        if (callScript) {
+        const ageScriptPart = isUnknownAge ? '아이가' : `${ageDisplay} 아기가`;
+        let tempScriptPart = '';
+        if (isUnknownTemp) {
+          tempScriptPart = '체온은 아직 측정하지 못했으나 ';
+        } else {
+          const tempNum = parseFloat(rawTemp);
+          if (tempNum >= 38.0) {
+            tempScriptPart = `현재 체온이 ${tempDisplay}로 열이 나고 `;
+          } else {
+            tempScriptPart = `현재 체온은 ${tempDisplay}이며 `;
+          }
+        }
+
+        // 소아 임상 감별 소견(clinical_rationale) 정합 반영
+        let rationaleSnippet = '';
+        if (data && data.clinical_rationale) {
+          let cleanRat = data.clinical_rationale.replace(/^(소아\s*임상\s*감별\s*소견\s*:\s*)/i, '').trim();
+          const dotIdx = cleanRat.indexOf('.');
+          if (dotIdx > 0 && dotIdx <= 70) {
+            cleanRat = cleanRat.substring(0, dotIdx);
+          } else if (cleanRat.length > 70) {
+            cleanRat = cleanRat.substring(0, 70) + '...';
+          }
+          rationaleSnippet = `현재 '${cleanRat}' 소견으로 확인되어 `;
+        }
+
+        // 백엔드 call_script가 체온 미측정인데 임의 '고열'을 날조한 것이 아닌 경우 우선 사용, 아니면 소견 기반 조립
+        const isScriptHallucinatingFever = isUnknownTemp && callScript && (callScript.includes('고열') || callScript.includes('체온이 높은'));
+        if (callScript && !isScriptHallucinatingFever) {
           scriptBox.innerText = callScript;
         } else {
-          const ageScriptPart = isUnknownAge ? '아이가' : `${ageDisplay} 아기가`;
-          const tempScriptPart = isUnknownTemp ? '체온은 아직 측정하지 못했으나' : `${tempDisplay} 열과`;
-          scriptBox.innerText = `"안녕하세요, ${topHospName} 접수처 맞으신가요? 지금 ${ageScriptPart} ${tempScriptPart} ${symptom} 증상이 있어 내원하려고 합니다. 현재 접수 마감 전 야간 진료 가능한가요?"`;
+          scriptBox.innerText = `"안녕하세요, ${topHospClean} 접수처 맞으신가요? 지금 ${ageScriptPart} ${tempScriptPart}${symptom} 증상이 있어 내원하려고 합니다. ${rationaleSnippet}지금 바로 소아 진료와 접수가 가능한지 확인 부탁드립니다."`;
         }
       }
 
@@ -1573,10 +1732,12 @@
       }
       initLiveEmergencyBeds();
 
-      // 7. URL 쿼리 파라미터 또는 KTAS 1~3단계(응급) 자동 탭 선택
+      // 7. KTAS 등급에 따른 탭 초기 선택 (1~3단계는 응급실 우선, 4~5단계는 달빛병원 전용)
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('tab') === 'emergency' || (data && data.ktas_level && data.ktas_level <= 3)) {
+      if (ktasLevel <= 3) {
         switchTrackTab('emergency');
+      } else {
+        switchTrackTab('moonlight');
       }
     }
 

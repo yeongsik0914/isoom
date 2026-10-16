@@ -136,6 +136,7 @@
 | **[ISSUE-127]** | 병원 상세페이지 가상 대기 시간 지표 완전 삭제 및 2열 실측 메트릭 바(거리·주차) 개편 | 공공 API에서 미제공되는 부정확한 가상 대기 시간('현재 대기') 노출로 인한 보호자 현장 혼선 및 의료적 위험 방지, '현재 대기' 칼럼 전면 적출 및 2열 실측 그리드(`grid-template-columns: 1fr 1fr;`) 개편, 당직의 및 번호표 모달 내원 순번 안내 가이드 정규화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-128]** | 프론트엔드-백엔드 E2E 임상 파이프라인 실측 검증 | input.html 사용자 설정값(15개월, 39.1℃, 수유거부, 보챔 등) 백엔드 전달 무결성 및 소아 KTAS 168개 지침 종합 판정(KTAS 3단계) 실체화 검증 완료 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-129]** | 소아 고열·이루 증상 KTAS 긴급 판정 & UI/UX 정합성 | 15개월 40℃ 고열 및 귀 노란 점액(화농성 이루) 입력 시 KTAS 2단계 긴급 판정으로 인한 119 화면 직행 및 KTAS 카드 미표출 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-130]** | 소아 KTAS 등급별 맞춤 UI/UX & 통화 스크립트 정합성 | KTAS 1~5단계별 컬러 테마 적용, KTAS 1~3단계 소아 응급실 병상 좌측 우선 배치, KTAS 4~5단계 소아 응급실 병상 완전 제거(달빛병원·안심약국 전용 안내), 및 소아 임상 감별 소견 맞춤 통화 스크립트 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4414,5 +4415,35 @@
 * **적용 파일**:
   * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
   * [frontend/templates/emergency_alert.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/emergency_alert.html)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+### [ISSUE-130] 소아 KTAS 등급별 맞춤 UI/UX 및 임상 감별 소견 연계 통화 스크립트 구축
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX / KTAS 등급별 컬러링 / 탭 동적 스위칭 / LLM 프롬프트 환각 방지
+* **문제 상황**:
+  1. `result.html`의 KTAS 등급 카드가 흑백 텍스트와 단일 녹색 보더로만 표시되어, 1~5단계 중증도별 시각적 경각심 및 단계별 식별이 명확하지 않았음.
+  2. KTAS 1, 2, 3단계(소생, 긴급, 응급)인 경우 소아 응급실이 최우선 권고되어야 함에도 달빛병원 탭이 왼쪽에 먼저 위치함.
+  3. KTAS 4, 5단계(준응급, 비응급 경증)인 경우 불필요한 대학병원 응급실 과밀화 방지를 위해 응급실 병상을 보지 않도록 해야 하나 두 탭이 모두 노출됨.
+  4. 환아의 체온이 미측정인 상태임에도 통화 스크립트에 "고열과 식욕부진... 현재 체온이 높은 상태입니다"처럼 임의로 고열이 날조(Hallucination)되거나 실제 소아 임상 감별 소견(`clinical_rationale`)과 정합되지 않는 문제 발생.
+* **원인 분석**:
+  1. CSS 상에 KTAS 단계별 색상 클래스가 부재하고 단순 하드코딩 스타일 사용.
+  2. HTML 탭 스위처가 정적으로 달빛병원 좌측, 응급실 우측으로 고정되어 중증도별 동적 재배치 및 가시성 제어가 미흡했음.
+  3. `app/agents/logistics_agent.py`의 Gemini 프롬프트 및 폴백 함수에서 `state.temperature or '고열'`로 전달되어 체온 미측정 시 자동으로 고열로 날조되었으며, `state.clinical_rationale`가 프롬프트에 포함되지 않았음.
+* **해결 방안 및 조치 결과**:
+  1. **KTAS 1~5단계 전용 컬러 시스템 구축 (`frontend/templates/result.html`)**:
+     - `.triage-desc-text.ktas-tier-1` ~ `.ktas-tier-5` 및 `.ktas-grade-badge.ktas-tier-1` ~ `.ktas-tier-5` 신설.
+     - 1단계(적색 `#ef4444`), 2단계(주황 `#f97316`), 3단계(호박 `#f59e0b`), 4단계(에메랄드 `#10b981`), 5단계(청색 `#3b82f6`) 자동 테마 적용.
+  2. **KTAS 등급별 탭 순서 동적 반전 & 4·5단계 응급실 병상 제거**:
+     - KTAS 1~3단계: `tabsContainer.insertBefore(btnEmergency, btnMoonlight)`로 소아 응급실 탭을 왼쪽(첫 번째 탭)으로 자동 이동하고 기본 활성화 (`switchTrackTab('emergency')`).
+     - KTAS 4~5단계: `btnEmergency.style.display = 'none'` 및 `paneEmergency.style.display = 'none'`로 응급실 완전 제거, 달빛병원 탭을 100% 전폭으로 표출하고 기본 활성화 (`switchTrackTab('moonlight')`).
+  3. **소아 임상 감별 소견 맞춤 통화 스크립트 동기화**:
+     - `app/agents/logistics_agent.py`: 프롬프트에 `state.clinical_rationale`를 명시 주입하고, 체온 미측정 시 "체온 미측정 (측정 전)"으로 사실대로 전달하여 고열 환각을 원천 차단. 폴백 함수에서도 임상 소견을 직접 인용.
+     - `result.html`: 프론트엔드에서도 `data.clinical_rationale` 핵심 구문을 결합하여 체온 미측정 시 "체온은 아직 측정하지 못했으나...", 실제 감별 소견과 정합된 맞춤형 당직의 30초 통화 대본 동적 완성.
+* **적용 파일**:
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [app/agents/logistics_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/logistics_agent.py)
   * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
