@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PLAN.md",
+                "file": "q_a.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PLAN"
+              "title": "q_a"
             }
           }
         ]
@@ -190,20 +190,22 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
-    "전국_달빛어린이병원_및_야간심야약국_현황.md",
-    "docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md",
-    "app/services/__pycache__/national_dataset_sync_service.cpython-314.pyc",
-    "tests/__pycache__/test_national_dataset_sync.cpython-314.pyc",
-    "tests/test_national_dataset_sync.py",
-    "scripts/sync_national_datasets_delta.py",
-    "app/services/national_dataset_sync_service.py",
-    "app/api/v1/__pycache__/location.cpython-314.pyc",
-    "tests/__pycache__/test_location_api.cpython-314.pyc",
-    "tests/test_location_api.py",
-    "scripts/apply_kakao_location_search.py",
-    "app/api/v1/location.py",
-    "PLAN.md",
+    "scratch/test_e2e_flow.py",
+    "Answer-영식.md",
     "q_a.md",
+    "temp_script_pure.js",
+    "temp_script_fixed.js",
+    "temp_script.js",
+    "tests/__pycache__/test_step8_frontend_integration.cpython-312.pyc",
+    "tests/__pycache__/test_step7_circuit_breaker.cpython-312.pyc",
+    "tests/__pycache__/test_step6_e2e.cpython-312.pyc",
+    "tests/__pycache__/test_step5_api.cpython-312.pyc",
+    "tests/__pycache__/test_step4_orchestrator.cpython-312.pyc",
+    "tests/__pycache__/test_step3_agents.cpython-312.pyc",
+    "tests/__pycache__/test_step2_guardrail.cpython-312.pyc",
+    "docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md",
+    "PLAN.md",
+    "전국_달빛어린이병원_및_야간심야약국_현황.md",
     "FRONTEND_BACKEND_INTEGRATION_SPEC.md",
     "docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md",
     "AISUM_STITCH_DESIGN_REPORT.md",
@@ -233,8 +235,6 @@
     "app/api/README.md",
     "app/services/README.md",
     "app/orchestrator/README.md",
-    "app/agents/README.md",
-    "docs/PROJECT_PLAN.md",
-    "README.md"
+    "app/agents/README.md"
   ]
 }

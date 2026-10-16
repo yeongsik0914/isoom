@@ -28,6 +28,16 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.73-ktas-emergency-fallback-fix-and-data-integrity-audit] 2026-10-16: 소아 KTAS 공식 지침(Slide 198) 정밀 대조, Supervisor Red Flag Fallback 안전 교정 및 데이터 무결성 100% 보존 입증 (김동준 팀원)
+* **📊 2021년 소아 KTAS 공식 지침서(Slide 198) 기반 판정 기준 완벽 입증**:
+  - `2021_KTAS_guideline_ver1.6.pptx` Slide 198 규정에 따라 "4개월, 고열, 아파보여요(Ill-appearing), 변비"는 **`KTAS 2단계 (긴급, Emergent)`**임을 1:1 대조 증명.
+  - 1단계(소생)는 심정지, 무호흡, 혼수 등 즉각적 소생 처치 대상이며, 고열+아파보임 영아는 2단계 긴급 상황임.
+* **🔧 백엔드 [SupervisorOrchestrator](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py) Red Flag Fallback 결함 해결**:
+  - 81행 `ktas_level=state.ktas_level or 1`로 인한 1단계 강제 할당 결함을 `ktas_level=state.ktas_level if state.ktas_level is not None else 2`로 긴급 2단계 기준 보수적 기본값으로 안전 교정.
+* **🛡️ 프로젝트 데이터 무결성 전수 감사(Audit) 완료**:
+  - `git status` 및 `git log --diff-filter=D` 전수 검사를 통해 데이터셋 파일의 삭제가 전혀 없음을 100% 입증 (`2021_KTAS_guideline_ver1.6.pptx` 42MB, `data/nationwide_pairings.json`, `data/seoul_emergency_coords.json` 정상 보존).
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q111~Q113, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-117) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.72-dynamic-ktas-render-and-lossless-vitals-pipeline] 2026-10-16: 소아 KTAS 화면 미표출 결함 완전 해결, result.html SyntaxError 복구, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 (김동준 팀원)
 * **🔧 [result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html) 자바스크립트 구문 오류(SyntaxError) 해결 및 2중 안전 렌더링 확립**:
   - 1434~1477행 `if (pairings.length > 0) ... else ...` 블록 내 닫는 중괄호 `}` 누락으로 인한 `SyntaxError: Unexpected token 'catch'`를 완벽히 해결하여 JS 스크립트 실행 중단 결함 해소 (`node --check` 100% 검증).

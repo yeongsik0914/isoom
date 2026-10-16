@@ -123,6 +123,7 @@
 | **[ISSUE-114]** | 프론트엔드 유효성 검증 순서 & KTAS 백엔드 동적 바인딩 | 증상 화이트리스트 검증 결함으로 인한 '사지절단' Red Flag 오차단 해결 및 백엔드 KTAS 1~5단계·매칭 시설 100% 동적 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-115]** | 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구 | IDE 세션 전환으로 인한 백엔드 FastAPI 데몬(포트 8000) 종료 현상 원인 규명, Uvicorn 서버 재기동 및 0ms Red Flag / KTAS E2E 무결성 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3790,4 +3791,33 @@
   * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
   * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)
   * [scratch/test_e2e_flow.py](file:///c:/AI-Native-Agent/monnlight/scratch/test_e2e_flow.py)
+
+### [ISSUE-117] 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 임상 의학 KTAS 정합성 / 백엔드 Fallback 로직 결함 / 데이터 무결성 감사 / 거버넌스
+* **문제 상황**:
+  * "4개월이고 고열에 아파보여요 변비가 있어요" 증상 질의 시, 사용자가 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))에서 KTAS 1단계(소생)로 오표출되거나 프로젝트 파일 기준과 상이한 응답이 나오는 것으로 체감됨.
+  * "데이터를 삭제하여 KTAS 등급을 구별하지 못하는 것인가?"라는 데이터 무결성 의문 제기.
+* **원인 분석**:
+  1. **Supervisor Fallback 코드 결함**:
+     - [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py) 라인 81에서 `ktas_level=state.ktas_level or 1`로 기본값이 1단계로 하드코딩되어 있었음.
+     - Red Flag 에스컬레이션 시 `state.ktas_level`이 None인 상태로 반환되면 무조건 1단계(소생)로 왜곡 전달됨.
+  2. **소아 KTAS 공식 기준 불일치**:
+     - 공식 지침서([2021_KTAS_guideline_ver1.6.pptx](file:///c:/AI-Native-Agent/monnlight/2021_KTAS_guideline_ver1.6.pptx) Slide 198): `3-18개월이면서 T ≥ 38°C 이고 아파 보임(Ill-appearing)`은 **KTAS 2단계(긴급)**에 해당. (1단계 소생은 심정지, 무호흡, 혼수 등 즉각적 심폐소생 처치 환자).
+  3. **데이터 유실 여부 조사 결과**:
+     - `git status` 및 `git log --diff-filter=D` 전수 조사 결과, 데이터셋 파일은 단 1바이트도 삭제되지 않고 100% 온전하게 보존되어 있었음 (오판별 원인은 데이터 삭제가 아닌 코드 Fallback 결함).
+* **해결 방안 및 조치 내역**:
+  1. **Supervisor 기본값 안전화**:
+     - `supervisor.py`의 `_handle_emergency_escalation`에서 `ktas_level=state.ktas_level if state.ktas_level is not None else 2`로 긴급 2단계 기준 기본값으로 교정.
+  2. **소아 KTAS 공식 지침 대조 검증**:
+     - 백엔드 Gemini 3.8 Flash 엔진 호출 결과 `ktas_level: 2`, `ktas_level_name: "긴급"`, `is_emergency: true`, `clinical_rationale: "생후 4개월 영아에서 고열과 함께 겉보기에 아파 보이는 상태(Ill-appearing)... KTAS 2단계(긴급)"` 정상 산출 재확인.
+  3. **데이터 무결성 검증 완료**:
+     - `2021_KTAS_guideline_ver1.6.pptx`(42MB), `data/nationwide_pairings.json`, `data/seoul_emergency_coords.json` 등 원천 파일 전수 생존 확인.
+* **적용 파일**:
+  * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
+  * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
 
