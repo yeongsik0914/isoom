@@ -102,6 +102,8 @@
 | **[ISSUE-093]** | 주소·키워드 위치 검색 아키텍처 & 지오코딩 전략 | 주소 검색(지번/도로명) vs 키워드 검색(건물명/지역명) 2대 탭 분리 설계 및 전국 주소 DB 부재 극복(공공데이터 적재 배제 & 카카오/VWorld Geocoder 3-Tier 하이브리드 수립) | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-094]** | 카카오 로컬 REST API 실기능 적용 & 2대 세그먼트 위치 검색 연동 | 주소(지번/도로명)·키워드(건물명/장소명) 2대 탭 위치 검색 모달 연동, 카카오 로컬 API 백엔드 프록시 라우터(/api/v1/location) 및 3-Tier L3 Fallback 완비 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-095]** | 로컬 개발 환경 & 브라우저 실시간 서빙 | Uvicorn 핫 리로드 로컬 서버 기동, 포트 충돌 방어 및 기본 웹 브라우저 실시간 연동 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-096]** | LBS 공간 필터링 & 프론트엔드 최적화 | 메인 홈 실시간 야간 의료시설 현황 목록의 반경 15km 이내 필터링 제한 및 상단 뱃지·탭 카운트 동기화 & 로컬 서버 브라우저 재실행 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-097]** | 로컬 개발 환경 & 서버 지속성 | 브라우저 로컬호스트 접속 거부(ERR_CONNECTION_REFUSED) 원인 규명 및 Uvicorn 데몬 영구 상주 기동 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3102,6 +3104,74 @@
   * [PLAN.md](file:///e:/monnlight/PLAN.md)
 * **조치 결과**:
   * 최신 카카오 로컬 REST API와 연동된 아이숨 풀스택 서비스를 로컬호스트 8000번 포트에서 웹 브라우저로 직접 테스트할 수 있는 라이브 환경을 완벽히 구축함.
+
+---
+
+### [ISSUE-096] 메인 홈 실시간 야간 의료시설 현황 목록의 반경 15km 이내 필터링 제한 및 상단 뱃지·카운트 동기화 & 로컬 서버 브라우저 재실행
+
+* **발생 일자**: 2026-10-16
+* **분류**: LBS 공간 매칭 / 프론트엔드 최적화 / 사용자 경험(UX)
+* **문제 상황**:
+  * 메인 홈(`index.html`)의 '실시간 야간 의료시설' 영역에서 거리순 정렬은 정상 수행되었으나, 최대 반경 제한 없이 전국 156개 병원과 2,028개 약국 전수(총 2,184개)가 목록에 전부 노출되어 사용자가 거주하는 생활권을 벗어난 원거리 시설까지 무한 스크롤되는 피로감 유발.
+  * 상단 뱃지 및 탭 카운트(`count-all`, `count-hospital`, `count-pharmacy`)에 생활권과 무관한 전수 데이터 수가 표출되어 사용자의 인지 혼선 발생.
+* **원인 분석**:
+  * `frontend/js/main.js`의 `buildLiveFacilitiesData()`에서 Haversine 구면거리 계산 후 반경 필터링(`distKm <= 15.0`) 단계가 누락된 채 전수 배열을 정렬 및 렌더링하고 있었음.
+  * 백엔드 `pairing_service.py`와 `emergency.py`의 기본 반경값 역시 25.0km로 설정되어 있어 서비스 전반의 반경 기준 일치화 필요.
+* **구체적 해결 방안**:
+  1. **프론트엔드 15km 반경 엄격 필터링 (`frontend/js/main.js`)**:
+     - `MAX_RADIUS_KM = 15.0` 상수를 선언하고, `hospitals.filter(h => h.distKm <= MAX_RADIUS_KM)`, `pharmacies.filter(p => p.distKm <= MAX_RADIUS_KM)` 적용.
+     - 15km 이내 시설들만 통합 정렬하여 `window.__LIVE_FACILITIES_MASTER__`에 등록.
+  2. **상단 뱃지 및 탭 카운트 동기화**:
+     - `#live-facilities-count` 텍스트를 `"${userLoc.dong} 반경 15km ${totalCount}곳 운영중"`으로 실시간 갱신.
+     - `#count-all`, `#count-hospital`, `#count-pharmacy` 카운트를 15km 필터링된 실제 유효 시설 수로 동기화.
+  3. **빈 상태(Empty State) 예외 처리**:
+     - 반경 15km 이내 시설이 0곳일 경우 안내 카드(`live-empty-card`) 표출 및 더보기 버튼 자동 숨김 처리.
+  4. **백엔드 정책 일치화 ([pairing_service.py](file:///e:/monnlight/app/services/pairing_service.py), [emergency.py](file:///e:/monnlight/app/api/v1/emergency.py))**:
+     - `find_nearby_pairings()`의 `max_radius_km` 기본값을 `15.0`으로 변경.
+     - FastAPI `GET /api/v1/emergency/pairings`의 `radius_km` 기본값을 `15.0`으로 일원화.
+  5. **로컬 서버 브라우저 재실행**:
+     - PowerShell `Start-Process "http://127.0.0.1:8000/"` 실행으로 최신 15km 필터링이 반영된 웹 화면을 브라우저에 즉시 재표출.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [app/services/pairing_service.py](file:///e:/monnlight/app/services/pairing_service.py)
+  * [app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 메인 홈 실시간 의료시설 영역이 사용자 위치 반경 15km 이내의 실제 이용 가능한 병원과 약국만 정확하게 표출하도록 개선 완료됨.
+
+---
+
+### [ISSUE-097] 브라우저 로컬호스트 접속 거부(ERR_CONNECTION_REFUSED) 원인 규명 및 Uvicorn 데몬 영구 상주 기동 완결
+
+* **발생 일자**: 2026-10-16
+* **분류**: 로컬 개발 환경 / 서버 소켓 리스닝 / 프로세스 지속성
+* **문제 상황**:
+  * 브라우저에서 `http://127.0.0.1:8000/` 접속 시 `ERR_CONNECTION_REFUSED` (127.0.0.1에서 연결을 거부했습니다) 에러 화면 표출.
+* **원인 분석**:
+  * `netstat -ano | findstr :8000` 확인 결과, 8000번 포트를 점유하던 Uvicorn 프로세스가 종료된 상태였음.
+  * 전체 83개 테스트 스위트(`python -m unittest discover tests`) 수행 중 테스트 러너의 Lifespan 컨텍스트 종료 시그널이 백그라운드 프로세스에 전달되어 이전 Uvicorn 서버가 자동 종료되었던 것으로 규명됨.
+* **구체적 해결 방안**:
+  1. **Uvicorn 영구 상주 데몬 기동 (`IsDaemon: true`)**:
+     - `python -m uvicorn main:app --host 127.0.0.1 --port 8000`을 영구 상주 백그라운드 프로세스로 재기동.
+     - APScheduler 3-Track 데몬 워커 정상 가동 및 소켓 리스닝 활성화 확인.
+  2. **서버 응답 실시간 검증**:
+     - `(Invoke-WebRequest -Uri "http://127.0.0.1:8000/" -UseBasicParsing).StatusCode` ➔ **200 OK** 수신 확인.
+  3. **브라우저 자동 재호출**:
+     - PowerShell `Start-Process "http://127.0.0.1:8000/"` 실행으로 최신 메인 페이지 화면 자동 팝업.
+* **적용 파일**:
+  * [main.py](file:///e:/monnlight/main.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 브라우저 접속 거부 결함이 완벽히 해결되었으며, 새로고침 시 15km 필터링이 적용된 아이숨 메인 홈이 정상 표출됨.
+
+
 
 
 

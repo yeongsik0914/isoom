@@ -38,7 +38,7 @@ def load_nationwide_pairings() -> list[dict[str, Any]]:
 def find_nearby_pairings(
     user_lat: float,
     user_lon: float,
-    max_radius_km: float = 25.0,
+    max_radius_km: float = 15.0,
     limit: int = 3,
 ) -> list[dict[str, Any]]:
     """Finds nearest Moonlight children's hospitals and their 30-min margin paired pharmacies.

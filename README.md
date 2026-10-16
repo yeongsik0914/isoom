@@ -28,7 +28,27 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
-MoonlightCare의 기능 개발, 아키텍처 개선, 정책 변경 사항을 사용자 친화적으로 지속 기록합니다.
+### 🌟 [v2.4.56-uvicorn-daemon-persistence-sync] 2026-10-16: 로컬호스트 연결 거부(ERR_CONNECTION_REFUSED) 복구 및 Uvicorn 영구 상주 데몬 기동 완결 (정영식 팀장)
+* **🔌 로컬호스트 소켓 연결 거부 결함 즉각 해결**:
+  - 테스트 러너 종료 시그널로 인해 Uvicorn 포트가 닫혔던 원인을 규명하고, `IsDaemon: true` 영구 상주 프로세스로 Uvicorn 재기동.
+* **⚡ 3-Track 백그라운드 스케줄러 & 소켓 리스닝 안정화**:
+  - `http://127.0.0.1:8000/` HTTP 200 OK 수신 및 Windows 기본 웹 브라우저 자동 재호출 완료.
+  - 최신 15km 필터링 및 카카오 로컬 REST API 연동 화면 정상 서빙 검증.
+
+### 🌟 [v2.4.55-radius-15km-filter-sync] 2026-10-16: 메인 홈 실시간 야간 의료시설 현황 목록의 반경 15km 이내 필터링 제한 및 상단 뱃지·탭 카운트 동기화 & 로컬 서버 브라우저 재실행 (정영식 팀장)
+* **🏥 실시간 야간 의료시설 반경 15km 엄격 필터링 엔진 구축 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - 사용자 위치 기준 Haversine 구면거리 15km 이내(`distKm <= 15.0`) 시설만 필터링하여 불필요한 전국 원거리 시설 목록 전면 차단.
+  - 소아 야간 골든타임(차량 20~30분 이내) 도달 가능한 실제 유효 시설만 집중 표출.
+* **🏷️ 상단 뱃지 및 카테고리 3개 탭 카운트 15km 기준 완벽 동기화**:
+  - 상단 뱃지: `"${userLoc.dong} 반경 15km N곳 운영중"` (시설 부재 시 0곳 안내).
+  - 탭 카운트: 전체 / 달빛어린이병원 / 심야약국 각각의 15km 이내 실제 수치 실시간 바인딩.
+* **🛡️ 빈 상태(Empty State) 카드 렌더링 & 더보기 버튼 지능화**:
+  - 반경 15km 이내 시설 0곳일 경우 안내 카드(`live-empty-card`) 표출 및 더보기 버튼 자동 숨김 처리.
+  - 시설 목록 확인 완료 시 `"반경 15km 내 전체 N곳 확인 완료"` 상태 표시.
+* **⚙️ 백엔드 검색 정책 일원화 ([app/services/pairing_service.py](file:///e:/monnlight/app/services/pairing_service.py), [app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py))**:
+  - `find_nearby_pairings` 및 `GET /api/v1/emergency/pairings`의 기본 반경을 15.0km로 통일.
+* **🌐 로컬 서버 기동 상태 검증 및 브라우저 즉시 재실행**:
+  - FastAPI Uvicorn 핫 리로드 로컬 서버(`http://127.0.0.1:8000/`) HTTP 200 OK 확인 및 Windows 기본 브라우저 자동 팝업.
 
 ### 🌟 [v2.4.54-live-localhost-serving-verified] 2026-10-16: FastAPI Uvicorn 핫 리로드 로컬 서버 백그라운드 기동 및 브라우저 실시간 연동 완결 (정영식 팀장)
 * **🚀 FastAPI Uvicorn 핫 리로드 로컬 서버 기동 (`http://127.0.0.1:8000/`)**:

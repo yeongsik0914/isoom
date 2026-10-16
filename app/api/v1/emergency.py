@@ -95,7 +95,7 @@ async def get_nearby_emergency_departments(
 async def get_nearby_moonlight_pairings(
     lat: float = Query(default=37.5133, description="사용자 위도 (기본값: 잠실역)"),
     lon: float = Query(default=127.1001, description="사용자 경도 (기본값: 잠실역)"),
-    radius_km: float = Query(default=25.0, ge=1.0, le=100.0, description="검색 반경 (km)"),
+    radius_km: float = Query(default=15.0, ge=1.0, le=100.0, description="검색 반경 (km)"),
     limit: int = Query(default=5, ge=1, le=20, description="최대 반환 개수"),
 ):
     """Retrieves nearest Moonlight hospital and 30-min pharmacy pairings."""

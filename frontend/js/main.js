@@ -990,28 +990,35 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
   });
   pharmacies.sort((a, b) => a.distKm - b.distKm);
 
-  // 3. 전체(all) 탭: 병원 + 약국 통합 전수 최단거리 오름차순 정렬
-  const allList = [...hospitals, ...pharmacies].sort((a, b) => a.distKm - b.distKm);
+  // 3. 반경 15km 이내 시설 필터링 (사용자 요구사항: 반경 15km 이내 시설들만 표시)
+  const MAX_RADIUS_KM = 15.0;
+  const filteredHospitals = hospitals.filter(h => h.distKm <= MAX_RADIUS_KM);
+  const filteredPharmacies = pharmacies.filter(p => p.distKm <= MAX_RADIUS_KM);
 
-  // 4. 전역 마스터 객체 등록
+  // 4. 전체(all) 탭: 15km 이내 병원 + 약국 통합 최단거리 오름차순 정렬
+  const allList = [...filteredHospitals, ...filteredPharmacies].sort((a, b) => a.distKm - b.distKm);
+
+  // 5. 전역 마스터 객체 등록 (15km 필터링 적용 및 원본 보관)
   window.__LIVE_FACILITIES_MASTER__ = {
     all: allList,
-    hospital: hospitals,
-    pharmacy: pharmacies,
-    userDong: userLoc.dong || '내 위치'
+    hospital: filteredHospitals,
+    pharmacy: filteredPharmacies,
+    userDong: userLoc.dong || '내 위치',
+    maxRadiusKm: MAX_RADIUS_KM,
+    rawHospitals: hospitals,
+    rawPharmacies: pharmacies
   };
 
-  // 5. 상단 뱃지 카운트 및 탭 카운트 실데이터 동기화
+  // 6. 상단 뱃지 카운트 및 탭 카운트 실데이터 동기화 (반경 15km 기준)
   const totalCount = allList.length;
-  const hospCount = hospitals.length;
-  const pharmCount = pharmacies.length;
+  const hospCount = filteredHospitals.length;
+  const pharmCount = filteredPharmacies.length;
 
   const countBadge = document.getElementById('live-facilities-count');
   if (countBadge) {
-    const nearbyCount = allList.filter(f => f.distKm <= 10).length;
-    countBadge.textContent = nearbyCount > 0
-      ? `${userLoc.dong} 반경 10km ${nearbyCount.toLocaleString()}곳 운영중`
-      : `${userLoc.dong} 기준 실시간 거리순 ${totalCount.toLocaleString()}곳 연동`;
+    countBadge.textContent = totalCount > 0
+      ? `${userLoc.dong} 반경 15km ${totalCount.toLocaleString()}곳 운영중`
+      : `${userLoc.dong} 반경 15km 내 운영 시설 없음`;
   }
 
   const countAll = document.getElementById('count-all');
@@ -1023,7 +1030,7 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
   const countPharm = document.getElementById('count-pharmacy');
   if (countPharm) countPharm.textContent = pharmCount.toLocaleString();
 
-  // 6. 더보기 버튼 이벤트 연동
+  // 7. 더보기 버튼 이벤트 연동
   const moreBtn = document.querySelector('.scroll-more-btn');
   if (moreBtn && !moreBtn.dataset.bound) {
     moreBtn.dataset.bound = 'true';
@@ -1033,7 +1040,7 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
     });
   }
 
-  // 7. 현재 필터에 맞춰 즉시 렌더링
+  // 8. 현재 필터에 맞춰 즉시 렌더링
   window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
 };
 
@@ -1044,6 +1051,26 @@ window.renderLiveFacilities = function(filter) {
   const master = window.__LIVE_FACILITIES_MASTER__;
   const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
   const displayList = master[currentFilter] || master.all || [];
+
+  const moreBtn = document.querySelector('.scroll-more-btn');
+
+  // 목록이 비어있는 경우 (반경 15km 이내 시설이 없음)
+  if (displayList.length === 0) {
+    const filterLabel = currentFilter === 'hospital' ? '달빛어린이병원' : (currentFilter === 'pharmacy' ? '심야약국' : '야간 의료시설');
+    stack.innerHTML = `
+      <article class="facility-card live-empty-card" style="padding: 36px 20px; text-align: center; border: 1px dashed var(--slate-300, #cbd5e1); background: #f8fafc; border-radius: 16px; margin: 8px 0;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="font-size: 38px; color: var(--slate-400, #94a3b8);">location_off</span>
+          <p style="font-size: 15px; font-weight: 700; color: var(--slate-700, #334155); margin: 0;">반경 15km 이내 ${filterLabel}이 없습니다</p>
+          <p style="font-size: 13px; color: var(--slate-500, #64748b); margin: 0; line-height: 1.5;">${master.userDong} 기준 15km 이내에는 현재 등록된 야간 시설이 없습니다.<br>상단 주소를 변경하시거나 응급실 가이드를 확인해보세요.</p>
+        </div>
+      </article>
+    `;
+    if (moreBtn) {
+      moreBtn.style.display = 'none';
+    }
+    return;
+  }
 
   // 카드 렌더링 범위 (페이징 슬라이스)
   const visibleCount = window.__FACILITY_VISIBLE_COUNT__ || 15;
@@ -1101,12 +1128,12 @@ window.renderLiveFacilities = function(filter) {
   stack.innerHTML = cardsHTML;
 
   // 더보기 버튼 텍스트 상태 동기화
-  const moreBtn = document.querySelector('.scroll-more-btn');
   if (moreBtn) {
+    moreBtn.style.display = '';
     const textSpan = moreBtn.querySelector('span:last-child');
     if (textSpan) {
       if (visibleCount >= displayList.length) {
-        textSpan.textContent = `전체 ${displayList.length.toLocaleString()}곳 확인 완료`;
+        textSpan.textContent = `반경 15km 내 전체 ${displayList.length.toLocaleString()}곳 확인 완료`;
         moreBtn.style.opacity = '0.7';
       } else {
         textSpan.textContent = `더 많은 의료시설 확인 (${Math.min(visibleCount, displayList.length).toLocaleString()} / ${displayList.length.toLocaleString()}곳)`;
@@ -1130,13 +1157,18 @@ window.selectLiveFacilityCard = function(facilityName, facilityType) {
 
     if (master) {
       if (facilityType === 'hospital') {
-        const hosp = master.hospital.find(h => h.name === facilityName) || master.hospital[0];
+        const hosp = master.hospital.find(h => h.name === facilityName)
+          || (master.rawHospitals && master.rawHospitals.find(h => h.name === facilityName))
+          || master.hospital[0];
         if (hosp) {
-          // 해당 병원과 가장 가까운 심야약국 자동 매핑 (2,028개 약국 중 최근접 약국 실데이터 검색)
+          // 해당 병원과 가장 가까운 심야약국 자동 매핑 (15km 내 약국 우선, 없으면 전수 약국에서 검색)
           let nearestPharm = null;
-          if (master.pharmacy && master.pharmacy.length > 0) {
+          const pharmPool = (master.pharmacy && master.pharmacy.length > 0)
+            ? master.pharmacy
+            : (master.rawPharmacies || []);
+          if (pharmPool.length > 0) {
             let minD = Infinity;
-            master.pharmacy.forEach(p => {
+            pharmPool.forEach(p => {
               const d = window.calculateDistanceKm(hosp.lat, hosp.lon, p.lat, p.lon);
               if (d < minD) {
                 minD = d;
