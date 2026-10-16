@@ -12,6 +12,7 @@ Orchestrates 2-track background tasks:
 
 from __future__ import annotations
 
+import asyncio
 import datetime
 import logging
 from typing import Any, Optional
@@ -29,6 +30,7 @@ from app.services.emergency_sync_service import (
     sync_to_firestore,
 )
 from app.services.holiday_service import HolidayService
+from app.services.national_dataset_sync_service import sync_national_datasets_with_diffing
 from app.services.pairing_service import load_nationwide_pairings
 
 logger = logging.getLogger(__name__)
@@ -150,8 +152,8 @@ class BackgroundDaemon:
             self.last_bed_poll_stats = err_stats
             return err_stats
 
-    async def sync_static_datasets(self) -> dict[str, Any]:
-        """Refreshes hospital coordinates and pairing datasets (24-hour cycle)."""
+    async def sync_static_datasets(self, force: bool = False) -> dict[str, Any]:
+        """Refreshes hospital coordinates, pairings, and national datasets with Hash Diffing (24-hour cycle)."""
         now_str = datetime.datetime.now(KST).isoformat()
         self.static_sync_count += 1
         self.last_static_sync_time = now_str
@@ -160,14 +162,19 @@ class BackgroundDaemon:
             coords = fetch_hospital_coordinates(stage1="서울특별시")
             pairings = load_nationwide_pairings()
 
+            # Execute Incremental Hash Diffing for Moonlight hospitals and Night pharmacies
+            delta_result = await asyncio.to_thread(sync_national_datasets_with_diffing, force)
+
             stats = {
                 "hospital_coords_count": len(coords),
                 "pairings_count": len(pairings),
+                "delta_sync_result": delta_result,
                 "synced_at": now_str,
                 "status": "SUCCESS",
             }
             logger.info(
-                f"[Scheduler] Static datasets sync complete: coords={len(coords)}, pairings={len(pairings)}"
+                f"[Scheduler] Static datasets 24-hour sync complete: coords={len(coords)}, "
+                f"pairings={len(pairings)}, delta_status={delta_result.get('status')}"
             )
             return stats
         except Exception as e:

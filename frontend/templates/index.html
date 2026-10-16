@@ -23,10 +23,10 @@
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 
-<body>
+<body class="main-home-body">
 
   <!-- Mobile Viewport Canvas (Centered Preview Container) -->
-  <div class="mobile-viewport" id="app">
+  <div class="mobile-viewport main-home-shell" id="app">
 
     <!-- Top App Bar -->
     <header class="app-header">
@@ -75,7 +75,7 @@
             아이가 어디가 아픈가요?
           </h1>
         </div>
-        <br>
+
         <!-- Primary High-Contrast Full-Width CTA -->
         <button type="button" class="primary-cta-btn" id="start-triage-btn">
           <span class="material-symbols-outlined">add</span>
@@ -118,14 +118,6 @@
               <p style="font-size: 13px; color: var(--slate-500); margin: 0;">반경 15km 이내 달빛어린이병원과 연계 협약약국을 실시간 거리순으로 계산합니다</p>
             </div>
           </article>
-        </div>
-
-        <!-- Scroll / Expand Trigger -->
-        <div class="scroll-more-btn-wrap">
-          <button type="button" class="scroll-more-btn">
-            <span class="material-symbols-outlined">expand_more</span>
-            <span>스크롤하여 더 많은 의료시설 확인</span>
-          </button>
         </div>
       </section>
 
@@ -221,7 +213,7 @@
       <!-- Current Active Address Display Bar -->
       <div class="current-address-bar" id="modal-current-address-bar" style="display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:9px 12px;margin-bottom:12px;">
         <span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span>
-        <span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 주소: <strong style="color:#0f172a;">서울특별시 송파구 문정동</strong></span>
+        <span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">서울특별시 송파구 문정동</strong></span>
       </div>
 
       <!-- Search Mode Segmented Tabs (주소 검색 vs 키워드 검색) -->

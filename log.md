@@ -104,8 +104,16 @@
 | **[ISSUE-095]** | 로컬 개발 환경 & 브라우저 실시간 서빙 | Uvicorn 핫 리로드 로컬 서버 기동, 포트 충돌 방어 및 기본 웹 브라우저 실시간 연동 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-096]** | LBS 공간 필터링 & 프론트엔드 최적화 | 메인 홈 실시간 야간 의료시설 현황 목록의 반경 15km 이내 필터링 제한 및 상단 뱃지·탭 카운트 동기화 & 로컬 서버 브라우저 재실행 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-097]** | 로컬 개발 환경 & 서버 지속성 | 브라우저 로컬호스트 접속 거부(ERR_CONNECTION_REFUSED) 원인 규명 및 Uvicorn 데몬 영구 상주 기동 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-098]** | 체온 다이얼 수치 정합성 & 소아 임상 표준 | 체온 다이얼 바늘 41.0℃ 조작 시 하단 뱃지 39.5℃ 하드코딩 불일치 교정, 구어체 증상("열이있어요", "고열", "미열") 체온 자동 인식·백엔드 연동 및 소아 5단계 의학 표준 분류 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-099]** | 연령 슬라이더 모바일 UX & 소아 100일 미만 분류 | 2개월 이하 선택 시 카드 확장(Layout Shift) 현상 원천 제거(인라인 뱃지화) 및 생후 100일 미만 vs 3개월 소아 임상 표준 4단계 분기 체계 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-098]** | 데이터 엔지니어링 & LBS 증분 동기화 | 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-099]** | 데이터 엔지니어링 & LBS 증분 동기화 | 전국 달빛병원·야간약국 24시간 증분 동기화 모듈 구현, 백엔드 스케줄러 결합, 관리자 API 및 CLI 완비 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-100]** | 프론트엔드 LBS & 역지오코딩 정합성 | '현재 위치로 설정' 시 프론트엔드 덮어쓰기 버그로 인한 상세 주소 유실 해소 및 카카오 2-Tier 역지오코딩 상세 주소(도로명·건물명·지번) 완벽 연동 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-101]** | 프론트엔드 UI/UX & 스크롤 아키텍처 | 실시간 야간 의료시설 카드 목록 무한 확장 방어 및 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-102]** | 프론트엔드 UI/UX & 컴팩트 레이아웃 | 실시간 야간 의료시설 카드 내부/외부 여백 과다 해소(패딩·간격 컴팩트화) 및 '더 많은 의료시설 확인' 버튼 전면 제거·스크롤 전수 렌더링 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-103]** | 프론트엔드 UI/UX & 고정 앱 셸 아키텍처 | 실시간 의료현황 칸 외 메인 뷰포트 바깥 스크롤 완전 고정(Fixed App Shell) 및 시설 전용 스크롤(Exclusive Inner Scroll) 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-104]** | 프론트엔드 LBS & 시설 랭킹 알고리즘 | 실시간 야간 의료시설 '전체' 탭 심야약국 독점 해소 및 병원 최우선 1:1 교차(Interleaving) 정렬(병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 ...) 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-105]** | 프론트엔드 UI/UX & 타이포그래피 정렬 | 메인 홈 증상 문진 Hero 카드 타이틀("아이가 어디가 아픈가요?") 중앙 정렬 및 여백 최적화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-106]** | 체온 다이얼 수치 정합성 & 소아 임상 표준 | 체온 다이얼 바늘 41.0℃ 조작 시 하단 뱃지 39.5℃ 하드코딩 불일치 교정, 구어체 증상("열이있어요", "고열", "미열") 체온 자동 인식·백엔드 연동 및 소아 5단계 의학 표준 분류 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-107]** | 연령 슬라이더 모바일 UX & 소아 100일 미만 분류 | 2개월 이하 선택 시 카드 확장(Layout Shift) 현상 원천 제거(인라인 뱃지화) 및 3개월 100일 미만 위험군 단일 명확화 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3175,7 +3183,265 @@
 
 ---
 
-### [ISSUE-098] 체온 다이얼 뱃지 수치 하드코딩 불일치 교정, 구어체 증상 체온 자동 감지 및 소아 표준 체온 5단계 분류 체계 일치
+### [ISSUE-098] 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 수립
+
+* **발생 일자**: 2026-10-16
+* **분류**: 데이터 엔지니어링 / 증분 동기화(CDC) / 배치 스케줄링
+* **문제 상황**:
+  * 메인 홈 실시간 의료시설 목록은 `data/*.json`을 `frontend/js/*.js` 번들로 컴파일하여 클라이언트 0ms LBS를 제공하고 있으나, 지자체 및 보건복지부의 신규 달빛병원 지정, 운영시간 변동, 약국 폐업/신설 정보를 최신 상태로 유지하기 위한 24시간 주기 변경분 감지(Hash Diffing) 파이프라인 설계 필요성 대두.
+* **원인 분석**:
+  * 매일 2,000여 개 전수 데이터를 단순 덮어쓰기할 경우 불필요한 디스크 I/O가 발생하고 브라우저 캐시가 낭비되므로, 기관코드(Primary Key) 기반으로 실제 변동 사항(Added, Modified, Removed)이 존재할 때만 선택적으로 갱신하는 델타 동기화(Delta Diffing) 파이프라인이 최적의 엔지니어링 표준임.
+* **구체적 해결 방안**:
+  1. **APScheduler 24시간 크론 잡 (`app/services/scheduler.py`)**:
+     - `Job 2: Daily 04:00 AM Static Data & Pairing Sync`를 확장하여 공공데이터포털(E-Gen) API 배치 호출.
+  2. **기관코드 PK 기반 In-Memory Hash Diffing 엔진**:
+     - 기존 `data/*.json`과 신규 API 응답 간의 해시 및 주요 속성(진료시간, 주소, 전화번호, 좌표)을 대조.
+     - `diff_count == 0`일 경우 0ms Skip 처리하여 디스크 I/O 및 브라우저 캐시 무효화 0회 달성.
+  3. **변경분 발생 시 자동 파일 갱신 & 번들 빌더 연동**:
+     - `diff_count > 0`인 경우에만 `data/*.json`을 갱신하고 `scripts/build_frontend_datasets.py`를 호출하여 `frontend/js/*.js` 자동 재생성.
+  4. **운용 지원 도구 마련**:
+     - 수동 온디맨드 델타 검증 스크립트(`scripts/sync_national_datasets_delta.py`) 및 관리자 트리거 엔드포인트 기획.
+* **적용 파일**:
+  * [app/services/scheduler.py](file:///e:/monnlight/app/services/scheduler.py)
+  * [scripts/build_frontend_datasets.py](file:///e:/monnlight/scripts/build_frontend_datasets.py)
+  * [scripts/export_national_moonlight_and_night_pharmacy_md.py](file:///e:/monnlight/scripts/export_national_moonlight_and_night_pharmacy_md.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 최신 공공 API 데이터 신선도와 프론트엔드 0ms 무지연 성능을 양립시키는 24시간 델타 업데이트 표준 아키텍처 수립 완료.
+
+---
+
+### [ISSUE-099] 전국 달빛병원·야간약국 24시간 증분 동기화 모듈 구현, 백엔드 스케줄러 결합, 관리자 API 및 CLI 완비
+
+* **발생 일자**: 2026-10-16
+* **분류**: 데이터 엔지니어링 / 증분 동기화(CDC) / 배치 스케줄링
+* **문제 상황**:
+  * `[ISSUE-098]`에서 수립된 24시간 델타 업데이트 아키텍처를 실제 동작 가능한 소스코드, 스케줄러 자동 실행 파이프라인, 관리자 온디맨드 API, 수동 CLI 도구로 완성하여 배포할 필요성 발생.
+* **원인 분석**:
+  * 단순 파일 덮어쓰기 배제, 기관코드(PK) 기반의 SHA-256 In-Memory Hash Diffing 엔진을 통한 0ms Skip 및 변경분 자동 번들링 컴파일러가 유기적으로 연동되어야 함.
+* **구체적 해결 방안**:
+  1. **핵심 델타 동기화 서비스 구축 (`app/services/national_dataset_sync_service.py`)**:
+     - `compute_item_hash()`: 진료시간, 주소, 전화번호, 좌표 등 핵심 속성 SHA-256 해시 생성.
+     - `detect_dataset_deltas()`: 기관코드 PK 기반 Added, Modified, Removed 분별.
+     - `sync_national_datasets_with_diffing()`: 0ms Skip 방어벽 및 변경 시 `data/*.json` 갱신 및 `frontend/js/*.js` 자동 재컴파일.
+  2. **APScheduler 24시간 크론 잡 결합 (`app/services/scheduler.py`)**:
+     - `sync_static_datasets()` 내 `sync_national_datasets_with_diffing`을 `asyncio.to_thread`로 비동기 호출하여 매일 04:00 AM KST에 백그라운드 자동 기동.
+  3. **관리자 온디맨드 API 엔드포인트 구축 (`app/api/v1/emergency.py`)**:
+     - `POST /api/v1/emergency/sync-static`: 즉시 24시간 증분 동기화를 트리거하고 결과를 JSON으로 응답하는 엔드포인트 구현 (HTTP 200 OK 테스트 완료).
+  4. **수동 실행 CLI 도구 완성 (`scripts/sync_national_datasets_delta.py`)**:
+     - `python scripts/sync_national_datasets_delta.py [--force]`로 언제든 터미널에서 델타 검증 및 강제 갱신 가능.
+  5. **단위/통합 테스트 작성 및 통과 (`tests/test_national_dataset_sync.py`)**:
+     - 7개 신규 테스트 케이스 100% 통과 (총 90개 테스트 전수 통과).
+* **적용 파일**:
+  * [app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py)
+  * [scripts/sync_national_datasets_delta.py](file:///e:/monnlight/scripts/sync_national_datasets_delta.py)
+  * [app/services/scheduler.py](file:///e:/monnlight/app/services/scheduler.py)
+  * [app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)
+  * [tests/test_national_dataset_sync.py](file:///e:/monnlight/tests/test_national_dataset_sync.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 24시간 주기 공공데이터 변경분 자동 업데이트 및 클라이언트 0ms 무지연 LBS 서빙 파이프라인 구축을 성공적으로 완료함.
+
+---
+
+### [ISSUE-100] '현재 위치로 설정' 시 프론트엔드 덮어쓰기 버그로 인한 상세 주소 유실 해소 및 카카오 2-Tier 역지오코딩 상세 주소(도로명·건물명·지번) 완벽 연동
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 LBS / 백엔드 역지오코딩 / 데이터 무결성
+* **문제 상황**:
+  * 메인 홈 위치 모달에서 사용자가 '현재 위치로 설정' 버튼을 클릭했을 때, 모달 상단 '현재 설정된 주소'에 번지수와 건물명이 포함된 상세 주소가 노출되지 않고 단순 동 단위(`서울특별시 송파구 문정동`)로 뭉개져 표시되는 현상 발생.
+* **원인 분석**:
+  1. `frontend/js/main.js`의 `finalizeLocation` 내부에서 `fullAddr.startsWith('서울특별시 송파구 ')`를 검사하여 `window.AISUM_LOCATIONS_DB`의 짧은 동 기본 문자열로 덮어쓰는 레거시 안티패턴 코드가 잔존하여 상세 주소를 강제로 소실시킴.
+  2. 백엔드 `app/api/v1/location.py`의 `coord2address` 엔드포인트에서 카카오 API의 건물명(`building_name`), 도로명 번호(`main_building_no`), 지번 본번/부번(`main_address_no`)을 유기적으로 조합하지 않고 단순 `address_name`만 단편적으로 반환함.
+* **구체적 해결 방안**:
+  1. **백엔드 2-Tier 역지오코딩 엔진 고도화 (`app/api/v1/location.py`)**:
+     - 카카오 `coord2address.json`의 도로명 주소와 지번 주소를 시도명 표준화("서울" ➔ "서울특별시") 후, 건물명과 법정동을 결합한 상세 주소(`서울특별시 송파구 송파대로 167 (문정동, 문정역테라타워)`) 포맷팅 적용.
+     - 도로명 미부여 지점의 경우 지번 본번/부번 상세 주소(`서울특별시 송파구 문정동 315-2`) 표준화.
+     - 지번 검색 불가 공원/도로망 지점 대상 카카오 `coord2regioncode.json` 2차 Fallback 연계로 행정동/법정동 보정.
+     - API 키 장애 시 로컬 Fallback POI도 상세 번지수 및 랜드마크명을 포함하도록 개선.
+  2. **프론트엔드 상세 주소 무손실 보존 (`frontend/js/main.js`)**:
+     - `finalizeLocation` 내 강제 덮어쓰기 조건문 전면 적출.
+     - 모달 상단 바(`modal-current-address-bar`), 상단 알약 버튼, LocalStorage(`aisum_user_address`) 간 실시간 원자적 동기화 구축.
+  3. **단위 테스트 스위트 확장 (`tests/test_location_api.py`)**:
+     - 상세 도로명/건물명/지번 포맷팅 및 Fallback 상세 주소 반환 검증 2개 테스트 추가, 8개 전수 통과 (전체 테스트 92개 통과).
+* **적용 파일**:
+  * [app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [tests/test_location_api.py](file:///e:/monnlight/tests/test_location_api.py)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 현재 위치로 설정 시 기기의 실제 위경도 기반 상세 도로명/건물명/지번 주소가 모달 상단 및 앱 전역에 정확하고 선명하게 100% 반영됨.
+
+---
+
+### [ISSUE-101] 실시간 야간 의료시설 카드 목록 무한 확장 방어 및 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 구축
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 UI/UX / 레이아웃 및 스크롤 최적화
+* **문제 상황**:
+  * 메인 홈 화면에서 수십 개에 달하는 실시간 야간 의료시설(달빛어린이병원 및 심야약국) 카드들이 페이지 전체를 무한히 길어지게 만들어, 상단 CTA 버튼 및 하단 네비게이션과의 시각적 균형이 깨지고 하단 탐색 피로도가 증가함.
+* **원인 분석**:
+  * `.facility-card-stack`에 높이 제한 및 내부 스크롤(`overflow-y: auto`) 속성이 부여되지 않아, 자식 카드 엘리먼트들이 생성되는 만큼 메인 뷰포트 전체의 세로 길이가 끝도 없이 연장되는 단순 블록 레이아웃 형태로 동작하고 있었음.
+* **구체적 해결 방안**:
+  1. **독립 스크롤 뷰포트 CSS 스타일링 (`frontend/css/style.css`)**:
+     - `.facility-card-stack`에 `max-height: 480px;`, `overflow-y: auto;`, `overflow-x: hidden;` 부여.
+     - iOS Safari 및 모바일 웹 관성 스크롤(`-webkit-overflow-scrolling: touch;`) 및 부드러운 스크롤(`scroll-behavior: smooth;`) 적용.
+     - 5px 너비의 모던 미니멀 스크롤바(`::-webkit-scrollbar`) 커스텀 디자인 적용.
+  2. **하단 스크롤 버튼 부드러운 스크롤 액션 결합 (`frontend/templates/index.html`)**:
+     - `.scroll-more-btn` 클릭 시 `facility-card-stack.scrollBy({ top: 260, behavior: 'smooth' })`로 부드럽게 아래 카드가 탐색되도록 연동.
+  3. **탭 필터 전환 시 자동 스크롤 상단 리셋 (`frontend/js/main.js`)**:
+     - '전체' / '🌙 달빛병원' / '💊 심야약국' 탭을 누를 때마다 `scrollTop = 0`으로 즉각 초기화하여 항상 1등 시설부터 열람 가능하도록 최적화.
+* **적용 파일**:
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 메인 홈 실시간 야간 의료시설 칸이 적정 높이(`480px`) 안에서 독립적으로 부드럽게 스크롤되며, 전체 페이지 레이아웃이 깔끔하고 컴팩트하게 정돈됨.
+
+---
+
+### [ISSUE-102] 실시간 야간 의료시설 카드 내부/외부 여백 과다 해소 및 '더 많은 의료시설 확인' 버튼 전면 제거·스크롤 전수 렌더링 전환
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 UI/UX / 여백 컴팩트화 및 인터랙션 단순화
+* **문제 상황**:
+  * 실시간 야간 의료시설 카드 내부 패딩(`16px`)과 카드 간격(`12px`), 텍스트 및 아이콘 요소의 수직 마진이 과다하여 한 화면에 2개 남짓의 카드만 노출되는 정보 밀도 저하 현상이 발생함.
+  * 또한 스크롤 영역 하단에 "더 많은 의료시설 확인" 버튼이 노출되어 사용자가 스크롤 탐색과 버튼 클릭 사이에서 인터랙션 혼란을 겪음.
+* **원인 분석**:
+  * 모바일 카드 컴포넌트의 초기 디자인이 다소 여유로운 패딩(`16px`)을 채택하고 있었고, `renderLiveFacilities`가 `visibleCount` 15개 단위 페이징과 더보기 버튼을 결합한 하이브리드 방식으로 설계되어 있었음.
+  * 스크롤 뷰포트가 구축된 시점에서는 굳이 더보기 버튼을 둘 필요 없이, 스크롤 컨테이너 안에서 반경 15km 내 모든 시설(408곳)을 부드럽게 연속 탐색하는 편이 훨씬 직관적임.
+* **구체적 해결 방안**:
+  1. **카드 내부/외부 여백 및 구성 요소 컴팩트 최적화 (`frontend/css/style.css`)**:
+     - `.facility-card-stack`: `gap: 8px;`, `padding: 2px 4px 6px 2px;`, `max-height: 520px;` 설정.
+     - `.facility-card`: 패딩 `16px` ➔ `11px 13px`, `border-radius: 14px;`, 내부 `gap: 8px;` 축소.
+     - `.facility-icon-wrap`: `44px x 44px` ➔ `36px x 36px` (아이콘 `20px`).
+     - `.facility-name`: `16px` ➔ `15px` (`line-height: 1.25`).
+     - `.facility-desc`: `12.5px` ➔ `11.5px` (`line-height: 1.35`).
+     - `.call-btn`: `40px` ➔ `34px` (아이콘 `17px`).
+     - `.card-footer`: 상단 마진 `10px` ➔ `7px`, 폰트 `11.5px`.
+  2. **'더 많은 의료시설 확인' 버튼 영구 제거 (`frontend/templates/index.html` & `frontend/css/style.css`)**:
+     - `index.html`에서 `<div class="scroll-more-btn-wrap">` 블록 완전 삭제.
+     - `style.css`에서 `.scroll-more-btn-wrap`에 `display: none !important;` 선언.
+  3. **스크롤 컨테이너 전수 렌더링 전환 (`frontend/js/main.js`)**:
+     - `renderLiveFacilities`에서 페이징 슬라이스 및 더보기 증분 로직을 제거하고 `sliceList = displayList`로 전체 목록을 스택에 즉시 렌더링.
+* **적용 파일**:
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 카드 1개의 세로 높이가 약 110px로 압축되어 한 화면에 3~4개의 시설이 안정적으로 노출됨.
+  * 불필요한 더보기 버튼이 제거되고 스크롤만으로 반경 15km 내 408곳 전체 시설을 자연스럽게 탐색할 수 있어 사용자 경험이 대폭 향상됨.
+
+---
+
+### [ISSUE-103] 실시간 의료현황 칸 외 메인 뷰포트 바깥 스크롤 완전 고정 및 시설 전용 스크롤 구축
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 UI/UX / 고정 앱 셸 레이아웃 및 뷰포트 스크롤 격리
+* **문제 상황**:
+  * 메인 홈 화면에서 브라우저 전체 창 또는 모바일 뷰포트가 위아래로 스크롤되어 상단 헤더, 위치 알약 버튼, "아이가 어디가 아픈가요?" Hero 카드가 화면 상단 밖으로 밀려 올라가는 바깥 스크롤(Outer Scroll) 현상이 발생함.
+  * 사용자는 헤더, 문진 CTA, 하단 내비게이션 바가 고정된 앱 셸 상태에서 오직 "실시간 야간 의료시설" 카드 목록 내부에서만 스크롤되기를 요구함.
+* **원인 분석**:
+  * `body` 및 `.mobile-viewport`에 `overflow: hidden` 및 엄격한 100vh/100dvh 높이 바인딩이 누락되어 있었고,
+  * `.facility-card-stack`에 `max-height: 520px`라는 절대 픽셀이 지정되어 있어 부모 컨테이너가 뷰포트 높이를 초과할 경우 브라우저 윈도우 스크롤바가 자동 생성되는 구조였음.
+* **구체적 해결 방안**:
+  1. **메인 홈 전용 Fixed App Shell 클래스 부여 (`frontend/templates/index.html`)**:
+     - `body`에 `main-home-body`, `.mobile-viewport`에 `main-home-shell` 클래스를 스코핑하여 다른 서브 페이지의 스크롤에는 영향을 주지 않도록 완벽 격리.
+     - 잉여 닫는 div 태그를 삭제하여 DOM 정합성 유지.
+  2. **바깥 스크롤 완전 차단 및 100dvh 높이 잠금 (`frontend/css/style.css`)**:
+     - `body.main-home-body`: `height: 100vh; height: 100dvh; overflow: hidden;`
+     - `.mobile-viewport.main-home-shell`: `height: 100vh; height: 100dvh; max-height: 100dvh; overflow: hidden; display: flex; flex-direction: column;`
+     - 데스크톱 미디어 쿼리: `height: min(920px, calc(100vh - 24px));`로 창 높이 초과 원천 방어.
+  3. **상단/하단 고정 및 의료시설 전용 스크롤 (`flex: 1; min-height: 0; overflow-y: auto`)**:
+     - `.app-header`, `.hero-card`, `.section-header`, `.filter-tabs`: `flex-shrink: 0;` (완전 고정).
+     - `.bottom-nav`: `position: absolute; bottom: 0;` (하단 완전 고정).
+     - `.facility-card-stack`: `flex: 1; min-height: 0; height: 100%; max-height: none; overflow-y: auto; overflow-x: hidden;`
+* **적용 파일**:
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 상단 헤더, 알약 버튼, 증상 문진 배너, 필터 탭, 하단 GNB 바가 화면에 완벽하게 고정(Sticky/Fixed)됨.
+  * 오직 "실시간 야간 의료시설" 카드 목록 내부에서만 부드러운 스크롤이 동작하여 네이티브 앱 수준의 쾌적한 UX 완성.
+
+---
+
+### [ISSUE-104] 실시간 야간 의료시설 '전체' 탭 심야약국 독점 해소 및 병원 최우선 1:1 교차(Interleaving) 정렬 구축
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 LBS / 시설 정렬 및 사용자 경험(UX) 랭킹 최적화
+* **문제 상황**:
+  * 메인 홈 '전체' 탭에서 반경 15km 이내 시설 목록을 열람할 때, 물리적 거리 기준으로만 단순 정렬되어 있어 사용자 반경 0.5km 이내의 심야약국들만 화면 상단에 수십 개 연속으로 노출됨.
+  * 아이가 야간에 급성 질환으로 아파 병원 진료가 가장 시급한 부모 관점에서, 정작 달빛어린이병원을 찾으려면 스크롤을 한참 내려야 하는 심각한 의료 우선순위 역전 문제가 발생함.
+* **원인 분석**:
+  * 심야약국 데이터셋(전국 2,028개, 서울 반경 15km 내 약 391곳)이 달빛어린이병원(전국 156개, 서울 반경 15km 내 17곳)에 비해 20배 이상 밀집되어 있어, `[...hospitals, ...pharmacies].sort((a,b) => a.distKm - b.distKm)` 시 약국이 상위 인덱스를 독점함.
+* **구체적 해결 방안**:
+  1. **1:1 인터리빙(Interleaving) 교차 정렬 파이프라인 구현 (`frontend/js/main.js`)**:
+     - `filteredHospitals`와 `filteredPharmacies`를 각각 거리순 정렬한 뒤, `for` 루프에서 병원을 1순위로 push하고 바로 뒤에 약국을 push하는 1:1 교차 로직 구현.
+     - `interleavedList`: `[병원 #1] ➔ [약국 #1] ➔ [병원 #2] ➔ [약국 #2] ➔ [병원 #3] ➔ [약국 #3] ...`
+     - 병원(17곳)이 모두 소진된 이후에는 남은 심야약국들이 거리순으로 연속하여 안전하게 이어지도록 처리.
+  2. **개별 탭 순수성 보존**:
+     - '🌙 달빛병원' 탭 클릭 시에는 달빛병원만 100% 거리순 노출.
+     - '💊 심야약국' 탭 클릭 시에는 심야약국만 100% 거리순 노출.
+     - 탭 전환 시 `scrollTop = 0`으로 즉시 상단 리셋.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 메인 홈 첫 진입 시 가장 가까운 달빛어린이병원이 최상단 1등 카드로 즉각 노출되고, 병원과 약국이 1:1로 번갈아 교차 배치되어 최적의 소아 야간 의료 탐색 UX를 완성함.
+
+---
+
+### [ISSUE-105] 메인 홈 증상 문진 Hero 카드 타이틀("아이가 어디가 아픈가요?") 중앙 정렬 및 여백 최적화
+
+* **발생 일자**: 2026-10-16
+* **분류**: 프론트엔드 UI/UX / 타이포그래피 정렬 및 레이아웃 밸런스
+* **문제 상황**:
+  * 메인 홈 상단의 증상 문진 Hero 카드(`.hero-card`) 내부 헤드라인인 "아이가 어디가 아픈가요?" 텍스트가 좌측 정렬되어 있고 임의의 `<br>` 태그가 삽입되어 있어, 하단 풀위드 CTA 버튼과의 시각적 수직 중심축이 어긋나 보이고 모바일 뷰 집중도가 저하됨.
+* **원인 분석**:
+  * 초기 프로토타입 디자인에서 우측 배지 아트와 함께 좌측 정렬 플렉스 레이아웃을 사용하던 코드가 잔존하여, 배지 제거 후 텍스트만 남아있을 때 좌측으로 치우쳐 렌더링됨.
+* **구체적 해결 방안**:
+  1. **불필요한 줄바꿈 마크업 적출 (`frontend/templates/index.html`)**:
+     - `hero-body` 하단의 임의 `<br>` 태그를 제거하고 CSS 마진으로 간격을 표준화.
+  2. **중앙 정렬 스타일링 적용 (`frontend/css/style.css`)**:
+     - `.hero-body`: `display: flex; align-items: center; justify-content: center; text-align: center; margin-bottom: 14px;`
+     - `.hero-title`: `font-size: 22px; font-weight: 800; text-align: center; width: 100%;`
+* **적용 파일**:
+  * [frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html)
+  * [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * "아이가 어디가 아픈가요?" 메인 타이틀이 카드 너비의 정중앙에 단정하게 배치되어, 아래 "아이 증상 입력하고 병원 찾기" 버튼과 완벽한 시각적 중심축을 이루어 사용자 가독성 및 UI 완성도가 향상됨.
+
+---
+
+### [ISSUE-106] 체온 다이얼 뱃지 수치 하드코딩 불일치 교정, 구어체 증상 체온 자동 감지 및 소아 표준 체온 5단계 분류 체계 일치
 
 * **발생 일자**: 2026-10-16
 * **분류**: 프론트엔드 UI/UX 수치 정합성 / 소아 임상 표준화 / Triage NLP
@@ -3189,6 +3455,7 @@
 * **구체적 해결 방안**:
   1. **하드코딩 제거 및 상태 명칭 표준화**:
      - 알약 배지 텍스트를 특정 온도가 없는 `<span>🔥 초고열 위급</span>`으로 교정하여 40℃, 41℃ 등 모든 구간에서 시각적 수치 모순을 100% 해소.
+     - 어색하고 긴 개행 텍스트(`손가락으로 바늘을 돌려보세요`)를 완전히 제거하고 항상 1줄의 정제된 의학 상태 뱃지(`🟠 발열 주의` 등)로 단정하게 표출.
   2. **소아 임상 표준 5단계 분류 체계 확립**:
      - `t < 37.5℃`: 🟢 **정상 체온** (초록)
      - `37.5℃ <= t < 38.0℃`: ⚠️ **미열 관찰** (연초록)
@@ -3209,7 +3476,7 @@
 
 ---
 
-### [ISSUE-099] 2개월 이하 선택 시 화면 길어짐(Layout Shift) 현상 원천 제거 및 100일 미만 vs 3개월 소아 임상 표준 4단계 분기 체계 확립
+### [ISSUE-107] 2개월 이하 선택 시 화면 길어짐(Layout Shift) 현상 원천 제거 및 3개월 100일 미만 위험군 단일 명확화
 
 * **발생 일자**: 2026-10-16
 * **분류**: 프론트엔드 모바일 UI/UX / 누적 레이아웃 이동(CLS) 최적화 / 소아 응급 임상 가이드
@@ -3219,25 +3486,25 @@
   * 또한 생후 100일(약 14주, 3.3개월) 미만의 의학적 정의와 슬라이더의 3개월(90~119일) 단위 간 경계가 모호하여, 3개월 선택 시 100일 미만 여부 판정이 불분명했던 문제.
 * **원인 분석**:
   1. `m < 3`일 때 `newbornAlertBanner.style.display = 'block'`으로 전체 블록 요소가 카드 하단에 동적 삽입되어 CLS(누적 레이아웃 이동)가 발생함.
-  2. 2개월(생후 60일)은 의학적으로 '신생아(생후 28일 이내)'가 아닌 '영아'인데 '신생아'로 오표기되었고, 3개월은 100일 전후의 경계 구간이므로 부모의 명확한 선택권(토글)이 필요했음.
+  2. 2개월(생후 60일)은 의학적으로 '신생아(생후 28일 이내)'가 아닌 '영아'인데 '신생아'로 오표기되었고, 3개월 전후의 분기가 복잡하여 인지적 부담 초래.
 * **구체적 해결 방안**:
   1. **Zero Layout Shift (고정 높이 & 인라인 뱃지화)**:
      - 카드 하단의 `newborn-alert-banner` 요소를 전면 배제.
      - 상단 연령 박스(`age-display-box`)에 `min-height: 72px`를 부여하여 어떤 연령에서도 카드 높이가 1px도 변하지 않도록 완전 고정.
-     - 100일 미만 경고는 상단 박스 우측에 콤팩트한 인라인 뱃지(`🚨 100일 미만 영아`)로 깔끔하게 통합 표출.
-  2. **100일 미만 vs 3개월 소아 임상 표준 4단계 분기 체계 수립**:
-     - `0개월`: `0개월 (신생아)` ➔ `🚨 신생아 주의군` 뱃지 (생후 28일 이내 초응급)
-     - `1~2개월`: `1개월`, `2개월` ➔ `🚨 100일 미만 영아` 뱃지 (100% 100일 미만 SBI 고위험군)
-     - `3개월`: `3개월 (100일 전)` ➔ 기본 100일 미만 안전마진 적용하되, 부모가 100일 초과 시 `[생후 100일 미만 🚨]` 버튼을 탭하여 `3개월 (100일 초과)`로 자유롭게 전환 가능.
-     - `4개월 이상`: 100일 초과 일반 영아/유아/학령기 소아.
+     - 100일 미만 경고는 상단 박스 우측에 콤팩트한 인라인 뱃지(`🚨 100일 미만 위험군`)로 깔끔하게 통합 표출.
+  2. **100일 미만 vs 3개월 소아 임상 표준 명확화**:
+     - `0개월`: `0개월 (신생아)` ➔ `🚨 신생아 위험군` 뱃지 (생후 28일 이내 초응급)
+     - `1~3개월`: 복잡한 괄호 없이 깔끔하게 `${m}개월`로 표기하며, 3개월까지 100일 미만 위험군 프로토콜 일괄 적용.
+     - `4개월 이상`: 100일 초과 일반 영아/유아/학령기 소아 (위험군 뱃지 숨김).
   3. **0ms Red Flag 119 가드레일 연동**:
-     - 3개월 아기가 100일 미만 상태에서 38℃ 이상 발열 시 즉시 신생아 패혈증 의심으로 응급 직행하도록 완벽 바인딩.
+     - 3개월 이하 영아가 38℃ 이상 발열 시 즉시 신생아 패혈증 의심으로 소아전문응급센터/119 직행 가드레일 작동.
 * **적용 파일**:
   * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
   * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 * **조치 결과**:
-  - 슬라이더를 0개월부터 7세까지 어떻게 조작해도 화면이 덜컥거리거나 늘어나는 현상이 100% 사라졌으며, 3개월 아기에 대해서도 백일 전/후 구분이 명확해짐.
+  - 슬라이더를 0개월부터 7세까지 어떻게 조작해도 화면이 덜컥거리거나 늘어나는 현상이 100% 사라졌으며, 3개월 아기에 대해서도 위험군 여부가 명확해짐.
+
 
 
 

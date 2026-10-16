@@ -147,6 +147,29 @@ async def trigger_emergency_bed_sync():
     )
 
 
+@router.post(
+    "/sync-static",
+    summary="전국 달빛병원 & 야간약국 24시간 증분 동기화 즉시 실행",
+    description="공공데이터포털 NMC API를 호출하고 In-Memory Hash Diffing을 통해 변경된 병원/약국만 선택적으로 갱신합니다.",
+)
+async def trigger_static_dataset_sync(
+    force: bool = Query(default=False, description="변경분이 없어도 강제로 갱신 및 JS 번들 재생성 여부"),
+):
+    """Triggers on-demand 24-hour static dataset & incremental delta sync."""
+    stats = await background_daemon.sync_static_datasets(force=force)
+
+    if stats.get("status") == "FAILED":
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"정적 데이터 델타 동기화 중 오류 발생: {stats.get('error')}",
+        )
+
+    return {
+        "status": "SUCCESS",
+        "result": stats,
+    }
+
+
 @router.get(
     "/status",
     response_model=SchedulerStatusResponse,

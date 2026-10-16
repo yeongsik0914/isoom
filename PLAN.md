@@ -82,6 +82,10 @@
     - [10.64 FastAPI Uvicorn 핫 리로드 로컬 서버 백그라운드 기동 및 웹 브라우저 실시간 연동](#1064-fastapi-uvicorn-핫-리로드-로컬-서버-백그라운드-기동-및-웹-브라우저-실시간-연동-2026-10-16-완결)
     - [10.65 실시간 야간 의료시설 현황 목록의 반경 15km 이내 필터링 제한 및 상단 뱃지·탭 카운트 동기화 아키텍처](#1065-실시간-야간-의료시설-현황-목록의-반경-15km-이내-필터링-제한-및-상단-뱃지탭-카운트-동기화-아키텍처-2026-10-16-완결)
     - [10.66 로컬호스트 소켓 연결 거부(ERR_CONNECTION_REFUSED) 복구 및 Uvicorn 데몬 영구 상주 아키텍처](#1066-로컬호스트-소켓-연결-거부err_connection_refused-복구-및-uvicorn-데몬-영구-상주-아키텍처-2026-10-16-완결)
+    - [10.67 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처](#1067-전국-달빛병원야간약국-24시간-주기-공공-api-변경분hash-diffing-자동-업데이트-파이프라인-아키텍처-2026-10-16-완결)
+    - [10.68 전국 달빛어린이병원(156개)·심야약국(2,028개) 24시간 주기 In-Memory Hash Diffing 델타 동기화 서비스 및 관리자 API/CLI 완비](#1068-전국-달빛어린이병원156개심야약국2028개-24시간-주기-in-memory-hash-diffing-델타-동기화-서비스-및-관리자-apicli-완비-2026-10-16-완결)
+    - [10.69 '현재 위치로 설정' 시 상세 주소(도로명·건물명·지번) 유실 결함 해소 및 카카오 2-Tier 역지오코딩 아키텍처](#1069-현재-위치로-설정-시-상세-주소도로명건물명지번-유실-결함-해소-및-카카오-2-tier-역지오코딩-아키텍처-2026-10-16-완결)
+    - [10.70 실시간 야간 의료시설 카드 목록 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 및 탭 스크롤 리셋 아키텍처](#1070-실시간-야간-의료시설-카드-목록-독립-스크롤-뷰포트max-height--sleek-scrollbar-및-탭-스크롤-리셋-아키텍처-2026-10-16-완결)
 11. [프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵](#11-프론트엔드-백엔드-100-결합-명세-및-풀스택-로드맵)
 
 ---
@@ -1533,6 +1537,160 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
 
 ---
 
+### 10.67 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 (2026-10-16 완결)
+* **배경 및 개요**:
+  - `data/*.json`을 `frontend/js/*.js` 번들로 컴파일하여 클라이언트 0ms LBS를 제공하는 체계를 기반으로, 24시간 주기 공공데이터포털(E-Gen) API 호출 및 변경분(Delta)만 감지·갱신하는 Incremental Sync 파이프라인 설계.
+* **주요 엔지니어링 구현 원칙**:
+  1. **APScheduler 24시간 크론 잡 (`app/services/scheduler.py`)**:
+     - `Job 2: Daily 04:00 AM Static Data & Pairing Sync`를 확장하여 이용자 트래픽 최저점인 매일 새벽 4시 자동 가동.
+  2. **기관코드(PK) 기반 In-Memory Hash Diffing**:
+     - 기존 데이터셋과 신규 API 응답 간의 주요 필드(운영시간, 주소, 전화번호, 좌표) SHA-256 해시 대조.
+     - `diff_count == 0`일 경우 0ms Skip 처리하여 불필요한 디스크 I/O와 브라우저 캐시 무효화 원천 차단.
+  3. **변경 감지 시 자동 번들링 컴파일러 연계**:
+     - 신규/수정/삭제 변동 발생 시에만 `data/*.json` 갱신 및 `scripts/build_frontend_datasets.py` 자동 호출로 `frontend/js/*.js` 재생성.
+  4. **온디맨드 관리자 CLI 도구 지원**:
+     - `python scripts/sync_national_datasets_delta.py`를 통한 즉시 수동 델타 검증 지원.
+
+---
+
+### 10.68 전국 달빛어린이병원(156개)·심야약국(2,028개) 24시간 주기 In-Memory Hash Diffing 델타 동기화 서비스 및 관리자 API/CLI 완비 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 전국 156개 달빛어린이병원과 2,028개 야간약국의 정적 데이터셋(`data/*.json`)과 프론트엔드 자바스크립트 번들(`frontend/js/*.js`)은 변경 빈도가 낮으나 진료 시간, 전화번호, 폐업/신설 등의 변동 사항이 발생할 수 있음.
+  - 매일 24시간 주기로 공공데이터포털(E-Gen) API를 전수 호출하더라도, 변경 사항이 없는 대다수의 경우 1.4MB에 달하는 정적 파일을 매번 덮어쓰면 서버 디스크 I/O 낭비 및 브라우저 클라이언트의 0ms HTTP 캐시가 강제 무효화되는 비효율이 발생함.
+* **4대 핵심 엔지니어링 구현**:
+  1. **In-Memory Hash Diffing & 0ms Skip 보호 ([app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py))**:
+     - 기관코드(PK: `hpid`, `dutyAddr`, `dutyName`) 기준으로 핵심 필드(기관명, 주소, 전화번호, 요일별/공휴일 진료시간, WGS84 좌표)의 SHA-256 해시를 산출.
+     - 기존 로컬 데이터셋과 신규 API 응답 간의 Added, Modified, Removed를 메모리 상에서 판별.
+     - `diff_count == 0`인 경우 디스크 쓰기와 자바스크립트 컴파일을 0ms 만에 Skip하여 브라우저 캐시 및 서버 디스크를 100% 보존.
+  2. **변경 감지 시 원자적 번들링 빌더 (`build_frontend_datasets.py`) 자동 연동**:
+     - 변동 사항 발생 시에만 `data/*.json`을 안전하게 덮어쓰고, `frontend/js/*.js` 및 `frontend/templates/js/*.js` 번들을 단일 트랜잭션으로 자동 컴파일.
+  3. **3-Track 백그라운드 스케줄러 자동 결합 ([app/services/scheduler.py](file:///e:/monnlight/app/services/scheduler.py))**:
+     - 기존 `Job 2: Daily 04:00 AM Static Data & Pairing Sync`의 `sync_static_datasets()`에 비동기 통합되어, 매일 새벽 4시마다 무인 자동 점검 및 증분 반영.
+  4. **수동 CLI 도구 및 RESTful 관리자 엔드포인트 완비**:
+     - CLI: `python scripts/sync_national_datasets_delta.py [--force]`로 관리자가 온디맨드로 즉시 동기화 검증 가능 (`[scripts/sync_national_datasets_delta.py](file:///e:/monnlight/scripts/sync_national_datasets_delta.py)`).
+     - API: `POST /api/v1/emergency/sync-static` 엔드포인트 신설로 웹 관리자 대시보드 및 CI/CD 파이프라인에서 트리거 가능 (`[app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)`).
+* **단위 및 통합 검증 ([tests/test_national_dataset_sync.py](file:///e:/monnlight/tests/test_national_dataset_sync.py))**:
+  - TC-SYNC-001(해시 일치성 검증), TC-SYNC-002(변경분 감지 - 추가/수정/삭제), TC-SYNC-003(변경분 없을 시 Skip 검증), TC-SYNC-004(변경분 있을 시 파일 업데이트 및 JS 컴파일 검증), TC-SYNC-005(강제 업데이트 플래그 검증), TC-SYNC-006(스케줄러 잡 비동기 호출 검증), TC-SYNC-007(관리자 API POST 엔드포인트 검증) 7개 전수 통과.
+  - 전체 단위/통합 테스트 스위트 90개 전수 무결점 통과 (`Ran 90 tests in 220.528s, OK`).
+
+---
+
+### 10.69 '현재 위치로 설정' 시 상세 주소(도로명·건물명·지번) 유실 결함 해소 및 카카오 2-Tier 역지오코딩 아키텍처 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 메인 홈 상단 알약 클릭 후 열리는 위치 설정 바텀시트 모달에서 '현재 위치로 설정'을 눌렀을 때, 사용자의 실제 GPS 좌표 기반 상세 주소(예: "송파대로 167 문정역테라타워")가 모달 상단 '현재 설정된 주소'에 반영되지 않고 단순 '문정동'으로 뭉개지는 현상이 보고됨.
+  - 원인 추적 결과, 프론트엔드 `finalizeLocation` 내부의 레거시 조건문이 수신된 상세 주소를 로컬 DB의 짧은 동 이름으로 강제 덮어쓰고 있었으며, 백엔드 역지오코딩 API 또한 건물명과 법정동을 도로명과 유기적으로 결합하지 못하고 있었음.
+* **4대 핵심 엔지니어링 구현**:
+  1. **백엔드 2-Tier 지능형 역지오코딩 파이프라인 ([app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py))**:
+     - 카카오 `coord2address.json`의 도로명 주소(`road_address`), 건물명(`building_name`), 법정동을 결합하여 `서울특별시 송파구 송파대로 167 (문정동, 문정역테라타워)` 형태의 무결점 상세 주소 생성.
+     - 도로명 미부여 지번 지역의 경우 번지수가 포함된 표준 지번 주소(`서울특별시 송파구 문정동 315-2`) 반환.
+     - 지번 검색 불가 공원/도로망 지점 대상 카카오 `coord2regioncode.json` 2차 연계 보정 체계 수립.
+  2. **프론트엔드 무손실 주소 보존 및 원자적 UI 동기화 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `finalizeLocation` 내 강제 덮어쓰기 조건문 전면 삭제.
+     - 모달 상단 바(`modal-current-address-bar`), 상단 알약 버튼, `localStorage['aisum_user_address']` 간 실시간 원자적 동기화 구현.
+  3. **사용자 피드백 및 모달 UX 최적화**:
+     - 토스트 메시지 안내 및 모달 자동 닫기 딜레이를 650ms로 안정화하여 사용자가 변경된 상세 주소를 시각적으로 명확히 인지하도록 처리.
+  4. **단위 테스트 스위트 확장 및 검증 ([tests/test_location_api.py](file:///e:/monnlight/tests/test_location_api.py))**:
+     - 신규 상세 도로명/건물명/지번 포맷팅 및 Fallback 상세 주소 검증 2개 테스트 추가 (8개 테스트 100% 통과).
+     - 전체 단위/통합/E2E 테스트 스위트 92개 전수 무결점 통과 (`Ran 92 tests, OK`).
+
+---
+
+### 10.70 실시간 야간 의료시설 카드 목록 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 및 탭 스크롤 리셋 아키텍처 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 메인 홈 화면(`index.html`)에서 반경 15km 이내의 실시간 달빛병원과 심야약국이 최대 수십 개 렌더링되면서 전체 웹 뷰포트가 과도하게 길어져, 상단 119/문진 CTA 영역 및 하단 고정 GNB 바와의 균형이 저해되고 탐색 피로도가 급증함.
+  - 의료시설 목록 카드 영역만 적정 높이로 고정하고, 그 내부에서만 매끄럽게 스크롤되도록 하는 독립 스크롤 뷰포트(Containerized Scroll Viewport) 아키텍처가 요구됨.
+* **4대 핵심 엔지니어링 구현**:
+  1. **독립 스크롤 뷰포트 CSS 아키텍처 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `.facility-card-stack`에 `max-height: 480px;`, `overflow-y: auto;`, `overflow-x: hidden;` 부여.
+     - 모바일 웹 및 iOS Safari 관성 스크롤(`-webkit-overflow-scrolling: touch;`)과 부드러운 스크롤(`scroll-behavior: smooth;`) 결합.
+     - 5px 너비의 모던 미니멀 스크롤바(`::-webkit-scrollbar`) 커스텀 스타일링 적용.
+  2. **하단 탐색 버튼 스크롤 인터랙션 결합 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+     - "스크롤하여 더 많은 의료시설 확인" 버튼(`.scroll-more-btn`) 클릭 시 `.facility-card-stack`을 260px 부드럽게 자동 스크롤하도록 `onclick` 핸들러 결합.
+  3. **카테고리 탭 변경 시 자동 상단 리셋 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - '전체' / '🌙 달빛병원' / '💊 심야약국' 탭 전환 시 `scrollTop = 0`으로 즉각 초기화하여 항상 1등 시설부터 쾌적하게 열람 가능하도록 최적화.
+  4. **통합 연동 검증 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - 프론트엔드 연동 3개 테스트 전수 통과 및 92개 단위/통합 테스트 무결점 통과 유지.
+
+---
+
+### 10.71 실시간 야간 의료시설 카드 여백(Padding/Gap) 컴팩트 최적화 및 '더 많은 의료시설 확인' 버튼 전면 제거·스크롤 전수 탐색 구현 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 실시간 야간 의료시설 카드 내부 패딩(`16px`)과 간격(`12px`), 텍스트/아이콘 마진이 다소 넓어 480px 높이의 스크롤 뷰포트 내에서 한 번에 2개 남짓의 카드만 노출되는 정보 밀도 저하 문제가 확인됨.
+  - 또한 스크롤 뷰포트 하단에 위치한 "더 많은 의료시설 확인" 버튼은 이미 스크롤이 가능한 영역에서 중복 인터랙션을 유발하여 UX 직관성을 저하시킴.
+* **4대 핵심 엔지니어링 구현**:
+  1. **카드 스택 및 개별 카드 여백 컴팩트 CSS 최적화 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `.facility-card-stack`: `gap: 8px;`, `padding: 2px 4px 6px 2px;`, `max-height: 520px;`로 재조정하여 하단 네비게이션 직전까지 시원한 탐색 공간 확보.
+     - `.facility-card`: 패딩 `16px` ➔ `11px 13px`, `border-radius: 14px;`, 내부 요소 `gap: 8px;`로 압축.
+     - `.facility-icon-wrap`: `36px x 36px` (아이콘 `20px`).
+     - 타이포그래피: 시설명 `15px` (`line-height: 1.25`), 주소/설명 `11.5px` (`line-height: 1.35`), 뱃지 `10.5px`.
+     - 액션 요소: 전화 버튼 `34px x 34px` (아이콘 `17px`), 카드 푸터 상단 마진 `7px`.
+  2. **'더 많은 의료시설 확인' 버튼 전면 삭제 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html) & [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `index.html`에서 `<div class="scroll-more-btn-wrap">` 및 버튼 엘리먼트 완전 적출.
+     - `style.css`에서 관련 스타일 클래스를 `display: none !important;`로 영구 배제.
+  3. **스크롤 컨테이너 전수 렌더링 전환 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `renderLiveFacilities`에서 15개 단위 슬라이스 및 더보기 버튼 조작 로직을 제거하고, `sliceList = displayList`로 전체 목록을 스크롤 영역에 즉시 렌더링.
+     - 휠 및 터치 제스처만으로 반경 15km 내 408곳 전체를 끊김 없이 연속 열람 가능.
+  4. **통합 테스트 및 무결점 검증 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - 프론트엔드 연동 3개 테스트 전수 통과 및 전체 단위/통합 테스트 스위트 92개 전수 무결점 통과 확인.
+
+---
+
+### 10.72 메인 홈 전용 고정 앱 셸(Fixed App Shell) 및 실시간 의료현황 전용 스크롤(Exclusive Inner Scroll) 아키텍처 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 모바일 웹 또는 데스크톱 브라우저에서 메인 홈(`index.html`)을 탐색할 때, 브라우저 전체 창이 위아래로 스크롤되어 상단 앱 헤더, 위치 알약 버튼, "아이가 어디가 아픈가요?" Hero 카드가 상단 뷰포트 밖으로 밀려 올라가는 바깥 스크롤(Outer Scroll) 현상이 발생함.
+  - 상단 헤더, 문진 CTA 카드, 실시간 야간 시설 타이틀/탭, 하단 GNB 내비게이션 바는 화면에 완전 고정(Fixed)시키고, 오직 "실시간 야간 의료시설" 카드 목록 내부에서만 스크롤되도록 격리하는 Fixed App Shell 아키텍처가 요구됨.
+* **4대 핵심 엔지니어링 구현**:
+  1. **바깥 스크롤 완전 차단 (Outer Scroll Locked) ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+     - `body.main-home-body`: `height: 100vh; height: 100dvh; overflow: hidden;`
+     - `.mobile-viewport.main-home-shell`: `height: 100vh; height: 100dvh; max-height: 100dvh; overflow: hidden; display: flex; flex-direction: column;`
+     - 데스크톱 환경(`@media (min-width: 640px)`): `height: min(920px, calc(100vh - 24px));`로 창 높이 안에 쏙 들어가도록 바인딩.
+  2. **상단 및 하단 주요 컴포넌트 완전 고정 (`flex-shrink: 0`)**:
+     - `.app-header` (상단 헤더 + 위치 알약): `flex-shrink: 0;` (58px 고정).
+     - `.hero-card` (증상 문진 CTA 배너): `flex-shrink: 0;` (고정).
+     - `.section-header` 및 `.filter-tabs`: `flex-shrink: 0;` (고정).
+     - `.bottom-nav`: `position: absolute; bottom: 0;` (하단 완전 고정).
+  3. **실시간 의료시설 영역 전용 스크롤 (`flex: 1; min-height: 0; overflow-y: auto`)**:
+     - `.facilities-section`: `flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden;`
+     - `.facility-card-stack`: `flex: 1; min-height: 0; height: 100%; max-height: none; overflow-y: auto; overflow-x: hidden;`
+     - 상하 고정 요소를 제외한 뷰포트 남은 높이 전체를 100% 점유하며, 오직 실시간 의료현황 카드 목록 내부에서만 수백 개 카드가 끊김 없이 부드럽게 스크롤됨.
+  4. **서브 페이지 영향 격리 및 DOM 정합성 유지 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+     - `main-home-body`, `main-home-shell` 클래스로 메인 페이지만 독립 스코핑하여 다른 서브 페이지 스크롤 동작을 보존하고 잉여 닫는 div 태그 삭제.
+
+---
+
+### 10.73 실시간 야간 의료시설 전체 탭 병원 최우선 1:1 교차(Interleaving) 랭킹 알고리즘 아키텍처 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 반경 15km 이내 시설 목록에서 심야약국 밀집도(391곳)가 달빛병원(17곳)에 비해 20배 이상 높아, 단순 물리적 거리(`distKm`)로 정렬 시 사용자 반경 0.5km 이내의 약국들이 상단 목록을 독점하는 의료 우선순위 역전 문제가 발생함.
+  - 야간 소아 진료가 시급한 부모의 입장을 최우선으로 반영하여, 최단거리 달빛어린이병원을 최상단 1등으로 보장하고 병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 형태로 1:1 교차(Interleaving) 노출하는 랭킹 엔진이 요구됨.
+* **4대 핵심 엔지니어링 구현**:
+  1. **1:1 인터리빙 교차 결합 알고리즘 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+     - `filteredHospitals`와 `filteredPharmacies`를 각각 거리순 정렬 후, `for` 루프에서 병원 1개, 약국 1개를 순서대로 Push하는 1:1 교차 파이프라인 구축.
+     - `interleavedList = [병원 #1, 약국 #1, 병원 #2, 약국 #2, ...]`.
+     - 병원이 모두 소진된 이후(`i >= filteredHospitals.length`)에는 남은 약국들이 거리순으로 연속하여 안전하게 이어지도록 방어.
+  2. **의료 탐색 시너지 극대화**:
+     - 부모가 1순위 병원 카드를 확인하는 동시에 바로 아래에서 인근 연계 약국을 확인하거나, 2순위 대안 병원을 직관적으로 비교할 수 있는 의료적 동선 편의성 제공.
+  3. **카테고리 탭 정합성 유지**:
+     - '전체' 탭은 1:1 교차 목록 렌더링, '🌙 달빛병원' 탭은 병원 전수 거리순 렌더링, '💊 심야약국' 탭은 약국 전수 거리순 렌더링 유지 및 탭 전환 시 상단 스크롤 리셋.
+  4. **통합 테스트 및 무결점 검증 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - 프론트엔드 연동 3개 테스트 전수 통과 및 92개 단위/통합 테스트 무결점 통과 유지.
+
+---
+
+### 10.74 메인 홈 증상 문진 Hero 카드 타이틀 가운데 정렬 및 시각적 위계 최적화 (2026-10-16 완결)
+* **기획 배경 및 문제 정의**:
+  - 메인 홈 상단의 증상 문진 Hero 카드(`.hero-card`) 메인 타이틀("아이가 어디가 아픈가요?")이 좌측 정렬되어 있고 임의의 `<br>` 마크업이 포함되어 있어, 하단 중앙 정렬 풀위드 CTA 버튼과의 시각적 수직 중심선이 일치하지 않아 사용자의 시선 집중도가 저하됨.
+* **4대 핵심 엔지니어링 구현**:
+  1. **헤드라인 컨테이너 중앙 정렬 (`frontend/css/style.css`)**:
+     - `.hero-body`: `display: flex; align-items: center; justify-content: center; text-align: center; margin-bottom: 14px;` 적용.
+  2. **타이틀 텍스트 대칭 배치 (`frontend/css/style.css`)**:
+     - `.hero-title`: `font-size: 22px; font-weight: 800; text-align: center; width: 100%;` 적용으로 버튼과의 완벽한 수직 대칭축 확립.
+  3. **마크업 정리 (`frontend/templates/index.html`)**:
+     - 임의의 `<br>` 태그를 제거하고 CSS 여백 표준화.
+  4. **통합 테스트 및 무결점 검증 ([tests/test_step8_frontend_integration.py](file:///e:/monnlight/tests/test_step8_frontend_integration.py))**:
+     - 프론트엔드 연동 3개 테스트 전수 통과 및 92개 단위/통합 테스트 무결점 통과 유지.
+
+---
+
 ## 11. 프론트엔드-백엔드 100% 결합 명세 및 풀스택 로드맵
 
 > **전용 상세 백서**: [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/monnlight/FRONTEND_BACKEND_INTEGRATION_SPEC.md) (프론트엔드-백엔드 100% 결합 연동 명세서 전문 수록)
@@ -1565,5 +1723,5 @@ ationwide_pairings.js)에 직접 탑재하여 클라이언트 사이드 0ms Have
 
 현재 MoonlightCare 프로젝트는 **Step 1(기반 파이프라인)**부터 **Step 6(E2E 통합)**, **차세대 2계층 Red Flag V2 모듈**, **Step 7(공공 API 서킷 브레이커 & 3-Tier Multi-Storage Fallback 아키텍처)**, **Step 8(프론트엔드 결합 백엔드 1단계: 임상 DTO 확장 & force_matching FSM 모드)**, 그리고 **팀 프로젝트 협업 및 4대 문서 지속 누적 관리 거버넌스(v2.1.1)**에 이르는 전체 개발 로드맵을 완벽하게 완수하였습니다.
 
-현재 **총 83개 단위/통합 테스트 전수 무결점 통과(`Ran 83 tests, OK`)** 및 **40대 소아 임상 골든 케이스 Evals 100.0% 합격(평균 99.5점)**을 달성하여, 실시간 장애 복원력과 의료 AI 임상 안전성, 법적 방어(의료법 제27조), 클라우드 비용 효율(FinOps), 그리고 팀 협업 코드-문서 무결성 전 영역에서 상용 서비스 론칭 기준을 완전히 충족하였습니다.
+현재 **총 92개 단위/통합 테스트 전수 무결점 통과(`Ran 92 tests, OK`)** 및 **40대 소아 임상 골든 케이스 Evals 100.0% 합격(평균 99.5점)**을 달성하여, 실시간 장애 복원력과 의료 AI 임상 안전성, 법적 방어(의료법 제27조), 클라우드 비용 효율(FinOps), 그리고 팀 협업 코드-문서 무결성 전 영역에서 상용 서비스 론칭 기준을 완전히 충족하였습니다.
 

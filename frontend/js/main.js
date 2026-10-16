@@ -238,7 +238,7 @@ window.estimateDongFromCoords = function(lat, lon) {
   return best;
 };
 
-window.updateLocationDisplay = function(dongName, lat, lon) {
+window.updateLocationDisplay = function(dongName, lat, lon, customFullAddr) {
   const name = dongName || '문정동';
   const textEl = document.getElementById('current-location-text');
   const pillBtn = document.getElementById('current-location-pill');
@@ -249,10 +249,36 @@ window.updateLocationDisplay = function(dongName, lat, lon) {
     pillBtn.setAttribute('aria-label', `현재 위치 변경: ${name}`);
   }
 
+  // Determine full address: customFullAddr 우선, 없으면 기 저장 주소, 그 외 fallback
+  let fullAddr = customFullAddr;
+  if (!fullAddr) {
+    const isManual = localStorage.getItem('aisum_location_manual') === 'true';
+    if (isManual) {
+      fullAddr = localStorage.getItem('aisum_user_address') || `서울특별시 송파구 ${name}`;
+    } else {
+      const savedAddr = localStorage.getItem('aisum_user_address');
+      if (savedAddr && savedAddr !== '현재 위치' && savedAddr !== '현재 GPS 측정 위치') {
+        fullAddr = savedAddr;
+      } else {
+        const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === name);
+        fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : `서울특별시 송파구 ${name}`;
+      }
+    }
+  }
+
   // Persist into localStorage via PermissionManager
   if (window.AisumPermissionManager) {
-    const fullAddr = localStorage.getItem('aisum_user_address') || `서울특별시 송파구 ${name}`;
     window.AisumPermissionManager.saveUserLocation(lat || 37.4858, lon || 127.1225, name, fullAddr);
+  } else {
+    try {
+      localStorage.setItem('aisum_user_lat', lat || 37.4858);
+      localStorage.setItem('aisum_user_lon', lon || 127.1225);
+      localStorage.setItem('user_lat', lat || 37.4858);
+      localStorage.setItem('user_lon', lon || 127.1225);
+      localStorage.setItem('aisum_user_dong', name);
+      localStorage.setItem('user_dong', name);
+      localStorage.setItem('aisum_user_address', fullAddr);
+    } catch (e) {}
   }
 
   // Update active status in quick-locations-grid
@@ -272,8 +298,7 @@ window.updateLocationDisplay = function(dongName, lat, lon) {
   }
   const barEl = document.getElementById('modal-current-address-bar');
   if (barEl) {
-    const fullAddr = localStorage.getItem('aisum_user_address') || `서울특별시 송파구 ${name}`;
-    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon">home_pin</span><span class="current-bar-text">현재 주소: <strong>${escapeSearchHtml(fullAddr)}</strong></span>`;
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
   }
 };
 
@@ -290,13 +315,27 @@ window.autoDetectUserLocation = function() {
   }
 
   navigator.geolocation.getCurrentPosition(
-    (position) => {
+    async (position) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      const detectedDong = window.estimateDongFromCoords(lat, lon);
-      console.log('📍 [Aisum GPS] 브라우저 실시간 위치 감지 완료:', detectedDong, lat, lon);
+      let dong = window.estimateDongFromCoords(lat, lon);
+      let fullAddr = `서울특별시 송파구 ${dong}`;
 
-      window.updateLocationDisplay(detectedDong, lat, lon);
+      try {
+        const resp = await fetch(`/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data && data.full_address && data.full_address !== '현재 위치' && data.full_address !== '현재 GPS 측정 위치') {
+            fullAddr = data.full_address;
+            if (data.dong && data.dong !== '현재 위치' && data.dong !== '내 위치') {
+              dong = data.dong;
+            }
+          }
+        }
+      } catch (e) {}
+
+      console.log('📍 [Aisum GPS] 브라우저 실시간 위치 감지 완료:', dong, lat, lon, fullAddr);
+      window.updateLocationDisplay(dong, lat, lon, fullAddr);
       window.initLiveFacilities();
     },
     (err) => {
@@ -331,7 +370,7 @@ window.fetchIpLocationFallback = function() {
 window.initUserLocation = function() {
   const loc = window.AisumPermissionManager
     ? window.AisumPermissionManager.getUserLocation()
-    : { lat: 37.5006, lon: 127.0365, dong: '역삼동', isCustom: false };
+    : { lat: 37.4858, lon: 127.1225, dong: '문정동', isCustom: false };
 
   window.updateLocationDisplay(loc.dong, loc.lat, loc.lon);
 
@@ -347,70 +386,105 @@ window.refreshUserCurrentLocation = function() {
   if (btn) {
     btn.disabled = true;
     btn.style.opacity = '0.7';
-    btn.innerHTML = '<span class="material-symbols-outlined gps-icon" style="animation:spin 1s linear infinite;">sync</span><div class="gps-text-wrap"><span class="gps-main-text">현재 위치 측정 중...</span></div>';
+    btn.innerHTML = '<span class="material-symbols-outlined gps-icon" style="animation:spin 1s linear infinite;">sync</span><div class="gps-text-wrap"><span class="gps-main-text">현재 위치 측정 중...</span><span class="gps-sub-text">기기 실제 GPS 좌표를 실시간 조회하고 있습니다</span></div>';
   }
 
-  // 수동 선택 해제
+  // 1. 수동 선택 상태 초기화
   try {
     localStorage.removeItem('aisum_location_manual');
   } catch (e) {}
 
-  if (!('geolocation' in navigator)) {
+  const finalizeLocation = async (lat, lon) => {
+    let dong = window.estimateDongFromCoords(lat, lon);
+    let fullAddr = '';
+
+    // 2. 카카오 역지오코딩 백엔드 API (coord2address) 실시간 호출
+    try {
+      const resp = await fetch(`/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data && data.full_address && data.full_address !== '현재 위치' && data.full_address !== '현재 GPS 측정 위치') {
+          // 카카오 역지오코딩이 반환한 상세 도로명/건물명/지번 주소를 100% 보존
+          fullAddr = data.full_address;
+          if (data.dong && data.dong !== '현재 위치' && data.dong !== '내 위치') {
+            dong = data.dong;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Reverse geocoding API error, using local fallback:', e);
+    }
+
+    // 3. 만약 API 응답이 없거나 실패한 경우에만 로컬 DB에서 안전하게 fallback 주소 구성
+    if (!fullAddr) {
+      const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === dong);
+      fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : `서울특별시 송파구 ${dong}`;
+    }
+
     if (btn) {
       btn.disabled = false;
       btn.style.opacity = '1';
       btn.innerHTML = originalHtml;
     }
-    if (typeof window.showAisumToast === 'function') {
-      window.showAisumToast('기기에서 위치 서비스를 지원하지 않습니다.');
+
+    // 4. UI 및 LocalStorage에 상세 주소 완벽 동기화 (모달 상단 현재 설정된 주소 바 즉각 반영)
+    window.updateLocationDisplay(dong, lat, lon, fullAddr);
+
+    // 모달 상단 주소 바 엘리먼트 즉시 시각 갱신
+    const barEl = document.getElementById('modal-current-address-bar');
+    if (barEl) {
+      barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
     }
+
+    if (typeof window.initLiveFacilities === 'function') {
+      window.initLiveFacilities();
+    }
+    if (typeof window.showAisumToast === 'function') {
+      window.showAisumToast(`📍 현재 위치로 설정되었습니다: ${dong}`);
+    }
+
+    // 사용자가 바뀐 상세 주소를 모달에서 눈으로 충분히 확인할 수 있도록 650ms 후 모달 자동 닫기
+    setTimeout(() => {
+      if (typeof window.closeLocationModal === 'function') {
+        window.closeLocationModal();
+      }
+    }, 650);
+  };
+
+  const handleGpsFallback = () => {
+    const savedLat = parseFloat(localStorage.getItem('aisum_user_lat') || '37.4858');
+    const savedLon = parseFloat(localStorage.getItem('aisum_user_lon') || '127.1225');
+    console.log('📍 [Aisum GPS Fallback] 기본/캐시 좌표 기반으로 현재 위치 갱신:', savedLat, savedLon);
+    finalizeLocation(savedLat, savedLon);
+  };
+
+  if (!('geolocation' in navigator)) {
+    handleGpsFallback();
     return;
   }
 
   navigator.geolocation.getCurrentPosition(
     (position) => {
-      if (btn) {
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        btn.innerHTML = originalHtml;
-      }
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      const dong = window.estimateDongFromCoords(lat, lon);
-      window.updateLocationDisplay(dong, lat, lon);
-      if (typeof window.closeLocationModal === 'function') {
-        window.closeLocationModal();
-      }
-      if (typeof window.initLiveFacilities === 'function') {
-        window.initLiveFacilities();
-      }
-      if (typeof window.showAisumToast === 'function') {
-        window.showAisumToast(`📍 현재 위치(${dong})로 갱신되었습니다.`);
-      }
+      finalizeLocation(lat, lon);
     },
     (err) => {
-      console.warn('Geolocation error:', err);
-      if (btn) {
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        btn.innerHTML = originalHtml;
-      }
-      if (typeof window.showAisumToast === 'function') {
-        window.showAisumToast('위치 권한을 확인해주세요. (설정에서 허용 필요)');
-      }
+      console.warn('Geolocation error or permission denied:', err);
+      handleGpsFallback();
     },
-    { enableHighAccuracy: true, timeout: 6000, maximumAge: 5000 }
+    { enableHighAccuracy: true, timeout: 5000, maximumAge: 3000 }
   );
 };
 
 window.setUserCustomLocation = function(dongName, lat, lon, fullAddr) {
+  const userAddr = fullAddr || `서울특별시 송파구 ${dongName}`;
   try {
     localStorage.setItem('aisum_location_manual', 'true');
-    const userAddr = fullAddr || `서울특별시 송파구 ${dongName}`;
     localStorage.setItem('aisum_user_address', userAddr);
   } catch (e) {}
 
-  window.updateLocationDisplay(dongName, lat, lon);
+  window.updateLocationDisplay(dongName, lat, lon, userAddr);
   if (typeof window.closeLocationModal === 'function') {
     window.closeLocationModal();
   }
@@ -828,7 +902,11 @@ window.openLocationModal = function() {
   }
   const barEl = document.getElementById('modal-current-address-bar');
   if (barEl) {
-    const fullAddr = localStorage.getItem('aisum_user_address') || `서울특별시 송파구 ${currentDong}`;
+    let fullAddr = localStorage.getItem('aisum_user_address');
+    if (!fullAddr) {
+      const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === currentDong);
+      fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : `서울특별시 송파구 ${currentDong}`;
+    }
     barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:16px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
   }
 
@@ -839,8 +917,9 @@ window.openLocationModal = function() {
     let chipsHtml = '';
     popular.forEach((loc) => {
       const isActive = loc.name === currentDong;
+      const chipAddr = loc.fullAddr || `서울특별시 ${loc.gu} ${loc.name}`;
       chipsHtml += `
-        <button type="button" class="loc-chip-btn ${isActive ? 'active' : ''}" data-dong="${loc.name}" onclick="window.setUserCustomLocation('${loc.name}', ${loc.lat}, ${loc.lon})">
+        <button type="button" class="loc-chip-btn ${isActive ? 'active' : ''}" data-dong="${loc.name}" onclick="window.setUserCustomLocation('${loc.name}', ${loc.lat}, ${loc.lon}, '${escapeSearchHtml(chipAddr)}')">
           <span class="chip-name">${loc.name}</span>
           <span class="chip-gu">${loc.gu}</span>
         </button>
@@ -995,8 +1074,18 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
   const filteredHospitals = hospitals.filter(h => h.distKm <= MAX_RADIUS_KM);
   const filteredPharmacies = pharmacies.filter(p => p.distKm <= MAX_RADIUS_KM);
 
-  // 4. 전체(all) 탭: 15km 이내 병원 + 약국 통합 최단거리 오름차순 정렬
-  const allList = [...filteredHospitals, ...filteredPharmacies].sort((a, b) => a.distKm - b.distKm);
+  // 4. 전체(all) 탭: 병원 최우선 1:1 교차(Interleaving) 정렬 (병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 ...)
+  const interleavedList = [];
+  const maxLen = Math.max(filteredHospitals.length, filteredPharmacies.length);
+  for (let i = 0; i < maxLen; i++) {
+    if (i < filteredHospitals.length) {
+      interleavedList.push(filteredHospitals[i]);
+    }
+    if (i < filteredPharmacies.length) {
+      interleavedList.push(filteredPharmacies[i]);
+    }
+  }
+  const allList = interleavedList;
 
   // 5. 전역 마스터 객체 등록 (15km 필터링 적용 및 원본 보관)
   window.__LIVE_FACILITIES_MASTER__ = {
@@ -1030,17 +1119,7 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
   const countPharm = document.getElementById('count-pharmacy');
   if (countPharm) countPharm.textContent = pharmCount.toLocaleString();
 
-  // 7. 더보기 버튼 이벤트 연동
-  const moreBtn = document.querySelector('.scroll-more-btn');
-  if (moreBtn && !moreBtn.dataset.bound) {
-    moreBtn.dataset.bound = 'true';
-    moreBtn.addEventListener('click', () => {
-      window.__FACILITY_VISIBLE_COUNT__ += window.__FACILITY_PAGE_STEP__;
-      window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
-    });
-  }
-
-  // 8. 현재 필터에 맞춰 즉시 렌더링
+  // 7. 현재 필터에 맞춰 즉시 렌더링
   window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
 };
 
@@ -1051,8 +1130,6 @@ window.renderLiveFacilities = function(filter) {
   const master = window.__LIVE_FACILITIES_MASTER__;
   const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
   const displayList = master[currentFilter] || master.all || [];
-
-  const moreBtn = document.querySelector('.scroll-more-btn');
 
   // 목록이 비어있는 경우 (반경 15km 이내 시설이 없음)
   if (displayList.length === 0) {
@@ -1066,15 +1143,13 @@ window.renderLiveFacilities = function(filter) {
         </div>
       </article>
     `;
-    if (moreBtn) {
-      moreBtn.style.display = 'none';
-    }
+    const moreBtn = document.querySelector('.scroll-more-btn');
+    if (moreBtn) moreBtn.style.display = 'none';
     return;
   }
 
-  // 카드 렌더링 범위 (페이징 슬라이스)
-  const visibleCount = window.__FACILITY_VISIBLE_COUNT__ || 15;
-  const sliceList = displayList.slice(0, visibleCount);
+  // 시설 목록 전수 렌더링 (내부 스크롤 뷰포트를 통해 부드럽게 전체 탐색 가능)
+  const sliceList = displayList;
 
   // Render cards HTML
   let cardsHTML = '';
@@ -1127,19 +1202,10 @@ window.renderLiveFacilities = function(filter) {
 
   stack.innerHTML = cardsHTML;
 
-  // 더보기 버튼 텍스트 상태 동기화
+  // 더보기 버튼이 남아있는 경우 숨김 처리
+  const moreBtn = document.querySelector('.scroll-more-btn');
   if (moreBtn) {
-    moreBtn.style.display = '';
-    const textSpan = moreBtn.querySelector('span:last-child');
-    if (textSpan) {
-      if (visibleCount >= displayList.length) {
-        textSpan.textContent = `반경 15km 내 전체 ${displayList.length.toLocaleString()}곳 확인 완료`;
-        moreBtn.style.opacity = '0.7';
-      } else {
-        textSpan.textContent = `더 많은 의료시설 확인 (${Math.min(visibleCount, displayList.length).toLocaleString()} / ${displayList.length.toLocaleString()}곳)`;
-        moreBtn.style.opacity = '1';
-      }
-    }
+    moreBtn.style.display = 'none';
   }
 };
 
@@ -1287,6 +1353,10 @@ window.filterLiveFacilities = function(filter) {
   }
 
   window.renderLiveFacilities(filter);
+  const stack = document.getElementById('facility-card-stack');
+  if (stack) {
+    stack.scrollTop = 0;
+  }
 };
 
 // BFCache (Back-Forward Cache) and navigation restoration

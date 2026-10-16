@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-83%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-92%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -28,16 +28,101 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
-### 🌟 [v2.4.57-pediatric-fever-standards-and-temp-sync] 2026-10-16: 체온 다이얼 수치 불일치(41.0℃ vs 39.5℃) 교정, 구어체 증상 체온 자동 감지 및 소아 표준 체온 5단계 분류 일치 (김동준 팀원)
+### 🌟 [v2.4.65-pediatric-fever-standards-and-temp-sync] 2026-10-16: 소아 전문 문진(input.html) 체온 다이얼 5단계 의학 표준화, 구어체 체온 자동 인식, 100일 미만 위험군 인라인 뱃지화 및 레이아웃 시프트 0px 달성 (김동준 팀원)
 * **🎯 체온 다이얼 바늘 및 상태 뱃지 수치 불일치 결함 무결점 교정 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
   - 다이얼 바늘을 41.0℃로 올렸을 때 하단 알약 배지에 `39.5℃ 초고열`로 고정 출력되던 하드코딩 텍스트를 제거하고 `🔥 초고열 위급` 상태 명칭으로 일원화.
   - 대형 수치(`41.0℃`), 바늘 회전각, 상단 배지, 하단 알약 배지 간 100% 모순 없는 정합성 달성.
+  - 어색하고 긴 개행 텍스트(`손가락으로 바늘을 돌려보세요`)를 완전 제거하고 초기 상태부터 단정하고 세련된 1줄 상태 뱃지(`🟠 발열 주의`)로 표출.
 * **🗣️ 구어체 증상("열이있어요", "고열", "미열", "초고열") 체온 자동 인식 & 백엔드 연동 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html), [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py))**:
   - 숫자가 없는 구어체 증상 입력 시에도 임상 표준 추정치(초고열 40.0℃, 고열 39.2℃, 일반 발열 38.5℃, 미열 37.8℃) 자동 인식 및 다이얼 연동.
   - 백엔드 Gemini LLM Triage 프롬프트 및 Fallback 정규식 파서에 구어체 체온 변환 엔진 탑재 완료.
 * **📚 소아 체온 의학 표준 5단계 분류 체계 전면 동기화 (KAP 대한소아청소년과학회 & AAP 미국소아과학회 표준)**:
   - `t < 37.5℃`: 🟢 정상 체온 / `37.5 <= t < 38.0℃`: ⚠️ 미열 관찰 / `38.0 <= t < 39.0℃`: 🟠 발열 주의 / `39.0 <= t < 40.0℃`: 🚨 고열 지속 / `t >= 40.0℃`: 🔥 초고열 위급.
   - 기존 38.0~38.4℃ 구간이 '미열'로 잘못 표기되던 임상적 결함을 '발열 주의'로 정확히 분리 교정하고 SVG 눈금 그라데이션 재정렬 완료.
+* **👶 2개월 이하 선택 시 화면 길어짐(Layout Shift) 원천 해결 및 100일 미만 위험군 인라인화**:
+  - 하단에 덜컥거리며 나타나던 3줄짜리 빨간 경고 배너를 전면 제거하고 상단 연령 박스(`min-height: 72px`) 내 우측 인라인 뱃지(`🚨 100일 미만 위험군`)로 일원화 (Zero Layout Shift 달성).
+  - 3개월 연령의 번거로운 `(100일 전)`, `(100일 초과)` 분기를 배제하고 `3개월` 단일 표기 및 0~3개월 전체 100일 미만 위험군 일괄 적용.
+
+### 🌟 [v2.4.64-hero-card-title-center-alignment] 2026-10-16: 메인 홈 증상 문진 Hero 카드 타이틀("아이가 어디가 아픈가요?") 중앙 정렬 및 여백 최적화 (정영식 팀장)
+* **🎯 타이틀 텍스트 완벽한 수평 중앙 정렬 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - 증상 문진 Hero 카드(`.hero-card`) 내 헤드라인 타이틀(`.hero-title`) 및 컨테이너(`.hero-body`)에 `display: flex; align-items: center; justify-content: center; text-align: center;`를 적용하여 카드 너비 정중앙 배치.
+  - 하단 풀위드 CTA 버튼("아이 증상 입력하고 병원 찾기")과 완벽한 수직 대칭축을 형성하여 시각적 몰입도와 심미성 극대화.
+* **🧹 HTML 마크업 정돈 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+  - 임의로 삽입되어 있던 `<br>` 태그를 제거하고 CSS `margin-bottom: 14px`로 컴포넌트 간 여백 표준화.
+
+### 🌟 [v2.4.63-live-facilities-hospital-first-interleaving-sort] 2026-10-16: 실시간 야간 의료시설 전체 탭 병원 최우선 1:1 교차(Interleaving) 정렬(병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 ...) 랭킹 알고리즘 구현 (정영식 팀장)
+* **🏥 달빛어린이병원 최우선 1등 노출 보장 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - 기존 단순 거리순 정렬 시 사용자 주변 근거리(0.2~0.5km) 심야약국들의 상위 독점으로 인해 소아 야간 진료 병원이 한참 뒤로 밀리던 의료 우선순위 역전 결함 해소.
+  - 내 위치 기준 최단거리 달빛어린이병원이 전체 탭 1번째 카드로 최상단에 즉시 노출되도록 보장.
+* **🔄 1:1 인터리빙(Interleaving) 교차 정렬 파이프라인**:
+  - `filteredHospitals`와 `filteredPharmacies`를 1:1로 번갈아 배치하여 `[병원 #1] ➔ [약국 #1] ➔ [병원 #2] ➔ [약국 #2] ...` 형태로 교차 렌더링.
+  - 병원 17곳이 소진된 이후에는 남은 심야약국들이 거리순으로 연속하여 안전하게 이어지도록 구성.
+* **🎯 필터 탭 정합성 유지**:
+  - '전체' 탭은 병원 최우선 1:1 교차 렌더링, '🌙 달빛병원' 탭은 병원만 100% 거리순, '💊 심야약국' 탭은 약국만 100% 거리순 렌더링 및 탭 전환 시 상단 스크롤 리셋 유지.
+
+### 🌟 [v2.4.62-main-home-fixed-shell-and-facility-exclusive-scroll] 2026-10-16: 메인 홈 고정 앱 셸(Fixed App Shell) 구축 및 실시간 야간 의료시설 전용 내부 스크롤 격리 완결 (정영식 팀장)
+* **🔒 메인 홈 바깥 스크롤 완전 차단 (No Outer Scroll) ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - `body.main-home-body`에 `height: 100vh; height: 100dvh; overflow: hidden;`을 선언하여 모바일과 데스크톱 브라우저에서 바깥 스크롤이 0px도 발생하지 않도록 화면 고정.
+  - `.mobile-viewport.main-home-shell`의 높이를 `100dvh`로 바인딩하고 데스크톱에서는 `height: min(920px, calc(100vh - 24px));`로 화면 높이 내에 깔끔하게 들어맞도록 제어.
+* **📌 상단 헤더·CTA 카드·GNB 내비게이션 완벽 고정 (`flex-shrink: 0`)**:
+  - 상단 앱 헤더(`.app-header`, 58px), 증상 문진 배너(`.hero-card`), 실시간 시설 헤더 및 3개 탭 필터(`.filter-tabs`), 하단 GNB 바(`.bottom-nav`)를 완벽하게 고정하여 화면 흔들림 및 상단 밀려 올라감 원천 차단.
+* **📲 실시간 의료시설 전용 동적 스크롤 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - `.facilities-section`과 `.facility-card-stack`에 `flex: 1; min-height: 0; overflow-y: auto;`를 부여하여, 상하 고정 요소를 제외한 남은 뷰포트 공간 전체를 100% 점유하면서 오직 실시간 의료시설 칸 내부에서만 수백 개 카드가 부드럽게 스크롤되도록 완성.
+* **🛡️ 서브 페이지 스크롤 격리 및 DOM 정합성 복원 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+  - 전용 클래스(`main-home-body`, `main-home-shell`) 스코핑으로 `input.html`, `result.html` 등 다른 화면의 자연스러운 스크롤에는 일체 영향이 없도록 완벽 분리 및 잉여 닫는 div 태그 삭제.
+
+### 🌟 [v2.4.61-live-facilities-compact-ui-and-full-scroll] 2026-10-16: 실시간 야간 의료시설 카드 여백(Padding/Gap) 컴팩트 최적화 및 '더 많은 의료시설 확인' 버튼 전면 제거·스크롤 전수 탐색 구현 (정영식 팀장)
+* **📐 카드 스택 및 개별 카드 여백 컴팩트화 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - 실시간 야간 의료시설 카드 스택(`.facility-card-stack`) 간격 `gap: 12px` ➔ `8px`, 패딩 `4px 4px 12px 2px` ➔ `2px 4px 6px 2px`, 최대 높이 `520px`로 재조정.
+  - 개별 카드(`.facility-card`) 내부 패딩 `16px` ➔ `11px 13px`, 라운드 `18px` ➔ `14px`, 내부 요소 간격 `12px` ➔ `8px`로 축소.
+  - 아이콘 래퍼(`36px`), 시설명(`15px`), 주소/설명(`11.5px`), 전화버튼(`34px`), 카드 푸터 여백(`7px`) 등 컴포넌트 전반의 타이포그래피와 마진을 컴팩트하게 정돈하여 뷰포트 내 동시 노출 카드 수를 2개에서 3~4개로 확장.
+* **🗑️ '더 많은 의료시설 확인' 버튼 전면 삭제 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html) & [frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - `index.html` 내 불필요한 `<div class="scroll-more-btn-wrap">` 마크업을 완전히 제거하여 DOM 복잡도를 낮추고 모바일 뷰 하단 시각적 간섭을 배제.
+* **🚀 스크롤 뷰포트 내 전수 탐색 렌더링 전환 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - 페이징 슬라이스 및 더보기 증분 로직을 제거하고 `sliceList = displayList`로 전체 시설을 즉시 렌더링하여, 사용자가 내부 스크롤 조작만으로 반경 15km 내 408곳 전체를 끊김 없이 부드럽게 탐색할 수 있도록 고도화.
+
+### 🌟 [v2.4.60-live-facilities-independent-scroll-viewport] 2026-10-16: 실시간 야간 의료시설 카드 목록 독립 스크롤 뷰포트(max-height & Sleek Scrollbar) 구축 및 모달 탭 스크롤 리셋 완결 (정영식 팀장)
+* **📜 독립 내부 스크롤 뷰포트 구축 ([frontend/css/style.css](file:///e:/monnlight/frontend/css/style.css))**:
+  - 메인 홈 실시간 야간 의료시설 목록(`.facility-card-stack`)에 `max-height: 480px`, `overflow-y: auto`, `scroll-behavior: smooth`를 적용하여 수십 개 카드 나열로 인한 페이지 무한 확장 방지.
+  - 5px 너비의 모던 미니멀 스크롤바(`::-webkit-scrollbar`) 커스텀 스타일링 적용 및 iOS 모바일 터치 관성 스크롤 완비.
+* **👇 하단 스크롤 버튼 부드러운 스크롤 인터랙션 결합 ([frontend/templates/index.html](file:///e:/monnlight/frontend/templates/index.html))**:
+  - "스크롤하여 더 많은 의료시설 확인" 버튼 클릭 시 `.facility-card-stack`을 260px 부드럽게 자동 스크롤 이동하도록 `onclick` 핸들러 연결.
+* **🔄 탭 필터 전환 시 자동 스크롤 리셋 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - '전체' / '🌙 달빛병원' / '💊 심야약국' 탭 변경 시 `scrollTop = 0`으로 즉각 초기화하여 항상 최단거리 1등 시설부터 쾌적하게 열람 가능.
+
+### 🌟 [v2.4.59-gps-detailed-address-resolution] 2026-10-16: '현재 위치로 설정' 시 상세 주소(도로명·건물명·지번) 유실 결함 해소 및 카카오 2-Tier 역지오코딩 완벽 연동, 92개 전수 테스트 통과 (정영식 팀장)
+* **📍 백엔드 2-Tier 지능형 역지오코딩 엔진 고도화 ([app/api/v1/location.py](file:///e:/monnlight/app/api/v1/location.py))**:
+  - 카카오 `coord2address` API의 도로명 주소와 건물명(`building_name`), 법정동을 유기적으로 결합하여 상세 주소(`서울특별시 송파구 송파대로 167 (문정동, 문정역테라타워)`) 포맷팅 구축.
+  - 도로명 미부여 필지의 경우 시도명 표준화("서울" ➔ "서울특별시") 및 본번-부번 지번 상세 주소(`서울특별시 송파구 문정동 315-2`) 보존.
+  - 지번 검색 불가 공원/도로망 지점 대상 카카오 `coord2regioncode` 2차 Fallback 연동 및 L3 Fallback 상세 랜드마크 주소 반환 체계 완비.
+* **🛡️ 프론트엔드 상세 주소 무손실 보존 파이프라인 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
+  - `finalizeLocation` 내부에서 `window.AISUM_LOCATIONS_DB`의 짧은 동 이름으로 상세 주소를 강제 덮어쓰던 레거시 안티패턴 코드 전면 적출.
+  - '현재 위치로 설정' 클릭 시 모달 상단 '현재 설정된 주소' 바(`modal-current-address-bar`), 상단 알약 버튼, LocalStorage(`aisum_user_address`) 간 실시간 원자적 동기화 구현.
+* **🧪 단위/통합 테스트 스위트 확장 및 92개 전수 통과 ([tests/test_location_api.py](file:///e:/monnlight/tests/test_location_api.py))**:
+  - 신규 상세 주소 포맷팅 및 Fallback 주소 검증 테스트 추가 (8개 테스트 전수 통과).
+  - 전체 단위/통합/E2E 테스트 스위트 92개 전수 무결점 통과 (`Ran 92 tests, OK`).
+
+### 🌟 [v2.4.58-daily-delta-sync-pipeline-complete] 2026-10-16: 전국 달빛어린이병원·야간약국 24시간 In-Memory Hash Diffing 델타 동기화 서비스·스케줄러·관리자 API/CLI 완비 및 90개 전수 테스트 통과 (정영식 팀장)
+* **🔄 In-Memory Hash Diffing 기반 0ms Skip 델타 동기화 서비스 완공 ([app/services/national_dataset_sync_service.py](file:///e:/monnlight/app/services/national_dataset_sync_service.py))**:
+  - 전국 156개 달빛어린이병원 및 2,028개 야간약국의 기관코드(PK) 기반 SHA-256 주요 필드 해시 대조 알고리즘 구축.
+  - 신규(Added), 수정(Modified), 삭제(Removed) 변동 감지 기능 구현 및 `diff == 0` 시 불필요한 디스크 I/O와 브라우저 캐시 무효화를 0ms 만에 Skip하는 최적화 엔진 적용.
+  - 실제 변경분 발생 시에만 `data/*.json` 저장 및 `scripts/build_frontend_datasets.py` 자동 호출로 `frontend/js/*.js` 원자적 번들링 완결.
+* **⏰ 3-Track 백그라운드 스케줄러 비동기 결합 ([app/services/scheduler.py](file:///e:/monnlight/app/services/scheduler.py))**:
+  - `Job 2: Daily 04:00 AM Static Data & Pairing Sync` 내 `sync_static_datasets()`에 증분 델타 동기화를 비동기 결합하여 매일 새벽 4시 완전 무인 자동 동기화 실현.
+* **🛠️ 온디맨드 관리자 CLI 도구 & RESTful 엔드포인트 신설**:
+  - CLI: `python scripts/sync_national_datasets_delta.py [--force]`로 관리자가 온디맨드로 즉시 동기화 검증 가능 (`[scripts/sync_national_datasets_delta.py](file:///e:/monnlight/scripts/sync_national_datasets_delta.py)`).
+  - API: `POST /api/v1/emergency/sync-static` 엔드포인트 신설로 웹 관리자 대시보드 및 CI/CD 파이프라인에서 트리거 가능 (`[app/api/v1/emergency.py](file:///e:/monnlight/app/api/v1/emergency.py)`).
+* **🧪 7개 신규 단위·통합 테스트 구축 및 90개 전체 회귀 테스트 전수 통과**:
+  - `tests/test_national_dataset_sync.py`: TC-SYNC-001~007 7개 테스트 100% 통과.
+  - 전체 단위/통합 테스트 스위트 90개 전수 통과 (`Ran 90 tests, OK`).
+
+### 🌟 [v2.4.57-daily-delta-sync-architecture] 2026-10-16: 전국 달빛병원·야간약국 24시간 주기 공공 API 변경분(Hash Diffing) 자동 업데이트 파이프라인 아키텍처 수립 (정영식 팀장)
+* **🔄 24시간 주기 증분 동기화(Incremental Delta Sync) 설계**:
+  - `APScheduler`의 04:00 AM 정적 데이터 크론 잡을 기반으로, 공공데이터포털(E-Gen) API를 호출하여 병원/약국 최신 스냅샷 수집.
+  - 기관코드(PK) 기반 In-Memory Hash Diffing을 적용하여 신규(Added), 수정(Modified), 삭제(Removed) 감지.
+  - `diff_count == 0`일 때 불필요한 디스크 I/O와 브라우저 캐시 무효화를 0회로 유지하는 엔터프라이즈급 최적화 원칙 확립.
+* **🔨 변경 발생 시 자동 번들링 빌더 (`build_frontend_datasets.py`) 연계**:
+  - 변경분이 감지된 경우에만 `data/*.json` 및 `frontend/js/*.js`를 자동 컴파일하여 클라이언트 0ms LBS 무지연 제공 보장.
 
 ### 🌟 [v2.4.56-uvicorn-daemon-persistence-sync] 2026-10-16: 로컬호스트 연결 거부(ERR_CONNECTION_REFUSED) 복구 및 Uvicorn 영구 상주 데몬 기동 완결 (정영식 팀장)
 * **🔌 로컬호스트 소켓 연결 거부 결함 즉각 해결**:
