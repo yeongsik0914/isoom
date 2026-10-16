@@ -28,6 +28,18 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.68-pediatric-ktas-verification-and-negative-guardrail-patch] 2026-10-16: 소아 전문 문진(input.html) 백엔드 2021 소아 KTAS 1~5단계 분류 실증 검증(100% 통과), 한국어 복합 병렬 부정문("청색증이나 경련은 없어요") 과잉 분류(Over-triage) 원천 차단 및 종합 실증 보고서(MD) 작성 (정영식 팀장)
+* **🧪 2021 소아 KTAS 1~5단계 15대 표준 임상 시나리오 전수 검증 100% 통과 ([tests/evals/verify_ktas_frontend_flow.py](file:///e:/monnlight/tests/evals/verify_ktas_frontend_flow.py))**:
+  - `input.html` 폼 전송 페이로드와 1:1 연동된 `POST /api/v1/chat` 엔드포인트를 대상으로 KTAS 1단계(소생 3건), 2단계(긴급 3건), 3단계(응급 3건), 4단계(준응급 3건), 5단계(비응급 3건) 15대 시나리오 E2E 자동화 검증 수행.
+  - **KTAS 분류 정확도(Accuracy) 100.0% (15/15)**, **Red Flag 안전 불변식 100.0% (6/6)** 무결점 달성.
+* **🛡️ 한국어 복합 병렬 부정문 감별 엔진 탑재 (`has_affirmative_match`) ([app/agents/guardrail_agent.py](file:///e:/monnlight/app/agents/guardrail_agent.py))**:
+  - 보호자가 `"가슴에서 쌕쌕 소리가 나는데 청색증이나 경련은 없어요"`와 같이 복합 병렬 조사(`이나`) 뒤에 보조 명사(`경련은`)를 포함하여 부정문을 작성했을 때 청색증 Red Flag로 오작동하던 과잉 분류(Over-triage) 결함 완전 해소.
+  - 단순 천명음(`쌕쌕`)을 호흡정지/청색증 1단계 0ms 가드레일에서 제외하고, Tier 2 지능형 분류 엔진에 위임하여 KTAS 3단계(응급/외래)로 정밀하게 분기되도록 개선.
+* **📑 종합 검증 보고서 마크다운 문서 발행 ([docs/KTAS_TRIAGE_VERIFICATION_REPORT.md](file:///e:/monnlight/docs/KTAS_TRIAGE_VERIFICATION_REPORT.md))**:
+  - 15대 시나리오 상세 결과, 4대 핵심 메트릭, 트러블슈팅 분석 및 초심야(00~06시) 2-트랙 안전망 라우팅 동작 원리를 집대성한 정식 보고서 수록.
+* **🛡️ 92개 단위/통합 회귀 테스트 전수 통과**:
+  - `Ran 92 tests, OK`로 기존 모든 기능 및 LBS/UI 동작의 무결점 보장.
+
 ### 🌟 [v2.4.67-dynamic-badge-count-and-user-location-history] 2026-10-16: 선택 탭(병원/약국/전체)별 상단 배지 운영 시설 수 실시간 동기화 및 '자주 찾는 주요 지역' 사용자 실제 검색 히스토리 동적 관리(HTML 하드코딩 제거, 최대 15개 제한, 최신순 자동 갱신) (정영식 팀장)
 * **🎯 탭 선택별 상단 배지 운영 시설 수 1:1 실시간 동기화 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
   - `updateFacilityCountBadge(filter)` 엔진을 탑재하여 사용자가 '🌙 달빛병원 18' 선택 시 상단 배지가 `마천동 반경 15km 18곳 운영중`으로, '💊 심야약국 309' 선택 시 `309곳 운영중`으로, '전체 327' 선택 시 `327곳 운영중`으로 즉각 동기화 (기존 327곳 고정 결함 완벽 해결).

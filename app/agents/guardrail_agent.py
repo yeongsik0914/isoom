@@ -38,8 +38,10 @@ UNRESPONSIVE_PATTERN = re.compile(
 )
 
 # Rule 4: Severe Respiratory Distress & Cyanosis (흉벽 함몰, 비익 호흡, 청색증)
+# Note: Isolated wheezing (단순 쌕쌕거림) is a KTAS Level 3 presentation, not Level 1.
+# Only trigger 0ms Level 1 when accompanied by severe signs (cyanosis, rib retraction, gasping).
 RESPIRATORY_CYANOSIS_PATTERN = re.compile(
-    r"(청색증|파랗게\s*(질|변)|갈비뼈.*(쑥쑥|들어가)|흉벽\s*함몰|비익\s*호흡|코(를)?\s*벌렁|쌕쌕|숨(을)?\s*(헐떡|쉬기\s*힘들))"
+    r"(청색증|파랗게\s*(질|변)|갈비뼈.*(쑥쑥|들어가)|흉벽\s*함몰|비익\s*호흡|코(를)?\s*벌렁|숨(을)?\s*(헐떡|못\s*쉬)|쌕쌕.*(?:숨\s*못|헐떡|청색증|파랗))"
 )
 
 # Rule 5: Severe Dehydration (8시간 이상 무뇨, 눈물 없음, 극심한 입술 마름)
@@ -223,6 +225,29 @@ LEGAL_DISCLAIMER_BADGE = (
 # 4. Core Pre-Triage Interceptor Function
 # ============================================================================
 
+def has_affirmative_match(pattern: re.Pattern, text: str) -> bool:
+    """Checks whether at least one pattern match exists that is NOT negated by context."""
+    matches = list(pattern.finditer(text))
+    if not matches:
+        return False
+
+    for m in matches:
+        start, end = m.span()
+        # Look ahead (~35 chars) for negation keywords, including particles and coordinate lists (e.g. "경련은 없어요", "청색증이나 경련은 없어요")
+        following = text[end:min(len(text), end + 35)]
+        if re.search(r'^(?:[은는이가도이나과와및,\s]{0,8}(?:[가-힣]{1,6}\s*)?)?(?:없|안|아니|정상|안\s*함|안\s*해|없음)', following):
+            continue  # Negated after, check next match
+
+        # Look behind (~20 chars) for negation keywords
+        preceding = text[max(0, start - 20):start]
+        if re.search(r'(?:없|안|아닌|정상인)\s*$', preceding):
+            continue  # Negated before
+
+        return True  # Found a non-negated affirmative match!
+
+    return False  # All matches were negated
+
+
 def check_red_flag_instant(
     text: str,
     state: Optional[PatientSessionState] = None,
@@ -321,8 +346,8 @@ def check_red_flag_instant(
         )
         time_trajectory = "급성 세균 감염 의심 진행"
 
-    # Check 4: Seizure / Convulsion (활동성 경련)
-    elif SEIZURE_PATTERN.search(clean_text):
+    # Check 4: Seizure / Convulsion (활동성 경련, 부정문 제외)
+    elif has_affirmative_match(SEIZURE_PATTERN, clean_text):
         detected = True
         ktas_level = 1
         ktas_level_name = "1단계(소생)"
@@ -337,8 +362,8 @@ def check_red_flag_instant(
         )
         time_trajectory = "급성 경련 진행형"
 
-    # Check 5: Unresponsiveness / Severe Lethargy (무반응/혼수)
-    elif UNRESPONSIVE_PATTERN.search(clean_text):
+    # Check 5: Unresponsiveness / Severe Lethargy (무반응/혼수, 부정문 제외)
+    elif has_affirmative_match(UNRESPONSIVE_PATTERN, clean_text):
         detected = True
         ktas_level = 1
         ktas_level_name = "1단계(소생)"
@@ -352,8 +377,8 @@ def check_red_flag_instant(
         )
         time_trajectory = "급성 의식 소실 지속"
 
-    # Check 6: Respiratory Distress / Cyanosis (흉벽 함몰, 비익 호흡, 청색증)
-    elif RESPIRATORY_CYANOSIS_PATTERN.search(clean_text):
+    # Check 6: Respiratory Distress / Cyanosis (흉벽 함몰, 비익 호흡, 청색증, 부정문 제외)
+    elif has_affirmative_match(RESPIRATORY_CYANOSIS_PATTERN, clean_text):
         detected = True
         ktas_level = 1
         ktas_level_name = "1단계(소생)"

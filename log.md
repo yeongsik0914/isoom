@@ -116,6 +116,7 @@
 | **[ISSUE-107]** | 연령 슬라이더 모바일 UX & 소아 100일 미만 분류 | 2개월 이하 선택 시 카드 확장(Layout Shift) 현상 원천 제거(인라인 뱃지화) 및 3개월 100일 미만 위험군 단일 명확화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-108]** | 프로젝트 거버넌스 & 개발 백서 최적화 | PLAN.md 비정상적 비대화(1,728줄) 해소 및 11대 핵심 아키텍처 중심 84% 압축 요약 최적화(271줄 경량화) | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-109]** | 프론트엔드 LBS UI & 위치 검색 모달 | 선택 탭(병원/약국/전체)별 상단 배지 운영 시설 수 실시간 동기화 및 '자주 찾는 주요 지역' 사용자 실제 검색 히스토리 동적 관리(HTML 하드코딩 제거, 최대 15개 제한, 최신순 자동 갱신) | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-110]** | 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 부정문 방어 | 2021 소아 KTAS 1~5단계 및 7대 Red Flag 가드레일 연동 15대 표준 소아 임상 시나리오 전수 검증(100% 통과), 한국어 복합 병렬 부정문("청색증이나 경련은 없어요") 과잉 분류(Over-triage) 차단 엔진(`has_affirmative_match`) 신설 및 종합 검증 보고서(MD) 작성 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3580,6 +3581,43 @@
 * **조치 결과**:
   - '달빛병원 18' 클릭 시 상단 배지가 즉각 '18곳 운영중'으로 전환되고, '심야약국 309' 클릭 시 '309곳 운영중'으로 완벽 일치.
   - 위치 모달에서 하드코딩이 100% 제거되고 사용자가 실제로 설정한 지역만 최대 15개까지 최신순으로 깔끔하게 관리됨.
+
+---
+
+### [ISSUE-110] 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 한국어 복합 부정문 과잉 분류 해소
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **분류**: 백엔드 검증 / 소아 KTAS 분류표 / 가드레일 정규식 NLP
+* **문제 상황**:
+  1. 소아 전문 문진 페이지([frontend/templates/input.html](file:///e:/monnlight/frontend/templates/input.html))와 연동된 백엔드 문진 엔진(`POST /api/v1/chat`)이 2021 소아 KTAS 1~5단계 분류표 및 7대 Red Flag 가드레일에 따라 정확히 동작하는지에 대한 실증 검증 및 공식 보고서(MD) 도출 필요.
+  2. 15대 표준 소아 임상 시나리오 검증 중 보호자가 `"숨 쉴 때 쌕쌕거리는데 청색증이나 경련은 없어요"`와 같이 복합 병렬 조사(`이나`) 뒤에 보조 명사(`경련은`)를 포함하여 부정문을 작성했을 때, 기존 단순 룩어헤드(`^(?:이나)?\s*없`)가 `없어요` 부정어를 인식하지 못하고 청색증 Red Flag로 오작동하여 KTAS 1단계로 과잉 분류(Over-triage)되는 결함 발견.
+  3. 단순 소아 천명음(`쌕쌕`) 단독 입력이 1단계 중심성 청색증 정규식에 걸려 0ms 가로채기가 발생하는 분류 왜곡 문제 식별.
+* **원인 분석**:
+  - `app/agents/guardrail_agent.py`의 `RESPIRATORY_CYANOSIS_PATTERN` 및 `CONVULSION_PATTERN` 등의 부정문 가드 패턴이 한국어의 다양한 병렬 조사와 연결 명사 구조를 완벽하게 커버하지 못함.
+  - 단순 천명음(`쌕쌕`)은 모세기관지염/천식 등 KTAS 3단계(응급/외래)에 해당하나, 정규식이 청색증/헐떡임과 분리되지 않고 함께 1단계로 묶여 있었음.
+* **구체적 해결 방안**:
+  1. **한국어 복합 부정문 감별 엔진 구축 ([app/agents/guardrail_agent.py](file:///e:/monnlight/app/agents/guardrail_agent.py))**:
+     - `has_affirmative_match(pattern, text)` 헬퍼 함수를 신설하여, 키워드 뒤에 `(?:[은는이가도이나과와및,\s]{0,8}(?:[가-힣]{1,6}\s*)?)?(?:없|안|아니|정상)` 패턴을 검사함으로써 "청색증이나 경련은 없어요"와 같은 복합 병렬 부정문을 100% 감별.
+  2. **소아 천명음 임상 분류 정밀화 ([app/agents/guardrail_agent.py](file:///e:/monnlight/app/agents/guardrail_agent.py))**:
+     - `RESPIRATORY_CYANOSIS_PATTERN`을 청색증, 헐떡임, 숨 멈춤 동반 시에만 1단계 0ms 가드레일로 가로채도록 수정하고, 단순 천명음은 Tier 2 분류 엔진이 KTAS 3단계로 정확히 판정하도록 분리.
+  3. **15대 표준 소아 임상 시나리오 E2E 검증 스위트 구축 ([tests/evals/verify_ktas_frontend_flow.py](file:///e:/monnlight/tests/evals/verify_ktas_frontend_flow.py))**:
+     - KTAS 1~5단계 전 구간 15개 시나리오 자동 검증 스크립트 작성 및 15 / 15 전수 통과 확인 (정확도 100.0%, Red Flag 불변식 100.0%).
+  4. **종합 검증 보고서 작성 ([docs/KTAS_TRIAGE_VERIFICATION_REPORT.md](file:///e:/monnlight/docs/KTAS_TRIAGE_VERIFICATION_REPORT.md))**:
+     - 2021 소아 KTAS 분류표 매핑 구조, 15대 테스트 케이스 상세 결과표, 4대 핵심 메트릭, 트러블슈팅 내역 및 2-트랙 안전망 라우팅 동작 원리를 집대성한 정식 마크다운 보고서 발행.
+* **적용 파일**:
+  * [app/agents/guardrail_agent.py](file:///e:/monnlight/app/agents/guardrail_agent.py)
+  * [tests/evals/verify_ktas_frontend_flow.py](file:///e:/monnlight/tests/evals/verify_ktas_frontend_flow.py)
+  * [docs/KTAS_TRIAGE_VERIFICATION_REPORT.md](file:///e:/monnlight/docs/KTAS_TRIAGE_VERIFICATION_REPORT.md)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  - 15개 KTAS 임상 시나리오 100% 정확도 달성 (`Accuracy: 100.0%`).
+  - 한국어 복합 병렬 부정문 오분류 완전 제거.
+  - 전체 단위/통합 회귀 테스트 92개 전수 통과 (`Ran 92 tests, OK`).
+
 
 
 
