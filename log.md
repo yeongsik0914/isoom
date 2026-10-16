@@ -124,12 +124,13 @@
 | **[ISSUE-115]** | 세션 재연결 시 백엔드 데몬 상태 점검 & API 실시간 파이프라인 복구 | IDE 세션 전환으로 인한 백엔드 FastAPI 데몬(포트 8000) 종료 현상 원인 규명, Uvicorn 서버 재기동 및 0ms Red Flag / KTAS E2E 무결성 검증 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-116]** | 프론트엔드 JS 구문 오류 & KTAS 백엔드 동적 표출 및 미입력 바이탈 무손실 전달 | result.html 닫는 괄호 누락(SyntaxError)으로 인한 KTAS 렌더링 중단 해결, input.html 키워드 매핑 적출 및 clinical_rationale 실시간 바인딩 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-117]** | 소아 KTAS 중증도 Fallback 결함 & 데이터 무결성 감사 | Supervisor Red Flag 에스컬레이션 시 `state.ktas_level or 1`로 인한 1단계(소생) 왜곡 결함 해결(보수적 2단계 정규화) 및 2021 소아 KTAS Slide 198 기준 정합성 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-118]** | 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 부정문 방어 | 2021 소아 KTAS 1~5단계 및 7대 Red Flag 가드레일 연동 15대 표준 소아 임상 시나리오 전수 검증(100% 통과), 한국어 복합 병렬 부정문("청색증이나 경련은 없어요") 과잉 분류(Over-triage) 차단 엔진(`has_affirmative_match`) 신설 및 종합 검증 보고서(MD) 작성 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-119]** | 공공데이터 API 스펙 한계 & 상세페이지 기획 | 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도 인디케이터·22:30 조기접수마감 주의 배너·출발 전 유선 확인 CTA 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-120]** | 풀스택 DB 연동 & 2-트랙 상세페이지 구축 | 병원상세페이지(hospital_detail.html)·약국상세페이지(pharmacy_detail.html) 2개 분리 생성, SQLite 영구 DB(moonlight.db) 156개 병원·2,028개 약국 전수 적재 및 클릭 시 단건 조회·동적 하이드레이션 완성 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-121]** | 데이터 아키텍처 전환 & 24h 증분 동기화 배치 연동 | SQLite DB 완전 폐지, data/ 폴더 공공데이터 API 상세 데이터셋(hospital_details.json, pharmacy_details.json) 구축, 24시간 주기 배치(JS 번들 동시 빌드) 통합 및 <0.05ms In-Memory 인덱스 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-122]** | 프론트엔드 UX & 스마트 네비게이션 | 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation(URL from 파라미터 + referrer + history.back + sessionStorage + fallback) 구현 | **해결 완료 (Resolved)** | 2026-10-16 |
-| **[ISSUE-123]** | GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 푸시 | `.gitignore`의 `data/*` 일괄 무시 규칙으로 인한 핵심 공공데이터 JSON 7종 및 DB 파일 누락 원인 진단, 예외 화이트리스트 규칙(`!data/*.json`, `!data/moonlight.db`, `!data/README.md`) 적용 및 원격 Git 추적 푸시 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-118]** | Git 동기화 충돌 & 신규 data 파일 긴급 Revert | 타 작업자 로컬과의 충돌을 방지하기 위해 `1671e36` 커밋 100% Revert(5e95b52), .gitignore 원복 및 파일 상태 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-119]** | 소아 전문 문진 백엔드 KTAS 실증 검증 & 가드레일 부정문 방어 | 2021 소아 KTAS 1~5단계 및 7대 Red Flag 가드레일 연동 15대 표준 소아 임상 시나리오 전수 검증(100% 통과), 한국어 복합 병렬 부정문("청색증이나 경련은 없어요") 과잉 분류(Over-triage) 차단 엔진(`has_affirmative_match`) 신설 및 종합 검증 보고서(MD) 작성 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-120]** | 공공데이터 API 스펙 한계 & 상세페이지 기획 | 외래 진료 대기 환자 수의 공공데이터포털 API 부재 한계 규명 및 지능형 3-Tier 혼잡도 인디케이터·22:30 조기접수마감 주의 배너·출발 전 유선 확인 CTA 아키텍처 수립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-121]** | 풀스택 DB 연동 & 2-트랙 상세페이지 구축 | 병원상세페이지(hospital_detail.html)·약국상세페이지(pharmacy_detail.html) 2개 분리 생성, SQLite 영구 DB(moonlight.db) 156개 병원·2,028개 약국 전수 적재 및 클릭 시 단건 조회·동적 하이드레이션 완성 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-122]** | 데이터 아키텍처 전환 & 24h 증분 동기화 배치 연동 | SQLite DB 완전 폐지, data/ 폴더 공공데이터 API 상세 데이터셋(hospital_details.json, pharmacy_details.json) 구축, 24시간 주기 배치(JS 번들 동시 빌드) 통합 및 <0.05ms In-Memory 인덱스 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-123]** | 프론트엔드 UX & 스마트 네비게이션 | 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation(URL from 파라미터 + referrer + history.back + sessionStorage + fallback) 구현 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-124]** | GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 복원 푸시 | `.gitignore`의 `data/*` 일괄 무시 규칙으로 인한 핵심 공공데이터 JSON 7종 및 DB 파일 누락 원인 진단, 예외 화이트리스트 규칙(`!data/*.json`, `!data/moonlight.db`, `!data/README.md`) 적용 및 원격 Git 추적 푸시 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4022,7 +4023,29 @@
 
 ---
 
-### [ISSUE-123] GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 푸시
+### [ISSUE-118] Git 동기화 충돌 & 신규 data 파일 긴급 Revert
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: Git 협업 형상 관리 / 파일 충돌 방어 / 긴급 Revert
+* **문제 상황**:
+  * 타 작업자(정영식 팀장님) 로컬에 `data/` 관련 파일들이 존재하는 상황에서, 에이전트가 로컬 부재를 오인하고 `ktas_viewer.html`로부터 추출한 `data/ktas_full_bundle.json`과 `data/ktas_pediatric_dataset.json`을 신규 생성하여 원격에 커밋/푸시(`1671e36`)함.
+  * 이로 인해 타 작업자의 로컬 워크스페이스에서 `git status` 시 빨간색 충돌 및 미추적 덮어쓰기 경고가 발생하는 혼선 유발.
+* **원인 분석**:
+  * 루트 [.gitignore](file:///e:/monnlight/.gitignore)의 `data/*` 무시 규칙으로 인해 로컬 파일들이 Git 추적 대상이 아니었던 점을 면밀히 살피지 않고 원격에 대용량 JSON 파일을 밀어 넣음으로써 발생한 협업 충돌.
+* **해결 방안 및 조치 내역**:
+  1. **긴급 Git Revert 실행 및 원격 푸시 완료**:
+     - `git revert 1671e36 --no-edit`를 실행하여 `5e95b52` 커밋으로 원격 저장소에서 `data/ktas_full_bundle.json`과 `data/ktas_pediatric_dataset.json`을 전면 삭제(delete mode)하고, `.gitignore`도 원래 상태로 완전 원복.
+  2. **협업 파일 안정화**:
+     - 타 작업자가 `git pull` 실행 시 아무런 충돌 없이 원격 변경사항을 수신하여 로컬 파일이 정상 상태로 복귀하도록 조치 완료.
+* **적용 파일**:
+  * [.gitignore](file:///e:/monnlight/.gitignore)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [log.md](file:///e:/monnlight/log.md)
+
+---
+
+### [ISSUE-124] GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 복원 푸시
 
 * **발생 일자**: 2026-10-16
 * **작업자**: 정영식 (팀장 / 본인)

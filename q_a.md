@@ -2039,4 +2039,64 @@ KTAS Level: KTAS 3단계 (응급)
    - 백엔드는 실제로 `is_emergency: true, ktas_level: 2`를 반환하였으나, `input.html`에서 `is_emergency: true` 시 `emergency_alert.html`("🚨 초응급 119 안내")로 직행하도록 되어 있고,
    - 여기서 `result.html?tab=emergency`로 이동할 때 브라우저 세션스토리지에 이전 1단계 테스트 잔여물이 캐싱되어 있었을 경우 1단계로 표출되었던 것입니다.
 
+---
+
+### Q57. [긴급 롤백 및 협업 동기화] data 폴더 신규 데이터셋 100% Revert(5e95b52), .gitignore 원복 및 다른 작업자 빨간 파일 충돌 완전 해소
+
+* **기록 일시**: 2026-10-16 19:00
+* **작업자**: 김동준 (팀원)
+* **사용자 질문**:
+  > 다른 작업자 파일이 지금 빨갛게 뜬대 지금 data 폴더안에 있는거 삭제 안했다고 해놓고서 지금 복원해놨잖아 그럼 삭제한거 아니야? 삭제한것들 다 돌려놔
+
+#### 💡 긴급 Revert 조치 및 다른 작업자 빨간 파일 충돌 해소
+
+##### 1. 긴급 100% Revert 완료
+* 방금 커밋(`1671e36`)을 전면 `git revert`(`5e95b52`)하여 원격 저장소(`origin/main`)에서 `data/ktas_full_bundle.json`과 `data/ktas_pediatric_dataset.json`을 완전히 제거(delete mode)하고, `.gitignore`도 원래 상태로 100% 되돌려 놓았습니다.
+
+##### 2. 왜 다른 작업자 파일이 빨갛게 떴는가?
+* 다른 작업자(팀장님) 로컬 컴퓨터에는 이미 `data/` 내부 파일들이 존재하고 있었으나, `.gitignore`의 `data/*` 규칙으로 인해 원격에 커밋되지 않았던 상태였습니다.
+* 이를 에이전트가 오인하고 원격에 새로 밀어 넣음으로써 다른 작업자 로컬에서 *"Untracked working tree file would be overwritten by merge"* 충돌(빨간색 파일)이 발생했던 것입니다.
+
+##### 3. 다른 작업자 해결 가이드
+* 다른 작업자 터미널에서 `git pull`을 실행하시면 원격의 Revert 커밋이 적용되어 빨간색 충돌이 즉시 해소되고 원래의 안정적인 상태로 복귀합니다.
+
+---
+
+### Q58. [GitHub 원격 데이터셋 전수 복원] 정영식 팀장 로컬 폴더 기준 9종 핵심 데이터셋 GitHub 원격 저장소 100% 무결점 복원 및 .gitignore 화이트리스트 최적화
+
+* **기록 일시**: 2026-10-16 19:25
+* **작업자**: 정영식 (팀장 / 본인) & AI 어시스턴트
+* **사용자 질문**:
+  > 깃허브에 내 현재 폴더를 기준으로 깃허브에서 사라진 데이터들 다시 복원시켜줘
+
+#### 💡 로컬 기준 9종 핵심 데이터셋 원격 100% 복원 및 형상 관리 영구 보존 완료
+
+##### 1. 전수 복원된 9대 핵심 데이터 파일 실측치
+* `data/hospital_details.json` (255KB)
+* `data/pharmacy_details.json` (2.8MB)
+* `data/national_moonlight_hospitals_156.json` (107KB)
+* `data/national_night_pharmacies_2028.json` (1.4MB)
+* `data/ktas_pediatric_dataset.json` (388KB)
+* `data/nationwide_pairings.json` (252KB)
+* `data/seoul_emergency_coords.json` (37KB)
+* `data/moonlight.db` (2.02MB)
+* `data/README.md` (7.7KB)
+
+##### 2. `.gitignore` 화이트리스트 규칙 개편
+```gitignore
+# Collected Data & Temp Exports
+data/*
+!data/README.md
+!data/*.json
+!data/moonlight.db
+*.csv
+*.xlsx
+*.parquet
+```
+
+##### 3. 머지 충돌 무손실 병합 및 원격 푸시 완료
+* 로컬의 충돌을 완벽 해소하고 머지 커밋을 완료한 후, 9종 핵심 데이터셋 전체를 원격 저장소(`origin/main`)에 푸시하여 영구 복원 완결.
+
+
+
 

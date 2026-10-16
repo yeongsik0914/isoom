@@ -26,8 +26,9 @@ DS/
 
 # Collected Data & Temp Exports
 data/*
-!data/seoul_emergency_coords.json
-!data/nationwide_pairings.json
+!data/README.md
+!data/*.json
+!data/moonlight.db
 *.csv
 *.xlsx
 *.parquet
@@ -35,4 +36,4 @@ data/*
 # OS specific files
 Thumbs.db
 .DS_Store
-._*
+._*

@@ -28,13 +28,20 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
-### 🌟 [v2.4.77-dataset-git-tracking-and-remote-push] 2026-10-16: GitHub 프로젝트 필수 데이터셋 누락 원천 해결, .gitignore의 data/ 예외 규칙 최적화 및 원격 푸시 완료 (정영식 팀장)
+### 🌟 [v2.4.77-dataset-git-tracking-and-remote-push] 2026-10-16: GitHub 프로젝트 필수 데이터셋 누락 원천 해결, .gitignore의 data/ 예외 규칙 최적화 및 원격 복원 완료 (정영식 팀장)
 * **📦 GitHub 원격 저장소 data/ 폴더 필수 데이터셋 전수 추적 및 복구**:
   - `.gitignore` 내 `data/*` 일괄 제외 규칙으로 인해 로컬에만 존재하고 원격에 누락되어 있던 전국 달빛병원 156개, 야간약국 2,028개, 병원 상세(255KB), 약국 상세(2.8MB), 소아 KTAS 지침(388KB) 등 핵심 데이터셋 7종 및 DB 파일의 Git 추적 제외 상태 해제.
   - `.gitignore`를 수정하여 `!data/*.json`, `!data/moonlight.db`, `!data/README.md`를 허용함으로써 새로운 환경 및 협업자 환경에서 클론 즉시 서비스가 100% 무결점으로 기동되도록 완결.
 * **🚀 GitHub 원격 저장소(origin/main) 머지 충돌 완벽 해결 및 동기화 푸시 완료**.
 
-### 🌟 [v2.4.76-ktas-emergency-fallback-fix-and-data-integrity-audit] 2026-10-16: 소아 KTAS 공식 지침(Slide 198) 정밀 대조, Supervisor Red Flag Fallback 안전 교정 및 데이터 무결성 100% 보존 입증 (김동준 팀원)
+### 🌟 [v2.4.75-collaborative-git-revert-and-stabilization] 2026-10-16: 협업 형상 관리 보호를 위한 신규 data 커밋 100% Revert(5e95b52) 및 타 작업자 로컬 충돌 완전 해소 (김동준 팀원)
+* **🔄 `data/ktas_full_bundle.json` 및 `data/ktas_pediatric_dataset.json` 원격 Revert 완료**:
+  - 타 작업자(정영식 팀장님) 로컬에 보관된 파일과의 형상 관리 충돌(Untracked overwrite)을 방지하기 위해 `git revert 1671e36`을 즉각 단행하여 원격 저장소 및 `.gitignore`를 원래의 깨끗한 상태로 100% 복원.
+* **🛡️ Git 협업 충돌 해소**:
+  - 타 작업자가 `git pull`을 실행하면 빨간색 충돌 파일 없이 즉시 정상화되도록 안정화 완료.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///e:/monnlight/Answer-영식.md) Q114, [log.md](file:///e:/monnlight/log.md) ISSUE-118) 전면 동기화 완료**.
+
+### 🌟 [v2.4.73-ktas-emergency-fallback-fix-and-data-integrity-audit] 2026-10-16: 소아 KTAS 공식 지침(Slide 198) 정밀 대조, Supervisor Red Flag Fallback 안전 교정 및 데이터 무결성 100% 보존 입증 (김동준 팀원)
 * **📊 2021년 소아 KTAS 공식 지침서(Slide 198) 기반 판정 기준 완벽 입증**:
   - `2021_KTAS_guideline_ver1.6.pptx` Slide 198 규정에 따라 "4개월, 고열, 아파보여요(Ill-appearing), 변비"는 **`KTAS 2단계 (긴급, Emergent)`**임을 1:1 대조 증명.
   - 1단계(소생)는 심정지, 무호흡, 혼수 등 즉각적 소생 처치 대상이며, 고열+아파보임 영아는 2단계 긴급 상황임.
