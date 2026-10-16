@@ -27,6 +27,101 @@
       link.href = (window.location.protocol === 'file:') ? '../css/style.css' : '/css/style.css';
       document.head.appendChild(link);
     })();
+
+    // 0. Smart History Navigation Engine (어떤 환경에서도 이전 페이지 100% 무결점 복귀)
+    window.handleSmartGoBack = function(event) {
+      if (event) {
+        try {
+          event.preventDefault();
+          event.stopPropagation();
+        } catch (e) {}
+      }
+
+      const isFile = (window.location.protocol === 'file:');
+      const isHtmlPath = window.location.pathname.endsWith('.html');
+      const defaultHome = (isFile || isHtmlPath) ? 'index.html' : '/home';
+
+      // Helper: file:/// 경로 또는 URL을 안전한 로컬/상대경로로 정규화
+      function sanitizeTarget(target) {
+        if (!target) return '';
+        try {
+          let str = decodeURIComponent(target).trim();
+          if (str.startsWith('file:///')) {
+            const parts = str.split('/');
+            const lastPart = parts[parts.length - 1];
+            return lastPart.split('?')[0] ? lastPart : 'index.html';
+          }
+          if (str.startsWith('http://') || str.startsWith('https://')) {
+            const u = new URL(str);
+            if (u.origin === window.location.origin) {
+              return u.pathname + u.search;
+            }
+          }
+          return str;
+        } catch (e) {
+          return target;
+        }
+      }
+
+      // 1. URL 파라미터의 from / return_url 확인
+      let fromTarget = '';
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const rawFrom = params.get('from') || params.get('return_url') || params.get('back');
+        if (rawFrom) {
+          fromTarget = sanitizeTarget(rawFrom);
+        }
+      } catch (e) {}
+
+      // 2. document.referrer 확인
+      let refTarget = '';
+      if (document.referrer) {
+        try {
+          refTarget = sanitizeTarget(document.referrer);
+          const curPath = window.location.pathname;
+          if (refTarget.includes(curPath) || curPath.includes(refTarget)) {
+            refTarget = '';
+          }
+        } catch (e) {}
+      }
+
+      // 3. sessionStorage에 저장된 이전 진입 페이지 확인
+      let sessionTarget = '';
+      try {
+        const stored = sessionStorage.getItem('aisum_last_visited_page');
+        if (stored) {
+          sessionTarget = sanitizeTarget(stored);
+          const curPath = window.location.pathname;
+          if (sessionTarget.includes(curPath) || curPath.includes(sessionTarget)) {
+            sessionTarget = '';
+          }
+        }
+      } catch (e) {}
+
+      const directTarget = fromTarget || refTarget || sessionTarget;
+
+      // 4. 브라우저 히스토리 스택이 1개 초과인 경우 최우선으로 history.back() 시도
+      if (window.history.length > 1) {
+        let navTriggered = false;
+        const onUnload = () => { navTriggered = true; };
+        window.addEventListener('pagehide', onUnload, { once: true });
+        window.addEventListener('beforeunload', onUnload, { once: true });
+
+        try {
+          window.history.back();
+        } catch (histErr) {}
+
+        setTimeout(() => {
+          if (!navTriggered) {
+            window.location.href = directTarget || defaultHome;
+          }
+        }, 200);
+        return;
+      }
+
+      // 5. 히스토리가 없는 경우: directTarget 또는 defaultHome으로 이동
+      window.location.href = directTarget || defaultHome;
+    };
   </script>
 
   <style>
@@ -950,94 +1045,6 @@
   </div>
 
   <script>
-    // 0. Smart History Navigation (이전 접속했던 페이지로 정확히 복귀)
-    window.handleSmartGoBack = function(event) {
-      if (event) {
-        try {
-          event.preventDefault();
-          event.stopPropagation();
-        } catch (e) {}
-      }
-
-      const isFileProtocol = (window.location.protocol === 'file:');
-      const fallbackHome = isFileProtocol ? 'index.html' : '/home';
-
-      // 1. URL 쿼리 파라미터의 from / return_url 우선 확인
-      try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const fromUrl = urlParams.get('from') || urlParams.get('return_url') || urlParams.get('back');
-        if (fromUrl) {
-          const decoded = decodeURIComponent(fromUrl);
-          // 보안 검증: Same-Origin, 상대경로, 혹은 file 프로토콜 허용
-          if (decoded.startsWith('/') || !decoded.includes('://') || decoded.startsWith(window.location.origin) || isFileProtocol) {
-            window.location.href = decoded;
-            return;
-          }
-        }
-      } catch (e) {
-        console.warn('SmartBack URL parse error:', e);
-      }
-
-      // 2. document.referrer 검사
-      const referrer = document.referrer;
-      let hasValidReferrer = false;
-      if (referrer) {
-        try {
-          const refUrl = new URL(referrer);
-          if (isFileProtocol || refUrl.origin === window.location.origin) {
-            const curBase = window.location.href.split('#')[0];
-            const refBase = referrer.split('#')[0];
-            if (curBase !== refBase) {
-              hasValidReferrer = true;
-            }
-          }
-        } catch (e) {}
-      }
-
-      // 3. 브라우저 히스토리 스택이 1개 초과인 경우 window.history.back() 호출
-      if (window.history.length > 1) {
-        let didNavigate = false;
-        const markNav = () => { didNavigate = true; };
-        window.addEventListener('pagehide', markNav, { once: true });
-        window.addEventListener('beforeunload', markNav, { once: true });
-
-        window.history.back();
-
-        // 350ms 후에도 이전 페이지로 이동하지 않은 경우 안전 폴백 실행
-        setTimeout(() => {
-          if (!didNavigate) {
-            if (hasValidReferrer && referrer) {
-              window.location.href = referrer;
-            } else {
-              const lastVisited = sessionStorage.getItem('aisum_last_visited_page');
-              if (lastVisited && lastVisited !== window.location.href) {
-                window.location.href = lastVisited;
-              } else {
-                window.location.href = fallbackHome;
-              }
-            }
-          }
-        }, 350);
-        return;
-      }
-
-      // 4. 히스토리가 없는 경우(직접 진입/새 탭): 유효한 referrer가 있으면 referrer로 이동
-      if (hasValidReferrer && referrer) {
-        window.location.href = referrer;
-        return;
-      }
-
-      // 5. sessionStorage에 저장된 이전 페이지가 있으면 복귀
-      const lastVisited = sessionStorage.getItem('aisum_last_visited_page');
-      if (lastVisited && lastVisited !== window.location.href) {
-        window.location.href = lastVisited;
-        return;
-      }
-
-      // 6. 최종 안전 기본값: 홈 화면으로 이동
-      window.location.href = fallbackHome;
-    };
-
     let activeHospital = {
       id: "",
       name: "하이엔소아청소년과의원",
@@ -1211,8 +1218,11 @@
 
         const pDetailEl = document.getElementById('btn-pharmacy-detail');
         if (pDetailEl && activeHospital.paired_pharmacy_name) {
-          const targetPharmacyPage = (window.location.pathname.endsWith('.html') || (window.location.protocol === 'file:')) ? 'pharmacy_detail.html' : '/pharmacy_detail';
-          pDetailEl.href = `${targetPharmacyPage}?name=${encodeURIComponent(activeHospital.paired_pharmacy_name)}&from=${encodeURIComponent(window.location.href)}`;
+          const isFile = (window.location.protocol === 'file:');
+          const isHtml = window.location.pathname.endsWith('.html');
+          const targetPharmacyPage = (isHtml || isFile) ? 'pharmacy_detail.html' : '/pharmacy_detail';
+          const curReturn = (isFile || isHtml) ? ('hospital_detail.html' + window.location.search) : (window.location.pathname + window.location.search);
+          pDetailEl.href = `${targetPharmacyPage}?name=${encodeURIComponent(activeHospital.paired_pharmacy_name)}&from=${encodeURIComponent(curReturn)}`;
         }
 
         // Location & Parking

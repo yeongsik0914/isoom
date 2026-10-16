@@ -1340,12 +1340,13 @@ window.selectLiveFacilityCard = function(facilityName, facilityType) {
       targetPage = isHospital ? '/hospital_detail' : '/pharmacy_detail';
     }
 
-    const fromParam = encodeURIComponent(window.location.href);
+    const returnUrl = (isFileProtocol || path.endsWith('.html')) ? 'index.html' : (window.location.pathname + window.location.search || '/home');
+    const fromParam = encodeURIComponent(returnUrl);
     const targetUrl = `${targetPage}?name=${encodeURIComponent(facilityName)}&type=${facilityType}&from=${fromParam}`;
 
     // 2. Cache minimal state to sessionStorage for instantaneous fallback
     try {
-      sessionStorage.setItem('aisum_last_visited_page', window.location.href);
+      sessionStorage.setItem('aisum_last_visited_page', returnUrl);
     } catch (e) {}
 
     const master = window.__LIVE_FACILITIES_MASTER__;

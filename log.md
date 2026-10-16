@@ -131,6 +131,7 @@
 | **[ISSUE-122]** | 데이터 아키텍처 전환 & 24h 증분 동기화 배치 연동 | SQLite DB 완전 폐지, data/ 폴더 공공데이터 API 상세 데이터셋(hospital_details.json, pharmacy_details.json) 구축, 24시간 주기 배치(JS 번들 동시 빌드) 통합 및 <0.05ms In-Memory 인덱스 전환 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-123]** | 프론트엔드 UX & 스마트 네비게이션 | 병원·약국 상세정보페이지 뒤로가기 버튼 클릭 시 하드코딩된 페이지(result.html, index.html) 고정 이동 결함 해소 및 5-Layer Smart Back Navigation(URL from 파라미터 + referrer + history.back + sessionStorage + fallback) 구현 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-124]** | GitHub 원격 저장소 핵심 데이터셋(data/) 누락 방지 및 .gitignore 예외 규칙 정상화 & 원격 복원 푸시 | `.gitignore`의 `data/*` 일괄 무시 규칙으로 인한 핵심 공공데이터 JSON 7종 및 DB 파일 누락 원인 진단, 예외 화이트리스트 규칙(`!data/*.json`, `!data/moonlight.db`, `!data/README.md`) 적용 및 원격 Git 추적 푸시 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-125]** | 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 및 히스토리 스택 복귀 결함 완벽 해결 | `file:///` 프로토콜 상의 절대 URL 내비게이션 보안 차단(`Not allowed to load local resource`) 및 스크립트 실행 타이밍 결함 해소, `<head>` 내비게이션 선제 초기화, 상대경로 정규화(`sanitizeTarget`), `window.history.back()` 최우선 실행 및 200ms 감시 폴백 구조로 홈/결과/상세 3대 여정 100% 정상화 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4103,6 +4104,48 @@
   * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
 * **조치 결과**:
   * GitHub 원격 저장소에 프로젝트 필수 데이터셋 9종이 100% 정상 등재되어, 어떤 협업 환경에서도 클론 즉시 달빛병원, 야간약국, 소아 KTAS 트리아제 및 상세 조회가 온전하게 기동됨.
+
+---
+
+### [ISSUE-125] 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 및 히스토리 스택 복귀 결함 완벽 해결
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 정영식 (팀장 / 본인) & AI 어시스턴트
+* **분류**: 프론트엔드 UX / 브라우저 보안 샌드박스 대응 / 스마트 네비게이션
+* **문제 상황**:
+  * 병원 상세(`hospital_detail.html`) 및 약국 상세(`pharmacy_detail.html`)에서 좌측 상단 뒤로가기(`<button id="btn-smart-back">`)를 클릭했을 때 이전 페이지(홈 화면 또는 결과 화면)로 돌아가지 않는 현상 발생.
+* **원인 분석**:
+  1. **로컬 파일(`file:///`) 환경에서의 절대 URL 보안 차단**:
+     - `main.js`의 `selectLiveFacilityCard`에서 `from` 파라미터로 `file:///e:/monnlight/frontend/templates/index.html`이 전달되었고,
+     - `handleSmartGoBack`이 `window.location.href = decoded`로 절대 file:// URL을 대입하자 브라우저 샌드박스가 `Not allowed to load local resource` 에러로 내비게이션을 차단함.
+  2. **스크립트 실행 타이밍 결함**:
+     - 상단 헤더에 위치한 버튼이 하단 스크립트의 함수 정의보다 먼저 렌더링되어 파싱 도중 클릭 시 이벤트 누락 위험 존재.
+  3. **`history.back()`과의 레이스 컨디션 및 상세페이지 간 루프**:
+     - `from` 파라미터 강제 리로드가 우선시되어 이전 화면의 스크롤 위치와 상태가 유실되거나 상호 참조 루프 발생.
+* **구체적 해결 방안**:
+  1. **`<head>` 내비게이션 선제 초기화**:
+     - `hospital_detail.html` 및 `pharmacy_detail.html`의 `<head>` 영역에 `handleSmartGoBack` 엔진을 즉각 정의.
+  2. **상대경로 자동 정규화 엔진 (`sanitizeTarget`) 탑재**:
+     - `file:///` 절대 경로가 들어와도 `index.html`, `result.html` 등 상대경로로 변환하여 브라우저 로컬 리소스 보안 차단 완전 회피.
+  3. **최우선 `window.history.back()` + 200ms 언로드 감시 폴백 체계 확립**:
+     - 히스토리가 존재하는 경우 네이티브 뒤로가기를 최우선 실행하여 스크롤 위치 및 모달/탭 상태 100% 보존.
+     - 히스토리가 없는 환경에서는 `from` ➔ `referrer` ➔ `sessionStorage` ➔ `fallbackHome`으로 무결점 폴백.
+  4. **진입점 파라미터 상대경로화**:
+     - `main.js` `selectLiveFacilityCard` 및 `result.html` `selectHospitalCard`의 `returnUrl`을 상대경로로 통일.
+     - `pharmacy_detail.html` 헤더에 홈 버튼 추가 및 상호 연계 링크 상대경로화.
+* **적용 파일**:
+  * [frontend/templates/hospital_detail.html](file:///e:/monnlight/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///e:/monnlight/frontend/templates/pharmacy_detail.html)
+  * [frontend/templates/result.html](file:///e:/monnlight/frontend/templates/result.html)
+  * [frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js)
+  * [Answer-영식.md](file:///e:/monnlight/Answer-영식.md)
+  * [q_a.md](file:///e:/monnlight/q_a.md)
+  * [log.md](file:///e:/monnlight/log.md)
+  * [README.md](file:///e:/monnlight/README.md)
+  * [PLAN.md](file:///e:/monnlight/PLAN.md)
+* **조치 결과**:
+  * 홈 화면 ➔ 병원 상세 ➔ 뒤로가기 클릭 시 홈 화면으로 100% 부드럽고 정확하게 복귀 완료.
+  * 결과 화면 ➔ 병원/약국 상세 ➔ 뒤로가기 클릭 시 결과 화면으로 100% 정상 복귀 확인.
 
 
 

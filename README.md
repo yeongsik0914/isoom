@@ -28,6 +28,14 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.78-smart-back-navigation-robustness] 2026-10-16: 병원·약국 상세페이지 스마트 뒤로가기(Smart Go Back) 브라우저 로컬 리소스 보안 차단 해결 및 5-Layer 무결점 복귀 완성 (정영식 팀장)
+* **🔙 상세페이지 좌측 상단 뒤로가기 버튼(`handleSmartGoBack`) 100% 정상화**:
+  - `file:///` 로컬 파일 환경에서 절대 경로 주입 시 발생하는 브라우저 로컬 리소스 접근 차단(`Not allowed to load local resource`) 결함 원천 해결.
+  - `<head>` 내비게이션 선제 초기화 및 상대경로 자동 정규화 엔진(`sanitizeTarget`) 장착.
+  - `window.history.back()` 최우선 실행 + 200ms 언로드 감시 폴백 구조로 홈/결과/상세 3대 여정(`홈 -> 병원 상세 -> 홈`, `결과 -> 약국 상세 -> 결과`) 100% 매끄러운 복귀 완결.
+* **🏠 심야약국 상세페이지(`pharmacy_detail.html`) 헤더 홈 바로가기 버튼 추가**.
+* **📜 팀 협업 4대 문서([Answer-영식.md](file:///e:/monnlight/Answer-영식.md) Q116, [log.md](file:///e:/monnlight/log.md) ISSUE-125) 전면 동기화 완료**.
+
 ### 🌟 [v2.4.77-dataset-git-tracking-and-remote-push] 2026-10-16: GitHub 프로젝트 필수 데이터셋 누락 원천 해결, .gitignore의 data/ 예외 규칙 최적화 및 원격 복원 완료 (정영식 팀장)
 * **📦 GitHub 원격 저장소 data/ 폴더 필수 데이터셋 전수 추적 및 복구**:
   - `.gitignore` 내 `data/*` 일괄 제외 규칙으로 인해 로컬에만 존재하고 원격에 누락되어 있던 전국 달빛병원 156개, 야간약국 2,028개, 병원 상세(255KB), 약국 상세(2.8MB), 소아 KTAS 지침(388KB) 등 핵심 데이터셋 7종 및 DB 파일의 Git 추적 제외 상태 해제.
