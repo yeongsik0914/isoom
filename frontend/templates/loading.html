@@ -162,13 +162,13 @@
           const data = await response.json();
           sessionStorage.setItem('backend_result', JSON.stringify(data));
 
-          // 🚨 RED FLAG 119 EMERGENCY ESCALATION CHECK
-          if (data.is_emergency === true) {
+          // 🚨 RED FLAG 119 EMERGENCY ESCALATION CHECK (result.html 소아 응급실 병상 화면으로 직행)
+          if (data.is_emergency === true || (data.ktas_level && data.ktas_level <= 2)) {
             if (progressFill) progressFill.style.width = '100%';
-            if (stepText) stepText.innerText = '🚨 119 긴급 이송 상황 감지! 응급 화면으로 이동합니다...';
+            if (stepText) stepText.innerText = '🚨 소아 KTAS 긴급 소견 감지! 응급실 결과 화면으로 이동합니다...';
             if (stepIcon) stepIcon.innerText = 'emergency';
             setTimeout(() => {
-              window.location.href = emergencyUrl;
+              window.location.href = resultUrl;
             }, 500);
             return;
           }

@@ -1775,9 +1775,9 @@ if (!window.__AISUM_INITIALIZED__) {
           // 🚨 0ms Red Flag 긴급 숏서킷 (경련, 호흡곤란, 의식저하, 생후 100일 미만 등)
           const redFlagRegex = /경련|경기|숨|호흡|의식|기절|청색|100일|백일|장중첩|피토|혈변|쳐짐|늘어짐|파랗|경직/;
           if (redFlagRegex.test(text)) {
-            console.log('🚨 0ms Red Flag 감지! 119 긴급 안내 화면으로 즉각 숏서킷 전환:', text);
+            console.log('🚨 0ms Red Flag 감지! 소아 응급실 결과 화면으로 즉각 전환:', text);
             if (symptomInput) symptomInput.blur();
-            const alertTargetUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : 'emergency_alert';
+            const alertTargetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
             window.location.href = alertTargetUrl;
             return;
           }

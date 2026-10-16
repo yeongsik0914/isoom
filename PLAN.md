@@ -247,11 +247,15 @@ graph TD
    - `result.html` 내 고정 4개 카드 텍스트 덮어쓰기 로직 폐지 ➔ `index.html`과 동일하게 `NATIONWIDE_PAIRINGS_DATA`(전국 156개 페어링)를 사용자 좌표(GPS/설정 주소) 기준으로 실시간 거리순 정렬 및 동적 렌더링(`renderMoonlightPairingCards()`) 구축.
    - 사용자 첨부 UI 카드 컴포넌트 100% 일치 (`추천 1순위`, 병원명 `>`, 거리 배지 `9.5 km (차 24분)`, `오늘 야간진료`, `접수마감 경고`, `연계 안심약국`, `+30분 조제 안전마진`, `병원 동일 건물 안내`, `병원 전화`, `길찾기`).
    - 2-트랙 상세 페이지(`hospital_detail.html`, `pharmacy_detail.html`) 내비게이션 연결 및 통화 스크립트 최단거리 1순위 병원명 실시간 연동.
-4. **[완료] 필수 캐노니컬 데이터셋 Git 형상관리 복원 & `.gitignore` 최적화 (Phase 3)**:
+4. **[완료] `input.html` ➔ `result.html` 소아 KTAS 1·2단계 결과 화면 통합 라우팅 및 초응급 119 원터치 다이얼 배너 연동 (Phase 2-D)**:
+   - `input.html` 문진 시 KTAS 1, 2단계 및 12대 Red Flag 판정 시 `emergency_alert.html`로 전환되던 UX 단절 완전 해소 ➔ 종합 결과 화면(`result.html`)으로 100% 통합 라우팅.
+   - `result.html` 상단에 `#ktas-emergency-call-banner` (🚨 초응급 이송 권고, `119 즉시 전화` 원터치 다이얼, `응급처치 가이드` 링크) 동적 마운트.
+   - `소아 응급실 병상 (우선 권고)` 탭 첫 번째 좌측 배치 및 실시간 병상(`hv28`), 소아 임상 감별 소견, 당직의 통화 스크립트 전면 연계.
+5. **[완료] 필수 캐노니컬 데이터셋 Git 형상관리 복원 & `.gitignore` 최적화 (Phase 3)**:
    - GitHub 클론 및 협업 환경에서 데이터 유실 방지를 위해 `data/` 내 핵심 JSON 7종 및 DB 파일 Git 추적 대상 정상 포함.
-5. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
+6. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
    - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
-6. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
+7. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
    - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
-7. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
+8. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
    - Service Worker 캐싱을 통해 네트워크 단절 시에도 12대 Red Flag 가이드 및 최근 조회 시설 오프라인 열람 지원.

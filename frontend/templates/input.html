@@ -1830,10 +1830,11 @@
         const effectiveTemp = effectiveUnknown ? null : state.temp;
         const effectiveTempStr = effectiveUnknown ? '체온 미측정(모름)' : `${state.temp.toFixed(1)}℃`;
 
-        // 🚨 1. 0ms Red Flag Guardrail Inspection (최우선 즉시 검사 - 사지절단/경련/의식불명 등 119 직행)
+        // 🚨 1. 0ms Red Flag Guardrail Inspection (12대 위급 상황 감지 시에도 result.html 소아 응급실 병상으로 직행)
         const isUnder100d = !effectiveAgeUnk && (state.isUnder100Days || state.ageMonths < 3);
         const combinedText = `${symText} ${state.companionText} ${isUnder100d ? '100일 미만' : ''} ${effectiveUnknown ? '' : effectiveTempStr}`;
-        if (RED_FLAG_REGEX.test(combinedText) || /사지\s*절단|절단/.test(combinedText)) {
+        const isClientRedFlag = RED_FLAG_REGEX.test(combinedText) || /사지\s*절단|절단/.test(combinedText);
+        if (isClientRedFlag) {
           let reason = '12대 소아 위급 상황 (119 즉시 신고 필요)';
           if (/절단|잘렸|잘려|전기톱|날아갔|사지/.test(combinedText)) reason = '외상성 사지/수지 절단 의심 (미세수술 응급센터 즉각 이송)';
           else if (/경련|경기|발작|사지\s*경직|눈이\s*(뒤집|돌아가)/.test(combinedText)) reason = '소아 급성 경련 및 뇌전증 발작 의심';
@@ -1844,31 +1845,29 @@
           else if (/화상.*(얼굴|손|발)|(얼굴|손|발).*화상|물집.*(얼굴|손|발)/.test(combinedText)) reason = '소아 안면/수부 중증 화상 의심';
 
           sessionStorage.setItem('red_flag_reason', reason);
-          if (redflagToast) redflagToast.style.display = 'block';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-
-          setTimeout(() => {
-            const targetUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : '/emergency_alert';
-            window.location.href = targetUrl;
-          }, 600);
-          return;
+          if (redflagToast) {
+            redflagToast.style.display = 'block';
+            setTimeout(() => { if (redflagToast) redflagToast.style.display = 'none'; }, 2500);
+          }
         }
 
-        // 2. 비증상/잡담 텍스트 유효성 검사
-        const symVal = validateSymptomInput(symText);
-        if (!symVal.valid) {
-          if (symptomInvalidTip && symptomInvalidText) {
-            symptomInvalidText.innerText = symVal.reason;
-            symptomInvalidTip.style.display = 'flex';
+        // 2. 비증상/잡담 텍스트 유효성 검사 (Red Flag 감지 시 증상 검사 패스)
+        if (!isClientRedFlag) {
+          const symVal = validateSymptomInput(symText);
+          if (!symVal.valid) {
+            if (symptomInvalidTip && symptomInvalidText) {
+              symptomInvalidText.innerText = symVal.reason;
+              symptomInvalidTip.style.display = 'flex';
+            }
+            symptomInput.focus();
+            const cardSymptom = document.getElementById('card-symptom');
+            if (cardSymptom) {
+              cardSymptom.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              cardSymptom.style.borderColor = '#ef4444';
+              setTimeout(() => { cardSymptom.style.borderColor = ''; }, 2000);
+            }
+            return;
           }
-          symptomInput.focus();
-          const cardSymptom = document.getElementById('card-symptom');
-          if (cardSymptom) {
-            cardSymptom.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            cardSymptom.style.borderColor = '#ef4444';
-            setTimeout(() => { cardSymptom.style.borderColor = ''; }, 2000);
-          }
-          return;
         }
 
         // 3. Format Structured Clinical Triage Payload
@@ -1921,7 +1920,7 @@
         const stepIcon = document.getElementById('analyzing-step-icon');
         const progressFill = document.getElementById('analyzing-progress-fill');
         const targetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : '/result';
-        const emergencyUrl = window.location.pathname.endsWith('.html') ? 'emergency_alert.html' : '/emergency_alert';
+        const emergencyUrl = window.location.pathname.endsWith('.html') ? 'result.html' : '/result';
 
         if (overlay) {
           overlay.classList.add('active');
@@ -1955,13 +1954,13 @@
             const data = await response.json();
             sessionStorage.setItem('backend_result', JSON.stringify(data));
 
-            // 🚨 백엔드 Supervisor / Gemini 실시간 Red Flag 감지 시 응급 화면으로 직행
-            if (data.is_emergency === true) {
+            // 🚨 백엔드 Supervisor / Gemini 실시간 KTAS 1, 2단계 및 Red Flag 감지 시에도 result.html로 이동하여 응급실 병상 결과 표출
+            if (data.is_emergency === true || (data.ktas_level && data.ktas_level <= 2)) {
               if (progressFill) progressFill.style.width = '100%';
-              if (stepText) stepText.innerText = '🚨 119 긴급 이송 상황 감지! 응급 화면으로 이동합니다...';
+              if (stepText) stepText.innerText = '🚨 소아 KTAS 긴급 소견 감지! 응급실 결과 화면으로 이동합니다...';
               if (stepIcon) stepIcon.innerText = 'emergency';
               setTimeout(() => {
-                window.location.href = emergencyUrl;
+                window.location.href = targetUrl;
               }, 400);
               return;
             }
@@ -1981,7 +1980,20 @@
         } catch (err) {
           console.warn('Backend API call failed, using safe offline fallback:', err);
           clearTimeout(timeoutId);
-          sessionStorage.removeItem('backend_result');
+          const redFlagReason = sessionStorage.getItem('red_flag_reason');
+          if (redFlagReason) {
+            sessionStorage.setItem('backend_result', JSON.stringify({
+              ktas_level: 1,
+              ktas_level_name: '1단계(소생)',
+              is_emergency: true,
+              clinical_rationale: redFlagReason,
+              symptoms: [chatPayload.patient_vitals ? chatPayload.patient_vitals.symptom : '위급 증상'],
+              hospitals: [],
+              pharmacies: []
+            }));
+          } else {
+            sessionStorage.removeItem('backend_result');
+          }
 
           if (progressFill) progressFill.style.width = '100%';
           if (stepText) stepText.innerText = '안전 백업 진료 데이터 매칭 완료!';

@@ -786,6 +786,30 @@
           </div>
           <span id="ktas-desc-detail">백엔드 지능형 소아 KTAS 168개 임상 지침 엔진과 실시간 동기화 중입니다.</span>
         </div>
+
+        <!-- 🚨 KTAS 1, 2단계 전용 초응급 안내 배너 (119 즉시 전화 & 가이드 링크) -->
+        <div id="ktas-emergency-call-banner" style="display: none; margin-top: 12px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(220, 38, 38, 0.05) 100%); border: 1.5px solid #ef4444; border-radius: 14px; padding: 12px 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="material-symbols-outlined" style="color: #ef4444; font-size: 20px;">emergency</span>
+              <strong style="color: #ef4444; font-size: 13.5px; font-weight: 800;">초응급 이송 권고</strong>
+            </div>
+            <span style="font-size: 11px; color: #f87171; font-weight: 700; background: rgba(239, 68, 68, 0.15); padding: 2px 8px; border-radius: 9999px;">골든타임 확보 필요</span>
+          </div>
+          <p id="ktas-emergency-call-msg" style="font-size: 12.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 10px;">
+            생명 또는 신체 기능에 중대한 위험이 있는 긴급 상황입니다. 즉시 119에 신고하거나 인근 대학병원 소아응급센터로 이송하십시오.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <a href="tel:119" style="flex: 1; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #ef4444; color: #ffffff; border-radius: 10px; font-weight: 800; font-size: 13.5px; text-decoration: none; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);">
+              <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+              <span>119 즉시 전화</span>
+            </a>
+            <a id="btn-view-emergency-guide" href="emergency_alert.html" style="height: 38px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #cbd5e1; border-radius: 10px; font-weight: 600; font-size: 12px; text-decoration: none;">
+              <span>응급처치 가이드</span>
+              <span class="material-symbols-outlined" style="font-size: 14px;">arrow_forward_ios</span>
+            </a>
+          </div>
+        </div>
       </section>
 
       <!-- 2. Track Tab Switcher -->
@@ -1388,6 +1412,10 @@
         } else {
           ktasDesc = '경미한 비응급 상태로 인근 <strong>달빛어린이병원</strong> 또는 야간 진료 의원에서 안전하게 외래 진찰받으실 수 있습니다.';
         }
+      } else if ((data && data.is_emergency === true) || sessionStorage.getItem('red_flag_reason')) {
+        ktasLevel = 2;
+        ktasName = '긴급 (전문응급의료센터 이송)';
+        ktasDesc = '생명이나 신체 기능에 중대한 위험이 있는 긴급 상태입니다. 지체 없이 <strong>대학병원 소아응급센터</strong>로 직행하십시오.';
       } else {
         const tempNum = isUnknownTemp ? null : parseFloat(rawTemp);
         const symStr = symptom || '';
@@ -1439,6 +1467,24 @@
           ktasDescEl.innerHTML = `<strong>소아 임상 감별 소견:</strong> ${data.clinical_rationale}`;
         } else {
           ktasDescEl.innerHTML = ktasDesc;
+        }
+      }
+
+      // 3-1-1) KTAS 1, 2단계 전용 초응급 안내 배너 가시성 및 메시지 동적 제어
+      const erBanner = document.getElementById('ktas-emergency-call-banner');
+      if (erBanner) {
+        if (ktasLevel <= 2 || (data && data.is_emergency === true)) {
+          erBanner.style.display = 'block';
+          const erMsg = document.getElementById('ktas-emergency-call-msg');
+          if (erMsg) {
+            if (ktasLevel === 1) {
+              erMsg.innerHTML = '🚨 <strong>KTAS 1단계 (소생)</strong>: 즉각적인 처치가 필요한 최고 응급 상태입니다. 지체 없이 <strong>119 구급차</strong>를 호출하십시오.';
+            } else {
+              erMsg.innerHTML = '⚠️ <strong>KTAS 2단계 (긴급)</strong>: 신체 기능에 중대한 위험이 있는 긴급 상태입니다. <strong>대학병원 소아응급센터</strong>로 즉시 내원하십시오.';
+            }
+          }
+        } else {
+          erBanner.style.display = 'none';
         }
       }
 

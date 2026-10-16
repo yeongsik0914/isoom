@@ -39,9 +39,9 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(response.is_emergency)
         self.assertEqual(response.turn_count, 1)
 
-        # Must populate safe defaults for result.html vital chips
-        self.assertIsNotNone(response.age_months)
-        self.assertIsNotNone(response.temperature)
+        # Per ISSUE-112 & ISSUE-116: Unspecified age/temp are preserved as None to prevent falsification
+        self.assertIsNone(response.age_months)
+        self.assertIsNone(response.temperature)
         self.assertIsNotNone(response.ktas_level)
         self.assertTrue(len(response.symptoms) >= 1)
 

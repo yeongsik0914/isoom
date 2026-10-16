@@ -28,6 +28,16 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.84-ktas-emergency-unified-result] 2026-10-16: 소아 KTAS 1, 2단계(소생/긴급) 결과 화면(result.html) 100% 통합 표출 및 119 초응급 원터치 다이얼 배너 구축 (김동준 팀원, 정영식 팀장 총괄)
+* **🚨 소아 KTAS 1·2단계 결과 화면(`result.html`) 100% 통합 라우팅 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html), [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html), [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js))**:
+  - `input.html`에서 소아 KTAS 1단계(소생) 또는 2단계(긴급) 및 12대 Red Flag 분류 시 단순 119 사이렌 화면(`emergency_alert.html`)으로 강제 전환되던 라우팅 구조를 완전 혁신하여, 종합 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))으로 100% 통합 표출.
+  - 보호자가 공식 KTAS 등급 카드, 소아 임상 감별 소견(`clinical_rationale`), 반경 내 소아 응급실 실시간 가용 병상(`hv28`), 당직의 30초 확인 스크립트를 누락 없이 즉시 확인 가능.
+* **📞 result.html 내 119 초응급 원터치 다이얼 배너 (`#ktas-emergency-call-banner`) 탑재 ([frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**:
+  - KTAS 1, 2단계 판정 시 최상단에 붉은색 고시인성 긴급 배너 동적 노출:
+    - `🚨 119 즉시 전화`: 터치 즉시 119 다이얼(`tel:119`) 연결로 골든타임 확보.
+    - `응급처치 가이드`: CPR/경련/화상 시각 가이드(`emergency_alert.html`) 원클릭 보조 열람 지원.
+  - `소아 응급실 병상 (우선 권고)` 탭을 첫 번째(좌측)로 자동 활성화하여 대학병원 소아응급센터 실시간 병상 정보 직관적 노출.
+
 ### 🌟 [v2.4.83-result-pairing-cards-index-sync] 2026-10-16: result.html 달빛병원·안심약국 카드 목록의 index.html 위치기반 동적 렌더링 엔진 100% 일치화 릴리스 (김동준 팀원)
 * **📍 [김동준 팀원] 위치 좌표 획득 단일화 및 전국 156개 페어링 실데이터 기반 최단거리 오름차순 정렬 (`result.html`)**:
   - `result.html`에서 불완전한 하드코딩 좌표 대신 `index.html`과 100% 동일한 `window.AisumPermissionManager.getUserLocation()`을 최우선 참조하도록 단일화.

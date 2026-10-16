@@ -138,6 +138,7 @@
 | **[ISSUE-129]** | 소아 고열·이루 증상 KTAS 긴급 판정 & UI/UX 정합성 | 15개월 40℃ 고열 및 귀 노란 점액(화농성 이루) 입력 시 KTAS 2단계 긴급 판정으로 인한 119 화면 직행 및 KTAS 카드 미표출 원인 규명 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-130]** | 소아 KTAS 등급별 맞춤 UI/UX & 통화 스크립트 정합성 | KTAS 1~5단계별 컬러 테마 적용, KTAS 1~3단계 소아 응급실 병상 좌측 우선 배치, KTAS 4~5단계 소아 응급실 병상 완전 제거(달빛병원·안심약국 전용 안내), 및 소아 임상 감별 소견 맞춤 통화 스크립트 구축 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-131]** | 프론트엔드 위치 기반 일치화 & 달빛병원 페어링 동적 렌더링 | result.html의 달빛어린이병원·안심약국 카드 목록을 index.html과 100% 동일한 위치 기반 실시간 거리순 정렬 및 동적 카드 렌더링 엔진(NATIONWIDE_PAIRINGS_DATA 156개)으로 전면 일치화 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-132]** | 프론트엔드 라우팅 & 소아 KTAS 긴급 결과 표출 통합 | `input.html`에서 KTAS 1·2단계(소생/긴급) 및 12대 Red Flag 분류 시 `emergency_alert.html` 직행으로 인한 결과 단절 해소 및 `result.html` 소아 응급실 병상 화면으로 100% 통합 표출 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -4468,3 +4469,26 @@
   * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
   * [Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md)
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+
+### [ISSUE-132] `input.html` 문진 입력 시 KTAS 1, 2단계 분류 결과 `emergency_alert.html` 직행 단절 해소 및 `result.html` 소아 응급실 병상 화면으로 100% 통합 표출
+
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 팀원 (정영식 팀장 지시 및 최종 승인)
+* **분류**: 프론트엔드 라우팅 / 소아 KTAS UX 통합 / 응급의료 접근성
+* **문제 상황**:
+  - `input.html`에서 보호자가 40℃ 고열, 소아 경련, 청색증 등 위급 증상을 입력했을 때 백엔드 `is_emergency === true` 또는 클라이언트 Red Flag 감지로 인해 `emergency_alert.html`로 강제 이동함.
+  - 이로 인해 백엔드가 정밀하게 산출한 KTAS 1/2단계 등급 카드, 소아 임상 감별 소견, 주변 실시간 소아 응급실 가용 병상(`hv28`), 30초 당직의 통화 스크립트가 화면에 노출되지 않고 단순 119 사이렌 화면만 노출되어 분류 결과가 누락된 것으로 오해되는 UX 단절 발생.
+* **원인 분석**:
+  - `frontend/templates/input.html`의 `launchAnalyzingSequence` 내에서 `data.is_emergency === true` 수신 시 무조건 `emergencyUrl`(`emergency_alert.html`)로 라우팅하는 분기가 하드코딩되어 있었음.
+  - 클라이언트 단 정규식 검사에서도 `RED_FLAG_REGEX.test()` 통과 시 백엔드 호출을 건너뛰고 600ms 후 `emergency_alert.html`로 조기 종료(`return`)시켰음.
+* **해결 방안 및 조치 내역**:
+  1. `input.html` 라우팅 단일화: 백엔드 `is_emergency === true` 또는 `ktas_level <= 2` 판정 시에도 `targetUrl`(`result.html`)로 이동하도록 수정.
+  2. 클라이언트 Red Flag 인터셉터 개편: 12대 위급 상황 감지 시 토스트 경고 후 중단 없이 백엔드 `MedicalGuardrailAgent`(32.9µs) 파이프라인으로 정상 인계하여 완전한 KTAS DTO 생성.
+  3. `result.html` 초응급 안내 배너(`#ktas-emergency-call-banner`) 탑재: KTAS 1, 2단계 판정 시 최상단에 119 즉시 전화 원터치 CTA(`tel:119`) 및 응급처치 가이드 바로가기 버튼 동적 표출.
+  4. `loading.html` 및 `main.js`의 응급 라우팅 분기 역시 `result.html`로 100% 동기화.
+* **적용 파일**:
+  - [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  - [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  - [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html)
+  - [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js)
+

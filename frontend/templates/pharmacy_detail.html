@@ -66,8 +66,8 @@
       // 1. URL 파라미터의 from / return_url 확인
       let fromTarget = '';
       try {
-        const params = new URLSearchParams(window.location.search);
-        const rawFrom = params.get('from') || params.get('return_url') || params.get('back');
+        const urlParams = new URLSearchParams(window.location.search);
+        const rawFrom = urlParams.get('from') || urlParams.get('return_url') || urlParams.get('back');
         if (rawFrom) {
           fromTarget = sanitizeTarget(rawFrom);
         }
