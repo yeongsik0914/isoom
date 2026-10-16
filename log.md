@@ -116,6 +116,9 @@
 | **[ISSUE-107]** | 연령 슬라이더 모바일 UX & 소아 100일 미만 분류 | 2개월 이하 선택 시 카드 확장(Layout Shift) 현상 원천 제거(인라인 뱃지화) 및 3개월 100일 미만 위험군 단일 명확화 | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-108]** | 프로젝트 거버넌스 & 개발 백서 최적화 | PLAN.md 비정상적 비대화(1,728줄) 해소 및 11대 핵심 아키텍처 중심 84% 압축 요약 최적화(271줄 경량화) | **해결 완료 (Resolved)** | 2026-10-16 |
 | **[ISSUE-109]** | 프론트엔드 LBS UI & 위치 검색 모달 | 선택 탭(병원/약국/전체)별 상단 배지 운영 시설 수 실시간 동기화 및 '자주 찾는 주요 지역' 사용자 실제 검색 히스토리 동적 관리(HTML 하드코딩 제거, 최대 15개 제한, 최신순 자동 갱신) | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-110]** | Uvicorn 서버 실행 & 네트워크 포트 | `python main.py` 실행 시 WinError 10048(포트 8000 기점유 충돌) 원인 규명 및 백그라운드 데몬 프로세스 관리 지침 확립 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-111]** | 문진 화면(input) ➔ 결과 화면(result) 백엔드 직결 | `launchAnalyzingSequence` 내 `POST /api/v1/chat` 비동기 통신 부재로 인한 정적 데이터 바인딩 결함 해소 및 KTAS 2-트랙 자동 라우팅 완결 | **해결 완료 (Resolved)** | 2026-10-16 |
+| **[ISSUE-112]** | 문진 NLP 가드레일 & 미입력 바이탈 정합성 | 비증상·잡담 용어(ㅋㅋㅋ, 안녕, 배고파) 입력 시 KTAS 4단계 오분류 차단 및 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 변조 결함 원천 해결 | **해결 완료 (Resolved)** | 2026-10-16 |
 
 ---
 
@@ -3506,7 +3509,9 @@
   * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
 * **조치 결과**:
   - 슬라이더를 0개월부터 7세까지 어떻게 조작해도 화면이 덜컥거리거나 늘어나는 현상이 100% 사라졌으며, 3개월 아기에 대해서도 위험군 여부가 명확해짐.
+---
 
+<<<<<<< Updated upstream
 ---
 
 ### [ISSUE-108] PLAN.md 비정상적 비대화(1,728줄) 해소 및 11대 핵심 아키텍처 중심 84% 압축 요약 최적화
@@ -3582,11 +3587,93 @@
   - 위치 모달에서 하드코딩이 100% 제거되고 사용자가 실제로 설정한 지역만 최대 15개까지 최신순으로 깔끔하게 관리됨.
 
 
+=======
+### [ISSUE-108] `python main.py` 실행 시 `[Errno 10048]` (포트 8000 주소 중복 바인딩 충돌)
+>>>>>>> Stashed changes
 
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 로컬 개발 환경 / 네트워크 소켓 바인딩 충돌
+* **문제 상황**:
+  * 사용자가 터미널에서 `python main.py`를 실행했을 때 아래와 같은 소켓 바인딩 충돌 에러가 발생하며 서버가 기동 직후 즉시 셧다운됨:
+    ```text
+    ERROR:    [Errno 10048] error while attempting to bind on address ('0.0.0.0', 8000): [winerror 10048] 각 소켓 주소(프로토콜/네트워크 주소/포트)는 하나만 사용할 수 있습니다
+    INFO:     Waiting for application shutdown.
+    ```
+* **원인 분석**:
+  1. 모바일 실기기 테스트 및 STT 음성 인식 기능을 지원하기 위해 이미 백그라운드 상주 데몬(`uvicorn main:app --host 0.0.0.0 --port 8000`, PID 4772)이 실행 중인 상태였음.
+  2. 또한 외부 터널 프로세스(`localtunnel`, PID 24480)가 해당 8000번 포트에 결합되어 실시간 프록시 세션을 유지하고 있었음.
+  3. Windows OS 환경에서는 동일 소켓(`0.0.0.0:8000`)에 대해 복수의 프로세스가 동시에 바인딩할 수 없으므로 `WSAEADDRINUSE (WinError 10048)`가 발생함.
+* **구체적 해결 방안**:
+  1. **현재 서버 생존 상태 확인**: 백엔드 서버는 백그라운드에서 100% 정상 가동 중이므로 `http://localhost:8000` 및 모바일 URL에서 즉시 이용 가능함을 안내.
+  2. **사용자 직접 실행 가이드**: 터미널에서 직접 실행하고 싶은 경우 기존 점유 프로세스(`taskkill /F /PID 4772` 또는 PowerShell `Stop-Process`)를 종료 후 재실행하도록 프로세스 정리 가이드 제공.
+* **적용 파일**:
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+* **조치 결과**:
+  * 포트 점유 충돌 원인을 명확히 식별하고 백그라운드 데몬과 수동 실행 간의 전환 프로세스를 완벽히 정립함.
+---
 
+### [ISSUE-109] `input.html` ➔ `result.html` 전환 시 백엔드 API(`POST /api/v1/chat`) 미호출로 인한 정적 데이터 표출 결함
 
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 프론트엔드-백엔드 E2E API 파이프라인 결함
+* **문제 상황**:
+  * `input.html`에서 사용자가 체온, 연령, 주요 증상을 입력하고 "AI 증상 분석 시작"을 눌렀을 때, 2초 분석 애니메이션 이후 `result.html`로 이동하나 실제 Gemini KTAS 등급이나 백엔드 통화 대본이 반영되지 않고 정적 기본 카드만 표출되는 현상 발생.
+* **원인 분석**:
+  1. `input.html`의 `launchAnalyzingSequence()` 함수가 2초 애니메이션 타이머만 가동하고 `fetch('/api/v1/chat')`를 호출하지 않은 채 단순 페이지 이동(`window.location.href`)을 수행하고 있었음.
+  2. 이에 따라 `sessionStorage`에 `backend_result`가 누락되어 `result.html`이 클라이언트 정적 폴백 모드로만 작동함.
+* **구체적 해결 방안**:
+  1. **실제 비동기 `fetch('/api/v1/chat')` 결합**: `launchAnalyzingSequence(backendChatRequest)`에서 애니메이션 중 병렬로 API를 호출하여 `backend_result`를 저장하도록 연동 완료.
+  2. **Supervisor Red Flag 119 직행**: `data.is_emergency === true` 시 `emergency_alert.html`로 즉시 라우팅.
+  3. **result.html 동적 바이탈 & KTAS 1~3단계 응급 탭 자동 전환**: KTAS 3 이하일 경우 응급실 탭 자동 활성화.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+* **조치 결과**:
+  * 고열/기면, 경증 감기, 신생아 고열 등 3개 임상 케이스에서 백엔드 KTAS, 병원, 약국, 통화 대본이 100% 실시간으로 연동되어 결과 화면에 정상 렌더링됨을 검증함.
 
+---
 
+### [ISSUE-110] 비증상·잡담 용어(ㅋㅋㅋ, 안녕, 배고파) 입력 시 KTAS 4단계 오분류 차단 및 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 덮어쓰기 결함 원천 해결
 
-
-
+* **발생 일자**: 2026-10-16
+* **작업자**: 김동준 (팀원)
+* **분류**: 문진 NLP 가드레일 & 임상 바이탈 정합성 & 백엔드 오케스트레이션
+* **문제 상황**:
+  1. `input.html`에서 사용자가 체온이나 나이를 건드리지 않고 "보챔" 증상만 입력하고 병원 찾기를 눌렀을 때, `result.html` 결과 화면에 `24개월`, `38℃ (발열)`로 자동 임의 지정되어 표출되는 심각한 바이탈 왜곡 현상 발생.
+  2. 증상이 아닌 이상한 용어, 초성, 일상 잡담("ㅋㅋㅋ", "asdf", "안녕", "배고파" 등)을 입력했음에도 실제 질환으로 오인식하여 KTAS 4단계(준응급)로 분류하고 병원을 추천해버리는 결함 발생.
+* **원인 분석**:
+  1. **백엔드 supervisor.py 하드코딩 결함**: `supervisor.py` 내 `if not is_complete and (turn_limit_reached or force_matching):` 블록에서 필수 임상 데이터가 비어있다는 이유로 `state.temperature = 38.0`, `state.age_months = 24`를 무조건 강제 주입하여 클라이언트의 "모름/미입력" 상태를 파괴함.
+  2. **단일 음절 키워드 매칭 오류**: `triage_agent.py`의 `kw in text` 단순 부분일치 방식 때문에 사용자가 "해열제 미복용"을 선택했음에도 "해**열**제"의 "열"이 발열로, "배고파"의 "배"가 복통으로 오인식됨.
+  3. **클라이언트 1차 가드레일 부재**: `input.html`에서 빈 문자열(`!symText`)만 검사하고 초성/잡담/무의미한 텍스트에 대한 임상 유효성 필터링이 없었음.
+  4. **result.html 렌더링 결함**: 체온 미측정임에도 `vital-chip highlight` 클래스가 적용되어 빨간색 배지로 표출되고 `(발열)` 접미사가 강제 연결됨.
+* **구체적 해결 방안**:
+  1. **클라이언트 증상 가드레일 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+     - `validateSymptomInput(text)` 함수 구축 (초성 `ㅋㅋㅋ`, 동일 문자 반복, 키보드 테스트 문자열 `asdf`, 일상 잡담 `안녕/배고파` 감지 차단, 60대 소아 임상 표준 증상 키워드 필수 검증).
+     - 유효하지 않은 입력 시 카드가 빨간색으로 흔들리며 인라인 경고 박스(`.symptom-invalid-tip`) 표출 및 제출 차단.
+  2. **백엔드 FSM 임상 가드레일 ([app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py))**:
+     - "주요 증상:" 영역을 정밀 슬라이싱하여 소아 질환 정규표현식 검사(`clinical_patterns`) 수행.
+     - 무의미어/잡담 유입 시 KTAS 등급 및 병원 매칭을 일체 부여하지 않고 `current_step = 'TRIAGE'`를 유지하며 재입력 요청 멘트 반환.
+     - 사용자가 미입력(모름)을 선택한 경우 `state.age_months = None`, `state.temperature = None`을 온전히 보존하도록 보호.
+  3. **triage_agent.py 정규식 패턴화 ([app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py))**:
+     - 1글자 단어 단순 `in text` 검사를 `(?<!해)열(?!제)`, `배가\s*아|복통` 등 문맥 정규표현식으로 교체.
+  4. **결과 화면 바이탈 렌더링 교정 ([frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**:
+     - 체온 미측정 시 `highlight` 클래스를 제거하여 중립 회색 뱃지로 전환하고 `(발열)` 접미사 배제.
+     - 30초 통화 스크립트에서도 "체온은 아직 측정하지 못했으나...", "아이가..."로 자연스럽게 생성.
+  5. **서버 재기동 및 실시간 E2E HTTP API 검증**:
+     - 이전 코드를 상주 실행 중이던 프로세스(PID 6544)를 종료하고 최신 코드로 백엔드 데몬을 재구동.
+     - `POST /api/v1/chat` 호출 결과 `age_months: None`, `temperature: None`, `ktas_level: 4`, `symptoms: ['보챔']` 및 잡담 차단(`current_step: TRIAGE`) 확인.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)
+  * [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py)
+  * [app/agents/triage_agent.py](file:///c:/AI-Native-Agent/monnlight/app/agents/triage_agent.py)
+  * [q_a.md](file:///c:/AI-Native-Agent/monnlight/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/monnlight/log.md)
+* **조치 결과**:
+  * 증상 외 쓸모없는 용어/초성 입력 시 즉각적인 클라이언트/백엔드 이중 필터링으로 가짜 KTAS 4단계 분류를 원천 차단함.
+  * 나이와 체온을 조작하지 않았을 때 강제로 24개월과 38℃가 들어가던 중대 결함을 해결하여 `나이 미입력(모름)`, `체온 미측정(모름)`(회색 뱃지)으로 완벽하게 연동·표출됨.

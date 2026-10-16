@@ -28,6 +28,19 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.68-clinical-symptom-guardrail-and-unknown-vitals-fix] 2026-10-16: 비증상·잡담 필터링 가드레일 탑재, 나이/체온 미입력 시 강제 기본값(24개월, 38℃) 덮어쓰기 원천 해결 및 실시간 연동 검증 (김동준 팀원)
+* **🛡️ 비증상·잡담 텍스트(ㅋㅋㅋ, asdf, 안녕, 배고파) 필터링 및 가짜 KTAS 4단계 오분류 차단 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html), [app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py))**:
+  - 클라이언트 `validateSymptomInput(text)` 함수를 통해 초성(`ㅋㅋㅋ`), 동일 문자 반복, 영문 자판 무의미어(`asdf`), 일상 대화(`안녕`, `배고파`) 입력 시 빨간색 경고 박스(`.symptom-invalid-tip`) 표출 및 제출 차단.
+  - 백엔드 `supervisor.py`에서 증상 텍스트 정규식 검사를 통해 실제 소아 질환 증상이 없을 시 KTAS 및 병원 매칭을 일체 부여하지 않고 `TRIAGE` 상태 유지 및 재입력 유도.
+* **🌡️ 나이 및 체온 미입력 시 강제 기본값(24개월, 38℃) 변조 결함 원천 해결 ([app/orchestrator/supervisor.py](file:///c:/AI-Native-Agent/monnlight/app/orchestrator/supervisor.py), [frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**:
+  - `supervisor.py` 내 `state.temperature = 38.0`, `state.age_months = 24` 강제 하드코딩을 적출하여 사용자의 "모름/미입력" 상태를 무손실 보존(`None`).
+  - `triage_agent.py` 단일 음절("열", "배") 단순 부분일치를 정규식 문맥 매칭(`(?<!해)열(?!제)`)으로 교체하여 "해열제 미복용" 시 불필요한 "발열" 주입 차단.
+  - `result.html`에서 체온 미측정 시 빨간색 배지(`highlight`) 및 `(발열)` 접미사를 제거하고 단정한 회색 뱃지(`체온 미측정(모름)`)로 전환.
+  - 30초 당직의 통화 대본도 "체온은 아직 측정하지 못했으나...", "아이가..."로 자연스럽게 생성.
+* **🚀 최신 백엔드 서버 핫픽스 기동 및 실시간 HTTP API (`POST /api/v1/chat`) 100% 정상 통신 검증**:
+  - 이전 코드를 상주 실행 중이던 프로세스(PID 6544)를 교체하고 최신 코드로 백엔드 프로세스(PID 1564) 기동.
+  - HTTP 요청 검증 결과: `보챔` 단독 입력 시 `age_months: None`, `temperature: None`, `ktas_level: 4`, `symptoms: ['보챔']` 정확 반환 및 잡담 차단 완벽 통과.
+
 ### 🌟 [v2.4.67-dynamic-badge-count-and-user-location-history] 2026-10-16: 선택 탭(병원/약국/전체)별 상단 배지 운영 시설 수 실시간 동기화 및 '자주 찾는 주요 지역' 사용자 실제 검색 히스토리 동적 관리(HTML 하드코딩 제거, 최대 15개 제한, 최신순 자동 갱신) (정영식 팀장)
 * **🎯 탭 선택별 상단 배지 운영 시설 수 1:1 실시간 동기화 ([frontend/js/main.js](file:///e:/monnlight/frontend/js/main.js))**:
   - `updateFacilityCountBadge(filter)` 엔진을 탑재하여 사용자가 '🌙 달빛병원 18' 선택 시 상단 배지가 `마천동 반경 15km 18곳 운영중`으로, '💊 심야약국 309' 선택 시 `309곳 운영중`으로, '전체 327' 선택 시 `327곳 운영중`으로 즉각 동기화 (기존 327곳 고정 결함 완벽 해결).
@@ -36,6 +49,19 @@
   - 사용자가 실제로 검색창에서 검색하여 설정하거나 GPS로 측정한 지역만 LocalStorage(`aisum_recent_locations`)에 최대 15개까지 최신순(FIFO/LRU)으로 관리.
   - 동일 지역 재선택 시 기존 항목을 제거하고 최상단으로 자동 최신화하며, 15개 초과 시 가장 오래된 이전 정보 자동 소멸.
   - 초기 이력 부재 시 "최근 설정한 지역이 없습니다" 점선 안내 컴포넌트 표출.
+
+### 🌟 [v2.4.66-input-result-backend-integration] 2026-10-16: 문진(input.html) ➔ 결과(result.html) 백엔드(POST /api/v1/chat) 실시간 비동기 직결, KTAS 2-트랙 자동 라우팅 및 8000번 포트 완전 반환 (김동준 팀원)
+* **🔌 input.html ➔ 백엔드 비동기 직결 파이프라인 완성 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html))**:
+  - `launchAnalyzingSequence()` 내 단순 타이머 우회 결함을 해소하고 실제 `POST /api/v1/chat` 비동기 호출을 탑재하여 2초 분석 시퀀스 동안 병렬 처리 완결.
+  - 백엔드 응답 데이터를 `backend_result` 세션 스토리지에 원자적 저장하여 결과 화면에 무손실 전달.
+* **🚨 백엔드 Supervisor 0ms Red Flag 감지 시 즉각 119 직행 연동**:
+  - 백엔드에서 `data.is_emergency === true` 판정 시 `emergency_alert.html`로 400ms 내 즉각 전환.
+* **📊 result.html 라이브 데이터 바인딩 & KTAS 1~3단계 응급실 탭 자동 선택 ([frontend/templates/result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html))**:
+  - 실제 KTAS 판정 등급 및 지능형 30초 당직의 통화 대본, 실시간 추천 의료시설을 실시간 렌더링.
+  - KTAS 1~3단계(응급) 판정 시 소아 응급실 탭(`emergency`)을 자동 활성화하여 소아 가용 병상 정보를 우선 표출.
+  - 체온/나이 미입력(모름) 상태 시 `체온 미측정(모름)`, `나이 미입력(모름)`으로 깨끗하게 처리.
+* **🧹 모바일 터널(Localtunnel) 차단 및 8000번 포트 완전 반환**:
+  - 모바일 터널(task-487) 및 백그라운드 Uvicorn 데몬(task-482)을 완전히 종료하여 포트 8000을 깨끗이 비움. 사용자가 로컬 터미널에서 `python main.py`를 직접 기동할 수 있도록 환경 정비.
 
 ### 🌟 [v2.4.66-plan-md-optimization-and-whitepaper-refactoring] 2026-10-16: 종합 기획안 & 개발 백서(PLAN.md) 84.3% 압축 요약 최적화 및 11대 핵심 아키텍처 재편 (정영식 팀장)
 * **📚 1,728줄 비대화 백서의 11대 핵심 장 중심 압축 집약 ([PLAN.md](file:///e:/monnlight/PLAN.md))**:

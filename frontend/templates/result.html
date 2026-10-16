@@ -1212,15 +1212,35 @@
       const backendStored = sessionStorage.getItem('backend_result');
       const triageStored = sessionStorage.getItem('triage_result');
 
-      let age = '14개월';
-      let rawTemp = '38.5';
-      let symptom = '발열 및 보챔';
+      let age = '나이 미입력(모름)';
+      let rawTemp = '체온 미측정(모름)';
+      let symptom = '소아 불편감';
       let callScript = null;
 
       if (backendStored) {
         data = JSON.parse(backendStored);
-        if (data.age_months) age = `${data.age_months}개월`;
-        if (data.temperature) rawTemp = String(data.temperature);
+        if (data.age_months !== null && data.age_months !== undefined) {
+          age = (data.age_months <= 24) ? `${data.age_months}개월` : `${Math.floor(data.age_months / 12)}세`;
+        } else if (triageStored) {
+          try {
+            const td = JSON.parse(triageStored);
+            if (td.age) age = td.age;
+          } catch (_) {}
+        } else {
+          age = '나이 미입력(모름)';
+        }
+
+        if (data.temperature !== null && data.temperature !== undefined) {
+          rawTemp = String(data.temperature);
+        } else if (triageStored) {
+          try {
+            const td = JSON.parse(triageStored);
+            if (td.temp) rawTemp = td.temp;
+          } catch (_) {}
+        } else {
+          rawTemp = '체온 미측정(모름)';
+        }
+
         if (data.symptoms && data.symptoms.length > 0) symptom = data.symptoms.join(', ');
         if (data.call_script) callScript = data.call_script;
       } else if (triageStored) {
@@ -1230,14 +1250,34 @@
         if (triageData.symptom) symptom = triageData.symptom;
       }
 
-      const temp = (rawTemp.includes('도') || rawTemp.includes('℃')) ? rawTemp : `${rawTemp}도`;
+      const isUnknownTemp = !rawTemp || rawTemp.includes('모름') || rawTemp.includes('미측정');
+      const isUnknownAge = !age || age.includes('모름') || age.includes('미입력');
+      const tempDisplay = isUnknownTemp ? '체온 미측정(모름)' : ((rawTemp.includes('도') || rawTemp.includes('℃')) ? rawTemp : `${rawTemp}℃`);
+      const ageDisplay = isUnknownAge ? '나이 미입력(모름)' : age;
 
       // 1) 상단 바이탈 칩 갱신
       const ageEl = document.getElementById('vital-age-text');
-      if (ageEl) ageEl.innerText = age;
+      if (ageEl) ageEl.innerText = ageDisplay;
 
       const tempEl = document.getElementById('vital-temp-text');
-      if (tempEl) tempEl.innerText = `${temp} (발열)`;
+      const tempChip = document.getElementById('vital-temp-chip');
+      if (tempEl) {
+        if (isUnknownTemp) {
+          tempEl.innerText = '체온 미측정(모름)';
+          if (tempChip) tempChip.classList.remove('highlight');
+        } else {
+          const tempNum = parseFloat(rawTemp);
+          const feverTag = tempNum >= 38.0 ? ' (발열)' : '';
+          tempEl.innerText = `${tempDisplay}${feverTag}`;
+          if (tempChip) {
+            if (tempNum >= 38.0) {
+              tempChip.classList.add('highlight');
+            } else {
+              tempChip.classList.remove('highlight');
+            }
+          }
+        }
+      }
 
       const symptomEl = document.getElementById('vital-symptom-text');
       if (symptomEl) symptomEl.innerText = `#${symptom}`;
@@ -1392,7 +1432,9 @@
         if (callScript) {
           scriptBox.innerText = callScript;
         } else {
-          scriptBox.innerText = `"안녕하세요, ${topHospName} 접수처 맞으신가요? 지금 ${age} 아기가 ${temp} 열과 ${symptom} 증상이 있어 내원하려고 합니다. 현재 접수 마감 전 야간 진료 가능한가요?"`;
+          const ageScriptPart = isUnknownAge ? '아이가' : `${ageDisplay} 아기가`;
+          const tempScriptPart = isUnknownTemp ? '체온은 아직 측정하지 못했으나' : `${tempDisplay} 열과`;
+          scriptBox.innerText = `"안녕하세요, ${topHospName} 접수처 맞으신가요? 지금 ${ageScriptPart} ${tempScriptPart} ${symptom} 증상이 있어 내원하려고 합니다. 현재 접수 마감 전 야간 진료 가능한가요?"`;
         }
       }
 
@@ -1511,9 +1553,9 @@
       }
       initLiveEmergencyBeds();
 
-      // 7. URL 쿼리 파라미터 기반 탭 자동 선택 (?tab=emergency)
+      // 7. URL 쿼리 파라미터 또는 KTAS 1~3단계(응급) 자동 탭 선택
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('tab') === 'emergency') {
+      if (urlParams.get('tab') === 'emergency' || (data && data.ktas_level && data.ktas_level <= 3)) {
         switchTrackTab('emergency');
       }
     } catch (e) {
