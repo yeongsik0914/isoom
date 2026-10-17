@@ -172,6 +172,7 @@
 | **[ISSUE-163]** | 입력 페이지(`input.html`) & 결과 페이지(`result.html`) 상하 공백 완전 박멸 및 전 기종 스마트폰 100% 빈틈없는 Full-Screen(100dvh) 웹앱 밀착 반응형 아키텍처 구축 | 데스크톱 미디어쿼리의 불필요한 목업 테두리(border: 8px)와 상하 24px 회색 공백 완전 제거, body 패딩 0 및 배경색 일체화(결과 #f8faff, 입력 #ffffff), 모바일 뷰포트 max-width 100% 전면 개방으로 아이폰 SE/Pro Max, 갤럭시 S21~S24/Ultra, Z Flip/Fold 등 전 기종 100% 화면 밀착, Safe Area(상단 노치, 하단 홈 바) 정밀 도킹 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
 | **[ISSUE-164]** | PWA(Progressive Web App) 풀스택 구축 및 .env 다중 API Key 연동 Google Cloud Run 원클릭 배포 파이프라인 수립 | 웹앱 매니페스트(`manifest.json`), Stale-While-Revalidate 서비스워커(`sw.js`), 192/512px 앱 아이콘 생성, 설정 페이지 내 '모바일 기기 연결' 실시간 QR코드 모달 탑재, Cloud Run PORT 환경변수 동적 바인딩, `app/config.py` Firebase 3단 인증(파일/JSON문자열/ADC무키) 및 .env 자동 로드 원클릭 배포 스크립트(`deploy_cloud_run.sh`) 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
 | **[ISSUE-165]** | Google Cloud Run 배포 시 프로젝트 ID 불일치(`isoom` vs `iceu-songpa10`)에 따른 `CONSUMER_INVALID` 권한 오류 해결 및 배포 정상화 | `isoom`은 Firestore 데이터베이스 ID이며 실제 GCP 프로젝트 ID는 `iceu-songpa10`임이 규명됨. `gcloud config set project iceu-songpa10` 재설정 및 Cloud Build/Run/Artifact Registry API 활성화, 배포 스크립트에 `--project` 명시 바인딩으로 Cloud Run 배포 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
+| **[ISSUE-166]** | Google Cloud Run 배포 시 예약 환경변수(`PORT`) 중복 주입 충돌 오류 해결 및 `--port` 플래그 전환 | Cloud Run 시스템이 컨테이너에 자동 주입하는 예약 환경변수 `PORT`를 `--set-env-vars`로 전달하여 발생한 스펙 유효성 검사 오류 해결. 환경변수 목록에서 `PORT=8080`을 제거하고 Cloud Run 전용 `--port 8080` 플래그로 전환하여 배포 정상화 | **해결 완료 (Resolved)** | 2026-10-17 |
 
 
 
@@ -5770,6 +5771,27 @@
 * **조치 결과**:
   - `iceu-songpa10` 프로젝트 컨텍스트 정상 연동 완료.
   - `bash scripts/deploy_cloud_run.sh` 실행 시 Cloud Run 정상 빌드 및 배포 수행 가능 상태로 복구 완료.
+
+---
+
+### [ISSUE-166] Google Cloud Run 배포 시 예약 환경변수(`PORT`) 중복 주입 충돌 오류 해결 및 `--port` 플래그 전환
+
+* **발생 일자**: 2026-10-17
+* **작업자**: Antigravity AI Pair Programmer
+* **문제 현상**:
+  - `bash scripts/deploy_cloud_run.sh` 실행 시 소스 업로드 및 컨테이너 빌드까지 성공했으나, 리비전 배포 단계에서 `ERROR: (gcloud.run.deploy) spec.template.spec.containers[0].env: The following reserved env names were provided: PORT. These values are automatically set by the system.` 오류와 함께 배포 중단.
+* **원인 분석**:
+  - Google Cloud Run은 컨테이너가 리스닝할 포트를 시스템이 자동으로 관리하며, 인스턴스 기동 시 시스템 레벨에서 `PORT` 환경변수(기본 8080)를 컨테이너 내부로 자동 주입함.
+  - `--set-env-vars`에 `PORT=8080`을 명시적으로 전달하면 GCP Spec 유효성 검사에서 "예약된 환경변수 이름 충돌(Reserved env names)"로 판단하여 거부함.
+* **구체적 해결 방안**:
+  1. `scripts/deploy_cloud_run.sh`의 `--set-env-vars` 목록에서 예약어 `PORT=8080` 즉시 제거.
+  2. 컨테이너 리스닝 포트는 Cloud Run 전용 플래그인 `--port 8080`으로 명시적 전달하도록 수정.
+* **적용 파일**:
+  * [scripts/deploy_cloud_run.sh](file:///Users/jeong-yeongsig/Desktop/Project/isoom/scripts/deploy_cloud_run.sh)
+* **조치 결과**:
+  - 예약 환경변수 충돌 결함 원천 해소.
+  - Cloud Run 리비전 생성 및 트래픽 라우팅 정상 통과 상태 확립.
+
 
 
 

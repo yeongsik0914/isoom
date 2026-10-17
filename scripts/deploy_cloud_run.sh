@@ -102,13 +102,15 @@ if ! command -v gcloud &> /dev/null; then
   echo -e "아래 배포 명령어를 수동으로 실행하시거나 gcloud 설치 후 본 스크립트를 다시 실행하십시오:"
   echo ""
   echo "gcloud run deploy isoom-service \\"
+  echo "  --project \$CURRENT_PROJECT \\"
   echo "  --source . \\"
   echo "  --region asia-northeast3 \\"
   echo "  --platform managed \\"
   echo "  --allow-unauthenticated \\"
+  echo "  --port 8080 \\"
   echo "  --memory 1Gi \\"
   echo "  --cpu 1 \\"
-  echo "  --set-env-vars=\"DATA_GO_API_KEY=$DATA_GO_KEY,DATA_GO_KR_API_KEY=$DATA_GO_KEY,GEMINI_API_KEY=$GEMINI_KEY,KAKAO_REST_API_KEY=$KAKAO_KEY,FIRESTORE_DATABASE_ID=$DB_ID,FIREBASE_KEY_PATH=/app/serviceAccountKey.json,APP_ENV=production,PORT=8080\""
+  echo "  --set-env-vars=\"DATA_GO_API_KEY=\$DATA_GO_KEY,DATA_GO_KR_API_KEY=\$DATA_GO_KEY,GEMINI_API_KEY=\$GEMINI_KEY,KAKAO_REST_API_KEY=\$KAKAO_KEY,FIRESTORE_DATABASE_ID=\$DB_ID,FIREBASE_KEY_PATH=/app/serviceAccountKey.json,APP_ENV=production\""
   echo ""
   exit 0
 fi
@@ -135,7 +137,6 @@ ENV_VARS="$ENV_VARS,KAKAO_REST_API_KEY=$KAKAO_KEY"
 ENV_VARS="$ENV_VARS,FIRESTORE_DATABASE_ID=$DB_ID"
 ENV_VARS="$ENV_VARS,FIREBASE_KEY_PATH=/app/serviceAccountKey.json"
 ENV_VARS="$ENV_VARS,APP_ENV=production"
-ENV_VARS="$ENV_VARS,PORT=8080"
 
 gcloud run deploy "$SERVICE_NAME" \
   --project "$CURRENT_PROJECT" \
@@ -143,6 +144,7 @@ gcloud run deploy "$SERVICE_NAME" \
   --region "$REGION" \
   --platform managed \
   --allow-unauthenticated \
+  --port 8080 \
   --memory 1Gi \
   --cpu 1 \
   --min-instances 0 \

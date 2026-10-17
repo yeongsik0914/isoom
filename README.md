@@ -44,7 +44,7 @@
 * **🚀 원클릭 배포 스크립트 개발 (`scripts/deploy_cloud_run.sh`)**:
   - `.env`에 보관된 실제 API 키 4종(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `serviceAccountKey.json`, `FIRESTORE_DATABASE_ID`)을 자동 로드하여 Cloud Run 서울 리전(`asia-northeast3`)으로 무결점 원클릭 배포 지원.
 * **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
-* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q164, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-164, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.91)**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q164~Q166, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-164~ISSUE-166, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.91)**.
 
 ### 🌟 [v2.6.6-fullscreen-fit-and-zero-gap-ui] 2026-10-17: 입력 페이지(`input.html`) & 결과 페이지(`result.html`) 상하 공백 완전 박멸 및 전 기종 스마트폰 100% 빈틈없는 Full-Screen(100dvh) 웹앱 밀착 반응형 아키텍처 구축 릴리스 (정영식 팀장 총괄)
 * **📱 입력·결과 페이지 상하 캔버스 공백 & 목업 테두리 100% 완전 박멸**:

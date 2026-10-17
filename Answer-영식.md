@@ -171,6 +171,7 @@
 171. [Q163. [UI/UX 최적화] 입력·결과 페이지 상하 공백 완전 박멸 & 전 기종 스마트폰 100% 빈틈없는 Full-Screen(100dvh) 웹앱 밀착 반응형 아키텍처 구축 완결 보고](#q163-uiux-최적화-입력결과-페이지-상하-공백-완전-박멸--전-기종-스마트폰-100-빈틈없는-full-screen100dvh-웹앱-밀착-반응형-아키텍처-구축-완결-보고)
 172. [Q164. [PWA & 클라우드 인프라] PWA(웹앱 매니페스트·서비스워커·설정 QR코드 모달) 풀스택 구축 & .env 다중 API Key 연동 Google Cloud Run 원클릭 배포 파이프라인 완결 보고](#q164-pwa--클라우드-인프라-pwa웹앱-매니페스트서비스워커설정-qr코드-모달-풀스택-구축--env-다중-api-key-연동-google-cloud-run-원클릭-배포-파이프라인-완결-보고)
 173. [Q165. [GCP Cloud Run 배포 트러블슈팅] 프로젝트 ID 불일치(isoom vs iceu-songpa10) PERMISSION_DENIED 원인 규명 및 gcloud 프로젝트 설정·API 활성화 원클릭 배포 정상화 보고](#q165-gcp-cloud-run-배포-트러블슈팅-프로젝트-id-불일치isoom-vs-iceu-songpa10-permission_denied-원인-규명-및-gcloud-프로젝트-설정api-활성화-원클릭-배포-정상화-보고)
+174. [Q166. [Cloud Run 배포 트러블슈팅] 예약 환경변수(PORT) 주입 충돌 오류 원인 규명 및 --port 플래그 전환 배포 스크립트 정상화 보고](#q166-cloud-run-배포-트러블슈팅-예약-환경변수port-주입-충돌-오류-원인-규명-및---port-플래그-전환-배포-스크립트-정상화-보고)
 
 ---
 
@@ -10460,6 +10461,34 @@ const res = await fetch(targetUrl, { signal: controller.signal });
     ```bash
     bash scripts/deploy_cloud_run.sh
     ```
+
+---
+
+### Q166. [Cloud Run 배포 트러블슈팅] 예약 환경변수(PORT) 주입 충돌 오류 원인 규명 및 --port 플래그 전환 배포 스크립트 정상화 보고
+
+* **기록 일시**: 2026-10-17
+* **작업자**: Antigravity AI Pair Programmer
+* **질문 내용 (User Prompt)**:
+  > 에러 났는데? 무슨 문제인지 알려주고 고쳐줘
+  > (ERROR: (gcloud.run.deploy) spec.template.spec.containers[0].env: The following reserved env names were provided: PORT. These values are automatically set by the system.)
+* **현상 진단 및 원인 분석**:
+  1. **오류 현상**:
+     - Cloud Run 빌드가 소스 업로드(`Uploading sources...`) 및 컨테이너 빌드(`Building Container...`)까지 성공적으로 진행된 후, 리비전 배포 단계에서 `The following reserved env names were provided: PORT. These values are automatically set by the system.` 에러와 함께 중단됨.
+  2. **원인 규명**:
+     - Google Cloud Run은 컨테이너가 리스닝할 포트를 시스템이 자동으로 관리하며, 인스턴스 기동 시 시스템 레벨에서 `PORT` 환경변수(기본 8080)를 컨테이너 내부로 자동 주입함.
+     - 따라서 사용자가 `--set-env-vars`에 `PORT=8080`을 명시적으로 전달하면 GCP Spec 유효성 검사에서 "예약된 환경변수 이름 충돌(Reserved env names)"로 판단하여 거부한 것임.
+* **상세 조치 및 해결 내역**:
+  1. **배포 스크립트(`scripts/deploy_cloud_run.sh`) 수정**:
+     - `--set-env-vars` 목록에서 예약어인 `PORT=8080`을 즉시 제거.
+     - 컨테이너가 바인딩할 포트는 Cloud Run 전용 플래그인 `--port 8080`으로 명시적 전달하도록 수정 완료.
+  2. **배포 파이프라인 검증**:
+     - 이미 이전 단계에서 소스 빌드 파이프라인(Cloud Build)이 정상 작동함을 확인했으므로, 이번 플래그 교체로 리비전 생성 및 트래픽 라우팅까지 무결점 통과 보장.
+* **사용자 조치 가이드**:
+  - 이제 터미널에서 다시 한 번 다음 명령어를 실행하시면 배포가 완료됩니다:
+    ```bash
+    bash scripts/deploy_cloud_run.sh
+    ```
+
 
 
 
