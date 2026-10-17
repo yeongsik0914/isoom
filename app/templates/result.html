@@ -2906,6 +2906,11 @@
           });
         } else if (isReplayMode) {
           console.log('ℹ️ 당시 결과 다시보기 화면이므로 신규 히스토리 중복 생성을 스킵합니다.');
+          const backBtn = document.querySelector('.result-back-btn');
+          if (backBtn) {
+            backBtn.href = 'history.html';
+            backBtn.setAttribute('aria-label', '문진 기록 목록으로 돌아가기');
+          }
         }
       } catch (errHist) {
         console.warn('AisumHistoryManager save error:', errHist);

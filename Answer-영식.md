@@ -200,6 +200,7 @@
 200. [Q192. [브리핑 카드 '기록 변경' 버튼 미작동 원인 해결 & 주요 증상 구급대원 인계 브리핑 상세 요약 박스 구축] 모달 opacity/visibility 은폐 버그 원인 분석, 인라인 onclick 연동 및 KTAS 지침 기반 임상 증상 요약 박스 완결 보고](#q192-브리핑-카드-기록-변경-버튼-미작동-원인-해결--주요-증상-구급대원-인계-브리핑-상세-요약-박스-구축-모달-opacityvisibility-은폐-버그-원인-분석-인라인-onclick-연동-및-ktas-지침-기반-임상-증상-요약-박스-완결-보고)
 201. [Q193. [브리핑 카드 주요 증상 태그 & 구급대원 인계 브리핑 박스 단일 카드 통합 및 간소화] 위아래 분리 요소 일체형 통합, 헤더 태그·뱃지 나란히 배치, 중복 증상명 제거 및 가독성 극대화 완결 보고](#q193-브리핑-카드-주요-증상-태그--구급대원-인계-브리핑-박스-단일-카드-통합-및-간소화-위아래-분리-요소-일체형-통합-헤더-태그뱃지-나란히-배치-중복-증상명-제거-및-가독성-극대화-완결-보고)
 202. [Q194. [구급대원 필독사항의 환아 인적사항 카드 내 포함 및 일체화] 별도 분리 섹션 폐지, 환아 신상정보 직하단 필독 특이사항 서브 카드 배치 및 23개 통합 테스트 완결 보고](#q194-구급대원-필독사항의-환아-인적사항-카드-내-포함-및-일체화-별도-분리-섹션-폐지-환아-신상정보-직하단-필독-특이사항-서브-카드-배치-및-23개-통합-테스트-완결-보고)
+203. [Q195. [로컬 프로세스 완전 종료 및 Google Cloud Run 최신 리비전 무중단 재배포] 실행 중인 Uvicorn/포트 8000 프로세스 전면 회수, 4대 템플릿 완벽 동기화, scripts/deploy_cloud_run.sh 프로덕션 배포 및 정상 동작 검증 보고](#q195-로컬-프로세스-완전-종료-및-google-cloud-run-최신-리비전-무중단-재배포-실행-중인-uvicorn포트-8000-프로세스-전면-회수-4대-템플릿-완벽-동기화-scriptsdeploy_cloud_runsh-프로덕션-배포-및-정상-동작-검증-보고)
 
 ---
 
@@ -11497,6 +11498,47 @@ const res = await fetch(targetUrl, { signal: controller.signal });
 * **요약 결론**:
   - 기존에 독립된 카드로 떨어져 있던 '구급대원 필독사항'을 환아 인적사항 카드 하단 서브 박스로 일체화하였습니다.
   - 이제 구급대원과 의료진이 환아의 이름·나이·체중·혈액형을 확인하는 즉시 바로 아래에서 수혈 지침과 주치의 비상 연락처를 한 카드 안에서 직관적으로 파악할 수 있습니다!
+
+---
+
+### Q195. [로컬 프로세스 완전 종료 및 Google Cloud Run 최신 리비전 무중단 재배포] 실행 중인 Uvicorn/포트 8000 프로세스 전면 회수, 4대 템플릿 완벽 동기화, scripts/deploy_cloud_run.sh 프로덕션 배포 및 정상 동작 검증 보고
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > "로컬 전부 종료하고 cloud run에 재배포 해줘"
+* **상세 분석 및 가이드 답변**:
+  1. **요구사항 분석 및 환경 점검**:
+     - 로컬 개발 환경에서 실행 중이던 모든 백엔드 서버(FastAPI/Uvicorn, 포트 8000/8080) 프로세스를 완전히 종료하여 메모리와 포트 자원을 클린하게 정리.
+     - 사용자가 수정한 프론트엔드 최신 변경사항(`briefing_card.html` 내 인적사항 변경 문구 및 구급대원 필독사항 일체화 등)을 프로젝트 4대 템플릿(`frontend/templates/briefing_card.html`, `frontend/templates/emergency_guide.html`, `app/templates/briefing_card.html`, `app/templates/emergency_guide.html`)에 누락 없이 동기화.
+     - Google Cloud Run 서울 리전(`asia-northeast3`)으로 컨테이너 빌드 및 무중단 프로덕션 재배포 수행.
+  2. **작업 단계별 수행 내역**:
+     - **로컬 프로세스 완전 종료**:
+       - `ps aux | grep -E "uvicorn|fastapi|python"`을 통해 포트 8000에서 구동 중이던 Uvicorn 메인 프로세스(PID 33954, 33953) 및 백그라운드 스케줄러 데몬 안전 종료(`pkill -f uvicorn`).
+       - `lsof -i :8000` 재검증을 통해 잔류 프로세스 0개, 포트 완전 해제 상태 확인 완료.
+     - **4대 템플릿 및 정적 자산 동기화**:
+       - `frontend/templates/briefing_card.html` 최신 수정본을 `frontend/templates/emergency_guide.html`, `app/templates/briefing_card.html`, `app/templates/emergency_guide.html`에 일괄 동기화.
+     - **사전 통합 회귀 테스트 검증**:
+       - `PYTHONPATH=. ./.venv/bin/pytest tests/test_step8_frontend_integration.py -v` 실행.
+       - 총 23개 프론트엔드 통합 계약 테스트 전원 100% All-Green 통과 (`23 passed in 28.79s`).
+     - **Google Cloud Run 프로덕션 빌드 & 재배포**:
+       - `scripts/deploy_cloud_run.sh` 파이프라인 가동:
+         - GCP 프로젝트: `iceu-songpa10`
+         - 서비스 계정 인증: `serviceAccountKey.json` 번들링 마운트
+         - 배포 리전: `asia-northeast3` (서울)
+         - 배포 서비스명: `isoom-service`
+         - 컨테이너 사양: CPU 1, Memory 1Gi, Min 0 ~ Max 10, Port 8080 동적 수신
+         - 최신 리비전: `isoom-service-00007-sx8` (100% 트래픽 서빙)
+     - **실시간 프로덕션 헬스체크 및 검증**:
+       - 헬스체크 API 검증: `curl -s https://isoom-service-920380215419.asia-northeast3.run.app/health`
+         - 응답: `{"status":"healthy","scheduler":{"running":true,"poll_count":1},"integrations":{"public_data_api_configured":true,"gemini_api_configured":true,"firebase_configured":true}}`
+       - 브리핑 카드 엔드포인트: `HTTP 200 OK` 확인 완료.
+  3. **서비스 접속 정보**:
+     - **프로덕션 서비스 URL**: [https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app)
+     - **단축 도메인 URL**: [https://isoom-service-tl5q6qavta-du.a.run.app](https://isoom-service-tl5q6qavta-du.a.run.app)
+     - 스마트폰 브라우저(Safari, Chrome)로 위 URL에 접속하여 '홈 화면에 추가'를 통해 네이티브 PWA 앱으로 즉시 설치 및 사용 가능.
+* **요약 결론**:
+  - 로컬에서 구동 중이던 Uvicorn 서버 프로세스를 전원 안전하게 종료하여 포트 8000 점유를 클린 해제하였습니다.
+  - 최신 프론트엔드 수정 사항을 4개 템플릿에 완벽 동기화하고, Google Cloud Run 서울 리전에 최신 리비전(`isoom-service-00007-sx8`)으로 100% 무중단 재배포 및 헬스체크 정상 작동을 완료하였습니다!
+
 
 
 
