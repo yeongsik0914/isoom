@@ -153,6 +153,8 @@
 | **[ISSUE-144]** | 메인화면 실시간 사용자 현재 위치 자동 적용 & 과거 스토리지 문정동 더미 잔재 자동 소독 파이프라인 완결 | 브라우저 localStorage에 과거 개발 시 박힌 문정동(37.4858, 127.1225) 더미 캐시 영구 잔존으로 인한 문정동 고정 현상 해소, cleanLegacyMunjeongData() 자동 소독 엔진 탑재, autoDetectUserLocation enableHighAccuracy: false 최적화로 데스크탑 타임아웃 방지 및 접속 즉시 실제 GPS/역지오코딩 위치 실시간 갱신, GPS 실패 시 공공 IP 기반 2차 자동 위치 추정 연동 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
 | **[ISSUE-145]** | 로컬 개발 환경 & 프로세스 라이프사이클 | 기존 포트 8000 프로세스(PID 4479) 안전 종료 및 FastAPI & APScheduler 3-트랙 데몬 정상 재구동 | **해결 완료 (Resolved)** | 2026-10-17 |
 | **[ISSUE-146]** | 프론트엔드 UI/UX & 실시간 LBS 스케줄링 | 메인화면 실시간 의료시설 카드 설명·주소 간결화(formatCompactAddress) 및 KST 요일/시간 기반 실시간 운영 판별(evaluateOperatingStatus)·운영중 시설 우선 정렬 파이프라인 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
+| **[ISSUE-147]** | 온보딩 게이트웨이 & 컴플라이언스(보안/약관) | 스플래시 화면(splash.html) 이후 이용약관(terms.html) 최초 1회 필수 동의 적용 및 약관 미동의 시 서비스 이용 전면 차단 가드레일(0ms 즉시 차단) 구축 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
+| **[ISSUE-148]** | 온보딩 전체 순차 파이프라인 & 약관/설정 모드 분리 | splash ➔ 이용약관(미동의 시 무한 반복/동의 시 최초 1회) ➔ 접근권한(미동의 시 무한 반복/동의 시 최초 1회) ➔ 메인페이지 파이프라인 완결 및 설정 열람 모드(?mode=view) 완전 분리 | **해결 완료 (Resolved)** | 2026-10-17 |
 
 
 
@@ -4984,6 +4986,90 @@
 * **조치 결과**:
   * 카드가 1~2줄로 시원하고 정갈하게 정돈되어 시각적 조잡함이 100% 해소됨.
   * 실제 접속 시간에 진료/영업 가능한 시설이 최상단에 우선 노출되어 사용자의 야간 헛걸음 위험이 원천 차단됨.
+
+---
+
+### [ISSUE-147] 스플래시 화면 이후 이용약관(terms.html) 최초 1회 필수 동의 적용 및 약관 미동의 시 앱 전면 이용 차단(Zero-Bypass Guardrail) 구축
+
+* **발생 일자**: 2026-10-17
+* **작업자**: 정영식 팀장 (총괄) & AI 에이전트
+* **분류**: 온보딩 게이트웨이 / 컴플라이언스 / 보안 가드레일 / 프론트엔드 라우팅
+* **문제 상황**:
+  * 기존 앱 온보딩 흐름이 `splash.html` ➔ `permission.html` ➔ `index.html`로 구성되어 있어, 법률상 필수적인 서비스 이용약관, 개인정보 처리방침, 위치기반서비스, 의료법 제27조 준수 동의를 거치지 않고 바로 서비스 진입이 가능한 상태였음.
+  * 이용자가 약관에 동의하지 않은 상태에서는 의료 및 LBS 기반 응급 서비스를 일절 이용하지 못하도록 게이트웨이를 차단해야 할 규제 준수(Compliance) 요구 발생.
+  * 또한 기동의자에게는 불필요한 반복 표출 없이 바로 메인화면/권한안내로 신속히 라우팅되어야 함.
+* **원인 분석**:
+  * `splash.html`에서 동의 여부 검증 없이 `permission.html` 또는 `index.html`로만 라우팅하고 있었음.
+  * `terms.html`이 정적 정보 열람 페이지 형태로만 구성되어 있어, 체크박스 동의 인터랙션 및 승인 플래그(`aisum_terms_agreed`) 저장 로직이 부재했음.
+  * 주소창에 `index.html`, `input.html`, `permission.html`을 직접 입력할 때 약관 동의 여부를 가로막는 인라인 가드레일이 없었음.
+* **구체적 해결 방안**:
+  1. **`terms.html` 온보딩 필수 동의 컴포넌트 탑재**:
+     - 상단 헤더: `?mode=view`(설정 메뉴 조회 모드) 시 뒤로가기 버튼 활성화, 온보딩 모드 시 뒤로가기 숨김으로 이탈 차단.
+     - 4대 필수 약관 체크박스 컴포넌트(`terms-agreement-card`):
+       - `[필수] 서비스 이용약관 동의`
+       - `[필수] 개인정보 수집 및 환아 정보 처리 동의`
+       - `[필수] 위치기반서비스 이용약관 동의`
+       - `[필수] 의료법 제27조 준수 및 응급 사전확인`
+     - 전체 동의 토글(`toggleAgreeAll`) 및 개별 동의(`checkSubAgreements`) 양방향 연동.
+     - 하단 '동의하고 계속하기' 버튼: 4개 필수 체크 시에만 `.active` 활성화, 미체크 시 비활성화 및 경고 토스트.
+     - 동의 완료 시 `aisum_terms_agreed: 'true'`, `aisum_terms_agreed_at`를 `localStorage` 및 `sessionStorage`에 영구 저장 후 `permission.html`로 자동 이동.
+  2. **`splash.html` 온보딩 게이트웨이 라우팅 개편**:
+     - `proceedToNextStep()` 진입 시 `aisum_terms_agreed !== 'true'` 검사를 최우선으로 배치하여 미동의 사용자 무조건 `terms.html` 라우팅.
+  3. **앱 전역 0ms 접근 차단 가드레일 구축**:
+     - `permission.html`, `index.html`, `input.html` 최상단에 인라인 가드 스크립트를 삽입하여 `aisum_terms_agreed !== 'true'` 감지 시 0ms 즉각 `terms.html`로 강제 리다이렉트.
+  4. **`settings.html` 안전 복귀 분기**:
+     - 설정 화면의 이용약관 링크를 `terms.html?mode=view`로 지정하여 열람 모드로 안전하게 작동.
+  5. **`main.js`의 `AisumPermissionManager` 지원**:
+     - `PERMISSION_KEYS`에 `aisum_terms_agreed` 등록 및 `isTermsAgreed()` 메서드 제공.
+* **적용 파일**:
+  * [frontend/templates/terms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/terms.html)
+  * [frontend/templates/splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/splash.html)
+  * [frontend/templates/permission.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/permission.html)
+  * [frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html)
+  * [frontend/templates/input.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/input.html)
+  * [frontend/templates/settings.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/settings.html)
+  * [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js)
+* **조치 결과**:
+  * 스플래시 화면 이후 신규 사용자는 예외 없이 이용약관 동의 화면으로 진입함.
+  * 필수 4대 약관을 모두 동의하지 않으면 서비스를 일절 이용할 수 없으며, URL 직접 입력을 통한 우회 접근도 0ms 즉시 차단됨.
+  * 기존 108개 테스트 및 프론트엔드 통합 테스트 5건 100% 정상 통과 확인.
+
+---
+
+### [ISSUE-148] 온보딩 전체 순차 파이프라인(splash ➔ terms ➔ permission ➔ index) 완결 및 이용약관 설정 열람 모드(?mode=view) 완전 분리
+
+* **발생 일자**: 2026-10-17
+* **작업자**: 정영식 팀장 (총괄) & AI 에이전트
+* **분류**: 온보딩 파이프라인 / 프론트엔드 라우팅 / 상태 격리 / UX 정합성
+* **문제 상황**:
+  * 온보딩 과정(`splash` ➔ `terms.html`)에서 이용약관에 들어왔을 때, 이전 템플릿의 잔재인 "내용을 확인했습니다" 버튼이 노출되거나 클릭 시 설정 페이지(`settings.html`)로 이동해버려 다음 온보딩 단계(`permission.html`)로 이어지지 못하는 흐름 단절 발생.
+  * 또한 앱 첫 구동 시 약관 미동의 사용자는 약관이 계속 뜨고, 약관 동의 후 권한 미승인 사용자는 권한 화면이 계속 뜨며, 둘 다 완료된 경우에만 메인페이지로 가도록 하는 단계별 무한 가드레일이 보다 엄격하게 강화되어야 함.
+* **원인 분석**:
+  * `terms.html`에서 `isViewMode`가 아닌 온보딩 모드에서도 `#btn-terms-view-confirm`의 CSS 클래스(`.btn-terms-confirm`)에 `display: flex;`가 부여되어 있어, DOM 렌더링 시 깜빡이거나 노출될 가능성이 존재했음.
+  * `isViewMode` 조건이 단순 URL 쿼리 파라미터(`mode=view`)에만 의존하여, 약관에 동의하지 않은 사용자라도 해당 URL로 진입 시 설정 모드로 풀릴 위험이 있었음.
+  * `index.html`과 `input.html` 상단 인라인 가드에 약관 미동의 가드만 존재하고 접근권한 미동의 가드가 결여되어 있었음.
+* **구체적 해결 방안**:
+  1. **`terms.html` 온보딩 모드 vs 설정 열람 모드 물리적 완전 격리**:
+     - CSS에 `#btn-terms-view-confirm { display: none !important; }`를 기본값으로 박아두고, 오직 `html.is-view-mode` 또는 `body.is-view-mode`가 활성화되었을 때만 노출되도록 제어.
+     - `isViewMode` 조건을 `hasViewParam && isAlreadyAgreed`로 강화하여, 약관에 이미 동의한 기가입자가 설정 메뉴에서 진입한 경우에만 설정 열람 모드가 활성화되도록 제한.
+     - 온보딩 모드에서는 뒤로가기 버튼과 "내용을 확인했습니다" 버튼을 일절 숨기고, 오직 4대 필수 동의 체크박스와 "동의하고 계속하기" 버튼만 노출.
+     - 동의 완료 시 `aisum_terms_agreed: 'true'` 저장 후 반드시 다음 단계인 `permission.html`로 `window.location.replace` 전환.
+  2. **`splash.html` 4단계 순차 라우팅 정밀화**:
+     - `!isTermsAgreed` ➔ `terms.html` 리다이렉트 (동의 전까지 앱 실행 시 계속 뜸).
+     - `isTermsAgreed && !isPermGranted` ➔ `permission.html` 리다이렉트 (승인 전까지 앱 실행 시 계속 뜸).
+     - 둘 다 동의 완료 ➔ `index.html` 다이렉트 진입.
+  3. **`index.html` & `input.html` 2단계 인라인 0ms 차단 가드레일 연동**:
+     - 1순위: 약관 미동의 감지 시 즉시 `terms.html`로 강제 이동.
+     - 2순위: 권한 미동의 감지 시 즉시 `permission.html`로 강제 이동.
+* **적용 파일**:
+  * [frontend/templates/terms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/terms.html)
+  * [frontend/templates/splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/splash.html)
+  * [frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html)
+  * [frontend/templates/input.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/input.html)
+* **조치 결과**:
+  * 온보딩 과정에서 '내용을 확인했습니다' 버튼이 화면에 절대 노출되지 않으며, 동의 시 무조건 `permission.html` ➔ 권한 승인 시 `index.html`로 완벽한 순차 온보딩 흐름 확립.
+  * 설정 화면에서 이용약관을 볼 때에만 뒤로가기와 "내용을 확인했습니다" 버튼이 안전하게 동작하여 설정 화면으로 복귀함.
+  * 통합 테스트 5건 100% 정상 통과 확인.
 
 
 

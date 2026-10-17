@@ -28,6 +28,36 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.99-onboarding-pipeline-and-terms-mode-isolation] 2026-10-17: 온보딩 순차 파이프라인(splash ➔ terms ➔ permission ➔ index) 완결 & 설정 모드 완전 분리 릴리스 (정영식 팀장 총괄)
+* **🔄 온보딩 4단계 순차 파이프라인 완결 및 무한 가드레일 확립 ([splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/splash.html), [terms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/terms.html), [permission.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/permission.html), [index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html))**:
+  - `splash.html` ➔ 약관 미동의 시 무조건 `terms.html` (동의 전까지 앱 실행 시 계속 뜸).
+  - `terms.html` 동의 완료 시 ➔ `permission.html`로 자동 이동.
+  - `permission.html` ➔ 권한 미승인 시 다음 실행 시에도 계속 뜸 / 승인 완료 시 1회 통과 후 `index.html` (메인화면) 진입.
+  - `index.html` & `input.html`에 약관 가드 + 권한 가드 2중 0ms 즉시 차단 탑재로 URL 우회 진입 100% 방어.
+* **🛡️ 이용약관(terms.html) 온보딩 모드 vs 설정 열람 모드(?mode=view) 물리적 완전 분리**:
+  - CSS `#btn-terms-view-confirm { display: none !important; }`를 기본 격리하여 온보딩 과정에서 "내용을 확인했습니다" 버튼 노출을 영구 차단.
+  - `hasViewParam && isAlreadyAgreed`일 때만 `.is-view-mode` 클래스를 활성화하여 오직 설정 메뉴에서 진입한 기가입자에게만 뒤로가기 및 "내용을 확인했습니다"(설정 복귀) 버튼이 노출되도록 격리.
+  - 온보딩 모드에서는 오직 4대 필수 동의 체크박스와 "동의하고 계속하기" 버튼만 노출되며, 완료 시 `permission.html`로 정확히 이동.
+* **🧪 프론트엔드 통합 테스트 100% 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q144, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-148, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-I)**.
+
+### 🌟 [v2.4.98-terms-agreement-onboarding-and-enforcement] 2026-10-17: 스플래시 직후 이용약관 최초 1회 필수 동의 & 약관 미동의 시 서비스 이용 전면 차단 릴리스 (정영식 팀장 총괄)
+* **🛡️ 스플래시 이후 이용약관(terms.html) 최초 1회 필수 동의 게이트웨이 파이프라인 구축 ([frontend/templates/splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/splash.html), [frontend/templates/terms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/terms.html))**:
+  - `splash.html` 진입 시 `aisum_terms_agreed === 'true'` 여부를 1순위로 검증하여 미동의 사용자 무조건 `terms.html`로 라우팅.
+  - 신규 사용자: `스플래시` ➔ `이용약관(terms.html)` ➔ `접근권한(permission.html)` ➔ `메인홈(index.html)`의 철저한 보안/법률 규제 준수 온보딩 플로우 확립.
+  - 기동의 완료자: 불필요한 약관 화면 반복 없이 권한 상태에 따라 `permission.html` 또는 `index.html`로 다이렉트 신속 이동.
+* **📋 4대 필수 약관 동의 체크박스 컴포넌트 탑재 (`terms-agreement-card`) ([frontend/templates/terms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/terms.html))**:
+  - 전체 동의 토글(`toggleAgreeAll`) 및 개별 동의(`checkSubAgreements`) 양방향 연동.
+  - 4대 필수 항목(서비스 이용약관, 개인정보 처리, 위치기반서비스, 의료법 제27조 준수) 전수 동의 시에만 하단 '동의하고 계속하기' 버튼이 파란색(`.active`)으로 활성화되며, 미체크 시 비활성화 상태 유지 및 클릭 시 경고 토스트 표출.
+  - 동의 완료 시 `aisum_terms_agreed: 'true'`, `aisum_terms_agreed_at`를 `localStorage` 및 `sessionStorage`에 영구 기록 후 `permission.html`로 자동 이동.
+* **🚫 약관 미동의 시 앱 전면 이용 불가 0ms 차단 가드레일 (Zero-Bypass Guardrail)**:
+  - `permission.html`, `index.html`, `input.html` 최상단에 인라인 가드 스크립트 탑재.
+  - 사용자가 주소창에 직접 URL을 입력하여 우회 진입을 시도하더라도 0ms 즉각 `terms.html`로 강제 리다이렉트.
+* **⚙️ 설정(Settings) 메뉴 열람 모드 분기 (`?mode=view`) ([frontend/templates/settings.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/settings.html))**:
+  - 기존 사용자가 설정 화면에서 이용약관을 열람할 때에는 뒤로가기 버튼이 노출되고 하단 동의 버튼 바는 숨김 처리되어 언제든 설정 화면으로 안전하게 복귀 가능하도록 분기 처리.
+* **🧪 프론트엔드 통합 테스트 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q143, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-147, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-G)**.
+
 ### 🌟 [v2.4.97-compact-card-ui-and-realtime-operating-hours-sorting] 2026-10-17: 메인화면 의료시설 카드 UI 간결화 & 현재 시간 실시간 운영 판별·진료가능 우선 정렬 릴리스 (정영식 팀장 총괄)
 * **✨ 장황한 카드 서브설명 및 상세주소 초간결화 (`formatCompactAddress`) ([frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
   - 상세 층수, 호수, 빌딩 상가명을 스마트 정규식으로 정제하여 도로명과 법정동만 단정하게 추출.

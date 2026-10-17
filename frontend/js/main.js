@@ -63,7 +63,9 @@ window.AisumPermissionManager = {
     'aisum_permission_phone',
     'aisum_permission_camera',
     'aisum_permission_photos',
-    'aisum_permission_granted_at'
+    'aisum_permission_granted_at',
+    'aisum_terms_agreed',
+    'aisum_terms_agreed_at'
   ],
   LOCATION_KEYS: [
     'aisum_user_lat',
@@ -116,6 +118,16 @@ window.AisumPermissionManager = {
       console.log('✅ [AisumPermissionManager] 모든 접근 권한 및 위치 세션 상시 유지 활성화 완료');
     } catch (e) {
       console.warn('grantAllPermissions error:', e);
+    }
+  },
+
+  isTermsAgreed: function() {
+    try {
+      this.syncSession();
+      return localStorage.getItem('aisum_terms_agreed') === 'true' ||
+             sessionStorage.getItem('aisum_terms_agreed') === 'true';
+    } catch (e) {
+      return false;
     }
   },
 

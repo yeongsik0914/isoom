@@ -345,7 +345,207 @@
       background-color: #0052cc;
       transform: scale(0.985);
     }
+
+    /* Terms Agreement Box (Onboarding Mode) */
+    .terms-agreement-card {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .terms-agree-all-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #ffffff;
+      border: 2px solid #0066ff;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 102, 255, 0.08);
+    }
+
+    .terms-agree-all-label:hover {
+      background: #f0f7ff;
+    }
+
+    .agree-all-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    .agree-all-desc {
+      font-size: 11.5px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    .terms-check-divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 14px 4px 10px 4px;
+    }
+
+    .terms-check-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 4px;
+    }
+
+    .terms-check-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 13px;
+      color: #334155;
+      padding: 4px 0;
+    }
+
+    .terms-check-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .req-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: #0066ff;
+    }
+
+    .terms-view-link {
+      font-size: 11.5px;
+      color: #94a3b8;
+      text-decoration: underline;
+      padding: 2px 4px;
+    }
+
+    .terms-view-link:hover {
+      color: #0066ff;
+    }
+
+    /* Custom Checkbox */
+    .custom-checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .custom-checkbox .check-icon {
+      font-size: 16px;
+      color: #ffffff;
+      display: none;
+      font-weight: 900;
+    }
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    input[type="checkbox"]:checked + .custom-checkbox {
+      background-color: #0066ff;
+      border-color: #0066ff;
+    }
+
+    input[type="checkbox"]:checked + .custom-checkbox .check-icon {
+      display: block;
+    }
+
+    /* Bottom Submit Button */
+    .btn-terms-submit {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-terms-submit.disabled {
+      background-color: #cbd5e1;
+      color: #ffffff;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-terms-submit.active {
+      background-color: #0066ff;
+      color: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.3);
+    }
+
+    .btn-terms-submit.active:active {
+      background-color: #0052cc;
+      transform: scale(0.985);
+    }
+
+    /* 🌟 Mode Display Guardrails */
+    /* 기본 모드: 온보딩 모드 (설정 모드 버튼 및 뒤로가기 완전 차단) */
+    #btn-terms-view-confirm {
+      display: none !important;
+    }
+    #btn-terms-submit {
+      display: flex !important;
+    }
+    #terms-agreement-card {
+      display: block !important;
+    }
+    #btn-terms-back {
+      display: none !important;
+    }
+
+    /* 설정 화면 열람 모드 (html.is-view-mode 또는 body.is-view-mode) */
+    html.is-view-mode #btn-terms-view-confirm,
+    body.is-view-mode #btn-terms-view-confirm {
+      display: flex !important;
+    }
+    html.is-view-mode #btn-terms-submit,
+    body.is-view-mode #btn-terms-submit,
+    html.is-view-mode #terms-agreement-card,
+    body.is-view-mode #terms-agreement-card {
+      display: none !important;
+    }
+    html.is-view-mode #btn-terms-back,
+    body.is-view-mode #btn-terms-back {
+      display: flex !important;
+    }
   </style>
+
+  <script>
+    // 0ms FOUC 차단: 오직 약관에 동의한 사용자가 mode=view로 들어왔을 때만 설정 열람 모드 적용
+    (function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var hasView = params.get('mode') === 'view';
+        var isAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
+                       sessionStorage.getItem('aisum_terms_agreed') === 'true';
+        if (hasView && isAgreed) {
+          document.documentElement.classList.add('is-view-mode');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 
 <body>
@@ -355,12 +555,12 @@
 
     <!-- 1. Top Navigation Bar -->
     <header class="terms-header">
-      <div class="terms-header-left">
-        <a href="settings.html" class="terms-back-btn" aria-label="설정 화면으로 돌아가기">
+      <div class="terms-header-left" id="terms-header-left">
+        <a href="settings.html" class="terms-back-btn" id="btn-terms-back" aria-label="설정 화면으로 돌아가기">
           <span class="material-symbols-outlined">arrow_back</span>
         </a>
       </div>
-      <h1 class="terms-header-title">서비스 이용약관</h1>
+      <h1 class="terms-header-title" id="terms-header-title">서비스 이용약관</h1>
       <div class="terms-header-right"></div>
     </header>
 
@@ -378,6 +578,68 @@
           야간·휴일 소아 의료 매칭 및 응급 케어 보조 서비스인 아이숨(i-Soom)을 이용해 주셔서 감사합니다.
           본 약관은 회원의 권리와 의무, 그리고 <strong>대한민국 의료법 제27조 준수 및 응급 상황 직행 수칙</strong>을 규정합니다.
         </p>
+      </section>
+
+      <!-- 🌟 Onboarding Agreement Card (최초 1회 필수 동의 섹션) -->
+      <section class="terms-agreement-card" id="terms-agreement-card">
+        <label class="terms-agree-all-label" for="check-agree-all">
+          <input type="checkbox" id="check-agree-all" onchange="toggleAgreeAll(this)" />
+          <div class="custom-checkbox">
+            <span class="material-symbols-outlined check-icon">check</span>
+          </div>
+          <div>
+            <div class="agree-all-title">서비스 이용약관 전체 동의</div>
+            <div class="agree-all-desc">필수 이용약관 및 개인정보, 위치기반서비스에 모두 동의합니다.</div>
+          </div>
+        </label>
+
+        <div class="terms-check-divider"></div>
+
+        <div class="terms-check-list">
+          <label class="terms-check-item" for="check-terms-service">
+            <div class="terms-check-left">
+              <input type="checkbox" class="terms-sub-check" id="check-terms-service" onchange="checkSubAgreements()" />
+              <div class="custom-checkbox">
+                <span class="material-symbols-outlined check-icon">check</span>
+              </div>
+              <span><span class="req-badge">[필수]</span> 서비스 이용약관 동의</span>
+            </div>
+            <a href="#sec-purpose" class="terms-view-link">전문보기</a>
+          </label>
+
+          <label class="terms-check-item" for="check-terms-privacy">
+            <div class="terms-check-left">
+              <input type="checkbox" class="terms-sub-check" id="check-terms-privacy" onchange="checkSubAgreements()" />
+              <div class="custom-checkbox">
+                <span class="material-symbols-outlined check-icon">check</span>
+              </div>
+              <span><span class="req-badge">[필수]</span> 개인정보 수집 및 환아 정보 처리 동의</span>
+            </div>
+            <a href="#sec-privacy" class="terms-view-link">전문보기</a>
+          </label>
+
+          <label class="terms-check-item" for="check-terms-location">
+            <div class="terms-check-left">
+              <input type="checkbox" class="terms-sub-check" id="check-terms-location" onchange="checkSubAgreements()" />
+              <div class="custom-checkbox">
+                <span class="material-symbols-outlined check-icon">check</span>
+              </div>
+              <span><span class="req-badge">[필수]</span> 위치기반서비스 이용약관 동의</span>
+            </div>
+            <a href="#sec-location" class="terms-view-link">전문보기</a>
+          </label>
+
+          <label class="terms-check-item" for="check-terms-medical">
+            <div class="terms-check-left">
+              <input type="checkbox" class="terms-sub-check" id="check-terms-medical" onchange="checkSubAgreements()" />
+              <div class="custom-checkbox">
+                <span class="material-symbols-outlined check-icon">check</span>
+              </div>
+              <span><span class="req-badge">[필수]</span> 의료법 제27조 준수 및 응급 사전확인 고지 동의</span>
+            </div>
+            <a href="#sec-medical" class="terms-view-link">전문보기</a>
+          </label>
+        </div>
       </section>
 
       <!-- Quick Navigation Chips -->
@@ -576,7 +838,12 @@
 
     <!-- 3. Fixed Bottom Confirm Action Bar -->
     <div class="terms-bottom-bar">
-      <a href="settings.html" class="btn-terms-confirm" aria-label="이용약관 내용을 확인하고 설정으로 돌아가기">
+      <!-- Onboarding Mode Button: 동의하지 않으면 비활성화 상태 -->
+      <button type="button" class="btn-terms-submit disabled" id="btn-terms-submit" onclick="submitTermsAgreement()">
+        동의하고 계속하기
+      </button>
+      <!-- View Mode Button: 설정에서 단순 열람 시 표시 -->
+      <a href="settings.html" class="btn-terms-confirm" id="btn-terms-view-confirm" style="display: none;" aria-label="이용약관 내용을 확인하고 설정으로 돌아가기">
         내용을 확인했습니다
       </a>
     </div>
@@ -585,6 +852,123 @@
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
   <script src="../js/main.js"></script>
+
+  <script>
+    // URL 모드 확인 (?mode=view: 설정에서 열람 모드)
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasViewParam = urlParams.get('mode') === 'view';
+    const isAlreadyAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
+                            sessionStorage.getItem('aisum_terms_agreed') === 'true';
+
+    // 🌟 핵심: 설정페이지에서 이용약관을 확인하는 경우에만 view 모드 적용
+    // (약관 미동의 사용자는 mode=view 파라미터가 유입되어도 온보딩 필수 동의 모드로 강제)
+    const isViewMode = hasViewParam && isAlreadyAgreed;
+
+    const agreeCard = document.getElementById('terms-agreement-card');
+    const btnSubmit = document.getElementById('btn-terms-submit');
+    const btnViewConfirm = document.getElementById('btn-terms-view-confirm');
+    const backBtn = document.getElementById('btn-terms-back');
+    const headerTitle = document.getElementById('terms-header-title');
+
+    if (isViewMode) {
+      // 1. 단순 열람 모드 (설정 메뉴에서 접근한 경우에만 동작)
+      document.documentElement.classList.add('is-view-mode');
+      document.body.classList.add('is-view-mode');
+      if (agreeCard) agreeCard.style.display = 'none';
+      if (btnSubmit) btnSubmit.style.display = 'none';
+      if (btnViewConfirm) btnViewConfirm.style.display = 'flex';
+      if (backBtn) {
+        backBtn.style.display = 'flex';
+        backBtn.href = 'settings.html';
+        backBtn.onclick = null;
+      }
+      if (headerTitle) headerTitle.textContent = '서비스 이용약관';
+    } else {
+      // 2. 온보딩 모드 (스플래시 후 최초 1회 필수 동의 화면)
+      document.documentElement.classList.remove('is-view-mode');
+      document.body.classList.remove('is-view-mode');
+      if (agreeCard) agreeCard.style.display = 'block';
+      if (btnSubmit) btnSubmit.style.display = 'flex';
+      if (btnViewConfirm) btnViewConfirm.style.display = 'none';
+      if (backBtn) {
+        backBtn.style.display = 'none';
+        backBtn.onclick = function(e) {
+          e.preventDefault();
+          alert('아이숨 서비스를 이용하시려면 필수 이용약관에 동의해 주셔야 합니다.');
+        };
+      }
+      if (headerTitle) headerTitle.textContent = '약관 동의 (1/2)';
+    }
+
+    // 전체 동의 토글
+    function toggleAgreeAll(allCheckbox) {
+      const subChecks = document.querySelectorAll('.terms-sub-check');
+      subChecks.forEach(cb => {
+        cb.checked = allCheckbox.checked;
+      });
+      updateSubmitButtonState();
+    }
+
+    // 개별 체크박스 변경 시 전체 동의 상태 및 버튼 상태 갱신
+    function checkSubAgreements() {
+      const subChecks = Array.from(document.querySelectorAll('.terms-sub-check'));
+      const allChecked = subChecks.every(cb => cb.checked);
+      const agreeAllBox = document.getElementById('check-agree-all');
+      if (agreeAllBox) {
+        agreeAllBox.checked = allChecked;
+      }
+      updateSubmitButtonState();
+    }
+
+    // 버튼 활성화/비활성화 제어
+    function updateSubmitButtonState() {
+      const subChecks = Array.from(document.querySelectorAll('.terms-sub-check'));
+      const allChecked = subChecks.every(cb => cb.checked);
+      if (btnSubmit) {
+        if (allChecked) {
+          btnSubmit.classList.remove('disabled');
+          btnSubmit.classList.add('active');
+        } else {
+          btnSubmit.classList.remove('active');
+          btnSubmit.classList.add('disabled');
+        }
+      }
+    }
+
+    // 약관 동의 제출 및 다음 온보딩 단계(접근 권한) 진행
+    function submitTermsAgreement() {
+      const subChecks = Array.from(document.querySelectorAll('.terms-sub-check'));
+      const allChecked = subChecks.every(cb => cb.checked);
+
+      if (!allChecked) {
+        alert('필수 이용약관에 모두 동의하셔야 아이숨 서비스를 이용하실 수 있습니다.');
+        return;
+      }
+
+      // 약관 동의 영구 저장
+      const nowIso = new Date().toISOString();
+      try {
+        localStorage.setItem('aisum_terms_agreed', 'true');
+        sessionStorage.setItem('aisum_terms_agreed', 'true');
+        localStorage.setItem('aisum_terms_agreed_at', nowIso);
+        sessionStorage.setItem('aisum_terms_agreed_at', nowIso);
+      } catch (e) {
+        console.warn('Storage save error:', e);
+      }
+
+      // 접근 권한 동의 여부 검사
+      const isPermGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
+                            sessionStorage.getItem('aisum_permission_granted') === 'true';
+
+      if (isPermGranted) {
+        // 이미 권한이 있으면 메인 홈으로
+        window.location.replace('index.html');
+      } else {
+        // 권한이 없으면 접근 권한 안내 화면으로 진행
+        window.location.replace('permission.html');
+      }
+    }
+  </script>
 </body>
 
 </html>

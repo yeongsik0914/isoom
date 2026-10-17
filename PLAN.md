@@ -1,9 +1,9 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.71 (메인화면 실시간 의료시설 카드 UI 간결화 & 현재 시간 기준 실시간 운영 판별 및 진료가능 우선 정렬 완비, v2.4.97)
+> **문서 버전**: v2.73 (온보딩 순차 파이프라인 splash ➔ terms ➔ permission ➔ index 완결 & 이용약관 설정 열람 모드 완전 분리, v2.4.99)
 > **최종 갱신 일자**: 2026-10-17
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
-> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진.
+> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리.
 
 ---
 
@@ -173,8 +173,8 @@ graph TD
 * **'자주 찾는 주요 지역' 동적 히스토리화**: LocalStorage(`aisum_recent_locations`) 기반 최대 15개 최신순(FIFO/LRU) 관리.
 
 ### 8.5 14대 표준 HTML 템플릿 체계 (`frontend/templates/`)
-1. `index.html`: 메인 홈 SPA (Fixed App Shell, 1:1 교차 LBS)
-2. `input.html`: 소아 증상 문진 입력 (2단계 증상 가드레일)
+1. `index.html`: 메인 홈 SPA (약관 미동의 0ms 차단 가드, Fixed App Shell, 1:1 교차 LBS, 실시간 운영시간 우선 정렬)
+2. `input.html`: 소아 증상 문진 입력 (약관 미동의 0ms 차단 가드, 2단계 증상 가드레일)
 3. `modal.html`: 사전 처치정보 및 의료법 제27조 안내 다이얼로그
 4. `loading.html`: AI 트리아제 로딩 애니메이션
 5. `result.html`: KTAS 판정 및 병원-약국 맞춤 결과
@@ -182,10 +182,10 @@ graph TD
 7. `pharmacy_detail.html`: 심야약국 전용 상세 페이지 (상주 약사 현황, 복약지도 안내, +30분 조제 안전마진 표시, 요일별 심야 운영시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 에메랄드 그린 펄스 핀 마커), 1:1 연계 달빛어린이병원 카드, 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
 8. `emergency_alert.html`: 0ms Red Flag 119 긴급 직행 화면
 9. `emergency_guide.html`: 소아 응급처치 포토 슬라이더 & 통화 스크립트
-10. `settings.html`: 모니모 스타일 자녀 정보 & 알림 설정
-11. `terms.html`: 의료법 제27조 준수 서비스 이용약관
-12. `splash.html`: 모바일 시작 스플래시
-13. `permission.html`: 위치·알림 권한 안내
+10. `settings.html`: 모니모 스타일 자녀 정보 & 알림 설정 (이용약관 열람 시 `terms.html?mode=view` 안전 복귀 연동)
+11. `terms.html`: 최초 1회 필수 동의 화면 (4대 필수 약관 체크박스 컴포넌트, `aisum_terms_agreed` 영구 플래그 저장, `?mode=view` 읽기전용 분기)
+12. `splash.html`: 모바일 시작 스플래시 (약관 동의 1차 검증 ➔ `terms.html` 필수 분기 ➔ `permission.html` ➔ `index.html` 3단계 온보딩 게이트웨이)
+13. `permission.html`: 5대 접근 권한 안내 (약관 미동의 0ms 강제 축출 가드, 5대 권한 및 LBS 위치 세션-로컬 양방향 영구 보존)
 14. `location_modal.html`: 주소/키워드 위치 설정 바텀시트
 
 ---
@@ -299,10 +299,19 @@ graph TD
     - `autoDetectUserLocation`에 `enableHighAccuracy: false` 최적화를 적용하여 데스크탑/모바일 타임아웃 없이 1초 내 실제 GPS 좌표 획득.
     - 실제 기기 위치를 기반으로 백엔드 역지오코딩(`/api/v1/location/coord2address`) 주소를 즉시 조회하여 헤더와 시설 목록을 사용자의 실제 접속 위치 기준 최단거리 순으로 즉각 렌더링.
     - GPS 차단/실패 시 공공 IP 기반 2차 자동 위치 추정(`fetchIpLocationFallback`)을 연동하여 문정동 고정 결함 100% 박멸.
-15. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
+15. **[완료] 메인화면 실시간 의료시설 카드 UI 간결화 & KST 운영시간 기반 실시간 운영 판별·진료가능 우선 정렬 완비 (Phase 3-H)**:
+    - 장황한 서브설명 및 건물/호수 상세주소를 정규식으로 정제하는 `formatCompactAddress` 구축 (도로명 + 법정동 단정 노출).
+    - KST 요일/시간 기반 실시간 운영 판별 엔진(`evaluateOperatingStatus`)을 통해 5대 상태(진료중, 곧 마감, 오픈 대기, 마감, 휴진) 및 오늘 요일별 시간표 표출.
+    - 현재 실제 이용 가능한 시설을 최우선 배치하고 마감된 시설을 후순위로 배치하는 스마트 정렬 및 전체 탭 1:1 교차 인터리빙 완성.
+16. **[완료] 온보딩 순차 파이프라인(splash ➔ terms ➔ permission ➔ index) 완결 & 이용약관 설정 모드 완전 분리 (Phase 3-I)**:
+    - `splash.html`에서 2중 순차 라우팅 확립: 약관 미동의 시 무조건 `terms.html` 리다이렉트 (동의 전까지 무한 반복), 약관 동의 후 권한 미승인 시 무조건 `permission.html` 리다이렉트 (승인 전까지 무한 반복), 둘 다 완료 시 `index.html` 진입.
+    - `terms.html` 온보딩 vs 설정 열람 모드 CSS/JS 물리적 완전 격리: 온보딩 모드에서는 `#btn-terms-view-confirm`("내용을 확인했습니다")과 상단 뒤로가기를 완전 은닉(`display: none !important`), 4대 필수 체크 후 '동의하고 계속하기' 완료 시 반드시 다음 온보딩인 `permission.html`로 전환.
+    - 오직 설정 화면에서 진입한 기가입자(`hasViewParam && isAlreadyAgreed`)에게만 뒤로가기 및 "내용을 확인했습니다" 버튼을 활성화하여 `settings.html`로 안전 복귀 지원.
+    - `index.html` & `input.html` 상단에 약관 미동의 0ms 차단 + 접근권한 미동의 0ms 차단 2중 가드레일을 설치하여 주소창 URL 직접 입력 우회 100% 방어.
+17. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
     - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
-16. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
+18. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
     - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
-17. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
+19. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
     - Service Worker 캐싱을 통해 네트워크 단절 시에도 12대 Red Flag 가이드 및 최근 조회 시설 오프라인 열람 지원.
 

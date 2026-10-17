@@ -178,7 +178,7 @@
 <body>
 
   <!-- Mobile Viewport Canvas -->
-  <div class="splash-viewport" id="splashScreen" onclick="proceedToPermission()" title="터치하여 바로 시작">
+  <div class="splash-viewport" id="splashScreen" onclick="proceedToNextStep()" title="터치하여 바로 시작">
 
     <!-- Center Brand Logo -->
     <div class="splash-center">
@@ -200,7 +200,7 @@
     // Auto-redirect after 1.8 seconds (or click immediately)
     let redirected = false;
 
-    function proceedToPermission() {
+    function proceedToNextStep() {
       if (redirected) return;
       redirected = true;
       const screen = document.getElementById('splashScreen');
@@ -208,19 +208,27 @@
         screen.classList.add('fade-out');
       }
       setTimeout(() => {
-        const isGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
-                          sessionStorage.getItem('aisum_permission_granted') === 'true';
-        if (isGranted) {
-          window.location.href = 'index.html';
+        const isTermsAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
+                              sessionStorage.getItem('aisum_terms_agreed') === 'true';
+        const isPermGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
+                              sessionStorage.getItem('aisum_permission_granted') === 'true';
+
+        if (!isTermsAgreed) {
+          // 1. 이용약관 미동의: 최초 1회 이용약관 동의 화면으로 이동 (동의하지 않으면 앱 실행 시 계속 뜸)
+          window.location.replace('terms.html');
+        } else if (!isPermGranted) {
+          // 2. 접근 권한 미동의: 접근 권한 안내 화면으로 이동 (동의하지 않으면 앱 실행 시 계속 뜸)
+          window.location.replace('permission.html');
         } else {
-          window.location.href = 'permission.html';
+          // 3. 약관 및 권한 모두 완료된 사용자: 메인 홈으로 즉시 이동
+          window.location.replace('index.html');
         }
       }, 300);
     }
 
     // Set 1.8s timer for natural app-loading splash effect
     setTimeout(() => {
-      proceedToPermission();
+      proceedToNextStep();
     }, 1800);
   </script>
 </body>

@@ -42,6 +42,22 @@
         <script>
           (function() {
             try {
+              // 🛡️ 1단계: 이용약관 미동의 시 메인 홈 접근 차단 및 terms.html 강제 이동
+              var isTermsAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
+                                  sessionStorage.getItem('aisum_terms_agreed') === 'true';
+              if (!isTermsAgreed) {
+                window.location.replace('terms.html');
+                return;
+              }
+
+              // 🛡️ 2단계: 접근 권한 미동의 시 메인 홈 접근 차단 및 permission.html 강제 이동
+              var isPermGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
+                                  sessionStorage.getItem('aisum_permission_granted') === 'true';
+              if (!isPermGranted) {
+                window.location.replace('permission.html');
+                return;
+              }
+
               // 과거 개발 시 고정되었던 문정동 하드코딩 잔재 자동 소독
               var isManual = localStorage.getItem('aisum_location_manual') === 'true';
               var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');

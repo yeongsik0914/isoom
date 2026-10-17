@@ -873,6 +873,29 @@
 </head>
 
 <body>
+  <script>
+    // 🛡️ 1단계: 이용약관 미동의 시 문진 진입 차단 및 terms.html 강제 이동
+    (function() {
+      try {
+        var isTermsAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
+                            sessionStorage.getItem('aisum_terms_agreed') === 'true';
+        if (!isTermsAgreed) {
+          window.location.replace('terms.html');
+          return;
+        }
+
+        // 🛡️ 2단계: 접근 권한 미동의 시 permission.html 강제 이동
+        var isPermGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
+                            sessionStorage.getItem('aisum_permission_granted') === 'true';
+        if (!isPermGranted) {
+          window.location.replace('permission.html');
+          return;
+        }
+      } catch (e) {
+        window.location.replace('terms.html');
+      }
+    })();
+  </script>
 
   <div class="triage-viewport">
 

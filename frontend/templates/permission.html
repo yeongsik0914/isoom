@@ -320,7 +320,23 @@
   </div>
 
   <script>
-    // 0. 이미 권한을 부여받은 사용자는 메인 화면으로 즉시 직행 (앱 내 권한 영구 유지)
+    // 🛡️ 0-1. 이용약관 미동의 시 접근 차단 및 terms.html 강제 이동
+    (function checkTermsPrerequisite() {
+      try {
+        const isTermsAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
+                              sessionStorage.getItem('aisum_terms_agreed') === 'true';
+        if (!isTermsAgreed) {
+          console.warn('⚠️ 이용약관 미동의 상태입니다. 약관 동의 화면으로 강제 이동합니다.');
+          window.location.replace('terms.html');
+          return;
+        }
+      } catch (e) {
+        window.location.replace('terms.html');
+        return;
+      }
+    })();
+
+    // 0-2. 이미 권한을 부여받은 사용자는 메인 화면으로 즉시 직행 (앱 내 권한 영구 유지)
     (function checkExistingPermission() {
       try {
         const urlParams = new URLSearchParams(window.location.search);
