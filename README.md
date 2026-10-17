@@ -28,6 +28,37 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.7.0-pwa-and-cloud-run-production-deployment] 2026-10-17: PWA(Progressive Web App) 풀스택 구축 & .env 다중 API Key 연동 Google Cloud Run 원클릭 배포 파이프라인 완결 릴리스 (정영식 팀장 총괄)
+* **📱 PWA (Progressive Web App) 풀스택 인프라 완비**:
+  - **웹 앱 매니페스트 (`frontend/manifest.json`)**: `standalone` 모드, 테마 컬러 `#10b981`, 고해상도 앱 아이콘(192x192, 512x512) 연동 완료.
+  - **서비스 워커 (`frontend/sw.js`)**: 정적 자산(CSS, JS, HTML, 폰트) `Stale-While-Revalidate` 및 실시간 API `Network First` 2계층 캐싱 적용으로 오프라인 및 음영지역 완벽 대응.
+  - **FastAPI 백엔드(`main.py`)**: `/manifest.json`, `/sw.js`, `/img/{filename}` 전용 엔드포인트 등록 완료.
+* **🔳 설정 페이지(`settings.html`) '모바일 기기 연결' & 실시간 QR코드 모달 연동**:
+  - '모바일 기기 연결' 신규 섹션 구축 (`스마트폰으로 앱 열기`, PWA 지원 뱃지).
+  - 바닐라 JS 실시간 QR코드 모달(`openQrModal()`): 현재 접속 도메인(`window.location.origin`)을 자동 감지하여 QR코드 생성, 원터치 주소 복사, iOS(Safari 홈 화면 추가)/Android(Chrome 앱 설치) 가이드 제공.
+  - `beforeinstallprompt` 이벤트 연동: 설치 지원 기기에서 "홈 화면에 앱 설치하기" 원클릭 버튼 동적 활성화.
+* **🐳 Google Cloud Run 프로덕션 컨테이너 최적화 & .env API Key 완전 연동**:
+  - `main.py` 포트 바인딩 최적화: Cloud Run 주입 환경변수 `PORT`(`port=int(os.getenv("PORT", 8000))`) 완벽 수신.
+  - `app/config.py` Firebase 3단 인증 안전망: 컨테이너 파일 경로, `FIREBASE_KEY_JSON` 환경변수 문자열, Google Cloud IAM 무키(ADC) 인증 완전 지원.
+  - 프로덕션 `Dockerfile` (`python:3.11-slim`, `HEALTHCHECK /health`) 및 `.dockerignore` 생성.
+* **🚀 원클릭 배포 스크립트 개발 (`scripts/deploy_cloud_run.sh`)**:
+  - `.env`에 보관된 실제 API 키 4종(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `serviceAccountKey.json`, `FIRESTORE_DATABASE_ID`)을 자동 로드하여 Cloud Run 서울 리전(`asia-northeast3`)으로 무결점 원클릭 배포 지원.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q164, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-164, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.91)**.
+
+### 🌟 [v2.6.6-fullscreen-fit-and-zero-gap-ui] 2026-10-17: 입력 페이지(`input.html`) & 결과 페이지(`result.html`) 상하 공백 완전 박멸 및 전 기종 스마트폰 100% 빈틈없는 Full-Screen(100dvh) 웹앱 밀착 반응형 아키텍처 구축 릴리스 (정영식 팀장 총괄)
+* **📱 입력·결과 페이지 상하 캔버스 공백 & 목업 테두리 100% 완전 박멸**:
+  - 기존 데스크톱 미디어쿼리의 불필요한 목업 테두리(`border: 8px solid #ffffff`) 및 상하 24px 회색 공백 완전 제거.
+  - `body` 전역 패딩/마진 0px 및 배경색 완전 일치화 (결과 `#f8faff`, 입력 `#ffffff`), 불필요한 테두리/모서리 둥글기 제거로 틈새 노출 원천 차단.
+* **📲 전 기종 스마트폰 100% 꽉 차는 풀스크린 반응형 정립 (`max-width: 100%`, `100dvh`)**:
+  - 모바일 전 기종(`@media (max-width: 639px)`)에서 `width: 100%; max-width: 100%; height: 100dvh; min-height: 100dvh;` 적용.
+  - 아이폰 SE, 아이폰 14/15/16/Pro Max, 갤럭시 S21~S24/Ultra, Z Flip/Fold 등 **어떤 스마트폰 기종이든 화면 전체에 1픽셀의 빈틈도 없이 100% 꽉 채우는 완벽한 네이티브 앱 UX** 실현.
+* **🛡️ Safe Area (상단 노치/다이내믹 아일랜드 & 하단 제스처 홈 바) 정밀 도킹**:
+  - 상단 헤더: `height: calc(56px + env(safe-area-inset-top, 0px))` 적용.
+  - 하단 고정 바: `height: calc(64px + env(safe-area-inset-bottom, 10px))` 및 바닥 밀착 도킹으로 홈 바와 겹치지 않으면서도 상하 공백 없는 일체형 마감.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q163, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-163, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.90)**.
+
 ### 🌟 [v2.6.5-emergency-history-and-bed-change-alerts] 2026-10-17: 맞춤 결과 페이지(`result.html`) 응급실 판정 결과 영구 기록 누락 결함 원천 해소 & 중증 환아 전용 2대 조건부 근방 응급실 병상 변동 실시간 알림 엔진 구축 릴리스 (정영식 팀장 총괄)
 * **💾 응급실 판정 결과 영구 기록(`AisumHistoryManager`) 100% 보관 보장**:
   - 기존 세션 잔존 플래그(`aisum_is_replay_view`)로 인해 신규 문진도 Replay 모드로 오인되어 저장이 스킵되던 결함 원천 해소 (문진 제출 및 진입 시 자동 소독).

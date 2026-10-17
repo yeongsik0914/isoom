@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.89 (응급실 판정 결과 영구 기록 누락 결함 원천 해소 & 중증 환아 전용 2대 조건부 근방 응급실 병상 변동 실시간 알림 엔진 구축 완결, v2.6.5)
+> **문서 버전**: v2.91 (PWA 풀스택 구축, 설정 QR코드 모달 & .env 다중 API Key 연동 Cloud Run 원클릭 배포 파이프라인 완결, v2.7.0)
 > **최종 갱신 일자**: 2026-10-17
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 중복/추천기관 정제 엔진, AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md).
@@ -356,12 +356,18 @@ graph TD
     - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
 19. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
     - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
-20. **PWA (Progressive Web App) 도입, 설정 QR코드 연동 & Cloud Run 배포 아키텍처 (Phase 6 - 상세 기획 완료, [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md))**:
-    - **PWA 핵심 자산**: `frontend/manifest.json` (`display: standalone`, `theme_color: #10b981`), `frontend/sw.js` (Service Worker Stale-While-Revalidate 및 12대 응급처치 가이드 오프라인 캐싱).
-    - **설정페이지(`settings.html`) QR코드 카테고리**: '모바일 기기 연결' 그룹 신설, '스마트폰으로 앱 열기' 클릭 시 현재 접속 도메인(`window.location.origin`)을 실시간 반영하는 QR코드 팝업 모달 렌더링, iOS(홈 화면에 추가) 및 Android(앱 설치) 가이드 제공.
-    - **Google Cloud Run 배포 & 다중 API Key 보안 관리**:
-      - 문자열 API Key 3종(`GEMINI_API_KEY`, `DATA_GO_KR_API_KEY`, `KAKAO_REST_API_KEY`): GCP Secret Manager 등록 후 Cloud Run `--set-secrets` 환경변수 마운트.
-      - Firebase Admin (`serviceAccountKey.json`): Cloud Run 기본 서비스 계정에 `roles/datastore.user` IAM 권한 부여를 통한 **무키(Keyless) ADC 인증** (전략 1 Best Practice) 또는 Secret Manager 볼륨 마운트(`/secrets/serviceAccountKey.json`, 전략 2).
-      - 경량 `python:3.11-slim` Multi-stage `Dockerfile` 및 `PORT=${PORT:-8080}` 바인딩 최적화.
+20. **[완료] PWA (Progressive Web App) 도입, 설정 QR코드 연동 & Cloud Run 배포 아키텍처 완비 (Phase 6 - [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md))**:
+    - **PWA 핵심 자산 구축 및 서빙**: `frontend/manifest.json` (`display: standalone`, `theme_color: #10b981`), `frontend/sw.js` (Service Worker Stale-While-Revalidate 및 12대 응급처치 가이드 오프라인 캐싱), 고해상도 앱 아이콘(`icon-192.png`, `icon-512.png`), `main.py` 라우팅 결합.
+    - **설정페이지(`settings.html`) '모바일 기기 연결'**: '스마트폰으로 앱 열기' 클릭 시 현재 접속 도메인(`window.location.origin`)을 실시간 반영하는 QR코드 팝업 모달(`openQrModal()`), 원터치 주소 복사, iOS(홈 화면에 추가) 및 Android(앱 설치) 가이드, `beforeinstallprompt` 기반 PWA 원클릭 설치 버튼 지원.
+    - **Google Cloud Run 배포 & .env 다중 API Key 완전 연동**:
+      - `main.py` 포트 바인딩 최적화: `port=int(os.getenv("PORT", 8000))` 수신.
+      - `app/config.py` Firebase 3단 인증: 로컬/컨테이너 파일 경로, `FIREBASE_KEY_JSON` 환경변수 문자열, Google Cloud IAM 무키(ADC) 인증 지원.
+      - 경량 `python:3.11-slim` Multi-stage `Dockerfile` 및 `.dockerignore` 생성.
+      - **원클릭 배포 스크립트 (`scripts/deploy_cloud_run.sh`) 개발**: `.env` 파일의 4대 핵심 키(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `serviceAccountKey.json`, `FIRESTORE_DATABASE_ID`)를 자동 주입하여 Cloud Run 서울 리전(`asia-northeast3`)으로 무결점 원클릭 배포 완료.
+21. **[완료] 입력·결과 페이지 상하 공백 완전 박멸 & 전 기종 스마트폰 100% 빈틈없는 Full-Screen(100dvh) 웹앱 밀착 반응형 아키텍처 구축 (Phase 3-K)**:
+    - **Zero-Gap Layout**: 데스크톱 미디어쿼리의 불필요한 목업 테두리(`border: 8px solid #ffffff`) 및 상하 24px 회색 공백 완전 제거, `body` 전역 패딩/마진 0px 및 배경색 완전 일치화 (결과 `#f8faff`, 입력 `#ffffff`).
+    - **전 기종 스마트폰 100% 밀착**: `@media (max-width: 639px)`에서 `width: 100%; max-width: 100%; height: 100dvh; min-height: 100dvh;` 적용으로 아이폰 SE/14/15/16/Pro Max, 갤럭시 S21~S24/Ultra, Z Flip/Fold 등 전 기종에서 화면 전체에 1픽셀의 빈틈도 없이 꽉 채우는 네이티브 앱 UX 실현.
+    - **Safe Area 정밀 도킹**: 상단 헤더(`env(safe-area-inset-top)`), 하단 고정 바(`env(safe-area-inset-bottom)`) 도킹으로 노치/다이내믹 아일랜드 및 제스처 홈 바와 겹치지 않는 일체형 마감.
+
 
 

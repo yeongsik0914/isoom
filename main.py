@@ -340,6 +340,39 @@ async def get_aisum_js():
     return JSONResponse(status_code=404, content={"detail": "JS not found"})
 
 
+@app.get("/manifest.json", tags=["PWA"], response_class=FileResponse)
+async def get_pwa_manifest():
+    """Serves PWA Web App Manifest."""
+    if os.path.exists("frontend/manifest.json"):
+        return FileResponse("frontend/manifest.json", media_type="application/manifest+json")
+    if os.path.exists("app/static/manifest.json"):
+        return FileResponse("app/static/manifest.json", media_type="application/manifest+json")
+    return JSONResponse(status_code=404, content={"detail": "Manifest not found"})
+
+
+@app.get("/sw.js", tags=["PWA"], response_class=FileResponse)
+async def get_pwa_service_worker():
+    """Serves PWA Service Worker script with no-cache headers for instant updates."""
+    target = "frontend/sw.js" if os.path.exists("frontend/sw.js") else "app/static/sw.js"
+    if os.path.exists(target):
+        return FileResponse(
+            target,
+            media_type="application/javascript",
+            headers={"Service-Worker-Allowed": "/", "Cache-Control": "no-cache, no-store, must-revalidate"}
+        )
+    return JSONResponse(status_code=404, content={"detail": "Service worker not found"})
+
+
+@app.get("/img/{filename}", tags=["PWA"], response_class=FileResponse)
+async def get_pwa_image(filename: str):
+    """Serves PWA icons and image assets."""
+    for root in ["frontend/img", "app/static/img", "frontend/assets"]:
+        p = os.path.join(root, filename)
+        if os.path.exists(p):
+            return FileResponse(p)
+    return JSONResponse(status_code=404, content={"detail": f"Image {filename} not found"})
+
+
 @app.get("/{subpath:path}/{filename}.html", include_in_schema=False)
 async def fallback_subpath_html(subpath: str, filename: str):
     """Smart fallback router: intercepts requests like /home/input.html and serves from templates/."""
@@ -386,9 +419,10 @@ async def health_check():
 
 
 if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
-        port=8000,
+        port=port,
         reload=False,
     )

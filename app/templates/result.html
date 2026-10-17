@@ -19,11 +19,13 @@
     rel="stylesheet" />
 
   <!-- Mobile App / PWA Standalone Meta Tags -->
+  <link rel="manifest" href="/manifest.json" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#ffffff" />
+  <link rel="apple-touch-icon" href="/img/icon-192.png" />
 
   <!-- Pure Vanilla CSS Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
@@ -40,29 +42,55 @@
     /* ==========================================================================
        Result Page Specific Aesthetics (Calm Harbor Light Theme)
        ========================================================================== */
-    .mobile-viewport.result-shell {
+    body {
+      padding: 0 !important;
+      margin: 0 !important;
+      background-color: #f8faff !important;
+      overflow-x: hidden;
       width: 100%;
-      max-width: 440px;
       height: 100vh;
       height: 100dvh;
+    }
+
+    .mobile-viewport.result-shell {
+      width: 100%;
+      max-width: 500px;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 100dvh;
       max-height: 100dvh;
       background-color: #f8faff;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       position: relative;
-      box-shadow: var(--shadow-phone);
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
       overflow: hidden;
       box-sizing: border-box;
     }
 
+    /* 스마트폰 전 기종(아이폰, 갤럭시 등): 좌우상하 100% 꽉 채우기 */
+    @media (max-width: 639px) {
+      .mobile-viewport.result-shell {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+
     @media (min-width: 640px) {
       .mobile-viewport.result-shell {
-        height: min(920px, calc(100vh - 24px));
-        max-height: calc(100vh - 24px);
-        border-radius: 36px;
-        border: 8px solid #ffffff;
-        box-shadow: var(--shadow-phone);
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: 0 0 24px rgba(15, 23, 42, 0.08) !important;
       }
     }
 
@@ -70,15 +98,16 @@
     .result-header {
       flex-shrink: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid #eef2f6;
-      height: 56px;
+      height: calc(56px + env(safe-area-inset-top, 0px));
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
+      padding: env(safe-area-inset-top, 0px) 16px 0 16px;
+      box-sizing: border-box;
     }
 
     .result-header-left {
@@ -119,7 +148,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
-      padding: 10px 14px 76px 14px;
+      padding: 8px 12px calc(74px + env(safe-area-inset-bottom, 10px)) 12px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -976,14 +1005,14 @@
       background: #64748b;
     }
 
-    /* Bottom Fixed Actions Bar (Docked to smartphone frame) */
+    /* Bottom Fixed Actions Bar (Docked to bottom edge with safe area) */
     .result-bottom-bar {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
       width: 100%;
-      height: 72px;
+      height: calc(64px + env(safe-area-inset-bottom, 10px));
       background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -991,16 +1020,16 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 0 16px env(safe-area-inset-bottom, 14px);
+      padding: 8px 16px max(env(safe-area-inset-bottom, 10px), 10px) 16px;
       z-index: 40;
       box-sizing: border-box;
+      border-radius: 0 !important;
     }
 
     @media (min-width: 640px) {
       .result-bottom-bar {
-        border-bottom-left-radius: 28px;
-        border-bottom-right-radius: 28px;
-        padding: 0 16px 8px 16px;
+        border-radius: 0 !important;
+        padding: 8px 16px max(env(safe-area-inset-bottom, 10px), 10px) 16px;
       }
     }
 

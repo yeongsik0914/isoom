@@ -1,0 +1,27 @@
+{
+  "name": "아이숨 - 소아 야간응급 안심 매칭",
+  "short_name": "아이숨",
+  "description": "야간·휴일 소아청소년과 및 달빛어린이병원 안심 매칭 서비스",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "orientation": "portrait-primary",
+  "lang": "ko-KR",
+  "categories": ["medical", "health", "lifestyle"],
+  "icons": [
+    {
+      "src": "/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

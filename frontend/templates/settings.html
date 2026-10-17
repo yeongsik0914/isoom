@@ -21,6 +21,15 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#10b981" />
+  <link rel="apple-touch-icon" href="/img/icon-192.png" />
 </head>
 
 <body class="app-shell-body">
@@ -127,7 +136,43 @@
       <div class="settings-section-divider" aria-hidden="true"></div>
 
       <!-- ================================================================= -->
-      <!-- CATEGORY 2: 사용자 지원                                            -->
+      <!-- CATEGORY 2: 모바일 기기 연결 (PWA & QR 연동)                         -->
+      <!-- ================================================================= -->
+      <section class="settings-group" aria-labelledby="group-mobile-title">
+        <div class="settings-group-header">
+          <h2 class="settings-group-title" id="group-mobile-title">모바일 기기 연결</h2>
+        </div>
+
+        <!-- 스마트폰으로 앱 열기 (QR코드) -->
+        <button type="button" class="settings-item-row" id="qr-code-row-btn" aria-label="스마트폰으로 앱 열기" onclick="openQrModal()">
+          <div class="settings-item-left" style="display: flex; align-items: center; gap: 10px;">
+            <span class="material-symbols-outlined" style="color: #10b981; font-size: 20px;">qr_code_2</span>
+            <span class="settings-item-label">스마트폰으로 앱 열기</span>
+          </div>
+          <div class="settings-item-right">
+            <span class="settings-item-value" style="color: #10b981; font-weight: 700;">PWA 지원</span>
+            <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
+          </div>
+        </button>
+
+        <!-- 앱 설치 안내 (PWA 지원 브라우저 감지 시 동적 활성화) -->
+        <button type="button" class="settings-item-row" id="btn-pwa-install" aria-label="홈 화면에 앱 설치하기" style="display: none;" onclick="triggerPwaInstall()">
+          <div class="settings-item-left" style="display: flex; align-items: center; gap: 10px;">
+            <span class="material-symbols-outlined" style="color: #0066ff; font-size: 20px;">install_mobile</span>
+            <span class="settings-item-label">홈 화면에 앱 설치하기</span>
+          </div>
+          <div class="settings-item-right">
+            <span class="settings-item-value accent">설치</span>
+            <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
+          </div>
+        </button>
+      </section>
+
+      <!-- Section Divider -->
+      <div class="settings-section-divider" aria-hidden="true"></div>
+
+      <!-- ================================================================= -->
+      <!-- CATEGORY 3: 사용자 지원                                            -->
       <!-- ================================================================= -->
       <section class="settings-group" aria-labelledby="group-support-title">
         <div class="settings-group-header">
@@ -254,6 +299,45 @@
       </div>
     </div>
 
+    <!-- 5. 모바일 QR코드 웹앱 연동 팝업 모달 -->
+    <div class="modal-overlay" id="qr-code-modal" aria-hidden="true" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box;">
+      <div class="modal-dialog-card qr-modal-card" style="background: #ffffff; border-radius: 24px; width: 100%; max-width: 360px; padding: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); box-sizing: border-box;">
+        <div class="qr-modal-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="material-symbols-outlined" style="color: #10b981; font-size: 24px;">smartphone</span>
+            <h2 class="modal-title" style="font-size: 17px; font-weight: 800; color: #0f172a; margin: 0;">스마트폰으로 앱 열기</h2>
+          </div>
+          <button type="button" class="modal-close-btn" onclick="closeQrModal()" aria-label="닫기" style="background: none; border: none; cursor: pointer; color: #64748b; padding: 4px;">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <div class="qr-modal-body" style="text-align: center; padding: 8px 0 12px 0;">
+          <div class="qr-frame-box" style="display: inline-block; padding: 12px; background: #ffffff; border-radius: 18px; border: 1.5px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); margin-bottom: 12px;">
+            <img id="qr-code-image" src="" alt="아이숨 접속용 QR코드" style="width: 170px; height: 170px; display: block; border-radius: 8px;" />
+          </div>
+          <p style="font-size: 13px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0;">📷 스마트폰 기본 카메라로 비추면 바로 연결됩니다</p>
+          <div id="qr-current-url" style="font-size: 11px; font-family: monospace; color: #64748b; background: #f1f5f9; padding: 6px 10px; border-radius: 8px; word-break: break-all; margin: 0 0 12px 0;"></div>
+
+          <div class="pwa-install-guide-box" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; text-align: left; font-size: 11.5px; color: #334155; line-height: 1.55;">
+            <div style="font-weight: 700; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
+              <span class="material-symbols-outlined" style="font-size: 15px; color: #10b981;">tips_and_updates</span>
+              홈 화면에 네이티브 앱으로 추가하는 방법:
+            </div>
+            <div>• <strong>iOS (아이폰 Safari)</strong>: 하단 공유(⎋) ➔ <strong>'홈 화면에 추가'</strong></div>
+            <div>• <strong>Android (갤럭시 Chrome)</strong>: 메뉴(⋮) ➔ <strong>'앱 설치'</strong></div>
+          </div>
+        </div>
+
+        <div class="modal-actions-dual" style="display: flex; gap: 10px; padding-top: 6px;">
+          <button type="button" class="modal-btn-cancel" onclick="copyAppUrl()" style="flex: 1; height: 44px; background: #f1f5f9; border: none; border-radius: 12px; font-weight: 700; font-size: 13px; color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;">
+            <span class="material-symbols-outlined" style="font-size: 16px;">content_copy</span> 주소 복사
+          </button>
+          <button type="button" class="modal-btn-primary" onclick="closeQrModal()" style="flex: 1; height: 44px; background: #10b981; border: none; border-radius: 12px; font-weight: 700; font-size: 13px; color: #ffffff; cursor: pointer;">확인</button>
+        </div>
+      </div>
+    </div>
+
     <!-- 토스트 알림 메시지 바 -->
     <div class="aisum-toast" id="aisum-toast" aria-live="polite">자녀 기본 정보가 저장되었습니다.</div>
 
@@ -288,6 +372,102 @@
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
   <script src="../js/main.js"></script>
+
+  <!-- PWA & QR Code 모달 연동 스크립트 -->
+  <script>
+    var deferredPwaPrompt = null;
+
+    // PWA 서비스 워커 등록
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(reg) {
+          console.log('[PWA] Service Worker registered:', reg.scope);
+        }).catch(function(err) {
+          console.warn('[PWA] Service Worker registration failed:', err);
+        });
+      });
+    }
+
+    // PWA 설치 가능 시 설치 버튼 노출
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+      var installBtn = document.getElementById('btn-pwa-install');
+      if (installBtn) {
+        installBtn.style.display = 'flex';
+      }
+    });
+
+    function triggerPwaInstall() {
+      if (deferredPwaPrompt) {
+        deferredPwaPrompt.prompt();
+        deferredPwaPrompt.userChoice.then(function(choiceResult) {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('[PWA] User accepted install prompt');
+          }
+          deferredPwaPrompt = null;
+          var installBtn = document.getElementById('btn-pwa-install');
+          if (installBtn) installBtn.style.display = 'none';
+        });
+      } else {
+        openQrModal();
+      }
+    }
+
+    function openQrModal() {
+      var modal = document.getElementById('qr-code-modal');
+      var qrImg = document.getElementById('qr-code-image');
+      var urlBox = document.getElementById('qr-current-url');
+      if (!modal) return;
+
+      var currentOrigin = window.location.origin || (window.location.protocol + '//' + window.location.host);
+      // 로컬 파일로 열었을 경우 예외 처리
+      if (!currentOrigin || currentOrigin.indexOf('http') !== 0) {
+        currentOrigin = 'http://localhost:8000';
+      }
+
+      var fullUrl = currentOrigin + '/';
+      if (urlBox) urlBox.textContent = fullUrl;
+
+      // 동적 QR 코드 생성 API 호출
+      var qrApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&data=' + encodeURIComponent(fullUrl);
+      if (qrImg) {
+        qrImg.src = qrApiUrl;
+      }
+
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeQrModal() {
+      var modal = document.getElementById('qr-code-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    function copyAppUrl() {
+      var currentOrigin = window.location.origin || (window.location.protocol + '//' + window.location.host);
+      var fullUrl = currentOrigin + '/';
+      navigator.clipboard.writeText(fullUrl).then(function() {
+        showSettingsToast('웹앱 접속 주소가 복사되었습니다.');
+      }).catch(function() {
+        showSettingsToast('주소: ' + fullUrl);
+      });
+    }
+
+    function showSettingsToast(msg) {
+      var toast = document.getElementById('aisum-toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(function() {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+  </script>
 </body>
 
 </html>
+

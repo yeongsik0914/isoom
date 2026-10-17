@@ -21,6 +21,15 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#10b981" />
+  <link rel="apple-touch-icon" href="/img/icon-192.png" />
 </head>
 
 <body class="main-home-body">
@@ -637,6 +646,15 @@
       }
       if (urlParams.get('tab') === 'notifications' || window.location.hash === '#notifications') {
         setTimeout(openNotificationSheet, 200);
+      }
+
+      // PWA Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').catch(function(e) {
+            console.warn('[PWA] Service worker registration failed:', e);
+          });
+        });
       }
     } catch (e) {
       console.warn('Initial facilities auto-render:', e);

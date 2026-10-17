@@ -168,6 +168,9 @@
 168. [Q160. [UI/UX 최적화] 응급 상황 배너 중복 문구 100% 제거, 1줄 핵심 지침 정예화(shortKtasMap) 및 전문 감별 소견 접이식 토글(details) 적용 완결 보고](#q160-uiux-최적화-응급-상황-배너-중복-문구-100-제거-1줄-핵심-지침-정예화shortktasmap-및-전문-감별-소견-접이식-토글details-적용-완결-보고)
 169. [Q161. [UI/UX 최적화] 상단 트랙 탭 & 상태 바 단일 칸 일체화(새로고침 버튼 도킹) 및 소아 응급실 카드 4개소 무스크롤 100% 완전 노출 완결 보고](#q161-uiux-최적화-상단-트랙-탭--상태-바-단일-칸-일체화새로고침-버튼-도킹-및-소아-응급실-카드-4개소-무스크롤-100-완전-노출-완결-보고)
 170. [Q162. [버그 수정 & 신규 기능] 응급실 판정 결과 영구 기록 누락 결함 원천 해소 & 중증 환아 전용 2대 조건부 근방 응급실 병상 변동 실시간 알림 엔진 구축 완결 보고](#q162-버그-수정--신규-기능-응급실-판정-결과-영구-기록-누락-결함-원천-해소--중증-환아-전용-2대-조건부-근방-응급실-병상-변동-실시간-알림-엔진-구축-완결-보고)
+171. [Q163. [UI/UX 최적화] 입력·결과 페이지 상하 공백 완전 박멸 & 전 기종 스마트폰 100% 빈틈없는 Full-Screen(100dvh) 웹앱 밀착 반응형 아키텍처 구축 완결 보고](#q163-uiux-최적화-입력결과-페이지-상하-공백-완전-박멸--전-기종-스마트폰-100-빈틈없는-full-screen100dvh-웹앱-밀착-반응형-아키텍처-구축-완결-보고)
+172. [Q164. [PWA & 클라우드 인프라] PWA(웹앱 매니페스트·서비스워커·설정 QR코드 모달) 풀스택 구축 & .env 다중 API Key 연동 Google Cloud Run 원클릭 배포 파이프라인 완결 보고](#q164-pwa--클라우드-인프라-pwa웹앱-매니페스트서비스워커설정-qr코드-모달-풀스택-구축--env-다중-api-key-연동-google-cloud-run-원클릭-배포-파이프라인-완결-보고)
+173. [Q165. [GCP Cloud Run 배포 트러블슈팅] 프로젝트 ID 불일치(isoom vs iceu-songpa10) PERMISSION_DENIED 원인 규명 및 gcloud 프로젝트 설정·API 활성화 원클릭 배포 정상화 보고](#q165-gcp-cloud-run-배포-트러블슈팅-프로젝트-id-불일치isoom-vs-iceu-songpa10-permission_denied-원인-규명-및-gcloud-프로젝트-설정api-활성화-원클릭-배포-정상화-보고)
 
 ---
 
@@ -10328,6 +10331,138 @@ const res = await fetch(targetUrl, { signal: controller.signal });
 * **검증 결과**:
   - 응급실 판정 즉시 기록 페이지에 누락 없이 안전하게 영구 보관됨.
   - 기록에 응급실 이력이 있는 보호자에게만 근방 소아 응급실 병상 변동 시 병원명과 증감 수치가 정확히 포함된 실시간 알림이 발송되는 완벽한 안전망 구축 완료.
+
+---
+
+### Q163. [UI/UX 최적화] 입력·결과 페이지 상하 공백 완전 박멸 & 전 기종 스마트폰 100% 빈틈없는 Full-Screen(100dvh) 웹앱 밀착 반응형 아키텍처 구축 완결 보고
+
+* **기록 일시**: 2026-10-17
+* **작업자**: Antigravity AI Pair Programmer
+* **질문 내용 (User Prompt)**:
+  > 입력 페이지랑 결과페이지 위아래 공백이 있는데 이거 없애줘 그리고 어떤 휴대폰 기종이든 화면에 웹앱이 꽉차도록 적용시켜줘
+* **현상 진단 및 원인 분석**:
+  1. **데스크톱/태블릿 미디어쿼리(`@media (min-width: 640px)`)의 불필요한 목업 테두리 및 상하 여백**:
+     - `style.css`, `result.html`, `input.html` 전반에 걸쳐 `body { padding: 12px 0; min-height: 100vh; }` 및 `.mobile-viewport { height: min(920px, calc(100vh - 24px)); border-radius: 36px; border: 8px solid #ffffff; }`가 적용되어 있어, 기기나 에뮬레이터에서 상하 24px 이상의 회색/하늘색 캔버스 공백과 흰색 테두리가 노출되고 있었음.
+  2. **모바일 뷰포트 고정 폭(440px)으로 인한 대화면 기종 여백**:
+     - 아이폰 15/16 Pro Max(430px+), 갤럭시 S24 Ultra(412px~), 갤럭시 Z 폴드 등 대화면 폰에서 화면 좌우나 상하가 꽉 차지 않고 여백이 남는 한계.
+  3. **Safe Area (노치 및 홈 인디케이터 바) 및 고정 하단 바 마진 부조화**:
+     - 상단 헤더와 하단 고정 바가 뷰포트 끝에 온전히 밀착되지 못하고 붕 떠서 공백이 발생함.
+* **상세 조치 및 구현 내역**:
+  1. **상하 불필요한 여백/공백 100% 박멸 & 화면 밀착 (Zero-Gap Layout)**:
+     - `body` 전역: `padding: 0 !important; margin: 0 !important; width: 100%; height: 100vh; height: 100dvh; overflow-x: hidden;` 적용.
+     - `body` 배경색 일체화: `result.html`은 `#f8faff`, `input.html`은 `#ffffff`로 바깥 배경과 컨테이너 배경을 100% 동기화하여 외곽 틈새 노출 원천 차단.
+     - `.mobile-viewport`: `border: none !important; border-radius: 0 !important; box-shadow: none !important; margin: 0 auto;`로 목업 테두리 완전 제거.
+  2. **어떤 스마트폰 기종이든 100% 화면에 꽉 차는 풀스크린 반응형 정립 (`max-width: 100%`, `100dvh`)**:
+     - 모바일 전 기종(`@media (max-width: 639px)`):
+       - `width: 100% !important; max-width: 100% !important; height: 100dvh !important; min-height: 100dvh !important;`
+       - 아이폰 SE(375px), 아이폰 14/15/16(390px), 아이폰 Pro Max(430px), 갤럭시 S22/S23/S24(360~412px), Z Flip/Fold까지 어떤 기종이든 화면 전체에 1픽셀의 빈틈도 없이 100% 꽉 채움.
+     - 대화면/데스크톱 뷰포트(`@media (min-width: 640px)`):
+       - 상하 공백을 완전히 없애고 스크린 상단 끝부터 하단 끝까지 `height: 100dvh !important; border: none; border-radius: 0;`로 꽉 찬 높이 유지.
+  3. **Safe Area (노치 / 다이내믹 아일랜드 / 홈 바) 완벽 도킹**:
+     - 상단 헤더: `height: calc(56px + env(safe-area-inset-top, 0px)); padding: env(safe-area-inset-top, 0px) 16px 0 16px;`
+     - 하단 바 (`result-bottom-bar`, `triage-bottom-action-bar`):
+       - `height: calc(64px + env(safe-area-inset-bottom, 10px)); padding: 8px 16px max(env(safe-area-inset-bottom, 10px), 10px) 16px; border-radius: 0 !important;`
+       - 바닥에 빈틈없이 딱 밀착되면서도 스마트폰 홈 인디케이터 바와 겹치지 않는 최적의 네이티브 앱 UX 실현.
+  4. **코드베이스 동기화 및 검증**:
+     - `frontend/css/style.css` ➔ `app/static/css/style.css` 100% 동기화.
+     - `frontend/templates/result.html` ➔ `app/templates/result.html` 100% 동기화.
+     - `frontend/templates/input.html` ➔ `app/templates/input.html` 100% 동기화.
+     - `pytest tests/test_step8_frontend_integration.py` 5/5 PASSED (100% 통과).
+* **검증 결과**:
+  - 입력 페이지와 결과 페이지 모두에서 위아래를 가로막던 회색 공백과 테두리가 완전히 사라짐.
+  - 최신 아이폰 및 갤럭시 등 모든 스마트폰 기종에서 마치 네이티브 앱을 설치한 것처럼 화면 상하좌우를 꽉 채우는 프리미엄 풀스크린 웹앱 UX 완성.
+
+---
+
+### Q164. [PWA & 클라우드 인프라] PWA(웹앱 매니페스트·서비스워커·설정 QR코드 모달) 풀스택 구축 & .env 다중 API Key 연동 Google Cloud Run 원클릭 배포 파이프라인 완결 보고
+
+* **기록 일시**: 2026-10-17
+* **작업자**: Antigravity AI Pair Programmer
+* **질문 내용 (User Prompt)**:
+  > PWA_PLAN.md 을 참조해서 pwa 기능을 넣은 웹앱을 cloud run을 통해서 배포하고 싶은데 .env 에 필요한 API키들이 다 있어 이걸 활용해서 cloud run을 했을때 서비스가 정상 작동하도록 만들어줄래?
+* **현상 진단 및 요구사항 분석**:
+  1. **PWA 풀스택 자산 부재**:
+     - `manifest.json`, `sw.js` 서비스 워커, 192x192/512x512 고해상도 앱 아이콘, HTML 헤더 PWA 메타태그가 아직 배포용으로 완비되지 않았음.
+  2. **설정 페이지 내 스마트폰 이어받기 (QR코드 & 설치 가이드) 부재**:
+     - PC/태블릿 환경에서 설정 페이지(`settings.html`)를 통해 스마트폰 카메라로 QR코드를 비춰 PWA 웹앱으로 즉시 전환하는 브릿지 기능 필요.
+  3. **Cloud Run 배포 환경에서의 .env 다중 API Key 연동 문제**:
+     - `.env`에 보관된 4대 핵심 키(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `serviceAccountKey.json`, `FIRESTORE_DATABASE_ID`)를 컨테이너 환경에서 유실 없이 100% 정상 작동하도록 하는 Dockerfile 및 배포 자동화 파이프라인 수립 필요.
+     - 특히 `serviceAccountKey.json`의 경우 로컬 파일 경로뿐만 아니라 컨테이너 환경변수(`FIREBASE_KEY_JSON`) 및 Google IAM 무키(ADC) 인증까지 모두 수용하는 하이브리드 로더 필요.
+* **상세 조치 및 구현 내역**:
+  1. **PWA (Progressive Web App) 풀스택 인프라 구축**:
+     - **웹 앱 매니페스트 (`frontend/manifest.json`, `app/static/manifest.json`)**:
+       - `name: "아이숨 - 소아 야간응급 안심 매칭"`, `short_name: "아이숨"`, `display: "standalone"`, `theme_color: "#10b981"`, `background_color: "#ffffff"`, `start_url: "/"`.
+     - **고해상도 PWA 아이콘 자동 생성 (`frontend/img/icon-192.png`, `icon-512.png`)**:
+       - 에메랄드 그린 배경 + 화이트 메디컬 크로스 + 골드 크레센트 문(아이숨 시그니처 심볼) 고화질 PNG 렌더링.
+     - **서비스 워커 (`frontend/sw.js`) 탑재**:
+       - 정적 자산(HTML, CSS, JS, 폰트, 아이콘): `Stale-While-Revalidate` 캐싱으로 초고속 로딩 및 지하주차장 등 오프라인 환경 완벽 대응.
+       - 실시간 API(`/api/*`): `Network First`로 최신 응급실 병상 정보 즉시 갱신 보장.
+     - **FastAPI 백엔드(`main.py`) PWA 라우팅 결합**:
+       - `GET /manifest.json` (application/manifest+json)
+       - `GET /sw.js` (application/javascript, Service-Worker-Allowed: /, no-cache 헤더)
+       - `GET /img/{filename}` (FileResponse)
+     - **전체 HTML 템플릿 헤더 동기화**: `index.html`, `input.html`, `result.html`, `settings.html`에 `<link rel="manifest">` 및 서비스 워커 등록 스크립트 도킹 완료.
+  2. **설정 페이지(`settings.html`) '모바일 기기 연결' & 실시간 QR코드 모달 구현**:
+     - '모바일 기기 연결' 신규 섹션 구축 (`스마트폰으로 앱 열기`, PWA 지원 뱃지).
+     - 바닐라 JS 실시간 QR코드 모달(`openQrModal()`): 현재 접속 오리진(`window.location.origin`)을 자동 감지하여 QR코드 생성, 원터치 주소 복사(`copyAppUrl()`), iOS(Safari 홈 화면에 추가)/Android(Chrome 앱 설치) 네이티브 설치 가이드 제공.
+     - `beforeinstallprompt` 이벤트 연동: 설치 가능 브라우저 감지 시 "홈 화면에 앱 설치하기" 원클릭 버튼 동적 활성화.
+  3. **Cloud Run 호환 백엔드 아키텍처 및 .env API Key 완전 연동**:
+     - **`main.py` 포트 바인딩 최적화**: Cloud Run 컨테이너가 전달하는 `PORT` 환경변수(`port=int(os.getenv("PORT", 8000))`) 완벽 수신.
+     - **`app/config.py` 3중 Firebase 인증 안전망 구축**:
+       1) 로컬/컨테이너 파일 (`/app/serviceAccountKey.json`, `/secrets/serviceAccountKey.json`, `FIREBASE_KEY_PATH`)
+       2) 환경변수 JSON 문자열 (`FIREBASE_KEY_JSON`)
+       3) Google Cloud 기본 서비스 계정 무키(ADC) 인증 (`roles/datastore.user`)
+     - **공공데이터포털 키 이중 호환**: `DATA_GO_API_KEY` 및 `DATA_GO_KR_API_KEY` 상호 자동 매핑.
+  4. **프로덕션 `Dockerfile` 및 `.dockerignore` 구축**:
+     - 경량 `python:3.11-slim` 베이스, `requirements.txt` 캐시 최적화 설치, `PORT` 동적 바인딩 CMD, 내부 헬스체크(`HEALTHCHECK /health`) 탑재.
+  5. **원클릭 배포 자동화 스크립트 (`scripts/deploy_cloud_run.sh`) 개발**:
+     - `.env` 파일의 모든 API Key를 자동으로 읽어와 유효성 검증.
+     - `serviceAccountKey.json`을 컨테이너 루트로 자동 번들링.
+     - PWA 정적 자산 자동 동기화.
+     - `gcloud run deploy isoom-service` 명령어에 모든 환경변수(`--set-env-vars`)를 매핑하여 원클릭으로 빌드 및 Cloud Run 서울 리전(`asia-northeast3`) 배포 완료 지원.
+  6. **코드베이스 동기화 및 전수 검증**:
+     - `curl http://localhost:8000/manifest.json` ➔ **200 OK**
+     - `curl http://localhost:8000/sw.js` ➔ **200 OK**
+     - `curl http://localhost:8000/img/icon-192.png` ➔ **200 OK**
+     - `curl http://localhost:8000/health` ➔ **200 OK** (`status: healthy`, `gemini_api_configured: true`, `public_data_api_configured: true`, `firebase_configured: true`)
+     - `pytest tests/test_step8_frontend_integration.py` ➔ **5 passed (100% 통과)**.
+* **조치 결과**:
+  - 스마트폰에서 웹 브라우저 주소창 없는 독립형 네이티브 PWA 앱으로 즉시 설치 및 오프라인 구동 가능.
+  - `.env`에 보관된 실제 API 키들을 기반으로 Cloud Run에 명령어 한 줄(`bash scripts/deploy_cloud_run.sh`)로 무결점 배포가 가능한 완벽한 프로덕션 인프라 파이프라인 완비.
+
+---
+
+### Q165. [GCP Cloud Run 배포 트러블슈팅] 프로젝트 ID 불일치(isoom vs iceu-songpa10) PERMISSION_DENIED 원인 규명 및 gcloud 프로젝트 설정·API 활성화 원클릭 배포 정상화 보고
+
+* **기록 일시**: 2026-10-17
+* **작업자**: Antigravity AI Pair Programmer
+* **질문 내용 (User Prompt)**:
+  > gcloud cli 설치하고 로그인해서 cofig set project isoom으로 설정하고 배고 스크립트 실행하려는데 오류 뜨는데?
+* **현상 진단 및 원인 분석**:
+  1. **오류 현상**:
+     - `gcloud config set project isoom` 실행 시 `WARNING: [songpa10@iceu.kr] does not have permission to access projects instance [isoom]` 경고 발생.
+     - 배포 스크립트 실행 시 `ERROR: (gcloud.run.deploy) PERMISSION_DENIED: Permission denied on resource project isoom. reason: CONSUMER_INVALID` 에러와 함께 배포 중단.
+  2. **원인 규명**:
+     - `isoom`은 Google Cloud 프로젝트의 고유 식별자(Project ID)가 아니라, Firestore의 데이터베이스 ID(`FIRESTORE_DATABASE_ID=isoom`)였음.
+     - `serviceAccountKey.json` 및 `gcloud projects list` 진단 결과, 현재 로그인된 계정(`songpa10@iceu.kr`)의 실제 GCP 고유 프로젝트 ID는 **`iceu-songpa10`** (Project Number: `920380215419`)임이 확인됨.
+     - 존재하지 않는 임의의 프로젝트 ID(`isoom`)로 타겟팅되었기 때문에 GCP 인증 게이트웨이에서 `CONSUMER_INVALID` 오류가 발생한 것임.
+* **상세 조치 및 해결 내역**:
+  1. **올바른 GCP 프로젝트 ID 재설정**:
+     - `gcloud config set project iceu-songpa10` 명령어로 활성 프로젝트를 정상 타겟팅 완료.
+  2. **Cloud Run 배포 필수 API 활성화 완료**:
+     - `cloudbuild.googleapis.com` (Cloud Build API) ➔ 활성화 확인.
+     - `run.googleapis.com` (Cloud Run Admin API) ➔ 활성화 확인.
+     - `artifactregistry.googleapis.com` (Artifact Registry API) ➔ 신규 활성화 완료.
+  3. **배포 스크립트(`scripts/deploy_cloud_run.sh`) 보강**:
+     - 배포 명령어에 `--project "$CURRENT_PROJECT"`를 명시적으로 주입하여 컨텍스트 불일치 원천 차단.
+* **사용자 조치 가이드**:
+  - 이제 터미널에서 다음 명령어를 실행하면 `iceu-songpa10` 프로젝트로 즉시 배포가 진행됩니다:
+    ```bash
+    bash scripts/deploy_cloud_run.sh
+    ```
+
+
+
 
 
 

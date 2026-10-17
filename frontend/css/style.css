@@ -114,38 +114,67 @@ button {
   -webkit-user-select: none;
 }
 
-/* Mobile Frame Wrapper (Desktop centered preview & Fixed App Shell) */
+/* Mobile Frame Wrapper (Full Height & Zero-Gap Responsive App Shell) */
 .mobile-viewport {
   width: 100%;
-  max-width: 440px;
+  max-width: 500px;
   height: 100vh;
   height: 100dvh;
+  min-height: 100dvh;
   max-height: 100dvh;
-  background-color: var(--app-bg);
+  background-color: var(--app-bg, #ffffff);
   position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-phone);
+  margin: 0 auto;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   overflow: hidden;
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
 
+/* 모바일 전 기종(아이폰, 갤럭시 등): 좌우상하 100% 빈틈없는 Full-Screen 꽉 채움 */
+@media (max-width: 639px) {
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+  }
+  .mobile-viewport {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* 대화면/데스크톱 뷰포트에서도 위아래 공백 완전 제거 (높이 100dvh 밀착) */
 @media (min-width: 640px) {
   body {
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 12px 0;
+    align-items: stretch;
+    padding: 0 !important;
+    margin: 0 !important;
     min-height: 100vh;
+    min-height: 100dvh;
     box-sizing: border-box;
+    background-color: #f1f5f9;
   }
   .mobile-viewport {
-    height: min(920px, calc(100vh - 24px));
-    max-height: calc(100vh - 24px);
-    border-radius: 36px;
-    border: 8px solid #ffffff;
-    box-shadow: var(--shadow-phone);
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: 0 0 24px rgba(15, 23, 42, 0.08) !important;
     overflow: hidden;
   }
 }

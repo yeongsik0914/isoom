@@ -1,0 +1,28 @@
+# Git & IDE
+.git
+.gitignore
+.gemini
+.idea
+.vscode
+.DS_Store
+
+# Python Cache & Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+build/
+dist/
+
+# Tests & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & Temporary files
+*.log
+.system_generated/
+scratch/
+tmp/

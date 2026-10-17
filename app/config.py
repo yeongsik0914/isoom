@@ -83,15 +83,18 @@ def resolve_gemini_api_key() -> Optional[str]:
 
 
 def resolve_firebase_key_path() -> Optional[str]:
-    """Finds serviceAccountKey.json path by checking candidates and Windows Registry."""
+    """Finds serviceAccountKey.json path by checking candidates, container secret paths, and Windows Registry."""
     env_path = os.getenv("FIREBASE_KEY_PATH")
     candidates = [
         env_path,
-        r"C:\AI-Native-Agent\key\serviceAccountKey.json",
-        r"C:\AI-Native-Agent\key\serviceAccountKey.json.json",
+        "/secrets/serviceAccountKey.json",
+        "/app/serviceAccountKey.json",
         str(PROJECT_ROOT / "serviceAccountKey.json"),
+        str(PROJECT_ROOT.parent / "serviceAccountKey.json"),
         "serviceAccountKey.json",
         "../serviceAccountKey.json",
+        r"C:\AI-Native-Agent\key\serviceAccountKey.json",
+        r"C:\AI-Native-Agent\key\serviceAccountKey.json.json",
         r"E:\FIREBASE_API_KEY\serviceAccountKey.json",
     ]
 
@@ -151,7 +154,10 @@ class Settings:
         return bool(self.data_go_api_key)
 
     def has_firebase_key(self) -> bool:
-        return bool(self.firebase_key_path and os.path.exists(self.firebase_key_path))
+        has_file = bool(self.firebase_key_path and os.path.exists(self.firebase_key_path))
+        has_json_env = bool(os.getenv("FIREBASE_KEY_JSON"))
+        is_cloud_run = bool(os.getenv("K_SERVICE"))
+        return has_file or has_json_env or is_cloud_run
 
 
 # Singleton instance
@@ -162,26 +168,40 @@ _firestore_client = None
 
 
 def get_firestore_client():
-    """Returns singleton Firebase Cloud Firestore client with dynamic key resolution."""
+    """Returns singleton Firebase Cloud Firestore client with dynamic key resolution (File, JSON Env, or ADC)."""
     global _firestore_client
     if _firestore_client is not None:
         return _firestore_client
 
+    import json
     import firebase_admin
     from firebase_admin import credentials, firestore
 
+    key_json_str = os.getenv("FIREBASE_KEY_JSON")
     key_path = settings.firebase_key_path or resolve_firebase_key_path()
-    if not key_path or not os.path.exists(key_path):
-        raise FileNotFoundError(
-            f"Firebase service account key not found at {key_path}. "
-            "Please ensure FIREBASE_KEY_PATH is set in .env or serviceAccountKey.json is placed in C:\\AI-Native-Agent\\key."
-        )
-
-    settings.firebase_key_path = key_path
 
     if not firebase_admin._apps:
-        cred = credentials.Certificate(key_path)
-        firebase_admin.initialize_app(cred)
+        if key_json_str and len(key_json_str.strip()) > 10:
+            # 1. Environment Variable JSON String (Cloud Run Secret Manager)
+            try:
+                cert_dict = json.loads(key_json_str)
+                cred = credentials.Certificate(cert_dict)
+                firebase_admin.initialize_app(cred)
+            except Exception as e:
+                raise ValueError(f"Failed to parse FIREBASE_KEY_JSON: {e}")
+        elif key_path and os.path.exists(key_path):
+            # 2. Key File path (Local development or Volume Mount)
+            settings.firebase_key_path = key_path
+            cred = credentials.Certificate(key_path)
+            firebase_admin.initialize_app(cred)
+        elif os.getenv("K_SERVICE") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+            # 3. Google Application Default Credentials (ADC / Cloud Run IAM Keyless)
+            firebase_admin.initialize_app()
+        else:
+            raise FileNotFoundError(
+                f"Firebase service account key not found at {key_path}. "
+                "Please ensure FIREBASE_KEY_PATH is set in .env or FIREBASE_KEY_JSON is provided."
+            )
 
     db_id = settings.firestore_database_id or resolve_firestore_database_id(key_path)
     if db_id and db_id != "(default)":
