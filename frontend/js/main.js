@@ -1293,11 +1293,190 @@ window.initLiveFacilities = function() {
   }
 };
 
+/**
+ * 주소 문자열을 간결하고 명료하게 정제 (상세 층/호수/빌딩명 제거, 도로명 + 법정동)
+ * 예: "경기도 하남시 감일백제로 177, JS스퀘어감일 4~5층 (감이동)" -> "경기 하남시 감일백제로 177 (감이동)"
+ */
+window.formatCompactAddress = function(rawAddr) {
+  if (!rawAddr || typeof rawAddr !== 'string') return '';
+  
+  // 1. (법정동) 또는 (행정동) 추출
+  let dongPart = '';
+  const dongMatch = rawAddr.match(/\(([가-힣0-9\s]+(?:동|읍|면|리|가))\)/);
+  if (dongMatch) {
+    dongPart = dongMatch[0];
+  }
+
+  // 2. 콤마 앞 기본 도로명 주소 추출
+  let base = rawAddr.split(',')[0].trim();
+  base = base.replace(/\s*\([^)]*\)/g, '').trim();
+
+  // 3. 복잡한 상세 빌딩/상가/층/호 명칭 제거
+  base = base.replace(/\s+\d+층.*$/i, '')
+             .replace(/\s+\d+호.*$/i, '')
+             .replace(/\s+지하\s*\d+.*$/i, '')
+             .replace(/\s+[가-힣A-Za-z0-9]+(?:스퀘어|빌딩|프라자|타워|센터|팰리스|상가|오피스텔|아파트|빌라).*$/i, '')
+             .trim();
+
+  // 4. 시도 명칭 자연스럽게 축약
+  base = base.replace(/^서울특별시\s+/, '서울 ')
+             .replace(/^경기도\s+/, '경기 ')
+             .replace(/^인천광역시\s+/, '인천 ')
+             .replace(/^부산광역시\s+/, '부산 ')
+             .replace(/^대구광역시\s+/, '대구 ')
+             .replace(/^대전광역시\s+/, '대전 ')
+             .replace(/^광주광역시\s+/, '광주 ')
+             .replace(/^울산광역시\s+/, '울산 ')
+             .replace(/^세종특별자치시\s+/, '세종 ')
+             .replace(/^강원특별자치도\s+/, '강원 ')
+             .replace(/^전북특별자치도\s+/, '전북 ')
+             .replace(/^제주특별자치도\s+/, '제주 ');
+
+  return dongPart ? `${base} ${dongPart}` : base;
+};
+
+/**
+ * 현재 시간(요일 및 시:분)에 기반한 실시간 운영/진료 상태 판별 엔진
+ * @param {string} hoursStr - 오늘 운영시간 문자열 (예: "09:00 ~ 23:00", "18:00 ~ 23:00")
+ * @param {string} facilityType - 'hospital' | 'pharmacy'
+ * @param {Date} [testDate] - 선택적 시간 오버라이드
+ */
+window.evaluateOperatingStatus = function(hoursStr, facilityType, testDate) {
+  const isHospital = facilityType === 'hospital';
+  const labelSuffix = isHospital ? '진료' : '영업';
+  
+  const now = testDate || new Date();
+  const dayOfWeek = now.getDay(); // 0: 일, 1: 월, 2: 화, 3: 수, 4: 목, 5: 금, 6: 토
+  const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
+  const todayPrefix = `${dayLabels[dayOfWeek]}요일`;
+
+  // 1. 시간 정보가 없거나 휴진/미운영인 경우
+  if (!hoursStr || typeof hoursStr !== 'string' || hoursStr.trim() === '' || 
+      hoursStr.includes('휴진') || hoursStr.includes('휴무') || hoursStr.includes('미운영')) {
+    return {
+      isOpen: false,
+      statusBadge: '오늘 휴진',
+      statusClass: 'status-closed',
+      closingTag: `${todayPrefix} 휴진`,
+      priority: 5,
+      rawHours: hoursStr || '휴진'
+    };
+  }
+
+  const str = hoursStr.trim();
+
+  // 2. 주말/공휴일 특화인데 평일인 경우
+  if (str.includes('주말') || str.includes('공휴일 특화')) {
+    const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+    if (!isWeekend) {
+      return {
+        isOpen: false,
+        statusBadge: '평일 미운영 (주말 특화)',
+        statusClass: 'status-closed',
+        closingTag: '주말/공휴일 특화',
+        priority: 5,
+        rawHours: str
+      };
+    }
+  }
+
+  // 3. 시간 범위 파싱 "HH:MM ~ HH:MM"
+  const match = str.match(/(\d{1,2}):(\d{2})\s*~\s*(\d{1,2}):(\d{2})/);
+  if (!match) {
+    if (str.includes('24시간') || str.includes('365')) {
+      return {
+        isOpen: true,
+        statusBadge: isHospital ? '진료중 · 접수 가능' : '영업중 · 24시간',
+        statusClass: 'status-open',
+        closingTag: `${todayPrefix} 24시간 운영`,
+        priority: 1,
+        rawHours: str
+      };
+    }
+    return {
+      isOpen: true,
+      statusBadge: isHospital ? '진료중 · 접수 가능' : '영업중',
+      statusClass: 'status-open',
+      closingTag: `${todayPrefix} ${str}`,
+      priority: 2,
+      rawHours: str
+    };
+  }
+
+  const startH = parseInt(match[1], 10);
+  const startM = parseInt(match[2], 10);
+  let endH = parseInt(match[3], 10);
+  const endM = parseInt(match[4], 10);
+
+  const startMinutes = startH * 60 + startM;
+  let endMinutes = endH * 60 + endM;
+
+  // 익일 새벽(예: 01:00) 또는 자정 24:00 처리
+  if (endMinutes <= startMinutes || endH === 24) {
+    endMinutes += 24 * 60;
+  }
+
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  let adjustedCurrent = currentMinutes;
+
+  // 자정 이후 새벽 00~06시이고 전날 밤부터 이어지는 야간 운영인 경우
+  if (endMinutes > 24 * 60 && currentMinutes < 6 * 60) {
+    adjustedCurrent += 24 * 60;
+  }
+
+  const startStr = `${String(startH).padStart(2, '0')}:${String(startM).padStart(2, '0')}`;
+  const endStr = `${String(match[3]).padStart(2, '0')}:${String(endM).padStart(2, '0')}`;
+  const displayHoursTag = `${todayPrefix} ${startStr} ~ ${endStr}`;
+
+  // 4. 상태 및 우선순위 판별
+  if (adjustedCurrent >= startMinutes && adjustedCurrent < endMinutes) {
+    const diff = endMinutes - adjustedCurrent;
+    if (diff <= 30) {
+      return {
+        isOpen: true,
+        statusBadge: isHospital ? '곧 마감 · 접수 마감 주의' : '곧 마감 · 조제 마감 주의',
+        statusClass: 'status-warning',
+        closingTag: displayHoursTag,
+        priority: 2,
+        rawHours: str
+      };
+    }
+    return {
+      isOpen: true,
+      statusBadge: isHospital ? '진료중 · 접수 가능' : '영업중 · 조제 가능',
+      statusClass: 'status-open',
+      closingTag: displayHoursTag,
+      priority: 1,
+      rawHours: str
+    };
+  } else if (adjustedCurrent < startMinutes) {
+    return {
+      isOpen: false,
+      statusBadge: `${startStr} ${labelSuffix} 시작`,
+      statusClass: 'status-standby',
+      closingTag: displayHoursTag,
+      priority: 3,
+      rawHours: str
+    };
+  } else {
+    return {
+      isOpen: false,
+      statusBadge: isHospital ? '진료 마감' : '영업 종료',
+      statusClass: 'status-closed',
+      closingTag: displayHoursTag,
+      priority: 4,
+      rawHours: str
+    };
+  }
+};
+
 window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
   const lat = userLoc.lat;
   const lon = userLoc.lon;
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0: 일, 1: 월, ..., 6: 토
 
-  // 1. 병원(156개 전수) 거리 계산 및 오름차순 정렬
+  // 1. 병원(156개 전수) 오늘 운영시간 선택, 상태 판별, 간결한 주소 정제
   const hospitals = hospList.map(h => {
     const hLat = parseFloat(h.위도) || lat;
     const hLon = parseFloat(h.경도) || lon;
@@ -1308,9 +1487,19 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
     const hWalk = Math.max(3, Math.round(dist * 14)) + '분';
     const hCar = Math.max(2, Math.round(dist * 2.3)) + '분';
 
-    const hClose = h.평일진료
-      ? (h.평일진료.includes('~') ? `평일 ${h.평일진료}` : h.평일진료)
-      : (h.토요진료 ? `토요 ${h.토요진료}` : '소아 야간·휴일 진료');
+    // 오늘 요일에 맞는 진료시간 텍스트 선택
+    let todayHoursStr = '';
+    if (dayOfWeek === 6) {
+      todayHoursStr = h.토요진료 || h.평일진료 || '';
+    } else if (dayOfWeek === 0) {
+      todayHoursStr = h.일요진료 || h.공휴일진료 || '';
+    } else {
+      todayHoursStr = h.평일진료 || '';
+    }
+
+    const statusObj = window.evaluateOperatingStatus(todayHoursStr, 'hospital', now);
+    const compactAddr = window.formatCompactAddress(h.주소);
+    const cleanDesc = `소아 야간·휴일 진료 · ${compactAddr}`;
 
     return {
       type: 'hospital',
@@ -1318,10 +1507,14 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
       name: h.병원명 || '달빛어린이병원',
       badge: '🌙 달빛어린이병원',
       subBadge: h.종별 || '소아과',
-      status: '진료중 · 접수 가능',
-      desc: `${h.종별 || '의원'} · ${h.진료안내 || '소아 야간·휴일 진료 지정기관'} · ${h.주소 || ''}`,
+      status: statusObj.statusBadge,
+      statusClass: statusObj.statusClass,
+      isOpen: statusObj.isOpen,
+      priority: statusObj.priority,
+      desc: cleanDesc,
       phone: h.대표전화 || '119',
       address: h.주소 || '',
+      compactAddress: compactAddr,
       lat: hLat,
       lon: hLon,
       hours: {
@@ -1335,13 +1528,12 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
       dist: hDist,
       walkTime: hWalk,
       carTime: hCar,
-      closing: hClose,
+      closing: statusObj.closingTag,
       raw: h
     };
   });
-  hospitals.sort((a, b) => a.distKm - b.distKm);
 
-  // 2. 약국(2,028개 전수) 거리 계산 및 오름차순 정렬
+  // 2. 약국(2,028개 전수) 오늘 운영시간 선택, 상태 판별, 간결한 주소 정제
   const pharmacies = pharmList.map(p => {
     const pLat = parseFloat(p.위도) || lat;
     const pLon = parseFloat(p.경도) || lon;
@@ -1352,9 +1544,19 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
     const pWalk = Math.max(3, Math.round(dist * 14)) + '분';
     const pCar = Math.max(2, Math.round(dist * 2.3)) + '분';
 
-    const pClose = p.평일운영
-      ? (p.평일운영.includes('~') ? `평일 ${p.평일운영}` : p.평일운영)
-      : (p.운영구분 || '심야 연장 운영');
+    // 오늘 요일에 맞는 약국 운영시간 선택
+    let todayPharmHoursStr = '';
+    if (dayOfWeek === 6) {
+      todayPharmHoursStr = p.토요운영 || p.평일운영 || '';
+    } else if (dayOfWeek === 0) {
+      todayPharmHoursStr = p.일요운영 || p.공휴일운영 || '';
+    } else {
+      todayPharmHoursStr = p.평일운영 || '';
+    }
+
+    const statusObj = window.evaluateOperatingStatus(todayPharmHoursStr, 'pharmacy', now);
+    const compactAddr = window.formatCompactAddress(p.주소);
+    const cleanDesc = `${p.소아시럽제상비 ? '소아 시럽제 조제 · ' : '심야 조제 · '}${compactAddr}`;
 
     return {
       type: 'pharmacy',
@@ -1362,10 +1564,14 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
       name: p.약국명 || '심야약국',
       badge: '💊 심야약국',
       subBadge: p.운영구분 || '심야 연장',
-      status: p.소아시럽제상비 ? '🟢 시럽제 상비' : (p.조제안전등급 || '🟢 심야 조제'),
-      desc: `${p.소아시럽제상비 ? '소아 시럽제 상비 · ' : ''}${p.운영구분 || '심야약국'} · ${p.주소 || ''}`,
+      status: statusObj.statusBadge,
+      statusClass: statusObj.statusClass,
+      isOpen: statusObj.isOpen,
+      priority: statusObj.priority,
+      desc: cleanDesc,
       phone: p.대표전화 || '02-120',
       address: p.주소 || '',
+      compactAddress: compactAddr,
       lat: pLat,
       lon: pLon,
       hours: {
@@ -1379,75 +1585,72 @@ window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
       dist: pDist,
       walkTime: pWalk,
       carTime: pCar,
-      closing: pClose,
+      closing: statusObj.closingTag,
       raw: p
     };
   });
-  pharmacies.sort((a, b) => a.distKm - b.distKm);
 
-  // 3. 반경 15km 이내 시설 필터링 (사용자 요구사항: 반경 15km 이내 시설들만 표시)
+  // 3. 반경 15km 이내 시설 필터링
   const MAX_RADIUS_KM = 15.0;
   const filteredHospitals = hospitals.filter(h => h.distKm <= MAX_RADIUS_KM);
   const filteredPharmacies = pharmacies.filter(p => p.distKm <= MAX_RADIUS_KM);
 
-  // 4. 전체(all) 탭: 병원 최우선 1:1 교차(Interleaving) 정렬 (병원1 ➔ 약국1 ➔ 병원2 ➔ 약국2 ...)
+  // 4. 정렬 함수: 현재 운영중(isOpen) 최우선 -> 세부 우선순위 -> 최단거리 순
+  const sortOperatingFirst = (list) => {
+    return list.slice().sort((a, b) => {
+      // 1순위: 현재 이용 가능(진료중/영업중) 시설 최우선
+      if (a.isOpen !== b.isOpen) {
+        return a.isOpen ? -1 : 1;
+      }
+      // 2순위: 세부 우선순위 (진료중(1) -> 곧마감(2) -> 오픈대기(3) -> 마감(4) -> 휴진(5))
+      if (a.priority !== b.priority) {
+        return a.priority - b.priority;
+      }
+      // 3순위: 거리순
+      return a.distKm - b.distKm;
+    });
+  };
+
+  const sortedHospitals = sortOperatingFirst(filteredHospitals);
+  const sortedPharmacies = sortOperatingFirst(filteredPharmacies);
+
+  // 5. 전체(all) 탭: 현재 운영중인 시설 우선 인터리빙 후 마감 시설 인터리빙
+  const openHosp = sortedHospitals.filter(h => h.isOpen);
+  const closedHosp = sortedHospitals.filter(h => !h.isOpen);
+  const openPharm = sortedPharmacies.filter(p => p.isOpen);
+  const closedPharm = sortedPharmacies.filter(p => !p.isOpen);
+
   const interleavedList = [];
-  const maxLen = Math.max(filteredHospitals.length, filteredPharmacies.length);
-  for (let i = 0; i < maxLen; i++) {
-    if (i < filteredHospitals.length) {
-      interleavedList.push(filteredHospitals[i]);
-    }
-    if (i < filteredPharmacies.length) {
-      interleavedList.push(filteredPharmacies[i]);
-    }
+  // 1) 운영중 시설 1:1 교차
+  const maxOpen = Math.max(openHosp.length, openPharm.length);
+  for (let i = 0; i < maxOpen; i++) {
+    if (i < openHosp.length) interleavedList.push(openHosp[i]);
+    if (i < openPharm.length) interleavedList.push(openPharm[i]);
   }
+  // 2) 마감/휴진 시설 1:1 교차 (후순위)
+  const maxClosed = Math.max(closedHosp.length, closedPharm.length);
+  for (let i = 0; i < maxClosed; i++) {
+    if (i < closedHosp.length) interleavedList.push(closedHosp[i]);
+    if (i < closedPharm.length) interleavedList.push(closedPharm[i]);
+  }
+
   const allList = interleavedList;
 
-  // 5. 전역 마스터 객체 등록 (15km 필터링 적용 및 원본 보관)
+  // 6. 전역 마스터 객체 등록
   window.__LIVE_FACILITIES_MASTER__ = {
     all: allList,
-    hospital: filteredHospitals,
-    pharmacy: filteredPharmacies,
+    hospital: sortedHospitals,
+    pharmacy: sortedPharmacies,
     userDong: userLoc.dong || '내 위치',
     maxRadiusKm: MAX_RADIUS_KM,
     rawHospitals: hospitals,
     rawPharmacies: pharmacies
   };
 
-  // 6. 상단 뱃지 카운트 및 탭 카운트 실데이터 동기화 (반경 15km 기준)
+  // 7. 상단 뱃지 카운트 및 탭 카운트 실데이터 동기화
   const totalCount = allList.length;
-  const hospCount = filteredHospitals.length;
-  const pharmCount = filteredPharmacies.length;
-
-window.updateFacilityCountBadge = function(filter) {
-  const countBadge = document.getElementById('live-facilities-count');
-  if (!countBadge || !window.__LIVE_FACILITIES_MASTER__) return;
-
-  const master = window.__LIVE_FACILITIES_MASTER__;
-  const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
-  const userDong = master.userDong || '내 위치';
-
-  const totalCount = (master.all || []).length;
-  const hospCount = (master.hospital || []).length;
-  const pharmCount = (master.pharmacy || []).length;
-
-  let targetCount = totalCount;
-  let emptyNoun = '의료시설';
-
-  if (currentFilter === 'hospital') {
-    targetCount = hospCount;
-    emptyNoun = '달빛어린이병원';
-  } else if (currentFilter === 'pharmacy') {
-    targetCount = pharmCount;
-    emptyNoun = '심야약국';
-  }
-
-  if (targetCount > 0) {
-    countBadge.textContent = `${userDong} 반경 15km ${targetCount.toLocaleString()}곳 운영중`;
-  } else {
-    countBadge.textContent = `${userDong} 반경 15km 내 운영 ${emptyNoun} 없음`;
-  }
-};
+  const hospCount = sortedHospitals.length;
+  const pharmCount = sortedPharmacies.length;
 
   const countAll = document.getElementById('count-all');
   if (countAll) countAll.textContent = totalCount.toLocaleString();
@@ -1458,11 +1661,30 @@ window.updateFacilityCountBadge = function(filter) {
   const countPharm = document.getElementById('count-pharmacy');
   if (countPharm) countPharm.textContent = pharmCount.toLocaleString();
 
-  // 상단 뱃지 카운트 실데이터 동기화 (현재 선택된 탭 필터 수에 맞춤)
   window.updateFacilityCountBadge(window.__CURRENT_FACILITY_FILTER__ || 'all');
 
-  // 7. 현재 필터에 맞춰 즉시 렌더링
+  // 8. 현재 필터에 맞춰 즉시 렌더링
   window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
+};
+
+window.updateFacilityCountBadge = function(filter) {
+  const countBadge = document.getElementById('live-facilities-count');
+  if (!countBadge || !window.__LIVE_FACILITIES_MASTER__) return;
+
+  const master = window.__LIVE_FACILITIES_MASTER__;
+  const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
+  const userDong = master.userDong || '내 위치';
+
+  const currentList = master[currentFilter] || master.all || [];
+  const targetCount = currentList.length;
+  const openCount = currentList.filter(f => f.isOpen).length;
+  const emptyNoun = currentFilter === 'hospital' ? '달빛어린이병원' : (currentFilter === 'pharmacy' ? '심야약국' : '의료시설');
+
+  if (targetCount > 0) {
+    countBadge.textContent = `${userDong} 반경 15km ${targetCount.toLocaleString()}곳 (진료·영업중 ${openCount.toLocaleString()}곳)`;
+  } else {
+    countBadge.textContent = `${userDong} 반경 15km 내 운영 ${emptyNoun} 없음`;
+  }
 };
 
 window.renderLiveFacilities = function(filter) {
@@ -1473,7 +1695,6 @@ window.renderLiveFacilities = function(filter) {
   const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
   const displayList = master[currentFilter] || master.all || [];
 
-  // 목록이 비어있는 경우 (반경 15km 이내 시설이 없음)
   if (displayList.length === 0) {
     const filterLabel = currentFilter === 'hospital' ? '달빛어린이병원' : (currentFilter === 'pharmacy' ? '심야약국' : '야간 의료시설');
     stack.innerHTML = `
@@ -1490,10 +1711,8 @@ window.renderLiveFacilities = function(filter) {
     return;
   }
 
-  // 시설 목록 전수 렌더링 (내부 스크롤 뷰포트를 통해 부드럽게 전체 탐색 가능)
   const sliceList = displayList;
 
-  // Render cards HTML
   let cardsHTML = '';
   sliceList.forEach((facility) => {
     const isHospital = facility.type === 'hospital';
@@ -1506,11 +1725,14 @@ window.renderLiveFacilities = function(filter) {
       ? `<span class="tag-badge distance-sub">${facility.subBadge}</span>`
       : '';
 
-    const statusBadgeHTML = `<span class="tag-badge status-open"><span class="status-indicator-dot" aria-hidden="true"></span>${facility.status}</span>`;
+    // 실시간 운영 상태 클래스 및 텍스트 반영
+    const statusClass = facility.statusClass || (facility.isOpen ? 'status-open' : 'status-closed');
+    const statusBadgeHTML = `<span class="tag-badge ${statusClass}"><span class="status-indicator-dot" aria-hidden="true"></span>${facility.status}</span>`;
     const distanceText = `내 위치 ${facility.dist}km (도보 ${facility.walkTime} / 차 ${facility.carTime})`;
+    const closedCardClass = facility.isOpen ? '' : 'is-closed';
 
     cardsHTML += `
-      <article class="facility-card live-card" data-type="${facility.type}" style="cursor: pointer;" onclick="window.selectLiveFacilityCard('${escapeSearchHtml(facility.name)}', '${facility.type}')" title="클릭하여 상세 정보 및 실시간 접수 보기">
+      <article class="facility-card live-card ${closedCardClass}" data-type="${facility.type}" style="cursor: pointer;" onclick="window.selectLiveFacilityCard('${escapeSearchHtml(facility.name)}', '${facility.type}')" title="클릭하여 상세 정보 및 실시간 접수 보기">
         <div class="card-top">
           <div class="facility-main">
             <div class="facility-icon-wrap ${iconClass}" aria-hidden="true">
@@ -1544,7 +1766,6 @@ window.renderLiveFacilities = function(filter) {
 
   stack.innerHTML = cardsHTML;
 
-  // 더보기 버튼이 남아있는 경우 숨김 처리
   const moreBtn = document.querySelector('.scroll-more-btn');
   if (moreBtn) {
     moreBtn.style.display = 'none';

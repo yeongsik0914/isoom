@@ -15,8 +15,7 @@
     rel="stylesheet" />
 
   <!-- Material Symbols Outlined -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 
   <!-- Mobile App / PWA Standalone Meta Tags -->
@@ -77,7 +76,8 @@
       gap: 10px;
     }
 
-    .result-back-btn, .result-home-btn {
+    .result-back-btn,
+    .result-home-btn {
       width: 38px;
       height: 38px;
       display: flex;
@@ -89,7 +89,8 @@
       transition: background-color 0.15s ease;
     }
 
-    .result-back-btn:active, .result-home-btn:active {
+    .result-back-btn:active,
+    .result-home-btn:active {
       background-color: #f1f5f9;
     }
 
@@ -187,18 +188,22 @@
       border-left-color: #ef4444;
       background: #fef2f2;
     }
+
     .triage-desc-text.ktas-tier-2 {
       border-left-color: #f97316;
       background: #fff7ed;
     }
+
     .triage-desc-text.ktas-tier-3 {
       border-left-color: #f59e0b;
       background: #fffbeb;
     }
+
     .triage-desc-text.ktas-tier-4 {
       border-left-color: #10b981;
       background: #ecfdf5;
     }
+
     .triage-desc-text.ktas-tier-5 {
       border-left-color: #3b82f6;
       background: #eff6ff;
@@ -216,26 +221,31 @@
       letter-spacing: -0.2px;
       margin-bottom: 6px;
     }
+
     .ktas-grade-badge.ktas-tier-1 {
       background: #fee2e2;
       color: #b91c1c;
       border: 1px solid #fca5a5;
     }
+
     .ktas-grade-badge.ktas-tier-2 {
       background: #ffedd5;
       color: #c2410c;
       border: 1px solid #fdba74;
     }
+
     .ktas-grade-badge.ktas-tier-3 {
       background: #fef3c7;
       color: #b45309;
       border: 1px solid #fcd34d;
     }
+
     .ktas-grade-badge.ktas-tier-4 {
       background: #d1fae5;
       color: #065f46;
       border: 1px solid #a7f3d0;
     }
+
     .ktas-grade-badge.ktas-tier-5 {
       background: #dbeafe;
       color: #1d4ed8;
@@ -667,15 +677,18 @@
     .facility-scroll-list::-webkit-scrollbar {
       width: 6px;
     }
+
     .facility-scroll-list::-webkit-scrollbar-track {
       background: #f1f5f9;
       border-radius: 9999px;
     }
+
     .facility-scroll-list::-webkit-scrollbar-thumb {
       background: #cbd5e1;
       border-radius: 9999px;
       transition: background-color 0.2s ease;
     }
+
     .facility-scroll-list::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
@@ -717,7 +730,7 @@
     }
 
     .btn-bottom-home {
-      flex: 1.5;
+      flex: 1;
       height: 48px;
       background: #0066ff;
       color: #ffffff;
@@ -796,23 +809,30 @@
         </div>
 
         <!-- 🚨 KTAS 1, 2단계 전용 초응급 안내 배너 (119 즉시 전화 & 가이드 링크) -->
-        <div id="ktas-emergency-call-banner" style="display: none; margin-top: 12px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(220, 38, 38, 0.05) 100%); border: 1.5px solid #ef4444; border-radius: 14px; padding: 12px 14px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+        <div id="ktas-emergency-call-banner"
+          style="display: none; margin-top: 12px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(220, 38, 38, 0.05) 100%); border: 1.5px solid #ef4444; border-radius: 14px; padding: 12px 14px;">
+          <div
+            style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
             <div style="display: flex; align-items: center; gap: 6px;">
               <span class="material-symbols-outlined" style="color: #ef4444; font-size: 20px;">emergency</span>
               <strong style="color: #ef4444; font-size: 13.5px; font-weight: 800;">초응급 이송 권고</strong>
             </div>
-            <span style="font-size: 11px; color: #f87171; font-weight: 700; background: rgba(239, 68, 68, 0.15); padding: 2px 8px; border-radius: 9999px;">골든타임 확보 필요</span>
+            <span
+              style="font-size: 11px; color: #f87171; font-weight: 700; background: rgba(239, 68, 68, 0.15); padding: 2px 8px; border-radius: 9999px;">골든타임
+              확보 필요</span>
           </div>
-          <p id="ktas-emergency-call-msg" style="font-size: 12.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 10px;">
+          <p id="ktas-emergency-call-msg"
+            style="font-size: 12.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 10px;">
             생명 또는 신체 기능에 중대한 위험이 있는 긴급 상황입니다. 즉시 119에 신고하거나 인근 대학병원 소아응급센터로 이송하십시오.
           </p>
           <div style="display: flex; gap: 8px;">
-            <a href="tel:119" style="flex: 1; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #ef4444; color: #ffffff; border-radius: 10px; font-weight: 800; font-size: 13.5px; text-decoration: none; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);">
+            <a href="tel:119"
+              style="flex: 1; height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #ef4444; color: #ffffff; border-radius: 10px; font-weight: 800; font-size: 13.5px; text-decoration: none; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);">
               <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
               <span>119 즉시 전화</span>
             </a>
-            <a id="btn-view-emergency-guide" href="emergency_alert.html" style="height: 38px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #cbd5e1; border-radius: 10px; font-weight: 600; font-size: 12px; text-decoration: none;">
+            <a id="btn-view-emergency-guide" href="emergency_alert.html"
+              style="height: 38px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 4px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); color: #cbd5e1; border-radius: 10px; font-weight: 600; font-size: 12px; text-decoration: none;">
               <span>응급처치 가이드</span>
               <span class="material-symbols-outlined" style="font-size: 14px;">arrow_forward_ios</span>
             </a>
@@ -822,11 +842,13 @@
 
       <!-- 2. Track Tab Switcher -->
       <nav class="track-tabs-container" role="tablist">
-        <button type="button" class="track-tab-btn active" id="tab-btn-moonlight" role="tab" aria-selected="true" onclick="switchTrackTab('moonlight')">
+        <button type="button" class="track-tab-btn active" id="tab-btn-moonlight" role="tab" aria-selected="true"
+          onclick="switchTrackTab('moonlight')">
           <span class="material-symbols-outlined" style="font-size: 18px;">bedtime</span>
           <span>달빛병원·약국 (4)</span>
         </button>
-        <button type="button" class="track-tab-btn" id="tab-btn-emergency" role="tab" aria-selected="false" onclick="switchTrackTab('emergency')">
+        <button type="button" class="track-tab-btn" id="tab-btn-emergency" role="tab" aria-selected="false"
+          onclick="switchTrackTab('emergency')">
           <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
           <span>소아 응급실 병상 (4)</span>
         </button>
@@ -840,11 +862,13 @@
           <!-- Card 1 (TOP 1) -->
           <article class="pairing-card" id="card-moonlight-0">
             <span class="pairing-card-rank">추천 1순위</span>
-            <div class="pairing-hospital-sec" onclick="selectHospitalCard(0)" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+            <div class="pairing-hospital-sec" onclick="selectHospitalCard(0)" style="cursor: pointer;"
+              title="병원 상세 및 실시간 접수 보기">
               <div class="facility-title-row">
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <h2 class="facility-name">송파어린이병원</h2>
-                  <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                  <span class="material-symbols-outlined"
+                    style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
                 </div>
                 <span class="facility-distance">1.8 km (차 6분)</span>
               </div>
@@ -890,11 +914,13 @@
 
           <!-- Card 2 -->
           <article class="pairing-card" id="card-moonlight-1">
-            <div class="pairing-hospital-sec" onclick="selectHospitalCard(1)" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+            <div class="pairing-hospital-sec" onclick="selectHospitalCard(1)" style="cursor: pointer;"
+              title="병원 상세 및 실시간 접수 보기">
               <div class="facility-title-row">
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <h2 class="facility-name">강동소아청소년과의원</h2>
-                  <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                  <span class="material-symbols-outlined"
+                    style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
                 </div>
                 <span class="facility-distance">3.2 km (차 10분)</span>
               </div>
@@ -936,11 +962,13 @@
 
           <!-- Card 3 -->
           <article class="pairing-card" id="card-moonlight-2">
-            <div class="pairing-hospital-sec" onclick="selectHospitalCard(2)" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+            <div class="pairing-hospital-sec" onclick="selectHospitalCard(2)" style="cursor: pointer;"
+              title="병원 상세 및 실시간 접수 보기">
               <div class="facility-title-row">
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <h2 class="facility-name">잠실아이사랑소아과</h2>
-                  <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                  <span class="material-symbols-outlined"
+                    style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
                 </div>
                 <span class="facility-distance">4.5 km (차 14분)</span>
               </div>
@@ -980,11 +1008,13 @@
 
           <!-- Card 4 -->
           <article class="pairing-card" id="card-moonlight-3">
-            <div class="pairing-hospital-sec" onclick="selectHospitalCard(3)" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+            <div class="pairing-hospital-sec" onclick="selectHospitalCard(3)" style="cursor: pointer;"
+              title="병원 상세 및 실시간 접수 보기">
               <div class="facility-title-row">
                 <div style="display: flex; align-items: center; gap: 4px;">
                   <h2 class="facility-name">위례달빛어린이병원</h2>
-                  <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                  <span class="material-symbols-outlined"
+                    style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
                 </div>
                 <span class="facility-distance">5.8 km (차 18분)</span>
               </div>
@@ -1030,12 +1060,14 @@
       <section class="facility-tab-pane hidden" id="pane-emergency">
 
         <!-- Real-time Status and Refresh Bar -->
-        <div class="er-header-status-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:8px 12px; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0;">
+        <div class="er-header-status-bar"
+          style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:8px 12px; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0;">
           <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#475569; font-weight:600;">
             <span class="material-symbols-outlined" style="font-size:16px; color:#0284c7;">cloud_sync</span>
             <span id="er-freshness-text">5분 주기 E-Gen·Firebase 실시간 연동</span>
           </div>
-          <button type="button" id="btn-refresh-er-beds" onclick="refreshLiveEmergencyBeds(true)" style="display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; color:#0066ff; background:transparent; border:none; cursor:pointer; padding:2px 6px;">
+          <button type="button" id="btn-refresh-er-beds" onclick="refreshLiveEmergencyBeds(true)"
+            style="display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; color:#0066ff; background:transparent; border:none; cursor:pointer; padding:2px 6px;">
             <span class="material-symbols-outlined" style="font-size:15px;" id="er-refresh-icon">refresh</span>
             <span>새로고침</span>
           </button>
@@ -1046,14 +1078,21 @@
           <article class="emergency-room-card" id="er-card-0">
             <div class="facility-title-row">
               <div>
-                <span class="pediatric-specialist-badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd; margin-bottom:4px; display:inline-block;">권역 소아전문응급센터</span>
-                <h2 class="facility-name" style="font-size:16px; font-weight:700; color:#0f172a; margin-top:2px;">서울아산병원</h2>
+                <span class="pediatric-specialist-badge"
+                  style="background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd; margin-bottom:4px; display:inline-block;">권역
+                  소아전문응급센터</span>
+                <h2 class="facility-name" style="font-size:16px; font-weight:700; color:#0f172a; margin-top:2px;">서울아산병원
+                </h2>
               </div>
-              <span class="facility-distance" style="font-size:13px; font-weight:600; color:#0066ff;">1.6 km (차 5분)</span>
+              <span class="facility-distance" style="font-size:13px; font-weight:600; color:#0066ff;">1.6 km (차
+                5분)</span>
             </div>
-            <div class="bed-status-indicator" style="display:flex; justify-content:space-between; align-items:center; margin:8px 0;">
+            <div class="bed-status-indicator"
+              style="display:flex; justify-content:space-between; align-items:center; margin:8px 0;">
               <span style="font-size:13px; font-weight:600; color:#334155;">실시간 소아 일반병상 (hv28)</span>
-              <span class="bed-number-highlight success" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:700; padding:3px 8px; border-radius:8px;">🟢 2석 여유</span>
+              <span class="bed-number-highlight success"
+                style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:700; padding:3px 8px; border-radius:8px;">🟢
+                2석 여유</span>
             </div>
             <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
               <span class="pediatric-specialist-badge" style="font-size:11.5px;">
@@ -1066,11 +1105,13 @@
               </span>
             </div>
             <div class="card-actions-row" style="padding:10px 0 0 0; border-top:none; margin-top:6px;">
-              <a href="tel:0230103114" class="btn-call-action" style="color:#ef4444; border-color:#fca5a5; background:#fee2e2;">
+              <a href="tel:0230103114" class="btn-call-action"
+                style="color:#ef4444; border-color:#fca5a5; background:#fee2e2;">
                 <span class="material-symbols-outlined" style="font-size:18px;">emergency</span>
                 <span>응급실 직통</span>
               </a>
-              <a href="https://map.kakao.com/link/to/서울아산병원,37.52656,127.10823" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+              <a href="https://map.kakao.com/link/to/서울아산병원,37.52656,127.10823" target="_blank"
+                rel="noopener noreferrer" class="btn-map-action">
                 <span class="material-symbols-outlined" style="font-size:18px;">navigation</span>
                 <span>길안내</span>
               </a>
@@ -1080,14 +1121,21 @@
           <article class="emergency-room-card" id="er-card-1">
             <div class="facility-title-row">
               <div>
-                <span class="pediatric-specialist-badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd; margin-bottom:4px; display:inline-block;">권역 소아전문응급센터</span>
-                <h2 class="facility-name" style="font-size:16px; font-weight:700; color:#0f172a; margin-top:2px;">삼성서울병원</h2>
+                <span class="pediatric-specialist-badge"
+                  style="background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd; margin-bottom:4px; display:inline-block;">권역
+                  소아전문응급센터</span>
+                <h2 class="facility-name" style="font-size:16px; font-weight:700; color:#0f172a; margin-top:2px;">삼성서울병원
+                </h2>
               </div>
-              <span class="facility-distance" style="font-size:13px; font-weight:600; color:#0066ff;">3.0 km (차 8분)</span>
+              <span class="facility-distance" style="font-size:13px; font-weight:600; color:#0066ff;">3.0 km (차
+                8분)</span>
             </div>
-            <div class="bed-status-indicator" style="display:flex; justify-content:space-between; align-items:center; margin:8px 0;">
+            <div class="bed-status-indicator"
+              style="display:flex; justify-content:space-between; align-items:center; margin:8px 0;">
               <span style="font-size:13px; font-weight:600; color:#334155;">실시간 소아 일반병상 (hv28)</span>
-              <span class="bed-number-highlight success" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:700; padding:3px 8px; border-radius:8px;">🟢 3석 여유</span>
+              <span class="bed-number-highlight success"
+                style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:700; padding:3px 8px; border-radius:8px;">🟢
+                3석 여유</span>
             </div>
             <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
               <span class="pediatric-specialist-badge" style="font-size:11.5px;">
@@ -1100,11 +1148,13 @@
               </span>
             </div>
             <div class="card-actions-row" style="padding:10px 0 0 0; border-top:none; margin-top:6px;">
-              <a href="tel:0234102114" class="btn-call-action" style="color:#ef4444; border-color:#fca5a5; background:#fee2e2;">
+              <a href="tel:0234102114" class="btn-call-action"
+                style="color:#ef4444; border-color:#fca5a5; background:#fee2e2;">
                 <span class="material-symbols-outlined" style="font-size:18px;">emergency</span>
                 <span>응급실 직통</span>
               </a>
-              <a href="https://map.kakao.com/link/to/삼성서울병원,37.48851,127.08668" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+              <a href="https://map.kakao.com/link/to/삼성서울병원,37.48851,127.08668" target="_blank"
+                rel="noopener noreferrer" class="btn-map-action">
                 <span class="material-symbols-outlined" style="font-size:18px;">navigation</span>
                 <span>길안내</span>
               </a>
@@ -1137,23 +1187,28 @@
         </div>
         <div class="checklist-items">
           <div class="checklist-item" onclick="toggleCheckItem(this)">
-            <span class="material-symbols-outlined" style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
+            <span class="material-symbols-outlined"
+              style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
             <span>부모(보호자) 실물 신분증 (주민등록증 / 운전면허증)</span>
           </div>
           <div class="checklist-item" onclick="toggleCheckItem(this)">
-            <span class="material-symbols-outlined" style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
+            <span class="material-symbols-outlined"
+              style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
             <span>주민등록등본 또는 가족관계증명서 (아이 관계 증빙)</span>
           </div>
           <div class="checklist-item" onclick="toggleCheckItem(this)">
-            <span class="material-symbols-outlined" style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
+            <span class="material-symbols-outlined"
+              style="font-size: 20px; color: #94a3b8;">check_box_outline_blank</span>
             <span>아기수첩 또는 해열제 교차복용 기록 메모</span>
           </div>
         </div>
       </section>
 
       <!-- 7. Legal Disclaimer Footer -->
-      <footer style="margin-top: 10px; padding: 12px; background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0; font-size: 11px; line-height: 1.6; color: #64748b;">
-        <div style="font-weight: 700; color: #475569; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
+      <footer
+        style="margin-top: 10px; padding: 12px; background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0; font-size: 11px; line-height: 1.6; color: #64748b;">
+        <div
+          style="font-weight: 700; color: #475569; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
           <span class="material-symbols-outlined" style="font-size: 14px;">verified_user</span>
           대한민국 의료법 제27조 준수 안심 서비스
         </div>
@@ -1166,11 +1221,11 @@
     <div class="result-bottom-bar">
       <a href="input.html" class="btn-retry-input">
         <span class="material-symbols-outlined" style="font-size: 18px;">refresh</span>
-        <span>증상 다시 입력</span>
+        <span>증상 재입력</span>
       </a>
       <a href="index.html" class="btn-bottom-home">
         <span class="material-symbols-outlined" style="font-size: 18px;">home</span>
-        <span>홈으로 돌아가기</span>
+        <span>홈</span>
       </a>
     </div>
 
@@ -1586,10 +1641,10 @@
           const R = 6371; // Earth radius km
           const dLat = (lat2 - lat1) * Math.PI / 180;
           const dLon = (lon2 - lon1) * Math.PI / 180;
-          const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                    Math.sin(dLon/2) * Math.sin(dLon/2);
-          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+          const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
           return R * c;
         }
 
@@ -1837,7 +1892,7 @@
                 window._activeHospitals = sorted;
                 renderCards(sorted);
               }
-            } catch (ignore) {}
+            } catch (ignore) { }
           }
         }
 
@@ -1918,8 +1973,8 @@
         const dLat = (lat2 - lat1) * Math.PI / 180;
         const dLon = (lon2 - lon1) * Math.PI / 180;
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return Math.round(R * c * 100) / 100;
       }
@@ -2208,7 +2263,7 @@
                 lon = String(bObj.user_lon);
               }
             }
-          } catch (ignore) {}
+          } catch (ignore) { }
         }
 
         lat = lat || '37.5133';
@@ -2293,11 +2348,11 @@
       try {
         const bStr = sessionStorage.getItem('backend_result');
         if (bStr) initialBackend = JSON.parse(bStr);
-      } catch (_) {}
+      } catch (_) { }
       try {
         const tStr = sessionStorage.getItem('triage_result');
         if (tStr) initialTriage = JSON.parse(tStr);
-      } catch (_) {}
+      } catch (_) { }
 
       // 1차 렌더링 즉각 반영
       renderResultData(initialBackend, initialTriage);
@@ -2317,16 +2372,16 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(chatPayload)
           })
-          .then(res => res.json())
-          .then(data => {
-            if (data && data.ktas_level) {
-              sessionStorage.setItem('backend_result', JSON.stringify(data));
-              renderResultData(data, initialTriage);
-            }
-          })
-          .catch(err => {
-            console.warn('Real-time fallback chat fetch failed:', err);
-          });
+            .then(res => res.json())
+            .then(data => {
+              if (data && data.ktas_level) {
+                sessionStorage.setItem('backend_result', JSON.stringify(data));
+                renderResultData(data, initialTriage);
+              }
+            })
+            .catch(err => {
+              console.warn('Real-time fallback chat fetch failed:', err);
+            });
         }
       }
     } catch (e) {
@@ -2343,7 +2398,7 @@
       const returnUrl = (isFile || isHtml) ? 'result.html' : (window.location.pathname + window.location.search || '/result');
       try {
         sessionStorage.setItem('aisum_last_visited_page', returnUrl);
-      } catch (e) {}
+      } catch (e) { }
       const targetPage = (isHtml || isFile) ? 'hospital_detail.html' : '/hospital_detail';
       const fromParam = encodeURIComponent(returnUrl);
       window.location.href = `${targetPage}?name=${encodeURIComponent(selected.name)}&from=${fromParam}`;
@@ -2360,7 +2415,7 @@
       const returnUrl = (isFile || isHtml) ? 'result.html' : (window.location.pathname + window.location.search || '/result');
       try {
         sessionStorage.setItem('aisum_last_visited_page', returnUrl);
-      } catch (e) {}
+      } catch (e) { }
       const targetPage = (isHtml || isFile) ? 'pharmacy_detail.html' : '/pharmacy_detail';
       const fromParam = encodeURIComponent(returnUrl);
       window.location.href = `${targetPage}?name=${encodeURIComponent(pharmName)}&from=${fromParam}`;

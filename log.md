@@ -151,6 +151,8 @@
 | **[ISSUE-142]** | 메인화면 초기 문정동 하드코딩 제거·실시간 GPS 위치 자동 감지 적용 & 결과페이지 ReferenceError(currentHospitals) 원천 해소 | index.html/main.js 내 문정동 하드코딩 및 GPS 가로막기 로직 해소, 접속 시 navigator.geolocation 기반 실제 GPS 좌표 및 역지오코딩 도로명 주소 실시간 반영, result.html 내 Line 1898/1904 미선언 변수 currentHospitals 참조로 인한 JS 크래시 및 응급실 병상 멈춤 결함 원천 박멸, emergency-scroll-list 초기 프리셋 카드 탑재로 0ms 노출 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
 | **[ISSUE-143]** | 온보딩 위치 권한 승인 세션 전 페이지 상시 유지(AisumPermissionManager 세션-로컬 양방향 동기화) 및 메인페이지 실시간 현재 위치 0ms 표출 보장 | 처음 이용 사용자의 splash ➔ permission 온보딩 후 위치 권한 승인 시 5대 권한(위치, 알림, 전화, 카메라, 사진) 및 LBS 좌표/주소 세션 유실 방지, sessionStorage <-> localStorage 양방향 동기화 엔진(syncSession) 구축, index.html 헤더 인라인 스크립트 isManual 가드 제거를 통한 접속 0ms 현재 동 이름 표출 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
 | **[ISSUE-144]** | 메인화면 실시간 사용자 현재 위치 자동 적용 & 과거 스토리지 문정동 더미 잔재 자동 소독 파이프라인 완결 | 브라우저 localStorage에 과거 개발 시 박힌 문정동(37.4858, 127.1225) 더미 캐시 영구 잔존으로 인한 문정동 고정 현상 해소, cleanLegacyMunjeongData() 자동 소독 엔진 탑재, autoDetectUserLocation enableHighAccuracy: false 최적화로 데스크탑 타임아웃 방지 및 접속 즉시 실제 GPS/역지오코딩 위치 실시간 갱신, GPS 실패 시 공공 IP 기반 2차 자동 위치 추정 연동 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
+| **[ISSUE-145]** | 로컬 개발 환경 & 프로세스 라이프사이클 | 기존 포트 8000 프로세스(PID 4479) 안전 종료 및 FastAPI & APScheduler 3-트랙 데몬 정상 재구동 | **해결 완료 (Resolved)** | 2026-10-17 |
+| **[ISSUE-146]** | 프론트엔드 UI/UX & 실시간 LBS 스케줄링 | 메인화면 실시간 의료시설 카드 설명·주소 간결화(formatCompactAddress) 및 KST 요일/시간 기반 실시간 운영 판별(evaluateOperatingStatus)·운영중 시설 우선 정렬 파이프라인 완결 | **해결 완료 (Resolved)** | 2026-10-17 |
 
 
 
@@ -4917,6 +4919,73 @@
   * 과거 브라우저에 남아있던 문정동 캐시가 완벽히 소독되어, 사이트 접속 시 문정동이 기본값으로 고정되는 현상이 100% 원천 박멸됨.
   * 사용자의 실제 기기 위치(GPS) 또는 IP 위치가 메인화면에 즉시 자동 적용되어, 사용자가 어디에서 접속하든 자신의 실제 위치와 주변 최단거리 야간 의료시설이 정확하게 표출됨.
   * 13개 테스트 모듈, 총 108개 테스트 전수 100% 통과 (108 passed).
+
+---
+
+### [ISSUE-145] 기존 포트 8000 프로세스(PID 4479) 안전 종료 및 FastAPI & APScheduler 3-트랙 데몬 정상 재구동
+
+* **발생 일자**: 2026-10-17
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **문제 현상**:
+  * 사용자의 "로컬 다시 구동해봐" 요청에 따라 기존 실행 중이던 FastAPI 서버(포트 8000)를 안전하게 재기동할 필요가 발생함.
+  * 기존 포트 8000을 점유하던 Uvicorn 프로세스(PID: 4479)의 점유 상태 확인 및 충돌 없는 안전한 종료 필요.
+* **원인 분석**:
+  * 백그라운드에서 실행 중이던 구버전 프로세스가 포트 8000을 계속 LISTEN하고 있을 경우, 신규 프로세스 기동 시 `[Errno 48] Address already in use` 예외가 발생할 수 있음.
+* **구체적 해결 방안**:
+  1. `lsof -i :8000`으로 기존 프로세스 PID 4479 식별.
+  2. `kill -15 4479` (SIGTERM)를 전송하여 실행 중이던 APScheduler 잡과 Uvicorn 서버를 그레이스풀하게 종료.
+  3. `lsof -i :8000` 재확인으로 포트 8000 완전 반환 검증.
+  4. `./.venv/bin/python main.py`를 백그라운드 데몬으로 안전하게 재구동.
+  5. `curl -s http://127.0.0.1:8000/health`를 호출하여 서버 상태 확인:
+     - `status: healthy`
+     - `scheduler: { running: true, poll_count: 1 }`
+     - `integrations: { public_data_api_configured: true, gemini_api_configured: true, firebase_configured: true }`
+  6. 프론트엔드 라우트(`GET /`, `GET /frontend/templates/index.html`) HTTP 200 정상 반환 검증.
+* **적용 파일**:
+  * [main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py)
+* **조치 결과**:
+  * 충돌 없이 0ms 다운타임 수준으로 FastAPI Uvicorn 서버 및 APScheduler 3-트랙 데몬, Firebase Firestore 연동이 100% 정상 재구동 완료됨.
+
+---
+
+### [ISSUE-146] 메인화면 실시간 의료시설 카드 설명·주소 간결화 및 KST 요일/시간 기반 실시간 운영 판별·운영중 시설 우선 정렬 파이프라인 완결
+
+* **발생 일자**: 2026-10-17
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **문제 현상**:
+  * 메인화면(`index.html`)의 실시간 야간 의료시설 카드에서 병원/약국명 아래 서브 텍스트에 중복 뱃지 명칭과 복잡한 상세 주소(층, 호수, 빌딩명 등)가 3~4줄로 장황하게 이어져 UI가 조잡해지고 가독성이 급격히 저하됨.
+  * 요일(토/일/공휴일/평일) 및 현재 시각(KST)이 반영되지 않아, 토요일 접속 시에도 "평일 18:00 ~ 23:00" 같은 정적 문구가 노출되고 이미 마감되었거나 아직 오픈 전인 시설이 "진료중"으로 잘못 표출되며 상단에 뒤섞여 노출되는 결함 발생.
+* **원인 분석**:
+  * `main.js`의 `buildLiveFacilitiesData()`에서 `h.진료안내`와 `h.주소` 원본 문자열을 단순 결합(`desc: ...`)하여 호수/건물명 및 중복 문구가 그대로 누출됨.
+  * 실시간 요일 대조 로직 없이 `h.평일진료` 또는 고정된 `'진료중 · 접수 가능'` 문자열을 일괄 부여하고, 거리순(`distKm`) 단일 기준으로만 정렬하고 있었음.
+* **구체적 해결 방안**:
+  1. **주소 문자열 간결화 엔진 (`formatCompactAddress`) 구축**:
+     - 정규식을 통해 법정동(`(감이동)`, `(마천동)` 등)을 보존하면서, 콤마 뒷부분 및 상세 층/호/상가/빌딩 명칭을 자동 제거.
+     - 시도 명칭을 자연스럽게 축약(`서울특별시` ➔ `서울`, `경기도` ➔ `경기`).
+  2. **카드 설명 1~2줄 압축 재구성**:
+     - 병원: `소아 야간·휴일 진료 · ${compactAddress}`
+     - 약국: `${소아시럽제상비 ? '소아 시럽제 조제 · ' : '심야 조제 · '}${compactAddress}`
+  3. **KST 요일 및 시:분 기반 실시간 운영상태 판정 엔진 (`evaluateOperatingStatus`) 탑재**:
+     - 오늘 요일에 맞는 운영시간(토요일: `토요진료`/`토요운영`, 일요일: `일요진료`/`일요운영`, 평일: `평일진료`/`평일운영`) 자동 선택.
+     - 현재 시각과 대조하여 5대 상태 판정:
+       - `isOpen: true` (진료중/영업중, `priority: 1`, `.status-open`)
+       - `isOpen: true` (마감 30분 전: 곧 마감, `priority: 2`, `.status-warning`)
+       - `isOpen: false` (오픈 전 대기: N시 진료 시작, `priority: 3`, `.status-standby`)
+       - `isOpen: false` (오늘 마감: 진료 마감/영업 종료, `priority: 4`, `.status-closed`)
+       - `isOpen: false` (오늘 휴진: 오늘 휴진/평일 미운영, `priority: 5`, `.status-closed`)
+     - 우측 하단 태그에 오늘 요일과 실제 운영시간(예: `토요일 09:00 ~ 18:00`) 동적 표출.
+  4. **운영 중 시설 최우선(1순위) 거리순 스마트 정렬 파이프라인**:
+     - `isOpen: true`인 시설들을 거리순으로 최우선 배치하고, 마감/휴진 시설은 후순위로 배치.
+     - 전체(`all`) 탭에서 운영 중인 병원/약국 1:1 교차 배치 후 마감 시설 1:1 교차 배치.
+     - 상단 카운트 배너에 `(진료·영업중 N곳)` 실시간 표시.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js)
+  * [frontend/css/style.css](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/css/style.css)
+* **조치 결과**:
+  * 카드가 1~2줄로 시원하고 정갈하게 정돈되어 시각적 조잡함이 100% 해소됨.
+  * 실제 접속 시간에 진료/영업 가능한 시설이 최상단에 우선 노출되어 사용자의 야간 헛걸음 위험이 원천 차단됨.
+
+
 
 
 

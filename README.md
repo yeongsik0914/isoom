@@ -28,6 +28,28 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.97-compact-card-ui-and-realtime-operating-hours-sorting] 2026-10-17: 메인화면 의료시설 카드 UI 간결화 & 현재 시간 실시간 운영 판별·진료가능 우선 정렬 릴리스 (정영식 팀장 총괄)
+* **✨ 장황한 카드 서브설명 및 상세주소 초간결화 (`formatCompactAddress`) ([frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
+  - 상세 층수, 호수, 빌딩 상가명을 스마트 정규식으로 정제하여 도로명과 법정동만 단정하게 추출.
+  - 중복 뱃지 명칭을 제거하고 `소아 야간·휴일 진료 · 경기 하남시 감일백제로 177 (감이동)` 및 `소아 시럽제 조제 · 서울 송파구 거마로22길 49 (마천동)` 등 시원하고 정갈한 1~2줄 UI 완성.
+* **⏰ KST 요일/시간 기반 실시간 운영 상태 판별 엔진 (`evaluateOperatingStatus`) ([frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js), [frontend/css/style.css](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/css/style.css))**:
+  - 토/일/공휴일/평일 오늘 요일의 실제 운영시간(토요진료, 일요진료 등)을 실시간 대조.
+  - `진료중 · 접수 가능` (초록), `곧 마감 · 접수 마감 주의` (주황), `N시 진료 시작` (대기), `진료 마감` (회색), `오늘 휴진` 5대 정밀 상태 판정 및 카드 우측 하단에 오늘 요일 맞춤 시간(예: `토요일 09:00 ~ 18:00`) 표출.
+* **🥇 운영 중 시설 최우선(1순위) 거리순 스마트 정렬 파이프라인**:
+  - 현재 실제 이용 가능한 시설들을 최상단에 거리순으로 배치하고, 마감/휴진 시설은 후순위로 자동 배치.
+  - 전체(`all`) 탭 1:1 교차 스마트 인터리빙 및 상단 카운트 배너에 `(진료·영업중 N곳)` 투명 공개.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q142, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-146, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-G)**.
+
+### 🌟 [v2.4.96-local-server-safe-restart-and-health-verified] 2026-10-17: 로컬 서버 안전 재구동 & Firebase·Gemini·스케줄러 실시간 헬스체크 검증 릴리스 (정영식 팀장 총괄)
+* **🔄 포트 8000 충돌 방어 및 그레이스풀 재구동 ([main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py))**:
+  - 기존 백그라운드 프로세스(PID: 4479)를 SIGTERM으로 안전하게 종료하여 포트 8000 점유 해제 확인.
+  - 최신 프론트엔드 위치 소독 엔진 및 백엔드 3-트랙 데몬과 함께 Uvicorn ASGI 서버 완벽 재구동.
+* **🩺 실시간 헬스체크 100% 정상 통과 (`/health`)**:
+  - `scheduler.running: true`, `poll_count: 1` 정상 가동.
+  - `firebase_configured: true`, `gemini_api_configured: true`, `public_data_api_configured: true` 3대 핵심 외부 연동 전수 활성화 확인.
+  - 프론트엔드 엔드포인트(`GET /`, `GET /frontend/templates/index.html`) HTTP 200 OK 서빙 무결성 검증.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q141, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-145, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-G)**.
+
 ### 🌟 [v2.4.95-real-user-location-autodetect-and-legacy-sanitization] 2026-10-17: 메인화면 실시간 사용자 현재 위치 자동 적용 & 과거 스토리지 문정동 더미 잔재 자동 소독 릴리스 (정영식 팀장 총괄)
 * **🧹 과거 개발 문정동(37.4858, 127.1225) 더미 캐시 자동 소독 엔진 구축 (`cleanLegacyMunjeongData`) ([frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html), [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
   - 과거 개발 시 브라우저 `localStorage`에 저장되어 영구 잔존하던 문정동 좌표 및 행정동 더미 데이터를 스크립트 실행 즉시 자동 감지하여 100% 클린업/소독.

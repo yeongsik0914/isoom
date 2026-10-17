@@ -809,6 +809,71 @@ body.main-home-body {
   background-color: var(--emerald-live);
 }
 
+.tag-badge.status-warning {
+  background-color: #fef3c7;
+  color: #b45309;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #fde68a;
+}
+
+.tag-badge.status-warning .status-indicator-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--pill-radius);
+  background-color: #f59e0b;
+}
+
+.tag-badge.status-standby {
+  background-color: #f1f5f9;
+  color: #475569;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.tag-badge.status-standby .status-indicator-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--pill-radius);
+  background-color: #94a3b8;
+}
+
+.tag-badge.status-closed {
+  background-color: #f1f5f9;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.tag-badge.status-closed .status-indicator-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--pill-radius);
+  background-color: #94a3b8;
+}
+
+/* 마감된 시설 카드 차분한 스타일 */
+.facility-card.is-closed {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+  opacity: 0.88;
+}
+
+.facility-card.is-closed .facility-name {
+  color: #475569;
+}
+
+.facility-card.is-closed .closing-time-tag {
+  color: #64748b;
+  background-color: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
 .tag-badge.distance-sub {
   color: var(--slate-500);
   background-color: transparent;
