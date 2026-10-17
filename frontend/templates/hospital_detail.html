@@ -826,6 +826,155 @@
       50% { transform: scale(1.4); opacity: 0.2; }
       100% { transform: scale(0.8); opacity: 0.8; }
     }
+
+    /* Kakao Map Modern Card & Controls */
+    .map-card-container {
+      width: 100%;
+      height: 230px;
+      border-radius: 16px;
+      background: #e2e8f0;
+      margin-bottom: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+      cursor: pointer;
+    }
+
+    .static-map-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      overflow: hidden;
+    }
+
+    .kakao-static-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease, filter 0.2s ease;
+    }
+
+    .map-card-container:hover .kakao-static-img {
+      transform: scale(1.03);
+    }
+
+    .kakao-brand-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(254, 229, 0, 0.95);
+      backdrop-filter: blur(4px);
+      padding: 4px 9px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #191919;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 10;
+      pointer-events: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .kakao-badge-title {
+      font-weight: 700;
+      color: #374151;
+      font-size: 10.5px;
+    }
+
+    .kakao-map-zoom-bar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .btn-map-zoom {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-map-zoom:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .btn-map-zoom:active {
+      background: #e2e8f0;
+    }
+
+    .btn-map-zoom:first-child {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .kakao-map-bottom-bar {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 10;
+    }
+
+    .btn-map-external-link {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .btn-map-external-link:hover {
+      background: rgba(15, 23, 42, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .map-touch-overlay {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      pointer-events: none;
+      opacity: 0.9;
+    }
   </style>
 </head>
 
@@ -982,15 +1131,33 @@
           </h3>
         </div>
 
-        <!-- In-Page Interactive Map Viewport -->
-        <div id="hospital-map-container"
-          style="width: 100%; height: 220px; border-radius: 14px; background: #e2e8f0; margin-bottom: 12px; overflow: hidden; position: relative; border: 1px solid #cbd5e1;">
-          <!-- Map Canvas or Fallback Visual -->
+        <!-- In-Page Kakao Map Viewport -->
+        <div id="hospital-map-container" class="map-card-container" title="클릭 시 카카오맵 실시간 길찾기 연결">
+          <!-- Kakao Static Map Canvas -->
           <div id="hospital-kakao-map" style="width: 100%; height: 100%;"></div>
-          <div id="hospital-map-overlay-badge"
-            style="position: absolute; bottom: 10px; left: 10px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; pointer-events: none; z-index: 500;">
-            <span class="material-symbols-outlined" style="font-size: 14px; color: #60a5fa;">pin_drop</span>
-            <span id="hospital-map-badge-text">달빛어린이병원 위치</span>
+
+          <!-- Official Kakao Brand Header Badge -->
+          <div class="kakao-brand-badge">
+            <span style="letter-spacing: -0.3px;">kakaomap</span>
+            <span class="kakao-badge-title">정밀 지도</span>
+          </div>
+
+          <!-- Dynamic Zoom Controls -->
+          <div class="kakao-map-zoom-bar">
+            <button type="button" class="btn-map-zoom" id="btn-hospital-zoom-in" title="지도 확대" onclick="handleHospitalMapZoom(-1, event)">
+              <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+            </button>
+            <button type="button" class="btn-map-zoom" id="btn-hospital-zoom-out" title="지도 축소" onclick="handleHospitalMapZoom(1, event)">
+              <span class="material-symbols-outlined" style="font-size: 18px;">remove</span>
+            </button>
+          </div>
+
+          <!-- External View Link Button -->
+          <div class="kakao-map-bottom-bar">
+            <a href="https://map.kakao.com" id="link-kakao-fullmap" target="_blank" rel="noopener noreferrer" class="btn-map-external-link" onclick="event.stopPropagation();">
+              <span class="material-symbols-outlined" style="font-size: 13px;">open_in_new</span>
+              카카오맵 크게보기
+            </a>
           </div>
         </div>
 
@@ -1312,80 +1479,105 @@
       }
     });
 
-    // In-Page Map Renderer with Leaflet Engine & Visual Fallback
-    function renderInPageMap(lat, lon, name) {
+    // In-Page Kakao Map Renderer & Dynamic Controls
+    let currentHospitalMapZoom = 3;
+    let currentHospitalLat = 37.4858;
+    let currentHospitalLon = 127.1225;
+    let currentHospitalName = '';
+
+    function handleHospitalMapZoom(delta, event) {
+      if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
+      currentHospitalMapZoom = Math.min(Math.max(currentHospitalMapZoom + delta, 1), 6);
+      updateHospitalStaticMap();
+    }
+
+    function updateHospitalStaticMap() {
       const container = document.getElementById('hospital-kakao-map');
       if (!container) return;
 
-      const validLat = parseFloat(lat) || 37.4858;
-      const validLon = parseFloat(lon) || 127.1225;
+      const staticUrl = `/api/v1/location/staticmap?lat=${currentHospitalLat}&lon=${currentHospitalLon}&name=${encodeURIComponent(currentHospitalName)}&width=600&height=340&zoom=${currentHospitalMapZoom}&scale=2&marker_type=hospital`;
 
-      // 1. Try Leaflet Interactive OpenStreetMap (100% Reliable Nationwide Tiles)
-      if (window.L && window.L.map) {
-        try {
-          if (window._currentHospitalMap) {
-            try { window._currentHospitalMap.remove(); } catch (remErr) {}
-            window._currentHospitalMap = null;
-          }
-
-          container.innerHTML = '';
-          const map = L.map(container, {
-            center: [validLat, validLon],
-            zoom: 16,
-            zoomControl: true,
-            attributionControl: false
-          });
-          window._currentHospitalMap = map;
-
-          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; OpenStreetMap'
-          }).addTo(map);
-
-          // Custom Royal Blue Pulse Pin
-          const hospitalIcon = L.divIcon({
-            className: 'custom-map-pin hospital-pin',
-            html: `
-              <div style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
-                <div style="position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(0,102,255,0.3);animation:mapPinPulse 2s infinite;"></div>
-                <div style="position:relative;width:30px;height:30px;border-radius:50%;background:#0066ff;border:2.5px solid #ffffff;box-shadow:0 3px 10px rgba(0,102,255,0.45);display:flex;align-items:center;justify-content:center;color:#ffffff;">
-                  <span class="material-symbols-outlined" style="font-size:17px;">local_hospital</span>
-                </div>
-              </div>
-            `,
-            iconSize: [40, 40],
-            iconAnchor: [20, 20],
-            popupAnchor: [0, -22]
-          });
-
-          const marker = L.marker([validLat, validLon], { icon: hospitalIcon }).addTo(map);
-          marker.bindPopup(`
-            <div style="padding:2px 4px;text-align:center;">
-              <strong style="font-size:13px;color:#0f172a;display:block;margin-bottom:3px;">${name}</strong>
-              <span style="font-size:11px;color:#0066ff;font-weight:700;">🌙 달빛어린이병원</span>
-            </div>
-          `).openPopup();
-
-          setTimeout(() => {
-            try { map.invalidateSize(); } catch (e) {}
-          }, 250);
-
-          return;
-        } catch (leafletErr) {
-          console.warn('[Map] Leaflet initialization error, falling back to visual pin:', leafletErr);
-        }
-      }
-
-      // 2. Elegant Fallback Map Canvas with SVG Pin & Radial Radar
       container.innerHTML = `
-        <div style="width:100%;height:100%;background:linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer;" onclick="window.open('https://map.kakao.com/link/to/${encodeURIComponent(name)},${validLat},${validLon}', '_blank')">
-          <div style="width:56px;height:56px;border-radius:50%;background:rgba(0,102,255,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:6px;box-shadow:0 0 0 10px rgba(0,102,255,0.06);animation:pulseDot 2s infinite;">
-            <span class="material-symbols-outlined" style="font-size:32px;color:#0066ff;">location_on</span>
+        <div class="static-map-img-wrapper">
+          <img src="${staticUrl}" alt="${currentHospitalName} 카카오 지도" class="kakao-static-img" onerror="fallbackToHospitalLeaflet()" />
+          <div class="map-touch-overlay">
+            <span class="material-symbols-outlined" style="font-size: 14px; color: #60a5fa;">navigation</span>
+            <span>탭하여 길찾기</span>
           </div>
-          <strong style="font-size:13.5px;color:#0f172a;font-weight:800;letter-spacing:-0.3px;">${name}</strong>
-          <span style="font-size:11.5px;color:#0369a1;margin-top:2px;">클릭 시 카카오맵 실시간 내비게이션 연결 ↗</span>
         </div>
       `;
+    }
+
+    function fallbackToHospitalLeaflet() {
+      const container = document.getElementById('hospital-kakao-map');
+      if (!container || !window.L || !window.L.map) return;
+
+      try {
+        if (window._currentHospitalMap) {
+          try { window._currentHospitalMap.remove(); } catch (e) {}
+          window._currentHospitalMap = null;
+        }
+        container.innerHTML = '';
+        const map = L.map(container, {
+          center: [currentHospitalLat, currentHospitalLon],
+          zoom: 16,
+          zoomControl: false,
+          attributionControl: false
+        });
+        window._currentHospitalMap = map;
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+        const hospitalIcon = L.divIcon({
+          className: 'custom-map-pin hospital-pin',
+          html: `
+            <div style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
+              <div style="position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(0,102,255,0.3);animation:mapPinPulse 2s infinite;"></div>
+              <div style="position:relative;width:30px;height:30px;border-radius:50%;background:#0066ff;border:2.5px solid #ffffff;box-shadow:0 3px 10px rgba(0,102,255,0.45);display:flex;align-items:center;justify-content:center;color:#ffffff;">
+                <span class="material-symbols-outlined" style="font-size:17px;">local_hospital</span>
+              </div>
+            </div>
+          `,
+          iconSize: [40, 40],
+          iconAnchor: [20, 20]
+        });
+        L.marker([currentHospitalLat, currentHospitalLon], { icon: hospitalIcon }).addTo(map);
+      } catch (err) {
+        console.warn('[Map Fallback Error]', err);
+      }
+    }
+
+    function renderInPageMap(lat, lon, name) {
+      currentHospitalLat = parseFloat(lat) || 37.4858;
+      currentHospitalLon = parseFloat(lon) || 127.1225;
+      currentHospitalName = name || '달빛어린이병원';
+
+      // 1. Setup External Links
+      const fullMapLink = document.getElementById('link-kakao-fullmap');
+      if (fullMapLink) {
+        fullMapLink.href = `https://map.kakao.com/link/map/${encodeURIComponent(currentHospitalName)},${currentHospitalLat},${currentHospitalLon}`;
+      }
+      const kakaoMapBtn = document.getElementById('btn-kakao-map');
+      if (kakaoMapBtn) {
+        kakaoMapBtn.href = `https://map.kakao.com/link/to/${encodeURIComponent(currentHospitalName)},${currentHospitalLat},${currentHospitalLon}`;
+      }
+      const naverMapBtn = document.getElementById('btn-naver-map');
+      if (naverMapBtn) {
+        naverMapBtn.href = `https://map.naver.com/v5/search/${encodeURIComponent(currentHospitalName)}`;
+      }
+
+      // 2. Click entire map card to open Kakao Map Route
+      const mapCard = document.getElementById('hospital-map-container');
+      if (mapCard) {
+        mapCard.onclick = function() {
+          window.open(`https://map.kakao.com/link/to/${encodeURIComponent(currentHospitalName)},${currentHospitalLat},${currentHospitalLon}`, '_blank');
+        };
+      }
+
+      // 3. Render Kakao Static Map
+      updateHospitalStaticMap();
     }
 
     function openTicketModal() {

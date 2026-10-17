@@ -1,6 +1,6 @@
 // 💊 전국 야간·공공심야약국 상세페이지 전용 데이터셋 (약사/조제/연계병원 메타 완벽 포함)
 // 공공데이터포털 국립중앙의료원(NMC) 오픈 API 24시간 증분 동기화 번들
-// 동기화 시각: 2026-10-16 20:58:17
+// 동기화 시각: 2026-10-17 14:56:26
 window.PHARMACY_DETAILS_DATA = [
   {
     "id": "C2200371",
@@ -29,7 +29,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3871,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200624",
@@ -58,7 +58,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3818,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201192",
@@ -87,7 +87,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3455,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200949",
@@ -116,7 +116,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3892,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200448",
@@ -145,7 +145,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 971,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200534",
@@ -174,7 +174,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3892,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200282",
@@ -203,7 +203,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 32664,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200387",
@@ -232,7 +232,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 42341,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201183",
@@ -261,7 +261,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 42703,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201164",
@@ -290,7 +290,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 52882,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200352",
@@ -319,7 +319,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 56379,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200995",
@@ -348,7 +348,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 55546,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200057",
@@ -377,7 +377,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 37540,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200076",
@@ -406,7 +406,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1870,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200045",
@@ -435,7 +435,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2895,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200880",
@@ -464,7 +464,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4486,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200627",
@@ -493,7 +493,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2862,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201045",
@@ -522,7 +522,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2904,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200531",
@@ -551,7 +551,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1751,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201061",
@@ -580,7 +580,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4670,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201130",
@@ -609,7 +609,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2913,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200879",
@@ -638,7 +638,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4077,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201012",
@@ -667,7 +667,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3656,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200198",
@@ -696,7 +696,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3020,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201191",
@@ -725,7 +725,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3478,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200378",
@@ -754,7 +754,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2060,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200265",
@@ -783,7 +783,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 496,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201049",
@@ -812,7 +812,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2150,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201039",
@@ -841,7 +841,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3316,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200541",
@@ -870,7 +870,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3586,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201188",
@@ -899,7 +899,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3704,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201141",
@@ -928,7 +928,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3051,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2201114",
@@ -957,7 +957,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3423,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2200227",
@@ -986,7 +986,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 65746,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102838",
@@ -1015,7 +1015,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 29620,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103966",
@@ -1044,7 +1044,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 17596,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102572",
@@ -1073,7 +1073,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 춘천시 영서로 2025 (석사동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 20757,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102909",
@@ -1102,7 +1102,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 17581,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107716",
@@ -1131,7 +1131,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 덕양구 지축로 50, 6층,7층 (지축동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1689,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102672",
@@ -1160,7 +1160,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 책향기로 836, 3,4,5층 (와동동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7040,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102780",
@@ -1189,7 +1189,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 덕양구 지축로 50, 6층,7층 (지축동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7416,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102356",
@@ -1218,7 +1218,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 책향기로 836, 3,4,5층 (와동동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7100,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102602",
@@ -1247,7 +1247,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7311,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102794",
@@ -1276,7 +1276,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 덕양구 지축로 50, 6층,7층 (지축동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5826,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102503",
@@ -1305,7 +1305,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 5726,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102502",
@@ -1334,7 +1334,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 6893,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107717",
@@ -1363,7 +1363,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 덕양구 지축로 50, 6층,7층 (지축동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1689,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106543",
@@ -1392,7 +1392,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7160,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103676",
@@ -1421,7 +1421,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7370,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103008",
@@ -1450,7 +1450,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6762,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104277",
@@ -1479,7 +1479,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 6656,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102631",
@@ -1508,7 +1508,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 6059,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108440",
@@ -1537,7 +1537,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1765,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106913",
@@ -1566,7 +1566,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7303,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107880",
@@ -1595,7 +1595,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1738,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102259",
@@ -1624,7 +1624,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 999,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102513",
@@ -1653,7 +1653,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1390,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103419",
@@ -1682,7 +1682,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3342,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110088",
@@ -1711,7 +1711,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4059,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107789",
@@ -1740,7 +1740,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3984,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107388",
@@ -1769,7 +1769,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 806,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103875",
@@ -1798,7 +1798,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2308,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109260",
@@ -1827,7 +1827,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4192,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102746",
@@ -1856,7 +1856,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 953,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102923",
@@ -1885,7 +1885,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1829,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102394",
@@ -1914,7 +1914,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2454,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103109",
@@ -1943,7 +1943,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 965,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103633",
@@ -1972,7 +1972,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3402,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104145",
@@ -2001,7 +2001,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2114,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102421",
@@ -2030,7 +2030,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1029,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102422",
@@ -2059,7 +2059,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 979,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109160",
@@ -2088,7 +2088,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 744,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102375",
@@ -2117,7 +2117,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2034,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102611",
@@ -2146,7 +2146,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2131,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108314",
@@ -2175,7 +2175,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1097,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110409",
@@ -2204,7 +2204,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 911,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103056",
@@ -2233,7 +2233,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1019,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102912",
@@ -2262,7 +2262,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1634,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108711",
@@ -2291,7 +2291,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 93,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108345",
@@ -2320,7 +2320,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1847,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106499",
@@ -2349,7 +2349,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2755,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103609",
@@ -2378,7 +2378,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 고양시 일산서구 중앙로 1426, 일송노블레스 207호, 208(일부)호, 810호 (주엽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109065",
@@ -2407,7 +2407,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4831,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101711",
@@ -2436,7 +2436,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1324,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100596",
@@ -2465,7 +2465,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1030,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101479",
@@ -2494,7 +2494,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 434,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103068",
@@ -2523,7 +2523,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1621,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102057",
@@ -2552,7 +2552,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1588,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103286",
@@ -2581,7 +2581,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 924,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107951",
@@ -2610,7 +2610,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2636,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103816",
@@ -2639,7 +2639,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 356,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107064",
@@ -2668,7 +2668,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100600",
@@ -2697,7 +2697,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1393,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100861",
@@ -2726,7 +2726,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1403,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100865",
@@ -2755,7 +2755,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 90,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100860",
@@ -2784,7 +2784,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100863",
@@ -2813,7 +2813,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1143,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103733",
@@ -2842,7 +2842,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1622,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102077",
@@ -2871,7 +2871,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1694,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101431",
@@ -2900,7 +2900,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1398,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100821",
@@ -2929,7 +2929,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3111,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109670",
@@ -2958,7 +2958,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109796",
@@ -2987,7 +2987,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 607,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101827",
@@ -3016,7 +3016,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 172,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101098",
@@ -3045,7 +3045,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1313,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100771",
@@ -3074,7 +3074,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3517,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101299",
@@ -3103,7 +3103,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9693,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101575",
@@ -3132,7 +3132,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9769,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100835",
@@ -3161,7 +3161,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 202,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101885",
@@ -3190,7 +3190,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 173,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109221",
@@ -3219,7 +3219,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4039,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109950",
@@ -3248,7 +3248,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 166,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101312",
@@ -3277,7 +3277,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8251,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103533",
@@ -3306,7 +3306,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4408,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107376",
@@ -3335,7 +3335,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 226,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101791",
@@ -3364,7 +3364,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2247,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103263",
@@ -3393,7 +3393,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3452,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101012",
@@ -3422,7 +3422,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 173,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106717",
@@ -3451,7 +3451,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3008,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106995",
@@ -3480,7 +3480,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2840,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103829",
@@ -3509,7 +3509,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2285,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103368",
@@ -3538,7 +3538,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2270,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104185",
@@ -3567,7 +3567,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2697,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109661",
@@ -3596,7 +3596,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4147,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107548",
@@ -3625,7 +3625,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4294,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100592",
@@ -3654,7 +3654,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3731,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101823",
@@ -3683,7 +3683,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2646,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109279",
@@ -3712,7 +3712,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2684,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103223",
@@ -3741,7 +3741,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4098,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107829",
@@ -3770,7 +3770,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2859,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100027",
@@ -3799,7 +3799,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4228,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107905",
@@ -3828,7 +3828,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4897,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100884",
@@ -3857,7 +3857,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2764,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100545",
@@ -3886,7 +3886,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2762,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101637",
@@ -3915,7 +3915,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4700,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106607",
@@ -3944,7 +3944,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 김포한강8로 382, 6,7,8,11층 (구래동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 171,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100397",
@@ -3973,7 +3973,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 유현로238번길 31, 웅신타워 3층 303,302-1호 (풍무동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3347,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109237",
@@ -4002,7 +4002,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 김포한강8로 382, 6,7,8,11층 (구래동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 357,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100306",
@@ -4031,7 +4031,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 김포대로 681 (풍무동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1725,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108891",
@@ -4060,7 +4060,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 김포한강8로 382, 6,7,8,11층 (구래동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3728,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100376",
@@ -4089,7 +4089,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 김포대로 681 (풍무동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2528,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106342",
@@ -4118,7 +4118,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 김포한강8로 382, 6,7,8,11층 (구래동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5032,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108050",
@@ -4147,7 +4147,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 김포대로 681 (풍무동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 368,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104282",
@@ -4176,7 +4176,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 충의로 25, 401~406호 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3930,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102699",
@@ -4205,7 +4205,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13424,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107990",
@@ -4234,7 +4234,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 67,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100023",
@@ -4263,7 +4263,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1624,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109697",
@@ -4292,7 +4292,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7281,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102781",
@@ -4321,7 +4321,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8381,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102709",
@@ -4350,7 +4350,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13734,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106998",
@@ -4379,7 +4379,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13333,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110384",
@@ -4408,7 +4408,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3311,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100137",
@@ -4437,7 +4437,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3258,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102962",
@@ -4466,7 +4466,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7850,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102491",
@@ -4495,7 +4495,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4081,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108244",
@@ -4524,7 +4524,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102898",
@@ -4553,7 +4553,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6629,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102334",
@@ -4582,7 +4582,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3405,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102584",
@@ -4611,7 +4611,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3085,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102472",
@@ -4640,7 +4640,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8598,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102565",
@@ -4669,7 +4669,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7652,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102473",
@@ -4698,7 +4698,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13713,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102869",
@@ -4727,7 +4727,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8589,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102870",
@@ -4756,7 +4756,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3019,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106510",
@@ -4785,7 +4785,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2027,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106793",
@@ -4814,7 +4814,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 충의로 25, 401~406호 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3663,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102732",
@@ -4843,7 +4843,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1645,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108153",
@@ -4872,7 +4872,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산중앙로 105-8, 성산플레이스 4차 3~5층,10층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 117,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102515",
@@ -4901,7 +4901,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7336,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103767",
@@ -4930,7 +4930,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 남양주시 다산순환로 349, 3~5층 (다산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2844,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107192",
@@ -4959,7 +4959,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 충의로 25, 401~406호 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 10019,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107658",
@@ -4988,7 +4988,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9708,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103736",
@@ -5017,7 +5017,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8883,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102557",
@@ -5046,7 +5046,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8901,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100451",
@@ -5075,7 +5075,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1984,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103073",
@@ -5104,7 +5104,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2947,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100233",
@@ -5133,7 +5133,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3155,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100238",
@@ -5162,7 +5162,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3462,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100217",
@@ -5191,7 +5191,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2479,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106765",
@@ -5220,7 +5220,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2593,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100234",
@@ -5249,7 +5249,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3975,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100391",
@@ -5278,7 +5278,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1941,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100441",
@@ -5307,7 +5307,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1256,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100263",
@@ -5336,7 +5336,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3899,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100250",
@@ -5365,7 +5365,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 신월로 280, 1층 일부, 2층 (신정동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4133,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100332",
@@ -5394,7 +5394,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1104,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100321",
@@ -5423,7 +5423,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4039,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107136",
@@ -5452,7 +5452,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3754,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100171",
@@ -5481,7 +5481,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 378,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100336",
@@ -5510,7 +5510,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2302,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100302",
@@ -5539,7 +5539,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3826,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100457",
@@ -5568,7 +5568,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103477",
@@ -5597,7 +5597,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1114,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109029",
@@ -5626,7 +5626,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3690,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100362",
@@ -5655,7 +5655,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3930,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108090",
@@ -5684,7 +5684,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 557,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100221",
@@ -5713,7 +5713,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1695,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100313",
@@ -5742,7 +5742,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1174,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103801",
@@ -5771,7 +5771,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 908,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104663",
@@ -5800,7 +5800,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3241,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100279",
@@ -5829,7 +5829,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1504,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100329",
@@ -5858,7 +5858,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1915,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103754",
@@ -5887,7 +5887,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 595,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100425",
@@ -5916,7 +5916,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2327,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100361",
@@ -5945,7 +5945,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2965,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100354",
@@ -5974,7 +5974,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1194,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103748",
@@ -6003,7 +6003,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1589,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100456",
@@ -6032,7 +6032,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 신월로 280, 1층 일부, 2층 (신정동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4111,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100356",
@@ -6061,7 +6061,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1131,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104004",
@@ -6090,7 +6090,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2317,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100360",
@@ -6119,7 +6119,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3309,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100452",
@@ -6148,7 +6148,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 63,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104659",
@@ -6177,7 +6177,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 950,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100352",
@@ -6206,7 +6206,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1325,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100462",
@@ -6235,7 +6235,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4032,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110084",
@@ -6264,7 +6264,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3439,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104632",
@@ -6293,7 +6293,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1158,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106978",
@@ -6322,7 +6322,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1204,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110054",
@@ -6351,7 +6351,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1527,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108080",
@@ -6380,7 +6380,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 신월로 280, 1층 일부, 2층 (신정동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4123,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100237",
@@ -6409,7 +6409,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3975,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106467",
@@ -6438,7 +6438,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1300,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100340",
@@ -6467,7 +6467,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3652,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103691",
@@ -6496,7 +6496,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1679,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100167",
@@ -6525,7 +6525,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1669,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110263",
@@ -6554,7 +6554,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1333,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108081",
@@ -6583,7 +6583,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1239,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100322",
@@ -6612,7 +6612,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1274,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108156",
@@ -6641,7 +6641,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1881,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103515",
@@ -6670,7 +6670,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1451,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109859",
@@ -6699,7 +6699,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 309,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103053",
@@ -6728,7 +6728,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 644,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102414",
@@ -6757,7 +6757,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2699,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101790",
@@ -6786,7 +6786,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 346,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103721",
@@ -6815,7 +6815,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2000,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101713",
@@ -6844,7 +6844,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1998,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100954",
@@ -6873,7 +6873,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2257,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101206",
@@ -6902,7 +6902,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 264,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101239",
@@ -6931,7 +6931,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3408,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108076",
@@ -6960,7 +6960,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1094,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103114",
@@ -6989,7 +6989,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1922,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100898",
@@ -7018,7 +7018,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 653,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101001",
@@ -7047,7 +7047,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1142,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107103",
@@ -7076,7 +7076,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3215,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102176",
@@ -7105,7 +7105,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3068,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100995",
@@ -7134,7 +7134,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3036,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101356",
@@ -7163,7 +7163,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2773,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107170",
@@ -7192,7 +7192,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2875,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101294",
@@ -7221,7 +7221,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 819,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107825",
@@ -7250,7 +7250,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1249,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108712",
@@ -7279,7 +7279,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 황새울로335번길 5, 601호 (서현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1266,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103519",
@@ -7308,7 +7308,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104326",
@@ -7337,7 +7337,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4234,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101364",
@@ -7366,7 +7366,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4232,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102171",
@@ -7395,7 +7395,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4216,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100683",
@@ -7424,7 +7424,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3896,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109642",
@@ -7453,7 +7453,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4469,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107864",
@@ -7482,7 +7482,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3986,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108354",
@@ -7511,7 +7511,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4415,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101130",
@@ -7540,7 +7540,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3757,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101872",
@@ -7569,7 +7569,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4502,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101560",
@@ -7598,7 +7598,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4755,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107652",
@@ -7627,7 +7627,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1754,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107648",
@@ -7656,7 +7656,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2776,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107158",
@@ -7685,7 +7685,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1934,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100541",
@@ -7714,7 +7714,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5103,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108500",
@@ -7743,7 +7743,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3232,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101583",
@@ -7772,7 +7772,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3941,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101310",
@@ -7801,7 +7801,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4012,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101559",
@@ -7830,7 +7830,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3747,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101327",
@@ -7859,7 +7859,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5126,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103380",
@@ -7888,7 +7888,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4887,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101593",
@@ -7917,7 +7917,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5459,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102199",
@@ -7946,7 +7946,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4002,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101628",
@@ -7975,7 +7975,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4014,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101667",
@@ -8004,7 +8004,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4647,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103771",
@@ -8033,7 +8033,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4698,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107162",
@@ -8062,7 +8062,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3418,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101292",
@@ -8091,7 +8091,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5813,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101261",
@@ -8120,7 +8120,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4918,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102093",
@@ -8149,7 +8149,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3649,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109340",
@@ -8178,7 +8178,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 권선구 금곡로 112, 이수프라자 304~308호 (금곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2556,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101346",
@@ -8207,7 +8207,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1071,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103660",
@@ -8236,7 +8236,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1108,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103782",
@@ -8265,7 +8265,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1288,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107570",
@@ -8294,7 +8294,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 권선구 금곡로 112, 이수프라자 304~308호 (금곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3904,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107750",
@@ -8323,7 +8323,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1103,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101754",
@@ -8352,7 +8352,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2555,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100951",
@@ -8381,7 +8381,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 715,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106615",
@@ -8410,7 +8410,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2894,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107505",
@@ -8439,7 +8439,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 권선구 금곡로 112, 이수프라자 304~308호 (금곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 892,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100781",
@@ -8468,7 +8468,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1863,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103684",
@@ -8497,7 +8497,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 591,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100740",
@@ -8526,7 +8526,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 권선구 금곡로 112, 이수프라자 304~308호 (금곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1970,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101831",
@@ -8555,7 +8555,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2601,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103683",
@@ -8584,7 +8584,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1963,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107713",
@@ -8613,7 +8613,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 권선구 금곡로 112, 이수프라자 304~308호 (금곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108057",
@@ -8642,7 +8642,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3397,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100814",
@@ -8671,7 +8671,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 영통구 효원로 363 (매탄동, 303상가 B202호, 203호)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3333,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110435",
@@ -8700,7 +8700,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3235,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107344",
@@ -8729,7 +8729,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 영통구 효원로 363 (매탄동, 303상가 B202호, 203호)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3456,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108625",
@@ -8758,7 +8758,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 영통구 효원로 363 (매탄동, 303상가 B202호, 203호)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3565,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103463",
@@ -8787,7 +8787,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 영통구 효원로 363 (매탄동, 303상가 B202호, 203호)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 312,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101728",
@@ -8816,7 +8816,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 영통구 효원로 363 (매탄동, 303상가 B202호, 203호)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3392,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106594",
@@ -8845,7 +8845,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 영통구 효원로 363 (매탄동, 303상가 B202호, 203호)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1897,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101880",
@@ -8874,7 +8874,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1454,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103174",
@@ -8903,7 +8903,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1160,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108953",
@@ -8932,7 +8932,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3682,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100072",
@@ -8961,7 +8961,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 영통구 효원로 363 (매탄동, 303상가 B202호, 203호)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2680,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109679",
@@ -8990,7 +8990,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2059,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101621",
@@ -9019,7 +9019,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2027,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101020",
@@ -9048,7 +9048,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1275,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104519",
@@ -9077,7 +9077,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2110,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106434",
@@ -9106,7 +9106,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1469,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100657",
@@ -9135,7 +9135,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1087,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100799",
@@ -9164,7 +9164,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3124,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101381",
@@ -9193,7 +9193,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2677,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101488",
@@ -9222,7 +9222,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2067,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109674",
@@ -9251,7 +9251,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1352,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100823",
@@ -9280,7 +9280,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 123,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101013",
@@ -9309,7 +9309,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2104,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106639",
@@ -9338,7 +9338,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 731,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107736",
@@ -9367,7 +9367,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1321,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100985",
@@ -9396,7 +9396,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1232,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103777",
@@ -9425,7 +9425,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1271,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107800",
@@ -9454,7 +9454,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2612,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106758",
@@ -9483,7 +9483,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2526,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107441",
@@ -9512,7 +9512,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2462,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103979",
@@ -9541,7 +9541,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 346,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101024",
@@ -9570,7 +9570,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2474,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103775",
@@ -9599,7 +9599,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2518,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106872",
@@ -9628,7 +9628,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2149,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102297",
@@ -9657,7 +9657,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2572,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108173",
@@ -9686,7 +9686,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2544,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100125",
@@ -9715,7 +9715,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1335,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100735",
@@ -9744,7 +9744,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2402,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103182",
@@ -9773,7 +9773,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2535,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108941",
@@ -9802,7 +9802,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 985,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110126",
@@ -9831,7 +9831,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2162,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101112",
@@ -9860,7 +9860,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 493,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106955",
@@ -9889,7 +9889,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2544,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106611",
@@ -9918,7 +9918,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1296,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106610",
@@ -9947,7 +9947,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1071,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109971",
@@ -9976,7 +9976,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 528,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106763",
@@ -10005,7 +10005,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 469,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101366",
@@ -10034,7 +10034,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2081,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109855",
@@ -10063,7 +10063,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101289",
@@ -10092,7 +10092,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 장안구 덕영대로535번길 38, 3층 (천천동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2156,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100601",
@@ -10121,7 +10121,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2330,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100628",
@@ -10150,7 +10150,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1309,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109781",
@@ -10179,7 +10179,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2417,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101023",
@@ -10208,7 +10208,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 경수대로 506, 2~3층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2280,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109569",
@@ -10237,7 +10237,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7810,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100617",
@@ -10266,7 +10266,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8257,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107986",
@@ -10295,7 +10295,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7239,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101208",
@@ -10324,7 +10324,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9213,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101485",
@@ -10353,7 +10353,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7917,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100935",
@@ -10382,7 +10382,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7189,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108054",
@@ -10411,7 +10411,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5944,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101230",
@@ -10440,7 +10440,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5509,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108014",
@@ -10469,7 +10469,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6626,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101821",
@@ -10498,7 +10498,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7661,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101836",
@@ -10527,7 +10527,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8018,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101861",
@@ -10556,7 +10556,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6551,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "B2100019",
@@ -10585,7 +10585,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4969,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108565",
@@ -10614,7 +10614,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7027,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103693",
@@ -10643,7 +10643,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4738,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100782",
@@ -10672,7 +10672,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4941,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108689",
@@ -10701,7 +10701,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5137,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101451",
@@ -10730,7 +10730,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6751,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101723",
@@ -10759,7 +10759,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8059,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101582",
@@ -10788,7 +10788,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5005,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102110",
@@ -10817,7 +10817,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7251,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106681",
@@ -10846,7 +10846,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6975,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101971",
@@ -10875,7 +10875,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8278,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109095",
@@ -10904,7 +10904,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7385,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100883",
@@ -10933,7 +10933,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8167,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101155",
@@ -10962,7 +10962,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5161,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101422",
@@ -10991,7 +10991,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7048,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102137",
@@ -11020,7 +11020,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8401,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103388",
@@ -11049,7 +11049,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7636,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107253",
@@ -11078,7 +11078,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6732,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101871",
@@ -11107,7 +11107,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3573,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104515",
@@ -11136,7 +11136,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 179,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103795",
@@ -11165,7 +11165,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3817,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104680",
@@ -11194,7 +11194,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3660,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101432",
@@ -11223,7 +11223,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 906,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101093",
@@ -11252,7 +11252,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3522,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106663",
@@ -11281,7 +11281,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3706,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101905",
@@ -11310,7 +11310,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3871,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103907",
@@ -11339,7 +11339,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3704,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101620",
@@ -11368,7 +11368,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 991,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101059",
@@ -11397,7 +11397,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3184,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101074",
@@ -11426,7 +11426,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3134,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107618",
@@ -11455,7 +11455,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1033,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100696",
@@ -11484,7 +11484,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3196,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109495",
@@ -11513,7 +11513,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 962,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103785",
@@ -11542,7 +11542,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3151,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101907",
@@ -11571,7 +11571,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3199,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101925",
@@ -11600,7 +11600,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2716,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101201",
@@ -11629,7 +11629,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3325,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106910",
@@ -11658,7 +11658,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3708,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101926",
@@ -11687,7 +11687,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3934,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101963",
@@ -11716,7 +11716,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3706,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109376",
@@ -11745,7 +11745,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3813,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102161",
@@ -11774,7 +11774,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3751,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100095",
@@ -11803,7 +11803,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4277,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107270",
@@ -11832,7 +11832,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4170,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101374",
@@ -11861,7 +11861,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 808,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101890",
@@ -11890,7 +11890,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3951,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100504",
@@ -11919,7 +11919,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 38,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101072",
@@ -11948,7 +11948,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 332,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101927",
@@ -11977,7 +11977,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 841,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100958",
@@ -12006,7 +12006,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 335,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104146",
@@ -12035,7 +12035,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1797,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104042",
@@ -12064,7 +12064,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3246,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103593",
@@ -12093,7 +12093,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3863,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106759",
@@ -12122,7 +12122,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3294,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101053",
@@ -12151,7 +12151,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1819,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100887",
@@ -12180,7 +12180,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1884,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103944",
@@ -12209,7 +12209,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3308,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101894",
@@ -12238,7 +12238,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3535,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102088",
@@ -12267,7 +12267,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3520,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101595",
@@ -12296,7 +12296,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3467,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108347",
@@ -12325,7 +12325,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1740,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101376",
@@ -12354,7 +12354,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3334,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101964",
@@ -12383,7 +12383,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3193,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100749",
@@ -12412,7 +12412,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3195,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100547",
@@ -12441,7 +12441,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2924,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103270",
@@ -12470,7 +12470,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2334,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108371",
@@ -12499,7 +12499,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2537,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100558",
@@ -12528,7 +12528,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 원포공원1로 20 (초지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 786,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100559",
@@ -12557,7 +12557,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1881,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106533",
@@ -12586,7 +12586,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1615,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109121",
@@ -12615,7 +12615,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안산시 단원구 광덕대로 174, B동 503,507-2호 (고잔동, 월드타운)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3547,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104134",
@@ -12644,7 +12644,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 12067,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100688",
@@ -12673,7 +12673,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1572,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101317",
@@ -12702,7 +12702,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 16128,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101513",
@@ -12731,7 +12731,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 648,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103087",
@@ -12760,7 +12760,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1412,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100761",
@@ -12789,7 +12789,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 평택5로 65 (비전동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4349,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101996",
@@ -12818,7 +12818,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 평택5로 65 (비전동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2471,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101792",
@@ -12847,7 +12847,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1559,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103399",
@@ -12876,7 +12876,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5499,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101060",
@@ -12905,7 +12905,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1059,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101458",
@@ -12934,7 +12934,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2604,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100941",
@@ -12963,7 +12963,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1331,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100741",
@@ -12992,7 +12992,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2633,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100635",
@@ -13021,7 +13021,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1094,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101203",
@@ -13050,7 +13050,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1596,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103936",
@@ -13079,7 +13079,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 81,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100660",
@@ -13108,7 +13108,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2058,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109932",
@@ -13137,7 +13137,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2559,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104226",
@@ -13166,7 +13166,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 788,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102180",
@@ -13195,7 +13195,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1827,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101614",
@@ -13224,7 +13224,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1931,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101592",
@@ -13253,7 +13253,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1312,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100705",
@@ -13282,7 +13282,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1752,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100868",
@@ -13311,7 +13311,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 300,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103882",
@@ -13340,7 +13340,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2480,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108647",
@@ -13369,7 +13369,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1315,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104588",
@@ -13398,7 +13398,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 866,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101722",
@@ -13427,7 +13427,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1317,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101610",
@@ -13456,7 +13456,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1750,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100594",
@@ -13485,7 +13485,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1193,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103636",
@@ -13514,7 +13514,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3233,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106842",
@@ -13543,7 +13543,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2610,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103288",
@@ -13572,7 +13572,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2039,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101758",
@@ -13601,7 +13601,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2509,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101400",
@@ -13630,7 +13630,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2865,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104010",
@@ -13659,7 +13659,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1593,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107657",
@@ -13688,7 +13688,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1637,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110123",
@@ -13717,7 +13717,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1132,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101371",
@@ -13746,7 +13746,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1424,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103941",
@@ -13775,7 +13775,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1282,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101410",
@@ -13804,7 +13804,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1651,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103866",
@@ -13833,7 +13833,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1889,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100634",
@@ -13862,7 +13862,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1778,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110282",
@@ -13891,7 +13891,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안양시 동안구 경수대로 876, 2층(일부),3~5층 (비산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1523,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102826",
@@ -13920,7 +13920,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 녹양로 77, 1,2층 (녹양동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8054,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102506",
@@ -13949,7 +13949,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3842,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108017",
@@ -13978,7 +13978,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2714,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102546",
@@ -14007,7 +14007,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3241,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102757",
@@ -14036,7 +14036,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2894,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107506",
@@ -14065,7 +14065,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2636,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102567",
@@ -14094,7 +14094,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22620,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102534",
@@ -14123,7 +14123,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22613,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103610",
@@ -14152,7 +14152,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 30465,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108039",
@@ -14181,7 +14181,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 23179,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101241",
@@ -14210,7 +14210,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 32663,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106942",
@@ -14239,7 +14239,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 28676,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101438",
@@ -14268,7 +14268,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 28519,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100682",
@@ -14297,7 +14297,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 28337,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103673",
@@ -14326,7 +14326,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 26211,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102434",
@@ -14355,7 +14355,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 28227,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100606",
@@ -14384,7 +14384,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 원주시 감영길 11 (일산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 28507,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103927",
@@ -14413,7 +14413,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22968,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108157",
@@ -14442,7 +14442,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 209 (원동)",
     "paired_hospital_closing": "18:00 ~ 19:00",
     "paired_hospital_dist_m": 745,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101491",
@@ -14471,7 +14471,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 209 (원동)",
     "paired_hospital_closing": "18:00 ~ 19:00",
     "paired_hospital_dist_m": 1222,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104580",
@@ -14500,7 +14500,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 209 (원동)",
     "paired_hospital_closing": "18:00 ~ 19:00",
     "paired_hospital_dist_m": 313,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108668",
@@ -14529,7 +14529,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 534, 3층 303호, 5~10층 (수청동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2695,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101019",
@@ -14558,7 +14558,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 209 (원동)",
     "paired_hospital_closing": "18:00 ~ 19:00",
     "paired_hospital_dist_m": 692,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101520",
@@ -14587,7 +14587,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 209 (원동)",
     "paired_hospital_closing": "18:00 ~ 19:00",
     "paired_hospital_dist_m": 667,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103961",
@@ -14616,7 +14616,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 209 (원동)",
     "paired_hospital_closing": "18:00 ~ 19:00",
     "paired_hospital_dist_m": 1194,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100511",
@@ -14645,7 +14645,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 209 (원동)",
     "paired_hospital_closing": "18:00 ~ 19:00",
     "paired_hospital_dist_m": 720,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107902",
@@ -14674,7 +14674,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 534, 3층 303호, 5~10층 (수청동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100731",
@@ -14703,7 +14703,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 534, 3층 303호, 5~10층 (수청동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1326,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100703",
@@ -14732,7 +14732,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 36,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104104",
@@ -14761,7 +14761,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 72,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100465",
@@ -14790,7 +14790,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2595,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101509",
@@ -14819,7 +14819,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4362,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101398",
@@ -14848,7 +14848,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1506,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104011",
@@ -14877,7 +14877,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2588,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100561",
@@ -14906,7 +14906,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 360,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103049",
@@ -14935,7 +14935,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 950,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108640",
@@ -14964,7 +14964,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3496,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108066",
@@ -14993,7 +14993,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2669,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100944",
@@ -15022,7 +15022,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 362,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103677",
@@ -15051,7 +15051,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 73,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107962",
@@ -15080,7 +15080,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 영통구 효원로 363 (매탄동, 303상가 B202호, 203호)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3238,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101704",
@@ -15109,7 +15109,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3265,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104055",
@@ -15138,7 +15138,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3456,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109942",
@@ -15167,7 +15167,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3574,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107860",
@@ -15196,7 +15196,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3132,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108855",
@@ -15225,7 +15225,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3191,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101602",
@@ -15254,7 +15254,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3194,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110037",
@@ -15283,7 +15283,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4466,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101534",
@@ -15312,7 +15312,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 용구대로 2354, 3층 301호 (마북동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3342,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103173",
@@ -15341,7 +15341,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 성남시 분당구 정자일로198번길 15, 제나프라자 106~108호,110호 (정자동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3755,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100957",
@@ -15370,7 +15370,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9940,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109898",
@@ -15399,7 +15399,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9763,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102230",
@@ -15428,7 +15428,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7924,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101671",
@@ -15457,7 +15457,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 용인시 기흥구 중부대로 411, 강남병원 (신갈동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9937,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104015",
@@ -15486,7 +15486,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4448,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104342",
@@ -15515,7 +15515,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1167,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101988",
@@ -15544,7 +15544,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4911,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103107",
@@ -15573,7 +15573,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의왕시 평의길 34, 5층 601-602호 (내손동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 368,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102957",
@@ -15602,7 +15602,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2313,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106231",
@@ -15631,7 +15631,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 녹양로 77, 1,2층 (녹양동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 709,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102461",
@@ -15660,7 +15660,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 충의로 25, 401~406호 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 153,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107758",
@@ -15689,7 +15689,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102759",
@@ -15718,7 +15718,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 215,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109034",
@@ -15747,7 +15747,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 녹양로 77, 1,2층 (녹양동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1044,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102960",
@@ -15776,7 +15776,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1097,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102648",
@@ -15805,7 +15805,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1333,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108150",
@@ -15834,7 +15834,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1018,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108169",
@@ -15863,7 +15863,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1035,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103886",
@@ -15892,7 +15892,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1306,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103631",
@@ -15921,7 +15921,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 960,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102402",
@@ -15950,7 +15950,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2229,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103023",
@@ -15979,7 +15979,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1170,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102340",
@@ -16008,7 +16008,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 698,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103948",
@@ -16037,7 +16037,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 녹양로 77, 1,2층 (녹양동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1019,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102284",
@@ -16066,7 +16066,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 녹양로 77, 1,2층 (녹양동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1013,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103639",
@@ -16095,7 +16095,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2334,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102934",
@@ -16124,7 +16124,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 평화로 647, 미건메디컬프라자 B1,2,3,5층 201호 (의정부동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2210,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107958",
@@ -16153,7 +16153,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22811,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100067",
@@ -16182,7 +16182,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21927,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101440",
@@ -16211,7 +16211,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21906,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101504",
@@ -16240,7 +16240,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22543,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101936",
@@ -16269,7 +16269,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21565,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101040",
@@ -16298,7 +16298,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22090,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100527",
@@ -16327,7 +16327,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22767,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100510",
@@ -16356,7 +16356,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 26770,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101187",
@@ -16385,7 +16385,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21959,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101128",
@@ -16414,7 +16414,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광주시 광주대로 31, GA타워 9, 10층 (경안동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21605,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103424",
@@ -16443,7 +16443,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 29660,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110130",
@@ -16472,7 +16472,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 교하로 87, 8층 (목동동, 삼성프라자)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2370,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109474",
@@ -16501,7 +16501,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 금빛로 24-18, 거성프라자 (금촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 12571,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102828",
@@ -16530,7 +16530,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 금빛로 24-18, 거성프라자 (금촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11474,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102714",
@@ -16559,7 +16559,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 금빛로 24-18, 거성프라자 (금촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 435,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102844",
@@ -16588,7 +16588,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 금빛로 24-18, 거성프라자 (금촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 10658,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103198",
@@ -16617,7 +16617,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 교하로 87, 8층 (목동동, 삼성프라자)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2159,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102617",
@@ -16646,7 +16646,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 금빛로 24-18, 거성프라자 (금촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14617,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107016",
@@ -16675,7 +16675,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 양주시 회천남로 92, 센타프라자 606호,901~903호 (옥정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21411,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102837",
@@ -16704,7 +16704,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 파주시 금빛로 24-18, 거성프라자 (금촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11885,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109819",
@@ -16733,7 +16733,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 의정부시 녹양로 77, 1,2층 (녹양동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11820,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100686",
@@ -16762,7 +16762,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 조개터로42번길 61 (합정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2071,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103967",
@@ -16791,7 +16791,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 607,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100873",
@@ -16820,7 +16820,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1216,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110429",
@@ -16849,7 +16849,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3270,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103196",
@@ -16878,7 +16878,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2094,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103956",
@@ -16907,7 +16907,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14548,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104087",
@@ -16936,7 +16936,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 조개터로42번길 61 (합정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4364,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108334",
@@ -16965,7 +16965,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 평택5로 65 (비전동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 824,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110444",
@@ -16994,7 +16994,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4929,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101898",
@@ -17023,7 +17023,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 조개터로42번길 61 (합정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2007,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103304",
@@ -17052,7 +17052,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 20992,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100738",
@@ -17081,7 +17081,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 15045,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107689",
@@ -17110,7 +17110,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2170,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102195",
@@ -17139,7 +17139,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1454,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102226",
@@ -17168,7 +17168,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 26,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106671",
@@ -17197,7 +17197,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1189,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102090",
@@ -17226,7 +17226,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 조개터로42번길 61 (합정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6251,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109866",
@@ -17255,7 +17255,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 671,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100508",
@@ -17284,7 +17284,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 조개터로42번길 61 (합정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1742,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104020",
@@ -17313,7 +17313,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 조개터로42번길 61 (합정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2150,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108009",
@@ -17342,7 +17342,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 평택5로 65 (비전동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1637,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110098",
@@ -17371,7 +17371,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 평택5로 65 (비전동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3080,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100975",
@@ -17400,7 +17400,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 조개터로42번길 61 (합정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 36,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109547",
@@ -17429,7 +17429,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3553,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103565",
@@ -17458,7 +17458,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13912,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107688",
@@ -17487,7 +17487,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 평택5로 65 (비전동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 325,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102144",
@@ -17516,7 +17516,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 20852,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101342",
@@ -17545,7 +17545,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 46,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101190",
@@ -17574,7 +17574,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 조개터로42번길 61 (합정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 27,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103877",
@@ -17603,7 +17603,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2007,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2104286",
@@ -17632,7 +17632,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 9029,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103876",
@@ -17661,7 +17661,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8370,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103873",
@@ -17690,7 +17690,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 21039,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103028",
@@ -17719,7 +17719,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 34,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102497",
@@ -17748,7 +17748,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8970,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107223",
@@ -17777,7 +17777,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 9287,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106727",
@@ -17806,7 +17806,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 포천시 소흘읍 호국로 661",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 243,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107839",
@@ -17835,7 +17835,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6816,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108554",
@@ -17864,7 +17864,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6745,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103311",
@@ -17893,7 +17893,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5805,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101771",
@@ -17922,7 +17922,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5640,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101876",
@@ -17951,7 +17951,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5560,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2100507",
@@ -17980,7 +17980,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5527,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101828",
@@ -18009,7 +18009,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5521,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107201",
@@ -18038,7 +18038,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7425,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101158",
@@ -18067,7 +18067,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6742,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106560",
@@ -18096,7 +18096,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5587,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106411",
@@ -18125,7 +18125,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 하남시 감일백제로 175, 펜타스퀘어감일 114~116, 4층전체, 505~510, 6층전체호 (감이동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5473,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103916",
@@ -18154,7 +18154,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 534, 3층 303호, 5~10층 (수청동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11754,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106447",
@@ -18183,7 +18183,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 23311,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101633",
@@ -18212,7 +18212,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 팔달구 권광로 138, 수원시청역 선경센트럴파크 4층 (인계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6916,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110029",
@@ -18241,7 +18241,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 17, 지하1~2층 일부층 (반송동, 풍성위버폴리스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2256,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108267",
@@ -18270,7 +18270,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3441,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103854",
@@ -18299,7 +18299,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1174,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107465",
@@ -18328,7 +18328,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3255,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109965",
@@ -18357,7 +18357,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄순환대로 127-19, 동탄에스비타운 3(일부),6,7층 (산척동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2638,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101688",
@@ -18386,7 +18386,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 17, 지하1~2층 일부층 (반송동, 풍성위버폴리스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2842,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2106813",
@@ -18415,7 +18415,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3648,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2102000",
@@ -18444,7 +18444,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 17, 지하1~2층 일부층 (반송동, 풍성위버폴리스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2764,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107146",
@@ -18473,7 +18473,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3379,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2101429",
@@ -18502,7 +18502,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 평택시 서정북로 75 (서정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21385,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107403",
@@ -18531,7 +18531,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 534, 3층 303호, 5~10층 (수청동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14296,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107029",
@@ -18560,7 +18560,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3421,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107519",
@@ -18589,7 +18589,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2777,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2103558",
@@ -18618,7 +18618,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 오산시 경기대로 534, 3층 303호, 5~10층 (수청동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13362,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108030",
@@ -18647,7 +18647,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 18,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2108566",
@@ -18676,7 +18676,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2961,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2110356",
@@ -18705,7 +18705,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 20, 2~7층 (반송동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2728,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2107145",
@@ -18734,7 +18734,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 화성시 동탄구 동탄지성로 17, 지하1~2층 일부층 (반송동, 풍성위버폴리스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2940,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2109017",
@@ -18763,7 +18763,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 수원시 권선구 금곡로 112, 이수프라자 304~308호 (금곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5505,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109914",
@@ -18792,7 +18792,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1941,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110187",
@@ -18821,7 +18821,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 20,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104900",
@@ -18850,7 +18850,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1620,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101933",
@@ -18879,7 +18879,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1664,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107656",
@@ -18908,7 +18908,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2062,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103947",
@@ -18937,7 +18937,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2193,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110928",
@@ -18966,7 +18966,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1516,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107363",
@@ -18995,7 +18995,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3147,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109874",
@@ -19024,7 +19024,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1925,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110343",
@@ -19053,7 +19053,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3452,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102095",
@@ -19082,7 +19082,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2535,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107848",
@@ -19111,7 +19111,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2872,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101406",
@@ -19140,7 +19140,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3723,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109424",
@@ -19169,7 +19169,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2596,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101399",
@@ -19198,7 +19198,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2073,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111203",
@@ -19227,7 +19227,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2499,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108373",
@@ -19256,7 +19256,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3798,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109980",
@@ -19285,7 +19285,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2147,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101499",
@@ -19314,7 +19314,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1444,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109422",
@@ -19343,7 +19343,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2515,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108451",
@@ -19372,7 +19372,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4094,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108077",
@@ -19401,7 +19401,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2843,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108826",
@@ -19430,7 +19430,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3066,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101644",
@@ -19459,7 +19459,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2123,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108084",
@@ -19488,7 +19488,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4047,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109554",
@@ -19517,7 +19517,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2910,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107714",
@@ -19546,7 +19546,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107984",
@@ -19575,7 +19575,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4015,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108626",
@@ -19604,7 +19604,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2295,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109664",
@@ -19633,7 +19633,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1739,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110724",
@@ -19662,7 +19662,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3893,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110430",
@@ -19691,7 +19691,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1358,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108214",
@@ -19720,7 +19720,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3444,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108484",
@@ -19749,7 +19749,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2956,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103060",
@@ -19778,7 +19778,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 551,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107955",
@@ -19807,7 +19807,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3812,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110027",
@@ -19836,7 +19836,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1944,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111100",
@@ -19865,7 +19865,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3792,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110899",
@@ -19894,7 +19894,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2493,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110418",
@@ -19923,7 +19923,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 29,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110257",
@@ -19952,7 +19952,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2557,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100302",
@@ -19981,7 +19981,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2798,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110298",
@@ -20010,7 +20010,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1874,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109778",
@@ -20039,7 +20039,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1923,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107373",
@@ -20068,7 +20068,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2547,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111183",
@@ -20097,7 +20097,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3008,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109846",
@@ -20126,7 +20126,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 삼성로 14, S동 216,312,B108,B116호 (개포동, 개포자이 프레지던스)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1296,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109223",
@@ -20155,7 +20155,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1762,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107161",
@@ -20184,7 +20184,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2729,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109989",
@@ -20213,7 +20213,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 801,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107716",
@@ -20242,7 +20242,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2054,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100125",
@@ -20271,7 +20271,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1773,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110651",
@@ -20300,7 +20300,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2597,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109073",
@@ -20329,7 +20329,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1450,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103357",
@@ -20358,7 +20358,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 304,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103018",
@@ -20387,7 +20387,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1633,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103118",
@@ -20416,7 +20416,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2474,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110624",
@@ -20445,7 +20445,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109275",
@@ -20474,7 +20474,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3042,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104335",
@@ -20503,7 +20503,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1802,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101481",
@@ -20532,7 +20532,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3034,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101310",
@@ -20561,7 +20561,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 364,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102316",
@@ -20590,7 +20590,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1672,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110521",
@@ -20619,7 +20619,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1695,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101316",
@@ -20648,7 +20648,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3093,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110622",
@@ -20677,7 +20677,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1993,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109848",
@@ -20706,7 +20706,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1915,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100025",
@@ -20735,7 +20735,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3226,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100768",
@@ -20764,7 +20764,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2269,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111054",
@@ -20793,7 +20793,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 551,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108817",
@@ -20822,7 +20822,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1895,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107638",
@@ -20851,7 +20851,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1437,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104917",
@@ -20880,7 +20880,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 771,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111130",
@@ -20909,7 +20909,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 711,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108353",
@@ -20938,7 +20938,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3507,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110663",
@@ -20967,7 +20967,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3801,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103330",
@@ -20996,7 +20996,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2523,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101676",
@@ -21025,7 +21025,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4128,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109184",
@@ -21054,7 +21054,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3533,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107028",
@@ -21083,7 +21083,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 865,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103486",
@@ -21112,7 +21112,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 819,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107437",
@@ -21141,7 +21141,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3411,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103264",
@@ -21170,7 +21170,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1580,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104200",
@@ -21199,7 +21199,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3267,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110816",
@@ -21228,7 +21228,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 867,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109578",
@@ -21257,7 +21257,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 96,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110533",
@@ -21286,7 +21286,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1460,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110740",
@@ -21315,7 +21315,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110283",
@@ -21344,7 +21344,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 신월로 280, 1층 일부, 2층 (신정동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1245,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110532",
@@ -21373,7 +21373,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1070,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101990",
@@ -21402,7 +21402,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 807,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110734",
@@ -21431,7 +21431,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3660,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110092",
@@ -21460,7 +21460,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1806,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109672",
@@ -21489,7 +21489,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1864,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110572",
@@ -21518,7 +21518,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1878,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102625",
@@ -21547,7 +21547,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 600,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109032",
@@ -21576,7 +21576,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1708,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103066",
@@ -21605,7 +21605,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1720,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100966",
@@ -21634,7 +21634,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1142,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100544",
@@ -21663,7 +21663,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3175,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102423",
@@ -21692,7 +21692,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1086,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110738",
@@ -21721,7 +21721,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 공항대로41길 34, 플러스존 3,8,9층 (등촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1755,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109040",
@@ -21750,7 +21750,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 신월로 280, 1층 일부, 2층 (신정동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1294,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102838",
@@ -21779,7 +21779,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4635,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102190",
@@ -21808,7 +21808,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3487,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103522",
@@ -21837,7 +21837,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2894,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109010",
@@ -21866,7 +21866,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4343,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108957",
@@ -21895,7 +21895,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3211,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108757",
@@ -21924,7 +21924,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3569,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100269",
@@ -21953,7 +21953,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3358,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102172",
@@ -21982,7 +21982,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4302,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102388",
@@ -22011,7 +22011,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3739,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100268",
@@ -22040,7 +22040,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3369,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103634",
@@ -22069,7 +22069,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4571,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101577",
@@ -22098,7 +22098,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4377,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108442",
@@ -22127,7 +22127,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2099,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110313",
@@ -22156,7 +22156,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3258,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110495",
@@ -22185,7 +22185,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4657,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110307",
@@ -22214,7 +22214,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4629,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103136",
@@ -22243,7 +22243,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2744,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109703",
@@ -22272,7 +22272,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3589,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104263",
@@ -22301,7 +22301,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3404,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102158",
@@ -22330,7 +22330,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2742,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100172",
@@ -22359,7 +22359,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 5282,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102257",
@@ -22388,7 +22388,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4942,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103435",
@@ -22417,7 +22417,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4320,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103360",
@@ -22446,7 +22446,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5042,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110493",
@@ -22475,7 +22475,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2703,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110839",
@@ -22504,7 +22504,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3039,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103074",
@@ -22533,7 +22533,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4436,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103930",
@@ -22562,7 +22562,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4461,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107221",
@@ -22591,7 +22591,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2947,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109361",
@@ -22620,7 +22620,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4539,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109695",
@@ -22649,7 +22649,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3145,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103342",
@@ -22678,7 +22678,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 829,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110677",
@@ -22707,7 +22707,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 477,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110579",
@@ -22736,7 +22736,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 408,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107781",
@@ -22765,7 +22765,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 981,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110619",
@@ -22794,7 +22794,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 320,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110271",
@@ -22823,7 +22823,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2178,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109799",
@@ -22852,7 +22852,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1264,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103699",
@@ -22881,7 +22881,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 575,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110824",
@@ -22910,7 +22910,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 456,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103506",
@@ -22939,7 +22939,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1126,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102058",
@@ -22968,7 +22968,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 792,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101265",
@@ -22997,7 +22997,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 184,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103408",
@@ -23026,7 +23026,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103574",
@@ -23055,7 +23055,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2094,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102660",
@@ -23084,7 +23084,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 367,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100867",
@@ -23113,7 +23113,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 404,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103611",
@@ -23142,7 +23142,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 372,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110135",
@@ -23171,7 +23171,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2234,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100902",
@@ -23200,7 +23200,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 384,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100519",
@@ -23229,7 +23229,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2636,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100325",
@@ -23258,7 +23258,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1580,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100327",
@@ -23287,7 +23287,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1140,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109512",
@@ -23316,7 +23316,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 164,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102181",
@@ -23345,7 +23345,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1032,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108637",
@@ -23374,7 +23374,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2243,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110089",
@@ -23403,7 +23403,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 117,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102132",
@@ -23432,7 +23432,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 신월로 280, 1층 일부, 2층 (신정동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2945,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108913",
@@ -23461,7 +23461,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1983,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107850",
@@ -23490,7 +23490,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 975,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111138",
@@ -23519,7 +23519,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 신월로 280, 1층 일부, 2층 (신정동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1787,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110834",
@@ -23548,7 +23548,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 963,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108890",
@@ -23577,7 +23577,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 866,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109405",
@@ -23606,7 +23606,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1054,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109500",
@@ -23635,7 +23635,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111121",
@@ -23664,7 +23664,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 283,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104205",
@@ -23693,7 +23693,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2370,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101981",
@@ -23722,7 +23722,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2517,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110688",
@@ -23751,7 +23751,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2693,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104294",
@@ -23780,7 +23780,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2864,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102657",
@@ -23809,7 +23809,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1893,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102649",
@@ -23838,7 +23838,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2919,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101692",
@@ -23867,7 +23867,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2056,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104792",
@@ -23896,7 +23896,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2106,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108241",
@@ -23925,7 +23925,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1659,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100389",
@@ -23954,7 +23954,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2207,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100321",
@@ -23983,7 +23983,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 소하로75번길 10, 3~8층 (소하동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2545,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104370",
@@ -24012,7 +24012,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 광명시 오리로 857, 2층 202호 (철산동, 일청빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1560,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108231",
@@ -24041,7 +24041,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3482,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102082",
@@ -24070,7 +24070,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3691,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102798",
@@ -24099,7 +24099,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2674,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108863",
@@ -24128,7 +24128,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2647,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108591",
@@ -24157,7 +24157,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2586,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104332",
@@ -24186,7 +24186,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2327,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107134",
@@ -24215,7 +24215,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2710,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108160",
@@ -24244,7 +24244,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2530,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104433",
@@ -24273,7 +24273,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1759,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102682",
@@ -24302,7 +24302,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 701,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109577",
@@ -24331,7 +24331,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2476,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101538",
@@ -24360,7 +24360,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1479,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102319",
@@ -24389,7 +24389,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110133",
@@ -24418,7 +24418,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1807,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100791",
@@ -24447,7 +24447,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2397,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100775",
@@ -24476,7 +24476,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2642,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100465",
@@ -24505,7 +24505,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2485,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100757",
@@ -24534,7 +24534,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2681,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109617",
@@ -24563,7 +24563,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1320,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107137",
@@ -24592,7 +24592,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1075,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109992",
@@ -24621,7 +24621,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2701,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102519",
@@ -24650,7 +24650,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2572,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110264",
@@ -24679,7 +24679,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1542,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104407",
@@ -24708,7 +24708,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3800,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101522",
@@ -24737,7 +24737,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4222,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100238",
@@ -24766,7 +24766,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3572,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102806",
@@ -24795,7 +24795,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3681,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100294",
@@ -24824,7 +24824,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2912,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107721",
@@ -24853,7 +24853,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3972,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100718",
@@ -24882,7 +24882,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 노원구 동일로 1669, 수락프라자 (상계동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3679,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110625",
@@ -24911,7 +24911,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1497,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107130",
@@ -24940,7 +24940,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1943,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110218",
@@ -24969,7 +24969,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3098,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107212",
@@ -24998,7 +24998,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1945,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103354",
@@ -25027,7 +25027,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1676,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101582",
@@ -25056,7 +25056,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1627,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104573",
@@ -25085,7 +25085,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2452,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102644",
@@ -25114,7 +25114,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3001,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102881",
@@ -25143,7 +25143,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2444,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100918",
@@ -25172,7 +25172,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3036,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102568",
@@ -25201,7 +25201,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2595,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110217",
@@ -25230,7 +25230,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2672,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110630",
@@ -25259,7 +25259,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2422,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107432",
@@ -25288,7 +25288,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2463,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101033",
@@ -25317,7 +25317,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1604,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111142",
@@ -25346,7 +25346,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2294,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102509",
@@ -25375,7 +25375,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3382,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103632",
@@ -25404,7 +25404,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2666,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110609",
@@ -25433,7 +25433,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2029,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100167",
@@ -25462,7 +25462,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1581,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101575",
@@ -25491,7 +25491,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3922,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101736",
@@ -25520,7 +25520,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1064,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103407",
@@ -25549,7 +25549,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 938,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110944",
@@ -25578,7 +25578,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1239,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101211",
@@ -25607,7 +25607,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3801,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107096",
@@ -25636,7 +25636,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3842,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110337",
@@ -25665,7 +25665,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2031,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101735",
@@ -25694,7 +25694,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1975,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103065",
@@ -25723,7 +25723,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1880,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101626",
@@ -25752,7 +25752,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2890,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108714",
@@ -25781,7 +25781,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3392,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103351",
@@ -25810,7 +25810,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1249,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103475",
@@ -25839,7 +25839,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3067,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108763",
@@ -25868,7 +25868,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3040,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101206",
@@ -25897,7 +25897,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4199,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108073",
@@ -25926,7 +25926,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3631,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104209",
@@ -25955,7 +25955,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2051,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100355",
@@ -25984,7 +25984,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4168,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104624",
@@ -26013,7 +26013,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3888,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104739",
@@ -26042,7 +26042,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3068,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109282",
@@ -26071,7 +26071,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4189,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101557",
@@ -26100,7 +26100,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3993,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108298",
@@ -26129,7 +26129,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3999,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111150",
@@ -26158,7 +26158,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3571,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110365",
@@ -26187,7 +26187,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3474,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110898",
@@ -26216,7 +26216,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2274,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110769",
@@ -26245,7 +26245,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2719,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108141",
@@ -26274,7 +26274,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 15,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100046",
@@ -26303,7 +26303,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 63,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102658",
@@ -26332,7 +26332,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2849,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109986",
@@ -26361,7 +26361,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2713,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108837",
@@ -26390,7 +26390,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2845,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109055",
@@ -26419,7 +26419,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3077,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100548",
@@ -26448,7 +26448,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5705,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111143",
@@ -26477,7 +26477,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5591,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108905",
@@ -26506,7 +26506,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3777,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110970",
@@ -26535,7 +26535,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3488,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107175",
@@ -26564,7 +26564,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3197,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101705",
@@ -26593,7 +26593,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5680,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107826",
@@ -26622,7 +26622,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3768,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110363",
@@ -26651,7 +26651,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3333,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111208",
@@ -26680,7 +26680,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3522,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108807",
@@ -26709,7 +26709,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2549,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109786",
@@ -26738,7 +26738,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2590,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107174",
@@ -26767,7 +26767,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3606,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111108",
@@ -26796,7 +26796,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3390,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110934",
@@ -26825,7 +26825,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3715,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111171",
@@ -26854,7 +26854,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3208,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109438",
@@ -26883,7 +26883,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3626,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110907",
@@ -26912,7 +26912,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3548,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108903",
@@ -26941,7 +26941,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3005,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109283",
@@ -26970,7 +26970,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3751,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101734",
@@ -26999,7 +26999,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4070,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110544",
@@ -27028,7 +27028,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4208,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108511",
@@ -27057,7 +27057,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4435,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103294",
@@ -27086,7 +27086,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2998,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102185",
@@ -27115,7 +27115,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4473,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100186",
@@ -27144,7 +27144,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5275,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110871",
@@ -27173,7 +27173,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1887,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109788",
@@ -27202,7 +27202,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1352,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108731",
@@ -27231,7 +27231,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 5,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101837",
@@ -27260,7 +27260,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1584,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107615",
@@ -27289,7 +27289,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2301,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101986",
@@ -27318,7 +27318,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1765,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110744",
@@ -27347,7 +27347,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1295,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107367",
@@ -27376,7 +27376,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3610,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101731",
@@ -27405,7 +27405,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2144,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107478",
@@ -27434,7 +27434,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강남구 헌릉로569길 27, 2층 (세곡동, 2층일부(201-2호,202호))",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3744,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107855",
@@ -27463,7 +27463,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1344,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109304",
@@ -27492,7 +27492,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1368,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107652",
@@ -27521,7 +27521,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1568,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110149",
@@ -27550,7 +27550,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3446,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108983",
@@ -27579,7 +27579,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2009,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108367",
@@ -27608,7 +27608,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2084,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100973",
@@ -27637,7 +27637,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 905,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107390",
@@ -27666,7 +27666,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2758,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110244",
@@ -27695,7 +27695,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 163,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100397",
@@ -27724,7 +27724,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 344,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108912",
@@ -27753,7 +27753,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2853,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107391",
@@ -27782,7 +27782,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 서초중앙로 4, 기쁨병원 (서초동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1876,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111194",
@@ -27811,7 +27811,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110596",
@@ -27840,7 +27840,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2481,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108382",
@@ -27869,7 +27869,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 124,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101881",
@@ -27898,7 +27898,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 864,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102926",
@@ -27927,7 +27927,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1485,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109326",
@@ -27956,7 +27956,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 92,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110968",
@@ -27985,7 +27985,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1531,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110988",
@@ -28014,7 +28014,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1535,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110291",
@@ -28043,7 +28043,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1628,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111158",
@@ -28072,7 +28072,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1943,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101007",
@@ -28101,7 +28101,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1352,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111015",
@@ -28130,7 +28130,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1549,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101051",
@@ -28159,7 +28159,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1211,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110452",
@@ -28188,7 +28188,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1153,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108277",
@@ -28217,7 +28217,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성동구 왕십리광장로 17, 왕십리민자역사 4층 (행당동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111146",
@@ -28246,7 +28246,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1850,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108850",
@@ -28275,7 +28275,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 광진구 능동로 90, 3층 (자양동, 더클래식500)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1834,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104793",
@@ -28304,7 +28304,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2104,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110511",
@@ -28333,7 +28333,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2292,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104630",
@@ -28362,7 +28362,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1726,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107992",
@@ -28391,7 +28391,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 51,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109743",
@@ -28420,7 +28420,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1949,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103161",
@@ -28449,7 +28449,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1527,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109228",
@@ -28478,7 +28478,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 23,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102573",
@@ -28507,7 +28507,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1677,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103501",
@@ -28536,7 +28536,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2740,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103168",
@@ -28565,7 +28565,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1854,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104083",
@@ -28594,7 +28594,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 성북구 동소문로46길 10 (하월곡동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1996,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110709",
@@ -28623,7 +28623,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1603,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103692",
@@ -28652,7 +28652,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2388,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102143",
@@ -28681,7 +28681,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1800,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102869",
@@ -28710,7 +28710,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 777,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102904",
@@ -28739,7 +28739,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2868,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103133",
@@ -28768,7 +28768,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 979,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108458",
@@ -28797,7 +28797,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 894,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101875",
@@ -28826,7 +28826,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1118,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110623",
@@ -28855,7 +28855,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107361",
@@ -28884,7 +28884,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 12,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102414",
@@ -28913,7 +28913,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2206,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110310",
@@ -28942,7 +28942,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 776,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107952",
@@ -28971,7 +28971,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 426,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108075",
@@ -29000,7 +29000,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2351,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103648",
@@ -29029,7 +29029,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2096,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100839",
@@ -29058,7 +29058,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2677,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110885",
@@ -29087,7 +29087,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 870,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109806",
@@ -29116,7 +29116,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2377,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104066",
@@ -29145,7 +29145,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 635,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100979",
@@ -29174,7 +29174,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 473,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109475",
@@ -29203,7 +29203,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2254,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107497",
@@ -29232,7 +29232,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1765,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109398",
@@ -29261,7 +29261,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2167,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109940",
@@ -29290,7 +29290,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1387,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111220",
@@ -29319,7 +29319,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 713,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110887",
@@ -29348,7 +29348,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 위례북로1길 22, 3,4층 304~312,401~408호 (거여동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2321,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108037",
@@ -29377,7 +29377,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2209,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104319",
@@ -29406,7 +29406,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강동구 양재대로 1313, 1,2,5층 (성내동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1780,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103690",
@@ -29435,7 +29435,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 818,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108819",
@@ -29464,7 +29464,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 999,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108215",
@@ -29493,7 +29493,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 송파구 백제고분로 187, 2층 205,206호 (잠실동, 파크인수)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1432,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103221",
@@ -29522,7 +29522,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 목동동로 233-1, 109호 (목동, 현대드림타워)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 886,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110869",
@@ -29551,7 +29551,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 목동동로 233-1, 109호 (목동, 현대드림타워)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 645,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107079",
@@ -29580,7 +29580,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 목동동로 233-1, 109호 (목동, 현대드림타워)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110129",
@@ -29609,7 +29609,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 신월로 280, 1층 일부, 2층 (신정동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102729",
@@ -29638,7 +29638,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 목동동로 233-1, 109호 (목동, 현대드림타워)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 980,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110302",
@@ -29667,7 +29667,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 목동동로 233-1, 109호 (목동, 현대드림타워)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 832,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110272",
@@ -29696,7 +29696,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 목동동로 233-1, 109호 (목동, 현대드림타워)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1182,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110034",
@@ -29725,7 +29725,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 강서구 화곡로 197, 1,2층 (화곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2051,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107573",
@@ -29754,7 +29754,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 양천구 목동동로 233-1, 109호 (목동, 현대드림타워)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 521,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109427",
@@ -29783,7 +29783,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 116,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108120",
@@ -29812,7 +29812,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 11,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101554",
@@ -29841,7 +29841,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1083,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110700",
@@ -29870,7 +29870,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 748,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102011",
@@ -29899,7 +29899,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 707,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110698",
@@ -29928,7 +29928,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1069,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109045",
@@ -29957,7 +29957,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1747,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103062",
@@ -29986,7 +29986,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2874,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103437",
@@ -30015,7 +30015,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 664,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110861",
@@ -30044,7 +30044,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1032,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110965",
@@ -30073,7 +30073,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 344,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108091",
@@ -30102,7 +30102,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 744,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100319",
@@ -30131,7 +30131,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1644,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102601",
@@ -30160,7 +30160,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 구로구 새말로 15, 2~10층,11층 일부호 (구로동, 삼전 솔하임)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1732,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101142",
@@ -30189,7 +30189,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 954,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108008",
@@ -30218,7 +30218,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 813,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110517",
@@ -30247,7 +30247,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1129,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101588",
@@ -30276,7 +30276,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4499,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102918",
@@ -30305,7 +30305,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3276,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104025",
@@ -30334,7 +30334,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5448,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101612",
@@ -30363,7 +30363,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4283,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101301",
@@ -30392,7 +30392,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 영등포구 영중로 119, 리마크빌 영등포 2층 204-1호 (영등포동8가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4817,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111128",
@@ -30421,7 +30421,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3734,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108849",
@@ -30450,7 +30450,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4640,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111006",
@@ -30479,7 +30479,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4308,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110922",
@@ -30508,7 +30508,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4428,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100333",
@@ -30537,7 +30537,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 서초구 방배로 226, 넥센강남타워 3층 (방배동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4640,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101203",
@@ -30566,7 +30566,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2057,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109050",
@@ -30595,7 +30595,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3076,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107634",
@@ -30624,7 +30624,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1099,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111089",
@@ -30653,7 +30653,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 191,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103108",
@@ -30682,7 +30682,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3906,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111148",
@@ -30711,7 +30711,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2049,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107264",
@@ -30740,7 +30740,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2516,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110360",
@@ -30769,7 +30769,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2122,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110361",
@@ -30798,7 +30798,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2085,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107340",
@@ -30827,7 +30827,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2773,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101518",
@@ -30856,7 +30856,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 은평구 통일로 1050, 롯데몰 은평점 4층 4-41, 4-13호 (진관동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3436,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104235",
@@ -30885,7 +30885,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 마포구 월드컵북로 396, 누리꿈스퀘어 지하층 B1095호 (상암동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2645,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101974",
@@ -30914,7 +30914,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3699,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103568",
@@ -30943,7 +30943,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3237,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102858",
@@ -30972,7 +30972,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1330,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111152",
@@ -31001,7 +31001,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2948,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110912",
@@ -31030,7 +31030,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3369,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107932",
@@ -31059,7 +31059,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4599,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100126",
@@ -31088,7 +31088,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2983,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110348",
@@ -31117,7 +31117,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2356,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108596",
@@ -31146,7 +31146,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5272,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109959",
@@ -31175,7 +31175,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3704,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110798",
@@ -31204,7 +31204,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3193,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100686",
@@ -31233,7 +31233,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3356,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108024",
@@ -31262,7 +31262,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2798,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104214",
@@ -31291,7 +31291,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3454,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104024",
@@ -31320,7 +31320,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2814,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103030",
@@ -31349,7 +31349,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2505,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109437",
@@ -31378,7 +31378,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2969,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111164",
@@ -31407,7 +31407,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3470,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109534",
@@ -31436,7 +31436,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4127,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109867",
@@ -31465,7 +31465,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103919",
@@ -31494,7 +31494,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1523,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107425",
@@ -31523,7 +31523,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3509,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110855",
@@ -31552,7 +31552,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3669,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110954",
@@ -31581,7 +31581,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3472,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103792",
@@ -31610,7 +31610,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1561,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102740",
@@ -31639,7 +31639,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1875,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103216",
@@ -31668,7 +31668,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2316,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111020",
@@ -31697,7 +31697,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1476,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111106",
@@ -31726,7 +31726,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1493,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110982",
@@ -31755,7 +31755,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3542,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111221",
@@ -31784,7 +31784,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3511,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111081",
@@ -31813,7 +31813,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3537,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110897",
@@ -31842,7 +31842,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2639,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104613",
@@ -31871,7 +31871,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 854,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111170",
@@ -31900,7 +31900,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3588,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110878",
@@ -31929,7 +31929,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3461,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110991",
@@ -31958,7 +31958,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3605,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110858",
@@ -31987,7 +31987,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3559,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110856",
@@ -32016,7 +32016,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3734,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110857",
@@ -32045,7 +32045,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3546,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111001",
@@ -32074,7 +32074,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3436,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111000",
@@ -32103,7 +32103,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3509,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110881",
@@ -32132,7 +32132,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3581,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110879",
@@ -32161,7 +32161,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3358,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110896",
@@ -32190,7 +32190,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3538,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107601",
@@ -32219,7 +32219,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3546,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110895",
@@ -32248,7 +32248,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3492,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101269",
@@ -32277,7 +32277,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 421,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102774",
@@ -32306,7 +32306,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2578,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101754",
@@ -32335,7 +32335,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3507,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107335",
@@ -32364,7 +32364,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1496,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103281",
@@ -32393,7 +32393,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 905,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1101063",
@@ -32422,7 +32422,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 426,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102465",
@@ -32451,7 +32451,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1272,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108310",
@@ -32480,7 +32480,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3415,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111168",
@@ -32509,7 +32509,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3655,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110853",
@@ -32538,7 +32538,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3604,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111009",
@@ -32567,7 +32567,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 993,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110697",
@@ -32596,7 +32596,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3586,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111163",
@@ -32625,7 +32625,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3619,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110715",
@@ -32654,7 +32654,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3581,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111239",
@@ -32683,7 +32683,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3508,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111167",
@@ -32712,7 +32712,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3456,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1108280",
@@ -32741,7 +32741,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3428,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107935",
@@ -32770,7 +32770,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1207,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103819",
@@ -32799,7 +32799,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1968,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102598",
@@ -32828,7 +32828,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2706,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110894",
@@ -32857,7 +32857,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3660,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111134",
@@ -32886,7 +32886,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1065,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110353",
@@ -32915,7 +32915,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3591,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111063",
@@ -32944,7 +32944,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3630,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1111109",
@@ -32973,7 +32973,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1459,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110994",
@@ -33002,7 +33002,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3600,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109900",
@@ -33031,7 +33031,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중구 왕십리로 407, B1층 2호 (신당동, 신당 파인힐 하나유보라)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3612,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110065",
@@ -33060,7 +33060,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2964,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102128",
@@ -33089,7 +33089,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2571,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103441",
@@ -33118,7 +33118,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2816,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1109658",
@@ -33147,7 +33147,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2181,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1104660",
@@ -33176,7 +33176,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1777,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103583",
@@ -33205,7 +33205,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2777,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1102293",
@@ -33234,7 +33234,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 581,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1110299",
@@ -33263,7 +33263,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2207,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1103159",
@@ -33292,7 +33292,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3555,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107185",
@@ -33321,7 +33321,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3467,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100330",
@@ -33350,7 +33350,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3529,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1107356",
@@ -33379,7 +33379,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1100225",
@@ -33408,7 +33408,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "서울특별시 중랑구 동일로 932, 202동 210,211,302호 (묵동, 묵동자이아파트)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2816,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400315",
@@ -33437,7 +33437,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 김포시 김포한강8로 382, 6,7,8,11층 (구래동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 17049,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400748",
@@ -33466,7 +33466,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3247,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400691",
@@ -33495,7 +33495,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3416,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400344",
@@ -33524,7 +33524,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3293,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402109",
@@ -33553,7 +33553,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 검단구 원당대로 1039, 태경타워 3,4층 전체호 (원당동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3017,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400638",
@@ -33582,7 +33582,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4919,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400145",
@@ -33611,7 +33611,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4664,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400327",
@@ -33640,7 +33640,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3977,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400127",
@@ -33669,7 +33669,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4729,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401882",
@@ -33698,7 +33698,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4603,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400018",
@@ -33727,7 +33727,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5082,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400080",
@@ -33756,7 +33756,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 5127,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400246",
@@ -33785,7 +33785,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3915,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400959",
@@ -33814,7 +33814,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4006,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400871",
@@ -33843,7 +33843,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5198,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402110",
@@ -33872,7 +33872,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4125,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401962",
@@ -33901,7 +33901,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5092,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400565",
@@ -33930,7 +33930,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4832,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400236",
@@ -33959,7 +33959,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3728,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400666",
@@ -33988,7 +33988,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3299,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401496",
@@ -34017,7 +34017,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2918,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400253",
@@ -34046,7 +34046,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5014,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400477",
@@ -34075,7 +34075,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5874,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402132",
@@ -34104,7 +34104,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6249,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401563",
@@ -34133,7 +34133,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6526,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401670",
@@ -34162,7 +34162,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5937,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400322",
@@ -34191,7 +34191,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4963,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400117",
@@ -34220,7 +34220,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5284,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401666",
@@ -34249,7 +34249,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6497,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400824",
@@ -34278,7 +34278,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6367,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401720",
@@ -34307,7 +34307,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6847,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401733",
@@ -34336,7 +34336,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5638,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400030",
@@ -34365,7 +34365,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5310,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400266",
@@ -34394,7 +34394,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5639,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400138",
@@ -34423,7 +34423,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4532,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400429",
@@ -34452,7 +34452,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6385,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402258",
@@ -34481,7 +34481,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6108,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400736",
@@ -34510,7 +34510,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5622,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401838",
@@ -34539,7 +34539,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6669,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400130",
@@ -34568,7 +34568,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5982,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400814",
@@ -34597,7 +34597,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6319,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402197",
@@ -34626,7 +34626,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6286,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402004",
@@ -34655,7 +34655,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5133,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400262",
@@ -34684,7 +34684,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5085,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400624",
@@ -34713,7 +34713,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7625,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402173",
@@ -34742,7 +34742,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5629,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400861",
@@ -34771,7 +34771,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6106,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402130",
@@ -34800,7 +34800,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5277,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401500",
@@ -34829,7 +34829,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6475,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401549",
@@ -34858,7 +34858,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6810,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400348",
@@ -34887,7 +34887,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7291,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400637",
@@ -34916,7 +34916,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5328,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400126",
@@ -34945,7 +34945,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5037,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400669",
@@ -34974,7 +34974,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3379,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400409",
@@ -35003,7 +35003,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4088,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400763",
@@ -35032,7 +35032,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3716,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400580",
@@ -35061,7 +35061,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1204,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400442",
@@ -35090,7 +35090,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4622,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400582",
@@ -35119,7 +35119,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2482,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401830",
@@ -35148,7 +35148,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1067,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401895",
@@ -35177,7 +35177,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 400,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400957",
@@ -35206,7 +35206,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4671,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400131",
@@ -35235,7 +35235,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3637,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400361",
@@ -35264,7 +35264,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3455,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400911",
@@ -35293,7 +35293,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400417",
@@ -35322,7 +35322,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3866,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402211",
@@ -35351,7 +35351,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3732,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400401",
@@ -35380,7 +35380,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5678,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401685",
@@ -35409,7 +35409,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1687,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402017",
@@ -35438,7 +35438,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1635,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400047",
@@ -35467,7 +35467,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3263,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400489",
@@ -35496,7 +35496,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3795,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400065",
@@ -35525,7 +35525,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3756,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402156",
@@ -35554,7 +35554,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4001,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400715",
@@ -35583,7 +35583,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2608,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401705",
@@ -35612,7 +35612,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3884,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400119",
@@ -35641,7 +35641,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3356,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400394",
@@ -35670,7 +35670,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4176,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400482",
@@ -35699,7 +35699,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2323,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402077",
@@ -35728,7 +35728,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4801,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400045",
@@ -35757,7 +35757,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3390,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400440",
@@ -35786,7 +35786,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2907,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400396",
@@ -35815,7 +35815,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3191,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401783",
@@ -35844,7 +35844,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2910,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400110",
@@ -35873,7 +35873,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6042,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400255",
@@ -35902,7 +35902,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1895,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400202",
@@ -35931,7 +35931,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5784,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400474",
@@ -35960,7 +35960,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4806,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401620",
@@ -35989,7 +35989,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3588,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401886",
@@ -36018,7 +36018,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3598,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400272",
@@ -36047,7 +36047,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3797,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401873",
@@ -36076,7 +36076,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3385,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401726",
@@ -36105,7 +36105,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3309,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400445",
@@ -36134,7 +36134,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6071,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400411",
@@ -36163,7 +36163,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3126,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400162",
@@ -36192,7 +36192,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2857,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "A1403024",
@@ -36221,7 +36221,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3631,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400446",
@@ -36250,7 +36250,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 소사구 경인로 126, 2층,3층 (송내동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3233,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400496",
@@ -36279,7 +36279,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2147,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400378",
@@ -36308,7 +36308,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4613,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400324",
@@ -36337,7 +36337,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 부천시 원미구 송내대로265번길 19, 4,5층 (상동, 대신프라자)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4762,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401699",
@@ -36366,7 +36366,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 1739,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400325",
@@ -36395,7 +36395,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 4318,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401940",
@@ -36424,7 +36424,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 검단구 발산로5번길 12, 인천검단 엔젤리움1차 윈팰리스 6,7층 (원당동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 149,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400425",
@@ -36453,7 +36453,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 4081,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400865",
@@ -36482,7 +36482,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 검단구 발산로5번길 12, 인천검단 엔젤리움1차 윈팰리스 6,7층 (원당동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4767,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401770",
@@ -36511,7 +36511,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 539,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402092",
@@ -36540,7 +36540,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 검단구 발산로5번길 12, 인천검단 엔젤리움1차 윈팰리스 6,7층 (원당동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4802,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401754",
@@ -36569,7 +36569,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 검단구 발산로5번길 12, 인천검단 엔젤리움1차 윈팰리스 6,7층 (원당동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4837,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401912",
@@ -36598,7 +36598,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 검단구 발산로5번길 12, 인천검단 엔젤리움1차 윈팰리스 6,7층 (원당동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3222,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400951",
@@ -36627,7 +36627,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 3132,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401648",
@@ -36656,7 +36656,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 277,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402193",
@@ -36685,7 +36685,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 검단구 발산로5번길 12, 인천검단 엔젤리움1차 윈팰리스 6,7층 (원당동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1555,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400171",
@@ -36714,7 +36714,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 2628,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402233",
@@ -36743,7 +36743,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 검단구 발산로5번길 12, 인천검단 엔젤리움1차 윈팰리스 6,7층 (원당동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 350,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400415",
@@ -36772,7 +36772,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 3837,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400550",
@@ -36801,7 +36801,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 3130,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400424",
@@ -36830,7 +36830,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 5707,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402249",
@@ -36859,7 +36859,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 2075,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "A1402950",
@@ -36888,7 +36888,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 2708,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400079",
@@ -36917,7 +36917,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 서해구 중봉대로612번길 10-16 (청라동, 마르씨엘)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 3739,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402069",
@@ -36946,7 +36946,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1072,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402243",
@@ -36975,7 +36975,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4361,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400594",
@@ -37004,7 +37004,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5922,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400652",
@@ -37033,7 +37033,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3228,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402246",
@@ -37062,7 +37062,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 602,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401527",
@@ -37091,7 +37091,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 83,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400511",
@@ -37120,7 +37120,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4536,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400793",
@@ -37149,7 +37149,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3127,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401860",
@@ -37178,7 +37178,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1299,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401514",
@@ -37207,7 +37207,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3665,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402122",
@@ -37236,7 +37236,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400689",
@@ -37265,7 +37265,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1387,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401682",
@@ -37294,7 +37294,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401738",
@@ -37323,7 +37323,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3665,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402191",
@@ -37352,7 +37352,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4860,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402053",
@@ -37381,7 +37381,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4085,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400169",
@@ -37410,7 +37410,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4014,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402030",
@@ -37439,7 +37439,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4044,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400196",
@@ -37468,7 +37468,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3356,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400649",
@@ -37497,7 +37497,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4898,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401855",
@@ -37526,7 +37526,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3227,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401450",
@@ -37555,7 +37555,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 연수구 송도국제대로 157, 오네스타 4층,7층 409호,701~710호 (송도동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1435,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400475",
@@ -37584,7 +37584,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4535,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400066",
@@ -37613,7 +37613,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3042,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401532",
@@ -37642,7 +37642,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 10366,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402088",
@@ -37671,7 +37671,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 15101,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400917",
@@ -37700,7 +37700,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1257,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402236",
@@ -37729,7 +37729,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2020,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402202",
@@ -37758,7 +37758,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 10549,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400898",
@@ -37787,7 +37787,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 10368,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402200",
@@ -37816,7 +37816,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 11936,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401959",
@@ -37845,7 +37845,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 456,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402228",
@@ -37874,7 +37874,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1906,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400491",
@@ -37903,7 +37903,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2868,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1402151",
@@ -37932,7 +37932,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 5806,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401323",
@@ -37961,7 +37961,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 미추홀구 토금남로 53 (용현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1941,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1401923",
@@ -37990,7 +37990,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1400147",
@@ -38019,7 +38019,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "인천광역시 영종구 하늘달빛로 84, 4층 (중산동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 6045,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800171",
@@ -38048,7 +38048,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 거제시 서문로5길 6 (고현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 179,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801732",
@@ -38077,7 +38077,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 거제시 서문로5길 6 (고현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802259",
@@ -38106,7 +38106,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 거제시 서문로5길 6 (고현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 331,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802295",
@@ -38135,7 +38135,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 거제시 동문천로 52 (고현동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6011,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802301",
@@ -38164,7 +38164,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 거제시 서문로5길 6 (고현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1056,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800691",
@@ -38193,7 +38193,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 거제시 서문로5길 6 (고현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 264,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800552",
@@ -38222,7 +38222,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 거제시 서문로5길 6 (고현동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 450,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800997",
@@ -38251,7 +38251,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 통영시 중앙로 334-1, 4층, 6~9층 (무전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 15851,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800930",
@@ -38280,7 +38280,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 통영시 중앙로 334-1, 4층, 6~9층 (무전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 15761,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800766",
@@ -38309,7 +38309,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 498,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802425",
@@ -38338,7 +38338,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2042,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800597",
@@ -38367,7 +38367,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3376,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801935",
@@ -38396,7 +38396,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7545,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801843",
@@ -38425,7 +38425,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7756,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802163",
@@ -38454,7 +38454,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8190,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800674",
@@ -38483,7 +38483,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2717,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800884",
@@ -38512,7 +38512,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 진영읍 본산로 15-17, 굿프라임시티 301,303,304호",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 436,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800595",
@@ -38541,7 +38541,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 진영읍 본산로 15-17, 굿프라임시티 301,303,304호",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 901,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801704",
@@ -38570,7 +38570,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2973,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801826",
@@ -38599,7 +38599,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8701,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801839",
@@ -38628,7 +38628,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 834,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801126",
@@ -38657,7 +38657,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 진영읍 본산로 15-17, 굿프라임시티 301,303,304호",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 790,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802355",
@@ -38686,7 +38686,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7702,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802350",
@@ -38715,7 +38715,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 여수시 여서로 173 (여서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 20476,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800800",
@@ -38744,7 +38744,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 밀양시 미리벌중앙로 67, 2~4층 (삼문동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1346,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800252",
@@ -38773,7 +38773,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 밀양시 미리벌중앙로 67, 2~4층 (삼문동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 749,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801762",
@@ -38802,7 +38802,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 밀양시 미리벌중앙로 67, 2~4층 (삼문동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800121",
@@ -38831,7 +38831,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 사천시 사천읍 선평길 17 (서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 16739,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800774",
@@ -38860,7 +38860,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 사천시 사천읍 선평길 17 (서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 538,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800679",
@@ -38889,7 +38889,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 사천시 사천읍 선평길 17 (서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 15899,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800239",
@@ -38918,7 +38918,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 사천시 사천읍 선평길 17 (서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802430",
@@ -38947,7 +38947,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 기장군 정관읍 정관중앙로 56, 프라임빌딩",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 6197,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802344",
@@ -38976,7 +38976,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 양산시 물금읍 범구로 27, 2~7층, 10층층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2476,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802285",
@@ -39005,7 +39005,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 양산시 물금읍 범구로 27, 2~7층, 10층층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4815,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802335",
@@ -39034,7 +39034,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 양산시 물금읍 범구로 27, 2~7층, 10층층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2611,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802418",
@@ -39063,7 +39063,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 양산시 물금읍 범구로 27, 2~7층, 10층층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1193,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800311",
@@ -39092,7 +39092,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 양산시 물금읍 범구로 27, 2~7층, 10층층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3850,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800292",
@@ -39121,7 +39121,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 기장군 정관읍 정관중앙로 56, 프라임빌딩",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 10295,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802145",
@@ -39150,7 +39150,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 기장군 정관읍 정관중앙로 56, 프라임빌딩",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 7022,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801858",
@@ -39179,7 +39179,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 양산시 물금읍 범구로 27, 2~7층, 10층층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1518,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801089",
@@ -39208,7 +39208,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 기장군 정관읍 정관중앙로 56, 프라임빌딩",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 7135,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802408",
@@ -39237,7 +39237,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 진주시 동진로 2 (칠암동, 진주고려병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2945,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800780",
@@ -39266,7 +39266,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 진주시 동진로 2 (칠암동, 진주고려병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1480,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800221",
@@ -39295,7 +39295,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 진주시 동진로 2 (칠암동, 진주고려병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1989,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802404",
@@ -39324,7 +39324,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 진주시 동진로 2 (칠암동, 진주고려병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3144,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800874",
@@ -39353,7 +39353,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 진주시 동진로 2 (칠암동, 진주고려병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2947,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802271",
@@ -39382,7 +39382,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 진주시 동진로 2 (칠암동, 진주고려병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2901,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801862",
@@ -39411,7 +39411,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6255,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800266",
@@ -39440,7 +39440,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1767,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801869",
@@ -39469,7 +39469,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9530,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800731",
@@ -39498,7 +39498,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6256,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802224",
@@ -39527,7 +39527,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 113,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800836",
@@ -39556,7 +39556,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 709,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800764",
@@ -39585,7 +39585,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 655,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800621",
@@ -39614,7 +39614,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6072,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802094",
@@ -39643,7 +39643,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1237,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800494",
@@ -39672,7 +39672,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 562,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800489",
@@ -39701,7 +39701,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 769,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800487",
@@ -39730,7 +39730,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2457,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800430",
@@ -39759,7 +39759,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800703",
@@ -39788,7 +39788,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 615,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801024",
@@ -39817,7 +39817,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1983,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802447",
@@ -39846,7 +39846,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3014,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800999",
@@ -39875,7 +39875,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3530,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801067",
@@ -39904,7 +39904,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3063,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800819",
@@ -39933,7 +39933,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7276,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802126",
@@ -39962,7 +39962,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7161,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802098",
@@ -39991,7 +39991,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 강서구 명지국제1로 25, 우진메디컬프라 8~10층 (명지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8457,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802356",
@@ -40020,7 +40020,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 강서구 명지국제1로 25, 우진메디컬프라 8~10층 (명지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8245,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802021",
@@ -40049,7 +40049,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 강서구 명지국제1로 25, 우진메디컬프라 8~10층 (명지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7784,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801085",
@@ -40078,7 +40078,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 강서구 명지국제1로 25, 우진메디컬프라 8~10층 (명지동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 8537,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800813",
@@ -40107,7 +40107,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 성산구 마디미서로 54, 2,4(401호,402호),6(602호),7,8,9,11,12층 (상남동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9204,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800524",
@@ -40136,7 +40136,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 통영시 중앙로 334-1, 4층, 6~9층 (무전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 276,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2802174",
@@ -40165,7 +40165,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 통영시 중앙로 334-1, 4층, 6~9층 (무전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 102,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2801943",
@@ -40194,7 +40194,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 통영시 중앙로 334-1, 4층, 6~9층 (무전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2800677",
@@ -40223,7 +40223,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 창원시 마산회원구 양덕로 190 (석전동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7001,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701050",
@@ -40252,7 +40252,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 12787,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700596",
@@ -40281,7 +40281,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 12585,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700188",
@@ -40310,7 +40310,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 13294,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701514",
@@ -40339,7 +40339,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 6122,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701721",
@@ -40368,7 +40368,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 4253,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700713",
@@ -40397,7 +40397,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 6138,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701699",
@@ -40426,7 +40426,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 5135,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700167",
@@ -40455,7 +40455,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 11830,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700450",
@@ -40484,7 +40484,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 12065,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700779",
@@ -40513,7 +40513,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 경주시 용담로 34 (황성동, 한빛병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1944,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700656",
@@ -40542,7 +40542,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 경주시 용담로 34 (황성동, 한빛병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 902,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700553",
@@ -40571,7 +40571,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 경주시 용담로 34 (황성동, 한빛병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14341,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700891",
@@ -40600,7 +40600,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 경주시 용담로 34 (황성동, 한빛병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1902,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701811",
@@ -40629,7 +40629,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 경주시 용담로 34 (황성동, 한빛병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2711,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700229",
@@ -40658,7 +40658,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 318,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701667",
@@ -40687,7 +40687,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1941,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701333",
@@ -40716,7 +40716,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4077,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700498",
@@ -40745,7 +40745,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2396,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700064",
@@ -40774,7 +40774,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6913,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701804",
@@ -40803,7 +40803,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 46,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701476",
@@ -40832,7 +40832,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5937,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701780",
@@ -40861,7 +40861,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6709,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701645",
@@ -40890,7 +40890,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 100,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701650",
@@ -40919,7 +40919,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11157,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701774",
@@ -40948,7 +40948,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 797,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700275",
@@ -40977,7 +40977,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1506,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701717",
@@ -41006,7 +41006,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3127,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701786",
@@ -41035,7 +41035,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1634,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701347",
@@ -41064,7 +41064,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6377,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701461",
@@ -41093,7 +41093,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3687,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701784",
@@ -41122,7 +41122,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2325,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700415",
@@ -41151,7 +41151,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 17164,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701400",
@@ -41180,7 +41180,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11898,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701008",
@@ -41209,7 +41209,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 16786,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700023",
@@ -41238,7 +41238,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 18586,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700035",
@@ -41267,7 +41267,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 16806,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701398",
@@ -41296,7 +41296,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 17659,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700400",
@@ -41325,7 +41325,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 49841,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700105",
@@ -41354,7 +41354,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 49938,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700623",
@@ -41383,7 +41383,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 50069,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700561",
@@ -41412,7 +41412,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 33582,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700427",
@@ -41441,7 +41441,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22236,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701490",
@@ -41470,7 +41470,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 51393,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700358",
@@ -41499,7 +41499,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 53125,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701665",
@@ -41528,7 +41528,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 53866,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701494",
@@ -41557,7 +41557,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 52113,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700738",
@@ -41586,7 +41586,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 51219,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700271",
@@ -41615,7 +41615,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 52874,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700076",
@@ -41644,7 +41644,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 52463,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700296",
@@ -41673,7 +41673,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 51421,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701325",
@@ -41702,7 +41702,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 65857,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700329",
@@ -41731,7 +41731,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 65916,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701829",
@@ -41760,7 +41760,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 64006,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700827",
@@ -41789,7 +41789,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 65085,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701487",
@@ -41818,7 +41818,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 63681,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701598",
@@ -41847,7 +41847,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 65568,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700325",
@@ -41876,7 +41876,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 65427,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701827",
@@ -41905,7 +41905,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 17739,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701750",
@@ -41934,7 +41934,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 25040,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701710",
@@ -41963,7 +41963,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 산동읍 신당1로1길 17-7, 3층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 47030,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700620",
@@ -41992,7 +41992,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 179547,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700941",
@@ -42021,7 +42021,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 95855,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701017",
@@ -42050,7 +42050,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 90269,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701379",
@@ -42079,7 +42079,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "강원특별자치도 강릉시 옥가로 21, 3,7층 (옥천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 96384,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701644",
@@ -42108,7 +42108,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 35763,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700102",
@@ -42137,7 +42137,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 54762,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700737",
@@ -42166,7 +42166,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 54696,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700802",
@@ -42195,7 +42195,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 45541,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700338",
@@ -42224,7 +42224,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9337,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701666",
@@ -42253,7 +42253,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 신시로 71, 2~5층 (형곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5315,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700406",
@@ -42282,7 +42282,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7336,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701734",
@@ -42311,7 +42311,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 남구 오천읍 냉천로 306, 2~4층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 793,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700863",
@@ -42340,7 +42340,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 남구 오천읍 냉천로 306, 2~4층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 745,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700494",
@@ -42369,7 +42369,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 남구 오천읍 냉천로 306, 2~4층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6719,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700479",
@@ -42398,7 +42398,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 남구 오천읍 냉천로 306, 2~4층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1019,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700769",
@@ -42427,7 +42427,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 남구 오천읍 냉천로 306, 2~4층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 565,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701549",
@@ -42456,7 +42456,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 남구 오천읍 냉천로 306, 2~4층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7178,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701575",
@@ -42485,7 +42485,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 남구 오천읍 냉천로 306, 2~4층",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3123,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700810",
@@ -42514,7 +42514,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7664,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701062",
@@ -42543,7 +42543,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7021,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701713",
@@ -42572,7 +42572,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4563,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700481",
@@ -42601,7 +42601,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7851,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700689",
@@ -42630,7 +42630,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5253,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701736",
@@ -42659,7 +42659,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4901,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700834",
@@ -42688,7 +42688,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4958,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701033",
@@ -42717,7 +42717,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7182,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700363",
@@ -42746,7 +42746,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4561,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700791",
@@ -42775,7 +42775,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7616,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701723",
@@ -42804,7 +42804,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1790,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2701779",
@@ -42833,7 +42833,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3020,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700967",
@@ -42862,7 +42862,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7219,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700860",
@@ -42891,7 +42891,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5837,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2700187",
@@ -42920,7 +42920,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 포항시 북구 흥해읍 초곡지구로58번길 36, 다온빌딩 4층",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7930,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301629",
@@ -42949,7 +42949,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 남구 월배로 468 (대명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2195,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300402",
@@ -42978,7 +42978,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 남구 월배로 468 (대명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3816,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301599",
@@ -43007,7 +43007,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 남구 월배로 468 (대명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 17,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300882",
@@ -43036,7 +43036,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 남구 월배로 468 (대명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3135,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301811",
@@ -43065,7 +43065,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 3949,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300292",
@@ -43094,7 +43094,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 조암로 149, 302, 502호 (대천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 652,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301620",
@@ -43123,7 +43123,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 조암로 149, 302, 502호 (대천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 844,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301199",
@@ -43152,7 +43152,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 2334,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301769",
@@ -43181,7 +43181,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 940,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300636",
@@ -43210,7 +43210,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 조암로 149, 302, 502호 (대천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 973,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300030",
@@ -43239,7 +43239,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 701,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300480",
@@ -43268,7 +43268,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 10,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301120",
@@ -43297,7 +43297,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 982,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300479",
@@ -43326,7 +43326,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 조암로 149, 302, 502호 (대천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1922,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300827",
@@ -43355,7 +43355,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 759,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300144",
@@ -43384,7 +43384,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 조암로 149, 302, 502호 (대천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 754,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "A1303075",
@@ -43413,7 +43413,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 조암로 149, 302, 502호 (대천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 429,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300777",
@@ -43442,7 +43442,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 1891,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300880",
@@ -43471,7 +43471,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 1022,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301915",
@@ -43500,7 +43500,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 147,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300023",
@@ -43529,7 +43529,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달성군 현풍읍 테크노상업로 30, 3층~7층 일부, 8층, 9층 & 테크노상업로 26, 6~7층",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4198,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301533",
@@ -43558,7 +43558,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달성군 현풍읍 테크노상업로 30, 3층~7층 일부, 8층, 9층 & 테크노상업로 26, 6~7층",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301493",
@@ -43587,7 +43587,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달성군 현풍읍 테크노상업로 30, 3층~7층 일부, 8층, 9층 & 테크노상업로 26, 6~7층",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 424,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300161",
@@ -43616,7 +43616,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 조암로 149, 302, 502호 (대천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2195,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301932",
@@ -43645,7 +43645,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2634,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300876",
@@ -43674,7 +43674,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 3151,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300322",
@@ -43703,7 +43703,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1754,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300440",
@@ -43732,7 +43732,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 동구 안심로16길 47, 율하동 타임스퀘어 5층 (율하동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 579,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301816",
@@ -43761,7 +43761,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6702,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300102",
@@ -43790,7 +43790,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7584,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300284",
@@ -43819,7 +43819,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6813,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300212",
@@ -43848,7 +43848,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3467,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300329",
@@ -43877,7 +43877,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7234,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300501",
@@ -43906,7 +43906,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7195,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301544",
@@ -43935,7 +43935,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7812,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300119",
@@ -43964,7 +43964,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4276,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301566",
@@ -43993,7 +43993,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 4827,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300392",
@@ -44022,7 +44022,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 4539,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300964",
@@ -44051,7 +44051,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 달서구 달구벌대로 1542, 3,4,5층 (감삼동)",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 3019,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301923",
@@ -44080,7 +44080,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 남구 월배로 468 (대명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5978,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301452",
@@ -44109,7 +44109,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 남구 월배로 468 (대명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5146,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301558",
@@ -44138,7 +44138,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3212,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301850",
@@ -44167,7 +44167,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3679,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301051",
@@ -44196,7 +44196,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5374,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300824",
@@ -44225,7 +44225,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 남구 월배로 468 (대명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5004,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301557",
@@ -44254,7 +44254,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3304,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301391",
@@ -44283,7 +44283,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3814,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301504",
@@ -44312,7 +44312,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4061,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300669",
@@ -44341,7 +44341,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 남구 월배로 468 (대명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4366,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1300168",
@@ -44370,7 +44370,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3364,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1301746",
@@ -44399,7 +44399,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대구광역시 북구 동북로 244, 7층,8층 (복현동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3757,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203103",
@@ -44428,7 +44428,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 강서구 명지국제8로 240, 402,501,601호 (명지동, 국제메디칼빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5675,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201466",
@@ -44457,7 +44457,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상남도 김해시 내외중앙로 74, 6,7층 (내동, 밝은메디칼센터)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6684,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202541",
@@ -44486,7 +44486,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 강서구 명지국제8로 240, 402,501,601호 (명지동, 국제메디칼빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 523,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203134",
@@ -44515,7 +44515,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 금정구 중앙대로 1829, 1층일부,4층 일부호 (구서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200697",
@@ -44544,7 +44544,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 금정구 중앙대로 1829, 1층일부,4층 일부호 (구서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 281,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202384",
@@ -44573,7 +44573,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 금정구 중앙대로 1829, 1층일부,4층 일부호 (구서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 283,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200313",
@@ -44602,7 +44602,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 887,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202622",
@@ -44631,7 +44631,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1709,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200694",
@@ -44660,7 +44660,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 금정구 중앙대로 1829, 1층일부,4층 일부호 (구서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1978,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200141",
@@ -44689,7 +44689,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 금정구 중앙대로 1829, 1층일부,4층 일부호 (구서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5721,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201299",
@@ -44718,7 +44718,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 금정구 중앙대로 1829, 1층일부,4층 일부호 (구서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1083,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202368",
@@ -44747,7 +44747,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 기장군 정관읍 정관중앙로 56, 프라임빌딩",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 320,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200764",
@@ -44776,7 +44776,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 기장군 정관읍 정관중앙로 56, 프라임빌딩",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 916,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202041",
@@ -44805,7 +44805,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 기장군 정관읍 정관중앙로 56, 프라임빌딩",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 210,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202940",
@@ -44834,7 +44834,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 676,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201393",
@@ -44863,7 +44863,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2223,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200652",
@@ -44892,7 +44892,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3451,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200319",
@@ -44921,7 +44921,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3931,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202654",
@@ -44950,7 +44950,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 666,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200219",
@@ -44979,7 +44979,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4829,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200879",
@@ -45008,7 +45008,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4160,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203107",
@@ -45037,7 +45037,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 3330,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201124",
@@ -45066,7 +45066,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4795,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202079",
@@ -45095,7 +45095,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4782,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200495",
@@ -45124,7 +45124,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1650,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201489",
@@ -45153,7 +45153,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 802,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200076",
@@ -45182,7 +45182,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 362,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201234",
@@ -45211,7 +45211,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1391,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201516",
@@ -45240,7 +45240,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1403,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200674",
@@ -45269,7 +45269,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1784,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201072",
@@ -45298,7 +45298,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1898,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201695",
@@ -45327,7 +45327,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 7000,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200086",
@@ -45356,7 +45356,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1770,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201051",
@@ -45385,7 +45385,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4960,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202513",
@@ -45414,7 +45414,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5996,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200721",
@@ -45443,7 +45443,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5032,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201455",
@@ -45472,7 +45472,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 7310,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200302",
@@ -45501,7 +45501,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4811,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201298",
@@ -45530,7 +45530,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4878,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200462",
@@ -45559,7 +45559,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4871,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202660",
@@ -45588,7 +45588,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4734,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202797",
@@ -45617,7 +45617,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4876,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203091",
@@ -45646,7 +45646,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4643,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200902",
@@ -45675,7 +45675,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4653,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200013",
@@ -45704,7 +45704,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4614,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200591",
@@ -45733,7 +45733,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5139,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200928",
@@ -45762,7 +45762,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4371,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201193",
@@ -45791,7 +45791,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5892,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202407",
@@ -45820,7 +45820,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6266,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201302",
@@ -45849,7 +45849,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6398,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200988",
@@ -45878,7 +45878,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6417,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200363",
@@ -45907,7 +45907,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 사하구 다대로 234, 5,6,7,8,9층 (장림동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 9027,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201408",
@@ -45936,7 +45936,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 강서구 명지국제8로 240, 402,501,601호 (명지동, 국제메디칼빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9180,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200214",
@@ -45965,7 +45965,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 사하구 다대로 234, 5,6,7,8,9층 (장림동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8158,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200516",
@@ -45994,7 +45994,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 7725,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202436",
@@ -46023,7 +46023,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 사하구 다대로 234, 5,6,7,8,9층 (장림동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2694,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202740",
@@ -46052,7 +46052,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 사하구 다대로 234, 5,6,7,8,9층 (장림동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2516,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200850",
@@ -46081,7 +46081,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 사하구 다대로 234, 5,6,7,8,9층 (장림동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2708,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200889",
@@ -46110,7 +46110,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 사하구 다대로 234, 5,6,7,8,9층 (장림동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2083,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201274",
@@ -46139,7 +46139,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1743,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200268",
@@ -46168,7 +46168,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 3288,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200806",
@@ -46197,7 +46197,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 3896,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203052",
@@ -46226,7 +46226,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2402,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202573",
@@ -46255,7 +46255,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3295,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203113",
@@ -46284,7 +46284,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1199,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201315",
@@ -46313,7 +46313,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1995,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202589",
@@ -46342,7 +46342,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2725,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202900",
@@ -46371,7 +46371,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3316,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203027",
@@ -46400,7 +46400,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4624,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203090",
@@ -46429,7 +46429,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4001,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200534",
@@ -46458,7 +46458,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3626,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200243",
@@ -46487,7 +46487,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3315,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200247",
@@ -46516,7 +46516,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4355,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200563",
@@ -46545,7 +46545,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 수영구 황령대로481번길 7 (남천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4410,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200345",
@@ -46574,7 +46574,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 동래구 금강로 91, 지상 4~6층 (온천동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3204,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200394",
@@ -46603,7 +46603,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 2379,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203129",
@@ -46632,7 +46632,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1514,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203127",
@@ -46661,7 +46661,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1758,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203126",
@@ -46690,7 +46690,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1685,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203143",
@@ -46719,7 +46719,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1628,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203112",
@@ -46748,7 +46748,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1645,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202065",
@@ -46777,7 +46777,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1255,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200260",
@@ -46806,7 +46806,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 2807,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203144",
@@ -46835,7 +46835,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1474,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202787",
@@ -46864,7 +46864,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1600,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1200280",
@@ -46893,7 +46893,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 영도구 영선대로 75, 삼호빌딩 (영선동2가)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 1770,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202607",
@@ -46922,7 +46922,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 766,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203079",
@@ -46951,7 +46951,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 816,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203094",
@@ -46980,7 +46980,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 856,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203124",
@@ -47009,7 +47009,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 795,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202042",
@@ -47038,7 +47038,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3344,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202391",
@@ -47067,7 +47067,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1202975",
@@ -47096,7 +47096,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 482,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1201097",
@@ -47125,7 +47125,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 850,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1203114",
@@ -47154,7 +47154,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "부산광역시 해운대구 좌동순환로 505, 센트럴메디타워(3층일부, 6층일부, 8층일부, 9층일부, 11층일부, 12~14층) (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 857,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700242",
@@ -47183,7 +47183,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 남구 돋질로336번길 10 (삼산동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1596,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700745",
@@ -47212,7 +47212,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 남구 돋질로336번길 10 (삼산동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1643,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700666",
@@ -47241,7 +47241,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 울주군 범서읍 천상중앙길 80",
     "paired_hospital_closing": "18:00 ~ 21:00",
     "paired_hospital_dist_m": 3706,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700715",
@@ -47270,7 +47270,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 남구 돋질로336번길 10 (삼산동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 422,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700155",
@@ -47299,7 +47299,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 남구 돋질로336번길 10 (삼산동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8544,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700560",
@@ -47328,7 +47328,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 북구 산업로 1007 (연암동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 515,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700285",
@@ -47357,7 +47357,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 북구 산업로 1007 (연암동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 5129,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700741",
@@ -47386,7 +47386,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 북구 산업로 1007 (연암동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 701,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700103",
@@ -47415,7 +47415,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 남구 돋질로336번길 10 (삼산동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3332,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700126",
@@ -47444,7 +47444,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 남구 돋질로336번길 10 (삼산동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2705,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1700100",
@@ -47473,7 +47473,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "울산광역시 남구 돋질로336번길 10 (삼산동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2487,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900533",
@@ -47502,7 +47502,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 서귀포시 중정로 70 (서귀동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 704,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900179",
@@ -47531,7 +47531,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 서귀포시 중정로 70 (서귀동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 724,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900061",
@@ -47560,7 +47560,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 서귀포시 중정로 70 (서귀동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 28926,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900207",
@@ -47589,7 +47589,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 서귀포시 중정로 70 (서귀동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900045",
@@ -47618,7 +47618,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 서귀포시 중정로 70 (서귀동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14397,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900048",
@@ -47647,7 +47647,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 서귀포시 중정로 70 (서귀동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13024,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900162",
@@ -47676,7 +47676,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 서귀포시 중정로 70 (서귀동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 12721,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900425",
@@ -47705,7 +47705,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 탑동로 24 (삼도이동,2층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4390,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900464",
@@ -47734,7 +47734,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 511, 에이플렉스 3층 (아라일동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1376,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900525",
@@ -47763,7 +47763,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1057,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900164",
@@ -47792,7 +47792,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 탑동로 24 (삼도이동,2층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 128,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900550",
@@ -47821,7 +47821,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 511, 에이플렉스 3층 (아라일동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900428",
@@ -47850,7 +47850,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 탑동로 24 (삼도이동,2층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2031,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900233",
@@ -47879,7 +47879,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 523,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900123",
@@ -47908,7 +47908,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 511, 에이플렉스 3층 (아라일동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 30337,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900433",
@@ -47937,7 +47937,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1073,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900585",
@@ -47966,7 +47966,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1442,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900017",
@@ -47995,7 +47995,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 탑동로 24 (삼도이동,2층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13438,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900543",
@@ -48024,7 +48024,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 893,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900446",
@@ -48053,7 +48053,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 459,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900610",
@@ -48082,7 +48082,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 550,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900115",
@@ -48111,7 +48111,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 탑동로 24 (삼도이동,2층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 10828,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900490",
@@ -48140,7 +48140,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 511, 에이플렉스 3층 (아라일동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1652,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900113",
@@ -48169,7 +48169,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 탑동로 24 (삼도이동,2층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900556",
@@ -48198,7 +48198,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 511, 에이플렉스 3층 (아라일동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1121,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900213",
@@ -48227,7 +48227,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900571",
@@ -48256,7 +48256,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1645,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2900074",
@@ -48285,7 +48285,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "제주특별자치도 제주시 연북로 99, 2층 (연동, 365빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22587,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600370",
@@ -48314,7 +48314,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2377,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600303",
@@ -48343,7 +48343,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 9029,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600006",
@@ -48372,7 +48372,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 9179,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601051",
@@ -48401,7 +48401,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2395,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601404",
@@ -48430,7 +48430,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1325,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601027",
@@ -48459,7 +48459,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 동구 옥천로 153, 3, 4층 (판암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1413,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600641",
@@ -48488,7 +48488,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1923,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601199",
@@ -48517,7 +48517,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 동구 옥천로 153, 3, 4층 (판암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1148,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601163",
@@ -48546,7 +48546,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 동구 옥천로 153, 3, 4층 (판암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1844,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601304",
@@ -48575,7 +48575,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 2368,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601325",
@@ -48604,7 +48604,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2030,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601361",
@@ -48633,7 +48633,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 계룡로553번길 18 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 890,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600681",
@@ -48662,7 +48662,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 계룡로553번길 18 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1297,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600565",
@@ -48691,7 +48691,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 문정로48번길 70, 3,6층 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2422,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601121",
@@ -48720,7 +48720,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 계룡로553번길 18 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 863,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601479",
@@ -48749,7 +48749,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 계룡로553번길 18 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1053,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600582",
@@ -48778,7 +48778,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 계룡로553번길 18 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1051,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600163",
@@ -48807,7 +48807,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 문정로48번길 70, 3,6층 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 935,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600119",
@@ -48836,7 +48836,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 문정로48번길 70, 3,6층 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2131,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600210",
@@ -48865,7 +48865,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 150, 6~7층 (봉명동,승호빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1595,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600901",
@@ -48894,7 +48894,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3438,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601260",
@@ -48923,7 +48923,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 문정로48번길 70, 3,6층 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1042,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600406",
@@ -48952,7 +48952,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 문정로48번길 70, 3,6층 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1037,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601050",
@@ -48981,7 +48981,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3307,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601312",
@@ -49010,7 +49010,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 문정로48번길 70, 3,6층 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1557,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601241",
@@ -49039,7 +49039,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 150, 6~7층 (봉명동,승호빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 997,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601259",
@@ -49068,7 +49068,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 계룡로553번길 18 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 481,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601103",
@@ -49097,7 +49097,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 문정로48번길 70, 3,6층 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601217",
@@ -49126,7 +49126,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 계룡로553번길 18 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 676,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600177",
@@ -49155,7 +49155,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 문정로48번길 70, 3,6층 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 815,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600351",
@@ -49184,7 +49184,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5179,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600494",
@@ -49213,7 +49213,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3048,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601407",
@@ -49242,7 +49242,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 7471,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601406",
@@ -49271,7 +49271,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 서구 계룡로553번길 18 (탄방동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3683,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601449",
@@ -49300,7 +49300,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 921,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600520",
@@ -49329,7 +49329,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 512,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601232",
@@ -49358,7 +49358,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601428",
@@ -49387,7 +49387,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 604,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600138",
@@ -49416,7 +49416,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4591,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601291",
@@ -49445,7 +49445,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4047,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601429",
@@ -49474,7 +49474,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6768,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601187",
@@ -49503,7 +49503,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601323",
@@ -49532,7 +49532,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 547,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601092",
@@ -49561,7 +49561,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 150, 6~7층 (봉명동,승호빌딩)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 34,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601207",
@@ -49590,7 +49590,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5042,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601220",
@@ -49619,7 +49619,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3707,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600412",
@@ -49648,7 +49648,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 계룡로 120-0 (봉명동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3349,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600505",
@@ -49677,7 +49677,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 대덕구 송촌북로 60-0, 3~7층 (송촌동,을지소아크리닉)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8569,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600060",
@@ -49706,7 +49706,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 동구 옥천로 153, 3, 4층 (판암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1619,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600310",
@@ -49735,7 +49735,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 4,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600068",
@@ -49764,7 +49764,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1936,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600070",
@@ -49793,7 +49793,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1468,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601401",
@@ -49822,7 +49822,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1051,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600244",
@@ -49851,7 +49851,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1492,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600046",
@@ -49880,7 +49880,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 동구 옥천로 153, 3, 4층 (판암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2111,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601119",
@@ -49909,7 +49909,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 873,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1601344",
@@ -49938,7 +49938,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1696,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1600455",
@@ -49967,7 +49967,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 중구 계백로1716번길 26, 미성프라자 202호 (문화동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 351,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800325",
@@ -49996,7 +49996,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2687,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800281",
@@ -50025,7 +50025,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5263,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800312",
@@ -50054,7 +50054,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 807,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800217",
@@ -50083,7 +50083,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 981,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800338",
@@ -50112,7 +50112,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 15,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800348",
@@ -50141,7 +50141,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 60,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800263",
@@ -50170,7 +50170,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 495,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800192",
@@ -50199,7 +50199,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800226",
@@ -50228,7 +50228,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 911,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800346",
@@ -50257,7 +50257,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2724,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800010",
@@ -50286,7 +50286,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 11029,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800336",
@@ -50315,7 +50315,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1926,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1800243",
@@ -50344,7 +50344,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "세종특별자치시 보듬3로 95, 해피라움3 307,308,309-1,310-2,401~5,410,603~8,705~6호(아름동) (아름동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4933,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400838",
@@ -50373,7 +50373,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 9832,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400555",
@@ -50402,7 +50402,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 공주시 번영1로 124 (신관동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400443",
@@ -50431,7 +50431,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 공주시 번영1로 124 (신관동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 473,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400165",
@@ -50460,7 +50460,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 공주시 번영1로 124 (신관동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 409,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400359",
@@ -50489,7 +50489,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 동구 옥천로 153, 3, 4층 (판암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 24008,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401925",
@@ -50518,7 +50518,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 동구 옥천로 153, 3, 4층 (판암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 23984,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400188",
@@ -50547,7 +50547,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 동구 옥천로 153, 3, 4층 (판암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 23665,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401680",
@@ -50576,7 +50576,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 26843,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400729",
@@ -50605,7 +50605,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 26760,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400570",
@@ -50634,7 +50634,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 23546,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401676",
@@ -50663,7 +50663,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 26871,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401430",
@@ -50692,7 +50692,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "대전광역시 유성구 원신흥남로12번길 8-10, MBL빌딩 2층202호,3~7층 (원신흥동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 27111,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400391",
@@ -50721,7 +50721,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 42908,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401764",
@@ -50750,7 +50750,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 43034,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400376",
@@ -50779,7 +50779,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 공주시 번영1로 124 (신관동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 29787,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401824",
@@ -50808,7 +50808,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 10478,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400073",
@@ -50837,7 +50837,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 17658,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400027",
@@ -50866,7 +50866,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 68,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400824",
@@ -50895,7 +50895,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 800,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401768",
@@ -50924,7 +50924,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 135,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400013",
@@ -50953,7 +50953,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 790,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401257",
@@ -50982,7 +50982,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 721,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400099",
@@ -51011,7 +51011,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 12867,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401638",
@@ -51040,7 +51040,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 49,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401614",
@@ -51069,7 +51069,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3008,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401897",
@@ -51098,7 +51098,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3363,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401920",
@@ -51127,7 +51127,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1984,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400204",
@@ -51156,7 +51156,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 3860,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400576",
@@ -51185,7 +51185,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 15644,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401303",
@@ -51214,7 +51214,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 7644,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400749",
@@ -51243,7 +51243,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1903,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401939",
@@ -51272,7 +51272,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 6005,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401486",
@@ -51301,7 +51301,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 43,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401809",
@@ -51330,7 +51330,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 배방읍 희망로46번길 45-9 (정주프라자, 지하1층, 2~5층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1987,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401304",
@@ -51359,7 +51359,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 배방읍 희망로46번길 45-9 (정주프라자, 지하1층, 2~5층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400205",
@@ -51388,7 +51388,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 15610,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400309",
@@ -51417,7 +51417,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 1465,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401950",
@@ -51446,7 +51446,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 배방읍 희망로46번길 45-9 (정주프라자, 지하1층, 2~5층)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 592,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401822",
@@ -51475,7 +51475,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 72,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400829",
@@ -51504,7 +51504,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 708,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401472",
@@ -51533,7 +51533,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 715,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401392",
@@ -51562,7 +51562,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 아산시 문화로 381 (모종동)",
     "paired_hospital_closing": "18:00 ~ 익일 00:00",
     "paired_hospital_dist_m": 18769,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400090",
@@ -51591,7 +51591,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 255,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400380",
@@ -51620,7 +51620,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7649,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401407",
@@ -51649,7 +51649,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2940,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400788",
@@ -51678,7 +51678,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 15642,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401350",
@@ -51707,7 +51707,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 274,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401927",
@@ -51736,7 +51736,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 474,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401963",
@@ -51765,7 +51765,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 474,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400299",
@@ -51794,7 +51794,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2366,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400088",
@@ -51823,7 +51823,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2063,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401836",
@@ -51852,7 +51852,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2682,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400238",
@@ -51881,7 +51881,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2489,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401723",
@@ -51910,7 +51910,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 654,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400399",
@@ -51939,7 +51939,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6080,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401917",
@@ -51968,7 +51968,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1691,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400067",
@@ -51997,7 +51997,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 197,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401894",
@@ -52026,7 +52026,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 621,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400715",
@@ -52055,7 +52055,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 959,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400611",
@@ -52084,7 +52084,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1044,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401649",
@@ -52113,7 +52113,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7553,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401498",
@@ -52142,7 +52142,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4901,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400689",
@@ -52171,7 +52171,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1566,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400538",
@@ -52200,7 +52200,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 26,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401890",
@@ -52229,7 +52229,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1046,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401805",
@@ -52258,7 +52258,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2480,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401371",
@@ -52287,7 +52287,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2087,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400069",
@@ -52316,7 +52316,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 922,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400121",
@@ -52345,7 +52345,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400365",
@@ -52374,7 +52374,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 동서대로 65 (두정동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1394,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2400716",
@@ -52403,7 +52403,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 천안시 서북구 충무로 174 (쌍용동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401380",
@@ -52432,7 +52432,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 24454,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401696",
@@ -52461,7 +52461,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 27271,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401375",
@@ -52490,7 +52490,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 34543,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401721",
@@ -52519,7 +52519,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 24053,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2401669",
@@ -52548,7 +52548,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청남도 서산시 안견로 191, 3~4층 302·303·401호 (동문동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 27371,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300222",
@@ -52577,7 +52577,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경상북도 구미시 야은로 273, 2,3층 (봉곡동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 35776,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301211",
@@ -52606,7 +52606,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 28457,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301310",
@@ -52635,7 +52635,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 26516,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300477",
@@ -52664,7 +52664,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14900,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300430",
@@ -52693,7 +52693,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14634,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300181",
@@ -52722,7 +52722,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14445,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300094",
@@ -52751,7 +52751,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "경기도 안성시 남파로 95, 경기도의료원 안성병원 (당왕동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 16698,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300133",
@@ -52780,7 +52780,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21523,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301122",
@@ -52809,7 +52809,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 21064,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300432",
@@ -52838,7 +52838,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 상당구 2순환로2031번길 6-20 (방서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2691,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301178",
@@ -52867,7 +52867,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 상당구 2순환로2031번길 6-20 (방서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300439",
@@ -52896,7 +52896,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 상당구 2순환로2031번길 6-20 (방서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1292,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301290",
@@ -52925,7 +52925,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 상당구 2순환로2031번길 6-20 (방서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3582,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300971",
@@ -52954,7 +52954,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 상당구 2순환로2031번길 6-20 (방서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1312,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300130",
@@ -52983,7 +52983,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 서부로 1303, 2층 (가경동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2076,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300145",
@@ -53012,7 +53012,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 서부로 1303, 2층 (가경동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 470,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300199",
@@ -53041,7 +53041,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 상당구 2순환로2031번길 6-20 (방서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1754,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301326",
@@ -53070,7 +53070,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1809,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300337",
@@ -53099,7 +53099,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 서부로 1303, 2층 (가경동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2336,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301331",
@@ -53128,7 +53128,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3075,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301247",
@@ -53157,7 +53157,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 상당구 2순환로2031번길 6-20 (방서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2860,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301253",
@@ -53186,7 +53186,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1968,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301196",
@@ -53215,7 +53215,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 서부로 1303, 2층 (가경동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2684,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300025",
@@ -53244,7 +53244,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3070,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300190",
@@ -53273,7 +53273,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7714,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301095",
@@ -53302,7 +53302,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1040,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301117",
@@ -53331,7 +53331,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7716,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300085",
@@ -53360,7 +53360,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7245,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300937",
@@ -53389,7 +53389,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300058",
@@ -53418,7 +53418,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 723,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301031",
@@ -53447,7 +53447,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 672,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301294",
@@ -53476,7 +53476,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2255,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300464",
@@ -53505,7 +53505,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 청원구 주성로 273, 2~7층 (주성동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2983,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300380",
@@ -53534,7 +53534,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 974,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300235",
@@ -53563,7 +53563,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 서부로 1303, 2층 (가경동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 232,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301078",
@@ -53592,7 +53592,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 947,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301175",
@@ -53621,7 +53621,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 10005,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301306",
@@ -53650,7 +53650,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1362,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301042",
@@ -53679,7 +53679,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300203",
@@ -53708,7 +53708,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 753,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300403",
@@ -53737,7 +53737,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 서부로 1303, 2층 (가경동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 763,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300460",
@@ -53766,7 +53766,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1008,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301299",
@@ -53795,7 +53795,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 청주시 흥덕구 가로수로 1317 (복대동, 서울아동병원)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1060,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301255",
@@ -53824,7 +53824,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1038,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300557",
@@ -53853,7 +53853,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3082,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301100",
@@ -53882,7 +53882,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 56,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300564",
@@ -53911,7 +53911,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1759,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2301199",
@@ -53940,7 +53940,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1401,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300264",
@@ -53969,7 +53969,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1401,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300572",
@@ -53998,7 +53998,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1229,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300560",
@@ -54027,7 +54027,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1183,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2300591",
@@ -54056,7 +54056,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "충청북도 충주시 계명대로 19 (칠금동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 233,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501183",
@@ -54085,7 +54085,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1384,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501223",
@@ -54114,7 +54114,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6034,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500511",
@@ -54143,7 +54143,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3388,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500895",
@@ -54172,7 +54172,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6331,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501412",
@@ -54201,7 +54201,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 51,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500210",
@@ -54230,7 +54230,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 965,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500192",
@@ -54259,7 +54259,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1269,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501410",
@@ -54288,7 +54288,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5900,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501423",
@@ -54317,7 +54317,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2328,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500467",
@@ -54346,7 +54346,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2530,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501376",
@@ -54375,7 +54375,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2317,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500063",
@@ -54404,7 +54404,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3117,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500356",
@@ -54433,7 +54433,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2954,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501443",
@@ -54462,7 +54462,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2502,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501144",
@@ -54491,7 +54491,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3977,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500226",
@@ -54520,7 +54520,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 1204,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500445",
@@ -54549,7 +54549,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 375,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500486",
@@ -54578,7 +54578,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 730,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501471",
@@ -54607,7 +54607,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 1167,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501399",
@@ -54636,7 +54636,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 1158,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500176",
@@ -54665,7 +54665,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 2445,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500306",
@@ -54694,7 +54694,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 111,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501145",
@@ -54723,7 +54723,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 2309,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501233",
@@ -54752,7 +54752,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 1252,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500072",
@@ -54781,7 +54781,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 969,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500131",
@@ -54810,7 +54810,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 1366,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500258",
@@ -54839,7 +54839,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 1531,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500146",
@@ -54868,7 +54868,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 3119,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500581",
@@ -54897,7 +54897,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 1076,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500567",
@@ -54926,7 +54926,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1908,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501361",
@@ -54955,7 +54955,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3312,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500860",
@@ -54984,7 +54984,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1044,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501374",
@@ -55013,7 +55013,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 978,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500377",
@@ -55042,7 +55042,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 155,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501380",
@@ -55071,7 +55071,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3664,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500594",
@@ -55100,7 +55100,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 3248,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500407",
@@ -55129,7 +55129,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2090,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500376",
@@ -55158,7 +55158,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1458,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501467",
@@ -55187,7 +55187,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 529,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501373",
@@ -55216,7 +55216,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3083,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501280",
@@ -55245,7 +55245,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 243,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501006",
@@ -55274,7 +55274,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2514,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500564",
@@ -55303,7 +55303,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2553,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500539",
@@ -55332,7 +55332,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1617,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501393",
@@ -55361,7 +55361,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 2723,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500374",
@@ -55390,7 +55390,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2549,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500650",
@@ -55419,7 +55419,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 하서로 400, 2,3,4,5층 (양산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1024,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500181",
@@ -55448,7 +55448,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 456,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501448",
@@ -55477,7 +55477,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2208,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501445",
@@ -55506,7 +55506,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2004,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500263",
@@ -55535,7 +55535,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3067,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1501209",
@@ -55564,7 +55564,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 307,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500392",
@@ -55593,7 +55593,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 142,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500949",
@@ -55622,7 +55622,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2392,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500277",
@@ -55651,7 +55651,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 북구 설죽로 346 (오치동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3606,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500260",
@@ -55680,7 +55680,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3121,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500660",
@@ -55709,7 +55709,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1986,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500367",
@@ -55738,7 +55738,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2909,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500366",
@@ -55767,7 +55767,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 434,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500887",
@@ -55796,7 +55796,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2212,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C1500639",
@@ -55825,7 +55825,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 남구 양림로 37 (양림동)",
     "paired_hospital_closing": "18:00 ~ 23:30",
     "paired_hospital_dist_m": 2809,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600633",
@@ -55854,7 +55854,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광양시 광장로 147 (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1525,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600373",
@@ -55883,7 +55883,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광양시 광장로 147 (중동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600758",
@@ -55912,7 +55912,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 남원시 충정로 365 (고죽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 24582,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601029",
@@ -55941,7 +55941,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13887,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601225",
@@ -55970,7 +55970,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 16227,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601105",
@@ -55999,7 +55999,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 13873,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600583",
@@ -56028,7 +56028,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 16455,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601174",
@@ -56057,7 +56057,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 서구 풍금로 167 (금호동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 14354,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "G2600014",
@@ -56086,7 +56086,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1171,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600665",
@@ -56115,7 +56115,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1270,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601058",
@@ -56144,7 +56144,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1224,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601272",
@@ -56173,7 +56173,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1314,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600636",
@@ -56202,7 +56202,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 732,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601155",
@@ -56231,7 +56231,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1625,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601193",
@@ -56260,7 +56260,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3011,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601332",
@@ -56289,7 +56289,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 장선배기1길 8 (조례동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 20432,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600509",
@@ -56318,7 +56318,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 신월큰길 7 (조례동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3285,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600755",
@@ -56347,7 +56347,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 장선배기1길 8 (조례동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 560,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600609",
@@ -56376,7 +56376,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 조례1길 10-26 (조례동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600523",
@@ -56405,7 +56405,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 신월큰길 7 (조례동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 11,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600122",
@@ -56434,7 +56434,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 장선배기1길 8 (조례동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 342,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600293",
@@ -56463,7 +56463,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 조례1길 10-26 (조례동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1902,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601072",
@@ -56492,7 +56492,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 장선배기1길 8 (조례동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3254,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601195",
@@ -56521,7 +56521,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 신월큰길 7 (조례동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3031,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600315",
@@ -56550,7 +56550,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 장선배기1길 8 (조례동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 350,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600724",
@@ -56579,7 +56579,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 순천시 신월큰길 7 (조례동)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3245,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600264",
@@ -56608,7 +56608,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 여수시 여서로 173 (여서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 456,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600680",
@@ -56637,7 +56637,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 여수시 여서로 173 (여서동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 165,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600104",
@@ -56666,7 +56666,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 여수시 장성3길 52 (안산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1588,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600106",
@@ -56695,7 +56695,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 여수시 장성3길 52 (안산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1905,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600163",
@@ -56724,7 +56724,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 여수시 장성3길 52 (안산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1446,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600297",
@@ -56753,7 +56753,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 여수시 장성3길 52 (안산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1454,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601152",
@@ -56782,7 +56782,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 여수시 장성3길 52 (안산동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 1521,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600803",
@@ -56811,7 +56811,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 30429,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601338",
@@ -56840,7 +56840,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 광산구 수완로 6, A동1,3,5,6층/B동동 (신가동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 41882,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601339",
@@ -56869,7 +56869,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6648,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600378",
@@ -56898,7 +56898,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 7152,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600370",
@@ -56927,7 +56927,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 24738,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600395",
@@ -56956,7 +56956,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 61291,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600303",
@@ -56985,7 +56985,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 61532,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601235",
@@ -57014,7 +57014,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 61531,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600247",
@@ -57043,7 +57043,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 61533,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600794",
@@ -57072,7 +57072,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 73512,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600304",
@@ -57101,7 +57101,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 61718,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600689",
@@ -57130,7 +57130,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 61638,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600437",
@@ -57159,7 +57159,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 71431,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600503",
@@ -57188,7 +57188,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 61290,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600193",
@@ -57217,7 +57217,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 45929,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600995",
@@ -57246,7 +57246,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 39750,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600473",
@@ -57275,7 +57275,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 31107,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2601100",
@@ -57304,7 +57304,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 30851,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2600479",
@@ -57333,7 +57333,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전남광주통합특별시 목포시 백년대로 418 (옥암동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 30954,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501464",
@@ -57362,7 +57362,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 2094,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500093",
@@ -57391,7 +57391,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 5655,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500746",
@@ -57420,7 +57420,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 6191,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500042",
@@ -57449,7 +57449,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 4047,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500511",
@@ -57478,7 +57478,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 3167,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500729",
@@ -57507,7 +57507,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 김제시 금성로 90-0 (신풍동, (신풍동))",
     "paired_hospital_closing": "18:00 ~ 익일 01:00",
     "paired_hospital_dist_m": 1666,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500102",
@@ -57536,7 +57536,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 부안군 부안읍 석정로 233 (부안읍)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 294,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500357",
@@ -57565,7 +57565,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 남원시 충정로 365 (고죽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 24722,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500356",
@@ -57594,7 +57594,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 남원시 충정로 365 (고죽동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 24699,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500186",
@@ -57623,7 +57623,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 8452,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500120",
@@ -57652,7 +57652,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 13752,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500671",
@@ -57681,7 +57681,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 6054,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500325",
@@ -57710,7 +57710,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 16484,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500298",
@@ -57739,7 +57739,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 17951,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500132",
@@ -57768,7 +57768,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 16505,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500117",
@@ -57797,7 +57797,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22407,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501358",
@@ -57826,7 +57826,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 김제시 금성로 90-0 (신풍동, (신풍동))",
     "paired_hospital_closing": "18:00 ~ 익일 01:00",
     "paired_hospital_dist_m": 17347,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501209",
@@ -57855,7 +57855,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 15883,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501412",
@@ -57884,7 +57884,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 15397,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500799",
@@ -57913,7 +57913,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 김제시 금성로 90-0 (신풍동, (신풍동))",
     "paired_hospital_closing": "18:00 ~ 익일 01:00",
     "paired_hospital_dist_m": 16169,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501516",
@@ -57942,7 +57942,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 군산시 궁포안2길 24-0, 2층 (조촌동)",
     "paired_hospital_closing": "18:00 ~ 23:00",
     "paired_hospital_dist_m": 22329,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501345",
@@ -57971,7 +57971,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4562,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501474",
@@ -58000,7 +58000,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3632,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501522",
@@ -58029,7 +58029,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 견훤로 390, 대자인병원 (우아동3가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2387,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501465",
@@ -58058,7 +58058,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 견훤로 390, 대자인병원 (우아동3가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 437,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500768",
@@ -58087,7 +58087,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 견훤로 390, 대자인병원 (우아동3가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1028,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500108",
@@ -58116,7 +58116,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1022,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501410",
@@ -58145,7 +58145,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 65,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500387",
@@ -58174,7 +58174,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 견훤로 390, 대자인병원 (우아동3가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1245,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501344",
@@ -58203,7 +58203,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 견훤로 390, 대자인병원 (우아동3가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2262,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501521",
@@ -58232,7 +58232,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 741,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500271",
@@ -58261,7 +58261,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 과학로 16, 3층 (송천동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1141,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500424",
@@ -58290,7 +58290,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 견훤로 390, 대자인병원 (우아동3가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1459,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501491",
@@ -58319,7 +58319,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2285,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501294",
@@ -58348,7 +58348,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1596,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500568",
@@ -58377,7 +58377,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 견훤로 390, 대자인병원 (우아동3가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2616,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501408",
@@ -58406,7 +58406,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 932,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500053",
@@ -58435,7 +58435,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 모악로 4746 (평화동1가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1378,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501340",
@@ -58464,7 +58464,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 665,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500148",
@@ -58493,7 +58493,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 모악로 4746 (평화동1가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 972,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501480",
@@ -58522,7 +58522,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 572,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500087",
@@ -58551,7 +58551,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 2243,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501454",
@@ -58580,7 +58580,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 639,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501346",
@@ -58609,7 +58609,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 덕진구 견훤로 390, 대자인병원 (우아동3가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 3044,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500034",
@@ -58638,7 +58638,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 우전로 250, 2~4층 (효자동2가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 1906,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500094",
@@ -58667,7 +58667,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 모악로 4746 (평화동1가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 4,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500651",
@@ -58696,7 +58696,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 모악로 4746 (평화동1가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2501355",
@@ -58725,7 +58725,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 전주시 완산구 모악로 4746 (평화동1가)",
     "paired_hospital_closing": "주말/공휴일 특화",
     "paired_hospital_dist_m": 0,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500500",
@@ -58754,7 +58754,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 부안군 부안읍 석정로 233 (부안읍)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 20638,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500078",
@@ -58783,7 +58783,7 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 부안군 부안읍 석정로 233 (부안읍)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 20610,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   },
   {
     "id": "C2500079",
@@ -58812,6 +58812,6 @@ window.PHARMACY_DETAILS_DATA = [
     "paired_hospital_address": "전북특별자치도 부안군 부안읍 석정로 233 (부안읍)",
     "paired_hospital_closing": "18:00 ~ 20:00",
     "paired_hospital_dist_m": 19111,
-    "updated_at": "2026-10-16T20:58:15.827905"
+    "updated_at": "2026-10-17T14:56:26.139044"
   }
 ];

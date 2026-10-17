@@ -253,6 +253,48 @@ class TestStep5API(unittest.IsolatedAsyncioTestCase):
         background_daemon.shutdown(wait=False)
         self.assertFalse(background_daemon.is_running())
 
+    async def test_11_nearby_emergency_beds_nationwide_coverage(self) -> None:
+        """TC-511: Tests nationwide LBS emergency search from non-Seoul regions (Suwon, Busan)."""
+        # 1. Busan Query (35.1017, 129.0186)
+        res_busan = await self.client.get(
+            "/api/v1/emergency/nearby",
+            params={
+                "lat": 35.1017,
+                "lon": 129.0186,
+                "radius_km": 25.0,
+                "only_acceptable": True,
+                "limit": 3,
+            },
+        )
+        self.assertEqual(res_busan.status_code, 200)
+        data_busan = res_busan.json()
+        self.assertIn("hospitals", data_busan)
+        self.assertTrue(len(data_busan["hospitals"]) > 0)
+        top_busan = data_busan["hospitals"][0]
+        # Should return a nearby hospital with distance < 25km and real phone
+        self.assertLess(top_busan["distance_km"], 25.0)
+        self.assertIsNotNone(top_busan["tel"])
+        self.assertIsNotNone(top_busan["center_type"])
+
+        # 2. Suwon Query (37.2636, 127.0286)
+        res_suwon = await self.client.get(
+            "/api/v1/emergency/nearby",
+            params={
+                "lat": 37.2636,
+                "lon": 127.0286,
+                "radius_km": 25.0,
+                "only_acceptable": True,
+                "limit": 3,
+            },
+        )
+        self.assertEqual(res_suwon.status_code, 200)
+        data_suwon = res_suwon.json()
+        self.assertIn("hospitals", data_suwon)
+        self.assertTrue(len(data_suwon["hospitals"]) > 0)
+        top_suwon = data_suwon["hospitals"][0]
+        self.assertLess(top_suwon["distance_km"], 25.0)
+
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -26,6 +26,7 @@ from app.services.circuit_breaker import (
     CircuitState,
     default_egen_circuit_breaker,
 )
+from app.services.spatial_service import resolve_hospital_metadata
 
 logger = logging.getLogger(__name__)
 KST = datetime.timezone(datetime.timedelta(hours=9))
@@ -35,27 +36,56 @@ _in_memory_bed_cache: dict[str, tuple[float, list[EmergencyBedInfo]]] = {}
 BED_CACHE_TTL_SECONDS = 300.0  # 5 minutes
 
 
-def get_cached_emergency_beds(stage1: str = "서울특별시") -> Optional[list[EmergencyBedInfo]]:
+def get_cached_emergency_beds(stage1: Optional[str] = None) -> Optional[list[EmergencyBedInfo]]:
     """Retrieves in-memory cached beds if valid within TTL."""
-    if stage1 in _in_memory_bed_cache:
-        cached_ts, beds = _in_memory_bed_cache[stage1]
-        if (time.time() - cached_ts) < BED_CACHE_TTL_SECONDS and len(beds) > 0:
+    key = stage1 or "전국"
+    now = time.time()
+    if key in _in_memory_bed_cache:
+        cached_ts, beds = _in_memory_bed_cache[key]
+        if (now - cached_ts) < BED_CACHE_TTL_SECONDS and len(beds) > 0:
             return beds
+    elif "전국" in _in_memory_bed_cache and key != "전국":
+        # If nationwide cache is warm, serve from nationwide cache
+        cached_ts, beds = _in_memory_bed_cache["전국"]
+        if (now - cached_ts) < BED_CACHE_TTL_SECONDS and len(beds) > 0:
+            return beds
+    elif key == "전국" and _in_memory_bed_cache:
+        all_cached: list[EmergencyBedInfo] = []
+        for cached_ts, beds in _in_memory_bed_cache.values():
+            if (now - cached_ts) < BED_CACHE_TTL_SECONDS and beds:
+                all_cached.extend(beds)
+        if all_cached:
+            return all_cached
     return None
 
 
-def get_stale_in_memory_beds(stage1: str = "서울특별시") -> tuple[Optional[list[EmergencyBedInfo]], float]:
+def get_stale_in_memory_beds(stage1: Optional[str] = None) -> tuple[Optional[list[EmergencyBedInfo]], float]:
     """Retrieves in-memory cached beds even if expired beyond TTL (for Tier 1 Stale Fallback)."""
-    if stage1 in _in_memory_bed_cache:
-        cached_ts, beds = _in_memory_bed_cache[stage1]
+    key = stage1 or "전국"
+    if key in _in_memory_bed_cache:
+        cached_ts, beds = _in_memory_bed_cache[key]
         if beds and len(beds) > 0:
             return beds, cached_ts
+    elif "전국" in _in_memory_bed_cache:
+        cached_ts, beds = _in_memory_bed_cache["전국"]
+        if beds and len(beds) > 0:
+            return beds, cached_ts
+    elif key == "전국" and _in_memory_bed_cache:
+        all_cached: list[EmergencyBedInfo] = []
+        max_ts = 0.0
+        for ts, beds in _in_memory_bed_cache.values():
+            if beds:
+                all_cached.extend(beds)
+                max_ts = max(max_ts, ts)
+        if all_cached:
+            return all_cached, max_ts
     return None, 0.0
 
 
-def set_cached_emergency_beds(stage1: str, beds: list[EmergencyBedInfo]) -> None:
+def set_cached_emergency_beds(stage1: Optional[str], beds: list[EmergencyBedInfo]) -> None:
     """Stores fetched bed list in in-memory TTL cache."""
-    _in_memory_bed_cache[stage1] = (time.time(), beds)
+    key = stage1 or "전국"
+    _in_memory_bed_cache[key] = (time.time(), beds)
 
 
 def clear_bed_cache() -> None:
@@ -74,6 +104,7 @@ EGEN_BASS_URL = "https://apis.data.go.kr/B552657/ErmctInfoInqireService/getEgytB
 # In-memory and local disk coordinates cache (keyed by stage1)
 _hospital_coords_cache_by_stage: dict[str, dict[str, tuple[float, float]]] = {}
 COORDS_CACHE_FILE = settings.project_root / "data" / "seoul_emergency_coords.json"
+NATIONAL_METADATA_FILE = settings.project_root / "data" / "national_emergency_metadata.json"
 
 STAGE1_DEFAULT_COORDS: dict[str, tuple[float, float]] = {
     "서울특별시": (37.5665, 126.9780),
@@ -407,8 +438,14 @@ NATIONWIDE_REGIONAL_ER_MOCKS: dict[str, list[dict[str, Any]]] = {
 MOCK_EMERGENCY_HOSPITALS = NATIONWIDE_REGIONAL_ER_MOCKS["서울특별시"]
 
 
-def get_mock_emergency_hospitals(stage1: str = "서울특별시") -> list[EmergencyBedInfo]:
+def get_mock_emergency_hospitals(stage1: Optional[str] = None) -> list[EmergencyBedInfo]:
     """Returns mock hospitals tailored to region when API is unavailable."""
+    if not stage1 or stage1 == "전국":
+        all_mocks: list[EmergencyBedInfo] = []
+        for reg_items in NATIONWIDE_REGIONAL_ER_MOCKS.values():
+            all_mocks.extend([EmergencyBedInfo(**item) for item in reg_items])
+        return all_mocks
+
     items = NATIONWIDE_REGIONAL_ER_MOCKS.get(
         stage1, NATIONWIDE_REGIONAL_ER_MOCKS["서울특별시"]
     )
@@ -416,52 +453,61 @@ def get_mock_emergency_hospitals(stage1: str = "서울특별시") -> list[Emerge
 
 
 def fetch_hospital_coordinates(
-    stage1: str = "서울특별시",
+    stage1: Optional[str] = None,
     api_key: Optional[str] = None,
     timeout: float = 5.0,
 ) -> dict[str, tuple[float, float]]:
     """Loads hospital GPS coordinates from local cache or NMC getEgytBassInfoInqire API."""
     global _hospital_coords_cache_by_stage
-    if stage1 in _hospital_coords_cache_by_stage and _hospital_coords_cache_by_stage[stage1]:
-        return _hospital_coords_cache_by_stage[stage1]
+    cache_key = stage1 or "전국"
+    if cache_key in _hospital_coords_cache_by_stage and _hospital_coords_cache_by_stage[cache_key]:
+        return _hospital_coords_cache_by_stage[cache_key]
 
     stage_coords: dict[str, tuple[float, float]] = {}
 
-    # 1. Try reading from local disk cache for Seoul (< 1ms)
-    if stage1 == "서울특별시" and COORDS_CACHE_FILE.exists():
+    # 1. Try reading from national metadata file or coords cache file (530 nationwide centers, < 1ms)
+    coords_file = NATIONAL_METADATA_FILE if NATIONAL_METADATA_FILE.exists() else COORDS_CACHE_FILE
+    if coords_file.exists():
         try:
             import json
 
-            with open(COORDS_CACHE_FILE, "r", encoding="utf-8") as f:
+            with open(coords_file, "r", encoding="utf-8") as f:
                 disk_data = json.load(f)
-                stage_coords = {
-                    hpid: (coords[0], coords[1])
-                    for hpid, coords in disk_data.items()
-                }
+                for hpid, item in disk_data.items():
+                    if isinstance(item, list) and len(item) >= 2:
+                        stage_coords[str(hpid)] = (float(item[0]), float(item[1]))
+                    elif isinstance(item, dict) and item.get("lat") and item.get("lon"):
+                        stage_coords[str(hpid)] = (float(item["lat"]), float(item["lon"]))
+
                 if stage_coords:
-                    _hospital_coords_cache_by_stage[stage1] = stage_coords
+                    _hospital_coords_cache_by_stage[cache_key] = stage_coords
                     return stage_coords
         except Exception:
             pass
 
     # 2. Seed from known regional emergency centers
-    if stage1 in NATIONWIDE_REGIONAL_ER_MOCKS:
+    if stage1 and stage1 in NATIONWIDE_REGIONAL_ER_MOCKS:
         for hosp in NATIONWIDE_REGIONAL_ER_MOCKS[stage1]:
             stage_coords[str(hosp["hpid"])] = (float(hosp["lat"]), float(hosp["lon"]))
+    else:
+        for reg_items in NATIONWIDE_REGIONAL_ER_MOCKS.values():
+            for hosp in reg_items:
+                stage_coords[str(hosp["hpid"])] = (float(hosp["lat"]), float(hosp["lon"]))
 
     if api_key is None:
         api_key = settings.data_go_api_key
 
     if not api_key:
-        _hospital_coords_cache_by_stage[stage1] = stage_coords
+        _hospital_coords_cache_by_stage[cache_key] = stage_coords
         return stage_coords
 
     params = {
         "serviceKey": api_key,
-        "STAGE1": stage1,
         "numOfRows": "600",
         "pageNo": "1",
     }
+    if stage1 and stage1 != "전국":
+        params["STAGE1"] = stage1
 
     try:
         res = requests.get(EGEN_BASS_URL, params=params, timeout=timeout)
@@ -489,8 +535,7 @@ def fetch_hospital_coordinates(
                     except (ValueError, TypeError):
                         pass
 
-            # Save to local disk cache if Seoul
-            if stage1 == "서울특별시" and stage_coords:
+            if stage_coords:
                 try:
                     import json
 
@@ -507,8 +552,9 @@ def fetch_hospital_coordinates(
     except Exception:
         pass
 
-    _hospital_coords_cache_by_stage[stage1] = stage_coords
+    _hospital_coords_cache_by_stage[cache_key] = stage_coords
     return stage_coords
+
 
 
 def _parse_int_safely(val: Any) -> int:
@@ -555,7 +601,7 @@ def _fetch_from_firestore_snapshot(stage1: str = "서울특별시") -> tuple[lis
     return [], 0.0
 
 
-def _load_local_immutable_baseline(stage1: str = "서울특별시") -> tuple[list[EmergencyBedInfo], float]:
+def _load_local_immutable_baseline(stage1: Optional[str] = None) -> tuple[list[EmergencyBedInfo], float]:
     """Tier 3 Fallback: Loads immutable local baseline coordinates and centers."""
     mock_hospitals = get_mock_emergency_hospitals(stage1)
     baseline_beds: list[EmergencyBedInfo] = []
@@ -567,15 +613,16 @@ def _load_local_immutable_baseline(stage1: str = "서울특별시") -> tuple[lis
 
 
 def resolve_fallback_hierarchy(
-    stage1: str = "서울특별시",
+    stage1: Optional[str] = None,
     reason: str = "CIRCUIT_OPEN",
 ) -> tuple[list[EmergencyBedInfo], DataFreshnessMeta]:
     """Multi-Tier Storage Fallback: Tier 1 (Stale Memory) -> Tier 2 (Firestore) -> Tier 3 (Disk Baseline)."""
     now = time.time()
     circuit_state = default_egen_circuit_breaker.state.value
+    stage_key = stage1 or "전국"
 
     # Tier 1: Stale in-memory cache (< 0.1ms)
-    stale_beds, stale_ts = get_stale_in_memory_beds(stage1)
+    stale_beds, stale_ts = get_stale_in_memory_beds(stage_key)
     if stale_beds:
         elapsed_min = max(0, int((now - stale_ts) / 60))
         iso_ts = (
@@ -593,7 +640,7 @@ def resolve_fallback_hierarchy(
         )
 
     # Tier 2: Firestore Last-Known-Good Snapshot (< 25ms)
-    fs_beds, fs_ts = _fetch_from_firestore_snapshot(stage1)
+    fs_beds, fs_ts = _fetch_from_firestore_snapshot(stage_key)
     if fs_beds:
         elapsed_min = max(0, int((now - fs_ts) / 60))
         iso_ts = (
@@ -611,7 +658,7 @@ def resolve_fallback_hierarchy(
         )
 
     # Tier 3: Local Immutable Baseline Disk Cache (< 1ms)
-    base_beds, base_ts = _load_local_immutable_baseline(stage1)
+    base_beds, base_ts = _load_local_immutable_baseline(stage_key)
     iso_ts = datetime.datetime.fromtimestamp(base_ts, tz=KST).isoformat()
     return base_beds, DataFreshnessMeta(
         is_realtime=False,
@@ -624,7 +671,7 @@ def resolve_fallback_hierarchy(
 
 
 def fetch_emergency_beds(
-    stage1: str = "서울특별시",
+    stage1: Optional[str] = None,
     api_key: Optional[str] = None,
     timeout: float = 7.0,
     force_refresh: bool = False,
@@ -634,25 +681,27 @@ def fetch_emergency_beds(
 
     Parses beds, checks unstructured notice (hpmg) for pediatric denial regex,
     and returns a normalized list of EmergencyBedInfo (and optional DataFreshnessMeta).
+    When stage1 is None (default), fetches all 415 emergency centers nationwide in a single API call.
     Uses in-memory TTL cache (5-min) to serve requests in < 5ms without redundant API hits.
     Engages 3-Tier Multi-Storage Fallback when Circuit Breaker is OPEN or API times out.
     """
     now = time.time()
+    stage_key = stage1 or "전국"
 
     # 1. Check Circuit Breaker availability (0ms short-circuit if OPEN -> engage Fallback)
     if not default_egen_circuit_breaker.is_available():
         logger.warning("[EmergencySyncService] Circuit is OPEN! Bypassing public API and engaging Multi-Tier Fallback.")
-        fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage1, reason="CIRCUIT_OPEN")
+        fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage_key, reason="CIRCUIT_OPEN")
         if return_meta:
             return fallback_beds, meta
         return fallback_beds
 
     # 2. Check in-memory TTL cache if not forced
     if not force_refresh:
-        cached_beds = get_cached_emergency_beds(stage1)
+        cached_beds = get_cached_emergency_beds(stage_key)
         if cached_beds is not None:
             if return_meta:
-                _, cached_ts = get_stale_in_memory_beds(stage1)
+                _, cached_ts = get_stale_in_memory_beds(stage_key)
                 elapsed_min = max(0, int((now - cached_ts) / 60))
                 meta = DataFreshnessMeta(
                     is_realtime=True,
@@ -668,8 +717,8 @@ def fetch_emergency_beds(
         api_key = settings.data_go_api_key
 
     if not api_key:
-        mock_res = get_mock_emergency_hospitals(stage1)
-        set_cached_emergency_beds(stage1, mock_res)
+        mock_res = get_mock_emergency_hospitals(stage_key)
+        set_cached_emergency_beds(stage_key, mock_res)
         if return_meta:
             meta = DataFreshnessMeta(
                 is_realtime=True,
@@ -681,18 +730,20 @@ def fetch_emergency_beds(
             return mock_res, meta
         return mock_res
 
+    # When querying nationwide, omit STAGE1 and fetch 500 rows to retrieve all ~415 centers
     params = {
         "serviceKey": api_key,
-        "STAGE1": stage1,
-        "numOfRows": "100",
+        "numOfRows": "500",
         "pageNo": "1",
     }
+    if stage1 and stage1 != "전국":
+        params["STAGE1"] = stage1
 
     try:
         res = requests.get(EGEN_BED_URL, params=params, timeout=timeout)
         if res.status_code != 200:
             default_egen_circuit_breaker.record_failure(f"HTTP_{res.status_code}")
-            fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage1, reason=f"HTTP_{res.status_code}")
+            fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage_key, reason=f"HTTP_{res.status_code}")
             if return_meta:
                 return fallback_beds, meta
             return fallback_beds
@@ -707,9 +758,9 @@ def fetch_emergency_beds(
         if isinstance(items, dict):
             items = [items]
 
-        # Fetch or get cached hospital coordinates
-        coords_map = fetch_hospital_coordinates(stage1=stage1, api_key=api_key)
-        default_coords = STAGE1_DEFAULT_COORDS.get(stage1, (37.5, 127.0))
+        # Fetch or get cached hospital coordinates (530 nationwide centers)
+        coords_map = fetch_hospital_coordinates(stage1=stage_key, api_key=api_key)
+        default_coords = STAGE1_DEFAULT_COORDS.get(stage_key, (36.5, 127.5))
 
         cleaned_hospitals: list[EmergencyBedInfo] = []
 
@@ -754,10 +805,10 @@ def fetch_emergency_beds(
         final_result = (
             cleaned_hospitals
             if cleaned_hospitals
-            else get_mock_emergency_hospitals(stage1)
+            else get_mock_emergency_hospitals(stage_key)
         )
         default_egen_circuit_breaker.record_success()
-        set_cached_emergency_beds(stage1, final_result)
+        set_cached_emergency_beds(stage_key, final_result)
         if return_meta:
             meta = DataFreshnessMeta(
                 is_realtime=True,
@@ -770,6 +821,7 @@ def fetch_emergency_beds(
         return final_result
     except Exception as e:
         default_egen_circuit_breaker.record_failure(e)
+
         fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage1, reason=str(e))
         if return_meta:
             return fallback_beds, meta
@@ -883,6 +935,7 @@ def sync_to_firestore(
     for hosp in normalized_hospitals:
         if hosp.pediatric_acceptable:
             acceptable_count += 1
+            tel_meta, ctype_meta = resolve_hospital_metadata(hosp.hpid, hosp.hospital_name)
             summary_list.append(
                 {
                     "hpid": hosp.hpid,
@@ -891,14 +944,19 @@ def sync_to_firestore(
                     "notice": hosp.notice_raw,
                     "lat": hosp.lat,
                     "lon": hosp.lon,
+                    "tel": tel_meta,
+                    "center_type": ctype_meta,
                 }
             )
 
     # Batch write only changed items
     for hosp in items_to_write:
         doc_ref = db.collection("emergency_beds").document(hosp.hpid)
+        tel_item, ctype_item = resolve_hospital_metadata(hosp.hpid, hosp.hospital_name)
         record = {
             **hosp.model_dump(),
+            "tel": tel_item,
+            "center_type": ctype_item,
             "is_holiday": is_holiday,
             "holiday_name": holiday_name,
             "surge_risk_level": surge_risk,

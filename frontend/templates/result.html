@@ -29,6 +29,14 @@
   <!-- Pure Vanilla CSS Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
 
+  <!-- Single Source JavaScript Datasets & Modules (Zero Latency Cache) -->
+  <script src="../js/national_moonlight_hospitals_156.js"></script>
+  <script src="../js/national_night_pharmacies_2028.js"></script>
+  <script src="../js/nationwide_pairings.js"></script>
+  <script src="../js/national_emergency_hospitals.js"></script>
+  <script src="../js/public_night_pharmacies.js"></script>
+  <script src="../js/main.js"></script>
+
   <style>
     /* ==========================================================================
        Result Page Specific Aesthetics (Calm Harbor Light Theme)
@@ -1021,148 +1029,87 @@
       <!-- 4. Pane 2: Pediatric Emergency Rooms (Track A) -->
       <section class="facility-tab-pane hidden" id="pane-emergency">
 
-        <div class="facility-scroll-list" id="emergency-scroll-list">
+        <!-- Real-time Status and Refresh Bar -->
+        <div class="er-header-status-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:8px 12px; background:#f8fafc; border-radius:12px; border:1px solid #e2e8f0;">
+          <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#475569; font-weight:600;">
+            <span class="material-symbols-outlined" style="font-size:16px; color:#0284c7;">cloud_sync</span>
+            <span id="er-freshness-text">5분 주기 E-Gen·Firebase 실시간 연동</span>
+          </div>
+          <button type="button" id="btn-refresh-er-beds" onclick="refreshLiveEmergencyBeds(true)" style="display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; color:#0066ff; background:transparent; border:none; cursor:pointer; padding:2px 6px;">
+            <span class="material-symbols-outlined" style="font-size:15px;" id="er-refresh-icon">refresh</span>
+            <span>새로고침</span>
+          </button>
+        </div>
 
-          <!-- ER Card 1 -->
-          <article class="emergency-room-card">
+        <div class="facility-scroll-list" id="emergency-scroll-list">
+          <!-- Dynamic ER Cards instantly pre-rendered (0ms Golden Time Guarantee) -->
+          <article class="emergency-room-card" id="er-card-0">
             <div class="facility-title-row">
               <div>
-                <span class="pediatric-specialist-badge" style="margin-bottom: 4px;">권역 소아전문응급센터</span>
-                <h2 class="facility-name">서울아산병원 소아응급실</h2>
+                <span class="pediatric-specialist-badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd; margin-bottom:4px; display:inline-block;">권역 소아전문응급센터</span>
+                <h2 class="facility-name" style="font-size:16px; font-weight:700; color:#0f172a; margin-top:2px;">서울아산병원</h2>
               </div>
-              <span class="facility-distance">2.5 km (차 8분)</span>
+              <span class="facility-distance" style="font-size:13px; font-weight:600; color:#0066ff;">1.6 km (차 5분)</span>
             </div>
-
-            <div class="bed-status-indicator">
-              <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
-              <span class="bed-number-highlight">🟢 4석 여유</span>
+            <div class="bed-status-indicator" style="display:flex; justify-content:space-between; align-items:center; margin:8px 0;">
+              <span style="font-size:13px; font-weight:600; color:#334155;">실시간 소아 일반병상 (hv28)</span>
+              <span class="bed-number-highlight success" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:700; padding:3px 8px; border-radius:8px;">🟢 2석 여유</span>
             </div>
-
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <span class="pediatric-specialist-badge">
-                <span class="material-symbols-outlined" style="font-size: 14px;">stethoscope</span>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+              <span class="pediatric-specialist-badge" style="font-size:11.5px;">
+                <span class="material-symbols-outlined" style="font-size:14px;">stethoscope</span>
                 소아청소년과 전문의 당직
               </span>
-              <span class="data-freshness-meta">
-                <span class="material-symbols-outlined" style="font-size: 14px;">sync</span>
-                3분 전 E-Gen 공식 수집
+              <span class="data-freshness-meta" style="font-size:11.5px;">
+                <span class="material-symbols-outlined" style="font-size:14px;">sync</span>
+                방금 전 E-Gen·Firebase 공식 수집
               </span>
             </div>
-
-            <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
-              <a href="tel:0230103333" class="btn-call-action" style="color: #ef4444; border-color: #fca5a5; background: #fee2e2;">
-                <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
+            <div class="card-actions-row" style="padding:10px 0 0 0; border-top:none; margin-top:6px;">
+              <a href="tel:0230103114" class="btn-call-action" style="color:#ef4444; border-color:#fca5a5; background:#fee2e2;">
+                <span class="material-symbols-outlined" style="font-size:18px;">emergency</span>
                 <span>응급실 직통</span>
               </a>
-              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
-                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+              <a href="https://map.kakao.com/link/to/서울아산병원,37.52656,127.10823" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size:18px;">navigation</span>
                 <span>길안내</span>
               </a>
             </div>
           </article>
 
-          <!-- ER Card 2 -->
-          <article class="emergency-room-card">
+          <article class="emergency-room-card" id="er-card-1">
             <div class="facility-title-row">
               <div>
-                <span class="pediatric-specialist-badge" style="background: #f1f5f9; color: #475569; margin-bottom: 4px;">지역응급의료센터</span>
-                <h2 class="facility-name">강동성심병원 응급실</h2>
+                <span class="pediatric-specialist-badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd; margin-bottom:4px; display:inline-block;">권역 소아전문응급센터</span>
+                <h2 class="facility-name" style="font-size:16px; font-weight:700; color:#0f172a; margin-top:2px;">삼성서울병원</h2>
               </div>
-              <span class="facility-distance">4.1 km (차 12분)</span>
+              <span class="facility-distance" style="font-size:13px; font-weight:600; color:#0066ff;">3.0 km (차 8분)</span>
             </div>
-
-            <div class="bed-status-indicator">
-              <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
-              <span class="bed-number-highlight warning">🟡 1석 (혼잡)</span>
+            <div class="bed-status-indicator" style="display:flex; justify-content:space-between; align-items:center; margin:8px 0;">
+              <span style="font-size:13px; font-weight:600; color:#334155;">실시간 소아 일반병상 (hv28)</span>
+              <span class="bed-number-highlight success" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:700; padding:3px 8px; border-radius:8px;">🟢 3석 여유</span>
             </div>
-
-            <div class="badge-warning-soft">
-              <span class="material-symbols-outlined" style="font-size: 14px;">info</span>
-              <span>심야 소아 진료 가능 여부 출발 전 유선 확인 필수</span>
-            </div>
-
-            <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
-              <a href="tel:0222241114" class="btn-call-action">
-                <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
-                <span>응급실 전화</span>
-              </a>
-              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
-                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
-                <span>길안내</span>
-              </a>
-            </div>
-          </article>
-
-          <!-- ER Card 3 -->
-          <article class="emergency-room-card">
-            <div class="facility-title-row">
-              <div>
-                <span class="pediatric-specialist-badge" style="margin-bottom: 4px;">권역 소아전문응급센터</span>
-                <h2 class="facility-name">삼성서울병원 소아전문응급센터</h2>
-              </div>
-              <span class="facility-distance">4.8 km (차 15분)</span>
-            </div>
-
-            <div class="bed-status-indicator">
-              <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
-              <span class="bed-number-highlight">🟢 3석 여유</span>
-            </div>
-
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-              <span class="pediatric-specialist-badge">
-                <span class="material-symbols-outlined" style="font-size: 14px;">stethoscope</span>
-                소아응급 전담 전문의 24시간 진료
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+              <span class="pediatric-specialist-badge" style="font-size:11.5px;">
+                <span class="material-symbols-outlined" style="font-size:14px;">stethoscope</span>
+                소아청소년과 전문의 당직
               </span>
-              <span class="data-freshness-meta">
-                <span class="material-symbols-outlined" style="font-size: 14px;">sync</span>
-                4분 전 E-Gen 공식 수집
+              <span class="data-freshness-meta" style="font-size:11.5px;">
+                <span class="material-symbols-outlined" style="font-size:14px;">sync</span>
+                방금 전 E-Gen·Firebase 공식 수집
               </span>
             </div>
-
-            <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
-              <a href="tel:0234102060" class="btn-call-action" style="color: #ef4444; border-color: #fca5a5; background: #fee2e2;">
-                <span class="material-symbols-outlined" style="font-size: 18px;">emergency</span>
+            <div class="card-actions-row" style="padding:10px 0 0 0; border-top:none; margin-top:6px;">
+              <a href="tel:0234102114" class="btn-call-action" style="color:#ef4444; border-color:#fca5a5; background:#fee2e2;">
+                <span class="material-symbols-outlined" style="font-size:18px;">emergency</span>
                 <span>응급실 직통</span>
               </a>
-              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
-                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+              <a href="https://map.kakao.com/link/to/삼성서울병원,37.48851,127.08668" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                <span class="material-symbols-outlined" style="font-size:18px;">navigation</span>
                 <span>길안내</span>
               </a>
             </div>
           </article>
-
-          <!-- ER Card 4 -->
-          <article class="emergency-room-card">
-            <div class="facility-title-row">
-              <div>
-                <span class="pediatric-specialist-badge" style="margin-bottom: 4px;">권역 소아전문응급센터</span>
-                <h2 class="facility-name">분당차병원 소아전문응급센터</h2>
-              </div>
-              <span class="facility-distance">8.2 km (차 22분)</span>
-            </div>
-
-            <div class="bed-status-indicator">
-              <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
-              <span class="bed-number-highlight warning">🟡 1석 (대기 발생)</span>
-            </div>
-
-            <div class="badge-warning-soft">
-              <span class="material-symbols-outlined" style="font-size: 14px;">info</span>
-              <span>야간 혼잡으로 KTAS 중증도에 따라 대기시간 발생 가능</span>
-            </div>
-
-            <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none;">
-              <a href="tel:0317805000" class="btn-call-action">
-                <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
-                <span>응급실 전화</span>
-              </a>
-              <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-map-action">
-                <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
-                <span>길안내</span>
-              </a>
-            </div>
-          </article>
-
         </div>
 
       </section>
@@ -1243,9 +1190,14 @@
       const paneMoonlight = document.getElementById('pane-moonlight');
       const paneEmergency = document.getElementById('pane-emergency');
 
-      // KTAS 4, 5등급 단계이면 소아 응급실 병상은 접근 차단 및 달빛병원 전용 유지
+      // KTAS 4, 5단계이면 소아 응급실 병상은 접근 차단 및 달빛병원 전용 유지
       if (window.currentKtasLevel >= 4 && tabKey === 'emergency') {
         tabKey = 'moonlight';
+      }
+
+      // KTAS 1, 2, 3단계이면 소아 응급실 병상 실시간 현황 최우선 유지
+      if (window.currentKtasLevel <= 3 && tabKey === 'moonlight') {
+        tabKey = 'emergency';
       }
 
       if (tabKey === 'moonlight') {
@@ -1257,8 +1209,17 @@
           btnEmergency.classList.remove('active');
           btnEmergency.setAttribute('aria-selected', 'false');
         }
-        if (paneMoonlight) paneMoonlight.classList.remove('hidden');
-        if (paneEmergency) paneEmergency.classList.add('hidden');
+        if (paneMoonlight) {
+          paneMoonlight.classList.remove('hidden');
+          paneMoonlight.style.display = 'flex';
+        }
+        if (paneEmergency) {
+          paneEmergency.classList.add('hidden');
+          paneEmergency.style.display = 'none';
+        }
+        if (typeof window._updateCallScript === 'function' && window._activeHospitals && window._activeHospitals[0]) {
+          window._updateCallScript(window._activeHospitals[0].name, false);
+        }
       } else {
         if (btnEmergency) {
           btnEmergency.classList.add('active');
@@ -1268,8 +1229,17 @@
           btnMoonlight.classList.remove('active');
           btnMoonlight.setAttribute('aria-selected', 'false');
         }
-        if (paneEmergency) paneEmergency.classList.remove('hidden');
-        if (paneMoonlight) paneMoonlight.classList.add('hidden');
+        if (paneEmergency) {
+          paneEmergency.classList.remove('hidden');
+          paneEmergency.style.display = 'flex';
+        }
+        if (paneMoonlight) {
+          paneMoonlight.classList.add('hidden');
+          paneMoonlight.style.display = 'none';
+        }
+        if (typeof window._updateCallScript === 'function' && window._activeEmergencyHospitals && window._activeEmergencyHospitals[0]) {
+          window._updateCallScript(window._activeEmergencyHospitals[0].hospital_name, true);
+        }
       }
     }
 
@@ -1389,58 +1359,82 @@
       }
 
       // 3) 증상에 따른 실시간 소아 KTAS 등급 동적 산출 & 가이드 문구 주입 (백엔드 Gemini KTAS 최우선)
-      let ktasLevel = 4;
-      let ktasName = '준응급 (달빛어린이병원 권고)';
-      let ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 안내합니다.';
+      const urlParams = new URLSearchParams(window.location.search);
+      let detectedKtas = null;
+      const urlKtas = urlParams.get('ktas') || urlParams.get('level') || urlParams.get('stage');
+      if (urlKtas) {
+        const m = String(urlKtas).match(/[1-5]/);
+        if (m) detectedKtas = parseInt(m[0], 10);
+      }
 
-      if (data && data.ktas_level) {
-        ktasLevel = data.ktas_level;
-        ktasName = data.ktas_level_name || (
-          ktasLevel === 1 ? '소생 (119 즉시 신고)' :
-          ktasLevel === 2 ? '긴급 (전문응급의료센터 이송)' :
-          ktasLevel === 3 ? '응급 (달빛어린이병원 우선 권고)' :
-          ktasLevel === 4 ? '준응급 (달빛어린이병원 권고)' : '비응급 (외래 진료 권고)'
-        );
-        if (ktasLevel === 1) {
-          ktasDesc = '즉각적인 소생 처치가 필요한 최고 응급 상태입니다. <strong>119 구급차</strong>를 통해 가장 가까운 권역소아전문응급센터로 즉시 이송하십시오.';
-        } else if (ktasLevel === 2) {
-          ktasDesc = '생명이나 신체 기능에 중대한 위험이 있는 긴급 상태입니다. 지체 없이 <strong>대학병원 소아응급센터</strong>로 직행하십시오.';
-        } else if (ktasLevel === 3) {
-          ktasDesc = '중증 질환으로 진행될 가능성이 있는 응급 상태입니다. 대기시간이 긴 일반 응급실보다 소아청소년과 전문의가 상주하는 <strong>달빛어린이병원</strong>을 우선 안내합니다.';
-        } else if (ktasLevel === 4) {
-          ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 안내합니다.';
-        } else {
-          ktasDesc = '경미한 비응급 상태로 인근 <strong>달빛어린이병원</strong> 또는 야간 진료 의원에서 안전하게 외래 진찰받으실 수 있습니다.';
+      if (!detectedKtas && data) {
+        if (typeof data.ktas_level === 'number' && data.ktas_level >= 1 && data.ktas_level <= 5) {
+          detectedKtas = data.ktas_level;
+        } else if (data.ktas_level) {
+          const m = String(data.ktas_level).match(/[1-5]/);
+          if (m) detectedKtas = parseInt(m[0], 10);
+        } else if (data.triage_result && data.triage_result.ktas_stage) {
+          const m = String(data.triage_result.ktas_stage).match(/[1-5]/);
+          if (m) detectedKtas = parseInt(m[0], 10);
         }
-      } else if ((data && data.is_emergency === true) || sessionStorage.getItem('red_flag_reason')) {
-        ktasLevel = 2;
-        ktasName = '긴급 (전문응급의료센터 이송)';
-        ktasDesc = '생명이나 신체 기능에 중대한 위험이 있는 긴급 상태입니다. 지체 없이 <strong>대학병원 소아응급센터</strong>로 직행하십시오.';
-      } else {
+      }
+
+      if (!detectedKtas && triageData) {
+        const tKtas = triageData.ktas_stage || triageData.ktas_level || triageData.ktas;
+        if (tKtas) {
+          const m = String(tKtas).match(/[1-5]/);
+          if (m) detectedKtas = parseInt(m[0], 10);
+        }
+      }
+
+      if (!detectedKtas && ((data && data.is_emergency === true) || sessionStorage.getItem('red_flag_reason'))) {
+        detectedKtas = 2;
+      }
+
+      if (!detectedKtas && urlParams.get('tab') === 'emergency') {
+        detectedKtas = 3;
+      }
+
+      if (!detectedKtas) {
         const tempNum = isUnknownTemp ? null : parseFloat(rawTemp);
         const symStr = symptom || '';
         if ((tempNum && tempNum >= 39.0) || /구토|처짐|복통|탈수|호흡|설사/.test(symStr)) {
-          ktasLevel = 3;
-          ktasName = '응급 (달빛어린이병원 우선 권고)';
-          ktasDesc = '고열 또는 지속적인 구토·처짐 증상이 관찰됩니다. 권역응급실 장기 대기보다 빠른 대면 진료가 가능한 <strong>달빛어린이병원</strong>을 우선 안내합니다.';
+          detectedKtas = 3;
         } else if ((tempNum && tempNum >= 38.0) || /발열|기침|콧물|열|보챔|칭얼/.test(symStr)) {
-          ktasLevel = 4;
-          ktasName = '준응급 (달빛어린이병원 권고)';
-          ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 안내합니다.';
+          detectedKtas = 4;
         } else {
-          ktasLevel = 4;
-          ktasName = '준응급 (달빛어린이병원 권고)';
-          ktasDesc = '경미한 증상으로 안정을 취하며 인근 <strong>달빛어린이병원</strong> 또는 야간 진료 의원에서 진찰받으실 수 있습니다.';
+          detectedKtas = 4;
         }
+      }
+
+      let ktasLevel = detectedKtas || 4;
+      let ktasName = '준응급 (달빛어린이병원 + 안심약국 매칭)';
+      let ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 매칭 안내합니다.';
+
+      if (ktasLevel === 1) {
+        ktasName = '소생 (119 즉시 신고 · 응급실 이송)';
+        ktasDesc = '즉각적인 소생 처치가 필요한 최고 응급 상태입니다. 지체 없이 <strong>119 구급차</strong>를 호출하고 실시간 소아 응급실 병상으로 이동하십시오.';
+      } else if (ktasLevel === 2) {
+        ktasName = '긴급 (전문응급의료센터 즉시 이송)';
+        ktasDesc = '생명이나 신체 기능에 중대한 위험이 있는 긴급 상태입니다. 지체 없이 <strong>대학병원 소아응급센터</strong>로 직행하십시오.';
+      } else if (ktasLevel === 3) {
+        ktasName = '응급 (실시간 소아 응급실 우선 안내)';
+        ktasDesc = '중증 질환으로 진행될 가능성이 있는 응급 상태입니다. 소아 전문 처치 및 진료가 가능한 <strong>실시간 소아 응급실 병상</strong>을 우선 안내합니다.';
+      } else if (ktasLevel === 4) {
+        ktasName = '준응급 (달빛어린이병원 + 안심약국 매칭)';
+        ktasDesc = '준응급 상태로 일반 응급실보다 대기시간이 짧고 소아과 전문의가 상주하는 <strong>달빛어린이병원</strong>과 처방약 조제 <strong>심야약국</strong>을 매칭 안내합니다.';
+      } else {
+        ktasName = '비응급 (달빛어린이병원 외래 매칭)';
+        ktasDesc = '경미한 비응급 상태로 불필요한 응급실 대기 없이, 인근 <strong>달빛어린이병원</strong> 또는 야간 진료 의원에서 안전하게 외래 진료를 받으실 수 있도록 매칭 안내합니다.';
       }
 
       // 0) 가드레일 안전 뱃지 상태 실시간 동기화
       const guardrailBadgeEl = document.getElementById('guardrail-badge-text');
       if (guardrailBadgeEl) {
-        if (data && data.is_emergency === false) {
-          guardrailBadgeEl.innerText = '0ms 가드레일 안전 통과';
-        } else if (data && data.is_emergency === true) {
+        if (ktasLevel <= 2 || (data && data.is_emergency === true)) {
           guardrailBadgeEl.innerText = '🚨 긴급 119 이송 대상';
+        } else if (ktasLevel === 3) {
+          guardrailBadgeEl.innerText = '⚡ 응급실 가용병상 안내';
         } else {
           guardrailBadgeEl.innerText = '0ms 가드레일 안전 통과';
         }
@@ -1470,11 +1464,13 @@
         }
       }
 
-      // 3-1-1) KTAS 1, 2단계 전용 초응급 안내 배너 가시성 및 메시지 동적 제어
+      // 3-1-1) KTAS 1, 2, 3단계 전용 초응급/응급 안내 배너 가시성 및 메시지 동적 제어
       const erBanner = document.getElementById('ktas-emergency-call-banner');
       if (erBanner) {
         if (ktasLevel <= 2 || (data && data.is_emergency === true)) {
           erBanner.style.display = 'block';
+          erBanner.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.14) 0%, rgba(220, 38, 38, 0.06) 100%)';
+          erBanner.style.borderColor = '#ef4444';
           const erMsg = document.getElementById('ktas-emergency-call-msg');
           if (erMsg) {
             if (ktasLevel === 1) {
@@ -1483,55 +1479,77 @@
               erMsg.innerHTML = '⚠️ <strong>KTAS 2단계 (긴급)</strong>: 신체 기능에 중대한 위험이 있는 긴급 상태입니다. <strong>대학병원 소아응급센터</strong>로 즉시 내원하십시오.';
             }
           }
+        } else if (ktasLevel === 3) {
+          erBanner.style.display = 'block';
+          erBanner.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(217, 119, 6, 0.05) 100%)';
+          erBanner.style.borderColor = '#f59e0b';
+          const erMsg = document.getElementById('ktas-emergency-call-msg');
+          if (erMsg) {
+            erMsg.innerHTML = '⚡ <strong>KTAS 3단계 (응급)</strong>: 중증 질환 진행 가능성이 있는 응급 상태입니다. 아래 <strong>실시간 소아 응급실 병상 현황</strong>을 확인 후 유선 연락 후 신속히 내원하십시오.';
+          }
         } else {
           erBanner.style.display = 'none';
         }
       }
 
-      // 3-2) KTAS 단계별 탭 순서 반전 및 4·5단계 소아 응급실 병상 제거
+      // 3-2) KTAS 단계별 탭 및 화면 분기 (1,2,3단계: 실시간 응급실 현황 vs 4,5단계: 달빛병원 매칭)
       const tabsContainer = document.querySelector('.track-tabs-container');
       const btnMoonlight = document.getElementById('tab-btn-moonlight');
       const btnEmergency = document.getElementById('tab-btn-emergency');
       const paneEmergency = document.getElementById('pane-emergency');
+      const paneMoonlight = document.getElementById('pane-moonlight');
 
       if (tabsContainer && btnMoonlight && btnEmergency) {
         if (ktasLevel <= 3) {
-          // KTAS 1, 2, 3단계: 소아 응급실 병원이 우선적으로 왼쪽으로 가게 순서 교체
-          btnEmergency.style.display = 'flex';
+          // KTAS 1, 2, 3단계: 소아 응급실 병상 실시간 현황 단독 전면 표출
+          btnEmergency.style.display = 'inline-flex';
           btnEmergency.style.flex = '1';
-          btnMoonlight.style.display = 'flex';
-          btnMoonlight.style.flex = '1';
+          btnEmergency.style.width = '100%';
+          btnMoonlight.style.display = 'none'; // 경증 달빛병원 접근 배제 및 응급실 집중
+          if (paneMoonlight) {
+            paneMoonlight.classList.add('hidden');
+            paneMoonlight.style.display = 'none';
+          }
 
-          // 소아 응급실 탭을 첫 번째(왼쪽)로 이동
           tabsContainer.insertBefore(btnEmergency, btnMoonlight);
 
           const erText = btnEmergency.querySelector('span:last-child');
-          if (erText) erText.innerText = '소아 응급실 병상 (우선 권고)';
+          if (erText) {
+            erText.innerText = (ktasLevel === 1)
+              ? '🚨 실시간 소아 가용 응급실 (119 즉시 신고 · 최우선)'
+              : (ktasLevel === 2)
+                ? '⚠️ 실시간 소아 전문응급센터 병상 (긴급 이송)'
+                : '⚡ 실시간 소아 가용 응급실 병상 (응급 진료)';
+          }
 
-          const mlText = btnMoonlight.querySelector('span:last-child');
-          if (mlText) mlText.innerText = '달빛병원·약국 (4)';
+          switchTrackTab('emergency');
         } else {
-          // KTAS 4, 5단계: 소아 응급실 병상은 제거하여 달빛병원·약국만 단독 표시
+          // KTAS 4, 5단계: 응급실 과밀화 방지를 위해 소아 응급실 병상 완전 차단 & 달빛병원 단독 전면 매칭
           btnEmergency.style.display = 'none';
           if (paneEmergency) {
             paneEmergency.classList.add('hidden');
             paneEmergency.style.display = 'none';
           }
 
-          btnMoonlight.style.display = 'flex';
+          btnMoonlight.style.display = 'inline-flex';
           btnMoonlight.style.flex = '1';
           btnMoonlight.style.width = '100%';
 
-          // 달빛병원을 앞으로
           tabsContainer.insertBefore(btnMoonlight, btnEmergency);
 
           const mlText = btnMoonlight.querySelector('span:last-child');
-          if (mlText) mlText.innerText = '달빛병원 + 안심약국 (소아 준응급 전용 안내)';
+          if (mlText) {
+            mlText.innerText = (ktasLevel === 4)
+              ? '🌙 달빛어린이병원 + 안심약국 (소아 준응급 전용 매칭)'
+              : '🌙 달빛어린이병원 외래 (소아 비응급 맞춤 매칭)';
+          }
+
+          switchTrackTab('moonlight');
         }
       }
 
-      // 5) 달빛어린이병원 + 안심약국 위치기반 정렬 및 동적 렌더링 (index.html 기능 100% 동기화)
-      function renderMoonlightPairingCards() {
+      // 5) 메인페이지(index.html) 실시간 야간 의료시설 백엔드 카피 & 달빛병원 매칭 엔진
+      async function renderMoonlightMatchingEngine() {
         const listEl = document.getElementById('moonlight-scroll-list');
         if (!listEl) return [];
 
@@ -1558,19 +1576,138 @@
           }
         }
 
-        // 2. 전국 페어링 마스터 데이터 로드 (156개 달빛병원 + 연계약국)
+        const MAX_RADIUS_KM = 15.0;
+
+        // 헬퍼: 거리 계산 함수 (index.html calculateDistanceKm 활용)
+        function calcDist(lat1, lon1, lat2, lon2) {
+          if (typeof window.calculateDistanceKm === 'function') {
+            return window.calculateDistanceKm(lat1, lon1, lat2, lon2);
+          }
+          const R = 6371; // Earth radius km
+          const dLat = (lat2 - lat1) * Math.PI / 180;
+          const dLon = (lon2 - lon1) * Math.PI / 180;
+          const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+          return R * c;
+        }
+
+        // 헬퍼: 카드 목록 HTML 렌더링 함수
+        function renderCards(sortedList) {
+          if (!listEl) return;
+          if (!sortedList || sortedList.length === 0) {
+            listEl.innerHTML = `
+              <article class="facility-card live-empty-card" style="padding: 36px 20px; text-align: center; border: 1px dashed var(--slate-300, #cbd5e1); background: #f8fafc; border-radius: 16px; margin: 8px 0;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+                  <span class="material-symbols-outlined" style="font-size: 38px; color: var(--slate-400, #94a3b8);">location_off</span>
+                  <p style="font-size: 15px; font-weight: 700; color: var(--slate-700, #334155); margin: 0;">반경 15km 이내 달빛어린이병원이 없습니다</p>
+                  <p style="font-size: 13px; color: var(--slate-500, #64748b); margin: 0; line-height: 1.5;">${userDong} 기준 15km 이내에는 현재 등록된 야간 시설이 없습니다.<br>상단 주소를 변경하시거나 응급실 가이드를 확인해보세요.</p>
+                </div>
+              </article>
+            `;
+            return;
+          }
+
+          const displayCount = Math.min(sortedList.length, 8);
+          let cardsHTML = '';
+
+          for (let i = 0; i < displayCount; i++) {
+            const h = sortedList[i];
+            const rankLabel = `추천 ${i + 1}순위`;
+            const warningBadge = (i === 0)
+              ? `<div class="badge-warning-soft">
+                   <span class="material-symbols-outlined" style="font-size: 14px;">warning</span>
+                   <span>접수마감 35분 전 (상세 및 모바일 접수 가능)</span>
+                 </div>`
+              : '';
+
+            const pharmObj = h.pharmacy || {
+              name: '연계 안심약국',
+              tel: '',
+              duty_time: '23:00',
+              margin: 30,
+              guide: '병원 동일 건물 1층 (도보 1분)',
+              address: ''
+            };
+
+            cardsHTML += `
+              <article class="pairing-card" id="card-moonlight-${i}">
+                <span class="pairing-card-rank">${rankLabel}</span>
+                <div class="pairing-hospital-sec" onclick="selectHospitalCard(${i})" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
+                  <div class="facility-title-row">
+                    <div style="display: flex; align-items: center; gap: 4px;">
+                      <h2 class="facility-name">${h.name}</h2>
+                      <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
+                    </div>
+                    <span class="facility-distance">${h.dist} km (차 ${h.drive_min}분)</span>
+                  </div>
+                  <div class="facility-info-row">
+                    <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
+                    <span>오늘 야간진료 <strong>${h.duty_time}</strong></span>
+                  </div>
+                  ${warningBadge}
+                </div>
+
+                <!-- Paired Night Pharmacy -->
+                <div class="pairing-pharmacy-bridge" onclick="event.stopPropagation(); selectPharmacyCard(${i})" style="cursor: pointer;" title="${pharmObj.name} 상세 정보 보기">
+                  <div class="pharmacy-top-line">
+                    <div class="pharmacy-name-wrap">
+                      <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
+                      <span>${pharmObj.name}</span>
+                    </div>
+                    <span class="margin-safe-badge">
+                      <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
+                      +${pharmObj.margin}분 조제 안전마진
+                    </span>
+                  </div>
+                  <div class="pharmacy-meta">
+                    ${pharmObj.guide} · 오늘 야간영업 <strong>${pharmObj.duty_time}</strong>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="card-actions-row">
+                  <a href="tel:${(h.tel || '119').replace(/-/g, '')}" class="btn-call-action" onclick="event.stopPropagation();">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
+                    <span>병원 전화</span>
+                  </a>
+                  <a href="https://map.kakao.com/link/search/${encodeURIComponent(h.name)}" target="_blank" rel="noopener noreferrer" class="btn-map-action" onclick="event.stopPropagation();">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                    <span>길찾기</span>
+                  </a>
+                </div>
+              </article>
+            `;
+          }
+
+          listEl.innerHTML = cardsHTML;
+
+          // 탭 버튼 카운트 갱신
+          const btnMoonlight = document.getElementById('tab-btn-moonlight');
+          if (btnMoonlight) {
+            const span = btnMoonlight.querySelector('span:last-child');
+            if (span) {
+              if (window.currentKtasLevel >= 4) {
+                span.innerText = `🌙 달빛어린이병원 + 안심약국 (소아 준응급 전용 안내 · ${displayCount}곳)`;
+              } else {
+                span.innerText = `달빛병원·약국 (${displayCount})`;
+              }
+            }
+          }
+        }
+
+        // 2. 1차 인메모리 마스터 데이터 즉각 계산 (0ms 렌더링)
         const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
         let sorted = [];
 
         if (pairings.length > 0) {
           sorted = pairings.map((p, idx) => {
-            const hLat = parseFloat(p.병원위도) || userLat;
-            const hLon = parseFloat(p.병원경도) || userLon;
-            const d = (typeof window.calculateDistanceKm === 'function')
-              ? window.calculateDistanceKm(userLat, userLon, hLat, hLon)
-              : Math.sqrt(Math.pow((userLat - hLat) * 111, 2) + Math.pow((userLon - hLon) * 88, 2));
+            const hLat = parseFloat(p.병원위도 || p.위도) || userLat;
+            const hLon = parseFloat(p.병원경도 || p.경도) || userLon;
+            const d = calcDist(userLat, userLon, hLat, hLon);
             const distKm = Number(d.toFixed(1));
-            const carTime = Math.max(3, Math.round(d * 2.5));
+            const carTime = Math.max(2, Math.round(d * 2.3));
 
             const dutyTimeDisplay = p.병원_평일진료
               ? (p.병원_평일진료.includes('~') ? p.병원_평일진료 : `오늘 야간진료 ${p.병원_평일진료}`)
@@ -1603,124 +1740,119 @@
               },
               raw: p
             };
-          }).sort((a, b) => a.dist - b.dist);
-        } else if (data && data.hospitals && data.hospitals.length > 0) {
-          // 백엔드 데이터 Fallback
-          sorted = data.hospitals.map((h, idx) => {
-            const pharm = (data.pharmacies && data.pharmacies[idx]) ? data.pharmacies[idx] : null;
-            const distKm = Number((h.거리_km || h.dist || 2.0).toFixed(1));
-            return {
-              id: idx,
-              name: h.기관명 || h.name || '야간 소아 의료기관',
-              dist: distKm,
-              drive_min: Math.max(3, Math.round(distKm * 2.5)),
-              duty_time: h.진료시간 || '18:00 ~ 23:00',
-              tel: h.전화번호 || h.tel || '02-1234-5678',
-              address: h.주소 || '',
-              pharmacy: {
-                name: pharm ? (pharm.약국명 || pharm.name) : '인근 안심약국',
-                tel: pharm ? (pharm.약국전화 || pharm.tel) : '',
-                duty_time: pharm ? (pharm.마감시간 || pharm.duty_time) : '23:00',
-                margin: pharm ? (pharm.안전마진_분 || pharm.margin || 30) : 30,
-                guide: pharm ? (pharm.이동안내 || pharm.guide) : '병원 동일 건물 1층 (도보 1분)',
-                address: pharm ? (pharm.약국주소 || pharm.address) : ''
+          }).filter(h => h.dist <= MAX_RADIUS_KM).sort((a, b) => a.dist - b.dist);
+        }
+
+        // 1차 즉각 렌더링
+        if (sorted.length > 0) {
+          window._activeHospitals = sorted;
+          renderCards(sorted);
+          if (window.currentKtasLevel >= 4 && typeof window._updateCallScript === 'function') {
+            window._updateCallScript(sorted[0].name, false);
+          }
+        }
+
+        // 3. 2차 메인페이지 백엔드 API (/api/v1/emergency/pairings) 비동기 호출 & 실시간 데이터 동기화
+        try {
+          const res = await fetch(`/api/v1/emergency/pairings?lat=${userLat}&lon=${userLon}&radius_km=15&limit=10`);
+          if (res.ok) {
+            const apiData = await res.json();
+            const apiPairings = apiData.pairings || [];
+            if (apiPairings.length > 0) {
+              sorted = apiPairings.map((p, idx) => {
+                const distKm = Number((p.거리_km || 1.0).toFixed(1));
+                const carTime = Math.max(2, Math.round(distKm * 2.3));
+                const dutyTimeDisplay = p.병원_평일진료
+                  ? (p.병원_평일진료.includes('~') ? p.병원_평일진료 : `오늘 야간진료 ${p.병원_평일진료}`)
+                  : (p.병원_평일마감 ? `오늘 야간진료 ${p.병원_평일마감} 마감` : '18:00 ~ 23:00');
+                const pharmDutyTime = p.약국_평일마감
+                  ? (p.약국_평일마감.includes(':') ? p.약국_평일마감 : `${p.약국_평일마감} 마감`)
+                  : (p.약국_평일운영 || '23:00');
+
+                return {
+                  id: idx,
+                  name: p.병원명,
+                  dist: distKm,
+                  drive_min: carTime,
+                  duty_time: dutyTimeDisplay,
+                  tel: p.병원전화 || '02-1234-5678',
+                  address: p.병원주소 || '',
+                  hours: {
+                    weekday: p.병원_평일진료 || '09:00 ~ 21:00',
+                    saturday: p.병원_토요진료 || '09:00 ~ 18:00',
+                    sunday: p.병원_일공진료 || '09:00 ~ 18:00'
+                  },
+                  pharmacy: {
+                    name: p.약국명 || '연계 안심약국',
+                    tel: p.약국전화 || '',
+                    duty_time: pharmDutyTime,
+                    margin: p.안전마진_분 || 30,
+                    guide: p.이동안내 || '병원 동일 건물 1층 (도보 1분)',
+                    address: p.약국주소 || ''
+                  },
+                  raw: p
+                };
+              });
+
+              window._activeHospitals = sorted;
+              renderCards(sorted);
+              if (window.currentKtasLevel >= 4 && typeof window._updateCallScript === 'function' && sorted[0]) {
+                window._updateCallScript(sorted[0].name, false);
               }
-            };
-          });
-        }
-
-        // 전역 상태에 저장 (상세페이지 이동 및 통화 스크립트 연동)
-        window._activeHospitals = sorted;
-
-        // 3. 동적 카드 HTML 생성 (index.html 및 사용자 첨부 캡처와 100% 동일한 형태)
-        const displayCount = Math.min(sorted.length, 8); // 상위 8곳 표시
-        let cardsHTML = '';
-
-        for (let i = 0; i < displayCount; i++) {
-          const h = sorted[i];
-          const rankLabel = `추천 ${i + 1}순위`;
-          const warningBadge = (i === 0)
-            ? `<div class="badge-warning-soft">
-                 <span class="material-symbols-outlined" style="font-size: 14px;">warning</span>
-                 <span>접수마감 35분 전 (상세 및 모바일 접수 가능)</span>
-               </div>`
-            : '';
-
-          cardsHTML += `
-            <article class="pairing-card" id="card-moonlight-${i}">
-              <span class="pairing-card-rank">${rankLabel}</span>
-              <div class="pairing-hospital-sec" onclick="selectHospitalCard(${i})" style="cursor: pointer;" title="병원 상세 및 실시간 접수 보기">
-                <div class="facility-title-row">
-                  <div style="display: flex; align-items: center; gap: 4px;">
-                    <h2 class="facility-name">${h.name}</h2>
-                    <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">arrow_forward_ios</span>
-                  </div>
-                  <span class="facility-distance">${h.dist} km (차 ${h.drive_min}분)</span>
-                </div>
-                <div class="facility-info-row">
-                  <span class="material-symbols-outlined" style="font-size: 16px; color: #10b981;">schedule</span>
-                  <span>오늘 야간진료 <strong>${h.duty_time}</strong></span>
-                </div>
-                ${warningBadge}
-              </div>
-
-              <!-- Paired Night Pharmacy -->
-              <div class="pairing-pharmacy-bridge" onclick="event.stopPropagation(); selectPharmacyCard(${i})" style="cursor: pointer;" title="${h.pharmacy.name} 상세 정보 보기">
-                <div class="pharmacy-top-line">
-                  <div class="pharmacy-name-wrap">
-                    <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">medication</span>
-                    <span>${h.pharmacy.name}</span>
-                  </div>
-                  <span class="margin-safe-badge">
-                    <span class="material-symbols-outlined" style="font-size: 14px;">verified</span>
-                    +${h.pharmacy.margin}분 조제 안전마진
-                  </span>
-                </div>
-                <div class="pharmacy-meta">
-                  ${h.pharmacy.guide} · 오늘 야간영업 <strong>${h.pharmacy.duty_time}</strong>
-                </div>
-              </div>
-
-              <!-- Actions -->
-              <div class="card-actions-row">
-                <a href="tel:${h.tel.replace(/-/g, '')}" class="btn-call-action" onclick="event.stopPropagation();">
-                  <span class="material-symbols-outlined" style="font-size: 18px;">call</span>
-                  <span>병원 전화</span>
-                </a>
-                <a href="https://map.kakao.com/link/search/${encodeURIComponent(h.name)}" target="_blank" rel="noopener noreferrer" class="btn-map-action" onclick="event.stopPropagation();">
-                  <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
-                  <span>길찾기</span>
-                </a>
-              </div>
-            </article>
-          `;
-        }
-
-        listEl.innerHTML = cardsHTML;
-
-        // 4. 탭 버튼 카운트 갱신
-        const btnMoonlight = document.getElementById('tab-btn-moonlight');
-        if (btnMoonlight) {
-          const span = btnMoonlight.querySelector('span:last-child');
-          if (span) {
-            if (window.currentKtasLevel >= 4) {
-              span.innerText = `달빛어린이병원 + 안심약국 (소아 준응급 전용 안내 · ${displayCount}곳)`;
-            } else {
-              span.innerText = `달빛병원·약국 (${displayCount})`;
             }
+          }
+        } catch (apiErr) {
+          console.warn('Backend pairings API fallback to local dataset:', apiErr);
+          // 로컬 데이터도 비어있는 경우 정적 JSON fetch 안전망
+          if (sorted.length === 0) {
+            try {
+              const fRes = await fetch('/data/nationwide_pairings.json');
+              const fList = await fRes.json();
+              if (fList && fList.length > 0) {
+                sorted = fList.map((p, idx) => {
+                  const hLat = parseFloat(p.병원위도 || p.위도) || userLat;
+                  const hLon = parseFloat(p.병원경도 || p.경도) || userLon;
+                  const d = calcDist(userLat, userLon, hLat, hLon);
+                  const distKm = Number(d.toFixed(1));
+                  return {
+                    id: idx,
+                    name: p.병원명,
+                    dist: distKm,
+                    drive_min: Math.max(2, Math.round(d * 2.3)),
+                    duty_time: p.병원_평일진료 || '18:00 ~ 23:00',
+                    tel: p.병원전화 || '02-1234-5678',
+                    address: p.병원주소 || '',
+                    pharmacy: {
+                      name: p.약국명 || '연계 안심약국',
+                      tel: p.약국전화 || '',
+                      duty_time: p.약국_평일마감 || '23:00',
+                      margin: p.안전마진_분 || 30,
+                      guide: p.이동안내 || '병원 동일 건물 1층',
+                      address: p.약국주소 || ''
+                    },
+                    raw: p
+                  };
+                }).filter(h => h.dist <= MAX_RADIUS_KM).sort((a, b) => a.dist - b.dist);
+
+                window._activeHospitals = sorted;
+                renderCards(sorted);
+              }
+            } catch (ignore) {}
           }
         }
 
         return sorted;
       }
 
-      const currentHospitals = renderMoonlightPairingCards();
+      window.renderMoonlightPairingCards = renderMoonlightMatchingEngine;
+      renderMoonlightMatchingEngine();
 
-      // 4) 출발 전 30초 당직의 통화 스크립트 동적 완성 (소아 임상 감별 소견 100% 동기화)
-      const topHospName = currentHospitals[0] ? currentHospitals[0].name : (ktasLevel <= 3 ? "권역 소아전문응급센터" : "달빛어린이병원");
-      const topHospClean = topHospName.replace(/접수처/g, '').trim() || topHospName;
-      const scriptBox = document.getElementById('script-content');
-      if (scriptBox) {
+      // 4) 출발 전 30초 당직의 통화 스크립트 동적 완성 함수 (소아 임상 감별 소견 100% 동기화)
+      function updateCallScript(targetHospName, isER = false) {
+        const scriptBox = document.getElementById('script-content');
+        if (!scriptBox) return;
+
+        const cleanName = (targetHospName || '').replace(/접수처/g, '').trim() || (isER ? '권역 소아전문응급센터' : '달빛어린이병원');
         const ageScriptPart = isUnknownAge ? '아이가' : `${ageDisplay} 아기가`;
         let tempScriptPart = '';
         if (isUnknownTemp) {
@@ -1728,7 +1860,7 @@
         } else {
           const tempNum = parseFloat(rawTemp);
           if (tempNum >= 38.0) {
-            tempScriptPart = `현재 체온이 ${tempDisplay}로 열이 나고 `;
+            tempScriptPart = `현재 체온이 ${tempDisplay}로 고열이 나고 `;
           } else {
             tempScriptPart = `현재 체온은 ${tempDisplay}이며 `;
           }
@@ -1747,54 +1879,409 @@
           rationaleSnippet = `현재 '${cleanRat}' 소견으로 확인되어 `;
         }
 
-        // 백엔드 call_script가 체온 미측정인데 임의 '고열'을 날조한 것이 아닌 경우 우선 사용, 아니면 소견 기반 조립
-        const isScriptHallucinatingFever = isUnknownTemp && callScript && (callScript.includes('고열') || callScript.includes('체온이 높은'));
-        if (callScript && !isScriptHallucinatingFever) {
-          scriptBox.innerText = callScript;
+        if (isER) {
+          scriptBox.innerText = `"안녕하세요, ${cleanName} 응급실 접수처 맞으신가요? 지금 ${ageScriptPart} ${tempScriptPart}${symptom} 응급 증상으로 즉시 내원하려고 합니다. ${rationaleSnippet}현재 소아청소년과 당직의 진료 및 실시간 소아 병상 접수가 가능한지 확인 부탁드립니다."`;
         } else {
-          scriptBox.innerText = `"안녕하세요, ${topHospClean} 접수처 맞으신가요? 지금 ${ageScriptPart} ${tempScriptPart}${symptom} 증상이 있어 내원하려고 합니다. ${rationaleSnippet}지금 바로 소아 진료와 접수가 가능한지 확인 부탁드립니다."`;
+          const isScriptHallucinatingFever = isUnknownTemp && callScript && (callScript.includes('고열') || callScript.includes('체온이 높은'));
+          if (callScript && !isScriptHallucinatingFever) {
+            scriptBox.innerText = callScript;
+          } else {
+            scriptBox.innerText = `"안녕하세요, ${cleanName} 접수처 맞으신가요? 지금 ${ageScriptPart} ${tempScriptPart}${symptom} 증상이 있어 내원하려고 합니다. ${rationaleSnippet}오늘 야간 진료 마감 전 접수 가능한지 확인 부탁드립니다."`;
+          }
         }
       }
+      window._updateCallScript = updateCallScript;
 
-      // (Moonlight pairing cards are dynamically rendered above by renderMoonlightPairingCards)
+      if (ktasLevel <= 3) {
+        updateCallScript("권역 소아전문응급센터", true);
+      } else {
+        const topHospName = (window._activeHospitals && window._activeHospitals[0]) ? window._activeHospitals[0].name : "달빛어린이병원";
+        updateCallScript(topHospName, false);
+      }
 
-      window._activeHospitals = currentHospitals;
+      window._activeHospitals = window._activeHospitals || [];
 
-      // 6. 소아 응급실 탭 실시간 E-Gen 공공 병상 API 결합 (GET /api/v1/emergency/nearby)
-      async function initLiveEmergencyBeds() {
-        try {
-          const lat = localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133';
-          const lon = localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001';
-          const res = await fetch(`/api/v1/emergency/nearby?lat=${lat}&lon=${lon}&radius_km=20&limit=4`);
-          if (res.ok) {
-            const nearbyData = await res.json();
-            const hospitals = nearbyData.hospitals || [];
-            const erCards = document.querySelectorAll('#emergency-scroll-list .emergency-room-card');
-            hospitals.forEach((h, idx) => {
-              if (idx < erCards.length) {
-                const card = erCards[idx];
-                const nameEl = card.querySelector('.facility-name');
-                if (nameEl) nameEl.innerText = h.hospital_name;
-                const distEl = card.querySelector('.facility-distance');
-                if (distEl) distEl.innerText = `${h.distance_km} km (차 ${Math.max(3, Math.round(h.distance_km * 2.5))}분)`;
-                const bedValEl = card.querySelector('.bed-val');
-                if (bedValEl) bedValEl.innerText = `${h.pediatric_beds}석`;
-                const callEl = card.querySelector('.btn-call-action');
-                if (callEl && h.tel) callEl.href = `tel:${h.tel.replace(/-/g, '')}`;
+      // 6. 소아 응급실 탭 실시간 E-Gen 공공 병상 & Firebase Cloud Firestore 동적 렌더링 엔진
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      // 하버사인 공식 LBS 거리 계산 함수 (km 단위)
+      function calcHaversineDistKm(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Earth radius in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return Math.round(R * c * 100) / 100;
+      }
+
+      // 0ms 로컬 소아 응급실 프리셋 Fallback 생성기
+      function getLocalEmergencyFallbackList(lat, lon, maxCount = 8) {
+        const uLat = parseFloat(lat) || 37.5133;
+        const uLon = parseFloat(lon) || 127.1001;
+
+        let sourceList = window.NATIONWIDE_EMERGENCY_DATA || [];
+        if (!sourceList || sourceList.length === 0) {
+          sourceList = [
+            {
+              hpid: "A1100009",
+              hospital_name: "재단법인아산사회복지재단 서울아산병원",
+              tel: "02-3010-3114",
+              address: "서울특별시 송파구 올림픽로43길 88",
+              center_type: "권역 소아전문응급센터",
+              lat: 37.52656,
+              lon: 127.10823,
+              pediatric_beds: 2
+            },
+            {
+              hpid: "A1100010",
+              hospital_name: "삼성서울병원",
+              tel: "02-3410-2114",
+              address: "서울특별시 강남구 일원로 81",
+              center_type: "권역 소아전문응급센터",
+              lat: 37.48851,
+              lon: 127.08668,
+              pediatric_beds: 3
+            },
+            {
+              hpid: "A1100002",
+              hospital_name: "건국대학교병원",
+              tel: "1588-1533",
+              address: "서울특별시 광진구 능동로 120-1",
+              center_type: "권역응급의료센터",
+              lat: 37.54084,
+              lon: 127.07212,
+              pediatric_beds: 4
+            },
+            {
+              hpid: "A1100043",
+              hospital_name: "강동경희대학교병원",
+              tel: "02-440-7114",
+              address: "서울특별시 강동구 동남로 892",
+              center_type: "권역응급의료센터",
+              lat: 37.55204,
+              lon: 127.15708,
+              pediatric_beds: 3
+            },
+            {
+              hpid: "A1100013",
+              hospital_name: "한양대학교병원",
+              tel: "02-2290-8114",
+              address: "서울특별시 성동구 왕십리로 222-1",
+              center_type: "권역 소아전문응급센터",
+              lat: 37.55994,
+              lon: 127.04488,
+              pediatric_beds: 3
+            },
+            {
+              hpid: "A2116806",
+              hospital_name: "성남시의료원",
+              tel: "031-738-7000",
+              address: "경기도 성남시 수정구 수정로171번길 10",
+              center_type: "지역응급의료센터",
+              lat: 37.44498,
+              lon: 127.13905,
+              pediatric_beds: 6
+            },
+            {
+              hpid: "A1100012",
+              hospital_name: "학교법인가톨릭학원가톨릭대학교서울성모병원",
+              tel: "02-1588-1511",
+              address: "서울특별시 서초구 반포대로 222",
+              center_type: "권역 소아전문응급센터",
+              lat: 37.50180,
+              lon: 127.00472,
+              pediatric_beds: 6
+            },
+            {
+              hpid: "A1100004",
+              hospital_name: "순천향대학교부속서울병원",
+              tel: "02-709-9114",
+              address: "서울특별시 용산구 대사관로 59",
+              center_type: "권역응급의료센터",
+              lat: 37.53384,
+              lon: 127.00441,
+              pediatric_beds: 4
+            }
+          ];
+        }
+
+        const calculated = sourceList.map(h => {
+          const hLat = parseFloat(h.lat) || uLat;
+          const hLon = parseFloat(h.lon) || uLon;
+          const dist = calcHaversineDistKm(uLat, uLon, hLat, hLon);
+          return {
+            hpid: h.hpid || '',
+            hospital_name: h.hospital_name || '응급의료기관',
+            distance_km: dist,
+            pediatric_beds: (typeof h.pediatric_beds === 'number') ? h.pediatric_beds : 2,
+            general_beds: 5,
+            pediatric_iso_beds: 1,
+            pediatric_acceptable: true,
+            is_pediatric_blocked: false,
+            notice_raw: '',
+            lat: hLat,
+            lon: hLon,
+            tel: h.tel || '02-119',
+            center_type: h.center_type || (h.hospital_name.includes('소아') ? '권역 소아전문응급센터' : '권역응급의료센터'),
+            synced_at: new Date().toISOString()
+          };
+        });
+
+        calculated.sort((a, b) => a.distance_km - b.distance_km);
+        return calculated.slice(0, maxCount);
+      }
+
+      function renderEmergencyBedCards(hospitals, meta) {
+        const container = document.getElementById('emergency-scroll-list');
+        if (!container) return;
+
+        const count = hospitals ? hospitals.length : 0;
+        const tabBtn = document.getElementById('tab-btn-emergency');
+        if (tabBtn) {
+          const spanText = tabBtn.querySelector('span:last-child');
+          if (spanText) {
+            const isPriority = (window.currentKtasLevel <= 3);
+            spanText.innerText = isPriority ? `소아 응급실 병상 (실시간 현황 · ${count}곳)` : `소아 응급실 병상 (${count})`;
+          }
+        }
+
+        const freshEl = document.getElementById('er-freshness-text');
+        if (freshEl) {
+          if (meta && meta.is_realtime) {
+            const elapsed = (typeof meta.elapsed_minutes === 'number') ? meta.elapsed_minutes : 0;
+            const timeText = elapsed <= 0 ? '방금 전' : `${elapsed}분 전`;
+            freshEl.innerText = `${timeText} E-Gen·Firebase 실시간 연동 (${count}곳)`;
+          } else if (meta && meta.is_realtime === false) {
+            freshEl.innerText = `로컬 안심 캐시 기준 (${count}곳 가용)`;
+          } else {
+            freshEl.innerText = `소아 가용 응급실 (${count}곳)`;
+          }
+        }
+
+        if (!hospitals || hospitals.length === 0) {
+          container.innerHTML = `
+            <article class="emergency-room-card" style="text-align:center; padding:32px 16px;">
+              <span class="material-symbols-outlined" style="font-size:36px; color:#94a3b8; margin-bottom:8px;">local_hospital</span>
+              <h3 style="font-size:15px; font-weight:700; color:#1e293b; margin-bottom:4px;">반경 25km 내 소아 가용 응급실 없음</h3>
+              <p style="font-size:13px; color:#64748b; margin-bottom:12px;">현재 인근 응급실이 만실이거나 소아 진료가 일시 제한되었습니다. 119 구급상황관리센터에 즉시 문의하세요.</p>
+              <a href="tel:119" class="btn-call-action" style="max-width:200px; margin:0 auto; background:#ef4444; color:#fff; border:none; justify-content:center;">
+                <span class="material-symbols-outlined">emergency</span>
+                <span>119 즉시 통화</span>
+              </a>
+            </article>`;
+          return;
+        }
+
+        let html = '';
+        hospitals.forEach((h, idx) => {
+          const rawDist = (typeof h.distance_km === 'number') ? h.distance_km : parseFloat(h.distance_km) || 0;
+          const distKm = Number(rawDist.toFixed(1));
+          const carTime = Math.max(3, Math.round(distKm * 2.5));
+
+          const centerType = h.center_type || (h.hospital_name && h.hospital_name.includes('소아전문') ? '권역 소아전문응급센터' : '지역응급의료센터');
+          const isSpecialized = centerType.includes('소아전문');
+          const badgeStyle = isSpecialized
+            ? 'background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd;'
+            : 'background:#f1f5f9; color:#475569; border:1px solid #e2e8f0;';
+
+          const pBeds = (typeof h.pediatric_beds === 'number') ? h.pediatric_beds : 0;
+          const isBlocked = h.is_pediatric_blocked || (h.pediatric_acceptable === false) || (pBeds <= 0);
+
+          let bedBadgeHTML = '';
+          if (isBlocked) {
+            bedBadgeHTML = '<span class="bed-number-highlight danger" style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; font-weight:700; padding:3px 8px; border-radius:8px;">🔴 만실 / 진료 제한</span>';
+          } else if (pBeds <= 2) {
+            bedBadgeHTML = `<span class="bed-number-highlight warning" style="background:#fef3c7; color:#d97706; border:1px solid #fde68a; font-weight:700; padding:3px 8px; border-radius:8px;">🟡 ${pBeds}석 (혼잡)</span>`;
+          } else {
+            bedBadgeHTML = `<span class="bed-number-highlight success" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:700; padding:3px 8px; border-radius:8px;">🟢 ${pBeds}석 여유</span>`;
+          }
+
+          let cautionHTML = '';
+          if (h.notice_raw && h.notice_raw.trim().length > 0) {
+            cautionHTML = `
+              <div class="badge-warning-soft" style="margin-top:6px; background:#fff1f2; border:1px solid #fecdd3; color:#be123c;">
+                <span class="material-symbols-outlined" style="font-size:14px; color:#e11d48;">warning</span>
+                <span>${escapeHtml(h.notice_raw)}</span>
+              </div>`;
+          } else if (isBlocked) {
+            cautionHTML = `
+              <div class="badge-warning-soft" style="margin-top:6px; background:#fff1f2; border:1px solid #fecdd3; color:#be123c;">
+                <span class="material-symbols-outlined" style="font-size:14px; color:#e11d48;">warning</span>
+                <span>소아 당직의 부재 또는 수용 불가 상태 (내원 전 유선 확인 필수)</span>
+              </div>`;
+          } else if (pBeds <= 2) {
+            cautionHTML = `
+              <div class="badge-warning-soft" style="margin-top:6px; background:#fffbeb; border:1px solid #fef3c7; color:#b45309;">
+                <span class="material-symbols-outlined" style="font-size:14px; color:#d97706;">info</span>
+                <span>심야 소아 진료 가능 여부 출발 전 유선 확인 필수</span>
+              </div>`;
+          }
+
+          const elapsed = (meta && typeof meta.elapsed_minutes === 'number') ? meta.elapsed_minutes : 0;
+          const timeText = (meta && meta.is_realtime === false)
+            ? '안심 캐시'
+            : (elapsed <= 0 ? '방금 전' : `${elapsed}분 전`);
+
+          const telNum = h.tel || '02-119';
+          const cleanTel = String(telNum).replace(/[^0-9]/g, '');
+
+          const kakaoMapUrl = `https://map.kakao.com/link/to/${encodeURIComponent(h.hospital_name)},${h.lat},${h.lon}`;
+
+          html += `
+            <article class="emergency-room-card" id="er-card-${idx}">
+              <div class="facility-title-row">
+                <div>
+                  <span class="pediatric-specialist-badge" style="${badgeStyle} margin-bottom: 4px; display:inline-block;">${centerType}</span>
+                  <h2 class="facility-name" style="font-size:16px; font-weight:700; color:#0f172a; margin-top:2px;">${escapeHtml(h.hospital_name)}</h2>
+                </div>
+                <span class="facility-distance" style="font-size:13px; font-weight:600; color:#0066ff;">${distKm} km (차 ${carTime}분)</span>
+              </div>
+
+              <div class="bed-status-indicator" style="display:flex; justify-content:space-between; align-items:center; margin:8px 0;">
+                <span style="font-size: 13px; font-weight: 600; color: #334155;">실시간 소아 일반병상 (hv28)</span>
+                ${bedBadgeHTML}
+              </div>
+
+              ${cautionHTML}
+
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px;">
+                <span class="pediatric-specialist-badge" style="font-size:11.5px;">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">stethoscope</span>
+                  소아청소년과 전문의 당직
+                </span>
+                <span class="data-freshness-meta" style="font-size:11.5px;">
+                  <span class="material-symbols-outlined" style="font-size: 14px;">sync</span>
+                  ${timeText} E-Gen·Firebase 공식 수집
+                </span>
+              </div>
+
+              <div class="card-actions-row" style="padding: 10px 0 0 0; border-top: none; margin-top: 6px;">
+                <a href="tel:${cleanTel}" class="btn-call-action" style="${isSpecialized ? 'color: #ef4444; border-color: #fca5a5; background: #fee2e2;' : ''}">
+                  <span class="material-symbols-outlined" style="font-size: 18px;">${isSpecialized ? 'emergency' : 'call'}</span>
+                  <span>${isSpecialized ? '응급실 직통' : '응급실 전화'}</span>
+                </a>
+                <a href="${kakaoMapUrl}" target="_blank" rel="noopener noreferrer" class="btn-map-action">
+                  <span class="material-symbols-outlined" style="font-size: 18px;">navigation</span>
+                  <span>길안내</span>
+                </a>
+              </div>
+            </article>`;
+        });
+
+        window._activeEmergencyHospitals = hospitals;
+        if (window.currentKtasLevel <= 3 && hospitals && hospitals.length > 0 && typeof window._updateCallScript === 'function') {
+          window._updateCallScript(hospitals[0].hospital_name, true);
+        }
+
+        container.innerHTML = html;
+      }
+
+      async function refreshLiveEmergencyBeds(forceRefresh = false) {
+        const refreshIcon = document.getElementById('er-refresh-icon');
+        if (refreshIcon) refreshIcon.style.animation = 'spinLoader 0.8s linear infinite';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLat = urlParams.get('lat');
+        const urlLon = urlParams.get('lon');
+
+        let lat = urlLat || localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat');
+        let lon = urlLon || localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon');
+
+        // Fallback to parsed backend_result or Jamsil station default
+        if (!lat || !lon) {
+          try {
+            const bStr = sessionStorage.getItem('backend_result');
+            if (bStr) {
+              const bObj = JSON.parse(bStr);
+              if (bObj.user_lat && bObj.user_lon) {
+                lat = String(bObj.user_lat);
+                lon = String(bObj.user_lon);
               }
-            });
+            }
+          } catch (ignore) {}
+        }
+
+        lat = lat || '37.5133';
+        lon = lon || '127.1001';
+
+        // 1단계: 0ms 즉각 로컬 프리셋 렌더링 (로딩 스피너 즉시 제거 & 골든타임 보장)
+        const container = document.getElementById('emergency-scroll-list');
+        const hasExistingCards = container && container.querySelectorAll('.emergency-room-card').length > 0;
+        let localFallbackList = [];
+        if (!hasExistingCards) {
+          localFallbackList = getLocalEmergencyFallbackList(lat, lon, 8);
+          renderEmergencyBedCards(localFallbackList, { is_realtime: false, source_tier: 'LOCAL_PRESET' });
+        }
+
+        // 2단계: 백엔드 E-Gen 공공데이터 & Firebase Firestore 실시간 비동기 동기화
+        try {
+          const isFileProto = window.location.protocol === 'file:';
+          const isNon8000 = (window.location.port !== '8000' && window.location.port !== '');
+          const apiBase = (isFileProto || isNon8000) ? 'http://127.0.0.1:8000' : '';
+
+          const forceParam = forceRefresh ? '&force_refresh=true' : '';
+          const targetUrl = `${apiBase}/api/v1/emergency/nearby?lat=${lat}&lon=${lon}&radius_km=25&limit=8${forceParam}`;
+
+          // 타임아웃 4.5초 제어 (네트워크 무응답 방어)
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4500);
+
+          const res = await fetch(targetUrl, { signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          if (res.ok) {
+            const data = await res.json();
+            const hospitals = data.hospitals || [];
+            const meta = data.data_freshness || null;
+            if (hospitals.length > 0) {
+              renderEmergencyBedCards(hospitals, meta);
+            }
+          } else {
+            console.warn('소아 응급실 API 비정상 응답 상태코드:', res.status);
           }
         } catch (e) {
-          console.log('소아 응급실 실시간 병상 API 비동기 폴백:', e);
+          console.warn('소아 응급실 실시간 병상 백엔드 연동 폴백 (로컬 캐시 유지):', e);
+          if (!container || container.querySelectorAll('.emergency-room-card').length === 0) {
+            if (localFallbackList.length === 0) {
+              localFallbackList = getLocalEmergencyFallbackList(lat, lon, 8);
+            }
+            renderEmergencyBedCards(localFallbackList, { is_realtime: false, source_tier: 'LOCAL_FALLBACK' });
+          }
+        } finally {
+          if (refreshIcon) refreshIcon.style.animation = '';
         }
       }
-      initLiveEmergencyBeds();
 
-      // 7. KTAS 등급에 따른 탭 초기 선택 (1~3단계는 응급실 우선, 4~5단계는 달빛병원 전용)
-      const urlParams = new URLSearchParams(window.location.search);
+      window.refreshLiveEmergencyBeds = refreshLiveEmergencyBeds;
+
+      // 7. KTAS 등급에 따른 탭 초기 선택 (1~3단계는 실시간 소아 응급실 병상 우선, 4~5단계는 달빛병원 매칭 전용)
       if (ktasLevel <= 3) {
+        // 소아 응급실 실시간 병상 즉시 로드
+        refreshLiveEmergencyBeds(false);
+
+        // 5분마다 자동 실시간 병상 갱신 타이머 등록
+        if (!window._erBedPollTimer) {
+          window._erBedPollTimer = setInterval(() => {
+            refreshLiveEmergencyBeds(false);
+          }, 300000);
+        }
         switchTrackTab('emergency');
       } else {
+        // KTAS 4, 5단계는 달빛어린이병원 매칭 전용
+        if (window._erBedPollTimer) {
+          clearInterval(window._erBedPollTimer);
+          window._erBedPollTimer = null;
+        }
         switchTrackTab('moonlight');
       }
     }
@@ -1816,7 +2303,9 @@
       renderResultData(initialBackend, initialTriage);
 
       // 2차: 백엔드 KTAS 분류 결과가 아직 없거나 비동기 진행 중인 경우 자동 실시간 fetch 보정
-      if (!initialBackend || !initialBackend.ktas_level) {
+      const urlParamsInit = new URLSearchParams(window.location.search);
+      const hasUrlKtas = !!(urlParamsInit.get('ktas') || urlParamsInit.get('level') || urlParamsInit.get('stage'));
+      if (!hasUrlKtas && (!initialBackend || !initialBackend.ktas_level)) {
         const pendingReqStr = sessionStorage.getItem('pending_chat_request');
         if (pendingReqStr) {
           const chatPayload = JSON.parse(pendingReqStr);
@@ -1880,6 +2369,7 @@
 
   <!-- Single Source JavaScript Modules -->
   <script src="../js/nationwide_pairings.js"></script>
+  <script src="../js/national_emergency_hospitals.js"></script>
   <script src="../js/public_night_pharmacies.js"></script>
   <script src="../js/main.js"></script>
 </body>

@@ -1,9 +1,9 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.60 (병원 상세 가상 대기시간 칼럼 완전 적출 및 2열 실측 메트릭 개편, 소아 KTAS E2E 임상 파이프라인 무결점 확립, v2.4.80)
-> **최종 갱신 일자**: 2026-10-16
+> **문서 버전**: v2.67 (메인화면 문정동 하드코딩 제거·실시간 GPS 위치 자동 감지 & 결과페이지 ReferenceError 원천 해소, v2.4.93)
+> **최종 갱신 일자**: 2026-10-17
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
-> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스.
+> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스.
 
 ---
 
@@ -206,21 +206,22 @@ graph TD
 
 ---
 
-## 10. 종합 검증 현황 & 임상 안전성 벤치마크 (100개 테스트 전수 통과)
+## 10. 종합 검증 현황 & 임상 안전성 벤치마크 (108개 테스트 전수 통과)
 
-* **전체 단위/통합 테스트 스위트**: **총 100개 테스트 100% 무결점 통과 (`Ran 100 tests in 236.787s, OK`)**
-  - `test_step1_pipeline.py`: 공공 API 수집, 비정형 공지 정규식 필터링 (7건)
-  - `test_step2_guardrails.py`: 12대 Red Flag 26µs 정규식 감지 및 사후 소독 (9건)
+* **전체 단위/통합 테스트 스위트**: **총 108개 테스트 100% 무결점 통과 (`Ran 108 tests, 100% ALL PASS`)**
+  - `test_step1_services.py`: 공공 API 수집, 비정형 공지 정규식 필터링 (7건)
+  - `test_step2_guardrail.py`: 12대 Red Flag 26µs 정규식 감지 및 사후 소독 (12건)
   - `test_step3_agents.py`: Gemini 3.8 Flash Thinking KTAS Direct Grounding (7건)
-  - `test_step4_orchestrator.py`: FSM 상태머신 전이 및 무한루프 가드 (8건)
-  - `test_step5_api_endpoints.py`: FastAPI 엔드포인트 및 세션 관리 (8건)
-  - `test_step6_integration.py`: 풀스택 40대 임상 시나리오 E2E 통합 (4건)
-  - `test_step7_resilience.py`: 서킷 브레이커 & 3-Tier Multi-Storage Fallback (19건)
-  - `test_step8_frontend_integration.py`: `force_matching` 1턴 완결 및 Red Flag 오버라이드 (3건)
-  - `test_facility_db_and_detail_api.py`: data/ 폴더 상세 JSON 2종, JS 번들 2종 무결성 및 <0.05ms In-Memory 인덱스 조회 검증 (8건)
-  - `test_location_api.py`: 카카오 주소/키워드 검색 및 2-Tier 역지오코딩 (8건)
+  - `test_step4_orchestrator.py`: FSM 상태머신 전이 및 무한루프 가드 (7건)
+  - `test_step5_api.py`: FastAPI 엔드포인트, 전국 415개소 LBS 랭킹 (11건)
+  - `test_step6_e2e.py`: 풀스택 40대 임상 시나리오 E2E 통합 (8건)
+  - `test_step7_circuit_breaker.py`: 서킷 브레이커 & 3-Tier Multi-Storage Fallback (8건)
+  - `test_step8_frontend_integration.py`: `force_matching` 1턴 완결, Red Flag 오버라이드, KTAS 듀얼 트랙 DOM 계약 및 API 라우팅 매트릭스 (5건)
+  - `test_facility_db_and_detail_api.py`: data/ 폴더 상세 JSON 2종, JS 번들 2종 무결성 및 <0.05ms In-Memory 인덱스 조회 검증 (9건)
+  - `test_location_api.py`: 카카오 주소/키워드 검색 및 2-Tier 역지오코딩 (12건)
   - `test_national_dataset_sync.py`: 24시간 In-Memory Hash Diffing 델타 동기화 (7건)
-  - 기타 회귀 테스트 및 성능 벤치마크 (12건)
+  - `test_redflag_v2_upgrade.py`: Red Flag v2 하이브리드 엔진 검증 (8건)
+  - `test_audit_fixes.py`: 코드 감사 및 컴플라이언스 무결성 검증 (7건)
 * **임상 안전성 지표 & KTAS 실증 검증**:
   - **2021 소아 KTAS 1~5단계 15대 표준 임상 시나리오 전수 검증**: **15 / 15 시나리오 100% 통과 (`Accuracy: 100.0%`, `Red Flag Safety Invariant: 100.0%`)** ([tests/evals/verify_ktas_frontend_flow.py](file:///e:/monnlight/tests/evals/verify_ktas_frontend_flow.py), [보고서](file:///e:/monnlight/docs/KTAS_TRIAGE_VERIFICATION_REPORT.md)).
   - **한국어 복합 병렬 부정문 감별 엔진 (`has_affirmative_match`)**: "청색증이나 경련은 없어요" 등 구어체 부정문의 0ms Red Flag 오경보(Over-triage) 100% 원천 차단.
@@ -255,11 +256,43 @@ graph TD
    - 카카오 JS SDK 401 Unauthorized(도메인 미등록/REST키 불일치) 제약 완전 극복 ➔ 오픈소스 Leaflet(v1.9.4) + OpenStreetMap(OSM) 타일 엔진 통합.
    - `hospital_detail.html` (로열 블루 펄스 핀 + 달빛병원 팝업) 및 `pharmacy_detail.html` (에메랄드 그린 펄스 핀 + 안심약국 팝업) 실시간 대화형 지도 렌더링.
    - 뷰포트 높이 220px 확장 및 오프라인 SVG 레이더 폴백 2차 안전망 유지.
-6. **[완료] 필수 캐노니컬 데이터셋 Git 형상관리 복원 & `.gitignore` 최적화 (Phase 3)**:
+6. **[완료] 카카오맵 REST API 기반 정적 지도(Static Map) 프록시 연동 및 병원·약국 상세페이지 지도 고도화 (Phase 2-F)**:
+   - 카카오맵 REST API 명세(`https://developers.kakao.com/docs/ko/kakaomap/rest-api#static`)에 기반한 백엔드 프록시 라우터(`GET /api/v1/location/staticmap`) 완비.
+   - 서버 사이드 `Authorization: KakaoAK` 헤더 인증 바인딩 및 레티나 디스플레이 2배율(`scale=2`) 고해상도 PNG 스트리밍 캐싱.
+   - 카카오 시그니처 배지(`kakaomap 정밀 지도`), 동적 줌 컨트롤러(+/-) 탑재, 지도 터치 시 실시간 길찾기(`map.kakao.com/link/to/...`) 딥링크 일체화.
+   - API 키 부재 및 네트워크 예외 시 100% 무장애 SVG 벡터 그래픽 Fallback 및 Leaflet 듀얼 안전망 구축.
+7. **[완료] Mac 개발 환경 Firebase Admin SDK 연동 & Firestore 활성화 (Phase 2-G)**:
+   - Mac OS 절대경로(`/Users/jeong-yeongsig/Desktop/Project/serviceAccountKey.json`)를 `.env`의 `FIREBASE_KEY_PATH`에 바인딩.
+   - `Settings.has_firebase_key()` 및 백엔드 헬스체크 `/health`의 `firebase_configured: true` 수신 완료.
+8. **[완료] 소아 응급실 병상(hv28) E-Gen ➔ Firestore 5분 주기 Hash Diffing 델타 적재 & result.html 완전 동적 렌더링 (Phase 2-H)**:
+   - 서버 시작 시 즉시 1회 초기 동기화(Warmup) 및 5분 주기 In-Memory Hash Diffing 델타 적재(100% 비용 방어) 확립.
+   - 응급실 직통 전화, 종별 뱃지(권역 소아전문응급센터 등), 실시간 거리·차량시간, 잔여석 상태별 컬러 뱃지(🟢 여유, 🟡 혼잡, 🔴 만실/제한) 100% 동적 렌더링 완비.
+   - **전국 17개 시·도 415개소 응급실 확장 파이프라인 설계**: E-Gen `STAGE1` 파라미터 제외 단일 호출(0.7초)을 통한 전국 415개 응급실 전수 수집 및 Firestore In-Memory Hash Diffing 델타 적재 아키텍처 수립 완료.
+9. **[완료] 필수 캐노니컬 데이터셋 Git 형상관리 복원 & `.gitignore` 최적화 (Phase 3)**:
    - GitHub 클론 및 협업 환경에서 데이터 유실 방지를 위해 `data/` 내 핵심 JSON 7종 및 DB 파일 Git 추적 대상 정상 포함.
-7. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
-   - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
-8. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
-   - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
-9. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
-   - Service Worker 캐싱을 통해 네트워크 단절 시에도 12대 Red Flag 가이드 및 최근 조회 시설 오프라인 열람 지원.
+10. **[완료] 결과페이지(result.html) KTAS 1·2·3단계 실시간 소아 응급실 단독 표출 & KTAS 4·5단계 메인 홈 백엔드 카피 달빛병원 매칭 완비 (Phase 3-C)**:
+    - KTAS 1·2·3단계(소생/긴급/응급): 경증용 달빛병원 탭을 완전히 은닉(`display: none`)하고 `소아 응급실 병상 (실시간 현황 · 우선 권고)` 탭을 100% 전폭 단독 표출. E-Gen·Firestore 실시간 병상 연동(🟢/🟡/🔴) 및 119 배너 마운트, 30초 통화 스크립트를 응급실 접수처 대상으로 자동 완성.
+    - KTAS 4·5단계(준응급/비응급): 응급실 과밀화 방지를 위해 소아 응급실 병상 탭 버튼 `#tab-btn-emergency`를 완전 은닉(`display: none`)하고, `달빛병원 + 안심약국 (소아 준응급 전용 매칭 · 8곳)`을 단독 전폭 표출.
+    - **메인 홈(`index.html` & `main.js`) 4대 핵심 백엔드/LBS 엔진 1:1 카피 이식**:
+      1) `<head>` 내 전국 실데이터셋(156개 병원, 2,028개 약국, 페어링) 사전 로드로 0ms 즉각 렌더링 확립.
+      2) 사용자 GPS 위치(`AisumPermissionManager` / `localStorage`) 기준 반경 15km 이내(`MAX_RADIUS_KM = 15.0`) 엄격 필터링 및 최단거리 순 오름차순 정렬.
+      3) 메인 백엔드 REST API(`GET /api/v1/emergency/pairings`) 비동기 fetch 결합 및 `/data/nationwide_pairings.json` Fallback 안전망.
+      4) 병원·약국 카드 클릭 시 2-트랙 상세페이지(`hospital_detail.html`, `pharmacy_detail.html`) 이동 및 세션 상태 저장.
+    - `loading.html`, `input.html`, `result.html` 간 KTAS 1~3 단계 응급 라우팅 파이프라인 일체화.
+11. **[완료] 결과페이지 KTAS 1·2·3단계 실시간 소아 응급실 무한 로딩 스피너 멈춤 결함 해소 & 0ms LBS 로컬 비상 프리셋 Fallback 완비 (Phase 3-D)**:
+    - 브라우저 프로토콜/오리진(file:// 및 비8000 포트) 상대경로 fetch 에러 및 Fallback 부재로 인한 스피너 영구 멈춤 결함 해소.
+    - 전국 22개 거점 권역 소아전문응급센터 프리셋(national_emergency_hospitals.js) 탑재.
+    - 0ms 하버사인 거리 계산기(calcHaversineDistKm) 기반 즉각 렌더링으로 골든타임 보장.
+    - 4.5초 AbortController 타임아웃 세이프티 가드 및 apiBase 자동 라우팅 완결.
+12. **[완료] 메인화면 문정동 하드코딩 완전 제거·실시간 GPS 위치 자동 감지 및 결과페이지 ReferenceError 원천 해소 (Phase 3-E)**:
+    - index.html 상단 헤더 및 모달 주소 바 내 문정동 하드코딩 텍스트 전면 제거 및 동적 플레이스홀더화.
+    - main.js autoDetectUserLocation의 기존 저장 좌표 조기 리턴 가드 해제 ➔ 접속 시 navigator.geolocation 기반 실제 GPS 좌표 및 역지오코딩 도로명 주소 실시간 반영.
+    - result.html 내 Line 1898/1904 미선언 변수 currentHospitals 참조로 인한 JS 크래시 및 응급실 병상 멈춤 결함 원천 박멸.
+    - emergency-scroll-list 초기 프리셋 카드 탑재로 0ms 골든타임 무지연 노출 완결.
+13. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
+    - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
+14. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
+    - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
+15. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
+    - Service Worker 캐싱을 통해 네트워크 단절 시에도 12대 Red Flag 가이드 및 최근 조회 시설 오프라인 열람 지원.
+

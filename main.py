@@ -226,6 +226,7 @@ async def get_aisum_modal():
 
 
 @app.get("/result", tags=["Frontend"], response_class=FileResponse)
+@app.get("/result.html", tags=["Frontend"], response_class=FileResponse)
 async def get_aisum_result():
     """Serves the Aisum tailored medical recommendations result page."""
     path = find_frontend_html("result", "result.html")

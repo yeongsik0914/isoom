@@ -414,52 +414,66 @@
         btn.innerHTML = '<span style="display:inline-flex; align-items:center; gap:6px;"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">sync</span> 위치 권한 확인 중...</span>';
       }
 
-      // Helper function to request Geolocation with generous timeout
+      // Helper function to request Geolocation with standard pattern
       const requestLocation = () => new Promise((resolve) => {
-        if (!('geolocation' in navigator)) {
+        if (!navigator.geolocation) {
           resolve('unsupported');
           return;
         }
 
-        const timer = setTimeout(() => {
-          console.warn('Geolocation prompt timed out - proceeding with cached or fallback');
-          resolve('timeout');
-        }, 8000);
-
         navigator.geolocation.getCurrentPosition(
-          (position) => {
-            clearTimeout(timer);
+          async function(position) {
+            const lat = position.coords.latitude;  // 위도
+            const lon = position.coords.longitude; // 경도
+            console.log(`위도: ${lat}, 경도: ${lon}`);
+
             try {
-              const lat = position.coords.latitude;
-              const lon = position.coords.longitude;
               localStorage.setItem('user_lat', lat);
               localStorage.setItem('user_lon', lon);
               sessionStorage.setItem('user_lat', lat);
               sessionStorage.setItem('user_lon', lon);
               localStorage.setItem('aisum_user_lat', lat);
               localStorage.setItem('aisum_user_lon', lon);
-              const dongName = estimateDongName(lat, lon);
+
+              let dongName = estimateDongName(lat, lon);
+              let fullAddress = '';
+
+              try {
+                const resp = await fetch(`/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
+                if (resp.ok) {
+                  const data = await resp.json();
+                  if (data && data.full_address) {
+                    fullAddress = data.full_address;
+                    if (data.dong && data.dong !== '현재 위치') {
+                      dongName = data.dong;
+                    }
+                  }
+                }
+              } catch (e) {}
+
               localStorage.setItem('aisum_user_dong', dongName);
               localStorage.setItem('user_dong', dongName);
+              if (fullAddress) {
+                localStorage.setItem('aisum_user_address', fullAddress);
+              }
               localStorage.setItem('aisum_permission_location', 'granted');
-              console.log('📍 [Permission] 사용자 실제 위치 포착 완료:', dongName, lat, lon);
+              console.log('📍 [Permission] 사용자 실제 위치 포착 완료:', dongName, lat, lon, fullAddress);
             } catch (e) {
               console.warn('Storage error on geolocation:', e);
             }
             resolve('granted');
           },
-          (error) => {
-            clearTimeout(timer);
-            console.warn('Geolocation permission denied or failed:', error.message);
+          function(error) {
+            console.error('위치 권한 획득 실패:', error);
             try {
               localStorage.setItem('aisum_permission_location', 'denied');
             } catch (e) {}
             resolve('denied');
           },
           {
-            enableHighAccuracy: true,
-            timeout: 7500,
-            maximumAge: 10000
+            enableHighAccuracy: false,
+            timeout: 15000,
+            maximumAge: 60000
           }
         );
       });

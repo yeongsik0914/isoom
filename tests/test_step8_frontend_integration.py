@@ -99,6 +99,63 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(data["age_months"], 14)
         self.assertAlmostEqual(data["temperature"], 39.2, places=1)
 
+    def test_04_result_html_ktas_dual_track_contract(self):
+        """TC-804: Validates result.html contains KTAS 1-3 ER status and KTAS 4-5 Moonlight matching elements."""
+        from pathlib import Path
+        result_html_path = Path(__file__).resolve().parent.parent / "frontend" / "templates" / "result.html"
+        self.assertTrue(result_html_path.exists(), "result.html template must exist.")
+
+        html_content = result_html_path.read_text(encoding="utf-8")
+
+        # 1. Essential DOM containers and tabs
+        self.assertIn('id="pane-emergency"', html_content)
+        self.assertIn('id="pane-moonlight"', html_content)
+        self.assertIn('id="tab-btn-emergency"', html_content)
+        self.assertIn('id="tab-btn-moonlight"', html_content)
+        self.assertIn('id="emergency-scroll-list"', html_content)
+        self.assertIn('id="moonlight-scroll-list"', html_content)
+
+        # 2. KTAS 1, 2, 3 emergency escalation and call banner
+        self.assertIn('id="ktas-emergency-call-banner"', html_content)
+        self.assertIn('id="ktas-emergency-call-msg"', html_content)
+
+        # 3. Dynamic JavaScript logic contracts
+        self.assertIn("switchTrackTab('emergency')", html_content)
+        self.assertIn("switchTrackTab('moonlight')", html_content)
+        self.assertIn("renderEmergencyBedCards", html_content)
+        self.assertIn("renderMoonlightPairingCards", html_content)
+        self.assertIn("updateCallScript", html_content)
+        self.assertIn("refreshLiveEmergencyBeds", html_content)
+
+        # 4. Strict KTAS 4, 5 emergency room deterrence: #tab-btn-emergency hidden
+        self.assertIn("btnEmergency.style.display = 'none'", html_content)
+        self.assertIn("window.currentKtasLevel >= 4", html_content)
+
+    async def test_05_ktas_api_routing_matrix(self):
+        """TC-805: Validates backend chat API outputs KTAS 1~3 for severe vitals and KTAS 4~5 for mild cases."""
+        # 1. Severe case (KTAS 1 or 2)
+        res_severe = self.client.post("/api/v1/chat", json={
+            "user_message": "생후 45일 신생아가 38.9도 고열에 경련을 일으키며 축 늘어져요",
+            "user_lat": 37.5133,
+            "user_lon": 127.1001,
+            "force_matching": True,
+        })
+        self.assertEqual(res_severe.status_code, 200)
+        data_severe = res_severe.json()
+        self.assertTrue(data_severe["is_emergency"] or (data_severe["ktas_level"] and data_severe["ktas_level"] <= 2))
+
+        # 2. Mild case (KTAS 4 or 5)
+        res_mild = self.client.post("/api/v1/chat", json={
+            "user_message": "36개월 아기가 미열 37.8도에 콧물이 조금 나요",
+            "user_lat": 37.5133,
+            "user_lon": 127.1001,
+            "force_matching": True,
+        })
+        self.assertEqual(res_mild.status_code, 200)
+        data_mild = res_mild.json()
+        self.assertFalse(data_mild["is_emergency"])
+        self.assertGreaterEqual(data_mild["ktas_level"], 4)
+
 
 if __name__ == "__main__":
     unittest.main()

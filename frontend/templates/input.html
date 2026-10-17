@@ -1954,10 +1954,10 @@
             const data = await response.json();
             sessionStorage.setItem('backend_result', JSON.stringify(data));
 
-            // 🚨 백엔드 Supervisor / Gemini 실시간 KTAS 1, 2단계 및 Red Flag 감지 시에도 result.html로 이동하여 응급실 병상 결과 표출
-            if (data.is_emergency === true || (data.ktas_level && data.ktas_level <= 2)) {
+            // 🚨 백엔드 Supervisor / Gemini 실시간 KTAS 1, 2, 3단계 및 Red Flag 감지 시에도 result.html로 이동하여 응급실 병상 결과 표출
+            if (data.is_emergency === true || (data.ktas_level && data.ktas_level <= 3)) {
               if (progressFill) progressFill.style.width = '100%';
-              if (stepText) stepText.innerText = '🚨 소아 KTAS 긴급 소견 감지! 응급실 결과 화면으로 이동합니다...';
+              if (stepText) stepText.innerText = '🚨 소아 KTAS 응급 소견 감지! 실시간 응급실 병상 화면으로 이동합니다...';
               if (stepIcon) stepIcon.innerText = 'emergency';
               setTimeout(() => {
                 window.location.href = targetUrl;

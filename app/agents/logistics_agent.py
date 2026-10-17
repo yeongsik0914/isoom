@@ -144,7 +144,16 @@ class LogisticsAgent:
 
             if response and response.text:
                 data = json.loads(response.text)
-                return LogisticsCardResult(**data)
+                card = LogisticsCardResult(**data)
+                hosp_clean = hosp_name.replace("접수처", "").strip() or hosp_name
+                if hosp_clean and hosp_clean not in card.call_script:
+                    clean_script = card.call_script.strip()
+                    for prefix in ["안녕하세요,", "안녕하세요.", "안녕하세요"]:
+                        if clean_script.startswith(prefix):
+                            clean_script = clean_script[len(prefix):].strip()
+                            break
+                    card.call_script = f"안녕하세요, {hosp_clean} 접수처 맞으신가요? {clean_script}"
+                return card
         except Exception as e:
             logger.warning(f"[LogisticsAgent] Gemini API failed: {e}. Falling back to default checklist.")
 

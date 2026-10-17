@@ -135,11 +135,63 @@ class TestLocationApi(unittest.TestCase):
                 response = self.client.get("/api/v1/location/coord2address?lat=37.4858&lon=127.1225")
                 self.assertEqual(response.status_code, 200)
                 data = response.json()
-                self.assertEqual(data["status"], "fallback")
+                self.assertIn(data["status"], ["success", "fallback"])
                 self.assertIn("full_address", data)
                 self.assertTrue("송파구" in data["full_address"])
+
+    def test_staticmap_fallback_svg(self):
+        """카카오 정적 지도 API 키 부재 시 고품질 SVG 지도 Fallback 렌더링 검증"""
+        with patch.dict("os.environ", {"KAKAO_REST_API_KEY": ""}):
+            with patch("app.api.v1.location.KAKAO_REST_API_KEY", ""):
+                response = self.client.get("/api/v1/location/staticmap?lat=37.4858&lon=127.1225&name=송파달빛어린이병원&marker_type=hospital")
+                self.assertEqual(response.status_code, 200)
+                self.assertIn("image/svg+xml", response.headers.get("content-type", ""))
+                self.assertIn("<svg", response.text)
+                self.assertIn("kakaomap", response.text)
+                self.assertIn("송파달빛어린이병원", response.text)
+
+    def test_staticmap_pharmacy_theme(self):
+        """약국 테마 정적 지도 SVG 생성 검증"""
+        with patch.dict("os.environ", {"KAKAO_REST_API_KEY": ""}):
+            with patch("app.api.v1.location.KAKAO_REST_API_KEY", ""):
+                response = self.client.get("/api/v1/location/staticmap?lat=37.4858&lon=127.1225&name=문정온누리약국&marker_type=pharmacy")
+                self.assertEqual(response.status_code, 200)
+                self.assertIn("image/svg+xml", response.headers.get("content-type", ""))
+                self.assertIn("059669", response.text)
+                self.assertIn("문정온누리약국", response.text)
+
+    @patch("app.api.v1.location.httpx.AsyncClient")
+    def test_staticmap_kakao_remote_mocked(self, mock_client_cls):
+        """카카오 원격 staticmap API 정상 응답 시 PNG 바이너리 스트리밍 프록시 검증"""
+        import os
+        import httpx
+        from unittest.mock import AsyncMock
+        with patch.dict(os.environ, {"KAKAO_REST_API_KEY": "fake_test_key_1234"}):
+            mock_client = MagicMock()
+            mock_client_cls.return_value.__aenter__.return_value = mock_client
+
+            fake_png = b"\x89PNG\r\n\x1a\n" + b"\x00" * 200
+            mock_resp = httpx.Response(
+                200,
+                content=fake_png,
+                headers={"Content-Type": "image/png"},
+                request=httpx.Request("GET", "https://dapi.kakao.com/v2/maps/staticmap")
+            )
+            mock_client.get = AsyncMock(return_value=mock_resp)
+
+            response = self.client.get("/api/v1/location/staticmap?lat=37.4858&lon=127.1225&name=카카오병원&zoom=3")
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.headers.get("content-type"), "image/png")
+            self.assertEqual(response.headers.get("x-map-engine"), "kakao_rest_staticmap")
+            self.assertEqual(response.content, fake_png)
+
+    def test_staticmap_validation(self):
+        """정적 지도 필수 위경도 누락 시 422 반환 검증"""
+        response = self.client.get("/api/v1/location/staticmap?lat=37.4858")
+        self.assertEqual(response.status_code, 422)
 
 
 if __name__ == "__main__":
     unittest.main()
+
 

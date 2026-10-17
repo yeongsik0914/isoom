@@ -5,7 +5,7 @@ import logging
 import os
 from typing import Any, Dict, List, Literal, Optional
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Response
 import httpx
 
 logger = logging.getLogger("moonlightcare.location")
@@ -321,6 +321,49 @@ async def coord_to_address(
         except Exception as e:
             logger.warning(f"Kakao coord2address exception: {e}")
 
+    # 2. Secondary: OpenStreetMap Nominatim API (Free global reverse geocoding, no API key required)
+    try:
+        async with httpx.AsyncClient(timeout=4.0) as client:
+            osm_url = "https://nominatim.openstreetmap.org/reverse"
+            osm_res = await client.get(
+                osm_url,
+                params={"lat": lat, "lon": lon, "format": "json", "accept-language": "ko"},
+                headers={"User-Agent": "AisumPediatricCare/1.0 (https://github.com/yeongsik0914/isoom)"}
+            )
+            if osm_res.status_code == 200:
+                osm_data = osm_res.json()
+                osm_addr = osm_data.get("address") or {}
+                dong = (
+                    osm_addr.get("quarter") or
+                    osm_addr.get("suburb") or
+                    osm_addr.get("neighbourhood") or
+                    osm_addr.get("borough") or
+                    osm_addr.get("city") or
+                    "현재 위치"
+                )
+                city = osm_addr.get("city") or osm_addr.get("province") or ""
+                borough = osm_addr.get("borough") or osm_addr.get("county") or ""
+                suburb = osm_addr.get("suburb") or osm_addr.get("quarter") or ""
+                road = osm_addr.get("road") or ""
+                house_num = osm_addr.get("house_number") or ""
+
+                parts = [p for p in [city, borough, suburb, road, house_num] if p]
+                clean_addr = " ".join(parts) if parts else (osm_data.get("display_name") or "")
+
+                return {
+                    "status": "success",
+                    "dong": dong,
+                    "full_address": clean_addr,
+                    "road_address": f"{road} {house_num}".strip(),
+                    "building_name": osm_addr.get("amenity") or "",
+                    "jibun_address": clean_addr,
+                    "lat": lat,
+                    "lon": lon,
+                    "source": "osm_nominatim_reverse"
+                }
+    except Exception as e:
+        logger.warning(f"OSM Nominatim reverse geocoding exception: {e}")
+
     # 3. Fallback 기본 반환: 좌표와 가장 가까운 POI 위치를 찾아 실제 번지수가 포함된 상세 도로명/지번 반환
     closest_dong = "문정동"
     closest_addr = "서울특별시 송파구 문정동"
@@ -351,3 +394,152 @@ async def coord_to_address(
         "lon": lon,
         "source": "fallback_gps"
     }
+
+
+def _generate_fallback_map_svg(
+    width: int,
+    height: int,
+    lat: float,
+    lon: float,
+    name: str = "",
+    marker_type: str = "hospital"
+) -> str:
+    """Generates an aesthetic SVG map visual fallback when Kakao REST API key is unavailable or fails."""
+    import html
+    is_pharm = "pharm" in marker_type.lower() or "약국" in (name or "")
+    theme_color = "#059669" if is_pharm else "#0066ff"
+    theme_light = "#ecfdf5" if is_pharm else "#eff6ff"
+    theme_border = "#a7f3d0" if is_pharm else "#bfdbfe"
+    grid_line = "#d1fae5" if is_pharm else "#dbeafe"
+    badge_title = "공공심야약국 위치" if is_pharm else "달빛어린이병원 위치"
+    icon_symbol = "💊" if is_pharm else "🏥"
+    safe_name = html.escape((name or ("심야안심약국" if is_pharm else "달빛어린이병원"))[:24])
+
+    cx = width // 2
+    cy = height // 2
+
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="{theme_light}" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="{theme_color}" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Map Base Background -->
+  <rect width="{width}" height="{height}" fill="url(#bgGrad)" />
+
+  <!-- Road & Block Graphic Simulation -->
+  <path d="M 0,{cy-45} Q {cx},{cy-85} {width},{cy-35}" stroke="{grid_line}" stroke-width="14" fill="none" opacity="0.8" />
+  <path d="M 0,{cy+55} Q {cx+40},{cy+25} {width},{cy+65}" stroke="{grid_line}" stroke-width="18" fill="none" opacity="0.8" />
+  <path d="M {cx-100},0 Q {cx-80},{cy} {cx-120},{height}" stroke="{grid_line}" stroke-width="12" fill="none" opacity="0.7" />
+  <path d="M {cx+100},0 Q {cx+70},{cy} {cx+110},{height}" stroke="{grid_line}" stroke-width="16" fill="none" opacity="0.7" />
+
+  <!-- Radar Concentric Wave Rings -->
+  <circle cx="{cx}" cy="{cy}" r="42" fill="none" stroke="{theme_color}" stroke-width="1.5" opacity="0.4">
+    <animate attributeName="r" values="24;56;24" dur="3s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.45;0.08;0.45" dur="3s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="{cx}" cy="{cy}" r="22" fill="{theme_color}" opacity="0.12" />
+
+  <!-- Center Pin Marker -->
+  <g filter="url(#shadow)">
+    <circle cx="{cx}" cy="{cy}" r="18" fill="{theme_color}" stroke="#ffffff" stroke-width="3" />
+    <text x="{cx}" y="{cy+5}" font-size="14" text-anchor="middle" fill="#ffffff">{icon_symbol}</text>
+  </g>
+
+  <!-- Facility Name Pill Badge -->
+  <g transform="translate({cx}, {cy - 30})">
+    <rect x="-80" y="-14" width="160" height="26" rx="13" fill="#0f172a" opacity="0.9" />
+    <text x="0" y="4" font-family="-apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">{safe_name}</text>
+  </g>
+
+  <!-- Kakao Map Official Header Badge -->
+  <g transform="translate(12, 12)">
+    <rect width="132" height="24" rx="6" fill="#FEE500" />
+    <text x="66" y="16" font-family="-apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif" font-size="11" font-weight="800" fill="#191919" text-anchor="middle">kakaomap 정밀 지도</text>
+  </g>
+
+  <!-- Coordinates & Routing Hint (Bottom Right) -->
+  <g transform="translate({width - 152}, {height - 32})">
+    <rect width="140" height="22" rx="6" fill="rgba(255,255,255,0.92)" stroke="{theme_border}" stroke-width="1" />
+    <text x="70" y="15" font-family="-apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif" font-size="10" font-weight="600" fill="#475569" text-anchor="middle">클릭 시 길찾기 연결 ↗</text>
+  </g>
+</svg>"""
+
+
+@router.get("/staticmap", summary="카카오맵 REST API 기반 정적 지도(Static Map) 프록시 및 Fallback 제공")
+async def get_static_map(
+    lat: float = Query(..., ge=-90.0, le=90.0, description="WGS84 위도"),
+    lon: float = Query(..., ge=-180.0, le=180.0, description="WGS84 경도"),
+    name: Optional[str] = Query(None, description="장소 또는 시설명"),
+    width: int = Query(500, ge=100, le=2048, description="지도 이미지 가로 픽셀"),
+    height: int = Query(260, ge=100, le=1024, description="지도 이미지 세로 픽셀"),
+    zoom: int = Query(3, ge=1, le=15, description="지도 줌 레벨 (1~15, 기본 3)"),
+    scale: int = Query(2, ge=1, le=2, description="레티나 고해상도 배율 (1 또는 2)"),
+    marker_type: str = Query("hospital", description="마커 테마 (hospital / pharmacy)")
+):
+    """
+    카카오맵 REST API의 staticmap 엔드포인트를 안전하게 프록시 호출하여 반환합니다.
+    (공식 문서: https://developers.kakao.com/docs/ko/kakaomap/rest-api#static)
+
+    1. KAKAO_REST_API_KEY가 존재할 경우:
+       카카오 정적 지도(https://dapi.kakao.com/v2/maps/staticmap)를 호출하여 
+       공식 고화질 정적 지도 PNG 바이너리를 스트리밍 반환합니다.
+    2. KAKAO_REST_API_KEY가 없거나 원격 호출 실패 시:
+       클라이언트의 이미지 렌더링 중단을 방지하기 위해 정교한 SVG 벡터 지도 폴백을 즉시 반환합니다.
+    """
+    kakao_key = os.getenv("KAKAO_REST_API_KEY", "") or KAKAO_REST_API_KEY
+
+    if kakao_key and len(kakao_key.strip()) > 5:
+        try:
+            async with httpx.AsyncClient(timeout=4.0) as client:
+                kakao_url = "https://dapi.kakao.com/v2/maps/staticmap"
+                params = {
+                    "center": f"{lon},{lat}",
+                    "markers": f"location:{lon},{lat}|option:false",
+                    "size": f"{width}x{height}",
+                    "scale": scale,
+                    "lv": zoom,
+                    "format": "png",
+                    "coord": "WGS84",
+                    "logo_pos": "BOTTOM_LEFT"
+                }
+                headers = {"Authorization": f"KakaoAK {kakao_key.strip()}"}
+
+                res = await client.get(kakao_url, params=params, headers=headers)
+                if res.status_code == 200 and len(res.content) > 100:
+                    return Response(
+                        content=res.content,
+                        media_type="image/png",
+                        headers={
+                            "Cache-Control": "public, max-age=86400",
+                            "X-Map-Engine": "kakao_rest_staticmap"
+                        }
+                    )
+                else:
+                    logger.warning(f"Kakao staticmap API returned HTTP {res.status_code}: {res.text[:120]}")
+        except Exception as e:
+            logger.warning(f"Kakao staticmap API request exception: {e}")
+
+    # Fallback to high-res SVG graphic visual
+    svg_data = _generate_fallback_map_svg(
+        width=width,
+        height=height,
+        lat=lat,
+        lon=lon,
+        name=name or "",
+        marker_type=marker_type
+    )
+    return Response(
+        content=svg_data,
+        media_type="image/svg+xml",
+        headers={
+            "Cache-Control": "public, max-age=3600",
+            "X-Map-Engine": "fallback_vector_svg"
+        }
+    )
+

@@ -55,13 +55,19 @@ class RankedEmergencyHospital(BaseModel):
     hpid: str = Field(..., description="기관 코드")
     hospital_name: str = Field(..., description="병원명")
     distance_km: float = Field(..., description="사용자 위치로부터의 직선 거리 (km)")
-    pediatric_beds: int = Field(default=0, description="소아 가용병상 수")
-    general_beds: int = Field(default=0, description="응급실 일반병상 수")
+    pediatric_beds: int = Field(default=0, description="소아 가용병상 수 (hv28)")
+    general_beds: int = Field(default=0, description="응급실 일반병상 수 (hvec)")
+    pediatric_iso_beds: int = Field(default=0, description="소아 격리병상 수 (hv29)")
     pediatric_acceptable: bool = Field(default=False, description="즉시 수용 가능 여부")
     is_pediatric_blocked: bool = Field(default=False, description="소아 제한 공지 여부")
-    notice_raw: str = Field(default="", description="병원 공지 원문")
+    notice_raw: str = Field(default="", description="병원 공지 원문 (hpmg)")
     lat: float = Field(..., description="위도")
     lon: float = Field(..., description="경도")
+    tel: Optional[str] = Field(default=None, description="응급실 직통 전화번호")
+    center_type: Optional[str] = Field(
+        default="지역응급의료센터", description="응급의료기관 종별"
+    )
+    synced_at: Optional[str] = Field(default=None, description="동기화 일시 (ISO-8601)")
 
 
 class EmergencySummary(BaseModel):

@@ -93,8 +93,8 @@ class BackgroundDaemon:
             date_str = datetime.datetime.now(KST).strftime("%Y%m%d")
             holiday_info = self.holiday_service.get_holiday_info(date_str)
 
-            # 1. Collect real-time beds with NLP filtering (force_refresh=True to refresh TTL cache)
-            beds, freshness = fetch_emergency_beds(stage1="서울특별시", force_refresh=True, return_meta=True)
+            # 1. Collect real-time beds with NLP filtering (stage1=None fetches all 415 nationwide centers in 1 call)
+            beds, freshness = fetch_emergency_beds(stage1=None, force_refresh=True, return_meta=True)
             if not freshness.is_realtime:
                 logger.warning(
                     f"[Scheduler] Public API Circuit is {freshness.circuit_status} ({freshness.source_tier}). "
@@ -194,10 +194,13 @@ class BackgroundDaemon:
 
         self.scheduler = AsyncIOScheduler(timezone="Asia/Seoul")
 
-        # Job 1: 5-minute Real-time Bed Poller
+        now_dt = datetime.datetime.now(KST)
+
+        # Job 1: 5-minute Real-time Bed Poller (Runs immediately on startup, then every 5 minutes)
         self.scheduler.add_job(
             self.poll_realtime_beds,
             trigger=IntervalTrigger(minutes=bed_interval_minutes),
+            next_run_time=now_dt,
             id="job_realtime_bed_poller",
             name="5-Minute Real-time Emergency Bed Poller",
             replace_existing=True,

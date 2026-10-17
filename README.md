@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-100%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-108%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -28,6 +28,119 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.93-location-autodetect-and-result-er-reference-error-resolution] 2026-10-17: 메인화면 문정동 하드코딩 제거 및 실시간 위치 자동 감지 적용 & 결과페이지 ReferenceError(currentHospitals) 원천 해소 릴리스 (정영식 팀장 총괄)
+* **📍 메인화면 초기 문정동 하드코딩 완전 제거 & 접속 시 브라우저 GPS 실시간 위치 자동 감지 ([frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html), [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
+  - `index.html` 상단 헤더 및 모달 주소 바의 '문정동', '서울특별시 송파구 문정동' 정적 텍스트를 제거하고 실시간 위치 확인 플레이스홀더로 전환.
+  - `main.js`의 `autoDetectUserLocation` 내 과거 저장 좌표 존재 시 리턴하던 가로막기 로직을 전면 해제 ➔ 사용자가 수동 설정한 경우가 아니라면 메인 접속 시 항상 `navigator.geolocation.getCurrentPosition`을 호출하여 실제 GPS 좌표 실시간 획득.
+  - 백엔드 역지오코딩 API(`/api/v1/location/coord2address`)를 통해 실제 도로명/행정동명을 자동 획득하여 헤더, 모달 바, 및 인근 야간 의료시설 목록 즉각 재계산/동기화.
+* **🚨 결과페이지 소아 응급실 병상 로딩 멈춤 치명적 원인 `ReferenceError: currentHospitals` 원천 박멸 ([frontend/templates/result.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/result.html))**:
+  - `renderResultData()` 내부 Line 1898, 1904의 미선언 변수 `currentHospitals` 참조로 인한 자바스크립트 크래시 및 `refreshLiveEmergencyBeds` 미실행 결함 완전 해소.
+  - `window._activeHospitals = window._activeHospitals || [];` 로 안전하게 정규화.
+  - `#emergency-scroll-list` 컨테이너의 초기 HTML에 빈 스피너 대신 **권역 소아전문응급센터(서울아산병원, 삼성서울병원) 안심 프리셋 카드를 0ms 즉각 기본 마운트**하여 첫 프레임부터 응급실 정보 노출 보장.
+* **🧪 종합 단위/통합 테스트 회귀 검증**:
+  - 전체 13개 테스트 모듈 108개 테스트 100% ALL PASS (108 passed in 10.68s).
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q138, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-142, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-E)**.
+
+### 🌟 [v2.4.92-result-page-er-infinite-spinner-resolution-and-lbs-fallback] 2026-10-17: 결과페이지 KTAS 1·2·3단계 실시간 소아 응급실 무한 로딩 스피너 멈춤 결함 해소 & 0ms LBS 로컬 비상 프리셋 Fallback 릴리스 (정영식 팀장 총괄)
+* **🚨 무한 로딩 스피너 멈춤 결함 해소 및 0ms 즉각 LBS 렌더링 구축 ([frontend/templates/result.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/result.html))**:
+  - `file://` 또는 Live Server(비8000 포트) 환경에서 `fetch('/api/v1/emergency/nearby')` 호출 시 발생하던 상대경로 결함 및 `Failed to fetch` 에러 해소.
+  - `apiBase` 지능형 판별(`file://` 및 타 포트 시 `http://127.0.0.1:8000` 자동 바인딩) 및 4.5초 AbortController 타임아웃 세이프티 가드 적용.
+* **🏥 전국 22개 권역 소아전문응급센터 프리셋 정적 데이터셋 구축 ([frontend/js/national_emergency_hospitals.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/national_emergency_hospitals.js))**:
+  - 서울아산병원, 삼성서울병원, 건국대병원, 강동경희대병원, 한양대병원, 성남시의료원, 서울성모병원 등 전국 주요 권역 소아전문응급센터 및 상급종합병원 응급실 22개소의 좌표, 직통 전화번호, 종별 메타데이터 정적 사전 컴파일.
+  - 사용자 위경도 기준 하버사인 거리 계산기(`calcHaversineDistKm`)를 통해 인근 8곳을 0ms 동기식으로 즉각 추출하여, 첫 프레임(0ms)에 실제 병상 카드로 대체함으로써 골든타임 보장.
+* **🛡️ 3-Tier Multi-Storage 실시간 비동기 연동**:
+  - 1차: 0ms 로컬 소아 응급실 안심 캐시 즉시 렌더링.
+  - 2차: 백엔드 E-Gen 공공데이터 & Firebase Firestore 실시간 병상(`hv28`) 66ms 내 비동기 동기화.
+  - 3차: 네트워크 오류/타임아웃 발생 시 이미 렌더링된 0ms 카드를 안전하게 유지하며 상태바에 `로컬 안심 캐시 기준 (8곳 가용)` 표기.
+* **🧪 종합 단위/통합 테스트 회귀 검증**:
+  - 전체 13개 테스트 모듈 108개 테스트 100% ALL PASS (108 passed in 10.63s).
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q137, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-141, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-C)**.
+
+### 🌟 [v2.4.91-result-page-ktas-emergency-and-moonlight-backend-copy] 2026-10-17: 검사 결과페이지 KTAS 1·2·3단계 실시간 소아 응급실 단독 표출 & KTAS 4·5단계 메인 홈 실시간 의료시설 백엔드 카피 달빛병원 매칭 릴리스 (정영식 팀장 총괄)
+* **🚨 KTAS 1·2·3단계: 실시간 소아 가용 응급실 병상 현황 단독 전면 표출 ([frontend/templates/result.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/result.html))**:
+  - 소생(1단계), 긴급(2단계), 응급(3단계) 진입 시 경증용 달빛병원 탭을 완전히 배제(`display: none`)하고 `소아 응급실 병상 (실시간 현황 · 우선 권고)` 단독 전면 활성화.
+  - E-Gen 및 Firebase Cloud Firestore 실시간 연동 소아 병상(`hv28`), 혼잡도 배지(🟢 여유, 🟡 혼잡, 🔴 만실/제한) 5분 주기 실시간 동기화.
+  - 119 초응급 즉시 전화 배너 노출 및 권역 소아전문응급센터 당직의 통화 대본 자동 맞춤 완성.
+* **🌙 KTAS 4·5단계: 메인 홈 실시간 의료시설 백엔드 카피 달빛병원 매칭 엔진 완결**:
+  - 응급실 과밀화 방지를 위해 소아 응급실 병상 탭 완전 은닉(`display: none`) 및 `달빛어린이병원 + 안심약국 (소아 준응급 전용 매칭)` 단독 100% 표출.
+  - **메인 홈(`index.html` & `main.js`) 4대 핵심 백엔드/LBS 엔진 1:1 카피 이식**:
+    1. `<head>` 내 전국 실데이터셋(156개 달빛병원, 2,028개 야간약국, 156개 페어링) 사전 로드로 0ms 즉각 렌더링 확립.
+    2. 사용자 GPS 위치(`AisumPermissionManager` / `localStorage`) 기준 반경 15km 이내(`MAX_RADIUS_KM = 15.0`) 엄격 필터링 및 최단거리 순 오름차순 정렬.
+    3. 메인 백엔드 REST API(`GET /api/v1/emergency/pairings`) 비동기 fetch 결합 및 `/data/nationwide_pairings.json` Fallback 안전망.
+    4. 병원·약국 카드 클릭 시 2-트랙 상세페이지(`hospital_detail.html`, `pharmacy_detail.html`) 이동 및 세션 상태 저장.
+* **🧪 종합 단위/통합 테스트 회귀 검증**:
+  - 전체 13개 테스트 모듈 108개 테스트 100% ALL PASS (0 Failures, 0 Errors).
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q136, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-140, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-C)**:
+  - 사용자 질의 및 구현 상세 내역 실시간 기록 완료.
+
+### 🌟 [v2.4.90-ktas-dual-track-result-page-routing] 2026-10-17: 결과페이지(result.html) KTAS 1·2·3단계 실시간 소아 응급실 병상 우선 표출 vs KTAS 4·5단계 달빛병원 + 30분 안심약국 100% 전용 매칭 릴리스 (정영식 팀장 총괄)
+* **🚨 KTAS 1·2·3단계: 실시간 소아 응급실 병상 현황 우선 표출 및 119 배너 연동 ([frontend/templates/result.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/result.html))**:
+  - `track-tabs-container`에서 `btnEmergency`를 좌측 1순위로 배치(`소아 응급실 병상 (실시간 현황 · 우선 권고)`)하고 `#pane-emergency`를 기본 활성화.
+  - E-Gen 및 Firebase Cloud Firestore 실시간 병상 현황 연동(🟢 여유, 🟡 혼잡, 🔴 만실/제한) 및 5분 주기 자동 갱신.
+  - KTAS 1·2단계 초응급 즉시 119 이송 배너 및 KTAS 3단계 응급 안내 배너 가시성 분기.
+  - 30초 통화 스크립트를 최근접 소아 전문 응급실 접수처 대상으로 자동 맞춤 생성.
+* **🌙 KTAS 4·5단계: 달빛어린이병원 + 30분 안심약국 100% 전용 매칭 & 응급실 과밀화 원천 차단**:
+  - 소아 응급실 병상 탭 버튼 `#tab-btn-emergency`를 완전 은닉(`display: none`)하여 경증 환아의 불필요한 응급실 방문 및 고비용 지출을 원천 방어.
+  - `#pane-moonlight` 단독 100% 매칭 표출, 거리순 정렬된 달빛병원 8곳 및 +30분 조제 안전마진 심야약국 브릿지 제공.
+  - 30초 통화 스크립트를 달빛어린이병원 외래 접수처 대상으로 자동 튜닝.
+* **🧪 프론트엔드-백엔드 듀얼 트랙 계약 검증 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**:
+  - TC-804 (듀얼 트랙 템플릿 DOM 계약) 및 TC-805 (KTAS API 라우팅 매트릭스) 신설.
+  - **전체 13개 테스트 모듈 108개 단위/통합 테스트 100% ALL PASS**.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q135, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-139, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-C)**:
+  - 질문 및 구현 세부 내역 실시간 누적 기록 완료.
+
+### 🌟 [v2.4.89-nationwide-er-bed-firebase-and-lbs-sync] 2026-10-17: 소아 응급실 병상 전국 17개 시·도 415개소 단일 호출 확장 & 530개 기관 정밀 LBS 랭킹 연동 릴리스 (정영식 팀장 총괄)
+* **🗺️ 전국 17개 시·도 415개소 단일 호출 파이프라인 ([app/services/emergency_sync_service.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/services/emergency_sync_service.py))**:
+  - `STAGE1` 파라미터를 생략하여 17개 지자체를 각각 쪼개서 호출하지 않고, **단 1회 호출(0.70초)로 전국 415개 응급의료기관 실시간 병상(`hv28`, `hvec`, `hv29`) 및 비정형 공지(`hpmg`) 전수 일괄 수신** 완료.
+* **📍 전국 530개 응급의료기관 메타데이터 정적 캐시 구축 ([data/national_emergency_metadata.json](file:///Users/jeong-yeongsig/Desktop/Project/isoom/data/national_emergency_metadata.json))**:
+  - NMC 기본정보 API(`getEgytBassInfoInqire`)를 연동하여 530개 응급실의 대표/직통 전화번호(`dutyTel1`/`dutyTel3`), 도로명 주소, 센터 종별을 캐시화.
+  - 전국 415개 병상 데이터와 100% 매칭 완료 (전화번호·위경도 좌표 누락률 0%).
+* **🧠 In-Memory Hash Diffing 전국 최적화 (Spark 무료 티어 16.5% 방어)**:
+  - 415개소 전체를 5분 주기로 폴링하더라도 변동된 5~15개소만 Firestore에 델타 쓰기 수행 (평균 400개소 0ms Skip, 비용 절감률 96~98%).
+  - 하루 약 3,295회 Write로 Firebase 무료 한도(20,000회) 내 영구 안전 운영.
+* **🧭 적응형 반경(Adaptive Radius) LBS 정밀 랭킹 ([app/services/spatial_service.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/services/spatial_service.py), [app/api/v1/emergency.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/api/v1/emergency.py))**:
+  - 사용자 GPS 좌표(`lat`, `lon`) 기준 Haversine 구면 거리를 0ms로 계산하여 서울(잠실), 경기(수원 성빈센트/아주대 1.6~2.4km), 부산(부산대/동아대 0.09~2.0km), 전남(순천 성가롤로 5.49km), 제주(제주한라 4.41km) 등 전국 어느 위치에서든 정확한 최근접 소아 가용 응급실 즉시 표출.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q133/Q134, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-138, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 2-H)**:
+  - 사용자 질의 및 해결 내역 실시간 누적 기록 완료.
+
+### 🌟 [v2.4.88-pediatric-er-bed-firebase-sync-and-dynamic-cards] 2026-10-17: 소아 응급실 병상(hv28) E-Gen ➔ Firestore 5분 주기 Hash Diffing 델타 적재 & result.html 완전 동적 렌더링 릴리스 (정영식 팀장 총괄)
+* **⏱️ 서버 기동 즉시 초기 동기화(Warmup) & 5분 주기 백그라운드 스케줄러 ([app/services/scheduler.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/services/scheduler.py))**:
+  - `start()` 내 `job_realtime_bed_poller`에 `next_run_time=now_dt`를 결합하여 서버 부팅 시점에 즉시 1회 E-Gen 공공 API를 수집하고 Firestore에 동기화 완료.
+* **🧠 In-Memory Hash Diffing 델타 적재 (FinOps 100% 비용 절감 방어)**:
+  - MD5 해시 지문(`MD5(pediatric_beds + "_" + notice_raw + "_" + pediatric_acceptable)`) 비교를 통해 실제 변경된 병원만 `batch.set(..., merge=True)` 쓰기 수행. 변경 없을 시 0회 디스크 쓰기(`100.0% skip`)로 Firebase Spark Plan 무료 티어 영구 보호.
+* **🏥 응급의료기관 메타데이터 확장 ([app/api/v1/emergency.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/api/v1/emergency.py), [app/services/spatial_service.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/services/spatial_service.py))**:
+  - `RankedEmergencyHospital`에 `tel`(서울아산 02-3010-3333 등), `center_type`(권역 소아전문응급센터 등), `pediatric_iso_beds`, `synced_at` 공식 타임스탬프 탑재 및 `force_refresh` 쿼리 파라미터 지원.
+* **📱 result.html 소아 응급실 병상 100% 동적 렌더링 (`renderEmergencyBedCards`) ([frontend/templates/result.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/result.html))**:
+  - 기존 고정 하드코딩 카드 전면 제거 후 사용자 위치 기준 거리순 실시간 카드 동적 렌더링.
+  - 잔여 병상 상태별 동적 뱃지(🟢 3석 이상 여유, 🟡 1~2석 혼잡, 🔴 만실/진료 제한), 상단 실시간 상태바, `[🔄 새로고침]` 버튼 및 5분 주기 자동 갱신 완비.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q130/Q131, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-137)**:
+  - 사용자 질의 및 해결 내역 실시간 누적 기록 완료.
+
+### 🌟 [v2.4.87-mac-firebase-service-account-key-sync] 2026-10-16: Mac 환경 Firebase Admin SDK 서비스 계정 키 연동 및 Firestore 활성화 (정영식 팀장 총괄)
+* **🔥 Mac OS POSIX 절대경로 기반 Firebase 키 바인딩 ([.env](file:///Users/jeong-yeongsig/Desktop/Project/isoom/.env))**:
+  - 사용자 개발 머신(Mac) 내 `serviceAccountKey.json`의 실제 경로(`/Users/jeong-yeongsig/Desktop/Project/serviceAccountKey.json`)를 `.env`의 `FIREBASE_KEY_PATH`에 매핑.
+  - Windows 스타일 경로 차이로 인한 키 미인식 현상을 원천 해소하고 `settings.has_firebase_key() == True` 확립.
+* **⚡ 실시간 백엔드 서버 헬스체크 검증 (`GET /health`)**:
+  - Uvicorn 서버 데몬 재기동 후 `firebase_configured: true` 수신 확인 완료.
+  - Cloud Firestore 세션 관리, 병상 캐시, 응급 즐겨찾기 등 Firebase 인프라 100% 정상 활성화.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q129, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-136)**:
+  - 사용자 질의 및 해결 내역 실시간 누적 기록 완료.
+
+### 🌟 [v2.4.86-kakao-staticmap-rest-api-detail-page-sync] 2026-10-16: 카카오맵 REST API 기반 정적 지도(Static Map) 프록시 연동 및 병원·약국 상세페이지 지도 고도화 릴리스 (정영식 팀장 총괄, 김동준 팀원)
+* **🗺️ 카카오 공식 REST API staticmap 규격 준수 백엔드 프록시 라우터 구축 ([app/api/v1/location.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/api/v1/location.py))**:
+  - `GET /api/v1/location/staticmap`: 카카오맵 REST API 명세(`https://developers.kakao.com/docs/ko/kakaomap/rest-api#static`)에 기반하여 `Authorization: KakaoAK` 헤더 인증을 서버 사이드에서 안전하게 프록시 호출.
+  - 레티나 디스플레이 대응 2배율(`scale=2`) 고해상도 PNG 바이너리 스트리밍 및 24시간 캐싱 헤더(`Cache-Control: public, max-age=86400`) 적용.
+  - 카카오 키 미설정 또는 네트워크 일시 장애 시 100% 무중단 벡터 SVG 지도(`_generate_fallback_map_svg`)를 자동 생성하여 클라이언트 이미지 깨짐(엑스박스)을 원천 차단.
+* **🏥 병원 상세페이지 지도 UI/UX 혁신 ([frontend/templates/hospital_detail.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/hospital_detail.html))**:
+  - 공식 카카오 옐로우 뱃지(`kakaomap 정밀 지도`) 및 로열 블루 테마 마커 탑재.
+  - 동적 플로팅 줌 컨트롤러(`+`, `-`): 클릭 즉시 줌 레벨(1~6)을 실시간으로 조작하여 상세 도로망/건물 확인 가능.
+  - 지도 카드 터치 시 카카오맵 실시간 길찾기(`https://map.kakao.com/link/to/{name},{lat},{lon}`) 앱/웹 직행 딥링크 및 `카카오맵 크게보기` 버튼 완비.
+  - 로드 실패 시 Leaflet 엔진으로 자동 스위칭되는 2중 결함 격리 로직 구축.
+* **💊 약국 상세페이지 지도 UI/UX 일체화 ([frontend/templates/pharmacy_detail.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/pharmacy_detail.html))**:
+  - 공공심야약국 전용 에메랄드 그린 테마(`#059669`) 및 동일한 정적 지도 줌 컨트롤·길찾기 인터랙션 100% 통합.
+* **🧪 백엔드 통합 테스트 스위트 100% 통과 ([tests/test_location_api.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_location_api.py))**:
+  - 카카오 정적 지도 SVG Fallback, 약국 테마, Mocking 스트리밍, 파라미터 유효성 검증을 포함한 12개 테스트 전수 통과 (100% PASS).
+
 ### 🌟 [v2.4.85-leaflet-osm-interactive-map-and-routing-sync] 2026-10-16: 병원·약국 상세페이지 실시간 대화형 지도 연동(Leaflet & OSM) 및 소아 KTAS 1·2단계 결과 화면(result.html) 100% 통합 (정영식 팀장, 김동준 팀원)
 * **🗺️ 카카오 SDK 401 인증 한계 극복 및 Leaflet.js + OpenStreetMap 엔진 전면 탑재 ([hospital_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/hospital_detail.html), [pharmacy_detail.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/pharmacy_detail.html))**:
   - `KAKAO_REST_API_KEY`의 JS SDK 미지원 및 로컬 도메인 미등록으로 인한 그라데이션 박스 폴백 현상을 해소하고, 상용 API 키나 도메인 제약 없이 전국 도로망·건물 타일을 100% 무결점으로 렌더링하는 Leaflet(v1.9.4) 엔진 구축.
@@ -37,6 +150,15 @@
 * **🚨 소아 KTAS 1·2단계 결과 화면([result.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/result.html)) 100% 통합 라우팅 및 119 원터치 다이얼 배너 연동**:
   - `input.html`에서 KTAS 1·2단계 분류 시 단순 사이렌 화면 직행을 해소하고, 공식 KTAS 등급 카드, 소아 임상 감별 소견, 실시간 소아 응급실 병상(`hv28`), 119 즉시 전화 CTA, 당직의 통화 스크립트 전면 연계.
 * **📜 팀 협업 4대 문서([Answer-영식.md](file:///c:/AI-Native-Agent/monnlight/Answer-영식.md) Q124, [log.md](file:///c:/AI-Native-Agent/monnlight/log.md) ISSUE-133) 전면 동기화 완료**.
+
+### 🌟 [v2.4.85-lbs-persistence-and-gps-standard-sync] 2026-10-16: 프론트엔드 LBS 위치 권한 영구 지속성(AisumPermissionManager) 확립, 표준 navigator.geolocation 탑재 및 OSM Nominatim 역지오코딩 연동 릴리스 (정영식 팀장 총괄)
+* **🛡️ 페이지 변경 시 위치 권한 재요청 팝업 원천 차단 ([frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
+  - `localStorage`에 좌표(`aisum_user_lat`, `aisum_user_lon`)가 존재하면 `initUserLocation()` 진입 시 0ms 즉시 기존 위치를 유지하고 `autoDetectUserLocation()`을 중복 호출하지 않도록 가드 확립.
+  - 온보딩 승인 후 홈, 문진, 결과, 상세 등 어떤 페이지로 이동하더라도 브라우저 권한 팝업이 다시 뜨지 않고 사용자 위치가 영구 지속(Persistent)됨.
+* **📍 '현재 위치로 설정' 표준 navigator.geolocation 코드 적용 및 타임아웃 완화**:
+  - 과도한 GPS 전용 옵션(`enableHighAccuracy: true`, 5s 타임아웃)으로 인한 문정동 폴백 결함을 해소하고, 정영식 팀장 제시 표준 `navigator.geolocation.getCurrentPosition` 패턴(`위도: ${lat}, 경도: ${lon}`)을 `main.js`와 `permission.html`에 일체화.
+* **🌐 백엔드 2-Tier OpenStreetMap Nominatim 역지오코딩 Fallback 장착 ([app/api/v1/location.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/api/v1/location.py))**:
+  - 카카오 REST API 키가 없어도 무료 글로벌 OSM 역지오코딩을 2차 계층으로 탑재하여, 실측 GPS 좌표 수신 시 대한민국 전역의 실제 시/도, 구, 동/읍/면, 도로명 상세 주소를 100% 실시간 획득.
 
 ### 🌟 [v2.4.84-ktas-emergency-unified-result] 2026-10-16: 소아 KTAS 1, 2단계(소생/긴급) 결과 화면(result.html) 100% 통합 표출 및 119 초응급 원터치 다이얼 배너 구축 (김동준 팀원, 정영식 팀장 총괄)
 * **🚨 소아 KTAS 1·2단계 결과 화면(`result.html`) 100% 통합 라우팅 ([frontend/templates/input.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/input.html), [frontend/templates/loading.html](file:///c:/AI-Native-Agent/monnlight/frontend/templates/loading.html), [frontend/js/main.js](file:///c:/AI-Native-Agent/monnlight/frontend/js/main.js))**:

@@ -42,23 +42,36 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 async def get_nearby_emergency_departments(
     lat: float = Query(default=37.5133, description="사용자 위도 (기본값: 잠실역 37.5133)"),
     lon: float = Query(default=127.1001, description="사용자 경도 (기본값: 잠실역 127.1001)"),
-    radius_km: float = Query(default=10.0, ge=1.0, le=50.0, description="검색 반경 (km)"),
+    radius_km: float = Query(default=25.0, ge=1.0, le=100.0, description="검색 반경 (km)"),
     only_acceptable: bool = Query(
         default=True, description="소아 응급 진료 즉시 가능 기관만 필터링 (병상>0 and 제한공지 없음)"
     ),
     limit: int = Query(default=10, ge=1, le=50, description="최대 반환 개수"),
+    force_refresh: bool = Query(
+        default=False, description="강제 즉시 공공 API 수집 및 Firestore Hash Diffing 동기화 여부"
+    ),
+    stage1: Optional[str] = Query(
+        default=None, description="특정 시·도 필터링 (기본값: None, 전국 실시간 검색)"
+    ),
 ):
-    """Calculates spherical distance and returns nearest pediatric emergency hospitals."""
+    """Calculates spherical distance and returns nearest pediatric emergency hospitals nationwide."""
     start_time = time.perf_counter()
 
     # 1. Holiday metadata & surge risk
     today_str = datetime.datetime.now(KST).strftime("%Y%m%d")
     holiday_info = holiday_service.get_holiday_info(today_str)
 
-    # 2. Fetch real-time beds (with memory/disk cache and circuit breaker)
-    all_beds, freshness_meta = fetch_emergency_beds(stage1="서울특별시", return_meta=True)
+    # 2. Fetch real-time beds (stage1=None retrieves nationwide 415 emergency centers)
+    if force_refresh:
+        try:
+            await background_daemon.poll_realtime_beds()
+        except Exception:
+            pass
+    all_beds, freshness_meta = fetch_emergency_beds(
+        stage1=stage1, force_refresh=force_refresh, return_meta=True
+    )
 
-    # 3. Spatial Haversine ranking
+    # 3. Spatial Haversine ranking based on user GPS coordinates
     ranked = rank_emergency_hospitals(
         hospitals=all_beds,
         user_lat=lat,

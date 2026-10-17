@@ -95,6 +95,8 @@ class TestStep3Agents(unittest.IsolatedAsyncioTestCase):
 
     async def test_05_matching_agent_moonlight_pairing_routing_tc305(self) -> None:
         """TC-305: Mild fever (38.0C) prioritizes Moonlight clinic + 30-min pharmacy pairing."""
+        import datetime
+        kst = datetime.timezone(datetime.timedelta(hours=9))
         self.state.user_lat = 37.4988  # Seocho
         self.state.user_lon = 126.9934
         self.state.age_months = 36
@@ -102,7 +104,8 @@ class TestStep3Agents(unittest.IsolatedAsyncioTestCase):
         self.state.duration_hours = 2
         self.state.symptoms = ["미열", "기침"]
 
-        match_result = await self.matching_agent.match_destinations(self.state, max_radius_km=15.0)
+        target_evening = datetime.datetime(2026, 10, 17, 19, 30, tzinfo=kst)
+        match_result = await self.matching_agent.match_destinations(self.state, max_radius_km=15.0, target_time=target_evening)
 
         self.assertTrue(len(self.state.matched_hospitals) > 0)
         self.assertTrue(len(self.state.matched_pharmacies) > 0)
