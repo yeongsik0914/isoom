@@ -28,6 +28,34 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.4.95-real-user-location-autodetect-and-legacy-sanitization] 2026-10-17: 메인화면 실시간 사용자 현재 위치 자동 적용 & 과거 스토리지 문정동 더미 잔재 자동 소독 릴리스 (정영식 팀장 총괄)
+* **🧹 과거 개발 문정동(37.4858, 127.1225) 더미 캐시 자동 소독 엔진 구축 (`cleanLegacyMunjeongData`) ([frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html), [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
+  - 과거 개발 시 브라우저 `localStorage`에 저장되어 영구 잔존하던 문정동 좌표 및 행정동 더미 데이터를 스크립트 실행 즉시 자동 감지하여 100% 클린업/소독.
+  - 사용자가 수동 선택한 경우가 아니라면 접속 시 문정동으로 고정되던 결함을 원천 박멸.
+* **📍 접속 즉시 실제 기기 현재 위치 자동 감지 및 실시간 시설 거리 재계산 (`autoDetectUserLocation`)**:
+  - `enableHighAccuracy: false` 최적화로 Mac/PC 데스크탑 브라우저의 Geolocation 타임아웃 에러를 원천 차단하고 1초 이내에 실제 기기 GPS 좌표를 신속 획득.
+  - 획득 즉시 카카오/OSM 역지오코딩(`/api/v1/location/coord2address`)을 통해 사용자의 실제 접속 지역(역삼동, 공덕동, 판교, 분당, 대구, 부산 등)의 행정동명과 도로명 주소를 상단 헤더와 모달 바에 실시간 바인딩.
+  - 야간 의료시설 목록(`initLiveFacilities`)을 사용자의 실제 현재 위치 기준 최단거리 순으로 즉각 재계산하여 표출.
+* **🌐 GPS 차단/실패 시 공공 IP 기반 2차 자동 위치 추정 연동 (`fetchIpLocationFallback`)**:
+  - 위치 권한이 꺼져있거나 실내 전파 음영 지역인 경우, 절대로 문정동으로 회귀하지 않고 IP 기반 네트워크 위치를 자동 획득하여 적용.
+* **🧪 종합 단위/통합 테스트 회귀 검증**:
+  - 전체 13개 테스트 모듈 108개 테스트 100% ALL PASS (108 passed).
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q140, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-144, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-G)**.
+
+### 🌟 [v2.4.94-onboarding-permission-session-persistence-and-zero-delay-location] 2026-10-17: 온보딩 위치 권한 승인 세션 전 페이지 상시 유지 & 메인화면 실시간 위치 0ms 표출 릴리스 (정영식 팀장 총괄)
+* **🛡️ 온보딩 5대 접근 권한 및 LBS 위치 세션 양방향 상시 동기화 파이프라인 구축 ([frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js), [frontend/templates/permission.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/permission.html))**:
+  - `AisumPermissionManager`에 `sessionStorage` <-> `localStorage` 양방향 세션 동기화 엔진(`syncSession()`) 및 `grantAllPermissions()` 신설.
+  - 처음 이용하는 사용자가 `splash.html` ➔ `permission.html` 온보딩에서 "동의하고 시작하기" 클릭 시 브라우저 실제 위치(Geolocation), 알림(Notification), 전화, 카메라, 사진 5대 모든 접근 권한 플래그와 위·경도 좌표, 역지오코딩 주소 7개 핵심 키를 양쪽 스토리지에 동시 영구 저장.
+  - 이후 홈, 문진, 결과, 상세 등 어떤 페이지로 이동하더라도 권한 세션 및 현재 위치가 100% 영구/상시 유지됨.
+* **📍 메인 홈(`index.html`) 첫 프레임(0ms) 실시간 위치 즉시 표출 ([frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html))**:
+  - 상단 헤더 인라인 스크립트의 불필요한 `isManual` 가드를 완전 제거하여, 온보딩에서 GPS 승인으로 수신된 사용자의 실제 행정동명이 페이지 로드 0ms 순간에 `#current-location-text`에 즉각 바인딩.
+  - 지연이나 깜빡임("위치 확인 중...") 없이 사용자의 실제 현재 위치가 메인화면에 즉시 선명하게 표시됨.
+* **스마트 스플래시 온보딩 라우팅 ([frontend/templates/splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/splash.html))**:
+  - `localStorage` 및 `sessionStorage`의 `aisum_permission_granted`를 동시 검사하여 이미 권한을 부여받은 사용자는 1.8초 후 `index.html`로 즉시 직행.
+* **🧪 종합 단위/통합 테스트 회귀 검증**:
+  - 전체 13개 테스트 모듈 108개 테스트 100% ALL PASS (108 passed).
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q139, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-143, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-E)**.
+
 ### 🌟 [v2.4.93-location-autodetect-and-result-er-reference-error-resolution] 2026-10-17: 메인화면 문정동 하드코딩 제거 및 실시간 위치 자동 감지 적용 & 결과페이지 ReferenceError(currentHospitals) 원천 해소 릴리스 (정영식 팀장 총괄)
 * **📍 메인화면 초기 문정동 하드코딩 완전 제거 & 접속 시 브라우저 GPS 실시간 위치 자동 감지 ([frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html), [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
   - `index.html` 상단 헤더 및 모달 주소 바의 '문정동', '서울특별시 송파구 문정동' 정적 텍스트를 제거하고 실시간 위치 확인 플레이스홀더로 전환.

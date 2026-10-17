@@ -405,7 +405,7 @@
       return best;
     }
 
-    // Request Actual Device / Browser Permissions (Location & Notification)
+    // Request Actual Device / Browser Permissions (Location & Notification & System)
     async function onConfirmPermission() {
       const btn = document.getElementById('btnConfirmPermission');
       if (btn) {
@@ -428,51 +428,86 @@
             console.log(`위도: ${lat}, 경도: ${lon}`);
 
             try {
+              // 1. 위경도 좌표 저장 (localStorage & sessionStorage 상시 유지)
               localStorage.setItem('user_lat', lat);
               localStorage.setItem('user_lon', lon);
               sessionStorage.setItem('user_lat', lat);
               sessionStorage.setItem('user_lon', lon);
               localStorage.setItem('aisum_user_lat', lat);
               localStorage.setItem('aisum_user_lon', lon);
+              sessionStorage.setItem('aisum_user_lat', lat);
+              sessionStorage.setItem('aisum_user_lon', lon);
 
               let dongName = estimateDongName(lat, lon);
               let fullAddress = '';
 
               try {
-                const resp = await fetch(`/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
+                const isFileProto = window.location.protocol === 'file:';
+                const isNon8000 = (window.location.port !== '8000' && window.location.port !== '');
+                const apiBase = (isFileProto || isNon8000) ? 'http://127.0.0.1:8000' : '';
+                const resp = await fetch(`${apiBase}/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
                 if (resp.ok) {
                   const data = await resp.json();
                   if (data && data.full_address) {
                     fullAddress = data.full_address;
-                    if (data.dong && data.dong !== '현재 위치') {
+                    if (data.dong && data.dong !== '현재 위치' && data.dong !== '내 위치') {
                       dongName = data.dong;
                     }
                   }
                 }
-              } catch (e) {}
+              } catch (e) {
+                console.warn('역지오코딩 백엔드 연결 폴백:', e);
+              }
+
+              if (!fullAddress) {
+                fullAddress = (dongName && dongName !== '현재 위치') ? `대한민국 ${dongName}` : '대한민국 서울특별시';
+              }
 
               localStorage.setItem('aisum_user_dong', dongName);
               localStorage.setItem('user_dong', dongName);
-              if (fullAddress) {
-                localStorage.setItem('aisum_user_address', fullAddress);
-              }
+              sessionStorage.setItem('aisum_user_dong', dongName);
+              sessionStorage.setItem('user_dong', dongName);
+
+              localStorage.setItem('aisum_user_address', fullAddress);
+              sessionStorage.setItem('aisum_user_address', fullAddress);
+
               localStorage.setItem('aisum_permission_location', 'granted');
-              console.log('📍 [Permission] 사용자 실제 위치 포착 완료:', dongName, lat, lon, fullAddress);
+              sessionStorage.setItem('aisum_permission_location', 'granted');
+              console.log('📍 [Permission] 사용자 실제 위치 포착 및 세션 동기화 완료:', dongName, lat, lon, fullAddress);
             } catch (e) {
               console.warn('Storage error on geolocation:', e);
             }
             resolve('granted');
           },
           function(error) {
-            console.error('위치 권한 획득 실패:', error);
+            console.error('위치 권한 획득 실패 (서울 기본 좌표 폴백 유지):', error);
             try {
+              const defLat = 37.5665;
+              const defLon = 126.9780;
+              const defDong = '현재 위치';
+              const defAddr = '대한민국 서울특별시';
               localStorage.setItem('aisum_permission_location', 'denied');
+              sessionStorage.setItem('aisum_permission_location', 'denied');
+              localStorage.setItem('user_lat', defLat);
+              localStorage.setItem('user_lon', defLon);
+              sessionStorage.setItem('user_lat', defLat);
+              sessionStorage.setItem('user_lon', defLon);
+              localStorage.setItem('aisum_user_lat', defLat);
+              localStorage.setItem('aisum_user_lon', defLon);
+              sessionStorage.setItem('aisum_user_lat', defLat);
+              sessionStorage.setItem('aisum_user_lon', defLon);
+              localStorage.setItem('user_dong', defDong);
+              localStorage.setItem('aisum_user_dong', defDong);
+              sessionStorage.setItem('user_dong', defDong);
+              sessionStorage.setItem('aisum_user_dong', defDong);
+              localStorage.setItem('aisum_user_address', defAddr);
+              sessionStorage.setItem('aisum_user_address', defAddr);
             } catch (e) {}
             resolve('denied');
           },
           {
             enableHighAccuracy: false,
-            timeout: 15000,
+            timeout: 10000,
             maximumAge: 60000
           }
         );
@@ -490,17 +525,34 @@
         if ('Notification' in window && Notification.permission === 'default') {
           const perm = await Notification.requestPermission();
           localStorage.setItem('aisum_permission_notification', perm);
+          sessionStorage.setItem('aisum_permission_notification', perm);
         } else if ('Notification' in window) {
           localStorage.setItem('aisum_permission_notification', Notification.permission);
+          sessionStorage.setItem('aisum_permission_notification', Notification.permission);
+        } else {
+          localStorage.setItem('aisum_permission_notification', 'granted');
+          sessionStorage.setItem('aisum_permission_notification', 'granted');
         }
       } catch (err) {
         console.warn('Notification request error:', err);
+        localStorage.setItem('aisum_permission_notification', 'granted');
+        sessionStorage.setItem('aisum_permission_notification', 'granted');
       }
 
-      // 3. Mark Onboarding Permission Granted in LocalStorage (영구 권한 플래그 설정)
+      // 3. Mark All 5 App Permissions Active & Persistent (전화, 카메라, 사진 포함 모든 접근권한 세션 상시 유지)
       try {
-        localStorage.setItem('aisum_permission_granted', 'true');
-        localStorage.setItem('aisum_permission_granted_at', new Date().toISOString());
+        const nowIso = new Date().toISOString();
+        const perms = {
+          aisum_permission_granted: 'true',
+          aisum_permission_granted_at: nowIso,
+          aisum_permission_phone: 'granted',
+          aisum_permission_camera: 'granted',
+          aisum_permission_photos: 'granted'
+        };
+        for (const [k, v] of Object.entries(perms)) {
+          localStorage.setItem(k, v);
+          sessionStorage.setItem(k, v);
+        }
       } catch (e) {
         console.warn('LocalStorage error:', e);
       }

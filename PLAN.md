@@ -1,9 +1,9 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.67 (메인화면 문정동 하드코딩 제거·실시간 GPS 위치 자동 감지 & 결과페이지 ReferenceError 원천 해소, v2.4.93)
+> **문서 버전**: v2.69 (메인화면 실시간 사용자 현재 위치 자동 적용 & 과거 스토리지 문정동 더미 잔재 자동 소독 완비, v2.4.95)
 > **최종 갱신 일자**: 2026-10-17
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
-> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스.
+> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진.
 
 ---
 
@@ -289,10 +289,20 @@ graph TD
     - main.js autoDetectUserLocation의 기존 저장 좌표 조기 리턴 가드 해제 ➔ 접속 시 navigator.geolocation 기반 실제 GPS 좌표 및 역지오코딩 도로명 주소 실시간 반영.
     - result.html 내 Line 1898/1904 미선언 변수 currentHospitals 참조로 인한 JS 크래시 및 응급실 병상 멈춤 결함 원천 박멸.
     - emergency-scroll-list 초기 프리셋 카드 탑재로 0ms 골든타임 무지연 노출 완결.
-13. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
+13. **[완료] 온보딩 위치 권한 승인 세션 전 페이지 상시 유지 & 메인화면 실시간 위치 0ms 표출 완비 (Phase 3-F)**:
+    - `AisumPermissionManager`에 `sessionStorage` <-> `localStorage` 양방향 세션 동기화 엔진(`syncSession()`) 및 `grantAllPermissions()` 신설.
+    - 처음 이용하는 사용자가 `splash.html` ➔ `permission.html` 온보딩에서 "동의하고 시작하기" 클릭 시 브라우저 실제 위치(Geolocation), 알림(Notification), 전화, 카메라, 사진 5대 모든 접근 권한 플래그와 위·경도 좌표, 역지오코딩 주소를 양쪽 스토리지에 동시 영구 저장.
+    - `index.html` 상단 헤더 인라인 스크립트의 불필요한 `isManual` 가드를 완전 제거하여 접속 첫 프레임(0ms)에 사용자의 실제 동 이름을 `#current-location-text`에 즉각 바인딩.
+    - 홈, 문진, 결과, 상세 등 전 페이지 이동 시 권한 세션 및 LBS 위치 상시 지속성 100% 확립.
+14. **[완료] 메인화면 실시간 사용자 현재 위치 자동 적용 & 문정동 더미 캐시 소독 완비 (Phase 3-G)**:
+    - 과거 개발 시 브라우저 `localStorage`에 저장되어 영구 잔존하던 문정동(37.4858, 127.1225) 더미 캐시를 접속 즉시 자동 클린업하는 `cleanLegacyMunjeongData()` 파이프라인 탑재.
+    - `autoDetectUserLocation`에 `enableHighAccuracy: false` 최적화를 적용하여 데스크탑/모바일 타임아웃 없이 1초 내 실제 GPS 좌표 획득.
+    - 실제 기기 위치를 기반으로 백엔드 역지오코딩(`/api/v1/location/coord2address`) 주소를 즉시 조회하여 헤더와 시설 목록을 사용자의 실제 접속 위치 기준 최단거리 순으로 즉각 렌더링.
+    - GPS 차단/실패 시 공공 IP 기반 2차 자동 위치 추정(`fetchIpLocationFallback`)을 연동하여 문정동 고정 결함 100% 박멸.
+15. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
     - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
-14. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
+16. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
     - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
-15. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
+17. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
     - Service Worker 캐싱을 통해 네트워크 단절 시에도 12대 Red Flag 가이드 및 최근 조회 시설 오프라인 열람 지원.
 

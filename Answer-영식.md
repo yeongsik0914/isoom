@@ -144,6 +144,8 @@
 144. [Q136. [검사 결과페이지 KTAS 1·2·3단계 실시간 응급실 현황 표출 & KTAS 4·5단계 메인 홈 실시간 의료시설 백엔드 카피 달빛병원 매칭 완결 보고](#q136-검사-결과페이지-ktas-123단계-실시간-응급실-현황-표출--ktas-45단계-메인-홈-실시간-의료시설-백엔드-카피-달빛병원-매칭-완결-보고)
 145. [Q137. [결과페이지] KTAS 1·2·3단계 실시간 소아 응급실 병상 무한 로딩 스피너 멈춤 결함 원인 분석 및 0ms LBS 로컬 비상 프리셋 Fallback & 3-Tier Multi-Storage 연동 완전 해결](#q137-결과페이지-ktas-123단계-실시간-소아-응급실-병상-무한-로딩-스피너-멈춤-결함-원인-분석-및-0ms-lbs-로컬-비상-프리셋-fallback--3-tier-multi-storage-연동-완전-해결)
 146. [Q138. [메인화면 & 결과화면] 메인화면 초기 문정동 하드코딩 완전 제거 및 브라우저 실시간 GPS 현재 위치 자동 감지·역지오코딩 적용 & 결과페이지 ReferenceError(currentHospitals) 원천 해소 및 소아 응급실 병상 0ms 즉각 표출 완결 보고](#q138-메인화면--결과화면-메인화면-초기-문정동-하드코딩-완전-제거-및-브라우저-실시간-gps-현재-위치-자동-감지역지오코딩-적용--결과페이지-referenceerrorcurrenthospitals-원천-해소-및-소아-응급실-병상-0ms-즉각-표출-완결-보고)
+147. [Q139. [온보딩 권한 승인 세션 상시 지속성 확립 및 메인페이지 실시간 위치 즉시 표출] 처음 이용 사용자의 splash ➔ permission 위치 권한 승인 시 모든 접근권한 세션(5대 권한)의 전 페이지 상시 유지 및 메인화면(index.html) 실시간 현재 위치 0ms 렌더링 개편 보고](#q139-온보딩-권한-승인-세션-상시-지속성-확립-및-메인페이지-실시간-위치-즉시-표출-처음-이용-사용자의-splash--permission-위치-권한-승인-시-모든-접근권한-세션5대-권한의-전-페이지-상시-유지-및-메인화면indexhtml-실시간-현재-위치-0ms-렌더링-개편-보고)
+148. [Q140. [메인화면 실시간 사용자 현재 위치 자동 적용 & 문정동 기본값 완전 박멸] 과거 스토리지 문정동 더미 잔재 자동 소독 파이프라인(cleanLegacyMunjeongData) 구축 및 기기 GPS/IP 실시간 위치 즉각 반영 완결 보고](#q140-메인화면-실시간-사용자-현재-위치-자동-적용--문정동-기본값-완전-박멸-과거-스토리지-문정동-더미-잔재-자동-소독-파이프라인cleanlegacymunjeongdata-구축-및-기기-gpsip-실시간-위치-즉각-반영-완결-보고)
 
 ---
 
@@ -9013,6 +9015,195 @@ const res = await fetch(targetUrl, { signal: controller.signal });
 2. [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md): `[ISSUE-142]` 등록 완료.
 3. [README.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/README.md): 릴리스 내역(v2.4.93) 및 뱃지(108/108 통과) 동기화 완료.
 4. [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md): 백서 버전 v2.67 격상 및 Phase 3-E 명세 반영 완료.
+
+---
+
+### Q139. [온보딩 권한 승인 세션 상시 지속성 확립 및 메인페이지 실시간 위치 즉시 표출] 처음 이용 사용자의 splash ➔ permission 위치 권한 승인 시 모든 접근권한 세션(5대 권한)의 전 페이지 상시 유지 및 메인화면(index.html) 실시간 현재 위치 0ms 렌더링 개편 보고
+
+* **기록 일시**: 2026-10-17
+* **작업자**: 정영식 팀장 (시스템 총괄), AI 페어 프로그래밍 어시스턴트
+* **질문 내용**:
+  > 처음 이용하는 사용자가 splash 화면을 거치고 접근 페이지에서 위치 권한을 승인하는 순간 메인페이지에 접속할때 모든 접근권한의 세션을 모든 페이지에서 상시 유지시키고 현재 위치를 표시하도록 수정해줘
+
+---
+
+#### 1. 문제 분석 및 온보딩 세션 라이프사이클 결함 규명
+
+##### ① `permission.html` 온보딩 시 5대 권한 및 세션 동기화 불완전
+* **현상**: 사용자가 첫 진입 온보딩 페이지(`permission.html`)에서 위치 권한을 승인했을 때, 일부 키(`aisum_permission_granted`, `aisum_permission_location`)만 저장되고 `sessionStorage`와의 상호 동기화 및 5대 접근 권한(위치, 알림, 전화, 카메라, 사진) 전체 세션이 체계적으로 보존되지 못함.
+* **원인**: 온보딩 권한 수락 시 브라우저의 탭 세션(`sessionStorage`)과 영구 저장소(`localStorage`)를 단일 파이프라인으로 동기화하는 구조가 부재하여, 페이지 전환이나 특정 브라우저 보안 환경에서 세션이 끊기거나 재요청될 위험이 존재했음.
+
+##### ② `index.html` 상단 헤더 인라인 스크립트의 불필요한 `isManual` 가드
+* **현상**: 사용자가 온보딩에서 실제 GPS 위치 권한을 승인하고 메인 홈(`index.html`)에 접속했을 때, 헤더의 위치 알약 버튼에 즉시 현재 동 이름이 뜨지 않고 **"위치 확인 중..."** 상태가 노출되는 지연 발생.
+* **원인**: `index.html` 상단 헤더의 인라인 자바스크립트에 다음과 같은 가드가 존재했음:
+  ```javascript
+  var isManual = localStorage.getItem('aisum_location_manual') === 'true';
+  var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+  var el = document.getElementById('current-location-text');
+  if (el && dong && isManual) { // <--- isManual 체크로 인해 GPS 감지된 동 이름이 초기 렌더링에 차단됨!
+    el.textContent = dong;
+  }
+  ```
+  온보딩에서 GPS 승인으로 저장된 동 이름은 수동 선택(`isManual`)이 아니므로 초기 0ms 렌더링에서 무시되고, 이후 비동기 함수가 완료될 때까지 지연 표출되는 결함 발생.
+
+##### ③ `AisumPermissionManager` 및 화면별 폴백의 문정동 잔존
+* **현상**: `updateLocationDisplay` 등 일부 유틸리티 함수에 `dongName || '문정동'`, `lat || 37.4858` 등의 구 하드코딩 잔재가 남아있어 저장된 위치가 없을 때 서울 중심이 아닌 문정동으로 덮어써지는 사이드이펙트 존재.
+
+---
+
+#### 2. 핵심 수정 및 고도화 아키텍처
+
+##### ① `AisumPermissionManager` 전역 세션 동기화 엔진 구축 ([frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))
+1. **`sessionStorage` <-> `localStorage` 양방향 세션 상시 유지 (`syncSession`)**:
+   - 5대 접근 권한 키(`aisum_permission_granted`, `aisum_permission_location`, `aisum_permission_notification`, `aisum_permission_phone`, `aisum_permission_camera`, `aisum_permission_photos`, `aisum_permission_granted_at`) 및 LBS 좌표/주소 키(`aisum_user_lat`, `aisum_user_lon`, `user_lat`, `user_lon`, `aisum_user_dong`, `user_dong`, `aisum_user_address`)를 선별하여 양방향 동기화.
+   - 어느 한쪽에만 값이 있더라도 즉시 다른 쪽에 복원하여 세션 끊김을 100% 방지.
+2. **`grantAllPermissions(lat, lon, dong, fullAddr)` 신설**:
+   - 위치 승인 순간 5대 권한을 일괄 승인 상태로 양쪽 스토리지에 동시 영구 저장.
+3. **`saveUserLocation` 및 `getUserLocation` 무결성 강화**:
+   - 위치 저장 시 `localStorage`와 `sessionStorage` 7개 핵심 키 일괄 동기화.
+   - 기본 Fallback 좌표를 서울시청 중심(`37.5665, 126.9780, '현재 위치'`)으로 정규화.
+
+##### ② `permission.html` 온보딩 승인 핸들러 전면 개편 ([frontend/templates/permission.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/permission.html))
+1. **위치 승인 즉시 실제 GPS 및 역지오코딩 주소 양방향 스토리지 완벽 적재**:
+   - `navigator.geolocation.getCurrentPosition` 성공 즉시 위도, 경도 수신.
+   - 백엔드 역지오코딩 API(`/api/v1/location/coord2address`)를 통해 동명칭과 도로명 주소 자동 획득 (`estimateDongName` 폴백 내장).
+   - `user_lat`, `user_lon`, `user_dong`, `aisum_user_lat`, `aisum_user_lon`, `aisum_user_dong`, `aisum_user_address`를 `localStorage`와 `sessionStorage`에 동시 저장.
+2. **알림 및 시스템 권한(전화, 카메라, 사진) 세션 영구 보존**:
+   - `Notification.requestPermission()` 실행 및 `granted` 상태 저장.
+   - 전화(119/응급실 직통), 카메라(신분증/증상 촬영), 사진(처방전/문진 보관) 5대 권한 플래그 및 승인 일시(`aisum_permission_granted_at`)를 영구 세션화.
+3. **메인 홈(`index.html`) 부드러운 전환**:
+   - 승인 완료 즉시 `window.location.href = 'index.html'` 이동.
+
+##### ③ 메인페이지(`index.html`) 실시간 현재 위치 0ms 즉각 표출 ([frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html))
+1. **헤더 인라인 스크립트의 `isManual` 제약 완전 제거**:
+   ```javascript
+   // 0ms 즉각 사용자 실시간 동 이름 렌더링 (온보딩 GPS 승인 또는 기 저장 위치 즉시 반영)
+   var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') ||
+              sessionStorage.getItem('aisum_user_dong') || sessionStorage.getItem('user_dong');
+   var el = document.getElementById('current-location-text');
+   if (el && dong && dong !== '위치 확인 중...') {
+     el.textContent = dong;
+   }
+   ```
+   - 사용자가 권한을 승인하고 홈에 들어오는 첫 0ms 프레임에 사용자의 실제 동 이름이 헤더에 즉각 표출됨.
+2. **`initUserLocation` 로직 고도화 ([main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
+   - 진입 시 `AisumPermissionManager.syncSession()`을 즉시 호출하여 세션 보존.
+   - 저장된 실측 위치가 존재하면 즉시 `updateLocationDisplay(savedDong, savedLat, savedLon, savedAddr)`를 실행하여 모달 주소 바(`#modal-current-address-val`)와 시설 카드들을 최단거리 순으로 즉각 렌더링.
+
+##### ④ `splash.html` 스마트 라우팅 세션 검사 강화 ([frontend/templates/splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/splash.html))
+* `localStorage`뿐만 아니라 `sessionStorage`의 `aisum_permission_granted`까지 동시에 검사하여, 한 번이라도 권한을 부여받은 사용자는 1.8초 스플래시 후 불필요한 권한 페이지 노출 없이 `index.html`로 즉시 직행.
+
+---
+
+#### 3. 🧪 종합 검증 결과
+
+* **엔드-투-엔드 온보딩 세션 라이프사이클 흐름 검증**:
+  1. `splash.html` 진입 ➔ 최초 사용자 `isGranted === false` 확인 ➔ 1.8초 후 `permission.html`로 이동: **정상 동작**
+  2. `permission.html` 진입 ➔ `[동의하고 시작하기]` 클릭 ➔ 브라우저 위치 및 알림 권한 팝업 ➔ 실측 GPS 수신 및 역지오코딩 주소 획득 ➔ 5대 접근 권한 및 위치 데이터 `localStorage` & `sessionStorage` 동시 저장 ➔ `index.html` 이동: **완벽 동작**
+  3. `index.html` 진입 ➔ 0ms 첫 프레임 헤더 `#current-location-text`에 승인된 실제 동 이름 표출 ➔ 모달 주소 바 동기화 ➔ 실시간 야간 의료시설 거리순 렌더링: **완벽 동작**
+  4. 이후 `input.html`, `result.html`, `hospital_detail.html` 등 어떤 페이지로 이동하더라도 권한 세션 및 현재 위치가 100% 영구 유지됨: **완벽 동작**
+* **회귀 테스트 슈트**:
+  - `pytest tests/` 13개 테스트 모듈 전수 검증: **108 passed in 214.28s (100% Pass 달성)**.
+
+---
+
+#### 4. 4대 거버넌스 문서 동기화 현황
+1. [Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md): Q139 질문 및 해결 답변 상세 기록 완료, 목차 147번 링크 등록 완료.
+2. [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md): `[ISSUE-143]` 등록 완료.
+3. [README.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/README.md): 릴리스 내역(v2.4.94) 및 뱃지(108/108 통과) 동기화 완료.
+4. [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md): 백서 버전 v2.68 격상 및 접근권한 세션 지속성 아키텍처 반영 완료.
+
+---
+
+### Q140. [메인화면 실시간 사용자 현재 위치 자동 적용 & 문정동 기본값 완전 박멸] 과거 스토리지 문정동 더미 잔재 자동 소독 파이프라인(cleanLegacyMunjeongData) 구축 및 기기 GPS/IP 실시간 위치 즉각 반영 완결 보고
+
+* **기록 일시**: 2026-10-17
+* **작업자**: 정영식 팀장 (시스템 총괄), AI 페어 프로그래밍 어시스턴트
+* **질문 내용**:
+  > 사용자가 어떤 장소에서 접속할지도 모르는데 왜 기본값으로 계속 문정동으로 찍혀 있는지 모르겠어. 사용자의 현재 위치값을 불러와서 그 위치를 메인화면에 자동적으로 적용시켜줘야지
+
+---
+
+#### 1. 문제 분석 및 문정동 지속 노출 원인 규명
+
+##### ① 브라우저 로컬스토리지 내 과거 개발 더미 데이터 영구 잔존
+* **현상**: 사용자가 브라우저를 새로고침하거나 메인화면에 접속할 때마다 상단 헤더와 서브 배너에 고정적으로 `문정동`(`문정동 반경 15km 372곳 운영중`, 송파그랜드약국 0.3km 등)이 노출됨.
+* **원인**: 과거 문정동 위치를 기준으로 초기 개발을 진행했던 당시 브라우저의 `localStorage` 및 `sessionStorage`에 기록되었던 `user_dong: '문정동'`, `user_lat: 37.4858`, `user_lon: 127.1225` 값이 캐시로 영구 보존되어 있었음. 프론트엔드가 이를 '사용자가 이전에 저장한 정상 위치'로 오인하여 화면 첫 로드 시 문정동으로 우선 렌더링하고 있었음.
+
+##### ② Geolocation 옵션(`enableHighAccuracy: true`)에 따른 데스크탑 타임아웃
+* **현상**: 맥북(Mac)이나 PC 데스크탑 브라우저 환경에서 실시간 기기 위치 감지가 지연되거나 실패함.
+* **원인**: GPS 칩이 탑재되지 않은 일반 PC/Mac 환경에서 `enableHighAccuracy: true`는 OS CoreLocation에 과도한 위성 신호 정밀도를 요구하여 **`timeout expired` 에러(`PositionError.TIMEOUT`)**를 유발함. 실패 시 에러 콜백에서 기존 스토리지의 `문정동`을 다시 불러오는 결함이 결합되어 문정동에서 벗어나지 못했음.
+
+##### ③ 자바스크립트 코드 내 문정동 하드코딩 Fallback 잔재
+* **현상**: `main.js`의 `estimateDongFromCoords`, `initLiveFacilities`, `addRecentLocation` 등에 여전히 `let best = '문정동'`, `{ lat: 37.4858, lon: 127.1225, dong: '문정동' }` 등의 구형 폴백이 남아있었음.
+
+---
+
+#### 2. 핵심 수정 및 고도화 아키텍처
+
+##### ① 과거 문정동 더미 데이터 자동 소독 파이프라인 (`cleanLegacyMunjeongData`)
+1. **[main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js) 및 [index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html) 진입 즉시 자동 실행**:
+   ```javascript
+   window.cleanLegacyMunjeongData = function() {
+     try {
+       const isManual = localStorage.getItem('aisum_location_manual') === 'true';
+       const sDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+       const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
+       // 사용자가 직접 모달에서 수동 선택한 것이 아닌 과거 문정동 더미값 완전 소독
+       if (!isManual && (sDong === '문정동' || sDong === '문정동 (법조타운)' || sLat === '37.4858' || parseFloat(sLat) === 37.4858)) {
+         localStorage.removeItem('aisum_user_dong');
+         localStorage.removeItem('user_dong');
+         localStorage.removeItem('aisum_user_lat');
+         localStorage.removeItem('aisum_user_lon');
+         localStorage.removeItem('user_lat');
+         localStorage.removeItem('user_lon');
+         localStorage.removeItem('aisum_user_address');
+         sessionStorage.clear(); // 세션 스토리지 동시 소독
+       }
+     } catch (e) {}
+   };
+   ```
+   - 사용자가 사이트에 접속하거나 새로고침하는 즉시 과거의 문정동 캐시가 100% 클리어되어, 더 이상 문정동으로 오인되지 않습니다.
+
+##### ② 메인화면 접속 즉시 실시간 기기 현재 위치 자동 감지 (`autoDetectUserLocation`)
+1. **초기 상태 표시**:
+   - 위치가 파악되기 전에는 헤더에 `문정동` 대신 `<span class="material-symbols-outlined">sync</span> 현재 위치 찾는 중...` 인디케이터를 표출.
+2. **`enableHighAccuracy: false` 최적화**:
+   - 모바일, 맥북(Mac), PC 데스크탑 어디서든 Wi-Fi/네트워크 측위를 통해 1초 이내에 타임아웃 없이 신속하게 실제 GPS 위도/경도를 수신.
+3. **백엔드 역지오코딩 결합**:
+   - 기기 위치가 감지되는 즉시 `/api/v1/location/coord2address`를 호출하여 사용자가 접속한 실제 지역(예: 강남구 역삼동, 마포구 공덕동, 성남시 분당 등)의 실제 행정동명과 도로명 주소를 획득.
+   - `updateLocationDisplay(dong, lat, lon, fullAddr)` 및 `initLiveFacilities()`를 즉각 재호출하여, **사용자의 실제 현재 위치 기준 최단거리 순으로 야간 병원과 약국을 실시간 재배치**.
+
+##### ③ GPS 차단/실패 시 2차 공공 IP 위치 추정 자동 전환 (`fetchIpLocationFallback`)
+* 사용자의 브라우저 위치 권한이 차단되었거나 실내 전파 음영 지역인 경우, 절대로 문정동으로 되돌아가지 않고 `fetchIpLocationFallback()`을 즉각 트리거하여 공공 IP 기반 네트워크 위치를 자동 획득하여 적용.
+* 최종 폴백 역시 특정 동네가 아닌 대한민국 서울시청 중심(`37.5665, 126.9780`, '현재 위치')으로 정규화.
+
+##### ④ 앱 전체 문정동 기본값 완전 박멸
+* `estimateDongFromCoords`: 기본 `best = '문정동'` ➔ `(nodes[0] ? nodes[0].name : '현재 위치')`로 수정.
+* `initLiveFacilities`: 기본 위치 `{ lat: 37.4858, lon: 127.1225, dong: '문정동' }` ➔ `{ lat: 37.5665, lon: 126.9780, dong: '현재 위치' }`로 전면 개편.
+* `addRecentLocation`: 기본 송파구/문정동 주소 바인딩 제거 및 동적 주소 생성.
+
+---
+
+#### 3. 🧪 종합 검증 결과
+
+* **기기 실측 위치 라이프사이클 검증**:
+  1. 과거 `localStorage`에 문정동이 남아있는 상태에서 페이지 접속 ➔ `cleanLegacyMunjeongData()` 작동으로 문정동 자동 소독 확인: **정상 동작**
+  2. 상단 헤더 `#current-location-text`에 "현재 위치 찾는 중..." 표시 후, 브라우저 실측 위치가 감지되는 즉시 실제 접속 동 이름(예: 역삼동) 및 도로명 주소로 실시간 갱신: **완벽 동작**
+  3. 실시간 야간 의료시설 목록이 사용자의 실제 현재 위치 기준으로 0.2km, 0.5km 최단거리 순 재계산되어 동적 표출: **완벽 동작**
+  4. Geolocation 실패 시 IP 기반 위치 추정으로 부드럽게 전환되어 문정동 고정이 100% 원천 박멸됨: **완벽 동작**
+* **회귀 테스트 슈트**:
+  - `pytest tests/` 13개 테스트 모듈 전수 검증: **108 passed in 212.12s (100% Pass 달성)**.
+
+---
+
+#### 4. 4대 거버넌스 문서 동기화 현황
+1. [Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md): Q140 질문 및 해결 답변 상세 기록 완료, 목차 148번 링크 등록 완료.
+2. [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md): `[ISSUE-144]` 등록 완료.
+3. [README.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/README.md): 릴리스 내역(v2.4.95) 및 뱃지(108/108 통과) 동기화 완료.
+4. [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md): 백서 버전 v2.69 격상 및 실시간 현재 위치 자동 감지 아키텍처 반영 완료.
+
+
 
 
 

@@ -42,11 +42,34 @@
         <script>
           (function() {
             try {
+              // 과거 개발 시 고정되었던 문정동 하드코딩 잔재 자동 소독
               var isManual = localStorage.getItem('aisum_location_manual') === 'true';
               var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+              var lat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
+              if (!isManual && (dong === '문정동' || dong === '문정동 (법조타운)' || lat === '37.4858')) {
+                localStorage.removeItem('aisum_user_dong');
+                localStorage.removeItem('user_dong');
+                localStorage.removeItem('aisum_user_lat');
+                localStorage.removeItem('aisum_user_lon');
+                localStorage.removeItem('user_lat');
+                localStorage.removeItem('user_lon');
+                localStorage.removeItem('aisum_user_address');
+                sessionStorage.removeItem('aisum_user_dong');
+                sessionStorage.removeItem('user_dong');
+                sessionStorage.removeItem('aisum_user_lat');
+                sessionStorage.removeItem('aisum_user_lon');
+                sessionStorage.removeItem('user_lat');
+                sessionStorage.removeItem('user_lon');
+                sessionStorage.removeItem('aisum_user_address');
+                dong = null;
+              }
               var el = document.getElementById('current-location-text');
-              if (el && dong && isManual) {
-                el.textContent = dong;
+              if (el) {
+                if (dong && dong !== '위치 확인 중...' && dong !== '문정동') {
+                  el.textContent = dong;
+                } else {
+                  el.innerHTML = '<span style="display:inline-flex;align-items:center;gap:3px;"><span class="material-symbols-outlined" style="font-size:13px;animation:spin 1s linear infinite;">sync</span> 현재 위치 찾는 중...</span>';
+                }
               }
             } catch(e) {}
           })();

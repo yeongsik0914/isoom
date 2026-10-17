@@ -1554,21 +1554,21 @@
         if (!listEl) return [];
 
         // 1. 사용자 현재 위치 좌표 획득 (AisumPermissionManager 최우선, index.html과 100% 동일)
-        let userLat = 37.4858;
-        let userLon = 127.1225;
-        let userDong = '문정동';
+        let userLat = 37.5665;
+        let userLon = 126.9780;
+        let userDong = '현재 위치';
 
         if (window.AisumPermissionManager && typeof window.AisumPermissionManager.getUserLocation === 'function') {
           const loc = window.AisumPermissionManager.getUserLocation();
           if (loc && loc.lat && loc.lon) {
             userLat = loc.lat;
             userLon = loc.lon;
-            userDong = loc.dong || '문정동';
+            userDong = loc.dong || '현재 위치';
           }
         } else {
           const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat');
           const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon');
-          const sDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+          const sDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || sessionStorage.getItem('user_dong');
           if (sLat && sLon) {
             userLat = parseFloat(sLat);
             userLon = parseFloat(sLon);

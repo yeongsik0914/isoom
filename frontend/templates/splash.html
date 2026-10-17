@@ -208,7 +208,8 @@
         screen.classList.add('fade-out');
       }
       setTimeout(() => {
-        const isGranted = localStorage.getItem('aisum_permission_granted') === 'true';
+        const isGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
+                          sessionStorage.getItem('aisum_permission_granted') === 'true';
         if (isGranted) {
           window.location.href = 'index.html';
         } else {

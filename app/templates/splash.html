@@ -264,7 +264,13 @@
         screen.classList.add('fade-out');
       }
       setTimeout(() => {
-        window.location.href = 'permission.html';
+        const isGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
+                          sessionStorage.getItem('aisum_permission_granted') === 'true';
+        if (isGranted) {
+          window.location.href = 'index.html';
+        } else {
+          window.location.href = 'permission.html';
+        }
       }, 300);
     }
 
