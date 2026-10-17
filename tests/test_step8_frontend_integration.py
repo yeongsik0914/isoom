@@ -156,6 +156,86 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(data_mild["is_emergency"])
         self.assertGreaterEqual(data_mild["ktas_level"], 4)
 
+    async def test_06_licenses_page_integration(self):
+        """TC-806: Validates /licenses and /opensource routes, settings.html link, and open source attribution contracts."""
+        # 1. Routes accessibility
+        for endpoint in ["/licenses", "/licenses.html", "/opensource", "/opensource.html"]:
+            res = self.client.get(endpoint)
+            self.assertEqual(res.status_code, 200, f"Endpoint {endpoint} must return 200 OK")
+            self.assertIn("text/html", res.headers.get("content-type", ""))
+            self.assertIn("오픈소스 라이선스", res.text)
+
+        # 2. settings.html link contract
+        res_settings = self.client.get("/settings.html")
+        self.assertEqual(res_settings.status_code, 200)
+        self.assertIn('href="licenses.html"', res_settings.text)
+        self.assertIn("오픈소스 라이선스", res_settings.text)
+
+        # 3. licenses.html content & compliance contracts
+        res_lic = self.client.get("/licenses.html")
+        html = res_lic.text
+
+        # Core open sources & APIs
+        self.assertIn("FastAPI", html)
+        self.assertIn("Google GenAI SDK", html)
+        self.assertIn("Firebase Admin", html)
+        self.assertIn("Uvicorn", html)
+        self.assertIn("Pydantic", html)
+        self.assertIn("Leaflet.js", html)
+        self.assertIn("OpenStreetMap", html)
+        self.assertIn("QRCode.js", html)
+        self.assertIn("국립중앙의료원", html)
+        self.assertIn("보건복지부", html)
+        self.assertIn("한국천문연구원", html)
+
+        # License types
+        self.assertIn("MIT License", html)
+        self.assertIn("Apache 2.0", html)
+        self.assertIn("BSD-3-Clause", html)
+        self.assertIn("공공누리 제1유형", html)
+
+        # Interactive features
+        self.assertIn("filterCategory('all')", html)
+        self.assertIn("filterCategory('backend')", html)
+        self.assertIn("filterCategory('frontend')", html)
+        self.assertIn("filterCategory('data')", html)
+        self.assertIn("license-details", html)
+        self.assertIn("handleGoBack()", html)
+
+    async def test_07_app_notification_toggle_contract(self):
+        """TC-807: Validates app notification on/off toggle in settings.html and its integration with AisumNotificationManager in main.js & index.html."""
+        # 1. settings.html contracts
+        res_settings = self.client.get("/settings.html")
+        self.assertEqual(res_settings.status_code, 200)
+        settings_html = res_settings.text
+        self.assertIn('id="app-notification-toggle"', settings_html)
+        self.assertIn("aisum_app_notification_enabled", settings_html)
+        self.assertIn("AisumNotificationManager.setEnabled", settings_html)
+        self.assertIn("앱 알림이 켜졌습니다", settings_html)
+        self.assertIn("앱 알림이 꺼졌습니다", settings_html)
+
+        # 2. main.js contracts (AisumNotificationManager)
+        res_js = self.client.get("/js/main.js")
+        self.assertEqual(res_js.status_code, 200)
+        js_code = res_js.text
+        self.assertIn("SETTINGS_KEY: 'aisum_app_notification_enabled'", js_code)
+        self.assertIn("isEnabled: function()", js_code)
+        self.assertIn("setEnabled: function(", js_code)
+        self.assertIn("!this.isEnabled()", js_code)
+        # Verify guard in addNotification, checkBedUpdates, syncAndCheckBeds, and updateBadgeUI
+        self.assertIn("앱 알림이 OFF 상태이므로 알림을 등록하지 않습니다", js_code)
+
+        # 3. index.html contracts (notification sheet & storage listener)
+        res_index = self.client.get("/index.html")
+        self.assertEqual(res_index.status_code, 200)
+        index_html = res_index.text
+        self.assertIn("aisum_app_notification_enabled", index_html)
+        self.assertIn("앱 알림이 꺼져 있습니다", index_html)
+        self.assertIn("설정에서 알림 켜기", index_html)
+        self.assertIn("window.addEventListener('storage'", index_html)
+
 
 if __name__ == "__main__":
     unittest.main()
+
+

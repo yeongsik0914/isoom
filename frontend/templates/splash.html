@@ -53,6 +53,7 @@
       width: 100%;
       max-width: 430px;
       height: 100vh;
+      height: 100dvh;
       max-height: 932px;
       background-color: #ffffff;
       position: relative;
@@ -65,6 +66,21 @@
       cursor: pointer;
       user-select: none;
       animation: fadeInPage 0.4s ease-out;
+    }
+
+    @media (max-width: 639px) {
+      body {
+        background-color: #ffffff;
+      }
+      .splash-viewport {
+        max-width: 100%;
+        height: 100dvh;
+        min-height: 100dvh;
+        max-height: 100dvh;
+        box-shadow: none;
+        padding-top: calc(16px + env(safe-area-inset-top, 0px));
+        padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+      }
     }
 
     @keyframes fadeInPage {
@@ -214,14 +230,14 @@
                               sessionStorage.getItem('aisum_permission_granted') === 'true';
 
         if (!isTermsAgreed) {
-          // 1. 이용약관 미동의: 최초 1회 이용약관 동의 화면으로 이동 (동의하지 않으면 앱 실행 시 계속 뜸)
-          window.location.replace('terms.html');
+          // 1. 이용약관 미동의: 최초 1순위 이용약관 동의 화면(/terms)으로 이동
+          window.location.replace('/terms');
         } else if (!isPermGranted) {
-          // 2. 접근 권한 미동의: 접근 권한 안내 화면으로 이동 (동의하지 않으면 앱 실행 시 계속 뜸)
-          window.location.replace('permission.html');
+          // 2. 접근 권한 미동의: 접근 권한 안내 화면(/permission)으로 이동
+          window.location.replace('/permission');
         } else {
-          // 3. 약관 및 권한 모두 완료된 사용자: 메인 홈으로 즉시 이동
-          window.location.replace('index.html');
+          // 3. 약관 및 권한 모두 완료된 사용자: 메인 홈(/home)으로 즉시 이동
+          window.location.replace('/home');
         }
       }, 300);
     }

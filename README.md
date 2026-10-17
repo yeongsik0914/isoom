@@ -28,6 +28,72 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.7.6-app-notification-toggle-integration] 2026-10-18: 설정 페이지 '앱 알림' On/Off 기능 & 메인화면 실시간 응급실 소아병동 알림 연동 체계 완결 릴리스 (정영식 팀장 총괄)
+* **🔔 설정 화면 '앱 알림' 토글 스위치 영구 연동 (`settings.html`)**:
+  - `localStorage` 키 `aisum_app_notification_enabled` 기반으로 토글 On/Off 상태를 동기화하고 변경 시 실시간 영구 보존.
+  - 토글 조작 시 직관적인 안내 토스트 메시지 및 브라우저 푸시 권한 연계 요청 지원.
+* **🛡️ 알림 매니저 차단/수신 제어 파이프라인 (`main.js`, `AisumNotificationManager`)**:
+  - `isEnabled()`, `setEnabled()` 메서드 탑재.
+  - 알림 Off 시 소아 응급실 병상 변동 감지(`checkBedUpdates`), 백그라운드 폴링(`syncAndCheckBeds`), 신규 알림 등록(`addNotification`), 헤더 붉은 뱃지(`updateBadgeUI`)를 원천 차단하여 사용자 방해 요소 완전 제거.
+  - 알림 On 시 실시간 병상 변동 감지 및 뱃지 점등 정상 가동.
+* **📱 메인화면 알림 센터 바텀시트 UI 연동 (`index.html`)**:
+  - 앱 알림 Off 상태 시 상단 안내 배너에 알림 꺼짐 상태 표시 및 '설정에서 알림 켜기' 바로가기 링크 제공.
+  - `storage` 이벤트 리스너를 통한 크로스탭/페이지 간 실시간 동기화 지원.
+* **⚡ 100% 통합 검증 완결 (`tests/test_step8_frontend_integration.py`)**:
+  - TC-807 (`test_07_app_notification_toggle_contract`) 신설 및 7/7 전수 100% 통과.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q172, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-172, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.97)**.
+
+### 🌟 [v2.7.5-open-source-licenses-view] 2026-10-18: 설정 페이지 '오픈소스 라이선스' 전용 뷰(`/licenses`) 신설 & 14개 오픈소스·공공데이터 저작권 고지 체계 완결 릴리스 (정영식 팀장 총괄)
+* **📜 설정 페이지 내 오픈소스 라이선스 원터치 연동 (`settings.html`)**:
+  - '정보' 섹션의 오픈소스 라이선스 항목을 `<a href="licenses.html">` 링크로 연결하여 설정에서 한 번의 탭으로 라이선스 목록에 접근 가능.
+* **🌐 오픈소스 라이선스 전용 페이지 신규 구축 (`licenses.html`, `/licenses`)**:
+  - **4대 카테고리 필터**: `전체 보기`, `백엔드 & AI`, `프론트 & 지도`, `공공데이터` 실시간 원클릭 필터링 지원.
+  - **14개 오픈소스 & 공공데이터 상세 명세**: FastAPI, Google GenAI SDK, Leaflet.js, Firebase Admin, Uvicorn, Pydantic, QRCode.js, Material Symbols, Noto Sans KR, 국립중앙의료원(NMC) E-Gen, 보건복지부 달빛어린이병원, 한국천문연구원(KASI), 카카오맵 REST API.
+  - **라이선스 전문 아코디언(`<details>`)**: JetBrains Mono 서체 기반 코드 블록으로 표준 라이선스(MIT, Apache 2.0, BSD-3, 공공누리 제1유형) 전문 수록.
+* **⚡ FastAPI 백엔드 라우팅 및 100% 통합 검증 (`main.py`, `tests/test_step8_frontend_integration.py`)**:
+  - `/licenses`, `/licenses.html`, `/opensource`, `/opensource.html` 라우팅 등록.
+  - TC-806 (`test_06_licenses_page_integration`) 신설 및 6/6 전수 100% 통과.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q171, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-171, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.96)**.
+
+### 🌟 [v2.7.4-mobile-touch-scroll-restoration] 2026-10-17: 모바일 응급실·달빛병원 목록 touch-action pan-y & 가속 스크롤(clamp 280~350px) 완벽 복원 릴리스 (정영식 팀장 총괄)
+* **📱 독립 모바일 가속 터치 스크롤 컨테이너 전면 복원 (`result.html`)**:
+  - `.facility-scroll-list`에 `max-height: clamp(280px, 42vh, 350px); overflow-y: auto;` 적용으로 최소 4개 카드가 스크롤 없이 시원하게 바로 보이고, 5순위~8순위/10순위까지 손가락으로 매끄럽게 스크롤 가능하도록 복원.
+  - `touch-action: pan-y !important;` 및 `-webkit-overflow-scrolling: touch !important;` 지정으로 모바일 브라우저의 터치 스크롤 락 결함을 원천 해소.
+  - `overscroll-behavior-y: contain !important;`로 스크롤 체이닝 차단.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q170, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-170, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.95)**.
+
+### 🌟 [v2.7.3-er-8-unconditional-rendering-hotfix] 2026-10-17: 소아 응급실 8곳 전수 하드코딩 마크업 & 0ms 무조건 프리셋 렌더링 전환 핫픽스 릴리스 (정영식 팀장 총괄)
+* **🚨 정적 HTML 마크업 8곳 전수 완벽 구축 (`result.html`)**:
+  - 기존 2개만 존재하던 마크업 한계를 탈피하여 1순위 서울아산병원부터 8순위 가톨릭대 서울성모병원까지 8곳 전체 카드를 정적 HTML에 100% 완전하게 내장.
+  - 하단에 8곳 안내 완료 인증 배지 정적 포함.
+* **⚡ 0ms 무조건 프리셋 렌더링 & 이중 안전망 완성**:
+  - `hasExistingCards` 스킵 조건을 완전 폐기하고 진입 즉시 8곳을 0ms 무조건 렌더링.
+  - 비동기 E-Gen API 실시간 수신 시 잔여 병상 최신 정보로 부드럽게 업데이트되어, 어떤 네트워크 환경에서도 8곳이 100% 보장됨.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q169, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-169, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.94)**.
+
+### 🌟 [v2.7.2-er-8-visible-and-swipe-dismiss-rounded-ui] 2026-10-17: 실시간 소아 응급실 8곳 전수 자연 노출 & 알림 스와이프 삭제·전체 비우기 & 프리미엄 모바일 소프트 라운드 디자인 시스템 완결 릴리스 (정영식 팀장 총괄)
+* **🚨 실시간 소아 응급실 8곳 전수 시원한 노출 & 인증 배지 완비 (`result.html`)**:
+  - `.facility-scroll-list` 높이 제한(`max-height: 275px;`)을 과감히 해제하고 `overflow-y: visible;`로 개편하여 1순위 서울아산병원부터 8순위 서울성모병원까지 8곳 전수 한눈에 아래로 시원하게 펼쳐지도록 개선.
+  - 목록 하단에 `[인근 소아 진료 가용 응급실 8곳 실시간 안내 완료 (거리순)]` 인증 캡슐 배지 탑재로 8곳 전수 완결 인지성 100% 확보.
+* **🔔 알림 센터 네이티브 모바일 스와이프 삭제 & 전체 삭제 완비 (`index.html`, `main.js`)**:
+  - **터치 제스처 스와이프**: 카드를 좌/우로 70px 이상 밀면 빨간 배경과 함께 부드럽게 화면 밖으로 날아가며 삭제되는 모바일 네이티브 스와이프 제스처 인터랙션 구축.
+  - **원클릭 삭제(X) 버튼** 및 상단 헤더 **`[전체 삭제]`** 버튼 신설로 한 번의 탭으로 알림 보관함 일괄 비우기 지원.
+  - `AisumNotificationManager.deleteNotification(id)` 및 `clearAll()` 동기화 완료.
+* **📱 최신 스마트폰 기기 맞춤 소프트 모바일 라운드 디자인 전면 적용**:
+  - 응급실 카드(`.slim-er-card`), 달빛병원 카드(`.facility-card`), KTAS 응급 배너, 진단 요약 카드를 **`border-radius: 18px ~ 20px`**의 유기적 곡면으로 통일.
+  - 알약 배지류 **`border-radius: 9999px`**, 버튼류 **`border-radius: 14px ~ 16px`**, 바텀시트 **`border-radius: 30px 30px 0 0`** 적용으로 스마트폰 물리 베젤 곡면과 완벽한 일체감 실현.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q168, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-168, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.93)**.
+
+### 🌟 [v2.7.1-dedicated-qr-page-and-splash-priority] 2026-10-17: 전용 모바일 QR코드 페이지(`/qr`) 신설 및 사이트 첫 접속 시 무조건 1순위 스플래시(`splash.html`) ➔ 이용약관(`terms.html`) 순차 파이프라인 완결 릴리스 (정영식 팀장 총괄)
+* **🔳 전용 모바일 QR코드 온보딩 페이지 신설 (`frontend/templates/qr.html`, `/qr`)**:
+  - 설정 화면에서 "스마트폰으로 앱 열기" 클릭 시 모달 대신 독립적인 프리미엄 풀스크린 `/qr` 전용 페이지로 즉각 전환.
+  - 현재 호스팅 도메인(`origin`) 실시간 감지 고화질 260x260 QR코드 생성, 원터치 주소 복사, Web Share API 연동 링크 공유.
+  - **iOS Safari** (공유 ➔ '홈 화면에 추가') & **Android Chrome** (더보기 ➔ '앱 설치') 단계별 안내 카드 및 PWA 설치 버튼 탑재.
+* **🌙 사이트 첫 접속 시 무조건 1순위 스플래시 ➔ 이용약관 파이프라인 정립**:
+  - `main.py` 루트(`/`) 라우트 개편: 브라우저 첫 요청 시 항상 1순위로 `splash.html` 서빙.
+  - `splash.html` 100dvh 풀스크린 최적화 및 1.8초 브랜드 애니메이션 종료 후 미동의 사용자를 무조건 이용약관(`/terms`)으로 강제 유도하여 법적 컴플라이언스 및 정석 온보딩 플로우 확립.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q167, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-167, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.92)**.
+
 ### 🌟 [v2.7.0-pwa-and-cloud-run-production-deployment] 2026-10-17: PWA(Progressive Web App) 풀스택 구축 & .env 다중 API Key 연동 Google Cloud Run 원클릭 배포 파이프라인 완결 릴리스 (정영식 팀장 총괄)
 * **📱 PWA (Progressive Web App) 풀스택 인프라 완비**:
   - **웹 앱 매니페스트 (`frontend/manifest.json`)**: `standalone` 모드, 테마 컬러 `#10b981`, 고해상도 앱 아이콘(192x192, 512x512) 연동 완료.

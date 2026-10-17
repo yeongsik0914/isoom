@@ -1,7 +1,7 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.91 (PWA 풀스택 구축, 설정 QR코드 모달 & .env 다중 API Key 연동 Cloud Run 원클릭 배포 파이프라인 완결, v2.7.0)
-> **최종 갱신 일자**: 2026-10-17
+> **문서 버전**: v2.97 (설정 앱 알림 On/Off & 메인화면 실시간 소아병동 알림 연동 체계 구축, v2.7.6)
+> **최종 갱신 일자**: 2026-10-18
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 중복/추천기관 정제 엔진, AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md).
 
@@ -16,7 +16,7 @@
 5. [풀스택 시스템 아키텍처 & 2계층 데이터 흐름도](#5-풀스택-시스템-아키텍처--2계층-데이터-흐름도)
 6. [데이터 엔지니어링 & 24시간 In-Memory Hash Diffing 델타 동기화](#6-데이터-엔지니어링--24시간-in-memory-hash-diffing-델타-동기화)
 7. [공공 API 서킷 브레이커 & 3-Tier Multi-Storage Fallback](#7-공공-api-서킷-브레이커--3-tier-multi-storage-fallback)
-8. [프론트엔드 UI/UX 아키텍처 & 14대 화면 체계 (Fixed App Shell)](#8-프론트엔드-uiux-아키텍처--14대-화면-체계-fixed-app-shell)
+8. [프론트엔드 UI/UX 아키텍처 & 15대 화면 체계 (Fixed App Shell)](#8-프론트엔드-uiux-아키텍처--15대-화면-체계-fixed-app-shell)
 9. [프론트엔드-백엔드 100% 결합 연동 명세](#9-프론트엔드-백엔드-100-결합-연동-명세)
 10. [종합 검증 현황 & 임상 안전성 벤치마크 (100개 테스트 전수 통과)](#10-종합-검증-현황--임상-안전성-벤치마크-100개-테스트-전수-통과)
 11. [추가 심화 고도화 백로그 (Advanced Backlog)](#11-추가-심화-고도화-백로그-advanced-backlog)
@@ -194,7 +194,7 @@ graph TD
 * **무손실 상세 주소 보존**: 카카오 `coord2address` 기반 상세 주소 완벽 보존.
 * **'자주 찾는 주요 지역' 동적 히스토리화**: LocalStorage(`aisum_recent_locations`) 기반 최대 15개 최신순(FIFO/LRU) 관리.
 
-### 8.5 14대 표준 HTML 템플릿 체계 (`frontend/templates/`)
+### 8.5 15대 표준 HTML 템플릿 체계 (`frontend/templates/`)
 1. `index.html`: 메인 홈 SPA (약관 미동의 0ms 차단 가드, Fixed App Shell, 1:1 교차 LBS, 실시간 운영시간 우선 정렬)
 2. `input.html`: 소아 증상 문진 입력 (약관 미동의 0ms 차단 가드, 2단계 증상 가드레일)
 3. `modal.html`: 사전 처치정보 및 의료법 제27조 안내 다이얼로그
@@ -204,11 +204,12 @@ graph TD
 7. `pharmacy_detail.html`: 심야약국 전용 상세 페이지 (상주 약사 현황, 복약지도 안내, +30분 조제 안전마진 표시, 요일별 심야 운영시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 에메랄드 그린 펄스 핀 마커), 1:1 연계 달빛어린이병원 카드, 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
 8. `emergency_alert.html`: 0ms Red Flag 119 긴급 직행 화면
 9. `emergency_guide.html`: 소아 응급처치 포토 슬라이더 & 통화 스크립트
-10. `settings.html`: 모니모 스타일 자녀 정보 & 알림 설정 (이용약관 열람 시 `terms.html?mode=view` 안전 복귀 연동)
+10. `settings.html`: 모니모 스타일 자녀 정보 & 알림 설정 (이용약관 열람 시 `terms.html?mode=view` 안전 복귀 연동, 모바일 기기 연결 전용 `/qr` 라우팅)
 11. `terms.html`: 최초 1회 필수 동의 화면 (4대 필수 약관 체크박스 컴포넌트, `aisum_terms_agreed` 영구 플래그 저장, `?mode=view` 읽기전용 분기)
-12. `splash.html`: 모바일 시작 스플래시 (약관 동의 1차 검증 ➔ `terms.html` 필수 분기 ➔ `permission.html` ➔ `index.html` 3단계 온보딩 게이트웨이)
+12. `splash.html`: 모바일 시작 스플래시 (사이트 첫 접속 시 무조건 1순위 노출 ➔ 1.8초 후 미동의 시 `terms.html` 필수 강제 이동 ➔ `permission.html` ➔ `home` 4단계 순차 온보딩 게이트웨이)
 13. `permission.html`: 5대 접근 권한 안내 (약관 미동의 0ms 강제 축출 가드, 5대 권한 및 LBS 위치 세션-로컬 양방향 영구 보존)
 14. `location_modal.html`: 주소/키워드 위치 설정 바텀시트
+15. `qr.html`: 모바일 기기 연결 전용 QR 코드 안내 페이지 (실시간 도메인 감지 260x260 QR코드 생성, 원터치 주소 복사, Web Share API 연동 링크 공유, iOS Safari/Android Chrome 홈 화면 추가 가이드, PWA 1-클릭 설치)
 
 ---
 

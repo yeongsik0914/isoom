@@ -143,8 +143,8 @@
           <h2 class="settings-group-title" id="group-mobile-title">모바일 기기 연결</h2>
         </div>
 
-        <!-- 스마트폰으로 앱 열기 (QR코드) -->
-        <button type="button" class="settings-item-row" id="qr-code-row-btn" aria-label="스마트폰으로 앱 열기" onclick="openQrModal()">
+        <!-- 스마트폰으로 앱 열기 (QR코드 페이지) -->
+        <a href="/qr" class="settings-item-row" id="qr-code-row-btn" aria-label="스마트폰으로 앱 열기" style="text-decoration: none; color: inherit;">
           <div class="settings-item-left" style="display: flex; align-items: center; gap: 10px;">
             <span class="material-symbols-outlined" style="color: #10b981; font-size: 20px;">qr_code_2</span>
             <span class="settings-item-label">스마트폰으로 앱 열기</span>
@@ -153,7 +153,7 @@
             <span class="settings-item-value" style="color: #10b981; font-weight: 700;">PWA 지원</span>
             <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
           </div>
-        </button>
+        </a>
 
         <!-- 앱 설치 안내 (PWA 지원 브라우저 감지 시 동적 활성화) -->
         <button type="button" class="settings-item-row" id="btn-pwa-install" aria-label="홈 화면에 앱 설치하기" style="display: none;" onclick="triggerPwaInstall()">
@@ -224,12 +224,12 @@
         </a>
 
         <!-- 3-3. 오픈소스 라이선스 -->
-        <button type="button" class="settings-item-row" aria-label="오픈소스 라이선스">
+        <a href="licenses.html" class="settings-item-row" aria-label="오픈소스 라이선스" style="text-decoration: none;">
           <span class="settings-item-label">오픈소스 라이선스</span>
           <div class="settings-item-right">
             <span class="material-symbols-outlined settings-item-chevron">chevron_right</span>
           </div>
-        </button>
+        </a>
 
         <!-- 3-4. 앱 버전 -->
         <div class="settings-item-row" aria-label="앱 버전: 1.0.0 (최신)">
@@ -415,28 +415,7 @@
     }
 
     function openQrModal() {
-      var modal = document.getElementById('qr-code-modal');
-      var qrImg = document.getElementById('qr-code-image');
-      var urlBox = document.getElementById('qr-current-url');
-      if (!modal) return;
-
-      var currentOrigin = window.location.origin || (window.location.protocol + '//' + window.location.host);
-      // 로컬 파일로 열었을 경우 예외 처리
-      if (!currentOrigin || currentOrigin.indexOf('http') !== 0) {
-        currentOrigin = 'http://localhost:8000';
-      }
-
-      var fullUrl = currentOrigin + '/';
-      if (urlBox) urlBox.textContent = fullUrl;
-
-      // 동적 QR 코드 생성 API 호출
-      var qrApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=4&data=' + encodeURIComponent(fullUrl);
-      if (qrImg) {
-        qrImg.src = qrApiUrl;
-      }
-
-      modal.style.display = 'flex';
-      modal.setAttribute('aria-hidden', 'false');
+      window.location.href = '/qr';
     }
 
     function closeQrModal() {
@@ -466,6 +445,38 @@
         toast.classList.remove('show');
       }, 2500);
     }
+
+    // 🔔 앱 알림 토글(on/off) 연동 로직
+    (function initNotificationToggle() {
+      var notifToggle = document.getElementById('app-notification-toggle');
+      if (!notifToggle) return;
+
+      var currentSetting = localStorage.getItem('aisum_app_notification_enabled');
+      // 기본값은 true (on). 만약 'false'로 명시 저장되어 있다면 unchecked 처리
+      if (currentSetting === 'false') {
+        notifToggle.checked = false;
+      } else {
+        notifToggle.checked = true;
+      }
+
+      notifToggle.addEventListener('change', function() {
+        var isEnabled = notifToggle.checked;
+        if (window.AisumNotificationManager && typeof window.AisumNotificationManager.setEnabled === 'function') {
+          window.AisumNotificationManager.setEnabled(isEnabled);
+        } else {
+          localStorage.setItem('aisum_app_notification_enabled', isEnabled ? 'true' : 'false');
+        }
+
+        if (isEnabled) {
+          showSettingsToast('앱 알림이 켜졌습니다. 응급실 병상 변동 알림을 받습니다.');
+          if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+          }
+        } else {
+          showSettingsToast('앱 알림이 꺼졌습니다. 응급실 병상 알림을 받지 않습니다.');
+        }
+      });
+    })();
   </script>
 </body>
 

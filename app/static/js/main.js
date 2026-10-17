@@ -1,0 +1,2814 @@
+/**
+ * 👶 아이숨 (Aisum) - 프론트엔드 모달 다이얼로그 & 인터랙션 제어 스크립트 (Vanilla JS)
+ * - 크로스 브라우징 듀얼 로더 중복 실행 방지 (Idempotent Guard)
+ * - 어떤 버튼(히어로 CTA, 증상 칩, 병원 카드 등)을 클릭하면 모달 팝업 오픈
+ * - 모달 오픈 시 배경 어두운 반투명 오버레이 처리
+ * - 하단 '취소' 및 '확인' 버튼, 오버레이 클릭 시 모달 닫기
+ * - 증상 입력 페이지(input.html) 인풋 인터랙션 및 엔터키 입력 처리
+ */
+
+// ============================================================================
+// 📱 Global Font Size Management System (작게: small / 보통: normal / 크게: large)
+// ============================================================================
+window.applyAisumFontSize = function(size) {
+  try {
+    const targetSize = size || localStorage.getItem('aisum_font_size') || 'normal';
+    if (document.documentElement) {
+      document.documentElement.classList.remove('font-size-small', 'font-size-normal', 'font-size-large');
+      document.documentElement.classList.add('font-size-' + targetSize);
+    }
+    if (document.body) {
+      document.body.classList.remove('font-size-small', 'font-size-normal', 'font-size-large');
+      document.body.classList.add('font-size-' + targetSize);
+    }
+
+    // Synchronize select element if it exists in the DOM
+    const selectEl = document.getElementById('font-size-select');
+    if (selectEl) {
+      if (selectEl.value !== targetSize) {
+        selectEl.value = targetSize;
+      }
+      for (let i = 0; i < selectEl.options.length; i++) {
+        selectEl.options[i].selected = (selectEl.options[i].value === targetSize);
+      }
+    }
+
+    return targetSize;
+  } catch (e) {
+    console.warn('Font size apply failed:', e);
+    return 'normal';
+  }
+};
+
+// Immediate execution to prevent FOUC (Flash of Unstyled Content)
+if (typeof document !== 'undefined') {
+  if (document.body) {
+    window.applyAisumFontSize();
+  } else if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => window.applyAisumFontSize());
+  } else {
+    window.applyAisumFontSize();
+  }
+}
+
+// ============================================================================
+// 🛡️ Global Permission & Location Persistence Manager (앱 전체 권한 및 세션 상시 유지)
+// ============================================================================
+window.AisumPermissionManager = {
+  // 앱 내 5대 접근권한 및 세션 동기화 키 목록
+  PERMISSION_KEYS: [
+    'aisum_permission_granted',
+    'aisum_permission_location',
+    'aisum_permission_notification',
+    'aisum_permission_phone',
+    'aisum_permission_camera',
+    'aisum_permission_photos',
+    'aisum_permission_granted_at',
+    'aisum_terms_agreed',
+    'aisum_terms_agreed_at'
+  ],
+  LOCATION_KEYS: [
+    'aisum_user_lat',
+    'aisum_user_lon',
+    'user_lat',
+    'user_lon',
+    'aisum_user_dong',
+    'user_dong',
+    'aisum_user_address'
+  ],
+
+  // 🔄 sessionStorage <-> localStorage 양방향 상시 동기화 파이프라인
+  syncSession: function() {
+    try {
+      const allKeys = [...this.PERMISSION_KEYS, ...this.LOCATION_KEYS];
+      for (const key of allKeys) {
+        const localVal = localStorage.getItem(key);
+        const sessionVal = sessionStorage.getItem(key);
+        if (localVal && !sessionVal) {
+          sessionStorage.setItem(key, localVal);
+        } else if (!localVal && sessionVal) {
+          localStorage.setItem(key, sessionVal);
+        }
+      }
+    } catch (e) {
+      console.warn('AisumPermissionManager sync error:', e);
+    }
+  },
+
+  // 🛡️ 5대 모든 접근 권한 일괄 영구 승인 및 세션 보존
+  grantAllPermissions: function(lat, lon, dong, fullAddr) {
+    try {
+      const nowIso = new Date().toISOString();
+      const perms = {
+        aisum_permission_granted: 'true',
+        aisum_permission_location: 'granted',
+        aisum_permission_notification: 'granted',
+        aisum_permission_phone: 'granted',
+        aisum_permission_camera: 'granted',
+        aisum_permission_photos: 'granted',
+        aisum_permission_granted_at: nowIso
+      };
+      for (const [k, v] of Object.entries(perms)) {
+        localStorage.setItem(k, v);
+        sessionStorage.setItem(k, v);
+      }
+      if (lat && lon) {
+        this.saveUserLocation(lat, lon, dong, fullAddr);
+      }
+      console.log('✅ [AisumPermissionManager] 모든 접근 권한 및 위치 세션 상시 유지 활성화 완료');
+    } catch (e) {
+      console.warn('grantAllPermissions error:', e);
+    }
+  },
+
+  isTermsAgreed: function() {
+    try {
+      this.syncSession();
+      return localStorage.getItem('aisum_terms_agreed') === 'true' ||
+             sessionStorage.getItem('aisum_terms_agreed') === 'true';
+    } catch (e) {
+      return false;
+    }
+  },
+
+  isGranted: function() {
+    try {
+      this.syncSession();
+      return localStorage.getItem('aisum_permission_granted') === 'true' ||
+             sessionStorage.getItem('aisum_permission_granted') === 'true';
+    } catch (e) {
+      return false;
+    }
+  },
+
+  getLocationStatus: function() {
+    try {
+      return localStorage.getItem('aisum_permission_location') ||
+             sessionStorage.getItem('aisum_permission_location') || 'prompt';
+    } catch (e) {
+      return 'prompt';
+    }
+  },
+
+  hasStoredLocation: function() {
+    try {
+      const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat');
+      const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon');
+      return !!(sLat && sLon && !isNaN(parseFloat(sLat)) && !isNaN(parseFloat(sLon)));
+    } catch (e) {
+      return false;
+    }
+  },
+
+  getUserLocation: function() {
+    try {
+      this.syncSession();
+      const isManual = localStorage.getItem('aisum_location_manual') === 'true';
+      const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat');
+      const sLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon');
+      const dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || sessionStorage.getItem('user_dong');
+      const hasStored = !!(sLat && sLon && !isNaN(parseFloat(sLat)) && !isNaN(parseFloat(sLon)));
+      return {
+        lat: sLat ? parseFloat(sLat) : 37.5665,
+        lon: sLon ? parseFloat(sLon) : 126.9780,
+        dong: dong || '현재 위치',
+        isCustom: isManual,
+        hasStored: hasStored
+      };
+    } catch (e) {
+      return { lat: 37.5665, lon: 126.9780, dong: '현재 위치', isCustom: false, hasStored: false };
+    }
+  },
+
+  saveUserLocation: function(lat, lon, dong, fullAddr) {
+    try {
+      const nLat = parseFloat(lat);
+      const nLon = parseFloat(lon);
+      const safeDong = dong || '현재 위치';
+      const safeAddr = fullAddr || (safeDong !== '현재 위치' ? `대한민국 ${safeDong}` : '');
+
+      localStorage.setItem('aisum_user_lat', nLat);
+      localStorage.setItem('aisum_user_lon', nLon);
+      localStorage.setItem('user_lat', nLat);
+      localStorage.setItem('user_lon', nLon);
+      sessionStorage.setItem('user_lat', nLat);
+      sessionStorage.setItem('user_lon', nLon);
+      sessionStorage.setItem('aisum_user_lat', nLat);
+      sessionStorage.setItem('aisum_user_lon', nLon);
+
+      localStorage.setItem('aisum_user_dong', safeDong);
+      localStorage.setItem('user_dong', safeDong);
+      sessionStorage.setItem('aisum_user_dong', safeDong);
+      sessionStorage.setItem('user_dong', safeDong);
+
+      if (safeAddr) {
+        localStorage.setItem('aisum_user_address', safeAddr);
+        sessionStorage.setItem('aisum_user_address', safeAddr);
+      }
+
+      localStorage.setItem('aisum_permission_granted', 'true');
+      sessionStorage.setItem('aisum_permission_granted', 'true');
+      localStorage.setItem('aisum_permission_location', 'granted');
+      sessionStorage.setItem('aisum_permission_location', 'granted');
+    } catch (e) {
+      console.warn('PermissionManager save failed:', e);
+    }
+  }
+};
+
+// ============================================================================
+// 📋 AisumHistoryManager: 소아 문진 및 응급 매칭 결과 영구 저장 및 0ms 무손실 복원
+// ============================================================================
+window.AisumHistoryManager = {
+  STORAGE_KEY: 'aisum_triage_history',
+  MAX_RECORDS: 30,
+
+  getAll: function() {
+    try {
+      const data = localStorage.getItem(this.STORAGE_KEY);
+      let list = data ? JSON.parse(data) : [];
+      // 🛡️ 과거 저장된 연속 완전 중복 데이터 소독 & KTAS 1~3 응급실 추천명 자동 보정
+      let cleaned = [];
+      let modified = false;
+      for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        // KTAS 1~3단계인데 달빛어린이병원으로 잘못 박힌 경우 소아 응급실로 자동 보정
+        if (item.ktasLevel <= 3 && item.recommendedHospital && (item.recommendedHospital.includes('달빛') || item.recommendedHospital.includes('새솔'))) {
+          item.recommendedHospital = (item.ktasLevel === 1) ? '119 즉시 신고 및 권역응급의료센터' : (item.ktasLevel === 2 ? '권역 소아전문응급센터' : '실시간 소아 가용 응급실');
+          modified = true;
+        }
+        // 직전 항목과 내용이 100% 동일한 중복 항목 자동 제거
+        if (cleaned.length > 0) {
+          const prev = cleaned[cleaned.length - 1];
+          const isDup = (prev.symptom === item.symptom &&
+                         prev.ktasLevel === item.ktasLevel &&
+                         prev.childAge === item.childAge &&
+                         prev.temperature === item.temperature);
+          if (isDup) {
+            modified = true;
+            continue; // 중복 건너뜀
+          }
+        }
+        cleaned.push(item);
+      }
+      if (modified) {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cleaned));
+      }
+      return cleaned;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] getAll error:', e);
+      return [];
+    }
+  },
+
+  getById: function(id) {
+    const list = this.getAll();
+    return list.find(item => item.id === id) || null;
+  },
+
+  saveHistory: function(record) {
+    try {
+      if (!record) return null;
+
+      // 🛡️ 1) 당시 결과 다시보기(Replay View) 모드인 경우 신규 히스토리 중복 저장 원천 차단
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const isReplayParam = urlParams.get('is_replay') === 'true';
+        if (isReplayParam) {
+          console.log('ℹ️ [AisumHistoryManager] 결과 다시보기 화면이므로 신규 히스토리 생성 스킵');
+          return null;
+        } else {
+          // 신규 문진 또는 정상 결과 페이지 진입 시 이전 세션의 replay 플래그 자동 소독
+          try { sessionStorage.removeItem('aisum_is_replay_view'); } catch (_) {}
+        }
+      }
+
+      const list = this.getAll();
+
+      // 🛡️ 2) 최근 15초 이내 동일 문진 결과의 새로고침 중복 방지 (15초 초과 시 새로운 문진으로 정상 저장)
+      if (list.length > 0) {
+        const latest = list[0];
+        const isExactSame = (
+          latest.symptom === record.symptom &&
+          latest.ktasLevel === record.ktasLevel &&
+          latest.childAge === record.childAge &&
+          latest.temperature === record.temperature
+        );
+        const isWithin15Sec = latest.createdAt && (Date.now() - latest.createdAt < 15000);
+        if (isExactSame && isWithin15Sec) {
+          console.log('ℹ️ [AisumHistoryManager] 최근 15초 이내 저장된 결과와 동일하여 중복 생성 스킵');
+          // 응급실 추천 기관명이 갱신된 경우 최신 기록의 병원명만 안전하게 보정
+          if (record.recommendedHospital &&
+              record.recommendedHospital !== '인근 소아 진료기관' &&
+              latest.recommendedHospital !== record.recommendedHospital) {
+            latest.recommendedHospital = record.recommendedHospital;
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+          }
+          return latest;
+        }
+      }
+
+      const id = 'hist_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+      const dateObj = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const displayDate = `${dateObj.getFullYear()}.${pad(dateObj.getMonth() + 1)}.${pad(dateObj.getDate())} ${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
+
+      const newEntry = {
+        id: id,
+        createdAt: Date.now(),
+        isoDate: dateObj.toISOString(),
+        displayDate: displayDate,
+        childAge: record.childAge || '연령 미입력',
+        childGender: record.childGender || '성별 미입력',
+        temperature: record.temperature || '미측정',
+        symptom: record.symptom || '증상 미입력',
+        ktasLevel: record.ktasLevel || 4,
+        ktasName: record.ktasName || '준응급 (달빛어린이병원 매칭)',
+        recommendedHospital: record.recommendedHospital || '인근 소아 진료기관',
+        hospitalAddress: record.hospitalAddress || '',
+        hospitalTel: record.hospitalTel || '',
+        userAddress: record.userAddress || localStorage.getItem('aisum_user_address') || '현재 위치',
+        snapshot: {
+          backendResult: record.backendResult || null,
+          triageResult: record.triageResult || null
+        }
+      };
+
+      list.unshift(newEntry);
+      if (list.length > this.MAX_RECORDS) {
+        list.splice(this.MAX_RECORDS);
+      }
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+      console.log('✅ [AisumHistoryManager] 문진 결과 영구 저장 완료:', newEntry.id, newEntry.recommendedHospital);
+      return newEntry;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] saveHistory error:', e);
+      return null;
+    }
+  },
+
+  updateLatestHospital: function(hospName) {
+    try {
+      if (!hospName) return;
+      const list = this.getAll();
+      if (list.length > 0) {
+        list[0].recommendedHospital = hospName;
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+        console.log('✅ [AisumHistoryManager] 최신 기록 추천 시설명 정밀 보정 완료:', hospName);
+      }
+    } catch (e) {
+      console.warn('[AisumHistoryManager] updateLatestHospital error:', e);
+    }
+  },
+
+  deleteById: function(id) {
+    try {
+      let list = this.getAll();
+      list = list.filter(item => item.id !== id);
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+      return true;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] deleteById error:', e);
+      return false;
+    }
+  },
+
+  clearAll: function() {
+    try {
+      localStorage.removeItem(this.STORAGE_KEY);
+      return true;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] clearAll error:', e);
+      return false;
+    }
+  },
+
+  restoreAndNavigate: function(id) {
+    try {
+      const record = this.getById(id);
+      if (!record || !record.snapshot) {
+        alert('해당 기록을 찾을 수 없습니다.');
+        return;
+      }
+      if (record.snapshot.backendResult) {
+        sessionStorage.setItem('backend_result', JSON.stringify(record.snapshot.backendResult));
+      }
+      if (record.snapshot.triageResult) {
+        sessionStorage.setItem('triage_result', JSON.stringify(record.snapshot.triageResult));
+      }
+      if (record.userAddress) {
+        sessionStorage.setItem('user_address', record.userAddress);
+      }
+      // 🛡️ 다시보기 진입 플래그 세션 및 URL 파라미터 양방향 주입
+      sessionStorage.setItem('aisum_is_replay_view', 'true');
+      const baseUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+      const targetUrl = `${baseUrl}?is_replay=true&history_id=${encodeURIComponent(id)}`;
+      window.location.href = targetUrl;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] restoreAndNavigate error:', e);
+      alert('기록 복원 중 오류가 발생했습니다.');
+    }
+  }
+};
+
+// ============================================================================
+// 🔔 AisumNotificationManager: KTAS 중증 대상 실시간 소아 응급실 병상 변동 알림 센터
+// ============================================================================
+window.AisumNotificationManager = {
+  NOTIF_KEY: 'aisum_bed_notifications',
+  WATCH_KEY: 'aisum_emergency_watch_target',
+  SETTINGS_KEY: 'aisum_app_notification_enabled',
+  MAX_NOTIFICATIONS: 50,
+
+  isEnabled: function() {
+    try {
+      const val = localStorage.getItem(this.SETTINGS_KEY);
+      return val !== 'false';
+    } catch (_) {
+      return true;
+    }
+  },
+
+  setEnabled: function(enabled) {
+    try {
+      localStorage.setItem(this.SETTINGS_KEY, enabled ? 'true' : 'false');
+      this.updateBadgeUI();
+    } catch (_) {}
+  },
+
+  getNotifications: function() {
+    try {
+      const data = localStorage.getItem(this.NOTIF_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  },
+
+  getWatchTargets: function() {
+    try {
+      const data = localStorage.getItem(this.WATCH_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  },
+
+  hasEmergencyHistory: function() {
+    try {
+      const histories = window.AisumHistoryManager ? window.AisumHistoryManager.getAll() : [];
+      return Array.isArray(histories) && histories.some(h => (typeof h.ktasLevel === 'number' && h.ktasLevel <= 3));
+    } catch (_) {
+      return false;
+    }
+  },
+
+  isSevereUser: function() {
+    return this.hasEmergencyHistory() || (this.getWatchTargets().length > 0);
+  },
+
+  getUnreadCount: function() {
+    const list = this.getNotifications();
+    return list.filter(item => !item.isRead).length;
+  },
+
+  registerWatch: function(hospitalList, ktasLevel) {
+    try {
+      if (!hospitalList || !Array.isArray(hospitalList) || hospitalList.length === 0) return;
+      if (ktasLevel > 3) return; // 준응급/비응급은 감시 대상 제외
+
+      const topHospitals = hospitalList.slice(0, 4).map(h => {
+        const bedVal = (typeof h.available_beds === 'number')
+          ? h.available_beds
+          : (typeof h.hv28 === 'number' ? h.hv28 : (parseInt(h.available_beds || h.hv28, 10) || 0));
+        return {
+          hpid: h.hpid || ('HP_' + (h.hospital_name || h.dutyName || h.name || '').replace(/\s+/g, '')),
+          dutyName: h.hospital_name || h.dutyName || h.name || '소아응급센터',
+          dutyTel3: h.tel || h.dutyTel3 || '119',
+          lastBedCount: bedVal,
+          lastHpmg: h.hpmg || '',
+          registeredAt: new Date().toISOString(),
+          ktasLevel: ktasLevel
+        };
+      });
+
+      localStorage.setItem(this.WATCH_KEY, JSON.stringify(topHospitals));
+      console.log('🚨 [AisumNotificationManager] KTAS 중증 감시 대상 병원 등록 완료:', topHospitals);
+
+      // 모니터링 시작 안내 알림 자동 등록
+      const hospNames = topHospitals.map(h => h.dutyName).join(', ');
+      this.addNotification({
+        type: 'WATCH_START',
+        title: `🚨 KTAS ${ktasLevel}단계 긴급 모니터링 시작`,
+        message: `소아 응급실 판정에 따라 인근 거점 소아응급센터(${hospNames})의 실시간 병상 변동을 집중 감시합니다.`,
+        hospitalName: topHospitals[0].dutyName,
+        bedCount: topHospitals[0].lastBedCount,
+        tel: topHospitals[0].dutyTel3,
+        changeType: 'alert'
+      });
+    } catch (e) {
+      console.warn('[AisumNotificationManager] registerWatch error:', e);
+    }
+  },
+
+  addNotification: function(notif) {
+    try {
+      if (!this.isEnabled()) {
+        console.log('🔕 [AisumNotificationManager] 앱 알림이 OFF 상태이므로 알림을 등록하지 않습니다.');
+        return null;
+      }
+      const list = this.getNotifications();
+      const dateObj = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const timeStr = `${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
+      const dateStr = `${dateObj.getFullYear()}.${pad(dateObj.getMonth() + 1)}.${pad(dateObj.getDate())}`;
+
+      const newNotif = {
+        id: 'notif_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        type: notif.type || 'BED_UPDATE',
+        title: notif.title || '소아 응급실 변동 알림',
+        message: notif.message || '',
+        hospitalName: notif.hospitalName || '',
+        bedCount: typeof notif.bedCount === 'number' ? notif.bedCount : null,
+        changeType: notif.changeType || 'info', // 'increase' | 'decrease' | 'alert' | 'info'
+        tel: notif.tel || '',
+        timestamp: dateObj.toISOString(),
+        displayTime: `${dateStr} ${timeStr}`,
+        isRead: false
+      };
+
+      list.unshift(newNotif);
+      if (list.length > this.MAX_NOTIFICATIONS) {
+        list.splice(this.MAX_NOTIFICATIONS);
+      }
+      localStorage.setItem(this.NOTIF_KEY, JSON.stringify(list));
+      this.updateBadgeUI();
+
+      // 🔔 브라우저 Web Notification 푸시 알림 발송 (사용자가 권한 허용한 경우)
+      if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+        try {
+          new Notification(newNotif.title, {
+            body: newNotif.message,
+            icon: '/assets/icon-192.png'
+          });
+        } catch (_) {}
+      }
+
+      return newNotif;
+    } catch (e) {
+      console.warn('[AisumNotificationManager] addNotification error:', e);
+      return null;
+    }
+  },
+
+  checkBedUpdates: function(liveFacilities) {
+    try {
+      // 🚨 조건 0: 설정에서 앱 알림이 켜져 있을 때만 알림 발생
+      if (!this.isEnabled()) {
+        return;
+      }
+
+      // 🚨 조건 1: 기록페이지에 응급실 판정 기록이 있을 때만 알림 발생
+      if (!this.hasEmergencyHistory()) {
+        return;
+      }
+
+      if (!liveFacilities || !Array.isArray(liveFacilities) || liveFacilities.length === 0) return;
+
+      let targets = this.getWatchTargets();
+      if (!targets || targets.length === 0) {
+        // 감시 대상이 비어있다면 현재 근방 응급실로 자동 등록 후 초기 기준선 설정
+        this.registerWatch(liveFacilities, 2);
+        return;
+      }
+
+      let hasNewUpdate = false;
+      const updatedTargets = targets.map(target => {
+        const live = liveFacilities.find(f => {
+          const fName = f.hospital_name || f.dutyName || f.name || '';
+          return (f.hpid && f.hpid === target.hpid) ||
+                 (fName && target.dutyName && fName.includes(target.dutyName)) ||
+                 (target.dutyName && fName && target.dutyName.includes(fName));
+        });
+
+        if (live) {
+          const currentBed = (typeof live.available_beds === 'number')
+            ? live.available_beds
+            : (typeof live.hv28 === 'number' ? live.hv28 : (parseInt(live.available_beds || live.hv28, 10) || 0));
+          const currentHpmg = live.hpmg || '';
+          const prevBed = target.lastBedCount;
+
+          // 🚨 조건 2: 실제로 병상 수에 변동이 생겼을 때 어떤 응급실이고 얼마나 변경됐는지 알림 생성
+          if (currentBed !== prevBed && prevBed !== undefined) {
+            const diff = currentBed - prevBed;
+            const hospName = target.dutyName;
+
+            if (currentBed === 0) {
+              this.addNotification({
+                type: 'BED_ZERO',
+                title: `🚨 [${hospName}] 소아 응급실 만실 경보 (0석)`,
+                message: `${hospName} 소아응급실 잔여 병상이 ${prevBed}석 ➔ 0석으로 전석 소진(만실)되었습니다. 인근 타 응급실을 탐색하십시오.`,
+                hospitalName: hospName,
+                bedCount: 0,
+                tel: target.dutyTel3 || live.tel || '',
+                changeType: 'alert'
+              });
+              hasNewUpdate = true;
+            } else if (diff > 0) {
+              this.addNotification({
+                type: 'BED_INCREASE',
+                title: `🟢 [${hospName}] 소아 응급실 병상 확보 (+${diff}석)`,
+                message: `${hospName} 소아응급실 잔여 병상이 ${prevBed}석 ➔ ${currentBed}석으로 ${diff}석 증가했습니다.`,
+                hospitalName: hospName,
+                bedCount: currentBed,
+                tel: target.dutyTel3 || live.tel || '',
+                changeType: 'increase'
+              });
+              hasNewUpdate = true;
+            } else if (diff < 0) {
+              this.addNotification({
+                type: 'BED_DECREASE',
+                title: `🔴 [${hospName}] 소아 응급실 병상 감소 (${diff}석)`,
+                message: `${hospName} 소아응급실 잔여 병상이 ${prevBed}석 ➔ ${currentBed}석으로 ${Math.abs(diff)}석 감소했습니다. (현재 ${currentBed}석 여유)`,
+                hospitalName: hospName,
+                bedCount: currentBed,
+                tel: target.dutyTel3 || live.tel || '',
+                changeType: 'decrease'
+              });
+              hasNewUpdate = true;
+            }
+            target.lastBedCount = currentBed;
+          }
+
+          if (currentHpmg && currentHpmg !== target.lastHpmg) {
+            this.addNotification({
+              type: 'NOTICE_UPDATE',
+              title: `⚠️ [${target.dutyName}] 응급실 공지 갱신`,
+              message: currentHpmg,
+              hospitalName: target.dutyName,
+              bedCount: currentBed,
+              tel: target.dutyTel3 || live.tel || '',
+              changeType: 'alert'
+            });
+            target.lastHpmg = currentHpmg;
+            hasNewUpdate = true;
+          }
+        }
+        return target;
+      });
+
+      if (hasNewUpdate) {
+        localStorage.setItem(this.WATCH_KEY, JSON.stringify(updatedTargets));
+        this.updateBadgeUI();
+      }
+    } catch (e) {
+      console.warn('[AisumNotificationManager] checkBedUpdates error:', e);
+    }
+  },
+
+  syncAndCheckBeds: async function(force = false) {
+    try {
+      // 🚨 조건 0: 설정에서 앱 알림이 켜져 있을 때만 동작!
+      if (!this.isEnabled()) {
+        return;
+      }
+
+      // 🚨 조건 1: 기록페이지에 응급실 판정 기록이 있을 때만 동작!
+      if (!this.hasEmergencyHistory()) {
+        return;
+      }
+
+      const lat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || '37.5133';
+      const lon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || '127.1001';
+
+      const isFile = (typeof window !== 'undefined' && window.location.protocol === 'file:');
+      const apiBase = isFile ? 'http://127.0.0.1:8000' : '';
+      const forceParam = force ? '&force_refresh=true' : '';
+      const url = `${apiBase}/api/v1/emergency/nearby?lat=${lat}&lon=${lon}&radius_km=25&limit=6${forceParam}`;
+
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const data = await res.json();
+      const facilities = (data && data.facilities) ? data.facilities : data;
+      if (Array.isArray(facilities) && facilities.length > 0) {
+        // 🚨 조건 2: 근방 응급실 병상 정보 변동 검사 및 알림 발송
+        this.checkBedUpdates(facilities);
+      }
+    } catch (e) {
+      console.warn('[AisumNotificationManager] syncAndCheckBeds error:', e);
+    }
+  },
+
+  markAllAsRead: function() {
+    try {
+      const list = this.getNotifications();
+      list.forEach(item => { item.isRead = true; });
+      localStorage.setItem(this.NOTIF_KEY, JSON.stringify(list));
+      this.updateBadgeUI();
+    } catch (e) {
+      console.warn('[AisumNotificationManager] markAllAsRead error:', e);
+    }
+  },
+
+  deleteNotification: function(id) {
+    try {
+      let list = this.getNotifications();
+      list = list.filter(item => String(item.id) !== String(id));
+      localStorage.setItem(this.NOTIF_KEY, JSON.stringify(list));
+      this.updateBadgeUI();
+      return list;
+    } catch (e) {
+      console.warn('[AisumNotificationManager] deleteNotification error:', e);
+      return [];
+    }
+  },
+
+  clearAll: function() {
+    try {
+      localStorage.removeItem(this.NOTIF_KEY);
+      this.updateBadgeUI();
+    } catch (e) {
+      console.warn('[AisumNotificationManager] clearAll error:', e);
+    }
+  },
+
+  updateBadgeUI: function() {
+    try {
+      const dot = document.getElementById('header-notification-dot');
+      if (!dot) return;
+      if (!this.isEnabled()) {
+        dot.style.display = 'none';
+        return;
+      }
+      const unread = this.getUnreadCount();
+      dot.style.display = (unread > 0) ? 'block' : 'none';
+    } catch (e) { }
+  }
+};
+
+// ============================================================================
+// 📍 Real-Time User Location & Spatial Dong Mapping Engine (Vanilla JS)
+// ============================================================================
+window.AISUM_LOCATIONS_DB = [
+  // 1. 서울 동남권 (송파 / 강남 / 서초 / 강동)
+  { name: '문정동', gu: '송파구', city: '서울', lat: 37.4858, lon: 127.1225, isPopular: true, fullAddr: '서울특별시 송파구 문정동', keywords: ['문정', '문정역', '법조타운', '송파', '문정동', '문정로'] },
+  { name: '잠실동', gu: '송파구', city: '서울', lat: 37.5133, lon: 127.1001, isPopular: true, fullAddr: '서울특별시 송파구 잠실동', keywords: ['잠실', '잠실역', '롯데월드', '송파', '신천'] },
+  { name: '가락동', gu: '송파구', city: '서울', lat: 37.4925, lon: 127.1188, isPopular: true, fullAddr: '서울특별시 송파구 가락동', keywords: ['가락', '가락시장', '송파'] },
+  { name: '방이동', gu: '송파구', city: '서울', lat: 37.5138, lon: 127.1215, isPopular: false, fullAddr: '서울특별시 송파구 방이동', keywords: ['방이', '올림픽공원', '송파'] },
+  { name: '역삼동', gu: '강남구', city: '서울', lat: 37.5006, lon: 127.0365, isPopular: true, fullAddr: '서울특별시 강남구 역삼동', keywords: ['역삼', '강남', '테헤란로', '강남역'] },
+  { name: '삼성동', gu: '강남구', city: '서울', lat: 37.5140, lon: 127.0565, isPopular: true, fullAddr: '서울특별시 강남구 삼성동', keywords: ['삼성', '코엑스', '강남', '봉은사'] },
+  { name: '대치동', gu: '강남구', city: '서울', lat: 37.4946, lon: 127.0628, isPopular: false, fullAddr: '서울특별시 강남구 대치동', keywords: ['대치', '학원가', '한티', '강남'] },
+  { name: '압구정동', gu: '강남구', city: '서울', lat: 37.5270, lon: 127.0285, isPopular: false, fullAddr: '서울특별시 강남구 압구정동', keywords: ['압구정', '로데오', '신사', '강남'] },
+  { name: '논현동', gu: '강남구', city: '서울', lat: 37.5115, lon: 127.0285, isPopular: false, fullAddr: '서울특별시 강남구 논현동', keywords: ['논현', '학동', '신논현', '강남'] },
+  { name: '세곡동', gu: '강남구', city: '서울', lat: 37.4642, lon: 127.1054, isPopular: false, fullAddr: '서울특별시 강남구 세곡동', keywords: ['세곡', '자곡', '수서', '달빛어린이병원', '강남'] },
+  { name: '서초동', gu: '서초구', city: '서울', lat: 37.4918, lon: 127.0079, isPopular: true, fullAddr: '서울특별시 서초구 서초동', keywords: ['서초', '교대', '남부터미널', '예술의전당'] },
+  { name: '방배동', gu: '서초구', city: '서울', lat: 37.498871, lon: 126.993414, isPopular: true, fullAddr: '서울특별시 서초구 방배동', keywords: ['방배', '사당', '내방', '서초'] },
+  { name: '반포동', gu: '서초구', city: '서울', lat: 37.5042, lon: 127.0048, isPopular: false, fullAddr: '서울특별시 서초구 반포동', keywords: ['반포', '고속터미널', '신반포', '서초'] },
+  { name: '양재동', gu: '서초구', city: '서울', lat: 37.4765, lon: 127.0415, isPopular: false, fullAddr: '서울특별시 서초구 양재동', keywords: ['양재', '매헌', '시민의숲', '서초'] },
+  { name: '천호동', gu: '강동구', city: '서울', lat: 37.5385, lon: 127.1235, isPopular: true, fullAddr: '서울특별시 강동구 천호동', keywords: ['천호', '강동', '암사', '로데오'] },
+  { name: '명일동', gu: '강동구', city: '서울', lat: 37.5512, lon: 127.1445, isPopular: false, fullAddr: '서울특별시 강동구 명일동', keywords: ['명일', '고덕', '강동'] },
+
+  // 2. 서울 서남권 (양천 / 강서 / 구로 / 영등포 / 동작 / 관악 / 금천)
+  { name: '목동', gu: '양천구', city: '서울', lat: 37.524812, lon: 126.868215, isPopular: true, fullAddr: '서울특별시 양천구 목동', keywords: ['목동', '오목교', '신정', '양천'] },
+  { name: '화곡동', gu: '강서구', city: '서울', lat: 37.5412, lon: 126.8405, isPopular: true, fullAddr: '서울특별시 강서구 화곡동', keywords: ['화곡', '까치산', '강서'] },
+  { name: '마곡동', gu: '강서구', city: '서울', lat: 37.5601, lon: 126.8255, isPopular: false, fullAddr: '서울특별시 강서구 마곡동', keywords: ['마곡', '발산', '강서'] },
+  { name: '구로동', gu: '구로구', city: '서울', lat: 37.4954, lon: 126.8875, isPopular: true, fullAddr: '서울특별시 구로구 구로동', keywords: ['구로', '신도림', '디지털단지', '우리아이들병원'] },
+  { name: '신도림동', gu: '구로구', city: '서울', lat: 37.5098, lon: 126.8912, isPopular: false, fullAddr: '서울특별시 구로구 신도림동', keywords: ['신도림', '디큐브', '구로'] },
+  { name: '여의도동', gu: '영등포구', city: '서울', lat: 37.5218, lon: 126.9242, isPopular: true, fullAddr: '서울특별시 영등포구 여의도동', keywords: ['여의도', '더현대', '샛강', '영등포'] },
+  { name: '당산동', gu: '영등포구', city: '서울', lat: 37.5342, lon: 126.9025, isPopular: false, fullAddr: '서울특별시 영등포구 당산동', keywords: ['당산', '문래', '영등포'] },
+  { name: '노량진동', gu: '동작구', city: '서울', lat: 37.5135, lon: 126.9425, isPopular: false, fullAddr: '서울특별시 동작구 노량진동', keywords: ['노량진', '동작', '대방'] },
+  { name: '상도동', gu: '동작구', city: '서울', lat: 37.4985, lon: 126.9455, isPopular: false, fullAddr: '서울특별시 동작구 상도동', keywords: ['상도', '숭실대', '동작'] },
+  { name: '신림동', gu: '관악구', city: '서울', lat: 37.4842, lon: 126.9295, isPopular: true, fullAddr: '서울특별시 관악구 신림동', keywords: ['신림', '신림역', '관악', '도림천'] },
+  { name: '봉천동', gu: '관악구', city: '서울', lat: 37.4825, lon: 126.9515, isPopular: false, fullAddr: '서울특별시 관악구 봉천동', keywords: ['봉천', '서울대입구', '관악'] },
+  { name: '가산동', gu: '금천구', city: '서울', lat: 37.4812, lon: 126.8825, isPopular: false, fullAddr: '서울특별시 금천구 가산동', keywords: ['가산', '디지털단지', '금천'] },
+
+  // 3. 서울 서북권 (마포 / 서대문 / 은평)
+  { name: '공덕동', gu: '마포구', city: '서울', lat: 37.5445, lon: 126.9515, isPopular: true, fullAddr: '서울특별시 마포구 공덕동', keywords: ['공덕', '마포', '아현'] },
+  { name: '상암동', gu: '마포구', city: '서울', lat: 37.5785, lon: 126.8915, isPopular: false, fullAddr: '서울특별시 마포구 상암동', keywords: ['상암', 'DMC', '디지털미디어시티', '마포'] },
+  { name: '서교동', gu: '마포구', city: '서울', lat: 37.5552, lon: 126.9215, isPopular: false, fullAddr: '서울특별시 마포구 서교동', keywords: ['홍대', '홍대입구', '서교', '합정', '마포'] },
+  { name: '신촌동', gu: '서대문구', city: '서울', lat: 37.5598, lon: 126.9365, isPopular: true, fullAddr: '서울특별시 서대문구 신촌동', keywords: ['신촌', '연세대', '이대', '서대문'] },
+  { name: '연희동', gu: '서대문구', city: '서울', lat: 37.5725, lon: 126.9325, isPopular: false, fullAddr: '서울특별시 서대문구 연희동', keywords: ['연희', '홍제', '서대문'] },
+  { name: '불광동', gu: '은평구', city: '서울', lat: 37.6105, lon: 126.9295, isPopular: true, fullAddr: '서울특별시 은평구 불광동', keywords: ['불광', '연신내', '은평'] },
+  { name: '진관동', gu: '은평구', city: '서울', lat: 37.6385, lon: 126.9185, isPopular: false, fullAddr: '서울특별시 은평구 진관동', keywords: ['은평뉴타운', '구파발', '진관', '은평'] },
+
+  // 4. 서울 도심 / 동북권 (종로 / 중구 / 용산 / 성동 / 광진 / 동대문 / 중랑 / 성북 / 강북 / 도봉 / 노원)
+  { name: '종로', gu: '종로구', city: '서울', lat: 37.5704, lon: 126.9922, isPopular: true, fullAddr: '서울특별시 종로구 종로', keywords: ['종로', '광화문', '혜화', '대학로'] },
+  { name: '명동', gu: '중구', city: '서울', lat: 37.5635, lon: 126.9855, isPopular: false, fullAddr: '서울특별시 중구 명동', keywords: ['명동', '을지로', '회현', '서울역'] },
+  { name: '청파동', gu: '용산구', city: '서울', lat: 37.552431, lon: 126.969145, isPopular: true, fullAddr: '서울특별시 용산구 청파동', keywords: ['청파', '숙대', '서울역', '소화병원', '용산'] },
+  { name: '한남동', gu: '용산구', city: '서울', lat: 37.5345, lon: 127.0025, isPopular: false, fullAddr: '서울특별시 용산구 한남동', keywords: ['한남', '이태원', '용산'] },
+  { name: '성수동', gu: '성동구', city: '서울', lat: 37.5445, lon: 127.0560, isPopular: true, fullAddr: '서울특별시 성동구 성수동', keywords: ['성수', '서울숲', '뚝섬', '성동'] },
+  { name: '자양동', gu: '광진구', city: '서울', lat: 37.5345, lon: 127.0695, isPopular: true, fullAddr: '서울특별시 광진구 자양동', keywords: ['자양', '건대', '구의', '광진'] },
+  { name: '장안동', gu: '동대문구', city: '서울', lat: 37.5715, lon: 127.0685, isPopular: false, fullAddr: '서울특별시 동대문구 장안동', keywords: ['장안', '답십리', '청량리', '동대문'] },
+  { name: '상봉동', gu: '중랑구', city: '서울', lat: 37.5965, lon: 127.0855, isPopular: false, fullAddr: '서울특별시 중랑구 상봉동', keywords: ['상봉', '면목', '중랑'] },
+  { name: '장위동', gu: '성북구', city: '서울', lat: 37.6185, lon: 127.0425, isPopular: true, fullAddr: '서울특별시 성북구 장위동', keywords: ['장위', '길음', '우리아이들병원', '성북'] },
+  { name: '미아동', gu: '강북구', city: '서울', lat: 37.6255, lon: 127.0255, isPopular: true, fullAddr: '서울특별시 강북구 미아동', keywords: ['미아', '수유', '강북'] },
+  { name: '창동', gu: '도봉구', city: '서울', lat: 37.6532, lon: 127.0485, isPopular: false, fullAddr: '서울특별시 도봉구 창동', keywords: ['창동', '쌍문', '도봉'] },
+  { name: '상계동', gu: '노원구', city: '서울', lat: 37.654812, lon: 127.060124, isPopular: true, fullAddr: '서울특별시 노원구 상계동', keywords: ['상계', '노원', '중계', '하계'] },
+
+  // 5. 경기 / 인천 주요 권역
+  { name: '정자동', gu: '성남 분당구', city: '경기', lat: 37.367124, lon: 127.108215, isPopular: true, fullAddr: '경기도 성남시 분당구 정자동', keywords: ['정자', '분당', '정자역', '성남'] },
+  { name: '판교동', gu: '성남 분당구', city: '경기', lat: 37.3940, lon: 127.1110, isPopular: true, fullAddr: '경기도 성남시 분당구 판교동', keywords: ['판교', '판교역', '테크노밸리', '분당', '성남'] },
+  { name: '서현동', gu: '성남 분당구', city: '경기', lat: 37.3850, lon: 127.1240, isPopular: false, fullAddr: '경기도 성남시 분당구 서현동', keywords: ['서현', '분당', '성남'] },
+  { name: '영통동', gu: '수원 영통구', city: '경기', lat: 37.288541, lon: 127.051214, isPopular: true, fullAddr: '경기도 수원시 영통구 영통동', keywords: ['영통', '광교', '수원', '망포'] },
+  { name: '인계동', gu: '수원 팔달구', city: '경기', lat: 37.2635, lon: 127.0285, isPopular: false, fullAddr: '경기도 수원시 팔달구 인계동', keywords: ['인계', '수원시청', '수원'] },
+  { name: '일산동', gu: '고양 일산동구', city: '경기', lat: 37.643812, lon: 126.786512, isPopular: true, fullAddr: '경기도 고양시 일산동구 일산동', keywords: ['일산', '고양', '주엽', '대화', '정발산'] },
+  { name: '화정동', gu: '고양 덕양구', city: '경기', lat: 37.6345, lon: 126.8325, isPopular: false, fullAddr: '경기도 고양시 덕양구 화정동', keywords: ['화정', '행신', '원당', '고양'] },
+  { name: '풍덕천동', gu: '용인 수지구', city: '경기', lat: 37.3245, lon: 127.0985, isPopular: true, fullAddr: '경기도 용인시 수지구 풍덕천동', keywords: ['수지', '풍덕천', '수지구청', '용인'] },
+  { name: '동탄동', gu: '화성시 동탄', city: '경기', lat: 37.206512, lon: 127.072412, isPopular: true, fullAddr: '경기도 화성시 동탄동', keywords: ['동탄', '화성', '동탄역', '반송동'] },
+  { name: '중동', gu: '부천시 원미구', city: '경기', lat: 37.5035, lon: 126.7665, isPopular: true, fullAddr: '경기도 부천시 원미구 중동', keywords: ['부천', '중동', '상동', '신중동'] },
+  { name: '평촌동', gu: '안양 동안구', city: '경기', lat: 37.3945, lon: 126.9625, isPopular: true, fullAddr: '경기도 안양시 동안구 평촌동', keywords: ['평촌', '범계', '안양'] },
+  { name: '다산동', gu: '남양주시', city: '경기', lat: 37.6125, lon: 127.1545, isPopular: false, fullAddr: '경기도 남양주시 다산동', keywords: ['다산', '남양주', '별내'] },
+  { name: '미사동', gu: '하남시', city: '경기', lat: 37.5615, lon: 127.1925, isPopular: false, fullAddr: '경기도 하남시 미사동', keywords: ['미사', '하남', '망월동'] },
+  { name: '철산동', gu: '광명시', city: '경기', lat: 37.4765, lon: 126.8685, isPopular: false, fullAddr: '경기도 광명시 철산동', keywords: ['철산', '광명', '하안동'] },
+  { name: '구월동', gu: '인천 남동구', city: '인천', lat: 37.452412, lon: 126.708214, isPopular: true, fullAddr: '인천광역시 남동구 구월동', keywords: ['구월', '인천시청', '남동구', '인천'] },
+  { name: '송도동', gu: '인천 연수구', city: '인천', lat: 37.3940, lon: 126.6540, isPopular: true, fullAddr: '인천광역시 연수구 송도동', keywords: ['송도', '센트럴파크', '인천'] },
+  { name: '청라동', gu: '인천 서구', city: '인천', lat: 37.534812, lon: 126.654215, isPopular: true, fullAddr: '인천광역시 서구 청라동', keywords: ['청라', '루원시티', '인천'] },
+  { name: '부평동', gu: '인천 부평구', city: '인천', lat: 37.4915, lon: 126.7245, isPopular: false, fullAddr: '인천광역시 부평구 부평동', keywords: ['부평', '부평역', '인천'] },
+
+  // 6. 충청권 거점
+  { name: '둔산동', gu: '대전 서구', city: '대전', lat: 36.352412, lon: 127.378512, isPopular: true, fullAddr: '대전광역시 서구 둔산동', keywords: ['둔산', '대전시청', '서구', '대전'] },
+  { name: '봉명동', gu: '대전 유성구', city: '대전', lat: 36.3570, lon: 127.3420, isPopular: false, fullAddr: '대전광역시 유성구 봉명동', keywords: ['유성', '온천', '봉명', '충남대', '대전'] },
+  { name: '나성동', gu: '세종시', city: '세종', lat: 36.504812, lon: 127.251214, isPopular: true, fullAddr: '세종특별자치시 나성동', keywords: ['나성', '세종', '다정동', '어진동'] },
+  { name: '불당동', gu: '천안 서북구', city: '충남', lat: 36.815214, lon: 127.108412, isPopular: true, fullAddr: '충청남도 천안시 서북구 불당동', keywords: ['불당', '천안아산역', '천안'] },
+  { name: '복대동', gu: '청주 흥덕구', city: '충북', lat: 36.621214, lon: 127.432512, isPopular: true, fullAddr: '충청북도 청주시 흥덕구 복대동', keywords: ['복대', '지웰시티', '청주'] },
+
+  // 7. 영남권 거점
+  { name: '만촌동', gu: '대구 수성구', city: '대구', lat: 35.839812, lon: 128.706512, isPopular: true, fullAddr: '대구광역시 수성구 만촌동', keywords: ['만촌', '수성구', '범어', '대구'] },
+  { name: '상인동', gu: '대구 달서구', city: '대구', lat: 35.817412, lon: 128.536214, isPopular: false, fullAddr: '대구광역시 달서구 상인동', keywords: ['상인', '달서구', '대구'] },
+  { name: '서면', gu: '부산 부산진구', city: '부산', lat: 35.158124, lon: 129.043512, isPopular: true, fullAddr: '부산광역시 부산진구 부전동', keywords: ['서면', '부전동', '부산진구', '부산'] },
+  { name: '우동', gu: '부산 해운대구', city: '부산', lat: 35.1631, lon: 129.1636, isPopular: true, fullAddr: '부산광역시 해운대구 우동', keywords: ['해운대', '센텀', '마린시티', '우동', '부산'] },
+  { name: '온천동', gu: '부산 동래구', city: '부산', lat: 35.204812, lon: 129.083214, isPopular: false, fullAddr: '부산광역시 동래구 온천동', keywords: ['온천', '동래', '부산'] },
+  { name: '삼산동', gu: '울산 남구', city: '울산', lat: 35.538412, lon: 129.324512, isPopular: true, fullAddr: '울산광역시 남구 삼산동', keywords: ['삼산', '태화강', '남구', '울산'] },
+  { name: '장량동', gu: '포항 북구', city: '경북', lat: 36.068412, lon: 129.378214, isPopular: true, fullAddr: '경상북도 포항시 북구 장량동', keywords: ['장량', '양덕', '포항'] },
+  { name: '상남동', gu: '창원 성산구', city: '경남', lat: 35.2215, lon: 128.6815, isPopular: true, fullAddr: '경상남도 창원시 성산구 상남동', keywords: ['상남', '창원', '팔용동'] },
+
+  // 8. 호남권 거점
+  { name: '수완동', gu: '광주 광산구', city: '광주', lat: 35.188412, lon: 126.821214, isPopular: true, fullAddr: '광주광역시 광산구 수완동', keywords: ['수완', '첨단', '광산구', '광주'] },
+  { name: '치평동(상무)', gu: '광주 서구', city: '광주', lat: 35.1522, lon: 126.8525, isPopular: false, fullAddr: '광주광역시 서구 치평동', keywords: ['상무', '상무지구', '치평동', '광주시청', '광주'] },
+  { name: '효자동', gu: '전주 완산구', city: '전북', lat: 35.81716, lon: 127.102276, isPopular: true, fullAddr: '전북특별자치도 전주시 완산구 효자동', keywords: ['효자', '신시가지', '전주'] },
+  { name: '조례동', gu: '순천시', city: '전남', lat: 34.954214, lon: 127.518412, isPopular: true, fullAddr: '전라남도 순천시 조례동', keywords: ['조례', '연향', '순천'] },
+
+  // 9. 강원 / 제주 거점
+  { name: '일산동', gu: '원주시', city: '강원', lat: 37.338412, lon: 127.941214, isPopular: true, fullAddr: '강원특별자치도 원주시 일산동', keywords: ['원주', '일산동', '단계동', '무실동'] },
+  { name: '퇴계동', gu: '춘천시', city: '강원', lat: 37.8542, lon: 127.7315, isPopular: false, fullAddr: '강원특별자치도 춘천시 퇴계동', keywords: ['춘천', '퇴계동', '남춘천'] },
+  { name: '탑동', gu: '제주시', city: '제주', lat: 33.517551, lon: 126.522463, isPopular: true, fullAddr: '제주특별자치도 제주시 일도일동', keywords: ['제주', '탑동', '일도동', '연동', '노형동'] }
+];
+
+// Haversine 구면거리 계산 함수 (km 단위)
+window.calculateDistanceKm = function(lat1, lon1, lat2, lon2) {
+  const R = 6371; // 지구 반경 (km)
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+window.estimateDongFromCoords = function(lat, lon) {
+  const nodes = window.AISUM_LOCATIONS_DB || [];
+  let best = (nodes.length > 0) ? nodes[0].name : '현재 위치';
+  let minD = Infinity;
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    const dist = window.calculateDistanceKm(lat, lon, node.lat, node.lon);
+    if (dist < minD) {
+      minD = dist;
+      best = node.name;
+    }
+  }
+  return best;
+};
+
+window.updateLocationDisplay = function(dongName, lat, lon, customFullAddr) {
+  const currentDong = dongName || localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || sessionStorage.getItem('user_dong') || '현재 위치';
+  const name = currentDong;
+  const textEl = document.getElementById('current-location-text');
+  const pillBtn = document.getElementById('current-location-pill');
+  if (textEl) {
+    textEl.textContent = name;
+  }
+  if (pillBtn) {
+    pillBtn.setAttribute('aria-label', `현재 위치 변경: ${name}`);
+  }
+
+  // Determine full address: customFullAddr 우선, 없으면 기 저장 주소, 그 외 fallback
+  let fullAddr = customFullAddr;
+  if (!fullAddr) {
+    const savedAddr = localStorage.getItem('aisum_user_address') || sessionStorage.getItem('aisum_user_address');
+    if (savedAddr && savedAddr !== '현재 위치' && savedAddr !== '현재 GPS 측정 위치') {
+      fullAddr = savedAddr;
+    } else {
+      const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === name);
+      fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : (name !== '현재 위치' ? `대한민국 ${name}` : '위치 확인 중...');
+    }
+  }
+
+  const effectiveLat = lat || parseFloat(localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5665');
+  const effectiveLon = lon || parseFloat(localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '126.9780');
+
+  // Persist into localStorage & sessionStorage via PermissionManager
+  if (window.AisumPermissionManager) {
+    window.AisumPermissionManager.saveUserLocation(effectiveLat, effectiveLon, name, fullAddr);
+  } else {
+    try {
+      localStorage.setItem('aisum_user_lat', effectiveLat);
+      localStorage.setItem('aisum_user_lon', effectiveLon);
+      localStorage.setItem('user_lat', effectiveLat);
+      localStorage.setItem('user_lon', effectiveLon);
+      sessionStorage.setItem('user_lat', effectiveLat);
+      sessionStorage.setItem('user_lon', effectiveLon);
+      sessionStorage.setItem('aisum_user_lat', effectiveLat);
+      sessionStorage.setItem('aisum_user_lon', effectiveLon);
+      localStorage.setItem('aisum_user_dong', name);
+      localStorage.setItem('user_dong', name);
+      sessionStorage.setItem('aisum_user_dong', name);
+      sessionStorage.setItem('user_dong', name);
+      localStorage.setItem('aisum_user_address', fullAddr);
+      sessionStorage.setItem('aisum_user_address', fullAddr);
+    } catch (e) {}
+  }
+
+  // Update active status in quick-locations-grid
+  const grid = document.getElementById('quick-locations-grid');
+  if (grid) {
+    const buttons = grid.querySelectorAll('.loc-chip-btn');
+    buttons.forEach((btn) => {
+      const btnDong = btn.getAttribute('data-dong');
+      btn.classList.toggle('active', btnDong === name);
+    });
+  }
+
+  // Update modal indicators
+  const tagEl = document.getElementById('modal-current-dong-tag');
+  if (tagEl) {
+    tagEl.textContent = `현재: ${name}`;
+  }
+  const barEl = document.getElementById('modal-current-address-bar');
+  if (barEl) {
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong id="modal-current-address-val" style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
+  }
+};
+
+// 🧹 과거 개발 시 로컬스토리지에 박힌 문정동(37.4858, 127.1225) 하드코딩 잔재 자동 소독 파이프라인
+window.cleanLegacyMunjeongData = function() {
+  try {
+    const isManual = localStorage.getItem('aisum_location_manual') === 'true';
+    const sDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+    const sLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
+    if (!isManual && (sDong === '문정동' || sDong === '문정동 (법조타운)' || sLat === '37.4858' || parseFloat(sLat) === 37.4858)) {
+      console.log('🧹 [Aisum] 과거 문정동 하드코딩 잔재를 자동 소독하고 실시간 기기 위치 감지로 전환합니다.');
+      localStorage.removeItem('aisum_user_dong');
+      localStorage.removeItem('user_dong');
+      localStorage.removeItem('aisum_user_lat');
+      localStorage.removeItem('aisum_user_lon');
+      localStorage.removeItem('user_lat');
+      localStorage.removeItem('user_lon');
+      localStorage.removeItem('aisum_user_address');
+      sessionStorage.removeItem('aisum_user_dong');
+      sessionStorage.removeItem('user_dong');
+      sessionStorage.removeItem('aisum_user_lat');
+      sessionStorage.removeItem('aisum_user_lon');
+      sessionStorage.removeItem('user_lat');
+      sessionStorage.removeItem('user_lon');
+      sessionStorage.removeItem('aisum_user_address');
+    }
+  } catch (e) {}
+};
+window.cleanLegacyMunjeongData();
+
+// 📍 브라우저 GPS 실시간 위치 자동 감지 파이프라인 (사용자가 수동 고정한 경우 제외 메인화면 접속 시 즉시 최신 위치 동기화)
+window.autoDetectUserLocation = function(force = false) {
+  // 사용자가 위치 모달에서 특정 동을 수동 검색하여 고정한 경우(aisum_location_manual === 'true')에만 강제 재감지하지 않음
+  if (!force && localStorage.getItem('aisum_location_manual') === 'true') {
+    console.log('📍 [Aisum GPS] 사용자가 수동 설정한 위치를 유지합니다.');
+    return;
+  }
+
+  const textEl = document.getElementById('current-location-text');
+  const curDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+  if (textEl && (!curDong || curDong === '문정동' || curDong === '현재 위치' || curDong === '위치 확인 중...')) {
+    textEl.innerHTML = '<span style="display:inline-flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:14px;animation:spin 1s linear infinite;">sync</span> 현재 위치 찾는 중...</span>';
+  }
+
+  if (!navigator.geolocation) {
+    console.warn('📍 [Aisum GPS] 브라우저 Geolocation 미지원 ➔ IP 위치 추정으로 전환');
+    window.fetchIpLocationFallback();
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      console.log(`📍 [Aisum GPS] 기기 실제 GPS 감지 성공 - 위도: ${lat}, 경도: ${lon}`);
+
+      let dong = window.estimateDongFromCoords ? window.estimateDongFromCoords(lat, lon) : '현재 위치';
+      let fullAddr = '';
+
+      // 백엔드 역지오코딩 API 호출
+      try {
+        const isFileProto = window.location.protocol === 'file:';
+        const isNon8000 = (window.location.port !== '8000' && window.location.port !== '');
+        const apiBase = (isFileProto || isNon8000) ? 'http://127.0.0.1:8000' : '';
+        const resp = await fetch(`${apiBase}/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data && data.full_address) {
+            fullAddr = data.full_address;
+            if (data.dong && data.dong !== '현재 위치' && data.dong !== '내 위치') {
+              dong = data.dong;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('역지오코딩 API 실패 폴백:', e);
+      }
+
+      if (!fullAddr) {
+        const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === dong);
+        fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : (dong !== '현재 위치' ? `대한민국 ${dong}` : '대한민국');
+      }
+
+      console.log('📍 [Aisum GPS] 실제 사용자 현재 위치 적용 완료:', dong, lat, lon, fullAddr);
+      if (window.AisumPermissionManager) {
+        window.AisumPermissionManager.saveUserLocation(lat, lon, dong, fullAddr);
+      }
+      window.updateLocationDisplay(dong, lat, lon, fullAddr);
+      if (typeof window.initLiveFacilities === 'function') {
+        window.initLiveFacilities();
+      }
+    },
+    (err) => {
+      console.warn('📍 [Aisum GPS] Geolocation 감지 실패/차단:', err.message, '➔ IP 기반 위치 추정 전환');
+      window.fetchIpLocationFallback();
+    },
+    {
+      enableHighAccuracy: false, // 맥북/PC/모바일 어디서든 타임아웃 방지 (빠른 Wi-Fi/네트워크 측위)
+      timeout: 8000,
+      maximumAge: 60000
+    }
+  );
+};
+
+// 🌐 IP 기반 위치 추정 폴백 (GPS 미제공/차단 환경)
+window.fetchIpLocationFallback = function() {
+  if (localStorage.getItem('aisum_location_manual') === 'true') return;
+
+  fetch('https://ipapi.co/json/')
+    .then((res) => res.json())
+    .then((data) => {
+      if (data && data.latitude && data.longitude) {
+        const lat = parseFloat(data.latitude);
+        const lon = parseFloat(data.longitude);
+        const detectedDong = window.estimateDongFromCoords ? window.estimateDongFromCoords(lat, lon) : (data.city || '현재 위치');
+        const fullAddr = `대한민국 ${data.region || ''} ${data.city || ''} ${detectedDong}`.trim();
+        console.log('🌐 [Aisum IP] IP 기반 현재 위치 감지 완료:', detectedDong, lat, lon);
+        if (window.AisumPermissionManager) {
+          window.AisumPermissionManager.saveUserLocation(lat, lon, detectedDong, fullAddr);
+        }
+        window.updateLocationDisplay(detectedDong, lat, lon, fullAddr);
+        if (typeof window.initLiveFacilities === 'function') {
+          window.initLiveFacilities();
+        }
+      } else {
+        window.setFallbackSeoulCenter();
+      }
+    })
+    .catch((e) => {
+      console.log('IP location fallback skipped:', e);
+      window.setFallbackSeoulCenter();
+    });
+};
+
+window.setFallbackSeoulCenter = function() {
+  const isManual = localStorage.getItem('aisum_location_manual') === 'true';
+  if (isManual) return;
+  const defLat = 37.5665;
+  const defLon = 126.9780;
+  const defDong = '현재 위치';
+  const defAddr = '대한민국 서울특별시';
+  window.updateLocationDisplay(defDong, defLat, defLon, defAddr);
+  if (typeof window.initLiveFacilities === 'function') {
+    window.initLiveFacilities();
+  }
+};
+
+window.initUserLocation = function() {
+  window.cleanLegacyMunjeongData();
+
+  if (window.AisumPermissionManager && typeof window.AisumPermissionManager.syncSession === 'function') {
+    window.AisumPermissionManager.syncSession();
+  }
+  const isManual = localStorage.getItem('aisum_location_manual') === 'true';
+  const savedDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || sessionStorage.getItem('user_dong');
+  const savedLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat');
+  const savedLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon');
+  const savedAddr = localStorage.getItem('aisum_user_address') || sessionStorage.getItem('aisum_user_address');
+
+  // 1. 사용자가 수동 선택한 유효한 위치가 있는 경우에만 고정 반영
+  if (isManual && savedDong && savedLat && savedLon && savedDong !== '위치 확인 중...' && savedDong !== '현재 위치 찾는 중...') {
+    window.updateLocationDisplay(savedDong, parseFloat(savedLat), parseFloat(savedLon), savedAddr);
+  } else if (savedDong && savedLat && savedLon && savedDong !== '문정동' && savedDong !== '위치 확인 중...' && savedDong !== '현재 위치 찾는 중...') {
+    // 2. 이미 GPS로 확인된 실제 유효 위치가 있는 경우 즉각 표출하되 최신 위치 백그라운드 갱신
+    window.updateLocationDisplay(savedDong, parseFloat(savedLat), parseFloat(savedLon), savedAddr);
+    window.autoDetectUserLocation(false);
+  } else {
+    // 3. 저장된 위치가 없거나 과거 문정동인 경우: 즉시 현재 위치 감지 실행
+    const textEl = document.getElementById('current-location-text');
+    if (textEl) {
+      textEl.innerHTML = '<span style="display:inline-flex;align-items:center;gap:4px;"><span class="material-symbols-outlined" style="font-size:14px;animation:spin 1s linear infinite;">sync</span> 현재 위치 찾는 중...</span>';
+    }
+    window.autoDetectUserLocation(true);
+  }
+};
+
+window.refreshUserCurrentLocation = function() {
+  const btn = document.getElementById('btn-gps-refresh');
+  const originalHtml = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    btn.innerHTML = '<span class="material-symbols-outlined gps-icon" style="animation:spin 1s linear infinite;">sync</span><div class="gps-text-wrap"><span class="gps-main-text">현재 위치 측정 중...</span><span class="gps-sub-text">기기 실제 GPS 좌표를 실시간 조회하고 있습니다</span></div>';
+  }
+
+  // 1. 수동 선택 상태 초기화 (실측 GPS 모드로 전환)
+  try {
+    localStorage.removeItem('aisum_location_manual');
+  } catch (e) {}
+
+  const finalizeLocation = async (lat, lon) => {
+    let dong = window.estimateDongFromCoords ? window.estimateDongFromCoords(lat, lon) : '현재 위치';
+    let fullAddr = '';
+
+    // 2. 역지오코딩 백엔드 API (coord2address) 실시간 호출 (카카오 + OpenStreetMap Nominatim Fallback)
+    try {
+      const resp = await fetch(`/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data && data.full_address) {
+          fullAddr = data.full_address;
+          if (data.dong && data.dong !== '현재 위치' && data.dong !== '내 위치') {
+            dong = data.dong;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Reverse geocoding API error:', e);
+    }
+
+    if (!fullAddr) {
+      const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === dong);
+      fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : `대한민국 ${dong}`;
+    }
+
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.innerHTML = originalHtml;
+    }
+
+    // 3. UI 및 LocalStorage에 상세 주소 및 실측 좌표 영구 동기화
+    if (window.AisumPermissionManager) {
+      window.AisumPermissionManager.saveUserLocation(lat, lon, dong, fullAddr);
+    } else {
+      localStorage.setItem('aisum_user_lat', lat);
+      localStorage.setItem('aisum_user_lon', lon);
+      localStorage.setItem('user_lat', lat);
+      localStorage.setItem('user_lon', lon);
+      sessionStorage.setItem('user_lat', lat);
+      sessionStorage.setItem('user_lon', lon);
+      localStorage.setItem('aisum_user_dong', dong);
+      localStorage.setItem('user_dong', dong);
+      localStorage.setItem('aisum_user_address', fullAddr);
+      localStorage.setItem('aisum_permission_granted', 'true');
+      localStorage.setItem('aisum_permission_location', 'granted');
+    }
+
+    window.updateLocationDisplay(dong, lat, lon, fullAddr);
+
+    // 최근 이용 지역 히스토리에 추가
+    if (typeof window.addRecentLocation === 'function') {
+      window.addRecentLocation(dong, lat, lon, fullAddr);
+    }
+
+    // 모달 상단 주소 바 엘리먼트 즉시 시각 갱신
+    const barEl = document.getElementById('modal-current-address-bar');
+    if (barEl) {
+      barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
+    }
+
+    if (typeof window.initLiveFacilities === 'function') {
+      window.initLiveFacilities();
+    }
+    if (typeof window.showAisumToast === 'function') {
+      window.showAisumToast(`📍 현재 위치로 설정되었습니다: ${dong}`);
+    }
+
+    // 모달 자동 닫기
+    setTimeout(() => {
+      if (typeof window.closeLocationModal === 'function') {
+        window.closeLocationModal();
+      }
+    }, 650);
+  };
+
+  // ✅ 사용자 요청 표준 navigator.geolocation 적용
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        const lat = position.coords.latitude;  // 위도
+        const lon = position.coords.longitude; // 경도
+        console.log(`위도: ${lat}, 경도: ${lon}`);
+        finalizeLocation(lat, lon);
+      },
+      function(error) {
+        console.error('위치 측정 실패:', error);
+        if (btn) {
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.innerHTML = originalHtml;
+        }
+        if (typeof window.showAisumToast === 'function') {
+          window.showAisumToast('⚠️ 기기 위치 정보를 가져올 수 없습니다. 브라우저 위치 권한을 확인해주세요.');
+        }
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 15000,
+        maximumAge: 60000
+      }
+    );
+  } else {
+    console.warn('Geolocation is not supported by this browser.');
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.innerHTML = originalHtml;
+    }
+  }
+};
+
+// ============================================================================
+// 📍 User Recent Locations History Manager (사용자 실제 검색/설정 지역 히스토리 관리 - 최대 15개)
+// ============================================================================
+const AISUM_RECENT_LOCATIONS_KEY = 'aisum_recent_locations';
+const MAX_RECENT_LOCATIONS = 15;
+
+function extractGuName(fullAddr, defaultDong) {
+  if (fullAddr) {
+    const match = fullAddr.match(/([가-힣]+(?:구|군|시))\s/);
+    if (match) return match[1];
+  }
+  return '지역';
+}
+
+window.getRecentLocations = function() {
+  try {
+    const raw = localStorage.getItem(AISUM_RECENT_LOCATIONS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    return [];
+  }
+};
+
+window.addRecentLocation = function(dongName, lat, lon, fullAddr) {
+  if (!dongName || dongName === '현재 위치' || dongName === '내 위치') return;
+  const name = dongName.trim();
+  const addr = (fullAddr || (name !== '현재 위치' ? `대한민국 ${name}` : '')).trim();
+  const gu = extractGuName(addr, name);
+
+  let list = window.getRecentLocations();
+  // 1. 기존 동일 지역(동 이름 또는 전체 주소) 중복 제거 (기존 정보는 최신화 위해 제거)
+  list = list.filter((item) => item.name !== name && item.fullAddr !== addr);
+
+  // 2. 최상단(맨 앞)에 새 위치 추가
+  list.unshift({
+    name: name,
+    gu: gu,
+    lat: lat || 37.5665,
+    lon: lon || 126.9780,
+    fullAddr: addr,
+    timestamp: Date.now()
+  });
+
+  // 3. 최대 15개까지만 유지 (15개 초과 시 오래된 정보 자동 제거)
+  if (list.length > MAX_RECENT_LOCATIONS) {
+    list = list.slice(0, MAX_RECENT_LOCATIONS);
+  }
+
+  try {
+    localStorage.setItem(AISUM_RECENT_LOCATIONS_KEY, JSON.stringify(list));
+  } catch (e) {}
+
+  // 열려있는 모달 그리드 동적 갱신
+  if (typeof window.renderRecentLocationsGrid === 'function') {
+    window.renderRecentLocationsGrid();
+  }
+};
+
+window.renderRecentLocationsGrid = function() {
+  const grid = document.getElementById('quick-locations-grid');
+  if (!grid) return;
+
+  const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '현재 위치';
+  const recentList = window.getRecentLocations();
+
+  // 사용자가 실제로 검색/이용한 지역이 없는 경우 (HTML 하드코딩 완전 배제)
+  if (recentList.length === 0) {
+    grid.innerHTML = `
+      <div class="recent-locations-empty" style="grid-column: 1 / -1; padding: 24px 12px; text-align: center; color: #94a3b8; font-size: 13px; line-height: 1.6; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+        <span class="material-symbols-outlined" style="font-size: 26px; color: #94a3b8; display: block; margin-bottom: 4px;">manage_search</span>
+        <strong style="color: #475569; font-size: 13.5px;">최근 설정한 지역이 없습니다</strong><br />
+        상단 검색창에서 동이나 도로명을 검색하여 위치를 설정해보세요.
+      </div>
+    `;
+    return;
+  }
+
+  let chipsHtml = '';
+  recentList.forEach((loc) => {
+    const isActive = loc.name === currentDong;
+    const chipAddr = loc.fullAddr || `서울특별시 ${loc.gu} ${loc.name}`;
+    chipsHtml += `
+      <button type="button" class="loc-chip-btn ${isActive ? 'active' : ''}" data-dong="${escapeSearchHtml(loc.name)}" onclick="window.setUserCustomLocation('${escapeSearchHtml(loc.name)}', ${loc.lat}, ${loc.lon}, '${escapeSearchHtml(chipAddr)}')">
+        <span class="chip-name">${escapeSearchHtml(loc.name)}</span>
+        <span class="chip-gu">${escapeSearchHtml(loc.gu || '')}</span>
+      </button>
+    `;
+  });
+  grid.innerHTML = chipsHtml;
+};
+
+window.setUserCustomLocation = function(dongName, lat, lon, fullAddr) {
+  const userAddr = fullAddr || `서울특별시 송파구 ${dongName}`;
+  try {
+    localStorage.setItem('aisum_location_manual', 'true');
+    localStorage.setItem('aisum_user_address', userAddr);
+  } catch (e) {}
+
+  // 사용자가 검색/선택한 실제 지역을 최근 이용 지역 히스토리에 추가 (최대 15개, 최신순 갱신)
+  if (typeof window.addRecentLocation === 'function') {
+    window.addRecentLocation(dongName, lat, lon, userAddr);
+  }
+
+  window.updateLocationDisplay(dongName, lat, lon, userAddr);
+  if (typeof window.closeLocationModal === 'function') {
+    window.closeLocationModal();
+  }
+  if (typeof window.initLiveFacilities === 'function') {
+    window.initLiveFacilities();
+  }
+  if (typeof window.showAisumToast === 'function') {
+    window.showAisumToast(`📍 위치가 '${dongName}'(으)로 설정되었습니다.`);
+  }
+};
+
+// ============================================================================
+// 🔍 Location Address & Keyword Search Engine (주소 검색 / 키워드 검색 엔진)
+// ============================================================================
+function escapeSearchHtml(str) {
+  return (str || '').replace(/[&<>"']/g, function(m) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+  });
+}
+
+function highlightMatch(text, query) {
+  if (!text || !query) return escapeSearchHtml(text);
+  const escapedText = escapeSearchHtml(text);
+  const cleanQ = query.trim();
+  if (!cleanQ) return escapedText;
+
+  try {
+    const regex = new RegExp(`(${cleanQ.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return escapedText.replace(regex, '<span class="match-highlight">$1</span>');
+  } catch (e) {
+    return escapedText;
+  }
+}
+
+window.searchLocations = function(query) {
+  if (!query || !query.trim()) return [];
+  const rawQ = query.trim();
+  const lowerQ = rawQ.toLowerCase();
+  const q = lowerQ.replace(/\s+/g, '');
+
+  const results = [];
+  const addedKeys = new Set();
+
+  // 0. 최상단: 사용자가 입력한 주소/키워드로 직접 설정할 수 있는 직관 카드 생성
+  let directLat = 37.4858;
+  let directLon = 127.1225;
+  const currLoc = window.AisumPermissionManager ? window.AisumPermissionManager.getUserLocation() : null;
+  if (currLoc && currLoc.lat && currLoc.lon) {
+    directLat = currLoc.lat;
+    directLon = currLoc.lon;
+  }
+
+  // 사용자가 입력한 검색어 내에 알려진 행정구역이 있으면 해당 중심 좌표를 스마트하게 매칭
+  const db = window.AISUM_LOCATIONS_DB || [];
+  for (let i = 0; i < db.length; i++) {
+    const item = db[i];
+    if (q.includes(item.name.replace(/\s+/g, '')) || item.keywords.some(kw => q.includes(kw))) {
+      directLat = item.lat;
+      directLon = item.lon;
+      break;
+    }
+  }
+
+  results.push({
+    isDirect: true,
+    name: rawQ,
+    gu: '입력 주소 직접 지정',
+    city: '주소 설정',
+    fullAddr: rawQ,
+    lat: directLat,
+    lon: directLon,
+    score: 99999,
+    type: 'custom'
+  });
+
+  // 1. Search in AISUM_LOCATIONS_DB (전국 핵심 동 & 행정구역 DB)
+  db.forEach((item) => {
+    const nameClean = item.name.toLowerCase().replace(/\s+/g, '');
+    const guClean = item.gu.toLowerCase().replace(/\s+/g, '');
+    const cityClean = (item.city || '').toLowerCase().replace(/\s+/g, '');
+    const addrClean = (item.fullAddr || '').toLowerCase().replace(/\s+/g, '');
+    const kwMatch = (item.keywords || []).some((kw) => kw.toLowerCase().replace(/\s+/g, '').includes(q));
+
+    const nameMatch = nameClean.includes(q);
+    const guMatch = guClean.includes(q);
+    const cityMatch = cityClean.includes(q);
+    const addrMatch = addrClean.includes(q);
+
+    if (nameMatch || guMatch || cityMatch || addrMatch || kwMatch) {
+      let score = 0;
+      if (nameClean === q) score += 120;
+      else if (nameClean.startsWith(q)) score += 80;
+      else if (nameMatch) score += 50;
+      else if (guMatch) score += 40;
+      else if (kwMatch) score += 30;
+      else score += 10;
+
+      results.push({
+        isDirect: false,
+        name: item.name,
+        gu: item.gu,
+        city: item.city || '',
+        fullAddr: item.fullAddr || `${item.city} ${item.gu} ${item.name}`,
+        lat: item.lat,
+        lon: item.lon,
+        score: score,
+        type: 'region'
+      });
+      addedKeys.add(item.name + item.gu);
+    }
+  });
+
+  // 2. Search in Nationwide Moonlight Hospitals & Pharmacies (달빛병원 156개소 매칭)
+  const pairings = window.NATIONWIDE_PAIRINGS_DATA || [];
+  pairings.forEach((p) => {
+    const hName = p.병원명 || '';
+    const hAddr = p.병원주소 || '';
+    const pName = p.약국명 || '';
+    const pAddr = p.약국주소 || '';
+
+    const textToMatch = (hName + ' ' + hAddr + ' ' + pName + ' ' + pAddr).toLowerCase();
+    if (textToMatch.includes(lowerQ) || textToMatch.replace(/\s+/g, '').includes(q)) {
+      const lat = parseFloat(p.병원위도) || 37.4858;
+      const lon = parseFloat(p.병원경도) || 127.1225;
+      const dong = window.estimateDongFromCoords(lat, lon);
+      const key = (hName || pName) + dong;
+      if (!addedKeys.has(key)) {
+        results.push({
+          isDirect: false,
+          name: dong,
+          gu: hName || pName,
+          city: '달빛병원 연계',
+          fullAddr: hAddr || pAddr || `${dong} 일대`,
+          lat: lat,
+          lon: lon,
+          score: 35,
+          type: 'facility'
+        });
+        addedKeys.add(key);
+      }
+    }
+  });
+
+  // 3. Search in Public Night Pharmacies (공공심야약국 2028개소 매칭)
+  const nightPharmacies = window.PUBLIC_NIGHT_PHARMACIES_DATA || [];
+  nightPharmacies.forEach((np) => {
+    const npName = np.약국명 || '';
+    const npAddr = np.주소 || np.약국주소 || '';
+    const textToMatch = (npName + ' ' + npAddr).toLowerCase();
+    if (textToMatch.includes(lowerQ) || textToMatch.replace(/\s+/g, '').includes(q)) {
+      const lat = parseFloat(np.위도 || np.약국위도) || 37.4858;
+      const lon = parseFloat(np.경도 || np.약국경도) || 127.1225;
+      const dong = window.estimateDongFromCoords(lat, lon);
+      const key = npName + dong;
+      if (!addedKeys.has(key)) {
+        results.push({
+          isDirect: false,
+          name: dong,
+          gu: npName,
+          city: '심야약국 연계',
+          fullAddr: npAddr,
+          lat: lat,
+          lon: lon,
+          score: 30,
+          type: 'pharmacy'
+        });
+        addedKeys.add(key);
+      }
+    }
+  });
+
+  // Direct card stays on top, rest sorted by relevance score
+  const directItem = results[0];
+  const otherItems = results.slice(1);
+  otherItems.sort((a, b) => b.score - a.score);
+  return [directItem, ...otherItems.slice(0, 14)];
+};
+
+// ============================================================================
+// 📍 Location Search Mode & Kakao Local API Engine (주소 검색 vs 키워드 검색)
+// ============================================================================
+window.__CURRENT_LOCATION_SEARCH_MODE__ = 'address'; // 'address' | 'keyword'
+window.__LOCATION_SEARCH_DEBOUNCE_TIMER__ = null;
+
+window.switchLocationSearchMode = function(mode) {
+  window.__CURRENT_LOCATION_SEARCH_MODE__ = mode;
+
+  const tabAddr = document.getElementById('tab-mode-address');
+  const tabKeyw = document.getElementById('tab-mode-keyword');
+  const input = document.getElementById('location-search-input');
+  const icon = document.getElementById('location-search-icon');
+
+  if (tabAddr && tabKeyw) {
+    if (mode === 'address') {
+      tabAddr.classList.add('active');
+      tabAddr.setAttribute('aria-selected', 'true');
+      tabAddr.style.border = '1.5px solid #0066ff';
+      tabAddr.style.background = '#f0f7ff';
+      tabAddr.style.color = '#0066ff';
+      tabAddr.style.fontWeight = '700';
+
+      tabKeyw.classList.remove('active');
+      tabKeyw.setAttribute('aria-selected', 'false');
+      tabKeyw.style.border = '1.5px solid #e2e8f0';
+      tabKeyw.style.background = '#ffffff';
+      tabKeyw.style.color = '#64748b';
+      tabKeyw.style.fontWeight = '600';
+
+      if (input) {
+        input.placeholder = '지번 또는 도로명 입력 (예: 문정동 642, 송파대로 201)';
+      }
+      if (icon) icon.textContent = 'signpost';
+    } else {
+      tabKeyw.classList.add('active');
+      tabKeyw.setAttribute('aria-selected', 'true');
+      tabKeyw.style.border = '1.5px solid #0066ff';
+      tabKeyw.style.background = '#f0f7ff';
+      tabKeyw.style.color = '#0066ff';
+      tabKeyw.style.fontWeight = '700';
+
+      tabAddr.classList.remove('active');
+      tabAddr.setAttribute('aria-selected', 'false');
+      tabAddr.style.border = '1.5px solid #e2e8f0';
+      tabAddr.style.background = '#ffffff';
+      tabAddr.style.color = '#64748b';
+      tabAddr.style.fontWeight = '600';
+
+      if (input) {
+        input.placeholder = '건물명, 역명 또는 지역명 입력 (예: 코엑스, 강남역, 해운대)';
+      }
+      if (icon) icon.textContent = 'apartment';
+    }
+  }
+
+  // If search input has value, trigger search immediately
+  if (input && input.value.trim()) {
+    window.performLocationSearch(input.value.trim());
+  }
+};
+
+window.performLocationSearch = async function(query) {
+  const mode = window.__CURRENT_LOCATION_SEARCH_MODE__ || 'address';
+  const resultsSec = document.getElementById('location-search-results-section');
+  const resultsList = document.getElementById('location-results-list');
+  const countEl = document.getElementById('search-results-count');
+  const quickSec = document.getElementById('quick-locations-section');
+
+  if (!query) {
+    if (resultsSec) resultsSec.style.display = 'none';
+    if (quickSec) quickSec.style.display = 'flex';
+    return;
+  }
+
+  if (quickSec) quickSec.style.display = 'none';
+  if (resultsSec) resultsSec.style.display = 'flex';
+
+  let items = [];
+
+  try {
+    // 1. Call Backend Kakao Local Proxy API
+    const res = await fetch(`/api/v1/location/search?search_type=${mode}&q=${encodeURIComponent(query)}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.results && data.results.length > 0) {
+        items = data.results;
+      }
+    }
+  } catch (err) {
+    console.warn('Online location search failed, falling back to local DB:', err);
+  }
+
+  // 2. Fallback to local DB if empty
+  if (items.length === 0) {
+    const localMatches = window.searchLocations(query);
+    items = localMatches.filter(m => !m.isDirect).map(m => ({
+      type: mode,
+      title: m.name,
+      category: m.gu || m.city || '지역',
+      road_address: m.fullAddr,
+      jibun_address: m.fullAddr,
+      dong: m.name,
+      lat: m.lat,
+      lon: m.lon,
+      source: 'fallback'
+    }));
+  }
+
+  if (countEl) {
+    countEl.textContent = `검색 결과 ${items.length}건`;
+  }
+
+  if (!resultsList) return;
+
+  // Direct set card on top
+  const isAddress = mode === 'address';
+  let html = `
+    <li class="location-result-item direct-set-item" style="background:#f0f7ff;border:1.5px solid #93c5fd;border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;" onclick="window.setUserCustomLocation('${escapeSearchHtml(query)}', 37.4858, 127.1225, '${escapeSearchHtml(query)}')">
+      <div class="result-main-wrap" style="display:flex;align-items:center;gap:10px;">
+        <span class="material-symbols-outlined result-pin-icon" style="color:#0066ff;font-size:22px;">edit_location_alt</span>
+        <div class="result-info" style="display:flex;flex-direction:column;gap:2px;">
+          <span class="result-title" style="color:#0066ff;font-weight:700;font-size:14px;">'${escapeSearchHtml(query)}' (으)로 현재 주소 직접 설정</span>
+          <span class="result-desc" style="color:#475569;font-size:12px;">입력하신 ${isAddress ? '주소' : '키워드'}를 사용자 기본 위치로 즉시 지정합니다</span>
+        </div>
+      </div>
+      <span class="result-tag" style="background:#0066ff;color:#ffffff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;">직접 설정</span>
+    </li>
+  `;
+
+  items.forEach((item) => {
+    const highlightedTitle = highlightMatch(item.title, query);
+    const subAddr = item.road_address || item.jibun_address || '';
+    const highlightedAddr = highlightMatch(subAddr, query);
+    const badgeText = item.category || (item.type === 'keyword' ? '장소' : '주소');
+    const dongName = item.dong || item.title;
+    const fullAddress = item.road_address || item.jibun_address || item.title;
+
+    html += `
+      <li class="location-result-item" onclick="window.setUserCustomLocation('${escapeSearchHtml(dongName)}', ${item.lat}, ${item.lon}, '${escapeSearchHtml(fullAddress)}')">
+        <div class="result-main-wrap">
+          <span class="material-symbols-outlined result-pin-icon">${item.type === 'keyword' ? 'apartment' : 'location_on'}</span>
+          <div class="result-info">
+            <span class="result-title">${highlightedTitle}</span>
+            <span class="result-desc">${highlightedAddr}</span>
+          </div>
+        </div>
+        <span class="result-tag" style="${item.type === 'keyword' ? 'background:#e0f2fe;color:#0369a1;' : ''}">${badgeText}</span>
+      </li>
+    `;
+  });
+
+  resultsList.innerHTML = html;
+};
+
+window.initLocationSearch = function() {
+  const input = document.getElementById('location-search-input');
+  const clearBtn = document.getElementById('location-search-clear-btn');
+
+  if (!input) return;
+  if (input.dataset.searchBound === 'true') return;
+  input.dataset.searchBound = 'true';
+
+  const handleSearch = function() {
+    const query = input.value.trim();
+    if (clearBtn) clearBtn.style.display = query ? 'flex' : 'none';
+
+    if (window.__LOCATION_SEARCH_DEBOUNCE_TIMER__) {
+      clearTimeout(window.__LOCATION_SEARCH_DEBOUNCE_TIMER__);
+    }
+
+    window.__LOCATION_SEARCH_DEBOUNCE_TIMER__ = setTimeout(() => {
+      window.performLocationSearch(query);
+    }, 200);
+  };
+
+  input.addEventListener('input', handleSearch);
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const resultsList = document.getElementById('location-results-list');
+      const firstItem = resultsList ? resultsList.querySelector('.location-result-item') : null;
+      if (firstItem) {
+        firstItem.click();
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      if (typeof window.closeLocationModal === 'function') {
+        window.closeLocationModal();
+      }
+    }
+  });
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      input.value = '';
+      input.focus();
+      handleSearch();
+    });
+  }
+};
+
+window.openLocationModal = function() {
+  const modal = document.getElementById('location-select-modal');
+  if (!modal) return;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  // Initialize search event listeners
+  if (typeof window.initLocationSearch === 'function') {
+    window.initLocationSearch();
+  }
+
+  // Reset search input and UI state
+  const searchInput = document.getElementById('location-search-input');
+  const clearBtn = document.getElementById('location-search-clear-btn');
+  const resultsSec = document.getElementById('location-search-results-section');
+  const quickSec = document.getElementById('quick-locations-section');
+  if (searchInput) {
+    searchInput.value = '';
+    setTimeout(() => {
+      searchInput.focus();
+    }, 150);
+  }
+  if (clearBtn) clearBtn.style.display = 'none';
+  if (resultsSec) resultsSec.style.display = 'none';
+  if (quickSec) quickSec.style.display = 'flex';
+
+  // Update current selected dong badge and full address bar
+  const currentDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong') || '현재 위치';
+  const tagEl = document.getElementById('modal-current-dong-tag');
+  if (tagEl) {
+    tagEl.textContent = `현재: ${currentDong}`;
+  }
+  const barEl = document.getElementById('modal-current-address-bar');
+  if (barEl) {
+    let fullAddr = localStorage.getItem('aisum_user_address');
+    if (!fullAddr) {
+      const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === currentDong);
+      fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : (currentDong !== '현재 위치' ? `대한민국 ${currentDong}` : '현재 위치');
+    }
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:16px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
+  }
+
+  // Render quick locations grid based on user's actual search history (max 15, no hardcoded entries)
+  if (typeof window.renderRecentLocationsGrid === 'function') {
+    window.renderRecentLocationsGrid();
+  }
+};
+
+window.closeLocationModal = function() {
+  const modal = document.getElementById('location-select-modal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+// ============================================================================
+// 🏥 Real-Time Nighttime Medical Facilities Loader (전국 156개 병원 + 2,028개 약국 실데이터 기반 거리순 연동)
+// ============================================================================
+window.__LIVE_FACILITIES_MASTER__ = null;
+window.__CURRENT_FACILITY_FILTER__ = 'all';
+window.__FACILITY_VISIBLE_COUNT__ = 15;
+window.__FACILITY_PAGE_STEP__ = 15;
+
+window.initLiveFacilities = function() {
+  const stack = document.getElementById('facility-card-stack');
+  if (!stack) return; // Only execute on index.html
+
+  // 1. 사용자 현재 위치 좌표 획득 (PermissionManager 활용, 기본값 서울 중심)
+  const userLoc = window.AisumPermissionManager
+    ? window.AisumPermissionManager.getUserLocation()
+    : { lat: 37.5665, lon: 126.9780, dong: '현재 위치' };
+
+  // 2. 전국 달빛어린이병원 (156개) 및 야간약국 (2,028개) 실데이터셋 확인
+  const hospRaw = window.NATIONAL_MOONLIGHT_HOSPITALS_DATA || [];
+  const pharmRaw = window.NATIONAL_NIGHT_PHARMACIES_DATA || [];
+
+  if (hospRaw.length > 0 && pharmRaw.length > 0) {
+    window.buildLiveFacilitiesData(hospRaw, pharmRaw, userLoc);
+  } else {
+    // 비동기 fetch 안전망 (네트워크 환경 대비)
+    Promise.all([
+      hospRaw.length > 0 ? Promise.resolve(hospRaw) : fetch('/data/national_moonlight_hospitals_156.json').then(r => r.json()).catch(() => []),
+      pharmRaw.length > 0 ? Promise.resolve(pharmRaw) : fetch('/data/national_night_pharmacies_2028.json').then(r => r.json()).catch(() => [])
+    ]).then(([hList, pList]) => {
+      const finalHosp = (hList && hList.length > 0) ? hList : (window.NATIONWIDE_PAIRINGS_DATA || []);
+      const finalPharm = (pList && pList.length > 0) ? pList : (window.PUBLIC_NIGHT_PHARMACIES_DATA || []);
+      window.NATIONAL_MOONLIGHT_HOSPITALS_DATA = finalHosp;
+      window.NATIONAL_NIGHT_PHARMACIES_DATA = finalPharm;
+      window.buildLiveFacilitiesData(finalHosp, finalPharm, userLoc);
+    }).catch(err => {
+      console.warn('Real facility datasets async load error:', err);
+    });
+  }
+};
+
+/**
+ * 주소 문자열을 간결하고 명료하게 정제 (상세 층/호수/빌딩명 제거, 도로명 + 법정동)
+ * 예: "경기도 하남시 감일백제로 177, JS스퀘어감일 4~5층 (감이동)" -> "경기 하남시 감일백제로 177 (감이동)"
+ */
+window.formatCompactAddress = function(rawAddr) {
+  if (!rawAddr || typeof rawAddr !== 'string') return '';
+  
+  // 1. (법정동) 또는 (행정동) 추출
+  let dongPart = '';
+  const dongMatch = rawAddr.match(/\(([가-힣0-9\s]+(?:동|읍|면|리|가))\)/);
+  if (dongMatch) {
+    dongPart = dongMatch[0];
+  }
+
+  // 2. 콤마 앞 기본 도로명 주소 추출
+  let base = rawAddr.split(',')[0].trim();
+  base = base.replace(/\s*\([^)]*\)/g, '').trim();
+
+  // 3. 복잡한 상세 빌딩/상가/층/호 명칭 제거
+  base = base.replace(/\s+\d+층.*$/i, '')
+             .replace(/\s+\d+호.*$/i, '')
+             .replace(/\s+지하\s*\d+.*$/i, '')
+             .replace(/\s+[가-힣A-Za-z0-9]+(?:스퀘어|빌딩|프라자|타워|센터|팰리스|상가|오피스텔|아파트|빌라).*$/i, '')
+             .trim();
+
+  // 4. 시도 명칭 자연스럽게 축약
+  base = base.replace(/^서울특별시\s+/, '서울 ')
+             .replace(/^경기도\s+/, '경기 ')
+             .replace(/^인천광역시\s+/, '인천 ')
+             .replace(/^부산광역시\s+/, '부산 ')
+             .replace(/^대구광역시\s+/, '대구 ')
+             .replace(/^대전광역시\s+/, '대전 ')
+             .replace(/^광주광역시\s+/, '광주 ')
+             .replace(/^울산광역시\s+/, '울산 ')
+             .replace(/^세종특별자치시\s+/, '세종 ')
+             .replace(/^강원특별자치도\s+/, '강원 ')
+             .replace(/^전북특별자치도\s+/, '전북 ')
+             .replace(/^제주특별자치도\s+/, '제주 ');
+
+  return dongPart ? `${base} ${dongPart}` : base;
+};
+
+/**
+ * 현재 시간(요일 및 시:분)에 기반한 실시간 운영/진료 상태 판별 엔진
+ * @param {string} hoursStr - 오늘 운영시간 문자열 (예: "09:00 ~ 23:00", "18:00 ~ 23:00")
+ * @param {string} facilityType - 'hospital' | 'pharmacy'
+ * @param {Date} [testDate] - 선택적 시간 오버라이드
+ */
+window.evaluateOperatingStatus = function(hoursStr, facilityType, testDate) {
+  const isHospital = facilityType === 'hospital';
+  const labelSuffix = isHospital ? '진료' : '영업';
+  
+  const now = testDate || new Date();
+  const dayOfWeek = now.getDay(); // 0: 일, 1: 월, 2: 화, 3: 수, 4: 목, 5: 금, 6: 토
+  const dayLabels = ['일', '월', '화', '수', '목', '금', '토'];
+  const todayPrefix = `${dayLabels[dayOfWeek]}요일`;
+
+  // 1. 시간 정보가 없거나 휴진/미운영인 경우
+  if (!hoursStr || typeof hoursStr !== 'string' || hoursStr.trim() === '' || 
+      hoursStr.includes('휴진') || hoursStr.includes('휴무') || hoursStr.includes('미운영')) {
+    return {
+      isOpen: false,
+      statusBadge: '오늘 휴진',
+      statusClass: 'status-closed',
+      closingTag: `${todayPrefix} 휴진`,
+      priority: 5,
+      rawHours: hoursStr || '휴진'
+    };
+  }
+
+  const str = hoursStr.trim();
+
+  // 2. 주말/공휴일 특화인데 평일인 경우
+  if (str.includes('주말') || str.includes('공휴일 특화')) {
+    const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+    if (!isWeekend) {
+      return {
+        isOpen: false,
+        statusBadge: '평일 미운영 (주말 특화)',
+        statusClass: 'status-closed',
+        closingTag: '주말/공휴일 특화',
+        priority: 5,
+        rawHours: str
+      };
+    }
+  }
+
+  // 3. 시간 범위 파싱 "HH:MM ~ HH:MM"
+  const match = str.match(/(\d{1,2}):(\d{2})\s*~\s*(\d{1,2}):(\d{2})/);
+  if (!match) {
+    if (str.includes('24시간') || str.includes('365')) {
+      return {
+        isOpen: true,
+        statusBadge: isHospital ? '진료중 · 접수 가능' : '영업중 · 24시간',
+        statusClass: 'status-open',
+        closingTag: `${todayPrefix} 24시간 운영`,
+        priority: 1,
+        rawHours: str
+      };
+    }
+    return {
+      isOpen: true,
+      statusBadge: isHospital ? '진료중 · 접수 가능' : '영업중',
+      statusClass: 'status-open',
+      closingTag: `${todayPrefix} ${str}`,
+      priority: 2,
+      rawHours: str
+    };
+  }
+
+  const startH = parseInt(match[1], 10);
+  const startM = parseInt(match[2], 10);
+  let endH = parseInt(match[3], 10);
+  const endM = parseInt(match[4], 10);
+
+  const startMinutes = startH * 60 + startM;
+  let endMinutes = endH * 60 + endM;
+
+  // 익일 새벽(예: 01:00) 또는 자정 24:00 처리
+  if (endMinutes <= startMinutes || endH === 24) {
+    endMinutes += 24 * 60;
+  }
+
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  let adjustedCurrent = currentMinutes;
+
+  // 자정 이후 새벽 00~06시이고 전날 밤부터 이어지는 야간 운영인 경우
+  if (endMinutes > 24 * 60 && currentMinutes < 6 * 60) {
+    adjustedCurrent += 24 * 60;
+  }
+
+  const startStr = `${String(startH).padStart(2, '0')}:${String(startM).padStart(2, '0')}`;
+  const endStr = `${String(match[3]).padStart(2, '0')}:${String(endM).padStart(2, '0')}`;
+  const displayHoursTag = `${todayPrefix} ${startStr} ~ ${endStr}`;
+
+  // 4. 상태 및 우선순위 판별
+  if (adjustedCurrent >= startMinutes && adjustedCurrent < endMinutes) {
+    const diff = endMinutes - adjustedCurrent;
+    if (diff <= 30) {
+      return {
+        isOpen: true,
+        statusBadge: isHospital ? '곧 마감 · 접수 마감 주의' : '곧 마감 · 조제 마감 주의',
+        statusClass: 'status-warning',
+        closingTag: displayHoursTag,
+        priority: 2,
+        rawHours: str
+      };
+    }
+    return {
+      isOpen: true,
+      statusBadge: isHospital ? '진료중 · 접수 가능' : '영업중 · 조제 가능',
+      statusClass: 'status-open',
+      closingTag: displayHoursTag,
+      priority: 1,
+      rawHours: str
+    };
+  } else if (adjustedCurrent < startMinutes) {
+    return {
+      isOpen: false,
+      statusBadge: `${startStr} ${labelSuffix} 시작`,
+      statusClass: 'status-standby',
+      closingTag: displayHoursTag,
+      priority: 3,
+      rawHours: str
+    };
+  } else {
+    return {
+      isOpen: false,
+      statusBadge: isHospital ? '진료 마감' : '영업 종료',
+      statusClass: 'status-closed',
+      closingTag: displayHoursTag,
+      priority: 4,
+      rawHours: str
+    };
+  }
+};
+
+window.buildLiveFacilitiesData = function(hospList, pharmList, userLoc) {
+  const lat = userLoc.lat;
+  const lon = userLoc.lon;
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // 0: 일, 1: 월, ..., 6: 토
+
+  // 1. 병원(156개 전수) 오늘 운영시간 선택, 상태 판별, 간결한 주소 정제
+  const hospitals = hospList.map(h => {
+    const hLat = parseFloat(h.위도) || lat;
+    const hLon = parseFloat(h.경도) || lon;
+    const dist = (typeof window.calculateDistanceKm === 'function')
+      ? window.calculateDistanceKm(lat, lon, hLat, hLon)
+      : 1.0;
+    const hDist = dist.toFixed(1);
+    const hWalk = Math.max(3, Math.round(dist * 14)) + '분';
+    const hCar = Math.max(2, Math.round(dist * 2.3)) + '분';
+
+    // 오늘 요일에 맞는 진료시간 텍스트 선택
+    let todayHoursStr = '';
+    if (dayOfWeek === 6) {
+      todayHoursStr = h.토요진료 || h.평일진료 || '';
+    } else if (dayOfWeek === 0) {
+      todayHoursStr = h.일요진료 || h.공휴일진료 || '';
+    } else {
+      todayHoursStr = h.평일진료 || '';
+    }
+
+    const statusObj = window.evaluateOperatingStatus(todayHoursStr, 'hospital', now);
+    const compactAddr = window.formatCompactAddress(h.주소);
+    const cleanDesc = `소아 야간·휴일 진료 · ${compactAddr}`;
+
+    return {
+      type: 'hospital',
+      id: h.기관코드 || h.병원명,
+      name: h.병원명 || '달빛어린이병원',
+      badge: '🌙 달빛어린이병원',
+      subBadge: h.종별 || '소아과',
+      status: statusObj.statusBadge,
+      statusClass: statusObj.statusClass,
+      isOpen: statusObj.isOpen,
+      priority: statusObj.priority,
+      desc: cleanDesc,
+      phone: h.대표전화 || '119',
+      address: h.주소 || '',
+      compactAddress: compactAddr,
+      lat: hLat,
+      lon: hLon,
+      hours: {
+        weekday: h.평일진료 || '진료안내 참조',
+        saturday: h.토요진료 || '진료안내 참조',
+        sunday: h.일요진료 || '진료안내 참조',
+        holiday: h.공휴일진료 || '진료안내 참조'
+      },
+      guide: h.진료안내 || '보건복지부 지정 달빛어린이병원',
+      distKm: dist,
+      dist: hDist,
+      walkTime: hWalk,
+      carTime: hCar,
+      closing: statusObj.closingTag,
+      raw: h
+    };
+  });
+
+  // 2. 약국(2,028개 전수) 오늘 운영시간 선택, 상태 판별, 간결한 주소 정제
+  const pharmacies = pharmList.map(p => {
+    const pLat = parseFloat(p.위도) || lat;
+    const pLon = parseFloat(p.경도) || lon;
+    const dist = (typeof window.calculateDistanceKm === 'function')
+      ? window.calculateDistanceKm(lat, lon, pLat, pLon)
+      : 1.0;
+    const pDist = dist.toFixed(1);
+    const pWalk = Math.max(3, Math.round(dist * 14)) + '분';
+    const pCar = Math.max(2, Math.round(dist * 2.3)) + '분';
+
+    // 오늘 요일에 맞는 약국 운영시간 선택
+    let todayPharmHoursStr = '';
+    if (dayOfWeek === 6) {
+      todayPharmHoursStr = p.토요운영 || p.평일운영 || '';
+    } else if (dayOfWeek === 0) {
+      todayPharmHoursStr = p.일요운영 || p.공휴일운영 || '';
+    } else {
+      todayPharmHoursStr = p.평일운영 || '';
+    }
+
+    const statusObj = window.evaluateOperatingStatus(todayPharmHoursStr, 'pharmacy', now);
+    const compactAddr = window.formatCompactAddress(p.주소);
+    const cleanDesc = `${p.소아시럽제상비 ? '소아 시럽제 조제 · ' : '심야 조제 · '}${compactAddr}`;
+
+    return {
+      type: 'pharmacy',
+      id: p.기관코드 || p.약국명,
+      name: p.약국명 || '심야약국',
+      badge: '💊 심야약국',
+      subBadge: p.운영구분 || '심야 연장',
+      status: statusObj.statusBadge,
+      statusClass: statusObj.statusClass,
+      isOpen: statusObj.isOpen,
+      priority: statusObj.priority,
+      desc: cleanDesc,
+      phone: p.대표전화 || '02-120',
+      address: p.주소 || '',
+      compactAddress: compactAddr,
+      lat: pLat,
+      lon: pLon,
+      hours: {
+        weekday: p.평일운영 || '야간 운영',
+        saturday: p.토요운영 || '야간 운영',
+        sunday: p.일요운영 || '야간 운영',
+        holiday: p.공휴일운영 || '야간 운영'
+      },
+      syrupReady: !!p.소아시럽제상비,
+      distKm: dist,
+      dist: pDist,
+      walkTime: pWalk,
+      carTime: pCar,
+      closing: statusObj.closingTag,
+      raw: p
+    };
+  });
+
+  // 3. 반경 15km 이내 시설 필터링
+  const MAX_RADIUS_KM = 15.0;
+  const filteredHospitals = hospitals.filter(h => h.distKm <= MAX_RADIUS_KM);
+  const filteredPharmacies = pharmacies.filter(p => p.distKm <= MAX_RADIUS_KM);
+
+  // 4. 정렬 함수: 현재 운영중(isOpen) 최우선 -> 세부 우선순위 -> 최단거리 순
+  const sortOperatingFirst = (list) => {
+    return list.slice().sort((a, b) => {
+      // 1순위: 현재 이용 가능(진료중/영업중) 시설 최우선
+      if (a.isOpen !== b.isOpen) {
+        return a.isOpen ? -1 : 1;
+      }
+      // 2순위: 세부 우선순위 (진료중(1) -> 곧마감(2) -> 오픈대기(3) -> 마감(4) -> 휴진(5))
+      if (a.priority !== b.priority) {
+        return a.priority - b.priority;
+      }
+      // 3순위: 거리순
+      return a.distKm - b.distKm;
+    });
+  };
+
+  const sortedHospitals = sortOperatingFirst(filteredHospitals);
+  const sortedPharmacies = sortOperatingFirst(filteredPharmacies);
+
+  // 5. 전체(all) 탭: 현재 운영중인 시설 우선 인터리빙 후 마감 시설 인터리빙
+  const openHosp = sortedHospitals.filter(h => h.isOpen);
+  const closedHosp = sortedHospitals.filter(h => !h.isOpen);
+  const openPharm = sortedPharmacies.filter(p => p.isOpen);
+  const closedPharm = sortedPharmacies.filter(p => !p.isOpen);
+
+  const interleavedList = [];
+  // 1) 운영중 시설 1:1 교차
+  const maxOpen = Math.max(openHosp.length, openPharm.length);
+  for (let i = 0; i < maxOpen; i++) {
+    if (i < openHosp.length) interleavedList.push(openHosp[i]);
+    if (i < openPharm.length) interleavedList.push(openPharm[i]);
+  }
+  // 2) 마감/휴진 시설 1:1 교차 (후순위)
+  const maxClosed = Math.max(closedHosp.length, closedPharm.length);
+  for (let i = 0; i < maxClosed; i++) {
+    if (i < closedHosp.length) interleavedList.push(closedHosp[i]);
+    if (i < closedPharm.length) interleavedList.push(closedPharm[i]);
+  }
+
+  const allList = interleavedList;
+
+  // 6. 전역 마스터 객체 등록
+  window.__LIVE_FACILITIES_MASTER__ = {
+    all: allList,
+    hospital: sortedHospitals,
+    pharmacy: sortedPharmacies,
+    userDong: userLoc.dong || '내 위치',
+    maxRadiusKm: MAX_RADIUS_KM,
+    rawHospitals: hospitals,
+    rawPharmacies: pharmacies
+  };
+
+  // 7. 상단 뱃지 카운트 및 탭 카운트 실데이터 동기화
+  const totalCount = allList.length;
+  const hospCount = sortedHospitals.length;
+  const pharmCount = sortedPharmacies.length;
+
+  const countAll = document.getElementById('count-all');
+  if (countAll) countAll.textContent = totalCount.toLocaleString();
+
+  const countHosp = document.getElementById('count-hospital');
+  if (countHosp) countHosp.textContent = hospCount.toLocaleString();
+
+  const countPharm = document.getElementById('count-pharmacy');
+  if (countPharm) countPharm.textContent = pharmCount.toLocaleString();
+
+  window.updateFacilityCountBadge(window.__CURRENT_FACILITY_FILTER__ || 'all');
+
+  // 8. 현재 필터에 맞춰 즉시 렌더링
+  window.renderLiveFacilities(window.__CURRENT_FACILITY_FILTER__ || 'all');
+};
+
+window.updateFacilityCountBadge = function(filter) {
+  const countBadge = document.getElementById('live-facilities-count');
+  if (!countBadge || !window.__LIVE_FACILITIES_MASTER__) return;
+
+  const master = window.__LIVE_FACILITIES_MASTER__;
+  const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
+  const userDong = master.userDong || '내 위치';
+
+  const currentList = master[currentFilter] || master.all || [];
+  const targetCount = currentList.length;
+  const openCount = currentList.filter(f => f.isOpen).length;
+  const emptyNoun = currentFilter === 'hospital' ? '달빛어린이병원' : (currentFilter === 'pharmacy' ? '심야약국' : '의료시설');
+
+  if (targetCount > 0) {
+    countBadge.textContent = `${userDong} 반경 15km ${targetCount.toLocaleString()}곳 (진료·영업중 ${openCount.toLocaleString()}곳)`;
+  } else {
+    countBadge.textContent = `${userDong} 반경 15km 내 운영 ${emptyNoun} 없음`;
+  }
+};
+
+window.renderLiveFacilities = function(filter) {
+  const stack = document.getElementById('facility-card-stack');
+  if (!stack || !window.__LIVE_FACILITIES_MASTER__) return;
+
+  const master = window.__LIVE_FACILITIES_MASTER__;
+  const currentFilter = filter || window.__CURRENT_FACILITY_FILTER__ || 'all';
+  const displayList = master[currentFilter] || master.all || [];
+
+  if (displayList.length === 0) {
+    const filterLabel = currentFilter === 'hospital' ? '달빛어린이병원' : (currentFilter === 'pharmacy' ? '심야약국' : '야간 의료시설');
+    stack.innerHTML = `
+      <article class="facility-card live-empty-card" style="padding: 36px 20px; text-align: center; border: 1px dashed var(--slate-300, #cbd5e1); background: #f8fafc; border-radius: 16px; margin: 8px 0;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="font-size: 38px; color: var(--slate-400, #94a3b8);">location_off</span>
+          <p style="font-size: 15px; font-weight: 700; color: var(--slate-700, #334155); margin: 0;">반경 15km 이내 ${filterLabel}이 없습니다</p>
+          <p style="font-size: 13px; color: var(--slate-500, #64748b); margin: 0; line-height: 1.5;">${master.userDong} 기준 15km 이내에는 현재 등록된 야간 시설이 없습니다.<br>상단 주소를 변경하시거나 응급실 가이드를 확인해보세요.</p>
+        </div>
+      </article>
+    `;
+    const moreBtn = document.querySelector('.scroll-more-btn');
+    if (moreBtn) moreBtn.style.display = 'none';
+    return;
+  }
+
+  const sliceList = displayList;
+
+  let cardsHTML = '';
+  sliceList.forEach((facility) => {
+    const isHospital = facility.type === 'hospital';
+    const icon = isHospital ? 'bedtime' : 'medication';
+    const iconClass = isHospital ? '' : 'pharmacy';
+    const badgeClass = isHospital ? 'moonlight' : 'pharmacy';
+    const badgeText = facility.badge || (isHospital ? '🌙 달빛어린이병원' : '💊 심야약국');
+
+    const subBadgeHTML = facility.subBadge
+      ? `<span class="tag-badge distance-sub">${facility.subBadge}</span>`
+      : '';
+
+    // 실시간 운영 상태 클래스 및 텍스트 반영
+    const statusClass = facility.statusClass || (facility.isOpen ? 'status-open' : 'status-closed');
+    const statusBadgeHTML = `<span class="tag-badge ${statusClass}"><span class="status-indicator-dot" aria-hidden="true"></span>${facility.status}</span>`;
+    const distanceText = `내 위치 ${facility.dist}km (도보 ${facility.walkTime} / 차 ${facility.carTime})`;
+    const closedCardClass = facility.isOpen ? '' : 'is-closed';
+
+    cardsHTML += `
+      <article class="facility-card live-card ${closedCardClass}" data-type="${facility.type}" style="cursor: pointer;" onclick="window.selectLiveFacilityCard('${escapeSearchHtml(facility.name)}', '${facility.type}')" title="클릭하여 상세 정보 및 실시간 접수 보기">
+        <div class="card-top">
+          <div class="facility-main">
+            <div class="facility-icon-wrap ${iconClass}" aria-hidden="true">
+              <span class="material-symbols-outlined">${icon}</span>
+            </div>
+            <div class="facility-meta">
+              <div class="badge-row">
+                <span class="tag-badge ${badgeClass}">${badgeText}</span>
+                ${subBadgeHTML}
+                ${statusBadgeHTML}
+              </div>
+              <h3 class="facility-name">${facility.name}</h3>
+              <p class="facility-desc">${facility.desc}</p>
+            </div>
+          </div>
+          <a href="tel:${facility.phone}" class="call-btn" aria-label="${facility.name} 전화 걸기" onclick="event.stopPropagation();">
+            <span class="material-symbols-outlined">call</span>
+          </a>
+        </div>
+
+        <div class="card-footer">
+          <div class="distance-info">
+            <span class="material-symbols-outlined">near_me</span>
+            <span>${distanceText}</span>
+          </div>
+          <span class="closing-time-tag">${facility.closing}</span>
+        </div>
+      </article>
+    `;
+  });
+
+  stack.innerHTML = cardsHTML;
+
+  const moreBtn = document.querySelector('.scroll-more-btn');
+  if (moreBtn) {
+    moreBtn.style.display = 'none';
+  }
+};
+
+// ============================================================================
+// 🏥 Facility Card Navigation & Data Bridge (병원/약국 카드 클릭 시 2-트랙 상세 페이지 라우팅)
+// ============================================================================
+window.selectLiveFacilityCard = function(facilityName, facilityType) {
+  try {
+    const isHospital = (facilityType === 'hospital');
+    const path = window.location.pathname;
+    const isFileProtocol = (window.location.protocol === 'file:');
+
+    // 1. Determine target HTML
+    let targetPage = isHospital ? 'hospital_detail.html' : 'pharmacy_detail.html';
+    if (!path.endsWith('.html') && !isFileProtocol) {
+      targetPage = isHospital ? '/hospital_detail' : '/pharmacy_detail';
+    }
+
+    const returnUrl = (isFileProtocol || path.endsWith('.html')) ? 'index.html' : (window.location.pathname + window.location.search || '/home');
+    const fromParam = encodeURIComponent(returnUrl);
+    const targetUrl = `${targetPage}?name=${encodeURIComponent(facilityName)}&type=${facilityType}&from=${fromParam}`;
+
+    // 2. Cache minimal state to sessionStorage for instantaneous fallback
+    try {
+      sessionStorage.setItem('aisum_last_visited_page', returnUrl);
+    } catch (e) {}
+
+    const master = window.__LIVE_FACILITIES_MASTER__;
+    if (master) {
+      if (isHospital) {
+        const hosp = (master.hospital && master.hospital.find(h => h.name === facilityName))
+          || (master.rawHospitals && master.rawHospitals.find(h => h.name === facilityName));
+        if (hosp) {
+          sessionStorage.setItem('selected_hospital', JSON.stringify(hosp));
+        }
+      } else {
+        const pharm = (master.pharmacy && master.pharmacy.find(p => p.name === facilityName))
+          || (master.rawPharmacies && master.rawPharmacies.find(p => p.name === facilityName));
+        if (pharm) {
+          sessionStorage.setItem('selected_pharmacy', JSON.stringify(pharm));
+        }
+      }
+    }
+
+    // 3. Navigate to detail page
+    window.location.href = targetUrl;
+  } catch (err) {
+    console.warn('Facility card navigation error:', err);
+    // Safe fallback navigation
+    const target = (facilityType === 'hospital') ? 'hospital_detail.html' : 'pharmacy_detail.html';
+    const fromParam = encodeURIComponent(window.location.href);
+    window.location.href = `${target}?name=${encodeURIComponent(facilityName)}&from=${fromParam}`;
+  }
+};
+
+window.filterLiveFacilities = function(filter) {
+  window.__CURRENT_FACILITY_FILTER__ = filter;
+
+  // Update tab styles
+  const tabAll = document.getElementById('tab-filter-all');
+  const tabHosp = document.getElementById('tab-filter-hospital');
+  const tabPharm = document.getElementById('tab-filter-pharmacy');
+
+  if (tabAll) {
+    tabAll.classList.toggle('active', filter === 'all');
+    tabAll.setAttribute('aria-selected', filter === 'all' ? 'true' : 'false');
+  }
+  if (tabHosp) {
+    tabHosp.classList.toggle('active', filter === 'hospital');
+    tabHosp.setAttribute('aria-selected', filter === 'hospital' ? 'true' : 'false');
+  }
+  if (tabPharm) {
+    tabPharm.classList.toggle('active', filter === 'pharmacy');
+    tabPharm.setAttribute('aria-selected', filter === 'pharmacy' ? 'true' : 'false');
+  }
+
+  // 상단 뱃지 카운트를 선택한 병원/약국 필터 수에 맞게 실시간 동기화
+  if (typeof window.updateFacilityCountBadge === 'function') {
+    window.updateFacilityCountBadge(filter);
+  }
+
+  window.renderLiveFacilities(filter);
+  const stack = document.getElementById('facility-card-stack');
+  if (stack) {
+    stack.scrollTop = 0;
+  }
+};
+
+// BFCache (Back-Forward Cache) and navigation restoration
+if (typeof window !== 'undefined') {
+  window.addEventListener('pageshow', () => {
+    window.applyAisumFontSize();
+    if (typeof window.initUserLocation === 'function') {
+      window.initUserLocation();
+    }
+    if (typeof window.updateChildInfoDisplay === 'function') {
+      window.updateChildInfoDisplay();
+    }
+    if (typeof window.initLiveFacilities === 'function') {
+      window.initLiveFacilities();
+    }
+  });
+}
+
+// ============================================================================
+// 📱 Select Box Change Handler (작게 / 보통 / 크게)
+// ============================================================================
+window.onFontSizeChange = function(newSize) {
+  const size = newSize || 'normal';
+  try {
+    localStorage.setItem('aisum_font_size', size);
+  } catch (e) {
+    console.warn('Failed to save font size to localStorage:', e);
+  }
+  window.applyAisumFontSize(size);
+};
+
+// Backward-compatible safe fallback
+window.openFontSizeModal = function() {
+  const selectEl = document.getElementById('font-size-select');
+  if (selectEl) selectEl.focus();
+};
+
+// ============================================================================
+// 👶 Global Child Information Management System (자녀 기본 정보 관리 & BFCache 동기화)
+// ============================================================================
+window.updateChildInfoDisplay = function() {
+  try {
+    const displayEl = document.getElementById('child-info-display');
+    if (!displayEl) return;
+
+    const raw = localStorage.getItem('aisum_child_info');
+    let year = '2023';
+    let gender = 'male';
+    let name = '';
+
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.birthYear) year = parsed.birthYear;
+      if (parsed.gender) gender = parsed.gender;
+      if (parsed.name) name = parsed.name;
+    }
+
+    const currentYear = 2026;
+    const age = Math.max(0, currentYear - parseInt(year, 10));
+    const genderLabel = gender === 'female' ? '여아' : (gender === 'male' ? '남아' : '');
+
+    let summary = '';
+    if (genderLabel) {
+      summary = `${year}년생 (${genderLabel}, 만 ${age}세)`;
+    } else {
+      summary = `${year}년생 (만 ${age}세)`;
+    }
+
+    displayEl.textContent = summary;
+  } catch (e) {
+    console.warn('Child info display update failed:', e);
+  }
+};
+
+window.selectedChildGender = 'male';
+
+window.openChildInfoModal = function() {
+  const modal = document.getElementById('child-info-modal');
+  if (!modal) return;
+
+  try {
+    const raw = localStorage.getItem('aisum_child_info');
+    let name = '';
+    let birthYear = '2023';
+    let gender = 'male';
+
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.name) name = parsed.name;
+      if (parsed.birthYear) birthYear = parsed.birthYear;
+      if (parsed.gender) gender = parsed.gender;
+    }
+
+    const nameInput = document.getElementById('child-name-input');
+    const birthSelect = document.getElementById('child-birth-select');
+
+    if (nameInput) nameInput.value = name;
+    if (birthSelect) birthSelect.value = birthYear;
+    window.setChildGender(gender);
+  } catch (e) {
+    console.warn('Failed to populate child info modal:', e);
+  }
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeChildInfoModal = function() {
+  const modal = document.getElementById('child-info-modal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+window.setChildGender = function(gender) {
+  window.selectedChildGender = gender || 'male';
+  const maleBtn = document.getElementById('gender-btn-male');
+  const femaleBtn = document.getElementById('gender-btn-female');
+
+  if (maleBtn && femaleBtn) {
+    if (gender === 'female') {
+      femaleBtn.classList.add('active');
+      maleBtn.classList.remove('active');
+    } else {
+      maleBtn.classList.add('active');
+      femaleBtn.classList.remove('active');
+    }
+  }
+};
+
+window.saveChildInfo = function() {
+  try {
+    const nameInput = document.getElementById('child-name-input');
+    const birthSelect = document.getElementById('child-birth-select');
+    const name = nameInput ? nameInput.value.trim() : '';
+    const birthYear = birthSelect ? birthSelect.value : '2023';
+    const gender = window.selectedChildGender || 'male';
+
+    const childInfo = { name, birthYear, gender };
+    localStorage.setItem('aisum_child_info', JSON.stringify(childInfo));
+
+    window.updateChildInfoDisplay();
+    window.closeChildInfoModal();
+    window.showAisumToast('자녀 기본 정보가 저장되었습니다.');
+  } catch (e) {
+    console.error('Failed to save child info:', e);
+  }
+};
+
+window.showAisumToast = function(msg) {
+  let toast = document.getElementById('aisum-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'aisum-toast';
+    toast.className = 'aisum-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg || '저장되었습니다.';
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2200);
+};
+
+if (!window.__AISUM_INITIALIZED__) {
+  window.__AISUM_INITIALIZED__ = true;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('👶 아이숨 (Aisum) 모바일 웹 화면이 Safari/Chrome 호환 모드로 로드되었습니다.');
+
+    // Initialize font size select on settings page
+    const selectEl = document.getElementById('font-size-select');
+    if (selectEl) {
+      const savedSize = localStorage.getItem('aisum_font_size') || 'normal';
+      selectEl.value = savedSize;
+    }
+
+    // Initialize child info display on settings page
+    if (typeof window.updateChildInfoDisplay === 'function') {
+      window.updateChildInfoDisplay();
+    }
+
+    // Initialize user location on main home
+    if (typeof window.initUserLocation === 'function') {
+      window.initUserLocation();
+    }
+
+    // Initialize real-time medical facilities on main home (index.html)
+    if (typeof window.initLiveFacilities === 'function') {
+      window.initLiveFacilities();
+    }
+
+    // Location Pill and Location Modal Listeners
+    if (typeof window.initLocationSearch === 'function') {
+      window.initLocationSearch();
+    }
+
+    const locationPillBtn = document.getElementById('current-location-pill');
+    if (locationPillBtn) {
+      locationPillBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof window.openLocationModal === 'function') {
+          window.openLocationModal();
+        }
+      });
+    }
+
+    const locationModalCloseBtn = document.getElementById('location-modal-close-btn');
+    if (locationModalCloseBtn) {
+      locationModalCloseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof window.closeLocationModal === 'function') {
+          window.closeLocationModal();
+        }
+      });
+    }
+
+    const locationModal = document.getElementById('location-select-modal');
+    if (locationModal) {
+      locationModal.addEventListener('click', (e) => {
+        if (e.target === locationModal) {
+          if (typeof window.closeLocationModal === 'function') {
+            window.closeLocationModal();
+          }
+        }
+      });
+    }
+
+    // DOM Elements
+    const modal = document.getElementById('triage-consent-modal');
+    const modalCancelBtn = document.getElementById('modal-cancel-btn');
+    const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+
+    // Modal Open Triggers
+    const startTriageBtn = document.getElementById('start-triage-btn');
+    const quickSymptomChips = document.querySelectorAll('.symptom-chip');
+    const facilityCards = document.querySelectorAll('.facility-card');
+
+    function openModal() {
+      if (!modal) return;
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // 1. Trigger Open: 메인 CTA 버튼 클릭 시 모달 열기
+    if (startTriageBtn) {
+      startTriageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    }
+
+    // 2. Trigger Open: 상단 증상 칩 클릭 시 모달 열기
+    quickSymptomChips.forEach((chip) => {
+      chip.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    // 3. 실시간 야간 의료시설 카드는 모달을 열지 않고 상세페이지로 직행하므로 모달 오픈 리스너 완전 제거
+    // 뒤로가기(pageshow / bfcache 복원) 시 모달이 화면에 남아있지 않도록 항상 강제 닫기
+    window.addEventListener('pageshow', () => {
+      closeModal();
+    });
+
+    // 4. Modal Action: '취소' 버튼 클릭 시 모달 닫기
+    if (modalCancelBtn) {
+      modalCancelBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal();
+      });
+    }
+
+    // 5. Modal Action: '동의하고 증상 입력하기' 최종확인 버튼 클릭 시 input.html 화면으로 연동
+    if (modalConfirmBtn) {
+      modalConfirmBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal();
+        window.location.href = 'input.html';
+      });
+    }
+
+    // 6. Overlay Click: 어두운 반투명 배경 클릭 시 모달 닫기
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+    }
+
+    // 7. Symptom Input Page Logic (사용자 텍스트 입력 시 확인 버튼 및 플로팅 레이블 토글)
+    if (window.__AISUM_CUSTOM_INPUT__) {
+      return; // input.html 페이지 자체 프로그레시브 챗봇 컨트롤러 우선 실행
+    }
+
+    const symptomInput = document.getElementById('symptom-input');
+    const floatingLabel = document.getElementById('floating-label');
+    const inputClearBtn = document.getElementById('input-clear-btn');
+    const inputConfirmWrap = document.getElementById('input-confirm-wrap');
+    const inputConfirmBtn = document.getElementById('input-confirm-btn');
+
+    function updateInputState() {
+      if (!symptomInput) return;
+      const hasContent = symptomInput.value.trim().length > 0;
+
+      if (floatingLabel) floatingLabel.style.display = hasContent ? 'block' : 'none';
+      if (inputClearBtn) inputClearBtn.style.display = hasContent ? 'inline-flex' : 'none';
+      if (inputConfirmWrap) {
+        if (hasContent) {
+          inputConfirmWrap.classList.add('active');
+          inputConfirmWrap.style.display = 'block';
+        } else {
+          inputConfirmWrap.classList.remove('active');
+          inputConfirmWrap.style.display = 'none';
+        }
+      }
+    }
+
+    if (symptomInput) {
+      symptomInput.addEventListener('input', updateInputState);
+
+      if (inputClearBtn) {
+        inputClearBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          symptomInput.value = '';
+          updateInputState();
+          symptomInput.focus();
+        });
+      }
+
+      symptomInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const text = symptomInput.value.trim();
+          if (!text) {
+            symptomInput.focus();
+            return;
+          }
+          if (inputConfirmBtn) {
+            inputConfirmBtn.click();
+          }
+        }
+      });
+    }
+
+    if (inputConfirmBtn) {
+      inputConfirmBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const text = symptomInput ? symptomInput.value.trim() : '';
+        if (text) {
+          console.log('✅ 사용자 증상 입력 확인 완료:', text);
+
+          // 🚨 0ms Red Flag 긴급 숏서킷 (경련, 호흡곤란, 의식저하, 생후 100일 미만 등)
+          const redFlagRegex = /경련|경기|숨|호흡|의식|기절|청색|100일|백일|장중첩|피토|혈변|쳐짐|늘어짐|파랗|경직/;
+          if (redFlagRegex.test(text)) {
+            console.log('🚨 0ms Red Flag 감지! 소아 응급실 결과 화면으로 즉각 전환:', text);
+            if (symptomInput) symptomInput.blur();
+            const alertTargetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+            window.location.href = alertTargetUrl;
+            return;
+          }
+
+          const overlay = document.getElementById('ai-analyzing-overlay');
+          const stepText = document.getElementById('analyzing-step-text');
+          const stepIcon = document.getElementById('analyzing-step-icon');
+          const progressFill = document.getElementById('analyzing-progress-fill');
+          const targetUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+
+          if (overlay) {
+            // 모바일 키보드 닫기
+            symptomInput.blur();
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+
+            // 1단계: 0.0초 시작 (가드레일 검사)
+            if (progressFill) progressFill.style.width = '35%';
+
+            // 2단계: 0.7초 (소아 KTAS 임상 지침 대조)
+            setTimeout(() => {
+              if (stepText) stepText.innerText = '소아 KTAS 임상 지침 168개 주증상 대조 중...';
+              if (stepIcon) stepIcon.innerText = 'stethoscope';
+              if (progressFill) progressFill.style.width = '70%';
+            }, 700);
+
+            // 3단계: 1.4초 (달빛병원 & 30분 마진 심야약국 매칭)
+            setTimeout(() => {
+              if (stepText) stepText.innerText = '달빛어린이병원 & 30분 마진 심야약국 매칭 완료!';
+              if (stepIcon) stepIcon.innerText = 'verified';
+              if (progressFill) progressFill.style.width = '100%';
+            }, 1400);
+
+            // 4단계: 2.0초 만료 ➔ 결과 화면으로 부드럽게 전환!
+            setTimeout(() => {
+              window.location.href = targetUrl;
+            }, 2000);
+          } else {
+            window.location.href = targetUrl;
+          }
+        }
+      });
+    }
+  });
+}

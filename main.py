@@ -125,11 +125,14 @@ if os.path.exists("data"):
 async def root(request: Request):
     """Root metadata and API service information, or mobile web app for browser clients."""
     accept = request.headers.get("accept", "")
-    # Serve mobile web main page if requested by a web browser
+    # Serve mobile web splash page as 1st priority for browser clients
     if "text/html" in accept and "application/json" not in accept:
-        path = find_frontend_html("home", "index.html")
+        path = find_frontend_html("onboarding", "splash.html")
         if path and os.path.exists(path):
             return FileResponse(path, media_type="text/html")
+        fallback = find_frontend_html("home", "index.html")
+        if fallback and os.path.exists(fallback):
+            return FileResponse(fallback, media_type="text/html")
 
     return {
         "service": "MoonlightCare API",
@@ -149,6 +152,8 @@ async def root(request: Request):
             "aisum_home": "/home",
             "aisum_settings": "/settings",
             "aisum_terms": "/terms",
+            "aisum_qr": "/qr",
+            "aisum_licenses": "/licenses",
         },
     }
 
@@ -320,6 +325,28 @@ async def get_aisum_terms():
     if path:
         return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Terms page not found"})
+
+
+@app.get("/qr", tags=["Frontend"], response_class=FileResponse)
+@app.get("/qr.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_qr():
+    """Serves the Aisum Mobile Device QR Code & PWA onboarding page."""
+    path = find_frontend_html("settings", "qr.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "QR page not found"})
+
+
+@app.get("/licenses", tags=["Frontend"], response_class=FileResponse)
+@app.get("/licenses.html", tags=["Frontend"], response_class=FileResponse)
+@app.get("/opensource", tags=["Frontend"], response_class=FileResponse)
+@app.get("/opensource.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_licenses():
+    """Serves the Aisum Open Source Licenses and Attribution page."""
+    path = find_frontend_html("settings", "licenses.html") or find_frontend_html("settings", "opensource.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Licenses page not found"})
 
 
 @app.get("/css/style.css", include_in_schema=False)

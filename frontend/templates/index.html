@@ -357,6 +357,7 @@
           <h3 class="sheet-title">응급실 병상 변동 알림</h3>
         </div>
         <div class="sheet-header-actions">
+          <button type="button" class="text-action-btn danger-text" id="btn-notif-clear-all" onclick="clearAllNotifications()">전체 삭제</button>
           <button type="button" class="text-action-btn" id="btn-notif-mark-read" onclick="markAllNotificationsAsRead()">모두 읽음</button>
           <button type="button" class="close-icon-btn" id="notification-sheet-close" aria-label="닫기" onclick="closeNotificationSheet()">
             <span class="material-symbols-outlined">close</span>
@@ -432,17 +433,126 @@
       }
     }
 
+    function clearAllNotifications() {
+      const notifs = window.AisumNotificationManager ? window.AisumNotificationManager.getNotifications() : [];
+      if (!notifs || notifs.length === 0) return;
+      if (confirm('저장된 모든 알림을 삭제하시겠습니까?')) {
+        if (window.AisumNotificationManager) {
+          window.AisumNotificationManager.clearAll();
+          renderNotificationList();
+        }
+      }
+    }
+
+    function deleteSingleNotification(id) {
+      const wrapper = document.getElementById(`notif-wrapper-${id}`);
+      if (wrapper) {
+        wrapper.style.transition = 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+        wrapper.style.transform = 'translateX(100%)';
+        wrapper.style.opacity = '0';
+        wrapper.style.maxHeight = '0px';
+        wrapper.style.marginBottom = '0px';
+        wrapper.style.paddingTop = '0px';
+        wrapper.style.paddingBottom = '0px';
+        setTimeout(() => {
+          if (window.AisumNotificationManager) {
+            window.AisumNotificationManager.deleteNotification(id);
+            renderNotificationList();
+          }
+        }, 250);
+      } else {
+        if (window.AisumNotificationManager) {
+          window.AisumNotificationManager.deleteNotification(id);
+          renderNotificationList();
+        }
+      }
+    }
+
+    function setupSwipeToDismiss(cardEl, id) {
+      let startX = 0;
+      let startY = 0;
+      let currentX = 0;
+      let isSwiping = false;
+
+      cardEl.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        currentX = startX;
+        isSwiping = false;
+        cardEl.classList.add('swiping');
+      }, { passive: true });
+
+      cardEl.addEventListener('touchmove', function(e) {
+        const touchX = e.touches[0].clientX;
+        const touchY = e.touches[0].clientY;
+        const diffX = touchX - startX;
+        const diffY = touchY - startY;
+
+        // 세로 스크롤 의도 시 가로 스와이프 무시
+        if (!isSwiping && Math.abs(diffY) > Math.abs(diffX)) {
+          return;
+        }
+
+        isSwiping = true;
+        currentX = touchX;
+        cardEl.style.transform = `translateX(${diffX}px)`;
+        cardEl.style.opacity = `${Math.max(0.2, 1 - Math.abs(diffX) / 220)}`;
+      }, { passive: true });
+
+      cardEl.addEventListener('touchend', function(e) {
+        cardEl.classList.remove('swiping');
+        cardEl.style.transition = 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease';
+        const diffX = currentX - startX;
+
+        // 70px 이상 밀었을 때 삭제 진행
+        if (isSwiping && Math.abs(diffX) > 70) {
+          const flyDirection = diffX > 0 ? '110%' : '-110%';
+          cardEl.style.transform = `translateX(${flyDirection})`;
+          cardEl.style.opacity = '0';
+          setTimeout(() => {
+            deleteSingleNotification(id);
+          }, 200);
+        } else {
+          // 원래 위치로 복귀
+          cardEl.style.transform = 'translateX(0)';
+          cardEl.style.opacity = '1';
+        }
+        isSwiping = false;
+      });
+    }
+
     function renderNotificationList() {
       const listContainer = document.getElementById('notification-list-container');
       const banner = document.getElementById('watch-status-banner');
+      const clearAllBtn = document.getElementById('btn-notif-clear-all');
       if (!listContainer) return;
 
       const notifs = window.AisumNotificationManager ? window.AisumNotificationManager.getNotifications() : [];
       const isSevere = window.AisumNotificationManager ? window.AisumNotificationManager.isSevereUser() : false;
       const targets = window.AisumNotificationManager ? window.AisumNotificationManager.getWatchTargets() : [];
 
+      const isEnabled = window.AisumNotificationManager ? window.AisumNotificationManager.isEnabled() : (localStorage.getItem('aisum_app_notification_enabled') !== 'false');
+
+      if (clearAllBtn) {
+        clearAllBtn.style.display = (notifs && notifs.length > 0) ? 'inline-block' : 'none';
+      }
+
       if (banner) {
-        if (isSevere && targets.length > 0) {
+        if (!isEnabled) {
+          banner.className = 'watch-status-banner normal-info';
+          banner.style.background = '#f8fafc';
+          banner.style.borderColor = '#cbd5e1';
+          banner.innerHTML = `
+            <span class="material-symbols-outlined" style="color: #64748b; font-size: 20px; flex-shrink: 0;">notifications_off</span>
+            <div style="flex: 1;">
+              <strong style="color: #334155;">앱 알림이 꺼져 있습니다</strong><br>
+              <span style="font-size: 12px; color: #64748b;">설정에서 알림을 켜시면 소아 응급실 병상 변동 알림을 받으실 수 있습니다.</span>
+              <a href="settings.html" style="display: inline-block; margin-top: 4px; font-size: 11.5px; color: #0066ff; font-weight: 700; text-decoration: underline;">설정에서 알림 켜기 &rarr;</a>
+            </div>
+          `;
+        } else if (isSevere && targets.length > 0) {
+          banner.style.background = '';
+          banner.style.borderColor = '';
           const names = targets.map(t => t.dutyName).join(', ');
           banner.className = 'watch-status-banner active-watch';
           banner.innerHTML = `
@@ -453,6 +563,8 @@
             </div>
           `;
         } else {
+          banner.style.background = '';
+          banner.style.borderColor = '';
           banner.className = 'watch-status-banner normal-info';
           banner.innerHTML = `
             <span class="material-symbols-outlined" style="color: var(--primary); font-size: 20px; flex-shrink: 0;">info</span>
@@ -467,9 +579,9 @@
       if (!notifs || notifs.length === 0) {
         listContainer.innerHTML = `
           <div class="sheet-empty-state">
-            <span class="material-symbols-outlined sheet-empty-icon">notifications_off</span>
-            <p class="sheet-empty-title">새로운 병상 변동 알림이 없습니다</p>
-            <p class="sheet-empty-desc">관심 거점 소아 응급실의 실시간 병상 증감 및 긴급 공지가 변경되면 즉시 알려드립니다.</p>
+            <span class="material-symbols-outlined sheet-empty-icon">${isEnabled ? 'notifications_active' : 'notifications_off'}</span>
+            <p class="sheet-empty-title">${isEnabled ? '새로운 병상 변동 알림이 없습니다' : '앱 알림이 비활성화되어 있습니다'}</p>
+            <p class="sheet-empty-desc">${isEnabled ? '관심 거점 소아 응급실의 실시간 병상 증감 및 긴급 공지가 변경되면 즉시 알려드립니다.' : '설정 화면에서 앱 알림을 켜시면 소아 응급실 잔여 병상 변동 알림을 실시간으로 수신할 수 있습니다.'}</p>
           </div>
         `;
         return;
@@ -490,17 +602,36 @@
         const telBtn = n.tel ? `<a href="tel:${n.tel}" class="btn-notif-call"><span class="material-symbols-outlined" style="font-size:14px;">call</span>응급실 전화</a>` : '';
 
         return `
-          <div class="notif-card ${n.isRead ? '' : 'unread'}">
-            <div class="notif-card-header">
-              ${badgeHtml}
-              <span class="notif-time">${n.displayTime || ''}</span>
+          <div class="notif-card-wrapper" id="notif-wrapper-${n.id}">
+            <div class="notif-swipe-bg">
+              <span style="display:flex; align-items:center; gap:4px;"><span class="material-symbols-outlined" style="font-size:18px;">delete</span>밀어서 삭제</span>
+              <span style="display:flex; align-items:center; gap:4px;"><span class="material-symbols-outlined" style="font-size:18px;">delete</span>밀어서 삭제</span>
             </div>
-            <h4 class="notif-title">${n.title}</h4>
-            <p class="notif-message">${n.message}</p>
-            ${telBtn ? `<div class="notif-card-footer">${telBtn}</div>` : ''}
+            <div class="notif-card ${n.isRead ? '' : 'unread'}" id="notif-card-${n.id}">
+              <div class="notif-card-header">
+                ${badgeHtml}
+                <div style="display:flex; align-items:center; gap:4px;">
+                  <span class="notif-time">${n.displayTime || ''}</span>
+                  <button type="button" class="notif-card-delete-btn" aria-label="알림 삭제" onclick="deleteSingleNotification('${n.id}')" title="삭제">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">close</span>
+                  </button>
+                </div>
+              </div>
+              <h4 class="notif-title">${n.title}</h4>
+              <p class="notif-message">${n.message}</p>
+              ${telBtn ? `<div class="notif-card-footer">${telBtn}</div>` : ''}
+            </div>
           </div>
         `;
       }).join('');
+
+      // 터치 스와이프 바인딩
+      notifs.forEach(n => {
+        const cardEl = document.getElementById(`notif-card-${n.id}`);
+        if (cardEl) {
+          setupSwipeToDismiss(cardEl, n.id);
+        }
+      });
     }
 
     function openHistoryModal() {
@@ -638,6 +769,19 @@
           }, 30000);
         }
       }
+
+      // 🔔 앱 알림 On/Off 설정 변경 실시간 크로스탭/페이지 동기화
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'aisum_app_notification_enabled') {
+          if (window.AisumNotificationManager) {
+            window.AisumNotificationManager.updateBadgeUI();
+          }
+          const notifOverlay = document.getElementById('notification-modal-overlay');
+          if (notifOverlay && notifOverlay.classList.contains('active')) {
+            renderNotificationList();
+          }
+        }
+      });
 
       // 외부 링크 또는 타 페이지 GNB에서 진입 시 자동 오픈 지원
       const urlParams = new URLSearchParams(window.location.search);

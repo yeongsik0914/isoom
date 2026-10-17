@@ -417,7 +417,24 @@ window.AisumHistoryManager = {
 window.AisumNotificationManager = {
   NOTIF_KEY: 'aisum_bed_notifications',
   WATCH_KEY: 'aisum_emergency_watch_target',
+  SETTINGS_KEY: 'aisum_app_notification_enabled',
   MAX_NOTIFICATIONS: 50,
+
+  isEnabled: function() {
+    try {
+      const val = localStorage.getItem(this.SETTINGS_KEY);
+      return val !== 'false';
+    } catch (_) {
+      return true;
+    }
+  },
+
+  setEnabled: function(enabled) {
+    try {
+      localStorage.setItem(this.SETTINGS_KEY, enabled ? 'true' : 'false');
+      this.updateBadgeUI();
+    } catch (_) {}
+  },
 
   getNotifications: function() {
     try {
@@ -496,6 +513,10 @@ window.AisumNotificationManager = {
 
   addNotification: function(notif) {
     try {
+      if (!this.isEnabled()) {
+        console.log('🔕 [AisumNotificationManager] 앱 알림이 OFF 상태이므로 알림을 등록하지 않습니다.');
+        return null;
+      }
       const list = this.getNotifications();
       const dateObj = new Date();
       const pad = n => String(n).padStart(2, '0');
@@ -542,6 +563,11 @@ window.AisumNotificationManager = {
 
   checkBedUpdates: function(liveFacilities) {
     try {
+      // 🚨 조건 0: 설정에서 앱 알림이 켜져 있을 때만 알림 발생
+      if (!this.isEnabled()) {
+        return;
+      }
+
       // 🚨 조건 1: 기록페이지에 응급실 판정 기록이 있을 때만 알림 발생
       if (!this.hasEmergencyHistory()) {
         return;
@@ -642,6 +668,11 @@ window.AisumNotificationManager = {
 
   syncAndCheckBeds: async function(force = false) {
     try {
+      // 🚨 조건 0: 설정에서 앱 알림이 켜져 있을 때만 동작!
+      if (!this.isEnabled()) {
+        return;
+      }
+
       // 🚨 조건 1: 기록페이지에 응급실 판정 기록이 있을 때만 동작!
       if (!this.hasEmergencyHistory()) {
         return;
@@ -679,6 +710,19 @@ window.AisumNotificationManager = {
     }
   },
 
+  deleteNotification: function(id) {
+    try {
+      let list = this.getNotifications();
+      list = list.filter(item => String(item.id) !== String(id));
+      localStorage.setItem(this.NOTIF_KEY, JSON.stringify(list));
+      this.updateBadgeUI();
+      return list;
+    } catch (e) {
+      console.warn('[AisumNotificationManager] deleteNotification error:', e);
+      return [];
+    }
+  },
+
   clearAll: function() {
     try {
       localStorage.removeItem(this.NOTIF_KEY);
@@ -690,11 +734,14 @@ window.AisumNotificationManager = {
 
   updateBadgeUI: function() {
     try {
-      const unread = this.getUnreadCount();
       const dot = document.getElementById('header-notification-dot');
-      if (dot) {
-        dot.style.display = (unread > 0) ? 'block' : 'none';
+      if (!dot) return;
+      if (!this.isEnabled()) {
+        dot.style.display = 'none';
+        return;
       }
+      const unread = this.getUnreadCount();
+      dot.style.display = (unread > 0) ? 'block' : 'none';
     } catch (e) { }
   }
 };

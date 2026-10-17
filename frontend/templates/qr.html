@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>스마트폰으로 앱 열기 (QR) - 아이숨 (Aisum)</title>
+  <meta name="description" content="카메라로 QR코드를 스캔하여 스마트폰에서 아이숨 PWA 앱을 즉시 실행하세요." />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#10b981" />
+  <link rel="apple-touch-icon" href="/img/icon-192.png" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #f8faff;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    .qr-viewport {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+      position: relative;
+    }
+
+    @media (max-width: 639px) {
+      body {
+        background-color: #ffffff;
+      }
+      .qr-viewport {
+        max-width: 100%;
+        box-shadow: none;
+      }
+    }
+
+    /* Header */
+    .qr-header {
+      height: calc(56px + env(safe-area-inset-top, 0px));
+      padding-top: env(safe-area-inset-top, 0px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 12px;
+      padding-right: 16px;
+      background: #ffffff;
+      border-bottom: 1px solid #f1f5f9;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .qr-back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      color: #1e293b;
+      text-decoration: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .qr-back-btn:active {
+      background: #f1f5f9;
+    }
+
+    .qr-header-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    /* Content Body */
+    .qr-content {
+      flex: 1;
+      padding: 24px 20px 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .qr-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      border: 1px solid #a7f3d0;
+    }
+
+    .qr-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .qr-subtitle {
+      font-size: 13.5px;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.45;
+      margin-bottom: 24px;
+    }
+
+    /* QR Card */
+    .qr-card {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 24px;
+      border: 1px solid #e2e8f0;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 12px 32px -8px rgba(16, 185, 129, 0.12);
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .qr-image-wrapper {
+      width: 220px;
+      height: 220px;
+      background: #f8fafc;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed #cbd5e1;
+      overflow: hidden;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .qr-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 14px;
+    }
+
+    .qr-url-box {
+      width: 100%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .qr-url-text {
+      font-size: 12px;
+      color: #475569;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      font-family: monospace;
+    }
+
+    .qr-copy-btn {
+      background: #10b981;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .qr-copy-btn:hover {
+      background: #059669;
+    }
+
+    .qr-actions-row {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .qr-share-btn {
+      flex: 1;
+      background: #f1f5f9;
+      color: #1e293b;
+      border: none;
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .qr-share-btn:active {
+      background: #e2e8f0;
+    }
+
+    .qr-install-banner {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+      cursor: pointer;
+      border: none;
+      text-align: left;
+    }
+
+    /* OS Guide Cards */
+    .guide-section {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .guide-section-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .guide-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 10px;
+    }
+
+    .guide-card-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .guide-card-step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.45;
+    }
+
+    .step-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #1e293b;
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-highlight {
+      color: #059669;
+      font-weight: 700;
+    }
+
+    /* Toast */
+    .qr-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(50px);
+      background: rgba(15, 23, 42, 0.9);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      pointer-events: none;
+    }
+    .qr-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="qr-viewport">
+
+    <!-- Top Header -->
+    <header class="qr-header">
+      <button type="button" class="qr-back-btn" onclick="goBack()" aria-label="이전 화면으로 돌아가기">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <h1 class="qr-header-title">스마트폰으로 앱 열기</h1>
+      <div style="width: 40px;"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="qr-content">
+      
+      <div class="qr-hero-badge">
+        <span class="material-symbols-outlined" style="font-size: 16px;">bolt</span>
+        <span>주소창 없는 네이티브 PWA 앱 지원</span>
+      </div>
+
+      <h2 class="qr-title">스마트폰 카메라로 비춰보세요</h2>
+      <p class="qr-subtitle">
+        별도의 앱스토어 설치 없이 스마트폰 카메라로 스캔하면<br />
+        홈 화면에 아이콘이 생성되어 즉시 실행됩니다.
+      </p>
+
+      <!-- QR Box Card -->
+      <div class="qr-card">
+        <div class="qr-image-wrapper">
+          <img id="qr-code-img" src="" alt="아이숨 스마트폰 접속 QR코드" />
+        </div>
+
+        <div class="qr-url-box">
+          <span class="qr-url-text" id="qr-url-display">로딩 중...</span>
+          <button type="button" class="qr-copy-btn" onclick="copyCurrentUrl()">
+            <span class="material-symbols-outlined" style="font-size: 15px;">content_copy</span>
+            <span>복사</span>
+          </button>
+        </div>
+
+        <div class="qr-actions-row">
+          <button type="button" class="qr-share-btn" onclick="shareAppUrl()">
+            <span class="material-symbols-outlined" style="font-size: 18px; color: #10b981;">share</span>
+            <span>링크 공유하기</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PWA Install Dynamic Prompt (지원 기기에서 자동 표시) -->
+      <button type="button" class="qr-install-banner" id="pwa-install-banner" style="display: none;" onclick="triggerInstallPrompt()">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="material-symbols-outlined" style="font-size: 28px;">add_to_home_screen</span>
+          <div>
+            <div style="font-size: 14px; font-weight: 800;">홈 화면에 아이숨 설치하기</div>
+            <div style="font-size: 11.5px; opacity: 0.9;">한 번의 터치로 네이티브 앱 추가</div>
+          </div>
+        </div>
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+
+      <!-- Guides -->
+      <section class="guide-section">
+        <div class="guide-section-title">
+          <span class="material-symbols-outlined" style="color: #10b981; font-size: 18px;">help</span>
+          <span>스마트폰 홈 화면 추가 방법</span>
+        </div>
+
+        <!-- iPhone Guide -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="material-symbols-outlined" style="font-size: 20px; color: #475569;">phone_iphone</span>
+            <span>아이폰 (iPhone / Safari)</span>
+          </div>
+          <ul class="guide-card-steps">
+            <li class="guide-card-step-item">
+              <span class="step-badge">1</span>
+              <span>스마트폰 기본 카메라로 위 QR코드를 비춰 <strong>Safari 브라우저</strong>로 접속합니다.</span>
+            </li>
+            <li class="guide-card-step-item">
+              <span class="step-badge">2</span>
+              <span>Safari 하단 중앙의 <strong class="step-highlight">공유 버튼 ([↑])</strong>을 터치합니다.</span>
+            </li>
+            <li class="guide-card-step-item">
+              <span class="step-badge">3</span>
+              <span>메뉴에서 <strong class="step-highlight">'홈 화면에 추가'</strong>를 선택하면 바탕화면에 아이숨 앱이 생성됩니다.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Android Guide -->
+        <div class="guide-card">
+          <div class="guide-card-header">
+            <span class="material-symbols-outlined" style="font-size: 20px; color: #10b981;">android</span>
+            <span>갤럭시 / 안드로이드 (Chrome)</span>
+          </div>
+          <ul class="guide-card-steps">
+            <li class="guide-card-step-item">
+              <span class="step-badge">1</span>
+              <span>스마트폰 기본 카메라로 QR을 스캔하여 <strong>Chrome 브라우저</strong>로 엽니다.</span>
+            </li>
+            <li class="guide-card-step-item">
+              <span class="step-badge">2</span>
+              <span>Chrome 우측 상단 <strong class="step-highlight">더보기(⋮)</strong> 메뉴를 터치합니다.</span>
+            </li>
+            <li class="guide-card-step-item">
+              <span class="step-badge">3</span>
+              <span><strong class="step-highlight">'앱 설치'</strong> 또는 <strong class="step-highlight">'홈 화면에 추가'</strong>를 누르면 설치가 완료됩니다.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="qr-toast" id="qr-toast">
+    <span class="material-symbols-outlined" style="font-size: 18px; color: #10b981;">check_circle</span>
+    <span id="qr-toast-msg">복사되었습니다.</span>
+  </div>
+
+  <script>
+    let deferredPrompt = null;
+
+    function goBack() {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '/settings';
+      }
+    }
+
+    function initQrPage() {
+      // 1. 현재 접속 도메인 URL 감지
+      let origin = window.location.origin;
+      if (!origin || origin.indexOf('http') !== 0) {
+        origin = 'https://isoom-service-tl5q6qavta-du.a.run.app';
+      }
+
+      // 첫 접속 시 스플래시가 뜨도록 루트(/)로 안내
+      const targetUrl = origin + '/';
+      const displayElem = document.getElementById('qr-url-display');
+      if (displayElem) displayElem.textContent = targetUrl;
+
+      // 2. QR 코드 이미지 동적 생성
+      const qrApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=6&color=0f172a&bgcolor=ffffff&data=' + encodeURIComponent(targetUrl);
+      const imgElem = document.getElementById('qr-code-img');
+      if (imgElem) {
+        imgElem.src = qrApiUrl;
+      }
+    }
+
+    function copyCurrentUrl() {
+      let origin = window.location.origin;
+      if (!origin || origin.indexOf('http') !== 0) {
+        origin = 'https://isoom-service-tl5q6qavta-du.a.run.app';
+      }
+      const targetUrl = origin + '/';
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(targetUrl).then(function() {
+          showToast('웹앱 접속 주소가 복사되었습니다.');
+        }).catch(function() {
+          fallbackCopy(targetUrl);
+        });
+      } else {
+        fallbackCopy(targetUrl);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const input = document.createElement('input');
+      input.value = text;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      showToast('웹앱 접속 주소가 복사되었습니다.');
+    }
+
+    function shareAppUrl() {
+      let origin = window.location.origin;
+      if (!origin || origin.indexOf('http') !== 0) {
+        origin = 'https://isoom-service-tl5q6qavta-du.a.run.app';
+      }
+      const targetUrl = origin + '/';
+
+      if (navigator.share) {
+        navigator.share({
+          title: '아이숨 (Aisum) - 소아 야간 의료 매칭 케어',
+          text: '야간·휴일 소아 응급실 & 달빛어린이병원 0ms 실시간 매칭 시스템',
+          url: targetUrl
+        }).catch(function(err) {
+          console.log('[Share] Cancelled or error:', err);
+        });
+      } else {
+        copyCurrentUrl();
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('qr-toast');
+      const msgElem = document.getElementById('qr-toast-msg');
+      if (!toast || !msgElem) return;
+
+      msgElem.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(function() {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // PWA beforeinstallprompt 지원
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      const banner = document.getElementById('pwa-install-banner');
+      if (banner) banner.style.display = 'flex';
+    });
+
+    function triggerInstallPrompt() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(function(choice) {
+          if (choice.outcome === 'accepted') {
+            showToast('홈 화면에 앱이 설치되었습니다.');
+          }
+          deferredPrompt = null;
+          const banner = document.getElementById('pwa-install-banner');
+          if (banner) banner.style.display = 'none';
+        });
+      }
+    }
+
+    // PWA Service Worker 등록
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(reg) {
+          console.log('[QR PWA] Service Worker registered:', reg.scope);
+        }).catch(function(err) {
+          console.warn('[QR PWA] Service Worker registration failed:', err);
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initQrPage);
+  </script>
+</body>
+
+</html>

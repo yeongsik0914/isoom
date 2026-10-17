@@ -735,8 +735,8 @@ body.app-shell-body {
 
 .facility-card {
   background: var(--card-bg);
-  border-radius: 14px;
-  padding: 11px 13px;
+  border-radius: 20px;
+  padding: 12px 14px;
   border: 1px solid rgba(226, 232, 240, 0.85);
   box-shadow: var(--shadow-card);
   transition: all var(--transition-fast);
@@ -3564,8 +3564,8 @@ body.font-size-large .location-pill {
   max-width: 440px;
   max-height: 85vh;
   background: #ffffff;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   position: fixed;
@@ -3809,17 +3809,49 @@ body.font-size-large .location-pill {
   transform: scale(0.98);
 }
 
-/* Notification Card */
+/* Notification Card with Swipe to Dismiss & Soft-Rounded Curves */
+.notif-card-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  touch-action: pan-y;
+  background: #fee2e2;
+}
+
+.notif-swipe-bg {
+  position: absolute;
+  inset: 0;
+  background: #ef4444;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 20px;
+  z-index: 1;
+}
+
 .notif-card {
+  position: relative;
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 20px;
   border: 1px solid #e2e8f0;
   padding: 14px 16px;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: border-color 0.15s ease;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, max-height 0.3s ease;
+  z-index: 2;
+  will-change: transform, opacity;
+  user-select: none;
+}
+
+.notif-card.swiping {
+  transition: none;
 }
 
 .notif-card.unread {
@@ -3831,6 +3863,26 @@ body.font-size-large .location-pill {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
+}
+
+.notif-card-delete-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-left: 4px;
+  transition: all 0.15s ease;
+}
+.notif-card-delete-btn:hover,
+.notif-card-delete-btn:active {
+  color: #ef4444;
+  background: #fee2e2;
 }
 
 .notif-badge {

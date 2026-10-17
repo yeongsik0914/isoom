@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>오픈소스 라이선스 - 아이숨 (i-Soom)</title>
+  <meta name="description" content="소아 야간 응급의료 케어 서비스 아이숨(i-Soom) 오픈소스 소프트웨어 라이선스 및 저작권 고지" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <style>
+    /* Open Source Licenses Page Custom Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8faff;
+      font-family: 'Noto Sans KR', 'Plus Jakarta Sans', sans-serif;
+      color: #0f172a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .licenses-viewport {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-color: #f8faff;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 24px rgba(15, 23, 42, 0.06);
+    }
+
+    /* Top Sticky Header */
+    .licenses-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: calc(56px + env(safe-area-inset-top, 0px));
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid #eef2f6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 0px) 16px 0 16px;
+      box-sizing: border-box;
+    }
+
+    .licenses-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .licenses-back-btn,
+    .licenses-home-btn {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      color: #1e293b;
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+    }
+
+    .licenses-back-btn:active,
+    .licenses-home-btn:active {
+      background-color: #f1f5f9;
+    }
+
+    .licenses-header-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+      margin: 0;
+    }
+
+    /* Main Scrollable Body */
+    .licenses-body {
+      flex: 1;
+      padding: 16px 16px calc(40px + env(safe-area-inset-bottom, 10px)) 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-sizing: border-box;
+    }
+
+    /* Top Intro Banner */
+    .licenses-intro-card {
+      background: linear-gradient(135deg, #0066ff 0%, #0052cc 100%);
+      border-radius: 20px;
+      padding: 20px 18px;
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(0, 102, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .licenses-intro-card::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .intro-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 10px;
+    }
+
+    .intro-title {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.35;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.3px;
+    }
+
+    .intro-desc {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+      word-break: keep-all;
+    }
+
+    /* Summary Chips Row */
+    .summary-chips-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .summary-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Filter Tabs */
+    .filter-tabs-container {
+      display: flex;
+      background: #e2e8f0;
+      padding: 3px;
+      border-radius: 14px;
+      gap: 3px;
+    }
+
+    .filter-tab-btn {
+      flex: 1;
+      padding: 8px 6px;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      border-radius: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .filter-tab-btn.active {
+      background: #ffffff;
+      color: #0066ff;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+    }
+
+    /* Section Headers */
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      padding: 0 4px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-count {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0066ff;
+      background: #eff6ff;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+
+    /* License Cards List */
+    .licenses-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .license-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .license-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    }
+
+    .card-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .software-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .software-version {
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    /* License Badges */
+    .license-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 8px;
+      white-space: nowrap;
+      letter-spacing: 0.2px;
+    }
+
+    .badge-mit {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    .badge-apache {
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+    }
+
+    .badge-bsd {
+      background: #f5f3ff;
+      color: #7c3aed;
+      border: 1px solid #ddd6fe;
+    }
+
+    .badge-kogl {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fde68a;
+    }
+
+    .badge-ofl {
+      background: #fdf2f8;
+      color: #db2777;
+      border: 1px solid #fbcfe8;
+    }
+
+    .software-author {
+      font-size: 11.5px;
+      color: #64748b;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .software-desc {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #334155;
+      margin: 0;
+      word-break: keep-all;
+    }
+
+    /* Accordion Details for Full License Notice */
+    .license-details {
+      margin-top: 4px;
+      border-top: 1px dashed #e2e8f0;
+      padding-top: 8px;
+    }
+
+    .license-details summary {
+      cursor: pointer;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #0066ff;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      user-select: none;
+      outline: none;
+    }
+
+    .license-details summary:hover {
+      text-decoration: underline;
+    }
+
+    .license-text-box {
+      margin-top: 8px;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      line-height: 1.5;
+      color: #475569;
+      max-height: 160px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      box-sizing: border-box;
+    }
+
+    /* Footer Notice */
+    .licenses-footer {
+      margin-top: 14px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 16px;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #64748b;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="licenses-viewport">
+
+    <!-- Top Sticky Header -->
+    <header class="licenses-header">
+      <div class="licenses-header-left">
+        <button type="button" class="licenses-back-btn" onclick="handleGoBack()" aria-label="이전 화면으로 돌아가기">
+          <span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
+        </button>
+        <h1 class="licenses-header-title">오픈소스 라이선스</h1>
+      </div>
+      <a href="/home" class="licenses-home-btn" aria-label="홈으로 이동">
+        <span class="material-symbols-outlined" style="font-size: 24px;">home</span>
+      </a>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="licenses-body">
+
+      <!-- 1. Intro Banner -->
+      <section class="licenses-intro-card">
+        <span class="intro-badge">
+          <span class="material-symbols-outlined" style="font-size: 14px;">verified_user</span>
+          Open Source Compliance
+        </span>
+        <h2 class="intro-title">신뢰할 수 있는 오픈소스와<br />공공데이터로 만든 아이숨</h2>
+        <p class="intro-desc">
+          아이숨(MoonlightCare)은 야간 소아 응급의료 사각지대를 해소하기 위해 전 세계 개발자들의 소중한 오픈소스 기술과 대한민국 공공데이터를 기반으로 안전하고 투명하게 구축되었습니다.
+        </p>
+        <div class="summary-chips-row">
+          <span class="summary-chip">
+            <span class="material-symbols-outlined" style="font-size: 13px;">terminal</span>
+            FastAPI · Uvicorn
+          </span>
+          <span class="summary-chip">
+            <span class="material-symbols-outlined" style="font-size: 13px;">smart_toy</span>
+            Gemini Flash AI
+          </span>
+          <span class="summary-chip">
+            <span class="material-symbols-outlined" style="font-size: 13px;">map</span>
+            Leaflet · OpenStreetMap
+          </span>
+          <span class="summary-chip">
+            <span class="material-symbols-outlined" style="font-size: 13px;">database</span>
+            Firestore · NMC 공공데이터
+          </span>
+        </div>
+      </section>
+
+      <!-- 2. Category Filter Tabs -->
+      <nav class="filter-tabs-container" role="tablist">
+        <button type="button" class="filter-tab-btn active" id="tab-all" onclick="filterCategory('all')">
+          <span class="material-symbols-outlined" style="font-size: 16px;">apps</span>
+          전체 보기
+        </button>
+        <button type="button" class="filter-tab-btn" id="tab-backend" onclick="filterCategory('backend')">
+          <span class="material-symbols-outlined" style="font-size: 16px;">dns</span>
+          백엔드 & AI
+        </button>
+        <button type="button" class="filter-tab-btn" id="tab-frontend" onclick="filterCategory('frontend')">
+          <span class="material-symbols-outlined" style="font-size: 16px;">web</span>
+          프론트 & 지도
+        </button>
+        <button type="button" class="filter-tab-btn" id="tab-data" onclick="filterCategory('data')">
+          <span class="material-symbols-outlined" style="font-size: 16px;">public</span>
+          공공데이터
+        </button>
+      </nav>
+
+      <!-- Section Title Row -->
+      <div class="section-title-row">
+        <span class="section-title">
+          <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">menu_book</span>
+          라이선스 및 저작권 명세
+        </span>
+        <span class="section-count" id="filtered-count">전체 14개 고지</span>
+      </div>
+
+      <!-- 3. Licenses List -->
+      <div class="licenses-list" id="licenses-container">
+
+        <!-- Card 1: FastAPI -->
+        <article class="license-card" data-category="backend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              FastAPI
+              <span class="software-version">v0.110+</span>
+            </h3>
+            <span class="license-badge badge-mit">MIT License</span>
+          </div>
+          <p class="software-author">Copyright (c) 2018 Sebastián Ramírez</p>
+          <p class="software-desc">
+            현대적이고 빠른 고성능 비동기 파이썬 웹 프레임워크로, 아이숨의 0ms 긴급 가드레일 라우팅 및 실시간 소아 병상 캐시 API 서빙을 담당합니다.
+          </p>
+          <details class="license-details">
+            <summary>MIT 라이선스 전문 보기</summary>
+            <div class="license-text-box">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</div>
+          </details>
+        </article>
+
+        <!-- Card 2: Google Generative AI (Gemini) SDK -->
+        <article class="license-card" data-category="backend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Google GenAI SDK (Gemini)
+              <span class="software-version">v2.0+</span>
+            </h3>
+            <span class="license-badge badge-apache">Apache 2.0</span>
+          </div>
+          <p class="software-author">Copyright (c) 2024 Google LLC</p>
+          <p class="software-desc">
+            구글의 차세대 초경량 지능형 멀티모달 모델(Gemini 3.8 Flash / 3.5 Lite) 연동 파이썬 클라이언트 라이브러리로, 2021 소아 KTAS 지침 기반의 임상 감별 소견 분석을 수행합니다.
+          </p>
+          <details class="license-details">
+            <summary>Apache 2.0 라이선스 전문 보기</summary>
+            <div class="license-text-box">Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</div>
+          </details>
+        </article>
+
+        <!-- Card 3: Firebase Admin Python SDK -->
+        <article class="license-card" data-category="backend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Firebase Admin Python SDK
+              <span class="software-version">v7.0+</span>
+            </h3>
+            <span class="license-badge badge-apache">Apache 2.0</span>
+          </div>
+          <p class="software-author">Copyright (c) 2017 Google Inc.</p>
+          <p class="software-desc">
+            Google Cloud Firestore NoSQL 데이터베이스와 연동하여 전국 달빛어린이병원 및 연계 안심약국, 실시간 소아 병상 데이터를 안정적으로 동기화합니다.
+          </p>
+          <details class="license-details">
+            <summary>Apache 2.0 라이선스 전문 보기</summary>
+            <div class="license-text-box">Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0</div>
+          </details>
+        </article>
+
+        <!-- Card 4: Uvicorn -->
+        <article class="license-card" data-category="backend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Uvicorn
+              <span class="software-version">v0.28+</span>
+            </h3>
+            <span class="license-badge badge-bsd">BSD-3-Clause</span>
+          </div>
+          <p class="software-author">Copyright (c) 2017-present, Encode OSS Ltd.</p>
+          <p class="software-desc">
+            초고속 uvloop 및 httptools 기반의 비동기 ASGI 웹 서버로, Cloud Run 무중단 서빙 환경에서 아이숨 서비스를 구동합니다.
+          </p>
+          <details class="license-details">
+            <summary>BSD 3-Clause 라이선스 전문 보기</summary>
+            <div class="license-text-box">Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</div>
+          </details>
+        </article>
+
+        <!-- Card 5: Pydantic -->
+        <article class="license-card" data-category="backend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Pydantic
+              <span class="software-version">v2.5+</span>
+            </h3>
+            <span class="license-badge badge-mit">MIT License</span>
+          </div>
+          <p class="software-author">Copyright (c) 2017 to present Pydantic Services Inc. and individual contributors</p>
+          <p class="software-desc">
+            Python 타입 힌트 기반의 고속 데이터 검증 라이브러리로, 환아 증상 모델 및 KTAS 트리아제 요청 데이터 스키마를 무결점으로 검증합니다.
+          </p>
+          <details class="license-details">
+            <summary>MIT 라이선스 전문 보기</summary>
+            <div class="license-text-box">The MIT License (MIT)
+Copyright (c) 2017 to present Pydantic Services Inc. and individual contributors</div>
+          </details>
+        </article>
+
+        <!-- Card 6: Leaflet.js -->
+        <article class="license-card" data-category="frontend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Leaflet.js
+              <span class="software-version">v1.9.4</span>
+            </h3>
+            <span class="license-badge badge-bsd">BSD-2-Clause</span>
+          </div>
+          <p class="software-author">Copyright (c) 2010-2023, Vladimir Agafonkin / CloudMade</p>
+          <p class="software-desc">
+            모바일 친화적인 오픈소스 대화형 지도 라이브러리로, 외부 도메인 제한 없이 전국 달빛병원 및 응급실 위치를 경량 타일 지도로 시각화합니다.
+          </p>
+          <details class="license-details">
+            <summary>BSD 2-Clause 라이선스 전문 보기</summary>
+            <div class="license-text-box">Copyright (c) 2010-2023, Vladimir Agafonkin
+Copyright (c) 2010-2011, CloudMade
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</div>
+          </details>
+        </article>
+
+        <!-- Card 7: OpenStreetMap (OSM) -->
+        <article class="license-card" data-category="frontend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              OpenStreetMap Tile Server
+              <span class="software-version">Standard Carto</span>
+            </h3>
+            <span class="license-badge badge-kogl">ODbL / CC-BY-SA</span>
+          </div>
+          <p class="software-author">&copy; OpenStreetMap contributors</p>
+          <p class="software-desc">
+            전 세계 참여자들이 협력하여 구축하는 오픈소스 지도 데이터베이스로, 아이숨의 지도 타일 그래픽 원천 데이터를 제공합니다.
+          </p>
+          <details class="license-details">
+            <summary>Open Database License (ODbL) 고지</summary>
+            <div class="license-text-box">OpenStreetMap is open data, licensed under the Open Data Commons Open Database License (ODbL) by the OpenStreetMap Foundation (OSMF).
+Cartography in standard tile layers is licensed under the Creative Commons Attribution-ShareAlike 2.0 license (CC BY-SA 2.0).</div>
+          </details>
+        </article>
+
+        <!-- Card 8: QRCode.js -->
+        <article class="license-card" data-category="frontend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              QRCode.js
+              <span class="software-version">v1.0</span>
+            </h3>
+            <span class="license-badge badge-mit">MIT License</span>
+          </div>
+          <p class="software-author">Copyright (c) 2012 davidshimjs</p>
+          <p class="software-desc">
+            브라우저 내에서 순수 자바스크립트로 고화질 QR코드를 즉각 렌더링하는 오픈소스 라이브러리로, 아이숨 모바일 기기 연결 전용 화면(/qr)에 사용됩니다.
+          </p>
+          <details class="license-details">
+            <summary>MIT 라이선스 전문 보기</summary>
+            <div class="license-text-box">The MIT License (MIT)
+Copyright (c) 2012 davidshimjs
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files...</div>
+          </details>
+        </article>
+
+        <!-- Card 9: Google Material Symbols -->
+        <article class="license-card" data-category="frontend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Material Symbols Outlined
+              <span class="software-version">Variable Font</span>
+            </h3>
+            <span class="license-badge badge-apache">Apache 2.0</span>
+          </div>
+          <p class="software-author">Copyright (c) 2022 Google LLC</p>
+          <p class="software-desc">
+            구글의 현대적이고 일관된 시스템 아이콘 세트로, 아이숨 모바일 인터페이스 전반의 직관적인 시각 기호를 구성합니다.
+          </p>
+          <details class="license-details">
+            <summary>Apache 2.0 라이선스 전문 보기</summary>
+            <div class="license-text-box">Licensed under the Apache License, Version 2.0. Copyright Google LLC.</div>
+          </details>
+        </article>
+
+        <!-- Card 10: Google Fonts (Noto Sans KR & Plus Jakarta Sans) -->
+        <article class="license-card" data-category="frontend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Noto Sans KR & Plus Jakarta Sans
+              <span class="software-version">Web Fonts</span>
+            </h3>
+            <span class="license-badge badge-ofl">OFL 1.1</span>
+          </div>
+          <p class="software-author">Copyright (c) Google LLC & Gumpita Rahayu (Tokotype)</p>
+          <p class="software-desc">
+            모바일 화면 가독성에 최적화된 고품질 한글/영문 오픈소스 서체로, 긴급 상황에서도 부모님이 안내 사항을 명확하게 읽을 수 있도록 돕습니다.
+          </p>
+          <details class="license-details">
+            <summary>SIL Open Font License 1.1 고지</summary>
+            <div class="license-text-box">This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL</div>
+          </details>
+        </article>
+
+        <!-- Card 11: 국립중앙의료원 (NMC) 응급의료 공공데이터 -->
+        <article class="license-card" data-category="data">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              국립중앙의료원(NMC) E-Gen 실시간 병상
+              <span class="software-version">공공데이터포털</span>
+            </h3>
+            <span class="license-badge badge-kogl">공공누리 제1유형</span>
+          </div>
+          <p class="software-author">출처: 국립중앙의료원 중앙응급의료센터 (E-Gen)</p>
+          <p class="software-desc">
+            전국 응급의료기관의 실시간 가용 병상(일반, 소아, 중환자실) 정보와 응급실 메시지를 제공받아 아이숨 소아 응급실 2-트랙 알고리즘에 활용합니다.
+          </p>
+          <details class="license-details">
+            <summary>공공누리 제1유형 (출처표시) 안내</summary>
+            <div class="license-text-box">공공누리 제1유형: 출처표시 (상업적 이용 가능, 변형 등 2차적 저작물 작성 가능)
+본 저작물은 '국립중앙의료원'에서 작성하여 공공누리 제1유형으로 개방한 '응급의료기관 정보 조회 서비스'를 이용하였으며, 해당 저작물은 공공데이터포털(data.go.kr)에서 무료로 다운받으실 수 있습니다.</div>
+          </details>
+        </article>
+
+        <!-- Card 12: 보건복지부 달빛어린이병원 공공데이터 -->
+        <article class="license-card" data-category="data">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              보건복지부 지정 달빛어린이병원 안내
+              <span class="software-version">공공데이터포털</span>
+            </h3>
+            <span class="license-badge badge-kogl">공공누리 제1유형</span>
+          </div>
+          <p class="software-author">출처: 보건복지부 / 건강보험심사평가원</p>
+          <p class="software-desc">
+            전국 지자체 및 보건복지부가 지정한 야간·휴일 소아진료기관(달빛어린이병원) 및 인접 당직 연계 안심약국 100% 매칭 기준 데이터를 제공합니다.
+          </p>
+          <details class="license-details">
+            <summary>공공누리 제1유형 (출처표시) 안내</summary>
+            <div class="license-text-box">공공누리 제1유형: 출처표시
+본 저작물은 '보건복지부'에서 공공누리 제1유형으로 개방한 '달빛어린이병원 지정 현황' 데이터를 바탕으로 환아 맞춤 야간 라우팅을 제공합니다.</div>
+          </details>
+        </article>
+
+        <!-- Card 13: 한국천문연구원 (KASI) 특일정보 공공데이터 -->
+        <article class="license-card" data-category="data">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              한국천문연구원(KASI) 특일 정보 API
+              <span class="software-version">공공데이터포털</span>
+            </h3>
+            <span class="license-badge badge-kogl">공공누리 제1유형</span>
+          </div>
+          <p class="software-author">출처: 한국천문연구원</p>
+          <p class="software-desc">
+            대한민국 법정 공휴일, 대체 공휴일, 명절 연휴 데이터를 실시간 판별하여 야간 및 휴일 진료 여부를 0.01초 내에 정확히 계산합니다.
+          </p>
+          <details class="license-details">
+            <summary>공공누리 제1유형 (출처표시) 안내</summary>
+            <div class="license-text-box">공공누리 제1유형: 출처표시
+한국천문연구원에서 제공하는 특일정보 오픈 API를 기반으로 야간·휴일 소아 진료 판정을 수행합니다.</div>
+          </details>
+        </article>
+
+        <!-- Card 14: 카카오맵 REST API -->
+        <article class="license-card" data-category="data">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Kakao Maps REST & Static API
+              <span class="software-version">Kakao Developers</span>
+            </h3>
+            <span class="license-badge badge-apache">Open API Terms</span>
+          </div>
+          <p class="software-author">Copyright (c) Kakao Corp.</p>
+          <p class="software-desc">
+            카카오 로컬 지오코딩 및 카카오맵 길안내 원터치 딥링크(map.kakao.com) 서비스로 신속한 병원 이송을 지원합니다.
+          </p>
+          <details class="license-details">
+            <summary>Kakao Open API 이용 약관 고지</summary>
+            <div class="license-text-box">본 서비스는 Kakao Developers Open API 이용약관을 준수하며, 카카오에서 제공하는 정적 지도 및 좌표 역지오코딩 API를 활용하고 있습니다.</div>
+          </details>
+        </article>
+
+      </div>
+
+      <!-- 4. Footer Legal Disclaimer -->
+      <footer class="licenses-footer">
+        <div style="font-weight: 700; color: #475569; margin-bottom: 4px;">
+          ⚖️ 오픈소스 라이선스 및 지식재산권 준수 안심 고지
+        </div>
+        아이숨(MoonlightCare)은 오픈소스 소프트웨어의 라이선스 조항 및 공공데이터 개방 원칙을 엄격하게 준수합니다.<br />
+        각 소프트웨어의 상표 및 저작권은 해당 원작작자 및 개발 조직에 귀속되어 있습니다.
+      </footer>
+
+    </main>
+
+  </div>
+
+  <script>
+    // 1. 뒤로가기 핸들러 (히스토리가 없으면 설정 페이지로 이동)
+    function handleGoBack() {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '/settings';
+      }
+    }
+
+    // 2. 카테고리 필터링 탭 로직
+    function filterCategory(categoryKey) {
+      const tabs = document.querySelectorAll('.filter-tab-btn');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      const currentTab = document.getElementById(`tab-${categoryKey}`);
+      if (currentTab) currentTab.classList.add('active');
+
+      const cards = document.querySelectorAll('.license-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (categoryKey === 'all' || cat === categoryKey) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      const countEl = document.getElementById('filtered-count');
+      if (countEl) {
+        countEl.innerText = `${visibleCount}개 고지`;
+      }
+    }
+  </script>
+
+</body>
+
+</html>
