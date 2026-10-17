@@ -397,6 +397,28 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
 
         self.assertIn("window.AisumNotificationManager.registerWatch(hospitals, window.currentKtasLevel)", html)
 
+    async def test_14_dedicated_history_page_contract(self):
+        """TC-814: Validates dedicated history page (/history, /history.html) and bottom nav links."""
+        # 1. /history & /history.html GET endpoint checks
+        res_hist = self.client.get("/history")
+        self.assertEqual(res_hist.status_code, 200)
+        self.assertIn("history-shell", res_hist.text)
+        self.assertIn("history-list-container", res_hist.text)
+        self.assertIn("AisumHistoryManager", res_hist.text)
+        self.assertIn("btn-replay-result", res_hist.text)
+
+        res_hist_html = self.client.get("/history.html")
+        self.assertEqual(res_hist_html.status_code, 200)
+
+        # 2. index.html & settings.html bottom nav link verification
+        res_idx = self.client.get("/index.html")
+        self.assertEqual(res_idx.status_code, 200)
+        self.assertIn('href="history.html"', res_idx.text)
+
+        res_settings = self.client.get("/settings.html")
+        self.assertEqual(res_settings.status_code, 200)
+        self.assertIn('href="history.html"', res_settings.text)
+
 
 if __name__ == "__main__":
     unittest.main()

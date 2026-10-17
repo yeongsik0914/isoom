@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-108%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-109%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -27,6 +27,23 @@
 ---
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
+
+### 🌟 [v2.8.4-dedicated-history-page] 2026-10-18: 이전 문진 결과 바텀시트 모달 폐지 및 전용 기록 페이지(`history.html`, `/history`) 신설 & 전역 GNB 4-Tab 연동 릴리스 (정영식 팀장 총괄)
+* **📱 독립된 전용 문진 기록 페이지 신설 (`history.html`, `/history`)**:
+  - 기존 메인 화면 바텀시트 모달(`history-modal-overlay`)을 전면 폐지하고, 전 기종 스마트폰 100% 화면 밀착형 전용 웹페이지(`.mobile-viewport.history-shell`) 구축.
+  - 상단 헤더(뒤로가기, "문진 결과 기록" 타이틀, "전체 삭제" 원터치 버튼) 및 상단 요약 바(실시간 카운트 뱃지, "+ 새 문진" 버튼) 제공.
+  - 저장된 기록이 없을 시 친근한 일러스트와 "증상 입력하고 병원 찾기" CTA 버튼이 표출되는 반응형 Empty State 완비.
+* **🛡️ 기존 기록 기능 100% 무손실 보존**:
+  - `AisumHistoryManager`(`aisum_triage_histories_v1`) 로컬 스토리지 기반 영구 저장 및 0ms 즉시 복원 유지.
+  - KTAS 등급별 컬러 뱃지(`ktas-tier-1~5`), 자녀 정보(나이·성별·체온), 증상 태그, 추천 병원/응급실 정보 온전히 유지.
+  - "당시 결과 다시보기"(`replayHistoryRecord`) 클릭 시 세션 스냅샷을 복원하여 `result.html?is_replay=true`로 0ms 완벽 재현 및 뒤로가기 시 기록 페이지 복귀 완결.
+  - 기록된 KTAS 1~3단계 응급실 기반 실시간 병상 모니터링 연동 파이프라인 100% 보존.
+* **🌐 전역 템플릿 GNB 4-Tab 일괄 동기화 및 백엔드 라우터 서빙 (`main.py`)**:
+  - `index.html`, `settings.html`, `emergency_guide.html` 등 전 페이지의 하단 GNB Tab 2를 `<a href="history.html">`로 일괄 연결하고, `index.html?tab=history` 진입 시 즉시 `history.html`로 자동 이동.
+  - FastAPI `@app.get("/history")` 및 `@app.get("/history.html")` 엔드포인트 등록 및 서비스 메타데이터 동기화.
+* **🧪 14대 통합 계약 테스트 100% 전수 통과 (`tests/test_step8_frontend_integration.py`)**:
+  - TC-814 (`test_14_dedicated_history_page_contract`) 신설 및 **14/14 100% 통과**.
+* **📜 4대 불변 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q180, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-180, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v3.05)**.
 
 ### 🌟 [v2.8.3-notification-bed-sync-complete] 2026-10-18: 응급실 기록 모니터링 대상 자동 연동 및 E-Gen 실시간 병상 변동 감지 파이프라인 완결 릴리스 (정영식 팀장 총괄)
 * **🎯 기록 페이지 추천 응급실 감시 대상 1순위 자동 연동 (`main.js` - `getWatchTargets`, `result.html`)**:

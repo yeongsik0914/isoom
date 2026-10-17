@@ -152,6 +152,7 @@ async def root(request: Request):
             "aisum_home": "/home",
             "aisum_settings": "/settings",
             "aisum_terms": "/terms",
+            "aisum_history": "/history",
             "aisum_qr": "/qr",
             "aisum_licenses": "/licenses",
             "aisum_guidebook": "/guidebook",
@@ -316,6 +317,16 @@ async def get_aisum_settings():
     if path:
         return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Settings page not found"})
+
+
+@app.get("/history", tags=["Frontend"], response_class=FileResponse)
+@app.get("/history.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_history():
+    """Serves the Aisum Triage History page."""
+    path = find_frontend_html("history", "history.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "History page not found"})
 
 
 @app.get("/terms", tags=["Frontend"], response_class=FileResponse)

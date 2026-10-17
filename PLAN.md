@@ -1,9 +1,9 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v3.04 (응급실 기록 모니터링 대상 자동 연동 및 E-Gen 실시간 병상 변동 감지 파이프라인 완결, v2.8.3)
+> **문서 버전**: v3.05 (이전 문진 결과 전용 웹페이지 history.html 신설 및 전역 GNB 4-Tab 연동 완결, v2.8.4)
 > **최종 갱신 일자**: 2026-10-18
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
-> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 중복/추천기관 정제 엔진, AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md).
+> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 전용 기록 페이지(history.html), AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md).
 
 ---
 
@@ -194,12 +194,12 @@ graph TD
 * **무손실 상세 주소 보존**: 카카오 `coord2address` 기반 상세 주소 완벽 보존.
 * **'자주 찾는 주요 지역' 동적 히스토리화**: LocalStorage(`aisum_recent_locations`) 기반 최대 15개 최신순(FIFO/LRU) 관리.
 
-### 8.5 15대 표준 HTML 템플릿 체계 (`frontend/templates/`)
+### 8.5 16대 표준 HTML 템플릿 체계 (`frontend/templates/`)
 1. `index.html`: 메인 홈 SPA (약관 미동의 0ms 차단 가드, Fixed App Shell, 1:1 교차 LBS, 실시간 운영시간 우선 정렬)
 2. `input.html`: 소아 증상 문진 입력 (약관 미동의 0ms 차단 가드, 2단계 증상 가드레일)
 3. `modal.html`: 사전 처치정보 및 의료법 제27조 안내 다이얼로그
 4. `loading.html`: AI 트리아제 로딩 애니메이션
-5. `result.html`: KTAS 판정 및 병원-약국/응급실 맞춤 결과 (상단 트랙 탭 & 상태 바 단일 칸 일체화(새로고침 버튼 도킹 및 세로 36px 추가 확보), 소아 응급실 병상 목록 최소 4개소 무스크롤 100% 완전 노출(`.facility-scroll-list` max-height: 275px & 48px 슬림 카드), 응급 배너 중복 문구 100% 제거, 1줄 핵심 지침 정예화(`shortKtasMap`) 및 전문 감별 소견 접이식 토글(`<details>`) 적용, 상단 감별소견 & 초응급 배너 단일 카드 통합(높이 -210px 압축), KTAS 1·2·3단계 중증 카테고리 탭 명칭 '응급실 목록' 0ms 동적 스위칭(`updateCategoryHospitalsTitle`), 잔여 병상 배지·전문센터·직통전화·길안내 버튼 한눈 노출, 단일 카드 3대 카테고리 세그먼트 탭, 병원명 중복 접미사 100% 제거, 진료시간 중복 제거 및 `오늘 ~23:00` 간결화, 약국 `+30분` 안전마진 가독성 극대화, 통화 대본 `max-height: 110px` 복사 버튼 화면 내 완전 노출, 본인확인 3대 체크리스트 테두리 무결점 안착)
+5. `result.html`: KTAS 판정 및 병원-약국/응급실 맞춤 결과 (상단 트랙 탭 & 상태 바 단일 칸 일체화(새로고침 버튼 도킹 및 세로 36px 추가 확보), 소아 응급실 병상 목록 최소 4개소 무스크롤 100% 완전 노출(`.facility-scroll-list` max-height: 275px & 48px 슬림 카드), 응급 배너 중복 문구 100% 제거, 1줄 핵심 지침 정예화(`shortKtasMap`) 및 전문 감별 소견 접이식 토글(`<details>`) 적용, 상단 감별소견 & 초응급 배너 단일 카드 통합(높이 -210px 압축), KTAS 1·2·3단계 중증 카테고리 탭 명칭 '응급실 목록' 0ms 동적 스위칭(`updateCategoryHospitalsTitle`), 잔여 병상 배지·전문센터·직통전화·길안내 버튼 한눈 노출, 단일 카드 3대 카테고리 세그먼트 탭, 병원명 중복 접미사 100% 제거, 진료시간 중복 제거 및 `오늘 ~23:00` 간결화, 약국 `+30분` 안전마진 가독성 극대화, 통화 대본 `max-height: 110px` 복사 버튼 화면 내 완전 노출, 본인확인 3대 체크리스트 테두리 무결점 안착, isReplayMode 시 상단 뒤로가기 `history.html` 자동 연동)
 6. `hospital_detail.html`: 달빛어린이병원 전용 상세 페이지 (소아 전문의/일반의 현황, 주차 면수/요금/안내, 요일별 진료시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 로열 블루 펄스 핀 마커), 22:30 조기마감 주의 배너, 2열 실측 메트릭 바(내 위치 거리·주차 지원), 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
 7. `pharmacy_detail.html`: 심야약국 전용 상세 페이지 (상주 약사 현황, 복약지도 안내, +30분 조제 안전마진 표시, 요일별 심야 운영시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 에메랄드 그린 펄스 핀 마커), 1:1 연계 달빛어린이병원 카드, 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
 8. `emergency_alert.html`: 0ms Red Flag 119 긴급 직행 화면
@@ -210,6 +210,7 @@ graph TD
 13. `permission.html`: 5대 접근 권한 안내 (약관 미동의 0ms 강제 축출 가드, 5대 권한 및 LBS 위치 세션-로컬 양방향 영구 보존)
 14. `location_modal.html`: 주소/키워드 위치 설정 바텀시트
 15. `qr.html`: 모바일 기기 연결 전용 QR 코드 안내 페이지 (실시간 도메인 감지 260x260 QR코드 생성, 원터치 주소 복사, Web Share API 연동 링크 공유, iOS Safari/Android Chrome 홈 화면 추가 가이드, PWA 1-클릭 설치)
+16. `history.html`: **[신규]** 이전 문진 결과 전용 독립 웹페이지 (전 기종 100% 밀착 모바일 뷰포트, 상단 요약 바, KTAS 1~5 뱃지, 환아 정보, 추천 시설, 실시간 결과 다시보기, 개별/전체 삭제, Empty State, 전역 GNB 4-Tab 연동)
 
 ---
 
@@ -218,6 +219,7 @@ graph TD
 | 프론트엔드 화면/액션 | 백엔드 API 엔드포인트 | 전달 파라미터 / DTO | 반환 데이터 및 렌더링 결과 |
 | :--- | :--- | :--- | :--- |
 | **`index.html` (홈 로드)** | 클라이언트 0ms LBS + `GET /api/v1/emergency/nearby` | `lat`, `lon`, `radius_km=15.0` | 반경 15km 내 1:1 교차 야간 의료시설 및 실시간 가용 응급실 |
+| **`history.html` (기록 뷰)** | `GET /history` / 클라이언트 로컬 캐시 | 없음 (`aisum_triage_histories_v1`) | 저장된 문진 기록 목록 0ms 즉각 렌더링, 다시보기 시 `result.html?is_replay=true` 복원 |
 | **`index.html` (병원 카드 클릭)** | `/hospital_detail` 이동 & `GET /api/v1/emergency/facility-detail` | `type=hospital`, `name`, `lat`, `lon` | 전문의/일반의, 주차(면수/요금/안내), 내 위치 거리·주차 2열 실측 메트릭, 22:30 조기마감, 카카오 지도, 통화 번호 (0.05ms) |
 | **`index.html` (약국 카드 클릭)** | `/pharmacy_detail` 이동 & `GET /api/v1/emergency/facility-detail` | `type=pharmacy`, `name`, `lat`, `lon` | 상주 약사, 복약지도, +30분 조제 안전마진, 연계 달빛병원, 카카오 지도, 통화 번호 (0.05ms) |
 | **위치 모달 (주소 검색)** | `GET /api/v1/location` | `query`, `type=address` | 카카오 도로명/지번 주소 목록 및 WGS84 좌표 |
@@ -229,9 +231,9 @@ graph TD
 
 ---
 
-## 10. 종합 검증 현황 & 임상 안전성 벤치마크 (108개 테스트 전수 통과)
+## 10. 종합 검증 현황 & 임상 안전성 벤치마크 (109개 테스트 전수 통과)
 
-* **전체 단위/통합 테스트 스위트**: **총 108개 테스트 100% 무결점 통과 (`Ran 108 tests, 100% ALL PASS`)**
+* **전체 단위/통합 테스트 스위트**: **총 109개 테스트 100% 무결점 통과 (`Ran 109 tests, 100% ALL PASS`)**
   - `test_step1_services.py`: 공공 API 수집, 비정형 공지 정규식 필터링 (7건)
   - `test_step2_guardrail.py`: 12대 Red Flag 26µs 정규식 감지 및 사후 소독 (12건)
   - `test_step3_agents.py`: Gemini 3.8 Flash Thinking KTAS Direct Grounding (7건)
@@ -239,7 +241,7 @@ graph TD
   - `test_step5_api.py`: FastAPI 엔드포인트, 전국 415개소 LBS 랭킹 (11건)
   - `test_step6_e2e.py`: 풀스택 40대 임상 시나리오 E2E 통합 (8건)
   - `test_step7_circuit_breaker.py`: 서킷 브레이커 & 3-Tier Multi-Storage Fallback (8건)
-  - `test_step8_frontend_integration.py`: `force_matching` 1턴 완결, Red Flag 오버라이드, KTAS 듀얼 트랙 DOM 계약 및 API 라우팅 매트릭스 (5건)
+  - `test_step8_frontend_integration.py`: `force_matching` 1턴 완결, Red Flag 오버라이드, KTAS 듀얼 트랙 DOM 계약, API 라우팅 매트릭스, 알림 연동 및 전용 기록 페이지(`/history`) 계약 (14건)
   - `test_facility_db_and_detail_api.py`: data/ 폴더 상세 JSON 2종, JS 번들 2종 무결성 및 <0.05ms In-Memory 인덱스 조회 검증 (9건)
   - `test_location_api.py`: 카카오 주소/키워드 검색 및 2-Tier 역지오코딩 (12건)
   - `test_national_dataset_sync.py`: 24시간 In-Memory Hash Diffing 델타 동기화 (7건)
@@ -369,6 +371,12 @@ graph TD
     - **Zero-Gap Layout**: 데스크톱 미디어쿼리의 불필요한 목업 테두리(`border: 8px solid #ffffff`) 및 상하 24px 회색 공백 완전 제거, `body` 전역 패딩/마진 0px 및 배경색 완전 일치화 (결과 `#f8faff`, 입력 `#ffffff`).
     - **전 기종 스마트폰 100% 밀착**: `@media (max-width: 639px)`에서 `width: 100%; max-width: 100%; height: 100dvh; min-height: 100dvh;` 적용으로 아이폰 SE/14/15/16/Pro Max, 갤럭시 S21~S24/Ultra, Z Flip/Fold 등 전 기종에서 화면 전체에 1픽셀의 빈틈도 없이 꽉 채우는 네이티브 앱 UX 실현.
     - **Safe Area 정밀 도킹**: 상단 헤더(`env(safe-area-inset-top)`), 하단 고정 바(`env(safe-area-inset-bottom)`) 도킹으로 노치/다이내믹 아일랜드 및 제스처 홈 바와 겹치지 않는 일체형 마감.
+22. **[완료] 이전 문진 결과 바텀시트 모달 폐지 및 독립 전용 페이지(`history.html`, `/history`) 신설 (Phase 3-L)**:
+    - **모달 탈피 및 독립 페이지화**: 기존 메인 홈 화면(`index.html`) 바텀시트 모달을 폐지하고, 전 기종 스마트폰 100% 밀착형 단독 웹페이지(`.mobile-viewport.history-shell`) 신설.
+    - **상단 헤더 & 요약 바**: 뒤로가기 버튼, "문진 결과 기록" 타이틀, "전체 삭제" 원터치 버튼, 실시간 "총 N건의 문진 기록" 카운트 뱃지, "+ 새 문진" 바로가기 버튼 제공.
+    - **기존 기능 100% 동일 유지**: `AisumHistoryManager` 로컬 스토리지 기반 영구 저장 및 0ms 즉시 복원, KTAS 1~5 뱃지, 환아 정보(나이·성별·체온), 증상 태그, 추천 시설, "당시 결과 다시보기"(`result.html?is_replay=true`), 개별/전체 삭제, Empty State, 응급실 병상 모니터링 연동 보존.
+    - **전역 GNB 4-Tab 일괄 연동**: `index.html`, `settings.html`, `emergency_guide.html` 등 전 페이지의 Tab 2를 `history.html`로 교체하고, `result.html`에서 `isReplayMode` 시 뒤로가기 버튼을 `history.html`로 연결.
+    - **14대 통합 계약 테스트 전수 통과**: TC-814 신설 및 100% 검증 완료.
 
 
 

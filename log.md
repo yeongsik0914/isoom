@@ -186,6 +186,7 @@
 | **[ISSUE-177]** | 응급실 병상 변동 알림 바텀시트 내 카드 극단적 찌그러짐(Collapsing) 버그 및 중복 알림 해소 | flex 컨테이너 내부 카드들에 `flex-shrink: 0;` 및 `min-height: 85px;`가 누락되어 알림 누적 시 수십 개의 빨간 실선으로 압축되던 CSS 버그를 완벽 해결하고, `AisumNotificationManager` 스마트 디듀플리케이션 및 감시 병원명 Set 중복 필터링을 구축하여 UI 정상화 완료 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-178]** | 비동기 병상 로드 시 더미 히스토리 자동 생성 버그 차단 및 사용자 입력 연령·체온 1:1 매칭 | `renderEmergencyBedCards` 내 레거시 더미 레코드(`childAge: '아이', temperature: '고열/응급'`) 생성 코드를 완전히 제거하고, `triageData`의 사용자 입력값을 최우선 동기화하며, `AisumHistoryManager`에서 과거 유령 더미 레코드를 자동 소독하여 문진 결과와 기록 간의 100% 일치 보장 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-179]** | 응급실 기록 모니터링 대상 자동 연동 및 E-Gen 실시간 병상 변동 감지 파이프라인 완결 | `getWatchTargets`가 최신 중증 기록의 추천 응급실을 1순위 감시 대상으로 자동 연동하도록 개선하고, `syncAndCheckBeds`에서 `data.hospitals` 응답 누락 버그 및 `checkBedUpdates`의 `pediatric_beds` 필드 파싱 결함을 완벽 해결하여 실시간 병상 증감 알림 정상화 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-180]** | 이전 문진 결과 바텀시트 모달 폐지 및 전용 기록 페이지(`history.html`, `/history`) 신설 & 전역 GNB 4-Tab 연동 | 기존 홈 화면 바텀시트 모달로 뜨던 이전 문진 기록을 독립된 전용 웹페이지(`history.html`, `/history`)로 전면 개편하고, 요약 통계 바·KTAS 등급별 카드·당시 결과 다시보기·개별 및 전체 삭제·Empty State 등 기존 기능을 100% 동일하게 유지하며 전역 GNB 4-Tab 일괄 연동 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 
 
 
@@ -6236,6 +6237,54 @@
   * [tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py)
 * **조치 결과**:
   - 알림 센터 배너가 사용자의 기록에 따른 실제 추천 병원(`한림대학교성심병원`)으로 정확히 표출되며, 백엔드 30초 주기 폴링을 통해 병상 증감 발생 시 실시간 알림이 완벽하게 등록 및 통지됨.
+
+---
+
+### [ISSUE-180] 이전 문진 결과 바텀시트 모달 폐지 및 전용 기록 페이지(`history.html`, `/history`) 신설 & 전역 GNB 4-Tab 연동
+
+* **발생 일자**: 2026-10-18
+* **작업자**: Antigravity AI Pair Programmer
+* **문제 현상**:
+  - 기존에는 메인 홈 화면(`index.html`)의 하단 GNB '기록' 탭이나 타 페이지에서 진입 시 바텀시트 모달(`history-modal-overlay`) 형태로 문진 기록이 노출되어, 여러 건의 기록 열람 시 스크롤 제약이 있고 단독 페이지로서의 확장성과 직관성이 떨어졌음.
+  - 사용자의 요청에 따라 모달 창 방식을 탈피하고 독립된 전용 '기록' 웹페이지를 생성하되, 기존에 구축된 모든 기능(AisumHistoryManager 기반 0ms 복원, 재현 뷰, 개별/전체 삭제, 알림 센터 연동 등)을 100% 동일하게 유지해야 함.
+* **원인 분석 및 설계**:
+  1. **독립 페이지(`history.html`) 부재**:
+     - 기존 코드는 `index.html` 내부에 `<div class="modal-overlay" id="history-modal-overlay">`를 심어두고 하단 탭 버튼 클릭 시 `openHistoryModal()`을 호출하는 모달 종속 구조였음.
+     - 타 페이지(`settings.html`, `emergency_guide.html`)에서는 `index.html?tab=history` 쿼리로 이동한 뒤 200ms 후 모달을 강제 오픈하는 간접 방식을 사용함.
+  2. **기능 동일성 보존 요구**:
+     - `AisumHistoryManager`의 로컬 스토리지(`aisum_triage_histories_v1`) 연동 구조, KTAS 등급별 테마 뱃지(`ktas-tier-X`), 자녀 정보(나이·성별·체온), 증상 태그, 추천 응급실/병원명 표시가 온전히 보존되어야 함.
+     - '당시 결과 다시보기'(`replayHistoryRecord`)를 눌렀을 때 `restoreAndNavigate(id)`를 통해 `result.html?is_replay=true`로 0ms 완벽 재현되고, 결과 페이지에서 뒤로가기를 눌렀을 때 다시 기록 페이지로 복귀해야 함.
+* **구체적 해결 방안**:
+  1. **전용 기록 웹페이지 신설 (`frontend/templates/history.html`)**:
+     - 스마트폰 전 기종(iPhone, Galaxy 등) 100% 꽉 채우는 반응형 모바일 뷰포트(`.mobile-viewport.history-shell`) 구축.
+     - 상단 헤더: 메인 홈으로의 뒤로가기 버튼, "문진 결과 기록" 타이틀, "전체 삭제" 원터치 버튼 도킹.
+     - 상단 요약 바(`.history-summary-bar`): 실시간 "총 N건의 문진 기록" 카운트 뱃지 및 "+ 새 문진" 원터치 바로가기 버튼 제공.
+     - 기록 카드 리스트(`.history-list`): 일시, KTAS 단계 뱃지, 개별 삭제 버튼, 환아 연령/성별/체온, 증상 태그, 추천 병원/응급실, "당시 결과 다시보기" 버튼 완비.
+     - Empty State: 기록이 없을 때 친근한 아이콘과 설명, "증상 입력하고 병원 찾기" CTA 버튼 노출.
+     - 하단 GNB: Tab 2 '기록' 활성화(Active) 및 홈, 응급실 가이드, 설정으로의 원활한 이동 보장.
+  2. **백엔드 라우터 서빙 (`main.py`)**:
+     - `@app.get("/history")` 및 `@app.get("/history.html")` 엔드포인트 등록 (`get_aisum_history`).
+     - 루트 메타데이터 엔드포인트 목록에 `"aisum_history": "/history"` 추가.
+  3. **전역 템플릿 GNB 링크 일괄 갱신**:
+     - `index.html`: 하단 GNB를 `<a href="history.html" class="nav-item">`로 교체, `history-modal-overlay` 마크업 안전 제거, `tab=history` 쿼리 진입 시 `history.html`로 즉시 리다이렉트.
+     - `settings.html`, `emergency_guide.html`, `emergency_guide_symptoms.html`, `emergency_guide_checklist.html`: Tab 2 링크를 `history.html`로 일괄 동기화.
+     - `result.html`: `isReplayMode`일 때 상단 뒤로가기 버튼 링크를 `history.html`로 자동 전환하여 이전 기록 목록 복귀 경험 개선.
+     - `guidebook.html`: FAQ 설명 텍스트 업데이트.
+  4. **통합 테스트 검증 (`tests/test_step8_frontend_integration.py`)**:
+     - TC-814 (`test_14_dedicated_history_page_contract`) 신규 추가 및 **14개 테스트 전수 100% 통과**.
+* **적용 파일**:
+  * [frontend/templates/history.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/history.html) (신규 생성)
+  * [main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py)
+  * [frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html)
+  * [frontend/templates/settings.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/settings.html)
+  * [frontend/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide.html)
+  * [frontend/templates/emergency_guide_symptoms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide_symptoms.html)
+  * [frontend/templates/emergency_guide_checklist.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide_checklist.html)
+  * [frontend/templates/guidebook.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/guidebook.html)
+  * [frontend/templates/result.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/result.html)
+  * [tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py)
+* **조치 결과**:
+  - 이전 문진 결과가 모달 팝업 대신 쾌적한 독립 전용 페이지(`/history`)에서 깔끔하게 관리되며, 기존 기능(스냅샷 저장, 다시보기 복원, 삭제, 응급실 병상 모니터링 연동)이 100% 동일하게 온전히 작동함.
 
 
 

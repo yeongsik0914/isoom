@@ -185,6 +185,7 @@
 185. [Q177. [응급실 병상 변동 알림 UI 붕괴 버그 해결] flex-shrink: 0 및 min-height 보장, 중복 알림 스마트 디듀플리케이션 체계 완결 보고](#q177-응급실-병상-변동-알림-ui-붕괴-버그-해결-flex-shrink-0-및-min-height-보장-중복-알림-스마트-디듀플리케이션-체계-완결-보고)
 186. [Q178. [문진-기록 결과 불일치 및 중복 생성 버그 해결] E-Gen 비동기 병상 로드 시 더미 레코드 생성 원천 차단 및 사용자 입력값 우선순위 100% 동기화 보고](#q178-문진-기록-결과-불일치-및-중복-생성-버그-해결-e-gen-비동기-병상-로드-시-더미-레코드-생성-원천-차단-및-사용자-입력값-우선순위-100-동기화-보고)
 187. [Q179. [응급실 기록 모니터링 연동 & 실시간 병상 변동 알림 체계 전면 점검 및 완결] 기록 페이지 추천 응급실 감시 대상 자동 연동, E-Gen API 응답 및 소아 병상(pediatric_beds) 파싱 결함 완벽 해결 보고](#q179-응급실-기록-모니터링-연동--실시간-병상-변동-알림-체계-전면-점검-및-완결-기록-페이지-추천-응급실-감시-대상-자동-연동-e-gen-api-응답-및-소아-병상pediatric_beds-파싱-결함-완벽-해결-보고)
+188. [Q180. [이전 결과기록 전용 웹페이지 신설] 바텀시트 모달 폐지 및 독립 전용 페이지(history.html, /history) 구축 & 기존 기능 100% 동일 유지 보고](#q180-이전-결과기록-전용-웹페이지-신설-바텀시트-모달-폐지-및-독립-전용-페이지historyhtml-history-구축--기존-기능-100-동일-유지-보고)
 
 ---
 
@@ -10937,6 +10938,47 @@ const res = await fetch(targetUrl, { signal: controller.signal });
      - TC-813 (`test_13_emergency_notification_history_sync_and_pediatric_beds_contract`) 신설 및 **13개 테스트 전수 100% 통과**.
 * **요약 결론**:
   - 이제 사용자가 문진한 최신 응급실 기록(`한림대학교성심병원`)이 알림 모니터링 대상에 1:1로 실시간 연동되며, 30초 주기 백그라운드 E-Gen API 폴링을 통해 실제 병상 수의 증감(+/-) 및 만실(0석) 발생 시 즉시 푸시 알림과 알림 카드가 완벽하게 생성됩니다.
+
+---
+
+### Q180. [이전 결과기록 전용 웹페이지 신설] 바텀시트 모달 폐지 및 독립 전용 페이지(history.html, /history) 구축 & 기존 기능 100% 동일 유지 보고
+
+* **기록 일시**: 2026-10-18
+* **작업자**: Antigravity AI Pair Programmer
+* **질문 내용 (User Prompt)**:
+  > 이전 결과기록 모달창으로 띄우지 말고 페이지를 만들어서 기록하는 걸로 변경해줘. 이전 기능들은 동일하게 유지시켜줘
+* **상세 분석 및 요구사항 규명**:
+  1. **모달 창 방식의 사용자 경험 한계**:
+     - 기존에는 메인 홈 화면(`index.html`)의 하단 바텀시트 모달(`history-modal-overlay`)로 이전 문진 기록을 띄웠음.
+     - 모달 특성상 화면 절반을 가리고 닫기 쉬운 반면, 기록이 누적되었을 때 위아래 스크롤 및 개별 기록 열람, 공유, 복귀에 한계가 존재함.
+  2. **독립된 전용 웹페이지(`history.html`, `/history`) 전환**:
+     - 스마트폰 전 기종(아이폰, 갤럭시 등) 화면 전체를 100% 꽉 채우는 전용 모바일 뷰포트(`.mobile-viewport.history-shell`)를 구축.
+     - 하단 GNB 네비게이션 바(Tab 2: 기록)를 누르면 모달이 아닌 전용 페이지로 즉각 이동하고, 활성 상태(Active)가 시각적으로 표시되도록 함.
+  3. **기존 기능 100% 동일 보존 (무손실 전환 원칙)**:
+     - **스토리지 무결성**: `AisumHistoryManager`(`localStorage`의 `aisum_triage_histories_v1`) 기반 저장 구조를 온전히 보존하여 기존에 저장되어 있던 모든 기록이 0ms로 그대로 표시됨.
+     - **정보 카드 규격**: 일시(`YYYY.MM.DD HH:mm`), KTAS 단계별 컬러 뱃지(`ktas-tier-1~5`), 환아 연령·성별·체온(위험 시 빨간색 강조), 증상 해시태그, 추천 응급실/달빛병원명 및 아이콘을 온전히 유지.
+     - **당시 결과 다시보기 (`replayHistoryRecord`)**: 클릭 시 `AisumHistoryManager.restoreAndNavigate(id)`를 호출하여 세션스토리지에 당시 문진 데이터/바이탈 스냅샷을 복원하고 `result.html?is_replay=true`로 0ms 완벽 재현.
+     - **결과 페이지 상호 복귀 UX**: 재현 화면에서 뒤로가기 버튼 클릭 시 다시 문진 기록 페이지(`history.html`)로 부드럽게 복귀.
+     - **개별 및 전체 삭제 기능**: 카드별 개별 삭제 버튼(`deleteHistoryRecord`), 상단 원터치 전체 삭제 버튼(`clearAllHistoryRecords`) 제공.
+     - **Empty State**: 저장된 기록이 없을 때 친근한 아이콘, 안내 메시지, "증상 입력하고 병원 찾기" CTA 버튼 제공.
+     - **알림 센터 연동성**: 기록 페이지에 저장된 응급실 판정 기록(KTAS 1~3단계)을 기반으로 실시간 병상 감시가 동작하는 백그라운드 파이프라인 100% 유지.
+* **구체적 구현 및 조치 내역**:
+  1. **전용 기록 페이지 생성 (`frontend/templates/history.html`)**:
+     - iOS Safe Area 대응 헤더 바(뒤로가기, "문진 결과 기록" 타이틀, "전체 삭제" 버튼).
+     - 상단 요약 바: 실시간 기록 개수("총 N건의 문진 기록") 뱃지 및 "+ 새 문진" 원터치 바로가기.
+     - 반응형 카드 목록: 일시, KTAS 뱃지, 환아 정보, 증상 태그, 추천 시설, "당시 결과 다시보기" 버튼.
+  2. **FastAPI 백엔드 라우터 연동 (`main.py`)**:
+     - `@app.get("/history")` 및 `@app.get("/history.html")` 엔드포인트 신설.
+     - 루트 엔드포인트 맵에 `"aisum_history": "/history"` 추가.
+  3. **전역 템플릿 GNB 링크 일괄 동기화**:
+     - `index.html`: 하단 네비게이션 Tab 2를 `<a href="history.html">`로 교체, `history-modal-overlay` 제거, `tab=history` 쿼리 진입 시 `history.html`로 자동 이동.
+     - `settings.html`, `emergency_guide.html`, `emergency_guide_symptoms.html`, `emergency_guide_checklist.html`: Tab 2를 `history.html`로 통일.
+     - `guidebook.html`: FAQ 안내 텍스트 갱신.
+     - `result.html`: `isReplayMode` 시 뒤로가기 링크를 `history.html`로 연결.
+  4. **통합 테스트 검증 (`tests/test_step8_frontend_integration.py`)**:
+     - TC-814 (`test_14_dedicated_history_page_contract`) 신설 및 **14/14 100% 통과**.
+* **요약 결론**:
+  - 이제 문진 결과 기록이 모달 팝업 대신 단독 전용 페이지(`/history`, `history.html`)에서 깔끔하게 관리되며, 기존의 모든 기능(0ms 결과 다시보기, 개별/전체 삭제, 연동 병상 모니터링)이 100% 동일하게 온전히 보존되었습니다.
 
 
 

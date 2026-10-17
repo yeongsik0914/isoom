@@ -188,11 +188,11 @@
         <span class="nav-label">홈</span>
       </a>
 
-      <!-- Tab 2: 이전 결과 기록 (신규: 홈 바로 옆) -->
-      <button type="button" class="nav-item" id="nav-history-btn" aria-label="이전 결과 기록" onclick="openHistoryModal()">
+      <!-- Tab 2: 이전 결과 기록 (신규 페이지로 이동) -->
+      <a href="history.html" class="nav-item" id="nav-history-btn" aria-label="이전 결과 기록">
         <span class="material-symbols-outlined">receipt_long</span>
         <span class="nav-label">기록</span>
-      </button>
+      </a>
 
       <!-- Tab 3: 응급실 가이드 (Inactive) -->
       <a href="emergency_guide.html" class="nav-item">
@@ -372,28 +372,6 @@
 
       <div class="sheet-body" id="notification-list-container">
         <!-- Dynamic Cards -->
-      </div>
-    </div>
-  </div>
-
-  <!-- 📋 이전 문진 결과 기록 바텀시트 모달 -->
-  <div class="modal-overlay" id="history-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="sheet-dialog-card" id="history-sheet-card">
-      <div class="sheet-header">
-        <div class="sheet-header-left">
-          <span class="material-symbols-outlined" style="color: var(--primary); font-size: 24px;">receipt_long</span>
-          <h3 class="sheet-title">이전 문진 결과 기록</h3>
-        </div>
-        <div class="sheet-header-actions">
-          <button type="button" class="text-action-btn danger-text" id="btn-history-clear-all" onclick="clearAllHistoryRecords()">전체 삭제</button>
-          <button type="button" class="close-icon-btn" id="history-modal-close" aria-label="닫기" onclick="closeHistoryModal()">
-            <span class="material-symbols-outlined">close</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="sheet-body" id="history-list-container">
-        <!-- Dynamic History Cards -->
       </div>
     </div>
   </div>
@@ -635,109 +613,11 @@
     }
 
     function openHistoryModal() {
-      const overlay = document.getElementById('history-modal-overlay');
-      if (!overlay) return;
-      overlay.classList.add('active');
-      overlay.setAttribute('aria-hidden', 'false');
-      renderHistoryList();
+      window.location.href = 'history.html';
     }
 
     function closeHistoryModal() {
-      const overlay = document.getElementById('history-modal-overlay');
-      if (overlay) {
-        overlay.classList.remove('active');
-        overlay.setAttribute('aria-hidden', 'true');
-      }
-    }
-
-    function deleteHistoryRecord(id) {
-      if (!confirm('이 문진 결과를 삭제하시겠습니까?')) return;
-      if (window.AisumHistoryManager) {
-        window.AisumHistoryManager.deleteById(id);
-        renderHistoryList();
-      }
-    }
-
-    function clearAllHistoryRecords() {
-      if (!confirm('저장된 모든 문진 결과를 삭제하시겠습니까? 복원할 수 없습니다.')) return;
-      if (window.AisumHistoryManager) {
-        window.AisumHistoryManager.clearAll();
-        renderHistoryList();
-      }
-    }
-
-    function replayHistoryRecord(id) {
-      if (window.AisumHistoryManager) {
-        window.AisumHistoryManager.restoreAndNavigate(id);
-      }
-    }
-
-    function renderHistoryList() {
-      const listContainer = document.getElementById('history-list-container');
-      if (!listContainer) return;
-
-      const histories = window.AisumHistoryManager ? window.AisumHistoryManager.getAll() : [];
-      if (!histories || histories.length === 0) {
-        listContainer.innerHTML = `
-          <div class="sheet-empty-state">
-            <span class="material-symbols-outlined sheet-empty-icon">receipt_long</span>
-            <p class="sheet-empty-title">저장된 이전 문진 결과가 없습니다</p>
-            <p class="sheet-empty-desc">아이의 증상을 입력하시면 맞춤 소아과와 응급처치 결과가 안전하게 보관됩니다.</p>
-            <button type="button" class="primary-cta-btn" style="margin-top: 12px; width: 100%; max-width: 240px;" onclick="closeHistoryModal(); document.getElementById('start-triage-btn')?.click();">
-              <span>증상 입력하기</span>
-            </button>
-          </div>
-        `;
-        return;
-      }
-
-      listContainer.innerHTML = histories.map(h => {
-        const ktasBadgeClass = `ktas-tier-${h.ktasLevel || 4}`;
-        return `
-          <div class="history-card">
-            <div class="history-card-header">
-              <span class="history-card-date">
-                <span class="material-symbols-outlined" style="font-size: 14px;">calendar_today</span>
-                ${h.displayDate || ''}
-              </span>
-              <div style="display:flex; align-items:center; gap:6px;">
-                <span class="ktas-grade-badge ${ktasBadgeClass}" style="font-size: 11px; padding: 2px 8px;">KTAS ${h.ktasLevel}단계</span>
-                <button type="button" class="history-card-delete-btn" aria-label="기록 삭제" onclick="deleteHistoryRecord('${h.id}')">
-                  <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="history-card-body">
-              <div class="history-child-info">
-                <span>${h.childAge || '아이'}</span>
-                <span>·</span>
-                <span>${h.childGender || ''}</span>
-                <span>·</span>
-                <span style="color: #ef4444;">${h.temperature || ''}</span>
-              </div>
-              <div class="history-symptom-tag">
-                #${(h.symptom || '').replace(/^#+/, '')}
-              </div>
-              <div class="history-hospital-info">
-                ${(h.ktasLevel <= 3)
-                  ? `<span class="material-symbols-outlined" style="font-size: 15px; color: #ef4444;">e911_emergency</span>
-                     <strong>추천 응급실:</strong> <span style="color: #b91c1c; font-weight: 700;">${h.recommendedHospital || '소아전문응급의료센터'}</span>`
-                  : `<span class="material-symbols-outlined" style="font-size: 15px; color: var(--primary);">local_hospital</span>
-                     <strong>추천 병원:</strong> <span>${h.recommendedHospital || '달빛어린이병원'}</span>`
-                }
-              </div>
-            </div>
-
-            <div class="history-card-actions">
-              <button type="button" class="btn-replay-result" onclick="replayHistoryRecord('${h.id}')">
-                <span class="material-symbols-outlined" style="font-size: 16px;">visibility</span>
-                <span>당시 결과 다시보기</span>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
+      // Compatibility stub
     }
 
     // 모달 오버레이 바깥 클릭 시 닫기
@@ -745,10 +625,6 @@
       const notifOverlay = document.getElementById('notification-modal-overlay');
       if (notifOverlay && e.target === notifOverlay) {
         closeNotificationSheet();
-      }
-      const historyOverlay = document.getElementById('history-modal-overlay');
-      if (historyOverlay && e.target === historyOverlay) {
-        closeHistoryModal();
       }
     });
 
@@ -783,10 +659,10 @@
         }
       });
 
-      // 외부 링크 또는 타 페이지 GNB에서 진입 시 자동 오픈 지원
+      // 외부 링크 또는 타 페이지 GNB에서 진입 시 자동 오픈 및 페이지 이동 지원
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('tab') === 'history' || window.location.hash === '#history') {
-        setTimeout(openHistoryModal, 200);
+        window.location.replace('history.html');
       }
       if (urlParams.get('tab') === 'notifications' || window.location.hash === '#notifications') {
         setTimeout(openNotificationSheet, 200);

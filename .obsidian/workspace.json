@@ -190,6 +190,7 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "frontend/templates/history.html",
     "app/templates/guidebook.html",
     "frontend/templates/guidebook.html",
     "app/templates/licenses.html",
@@ -200,7 +201,6 @@
     "frontend/templates/qr.html",
     "serviceAccountKey.json",
     "scripts/deploy_cloud_run.sh",
-    "app/static/sw.js",
     "app/static/img/icon-512.png",
     "frontend/img/icon-512.png",
     "app/static/img/icon-192.png",
