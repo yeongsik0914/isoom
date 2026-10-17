@@ -217,6 +217,489 @@ window.AisumPermissionManager = {
 };
 
 // ============================================================================
+// 📋 AisumHistoryManager: 소아 문진 및 응급 매칭 결과 영구 저장 및 0ms 무손실 복원
+// ============================================================================
+window.AisumHistoryManager = {
+  STORAGE_KEY: 'aisum_triage_history',
+  MAX_RECORDS: 30,
+
+  getAll: function() {
+    try {
+      const data = localStorage.getItem(this.STORAGE_KEY);
+      let list = data ? JSON.parse(data) : [];
+      // 🛡️ 과거 저장된 연속 완전 중복 데이터 소독 & KTAS 1~3 응급실 추천명 자동 보정
+      let cleaned = [];
+      let modified = false;
+      for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        // KTAS 1~3단계인데 달빛어린이병원으로 잘못 박힌 경우 소아 응급실로 자동 보정
+        if (item.ktasLevel <= 3 && item.recommendedHospital && (item.recommendedHospital.includes('달빛') || item.recommendedHospital.includes('새솔'))) {
+          item.recommendedHospital = (item.ktasLevel === 1) ? '119 즉시 신고 및 권역응급의료센터' : (item.ktasLevel === 2 ? '권역 소아전문응급센터' : '실시간 소아 가용 응급실');
+          modified = true;
+        }
+        // 직전 항목과 내용이 100% 동일한 중복 항목 자동 제거
+        if (cleaned.length > 0) {
+          const prev = cleaned[cleaned.length - 1];
+          const isDup = (prev.symptom === item.symptom &&
+                         prev.ktasLevel === item.ktasLevel &&
+                         prev.childAge === item.childAge &&
+                         prev.temperature === item.temperature);
+          if (isDup) {
+            modified = true;
+            continue; // 중복 건너뜀
+          }
+        }
+        cleaned.push(item);
+      }
+      if (modified) {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cleaned));
+      }
+      return cleaned;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] getAll error:', e);
+      return [];
+    }
+  },
+
+  getById: function(id) {
+    const list = this.getAll();
+    return list.find(item => item.id === id) || null;
+  },
+
+  saveHistory: function(record) {
+    try {
+      if (!record) return null;
+
+      // 🛡️ 1) 당시 결과 다시보기(Replay View) 모드인 경우 신규 히스토리 중복 저장 원천 차단
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const isReplayParam = urlParams.get('is_replay') === 'true';
+        if (isReplayParam) {
+          console.log('ℹ️ [AisumHistoryManager] 결과 다시보기 화면이므로 신규 히스토리 생성 스킵');
+          return null;
+        } else {
+          // 신규 문진 또는 정상 결과 페이지 진입 시 이전 세션의 replay 플래그 자동 소독
+          try { sessionStorage.removeItem('aisum_is_replay_view'); } catch (_) {}
+        }
+      }
+
+      const list = this.getAll();
+
+      // 🛡️ 2) 최근 15초 이내 동일 문진 결과의 새로고침 중복 방지 (15초 초과 시 새로운 문진으로 정상 저장)
+      if (list.length > 0) {
+        const latest = list[0];
+        const isExactSame = (
+          latest.symptom === record.symptom &&
+          latest.ktasLevel === record.ktasLevel &&
+          latest.childAge === record.childAge &&
+          latest.temperature === record.temperature
+        );
+        const isWithin15Sec = latest.createdAt && (Date.now() - latest.createdAt < 15000);
+        if (isExactSame && isWithin15Sec) {
+          console.log('ℹ️ [AisumHistoryManager] 최근 15초 이내 저장된 결과와 동일하여 중복 생성 스킵');
+          // 응급실 추천 기관명이 갱신된 경우 최신 기록의 병원명만 안전하게 보정
+          if (record.recommendedHospital &&
+              record.recommendedHospital !== '인근 소아 진료기관' &&
+              latest.recommendedHospital !== record.recommendedHospital) {
+            latest.recommendedHospital = record.recommendedHospital;
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+          }
+          return latest;
+        }
+      }
+
+      const id = 'hist_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+      const dateObj = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const displayDate = `${dateObj.getFullYear()}.${pad(dateObj.getMonth() + 1)}.${pad(dateObj.getDate())} ${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
+
+      const newEntry = {
+        id: id,
+        createdAt: Date.now(),
+        isoDate: dateObj.toISOString(),
+        displayDate: displayDate,
+        childAge: record.childAge || '연령 미입력',
+        childGender: record.childGender || '성별 미입력',
+        temperature: record.temperature || '미측정',
+        symptom: record.symptom || '증상 미입력',
+        ktasLevel: record.ktasLevel || 4,
+        ktasName: record.ktasName || '준응급 (달빛어린이병원 매칭)',
+        recommendedHospital: record.recommendedHospital || '인근 소아 진료기관',
+        hospitalAddress: record.hospitalAddress || '',
+        hospitalTel: record.hospitalTel || '',
+        userAddress: record.userAddress || localStorage.getItem('aisum_user_address') || '현재 위치',
+        snapshot: {
+          backendResult: record.backendResult || null,
+          triageResult: record.triageResult || null
+        }
+      };
+
+      list.unshift(newEntry);
+      if (list.length > this.MAX_RECORDS) {
+        list.splice(this.MAX_RECORDS);
+      }
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+      console.log('✅ [AisumHistoryManager] 문진 결과 영구 저장 완료:', newEntry.id, newEntry.recommendedHospital);
+      return newEntry;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] saveHistory error:', e);
+      return null;
+    }
+  },
+
+  updateLatestHospital: function(hospName) {
+    try {
+      if (!hospName) return;
+      const list = this.getAll();
+      if (list.length > 0) {
+        list[0].recommendedHospital = hospName;
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+        console.log('✅ [AisumHistoryManager] 최신 기록 추천 시설명 정밀 보정 완료:', hospName);
+      }
+    } catch (e) {
+      console.warn('[AisumHistoryManager] updateLatestHospital error:', e);
+    }
+  },
+
+  deleteById: function(id) {
+    try {
+      let list = this.getAll();
+      list = list.filter(item => item.id !== id);
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+      return true;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] deleteById error:', e);
+      return false;
+    }
+  },
+
+  clearAll: function() {
+    try {
+      localStorage.removeItem(this.STORAGE_KEY);
+      return true;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] clearAll error:', e);
+      return false;
+    }
+  },
+
+  restoreAndNavigate: function(id) {
+    try {
+      const record = this.getById(id);
+      if (!record || !record.snapshot) {
+        alert('해당 기록을 찾을 수 없습니다.');
+        return;
+      }
+      if (record.snapshot.backendResult) {
+        sessionStorage.setItem('backend_result', JSON.stringify(record.snapshot.backendResult));
+      }
+      if (record.snapshot.triageResult) {
+        sessionStorage.setItem('triage_result', JSON.stringify(record.snapshot.triageResult));
+      }
+      if (record.userAddress) {
+        sessionStorage.setItem('user_address', record.userAddress);
+      }
+      // 🛡️ 다시보기 진입 플래그 세션 및 URL 파라미터 양방향 주입
+      sessionStorage.setItem('aisum_is_replay_view', 'true');
+      const baseUrl = window.location.pathname.endsWith('.html') ? 'result.html' : 'result';
+      const targetUrl = `${baseUrl}?is_replay=true&history_id=${encodeURIComponent(id)}`;
+      window.location.href = targetUrl;
+    } catch (e) {
+      console.warn('[AisumHistoryManager] restoreAndNavigate error:', e);
+      alert('기록 복원 중 오류가 발생했습니다.');
+    }
+  }
+};
+
+// ============================================================================
+// 🔔 AisumNotificationManager: KTAS 중증 대상 실시간 소아 응급실 병상 변동 알림 센터
+// ============================================================================
+window.AisumNotificationManager = {
+  NOTIF_KEY: 'aisum_bed_notifications',
+  WATCH_KEY: 'aisum_emergency_watch_target',
+  MAX_NOTIFICATIONS: 50,
+
+  getNotifications: function() {
+    try {
+      const data = localStorage.getItem(this.NOTIF_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  },
+
+  getWatchTargets: function() {
+    try {
+      const data = localStorage.getItem(this.WATCH_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  },
+
+  hasEmergencyHistory: function() {
+    try {
+      const histories = window.AisumHistoryManager ? window.AisumHistoryManager.getAll() : [];
+      return Array.isArray(histories) && histories.some(h => (typeof h.ktasLevel === 'number' && h.ktasLevel <= 3));
+    } catch (_) {
+      return false;
+    }
+  },
+
+  isSevereUser: function() {
+    return this.hasEmergencyHistory() || (this.getWatchTargets().length > 0);
+  },
+
+  getUnreadCount: function() {
+    const list = this.getNotifications();
+    return list.filter(item => !item.isRead).length;
+  },
+
+  registerWatch: function(hospitalList, ktasLevel) {
+    try {
+      if (!hospitalList || !Array.isArray(hospitalList) || hospitalList.length === 0) return;
+      if (ktasLevel > 3) return; // 준응급/비응급은 감시 대상 제외
+
+      const topHospitals = hospitalList.slice(0, 4).map(h => {
+        const bedVal = (typeof h.available_beds === 'number')
+          ? h.available_beds
+          : (typeof h.hv28 === 'number' ? h.hv28 : (parseInt(h.available_beds || h.hv28, 10) || 0));
+        return {
+          hpid: h.hpid || ('HP_' + (h.hospital_name || h.dutyName || h.name || '').replace(/\s+/g, '')),
+          dutyName: h.hospital_name || h.dutyName || h.name || '소아응급센터',
+          dutyTel3: h.tel || h.dutyTel3 || '119',
+          lastBedCount: bedVal,
+          lastHpmg: h.hpmg || '',
+          registeredAt: new Date().toISOString(),
+          ktasLevel: ktasLevel
+        };
+      });
+
+      localStorage.setItem(this.WATCH_KEY, JSON.stringify(topHospitals));
+      console.log('🚨 [AisumNotificationManager] KTAS 중증 감시 대상 병원 등록 완료:', topHospitals);
+
+      // 모니터링 시작 안내 알림 자동 등록
+      const hospNames = topHospitals.map(h => h.dutyName).join(', ');
+      this.addNotification({
+        type: 'WATCH_START',
+        title: `🚨 KTAS ${ktasLevel}단계 긴급 모니터링 시작`,
+        message: `소아 응급실 판정에 따라 인근 거점 소아응급센터(${hospNames})의 실시간 병상 변동을 집중 감시합니다.`,
+        hospitalName: topHospitals[0].dutyName,
+        bedCount: topHospitals[0].lastBedCount,
+        tel: topHospitals[0].dutyTel3,
+        changeType: 'alert'
+      });
+    } catch (e) {
+      console.warn('[AisumNotificationManager] registerWatch error:', e);
+    }
+  },
+
+  addNotification: function(notif) {
+    try {
+      const list = this.getNotifications();
+      const dateObj = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const timeStr = `${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
+      const dateStr = `${dateObj.getFullYear()}.${pad(dateObj.getMonth() + 1)}.${pad(dateObj.getDate())}`;
+
+      const newNotif = {
+        id: 'notif_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        type: notif.type || 'BED_UPDATE',
+        title: notif.title || '소아 응급실 변동 알림',
+        message: notif.message || '',
+        hospitalName: notif.hospitalName || '',
+        bedCount: typeof notif.bedCount === 'number' ? notif.bedCount : null,
+        changeType: notif.changeType || 'info', // 'increase' | 'decrease' | 'alert' | 'info'
+        tel: notif.tel || '',
+        timestamp: dateObj.toISOString(),
+        displayTime: `${dateStr} ${timeStr}`,
+        isRead: false
+      };
+
+      list.unshift(newNotif);
+      if (list.length > this.MAX_NOTIFICATIONS) {
+        list.splice(this.MAX_NOTIFICATIONS);
+      }
+      localStorage.setItem(this.NOTIF_KEY, JSON.stringify(list));
+      this.updateBadgeUI();
+
+      // 🔔 브라우저 Web Notification 푸시 알림 발송 (사용자가 권한 허용한 경우)
+      if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+        try {
+          new Notification(newNotif.title, {
+            body: newNotif.message,
+            icon: '/assets/icon-192.png'
+          });
+        } catch (_) {}
+      }
+
+      return newNotif;
+    } catch (e) {
+      console.warn('[AisumNotificationManager] addNotification error:', e);
+      return null;
+    }
+  },
+
+  checkBedUpdates: function(liveFacilities) {
+    try {
+      // 🚨 조건 1: 기록페이지에 응급실 판정 기록이 있을 때만 알림 발생
+      if (!this.hasEmergencyHistory()) {
+        return;
+      }
+
+      if (!liveFacilities || !Array.isArray(liveFacilities) || liveFacilities.length === 0) return;
+
+      let targets = this.getWatchTargets();
+      if (!targets || targets.length === 0) {
+        // 감시 대상이 비어있다면 현재 근방 응급실로 자동 등록 후 초기 기준선 설정
+        this.registerWatch(liveFacilities, 2);
+        return;
+      }
+
+      let hasNewUpdate = false;
+      const updatedTargets = targets.map(target => {
+        const live = liveFacilities.find(f => {
+          const fName = f.hospital_name || f.dutyName || f.name || '';
+          return (f.hpid && f.hpid === target.hpid) ||
+                 (fName && target.dutyName && fName.includes(target.dutyName)) ||
+                 (target.dutyName && fName && target.dutyName.includes(fName));
+        });
+
+        if (live) {
+          const currentBed = (typeof live.available_beds === 'number')
+            ? live.available_beds
+            : (typeof live.hv28 === 'number' ? live.hv28 : (parseInt(live.available_beds || live.hv28, 10) || 0));
+          const currentHpmg = live.hpmg || '';
+          const prevBed = target.lastBedCount;
+
+          // 🚨 조건 2: 실제로 병상 수에 변동이 생겼을 때 어떤 응급실이고 얼마나 변경됐는지 알림 생성
+          if (currentBed !== prevBed && prevBed !== undefined) {
+            const diff = currentBed - prevBed;
+            const hospName = target.dutyName;
+
+            if (currentBed === 0) {
+              this.addNotification({
+                type: 'BED_ZERO',
+                title: `🚨 [${hospName}] 소아 응급실 만실 경보 (0석)`,
+                message: `${hospName} 소아응급실 잔여 병상이 ${prevBed}석 ➔ 0석으로 전석 소진(만실)되었습니다. 인근 타 응급실을 탐색하십시오.`,
+                hospitalName: hospName,
+                bedCount: 0,
+                tel: target.dutyTel3 || live.tel || '',
+                changeType: 'alert'
+              });
+              hasNewUpdate = true;
+            } else if (diff > 0) {
+              this.addNotification({
+                type: 'BED_INCREASE',
+                title: `🟢 [${hospName}] 소아 응급실 병상 확보 (+${diff}석)`,
+                message: `${hospName} 소아응급실 잔여 병상이 ${prevBed}석 ➔ ${currentBed}석으로 ${diff}석 증가했습니다.`,
+                hospitalName: hospName,
+                bedCount: currentBed,
+                tel: target.dutyTel3 || live.tel || '',
+                changeType: 'increase'
+              });
+              hasNewUpdate = true;
+            } else if (diff < 0) {
+              this.addNotification({
+                type: 'BED_DECREASE',
+                title: `🔴 [${hospName}] 소아 응급실 병상 감소 (${diff}석)`,
+                message: `${hospName} 소아응급실 잔여 병상이 ${prevBed}석 ➔ ${currentBed}석으로 ${Math.abs(diff)}석 감소했습니다. (현재 ${currentBed}석 여유)`,
+                hospitalName: hospName,
+                bedCount: currentBed,
+                tel: target.dutyTel3 || live.tel || '',
+                changeType: 'decrease'
+              });
+              hasNewUpdate = true;
+            }
+            target.lastBedCount = currentBed;
+          }
+
+          if (currentHpmg && currentHpmg !== target.lastHpmg) {
+            this.addNotification({
+              type: 'NOTICE_UPDATE',
+              title: `⚠️ [${target.dutyName}] 응급실 공지 갱신`,
+              message: currentHpmg,
+              hospitalName: target.dutyName,
+              bedCount: currentBed,
+              tel: target.dutyTel3 || live.tel || '',
+              changeType: 'alert'
+            });
+            target.lastHpmg = currentHpmg;
+            hasNewUpdate = true;
+          }
+        }
+        return target;
+      });
+
+      if (hasNewUpdate) {
+        localStorage.setItem(this.WATCH_KEY, JSON.stringify(updatedTargets));
+        this.updateBadgeUI();
+      }
+    } catch (e) {
+      console.warn('[AisumNotificationManager] checkBedUpdates error:', e);
+    }
+  },
+
+  syncAndCheckBeds: async function(force = false) {
+    try {
+      // 🚨 조건 1: 기록페이지에 응급실 판정 기록이 있을 때만 동작!
+      if (!this.hasEmergencyHistory()) {
+        return;
+      }
+
+      const lat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || '37.5133';
+      const lon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || '127.1001';
+
+      const isFile = (typeof window !== 'undefined' && window.location.protocol === 'file:');
+      const apiBase = isFile ? 'http://127.0.0.1:8000' : '';
+      const forceParam = force ? '&force_refresh=true' : '';
+      const url = `${apiBase}/api/v1/emergency/nearby?lat=${lat}&lon=${lon}&radius_km=25&limit=6${forceParam}`;
+
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const data = await res.json();
+      const facilities = (data && data.facilities) ? data.facilities : data;
+      if (Array.isArray(facilities) && facilities.length > 0) {
+        // 🚨 조건 2: 근방 응급실 병상 정보 변동 검사 및 알림 발송
+        this.checkBedUpdates(facilities);
+      }
+    } catch (e) {
+      console.warn('[AisumNotificationManager] syncAndCheckBeds error:', e);
+    }
+  },
+
+  markAllAsRead: function() {
+    try {
+      const list = this.getNotifications();
+      list.forEach(item => { item.isRead = true; });
+      localStorage.setItem(this.NOTIF_KEY, JSON.stringify(list));
+      this.updateBadgeUI();
+    } catch (e) {
+      console.warn('[AisumNotificationManager] markAllAsRead error:', e);
+    }
+  },
+
+  clearAll: function() {
+    try {
+      localStorage.removeItem(this.NOTIF_KEY);
+      this.updateBadgeUI();
+    } catch (e) {
+      console.warn('[AisumNotificationManager] clearAll error:', e);
+    }
+  },
+
+  updateBadgeUI: function() {
+    try {
+      const unread = this.getUnreadCount();
+      const dot = document.getElementById('header-notification-dot');
+      if (dot) {
+        dot.style.display = (unread > 0) ? 'block' : 'none';
+      }
+    } catch (e) { }
+  }
+};
+
+// ============================================================================
 // 📍 Real-Time User Location & Spatial Dong Mapping Engine (Vanilla JS)
 // ============================================================================
 window.AISUM_LOCATIONS_DB = [

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "q_a.md",
+                "file": "PWA_PLAN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "q_a"
+              "title": "PWA_PLAN"
             }
           }
         ]
@@ -190,21 +190,23 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
-    "scratch/merge_with_32f7699.py",
-    "scratch/resolve_all_conflicts.py",
-    "scratch/conflicts_dump.txt",
-    "scratch/inspect_conflicts.py",
-    "scratch/update_q59_and_log.py",
-    "scratch/update_q116.py",
-    "scratch/check_ear.py",
-    "scratch/ear_response.json",
-    "scripts/__pycache__/benchmark_50_scenarios.cpython-312.pyc",
-    "scripts/__pycache__",
-    "scratch/update_log_and_readme.py",
+    "app/templates/js/public_night_pharmacies.js",
+    "app/templates/js/pharmacy_details_data.js",
+    "app/templates/js/nationwide_pairings.js",
+    "app/templates/js/national_night_pharmacies_2028.js",
+    "app/templates/js/national_moonlight_hospitals_156.js",
+    "app/templates/js/national_emergency_hospitals.js",
+    "app/templates/js/hospital_details_data.js",
+    "app/templates/terms.html",
+    "app/templates/result.html",
+    "app/templates/pharmacy_detail.html",
+    "app/templates/loading.html",
+    "PROJECT_COMPLETION_REPORT.md",
+    "PWA_PLAN.md",
+    "q_a.md",
     "docs/KTAS_TRIAGE_VERIFICATION_REPORT.md",
     "data/README.md",
     "Answer-영식.md",
-    "q_a.md",
     "docs/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md",
     "PLAN.md",
     "전국_달빛어린이병원_및_야간심야약국_현황.md",
@@ -233,8 +235,6 @@
     "notebooks/README.md",
     "app/README.md",
     "app/schemas/README.md",
-    "app/api/README.md",
-    "app/services/README.md",
-    "app/orchestrator/README.md"
+    "app/api/README.md"
   ]
 }

@@ -23,10 +23,10 @@
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 
-<body>
+<body class="app-shell-body">
 
   <!-- Mobile Viewport Canvas (Centered Preview Container) -->
-  <div class="mobile-viewport" id="app">
+  <div class="mobile-viewport app-shell-viewport" id="app" style="background-color: #ffffff;">
 
     <!-- 1. Top Settings Header Bar -->
     <header class="settings-header">
@@ -265,13 +265,19 @@
         <span class="nav-label">홈</span>
       </a>
 
-      <!-- Tab 2: 응급실 가이드 -->
+      <!-- Tab 2: 기록 (신규) -->
+      <a href="index.html?tab=history" class="nav-item" aria-label="이전 결과 기록">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="nav-label">기록</span>
+      </a>
+
+      <!-- Tab 3: 응급실 가이드 -->
       <a href="emergency_guide.html" class="nav-item">
         <span class="material-symbols-outlined">emergency</span>
         <span class="nav-label">응급실 가이드</span>
       </a>
 
-      <!-- Tab 3: 설정 (Active) -->
+      <!-- Tab 4: 설정 (Active) -->
       <a href="settings.html" class="nav-item active" aria-current="page">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>

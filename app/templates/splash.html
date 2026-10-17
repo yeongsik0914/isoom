@@ -25,9 +25,9 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#ffffff" />
 
-  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
-  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 
   <style>
     /* Reset & Viewport Container */
@@ -70,36 +70,6 @@
     @keyframes fadeInPage {
       from { opacity: 0; }
       to { opacity: 1; }
-    }
-
-    /* Top iOS Fake Status Bar (Matching monimo reference) */
-    .ios-status-bar {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 12px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.2px;
-    }
-
-    .status-left {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .status-right {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .status-icon {
-      font-size: 16px;
-      line-height: 1;
     }
 
     /* Center Main Logo Area (monimo typography style) */
@@ -208,22 +178,9 @@
 <body>
 
   <!-- Mobile Viewport Canvas -->
-  <div class="splash-viewport" id="splashScreen" onclick="proceedToPermission()" title="터치하여 바로 시작">
+  <div class="splash-viewport" id="splashScreen" onclick="proceedToNextStep()" title="터치하여 바로 시작">
 
-    <!-- 1. Top iOS Status Bar -->
-    <div class="ios-status-bar" aria-hidden="true">
-      <div class="status-left">
-        <span id="statusBarTime">12:07</span>
-        <span class="material-symbols-outlined" style="font-size: 14px;">near_me</span>
-      </div>
-      <div class="status-right">
-        <span class="material-symbols-outlined status-icon">signal_cellular_alt</span>
-        <span class="material-symbols-outlined status-icon">wifi</span>
-        <span class="material-symbols-outlined status-icon" style="transform: rotate(90deg); font-size: 17px;">battery_full</span>
-      </div>
-    </div>
-
-    <!-- 2. Center Brand Logo -->
+    <!-- Center Brand Logo -->
     <div class="splash-center">
       <h1 class="brand-logo-text">
         아이숨<span class="logo-dot">.</span>
@@ -231,32 +188,19 @@
       <p class="brand-logo-subtext">야간·휴일 소아 의료 매칭</p>
     </div>
 
-    <!-- 3. Bottom Sub-brand Affiliation (Matching monimo Samsung Financial Networks) -->
+    <!-- Bottom Sub-brand Affiliation (Matching monimo Samsung Financial Networks) -->
     <div class="splash-bottom">
       <div class="sub-brand-title">i-Soom</div>
       <div class="sub-brand-network">Pediatric Healthcare Networks</div>
-      <div class="home-indicator-bar" aria-hidden="true"></div>
     </div>
 
   </div>
 
   <script>
-    // Real-time Status Bar Clock
-    function updateClock() {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const clockEl = document.getElementById('statusBarTime');
-      if (clockEl) {
-        clockEl.textContent = `${hours}:${minutes}`;
-      }
-    }
-    updateClock();
-
-    // Auto-redirect to Permission page after 1.8 seconds (or click immediately)
+    // Auto-redirect after 1.8 seconds (or click immediately)
     let redirected = false;
 
-    function proceedToPermission() {
+    function proceedToNextStep() {
       if (redirected) return;
       redirected = true;
       const screen = document.getElementById('splashScreen');
@@ -264,19 +208,27 @@
         screen.classList.add('fade-out');
       }
       setTimeout(() => {
-        const isGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
-                          sessionStorage.getItem('aisum_permission_granted') === 'true';
-        if (isGranted) {
-          window.location.href = 'index.html';
+        const isTermsAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
+                              sessionStorage.getItem('aisum_terms_agreed') === 'true';
+        const isPermGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
+                              sessionStorage.getItem('aisum_permission_granted') === 'true';
+
+        if (!isTermsAgreed) {
+          // 1. 이용약관 미동의: 최초 1회 이용약관 동의 화면으로 이동 (동의하지 않으면 앱 실행 시 계속 뜸)
+          window.location.replace('terms.html');
+        } else if (!isPermGranted) {
+          // 2. 접근 권한 미동의: 접근 권한 안내 화면으로 이동 (동의하지 않으면 앱 실행 시 계속 뜸)
+          window.location.replace('permission.html');
         } else {
-          window.location.href = 'permission.html';
+          // 3. 약관 및 권한 모두 완료된 사용자: 메인 홈으로 즉시 이동
+          window.location.replace('index.html');
         }
       }, 300);
     }
 
     // Set 1.8s timer for natural app-loading splash effect
     setTimeout(() => {
-      proceedToPermission();
+      proceedToNextStep();
     }, 1800);
   </script>
 </body>

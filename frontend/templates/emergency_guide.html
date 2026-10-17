@@ -233,10 +233,10 @@
   </style>
 </head>
 
-<body>
+<body class="app-shell-body">
 
   <!-- Mobile Viewport Canvas -->
-  <div class="mobile-viewport" id="app">
+  <div class="mobile-viewport app-shell-viewport" id="app">
 
     <!-- 1. Top Emergency Header Bar -->
     <header class="guide-header">
@@ -255,8 +255,11 @@
       </a>
     </header>
 
-    <!-- 2. Red-Flag Urgent Callout Banner -->
-    <aside class="redflag-banner" role="alert" aria-live="assertive" style="margin-top: 14px;">
+    <!-- Scrollable Content Canvas (App Shell Layout) -->
+    <div class="guide-scroll-body">
+
+      <!-- 2. Red-Flag Urgent Callout Banner -->
+      <aside class="redflag-banner" role="alert" aria-live="assertive" style="margin-top: 14px;">
       <div class="redflag-content">
         <div class="redflag-icon-wrap" aria-hidden="true">
           <span class="material-symbols-outlined">warning</span>
@@ -421,7 +424,21 @@
         <span>가이드 인포그래픽 원본 한눈에 크게 보기</span>
       </button>
 
+      <!-- 4. Quick Emergency Visit Tips Card -->
+      <section style="background: #f8faff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px 16px; margin-top: 4px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <span class="material-symbols-outlined" style="color: var(--primary); font-size: 20px;">info</span>
+          <strong style="font-size: 13.5px; color: var(--slate-900);">야간 소아 응급실 방문 필수 팁</strong>
+        </div>
+        <ul style="margin: 0; padding-left: 18px; font-size: 12px; color: var(--slate-600); line-height: 1.6;">
+          <li>아이의 주민등록번호 또는 아기수첩(건강보험증)을 준비하세요.</li>
+          <li>최근 먹인 해열제 성분과 복용 시각을 메모해 가세요.</li>
+          <li>호흡 곤란이나 경련 지속 시 즉시 119로 연락하세요.</li>
+        </ul>
+      </section>
+
     </main>
+    </div>
 
     <!-- 4. Fixed Bottom Navigation Bar (GNB) -->
     <nav class="bottom-nav" aria-label="주요 메뉴">
@@ -431,13 +448,19 @@
         <span class="nav-label">홈</span>
       </a>
 
-      <!-- Tab 2: 응급실 가이드 (Active) -->
+      <!-- Tab 2: 기록 (신규) -->
+      <a href="index.html?tab=history" class="nav-item" aria-label="이전 결과 기록">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="nav-label">기록</span>
+      </a>
+
+      <!-- Tab 3: 응급실 가이드 (Active) -->
       <a href="emergency_guide.html" class="nav-item active" aria-current="page">
         <span class="material-symbols-outlined">emergency</span>
         <span class="nav-label">응급실 가이드</span>
       </a>
 
-      <!-- Tab 3: 설정 -->
+      <!-- Tab 4: 설정 -->
       <a href="settings.html" class="nav-item">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>

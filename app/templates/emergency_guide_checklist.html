@@ -20,15 +20,16 @@
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
   <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
-  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
+  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
+  <link rel="stylesheet" href="/css/style.css" />
   <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
   <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
 </head>
 
-<body>
+<body class="app-shell-body">
 
   <!-- Mobile Viewport Canvas -->
-  <div class="mobile-viewport" id="app">
+  <div class="mobile-viewport app-shell-viewport" id="app">
 
     <!-- 1. Top Emergency Header Bar -->
     <header class="guide-header">
@@ -238,14 +239,20 @@
         <span class="nav-label">홈</span>
       </a>
 
-      <!-- Tab 2: 응급실 가이드 (Active) -->
+      <!-- Tab 2: 기록 (신규) -->
+      <a href="index.html?tab=history" class="nav-item" aria-label="이전 결과 기록">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="nav-label">기록</span>
+      </a>
+
+      <!-- Tab 3: 응급실 가이드 (Active) -->
       <a href="emergency_guide_checklist.html" class="nav-item active" aria-current="page">
         <span class="material-symbols-outlined">emergency</span>
         <span class="nav-label">응급실 가이드</span>
       </a>
 
-      <!-- Tab 3: 설정 -->
-      <a href="#" class="nav-item">
+      <!-- Tab 4: 설정 -->
+      <a href="settings.html" class="nav-item">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>
       </a>

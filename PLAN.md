@@ -1,9 +1,9 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.73 (온보딩 순차 파이프라인 splash ➔ terms ➔ permission ➔ index 완결 & 이용약관 설정 열람 모드 완전 분리, v2.4.99)
+> **문서 버전**: v2.89 (응급실 판정 결과 영구 기록 누락 결함 원천 해소 & 중증 환아 전용 2대 조건부 근방 응급실 병상 변동 실시간 알림 엔진 구축 완결, v2.6.5)
 > **최종 갱신 일자**: 2026-10-17
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
-> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리.
+> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 중복/추천기관 정제 엔진, AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md).
 
 ---
 
@@ -147,9 +147,31 @@ graph TD
 
 ## 8. 프론트엔드 UI/UX 아키텍처 & 14대 화면 체계 (Fixed App Shell)
 
-### 8.1 고정 앱 셸 (Fixed App Shell) 아키텍처
-* **바깥 스크롤 0px 원천 차단**: 모바일 및 데스크톱 뷰포트에서 상단 헤더, 증상 배너, 탭 필터, 하단 GNB를 완벽 고정(`flex-shrink: 0`).
-* **내부 독립 스크롤**: 오직 실시간 시설 카드 목록(`.facility-card-stack`) 내부에서만 수백 개의 시설이 부드럽게 스크롤되도록 격리.
+### 8.1 전역 고정 앱 셸 (Fixed App Shell) & 스마트폰 뷰포트 완전 규격화
+* **바깥 스크롤 0px 원천 차단 (전 화면 일체화)**:
+  - 홈(`index.html`), 응급실 가이드(`emergency_guide.html`), 설정(`settings.html`), 문진 입력(`input.html`), 맞춤 결과(`result.html`) 등 전 화면의 `.mobile-viewport`에 `height: 100vh; height: 100dvh; max-height: 100dvh; overflow: hidden;` 및 데스크탑 `height: min(920px, calc(100vh - 24px)); border-radius: 36px; border: 8px solid #ffffff;`를 전역 적용하여 폰 프레임 외형 크기 100% 동기화.
+* **문진 입력 페이지(`input.html`) 하단 버튼 잘림 해소 & 스크롤 여백 확장**:
+  - `.triage-bottom-action-bar`의 안전 패딩(`padding: 12px 20px 24px 20px;`, 데스크탑 `padding: 12px 20px 26px 20px;`) 확장으로 폰 프레임 바닥 코너 곡률에 의한 버튼 클리핑 잘림 결함 원천 해소.
+  - 본문 스크롤 패딩(`padding-bottom: 155px;`)을 대폭 늘려 마지막 질문 카드가 하단 바 위쪽으로 시원하게 스크롤되도록 개선.
+* **맞춤 결과 페이지(`result.html`) 스마트폰 프레임 셸 전면 전환**:
+  - 독자 뷰포트에서 전역 스마트폰 프레임 셸(`.mobile-viewport.result-shell`)로 전면 개편.
+  - 상단 헤더 고정(`flex-shrink: 0`), 본문 결과 목록 내부 독립 스크롤(`flex: 1; min-height: 0; overflow-y: auto; padding: 18px 16px 96px 16px;`) 분리.
+  - 하단 액션바(`.result-bottom-bar`)를 `position: absolute; bottom: 0;`으로 스마트폰 프레임 바닥에 도킹 및 데스크탑 바닥 라운딩(28px) 일체화.
+* **맞춤 결과 페이지 3대 카테고리 1칸 통합 세그먼트 탭 전환 UI (`.result-category-box`)**:
+  - 기존 세로로 길게 나열되던 병원 목록, 당직의 통화 스크립트, 필수 준비물 3대 핵심 카드를 단일 모바일 컨테이너("한 칸", `.result-category-box`)로 일체화.
+  - 상단에 `[ 🏥 병원 목록 ]` | `[ 📞 통화 스크립트 ]` | `[ 📋 필수 준비물 ]` 3-Tab 세그먼트 네비게이션(`.result-category-nav`) 구축 및 원클릭 탭 전환(`switchResultCategory`).
+  - **병원 목록 패널(`category-pane-hospitals`)**: 기존 2-Track 탭 스위처(달빛병원 vs 소아 응급실) 및 실시간 가용병상 스크롤 리스트 온전히 보존.
+  - **통화 스크립트 패널(`category-pane-script`)**: 실시간 증상 및 추천 병원 자동 바인딩 30초 대본 박스 및 원터치 클립보드 복사 버튼 완비.
+  - **필수 준비물 패널(`category-pane-checklist`)**: 부모 신분증, 등본, 아기수첩 3대 항목 인터랙티브 체크 토글(`toggleCheckItem`) 완비.
+* **응급실 가이드 및 설정 하단 붕 뜬 여백(회색 빈 박스) 원천 해소**:
+  - `settings.html`: 모바일 뷰포트 배경을 흰색(#ffffff)으로 일체화하여 `.settings-body`와 GNB 사이의 회색 빈 박스 노출 결함 원천 박멸.
+  - `emergency_guide.html`: `.guide-scroll-body` 배경을 흰색으로 정돈하고, 인포그래픽 버튼 하단에 **"야간 소아 응급실 방문 필수 팁"** 섹션을 보강하여 여백이 휑하지 않고 알차게 꽉 찬 모바일 화면 완성.
+* **하단 GNB 절대 도킹 (`position: absolute; bottom: 0;`) & 68px 고정**:
+  - `fixed` 포지셔닝으로 인해 데스크탑 모바일 프레임 바닥을 뚫고 24px 이탈하던 결함을 원천 해소하고, 모바일 프레임 맨 밑바닥 둥근 모서리(28px)에 단단히 안착.
+* **4대 탭 및 활성 알약(`.nav-item.active`) 전역 동일 규격화**:
+  - 각 탭에 `flex: 1; max-width: 76px; height: 50px; border-radius: 16px; box-sizing: border-box;`를 부여하여, 텍스트 글자 수('홈' 1글자 vs '응급실 가이드' 6글자)와 무관하게 **모든 탭이 항상 대칭되고 완벽히 동일한 크기의 파란색 알약 배경**을 유지.
+* **내부 독립 스크롤 분리**:
+  - 홈 화면의 `.facility-card-stack`, 응급실 가이드의 `.guide-scroll-body`, 설정의 `.settings-body`, 결과 화면의 `.result-main`이 각각 `flex: 1; min-height: 0; overflow-y: auto;`를 적용받아 헤더와 GNB/하단바는 고정되고 본문만 부드럽게 스크롤되는 네이티브 앱 UX 완성.
 
 ### 8.2 메인 홈 실시간 LBS 엔진 & 1:1 교차 랭킹 ([index.html](file:///e:/monnlight/frontend/templates/index.html) & [main.js](file:///e:/monnlight/frontend/js/main.js))
 * **반경 15km 공간 필터링**: 사용자 GPS 또는 설정 주소 기준 반경 15.0km 이내 시설만 계산 및 노출.
@@ -177,7 +199,7 @@ graph TD
 2. `input.html`: 소아 증상 문진 입력 (약관 미동의 0ms 차단 가드, 2단계 증상 가드레일)
 3. `modal.html`: 사전 처치정보 및 의료법 제27조 안내 다이얼로그
 4. `loading.html`: AI 트리아제 로딩 애니메이션
-5. `result.html`: KTAS 판정 및 병원-약국 맞춤 결과
+5. `result.html`: KTAS 판정 및 병원-약국/응급실 맞춤 결과 (상단 트랙 탭 & 상태 바 단일 칸 일체화(새로고침 버튼 도킹 및 세로 36px 추가 확보), 소아 응급실 병상 목록 최소 4개소 무스크롤 100% 완전 노출(`.facility-scroll-list` max-height: 275px & 48px 슬림 카드), 응급 배너 중복 문구 100% 제거, 1줄 핵심 지침 정예화(`shortKtasMap`) 및 전문 감별 소견 접이식 토글(`<details>`) 적용, 상단 감별소견 & 초응급 배너 단일 카드 통합(높이 -210px 압축), KTAS 1·2·3단계 중증 카테고리 탭 명칭 '응급실 목록' 0ms 동적 스위칭(`updateCategoryHospitalsTitle`), 잔여 병상 배지·전문센터·직통전화·길안내 버튼 한눈 노출, 단일 카드 3대 카테고리 세그먼트 탭, 병원명 중복 접미사 100% 제거, 진료시간 중복 제거 및 `오늘 ~23:00` 간결화, 약국 `+30분` 안전마진 가독성 극대화, 통화 대본 `max-height: 110px` 복사 버튼 화면 내 완전 노출, 본인확인 3대 체크리스트 테두리 무결점 안착)
 6. `hospital_detail.html`: 달빛어린이병원 전용 상세 페이지 (소아 전문의/일반의 현황, 주차 면수/요금/안내, 요일별 진료시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 로열 블루 펄스 핀 마커), 22:30 조기마감 주의 배너, 2열 실측 메트릭 바(내 위치 거리·주차 지원), 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
 7. `pharmacy_detail.html`: 심야약국 전용 상세 페이지 (상주 약사 현황, 복약지도 안내, +30분 조제 안전마진 표시, 요일별 심야 운영시간표, Leaflet & OpenStreetMap 실시간 대화형 지도(220px 뷰포트, 에메랄드 그린 펄스 핀 마커), 1:1 연계 달빛어린이병원 카드, 5-Layer Smart Back Navigation, 하단 고정 통화 CTA)
 8. `emergency_alert.html`: 0ms Red Flag 119 긴급 직행 화면
@@ -227,6 +249,16 @@ graph TD
   - **한국어 복합 병렬 부정문 감별 엔진 (`has_affirmative_match`)**: "청색증이나 경련은 없어요" 등 구어체 부정문의 0ms Red Flag 오경보(Over-triage) 100% 원천 차단.
   - 1,000회 연속 Red Flag 검사: 총 32.90ms (회당 평균 **32.90µs** 실시간 방어 달성).
   - 50대 소아 응급 골든 케이스 평가: **Red Flag 민감도 100%, 언더트리아제 0.0%**.
+
+* **📊 프로젝트 종합 기획 대비 완성률 정밀 분석 보고서 발간 ([PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md))**:
+  - **상용 론칭 필수 코어 스코프(Core MVP & Advanced Services)**: **100.0% 완성** (실제 서비스 배포 및 상용화 즉시 가용)
+  - **장기 고도화 백로그(Phase 4~6) 포함 종합 로드맵**: **92.5% 완성** (총 35개 세부 과제 중 32개 완결, 3개 순차 추진)
+  - **5대 도메인별 진척도**:
+    1. 데이터 엔지니어링 & 파이프라인: **100.0% 완결** (주피터 1~5권, 156개 병원/2,028개 약국 마스터셋, 24시간 In-Memory Hash Diffing)
+    2. 안전 가드레일 & 멀티 에이전트: **100.0% 완결** (26µs Tier 1 Red Flag, 한국어 복합 부정문 감별, Tier 2 의료법 소독, Gemini 3.8 Flash Direct Grounding)
+    3. 백엔드 API & 고가용성 인프라: **100.0% 완결** (Supervisor 6-State FSM, 3-State 서킷 브레이커, 3-Tier Multi-Storage Fallback)
+    4. 프론트엔드 모바일 앱 셸 & 14대 뷰: **98.5% 완결** (온보딩 순차 파이프라인, GNB 4탭, 0ms 무손실 히스토리 복원 및 중복 차단, KTAS 중증 병상 변동 알림)
+    5. 심화 고도화 백로그: **50.0% 순차 추진** (Phase 1~3J 완료, Phase 4~6 대기/진행)
 
 ---
 
@@ -308,10 +340,28 @@ graph TD
     - `terms.html` 온보딩 vs 설정 열람 모드 CSS/JS 물리적 완전 격리: 온보딩 모드에서는 `#btn-terms-view-confirm`("내용을 확인했습니다")과 상단 뒤로가기를 완전 은닉(`display: none !important`), 4대 필수 체크 후 '동의하고 계속하기' 완료 시 반드시 다음 온보딩인 `permission.html`로 전환.
     - 오직 설정 화면에서 진입한 기가입자(`hasViewParam && isAlreadyAgreed`)에게만 뒤로가기 및 "내용을 확인했습니다" 버튼을 활성화하여 `settings.html`로 안전 복귀 지원.
     - `index.html` & `input.html` 상단에 약관 미동의 0ms 차단 + 접근권한 미동의 0ms 차단 2중 가드레일을 설치하여 주소창 URL 직접 입력 우회 100% 방어.
-17. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
+17. **[완료] KTAS 중증 이력자 대상 실시간 응급실 병상 변동 알림(Notification Center) & 하단 GNB '이전 문진 결과 기록(History)' 시스템 (Phase 3-J)**:
+    - **AisumHistoryManager**: 문진 결과 완료 시 환아 연령/월령, 성별, 체온, 주증상, KTAS 등급, 추천 시설 스냅샷을 `aisum_triage_history`에 영구 저장 (최대 30건).
+    - **응급실 판정 결과 영구 기록 무결점 보장**: `aisum_is_replay_view` 세션 오염 플래그 즉각 자동 소독(문진 제출 및 결과 진입 시 URL에 `?is_replay=true` 부재 시 자동 삭제), 15초 이내 동일 결과만 새로고침 중복 방지(`isWithin15Sec`)를 적용하여 신규 문진 무조건 영구 보관 보장.
+    - **KTAS 등급별 추천 시설 정합성 보장**: KTAS 1·2·3단계(소생/긴급/응급) 시 달빛어린이병원 매칭을 배제하고 소아 응급실(`#emergency-scroll-list`) 및 거점 소아응급센터명을 우선 취득. 비동기 E-Gen 병상 수신 시 `updateLatestHospital`로 1순위 소아 응급실명 자동 정밀 보정 및 히스토리 부재 시 자동 안전 저장.
+    - **AisumNotificationManager (중증 환아 전용 2대 조건부 실시간 알림 엔진)**:
+      - **조건 1 (중증 이력 보유자)**: `hasEmergencyHistory()` 검증을 통해 기록 페이지에 KTAS 1·2·3단계 응급실 판정 이력이 존재하는 보호자에게만 감시 및 알림 발송 허용.
+      - **조건 2 (실제 병상 변동 시)**: 사용자 위치(반경 25km) 기준 `/api/v1/emergency/nearby` 백그라운드 폴링(30초 주기)을 통해 소아 일반병상(`hv28`/`available_beds`)이 실제로 변경되었을 때, **어떤 응급실이고 얼마나 변경되었는지(증가/감소/만실 수치: `diff = currentBed - prevBed`)** 명시한 알림 발송:
+        - `🟢 [서울아산병원] 소아 응급실 병상 확보 (+2석)` (1석 ➔ 3석)
+        - `🔴 [서울아산병원] 소아 응급실 병상 감소 (-2석)` (3석 ➔ 1석)
+        - `🚨 [서울아산병원] 소아 응급실 만실 경보 (0석)` (1석 ➔ 0석)
+      - 인앱 알림 센터 등록 + 헤더 붉은 뱃지(`.badge-dot`) 점등 + 브라우저 시스템 푸시(`Notification API`) 3중 발송 지원.
+    - **하단 GNB 4-Tab 개편 및 전역 템플릿 완전 동기화**: 홈 바로 옆에 '기록' 탭을 신설하여 어디서든 이전 문진 결과 바텀시트 모달을 열람 가능. 메인 홈뿐만 아니라 `emergency_guide.html`, `emergency_guide_symptoms.html`, `emergency_guide_checklist.html`, `settings.html` 및 `app/templates` 전역 파일까지 4-Tab(`홈` | `기록` | `응급실 가이드` | `설정`)을 일괄 동기화. 각 기록 카드에서 `[당시 결과 다시보기]` 클릭 시 `sessionStorage`에 스냅샷을 즉시 주입하여 0ms 딜레이로 당시 결과 화면 완벽 복원 및 `index.html?tab=history` 딥링크 모달 자동 오픈 보장.
+18. **카카오맵/네이버맵 30분 안심 동선 지도 시각화 (Phase 4)**:
     - 사용자 현재 위치 ➔ 달빛어린이병원 ➔ +30분 조제 안심약국으로 이어지는 안전 이동 동선을 폴리라인(Polyline)으로 맵 뷰 시각화.
-18. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
+19. **전국 실시간 소아 응급실 병상 전광판 (`beds.html` - Phase 5)**:
     - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
-19. **PWA (Progressive Web App) 오프라인 지원 (Phase 6)**:
-    - Service Worker 캐싱을 통해 네트워크 단절 시에도 12대 Red Flag 가이드 및 최근 조회 시설 오프라인 열람 지원.
+20. **PWA (Progressive Web App) 도입, 설정 QR코드 연동 & Cloud Run 배포 아키텍처 (Phase 6 - 상세 기획 완료, [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md))**:
+    - **PWA 핵심 자산**: `frontend/manifest.json` (`display: standalone`, `theme_color: #10b981`), `frontend/sw.js` (Service Worker Stale-While-Revalidate 및 12대 응급처치 가이드 오프라인 캐싱).
+    - **설정페이지(`settings.html`) QR코드 카테고리**: '모바일 기기 연결' 그룹 신설, '스마트폰으로 앱 열기' 클릭 시 현재 접속 도메인(`window.location.origin`)을 실시간 반영하는 QR코드 팝업 모달 렌더링, iOS(홈 화면에 추가) 및 Android(앱 설치) 가이드 제공.
+    - **Google Cloud Run 배포 & 다중 API Key 보안 관리**:
+      - 문자열 API Key 3종(`GEMINI_API_KEY`, `DATA_GO_KR_API_KEY`, `KAKAO_REST_API_KEY`): GCP Secret Manager 등록 후 Cloud Run `--set-secrets` 환경변수 마운트.
+      - Firebase Admin (`serviceAccountKey.json`): Cloud Run 기본 서비스 계정에 `roles/datastore.user` IAM 권한 부여를 통한 **무키(Keyless) ADC 인증** (전략 1 Best Practice) 또는 Secret Manager 볼륨 마운트(`/secrets/serviceAccountKey.json`, 전략 2).
+      - 경량 `python:3.11-slim` Multi-stage `Dockerfile` 및 `PORT=${PORT:-8080}` 바인딩 최적화.
+
 

@@ -25,11 +25,9 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#ffffff" />
 
-  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
-  <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
-  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
-  <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 
   <style>
     /* KTAS Guide Visual Card Custom Styles */
@@ -235,10 +233,10 @@
   </style>
 </head>
 
-<body>
+<body class="app-shell-body">
 
   <!-- Mobile Viewport Canvas -->
-  <div class="mobile-viewport" id="app">
+  <div class="mobile-viewport app-shell-viewport" id="app">
 
     <!-- 1. Top Emergency Header Bar -->
     <header class="guide-header">
@@ -257,8 +255,11 @@
       </a>
     </header>
 
-    <!-- 2. Red-Flag Urgent Callout Banner -->
-    <aside class="redflag-banner" role="alert" aria-live="assertive" style="margin-top: 14px;">
+    <!-- Scrollable Content Canvas (App Shell Layout) -->
+    <div class="guide-scroll-body">
+
+      <!-- 2. Red-Flag Urgent Callout Banner -->
+      <aside class="redflag-banner" role="alert" aria-live="assertive" style="margin-top: 14px;">
       <div class="redflag-content">
         <div class="redflag-icon-wrap" aria-hidden="true">
           <span class="material-symbols-outlined">warning</span>
@@ -312,7 +313,7 @@
               <span class="ktas-step-title">신속한 증상 확인 및 준비</span>
             </div>
             <div class="ktas-image-container">
-              <img src="assets/images/guide_ktas_step1.png"
+              <img src="../assets/images/guide_ktas_step1.png"
                    onerror="this.src='../assets/images/guide_ktas_step1.png'"
                    alt="1. 신속한 증상 확인 및 준비 - 아이의 체온, 의식 상태, 호흡을 확인하고, 평소 먹는 약이나 아기수첩을 챙기세요."
                    class="ktas-guide-img" />
@@ -326,7 +327,7 @@
               <span class="ktas-step-title">소아전용 응급실 검색</span>
             </div>
             <div class="ktas-image-container">
-              <img src="assets/images/guide_ktas_step2.png"
+              <img src="../assets/images/guide_ktas_step2.png"
                    onerror="this.src='../assets/images/guide_ktas_step2.png'"
                    alt="2. 소아전용 응급실 검색 - 인근의 소아전용 응급실 위치와 진료 가능 여부를 스마트폰이나 119로 미리 확인하세요."
                    class="ktas-guide-img" />
@@ -340,7 +341,7 @@
               <span class="ktas-step-title">KTAS 중증도란 무엇인가요?</span>
             </div>
             <div class="ktas-image-container">
-              <img src="assets/images/guide_ktas_step3.png"
+              <img src="../assets/images/guide_ktas_step3.png"
                    onerror="this.src='../assets/images/guide_ktas_step3.png'"
                    alt="3. KTAS 중증도란 무엇인가요? - 응급실 도착 후, 의료진이 나이, 증상, 활력징후 등을 종합하여 환자의 시급성을 1~5단계로 분류합니다."
                    class="ktas-guide-img" />
@@ -354,7 +355,7 @@
               <span class="ktas-step-title">KTAS 중증도 (1~3단계: 응급)</span>
             </div>
             <div class="ktas-image-container">
-              <img src="assets/images/guide_ktas_step4.png"
+              <img src="../assets/images/guide_ktas_step4.png"
                    onerror="this.src='../assets/images/guide_ktas_step4.png'"
                    alt="4. KTAS 중증도 단계 (1~3단계: 응급) - 1~3단계는 즉각적인 처치가 필요한 중증 응급. 도착 순서와 상관없이 최우선 진료 대상입니다."
                    class="ktas-guide-img" />
@@ -368,7 +369,7 @@
               <span class="ktas-step-title">KTAS 중증도 (4~5단계: 비응급)</span>
             </div>
             <div class="ktas-image-container">
-              <img src="assets/images/guide_ktas_step5.png"
+              <img src="../assets/images/guide_ktas_step5.png"
                    onerror="this.src='../assets/images/guide_ktas_step5.png'"
                    alt="5. KTAS 중증도 단계 (4~5단계: 비응급) - 4~5단계는 경증 및 비응급 상태로, 중증 환자 진료가 우선이기에 대기 시간이 길어질 수 있습니다."
                    class="ktas-guide-img" />
@@ -382,7 +383,7 @@
               <span class="ktas-step-title">응급실 도착 및 접수·분류</span>
             </div>
             <div class="ktas-image-container">
-              <img src="assets/images/guide_ktas_step6.png"
+              <img src="../assets/images/guide_ktas_step6.png"
                    onerror="this.src='../assets/images/guide_ktas_step6.png'"
                    alt="6. 응급실 도착 및 접수·분류 - 도착 즉시 접수하고, 분류실에서 간호사에게 아이의 상태를 자세히 말한 뒤 KTAS 등급을 부여받습니다."
                    class="ktas-guide-img" />
@@ -396,7 +397,7 @@
               <span class="ktas-step-title">순서 대기 및 진료</span>
             </div>
             <div class="ktas-image-container">
-              <img src="assets/images/guide_ktas_step7.png"
+              <img src="../assets/images/guide_ktas_step7.png"
                    onerror="this.src='../assets/images/guide_ktas_step7.png'"
                    alt="7. 순서 대기 및 진료 - 중증도에 따른 진료 순서를 지키며 대기하고, 의사의 진료와 필요한 처치(수액, 투약 등)를 받습니다."
                    class="ktas-guide-img" />
@@ -423,7 +424,21 @@
         <span>가이드 인포그래픽 원본 한눈에 크게 보기</span>
       </button>
 
+      <!-- 4. Quick Emergency Visit Tips Card -->
+      <section style="background: #f8faff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 14px 16px; margin-top: 4px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <span class="material-symbols-outlined" style="color: var(--primary); font-size: 20px;">info</span>
+          <strong style="font-size: 13.5px; color: var(--slate-900);">야간 소아 응급실 방문 필수 팁</strong>
+        </div>
+        <ul style="margin: 0; padding-left: 18px; font-size: 12px; color: var(--slate-600); line-height: 1.6;">
+          <li>아이의 주민등록번호 또는 아기수첩(건강보험증)을 준비하세요.</li>
+          <li>최근 먹인 해열제 성분과 복용 시각을 메모해 가세요.</li>
+          <li>호흡 곤란이나 경련 지속 시 즉시 119로 연락하세요.</li>
+        </ul>
+      </section>
+
     </main>
+    </div>
 
     <!-- 4. Fixed Bottom Navigation Bar (GNB) -->
     <nav class="bottom-nav" aria-label="주요 메뉴">
@@ -433,13 +448,19 @@
         <span class="nav-label">홈</span>
       </a>
 
-      <!-- Tab 2: 응급실 가이드 (Active) -->
+      <!-- Tab 2: 기록 (신규) -->
+      <a href="index.html?tab=history" class="nav-item" aria-label="이전 결과 기록">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="nav-label">기록</span>
+      </a>
+
+      <!-- Tab 3: 응급실 가이드 (Active) -->
       <a href="emergency_guide.html" class="nav-item active" aria-current="page">
         <span class="material-symbols-outlined">emergency</span>
         <span class="nav-label">응급실 가이드</span>
       </a>
 
-      <!-- Tab 3: 설정 -->
+      <!-- Tab 4: 설정 -->
       <a href="settings.html" class="nav-item">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>
@@ -458,7 +479,7 @@
         </button>
       </div>
       <div class="full-image-body">
-        <img src="assets/images/guide_ktas_full.png"
+        <img src="../assets/images/guide_ktas_full.png"
              onerror="this.src='../assets/images/guide_ktas_full.png'"
              alt="소아전용 응급실 이용 가이드 및 KTAS 중증도 안내 원본 인포그래픽" />
       </div>
@@ -466,10 +487,8 @@
   </div>
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
-  <script src="js/main.js"></script>
   <script src="../js/main.js"></script>
-
-  <!-- Carousel Controller Script -->
+<!-- Carousel Controller Script -->
   <script>
     const track = document.getElementById('guideCarouselTrack');
     const counterBadge = document.getElementById('slide-counter-badge');

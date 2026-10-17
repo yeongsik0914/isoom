@@ -46,7 +46,7 @@
     }
 
     body {
-      background-color: #f8fafc;
+      background-color: var(--canvas-bg);
       margin: 0;
       padding: 0;
       font-family: 'Plus Jakarta Sans', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -55,22 +55,33 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .triage-viewport {
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100vh;
+    .mobile-viewport.triage-shell {
+      width: 100%;
+      max-width: 440px;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
       background: #ffffff;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
       position: relative;
       display: flex;
       flex-direction: column;
-      padding-bottom: 120px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 640px) {
+      .mobile-viewport.triage-shell {
+        height: min(920px, calc(100vh - 24px));
+        max-height: calc(100vh - 24px);
+        border-radius: 36px;
+        border: 8px solid #ffffff;
+        box-shadow: var(--shadow-phone);
+      }
     }
 
     /* Top Sticky Header */
     .triage-header {
-      position: sticky;
-      top: 0;
+      flex-shrink: 0;
       z-index: 50;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
@@ -80,6 +91,23 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+
+    .triage-progress-bar-wrap {
+      flex-shrink: 0;
+    }
+
+    .triage-body {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px 16px 155px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
     }
 
     .header-back-btn {
@@ -789,22 +817,30 @@
     }
 
     /* --------------------------------------------------------------------------
-       Bottom Fixed Action Floating Bar
+       Bottom Fixed Action Floating Bar (Absolute docked to smartphone frame)
        -------------------------------------------------------------------------- */
     .triage-bottom-action-bar {
-      position: fixed;
+      position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      max-width: 480px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid #f1f5f9;
-      padding: 12px 18px 24px;
+      padding: 12px 20px 24px 20px;
       z-index: 40;
       box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 640px) {
+      .triage-bottom-action-bar {
+        border-bottom-left-radius: 28px;
+        border-bottom-right-radius: 28px;
+        padding: 12px 20px 26px 20px;
+      }
     }
 
     .action-summary-row {
@@ -872,7 +908,7 @@
   </style>
 </head>
 
-<body>
+<body class="app-shell-body">
   <script>
     // 🛡️ 1단계: 이용약관 미동의 시 문진 진입 차단 및 terms.html 강제 이동
     (function() {
@@ -897,7 +933,7 @@
     })();
   </script>
 
-  <div class="triage-viewport">
+  <div class="mobile-viewport triage-shell" id="app">
 
     <!-- Top Sticky Header -->
     <header class="triage-header">
@@ -1933,6 +1969,7 @@
           }
         };
         sessionStorage.setItem('pending_chat_request', JSON.stringify(backendChatRequest));
+        try { sessionStorage.removeItem('aisum_is_replay_view'); } catch (_) {}
 
         launchAnalyzingSequence(backendChatRequest);
       });

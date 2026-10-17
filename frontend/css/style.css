@@ -114,70 +114,62 @@ button {
   -webkit-user-select: none;
 }
 
-/* Mobile Frame Wrapper (Desktop centered preview) */
+/* Mobile Frame Wrapper (Desktop centered preview & Fixed App Shell) */
 .mobile-viewport {
   width: 100%;
   max-width: 440px;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
   background-color: var(--app-bg);
   position: relative;
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-phone);
-  overflow-x: hidden;
-  padding-bottom: 96px; /* GNB Bottom Space */
+  overflow: hidden;
+  box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 640px) {
   body {
-    padding: 24px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0;
+    min-height: 100vh;
+    box-sizing: border-box;
   }
   .mobile-viewport {
-    min-height: 920px;
+    height: min(920px, calc(100vh - 24px));
+    max-height: calc(100vh - 24px);
     border-radius: 36px;
     border: 8px solid #ffffff;
     box-shadow: var(--shadow-phone);
+    overflow: hidden;
   }
 }
 
 /* ============================================================================
-   🔒 Fixed App Shell Layout for Main Home (실시간 의료현황 칸 외 스크롤 완전 고정)
+   🔒 Fixed App Shell Layout for All Pages (홈, 응급실 가이드, 설정, 문진 입력 전역 고정)
    ============================================================================ */
-body.main-home-body {
+body.main-home-body,
+body.app-shell-body {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
 }
 
-@media (min-width: 640px) {
-  body.main-home-body {
-    align-items: center;
-    padding: 12px 0;
-  }
-}
-
-.mobile-viewport.main-home-shell {
+.mobile-viewport.main-home-shell,
+.mobile-viewport.app-shell-viewport,
+.mobile-viewport.triage-shell,
+.mobile-viewport.result-shell {
   height: 100vh;
   height: 100dvh;
   max-height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding-bottom: 74px; /* GNB Bottom Space */
-}
-
-@media (min-width: 640px) {
-  .mobile-viewport.main-home-shell {
-    height: min(920px, calc(100vh - 24px));
-    max-height: calc(100vh - 24px);
-    min-height: auto;
-    border-radius: 36px;
-    border: 8px solid #ffffff;
-    box-shadow: var(--shadow-phone);
-  }
 }
 
 .main-home-shell .app-header {
@@ -967,23 +959,25 @@ body.main-home-body {
 
 /* 3. Bottom Navigation Bar */
 .bottom-nav {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  width: 100%;
   max-width: 440px;
   margin: 0 auto;
   height: 68px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid rgba(226, 232, 240, 0.85);
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 16px env(safe-area-inset-bottom, 8px);
+  padding: 0 8px env(safe-area-inset-bottom, 4px);
   z-index: 60;
   box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.04);
+  box-sizing: border-box;
 }
 
 @media (min-width: 640px) {
@@ -994,29 +988,36 @@ body.main-home-body {
 }
 
 .nav-item {
+  flex: 1;
+  max-width: 76px;
+  height: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   text-decoration: none;
   color: var(--slate-400);
-  padding: 6px 14px;
-  border-radius: var(--pill-radius);
+  padding: 4px 6px;
+  border-radius: 16px;
   transition: all var(--transition-fast);
   cursor: pointer;
   border: none;
   background: transparent;
+  box-sizing: border-box;
 }
 
 .nav-item .material-symbols-outlined {
   font-size: 22px;
+  line-height: 1;
   transition: transform var(--transition-fast);
 }
 
 .nav-label {
   font-size: 11px;
   font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .nav-item:hover {
@@ -1026,6 +1027,7 @@ body.main-home-body {
 .nav-item.active {
   background-color: var(--primary-surface);
   color: var(--primary);
+  border-radius: 16px;
 }
 
 .nav-item.active .material-symbols-outlined {
@@ -1957,12 +1959,32 @@ body.main-home-body {
   width: 40px; /* Spacer for centering title */
 }
 
-/* Settings Body Canvas */
+/* Settings Body Canvas (Scrollable App Shell Content) */
 .settings-body {
   flex: 1;
-  background-color: var(--white);
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
+  padding-bottom: 84px;
+  box-sizing: border-box;
+}
+
+/* Emergency Guide Scrollable Body */
+.guide-scroll-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 84px;
+  box-sizing: border-box;
 }
 
 /* Section Groups */
@@ -3503,4 +3525,404 @@ body.font-size-large .location-pill {
 
 .loc-chip-btn.active .chip-gu {
   color: rgba(255, 255, 255, 0.85);
-}
+}
+
+/* ==========================================================================
+   🔔 Notification Sheet & 📋 History Modal Styles (아이숨 프리미엄 모바일 디자인)
+   ========================================================================== */
+.sheet-dialog-card {
+  width: 100%;
+  max-width: 440px;
+  max-height: 85vh;
+  background: #ffffff;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.18);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.modal-overlay.active .sheet-dialog-card {
+  transform: translateX(-50%) translateY(0);
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.sheet-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sheet-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.sheet-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.text-action-btn {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary, #0066ff);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.text-action-btn:hover {
+  background: rgba(0, 102, 255, 0.08);
+}
+
+.text-action-btn.danger-text {
+  color: #ef4444;
+}
+
+.text-action-btn.danger-text:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.close-icon-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.close-icon-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.sheet-body {
+  padding: 16px 20px 32px 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f8fafc;
+}
+
+/* Watch Status Banner */
+.watch-status-banner {
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.watch-status-banner.active-watch {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.09) 0%, rgba(220, 38, 38, 0.04) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #991b1b;
+}
+
+.watch-status-banner.normal-info {
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.07) 0%, rgba(0, 102, 255, 0.03) 100%);
+  border: 1px solid rgba(0, 102, 255, 0.18);
+  color: #1e40af;
+}
+
+/* History Card */
+.history-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.history-card:active {
+  transform: scale(0.99);
+}
+
+.history-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.history-card-date {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.history-card-delete-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.history-card-delete-btn:hover {
+  color: #ef4444;
+}
+
+.history-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.history-child-info {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.history-symptom-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary, #0066ff);
+  background: rgba(0, 102, 255, 0.08);
+  padding: 3px 8px;
+  border-radius: 6px;
+  width: fit-content;
+}
+
+.history-hospital-info {
+  font-size: 13px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.history-card-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn-replay-result {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: var(--primary, #0066ff);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-replay-result:hover {
+  background: #0052cc;
+}
+
+.btn-replay-result:active {
+  transform: scale(0.98);
+}
+
+/* Notification Card */
+.notif-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.15s ease;
+}
+
+.notif-card.unread {
+  border-color: rgba(0, 102, 255, 0.4);
+  background: #fafffe;
+}
+
+.notif-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notif-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.notif-badge.increase {
+  background: rgba(16, 185, 129, 0.12);
+  color: #065f46;
+}
+
+.notif-badge.decrease {
+  background: rgba(239, 68, 68, 0.12);
+  color: #991b1b;
+}
+
+.notif-badge.alert {
+  background: rgba(245, 158, 11, 0.12);
+  color: #92400e;
+}
+
+.notif-badge.info {
+  background: rgba(0, 102, 255, 0.1);
+  color: #1e40af;
+}
+
+.notif-time {
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+
+.notif-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.notif-message {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.notif-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.btn-notif-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: #f1f5f9;
+  color: #1e293b;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.btn-notif-call:hover {
+  background: #e2e8f0;
+}
+
+/* Empty Notice State */
+.sheet-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 16px;
+  gap: 12px;
+}
+
+.sheet-empty-icon {
+  font-size: 48px;
+  color: #cbd5e1;
+}
+
+.sheet-empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #334155;
+  margin: 0;
+}
+
+.sheet-empty-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+  max-width: 280px;
+}
+
+/* Bottom Nav 4-tab Responsive Fit & Exact Pill Alignment */
+.bottom-nav .nav-item {
+  flex: 1;
+  max-width: 76px;
+  height: 50px;
+  padding: 4px 6px;
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.bottom-nav .nav-item.active {
+  background-color: var(--primary-surface);
+  color: var(--primary);
+  border-radius: 16px;
+}
+

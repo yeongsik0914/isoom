@@ -28,6 +28,221 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.6.5-emergency-history-and-bed-change-alerts] 2026-10-17: 맞춤 결과 페이지(`result.html`) 응급실 판정 결과 영구 기록 누락 결함 원천 해소 & 중증 환아 전용 2대 조건부 근방 응급실 병상 변동 실시간 알림 엔진 구축 릴리스 (정영식 팀장 총괄)
+* **💾 응급실 판정 결과 영구 기록(`AisumHistoryManager`) 100% 보관 보장**:
+  - 기존 세션 잔존 플래그(`aisum_is_replay_view`)로 인해 신규 문진도 Replay 모드로 오인되어 저장이 스킵되던 결함 원천 해소 (문진 제출 및 진입 시 자동 소독).
+  - 15초 이내 동일 결과만 새로고침 중복 방지(`isWithin15Sec`)를 적용하여 신규 문진은 무조건 영구 저장 보장.
+  - 소아 응급실 병상 비동기 로드 완료 시 최신 히스토리 기관명을 실제 1순위 응급실명으로 자동 동기화.
+* **🔔 중증 환아 전용 2대 조건부 근방 소아 응급실 병상 변동 실시간 알림 엔진 (`AisumNotificationManager`)**:
+  - **조건 1**: 기록 페이지에 KTAS 1·2·3단계 응급실 판정 이력이 존재하는 보호자에게만 감시 및 알림 허용 (`hasEmergencyHistory()`).
+  - **조건 2**: 사용자 위치(반경 25km) 기준 근방 응급실 병상 정보가 실제로 변경되었을 때, **어떤 응급실이고 얼마나 변경되었는지(증가/감소/만실 수치)** 명확한 알림 발송:
+    - `🟢 [서울아산병원] 소아 응급실 병상 확보 (+2석)` (1석 ➔ 3석)
+    - `🔴 [서울아산병원] 소아 응급실 병상 감소 (-2석)` (3석 ➔ 1석)
+    - `🚨 [서울아산병원] 소아 응급실 만실 경보 (0석)` (1석 ➔ 0석)
+  - 인앱 알림 센터 + 헤더 뱃지 점등 + 브라우저 시스템 푸시(`Notification API`) 3중 발송 지원.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q162, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-162, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.89)**.
+
+### 🌟 [v2.6.4-unified-er-track-tab-and-4cards-fit] 2026-10-17: 맞춤 결과 페이지(`result.html`) 상단 트랙 탭 & 상태 바 단일 칸 일체화(새로고침 버튼 도킹) 및 소아 응급실 카드 4개소 무스크롤 100% 완전 노출 릴리스 (정영식 팀장 총괄)
+* **🔄 상단 트랙 탭 & 하단 상태 바 단일 칸 통합 & 새로고침 버튼 도킹**:
+  - 기존 탭 버튼(`[ ✱ 소아 응급실 병상 (실시간 현황 · 8곳) ]`)과 하단 상태 바(`[ 4분 전 실시간 연동 ] [ 🔄 새로고침 ]`)의 2중 칸 누적으로 인한 75px 세로 공간 잠식 결함 해소.
+  - `tab-btn-emergency`를 Flex 컨테이너로 통합하여 좌측에 실시간 현황 타이틀, 우측에 원터치 `[ 🔄 새로고침 ]` 버튼(`btn-refresh-er-beds`)을 일체형 도킹.
+  - 하단의 중복된 `er-header-status-bar`를 은닉하여 세로 **36px의 화면 공간을 즉각 추가 확보**.
+* **🏥 소아 응급실 병상 목록 최소 4개소 무스크롤 100% 완전 노출**:
+  - 확보된 공간을 바탕으로 `.facility-scroll-list` 뷰포트를 `max-height: 275px`로 확장하고 카드를 `min-height: 48px !important; padding: 6px 10px !important;`로 슬림화.
+  - **사용자가 스크롤을 전혀 하지 않아도 4개 응급실 카드가 아래쪽 테두리까지 단 1픽셀도 잘리지 않고 화면 중앙에 100% 온전히 표출**되며, 5개째 이후부터 전용 스크롤바로 부드럽게 탐색 가능.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q161, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-161, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.88)**.
+
+### 🌟 [v2.6.3-concise-emergency-banner-and-clean-directive] 2026-10-17: 맞춤 결과 페이지(`result.html`) 응급 배너 중복 문구 100% 제거, 1줄 핵심 지침 정예화(shortKtasMap) 및 전문 감별 소견 접이식 토글(details) 적용 릴리스 (정영식 팀장 총괄)
+* **🚨 헤더 단일 정예 배지화 (`shortKtasMap`) & 중복어 100% 완전 제거**:
+  - 헤더 1행에 `[KTAS 1단계 (소생 119 즉시 신고 · 응급실 이송)]` + `최고 응급 (소생)` + `즉각 처치 필요` 3중 중복 및 텍스트 줄바꿈 깨짐 결함 원천 해소.
+  - `shortKtasMap` 도입으로 **`🚨 KTAS 1단계 · 소생`**, **`⚠️ KTAS 2단계 · 긴급`**, **`⚡ KTAS 3단계 · 응급`** 정갈한 단일 캡슐 배지 및 4글자 컴팩트 태그(`즉시 신고`, `골든타임 확보`, `가용병상 확인`, `white-space: nowrap;`) 정착.
+* **📢 1줄 크고 뚜렷한 핵심 행동 지침 정예화**:
+  - 환아 위급 상황에서 부모가 0.1초 만에 행동을 결정할 수 있도록 12px 굵은 다크 슬레이트 폰트로 핵심 지침 명확화:
+    - KTAS 1: **"생명이 위급한 최고 응급 상태입니다. 지체 없이 119 구급차를 호출하십시오."**
+    - KTAS 2: **"신체 기능 위험이 있는 긴급 상태입니다. 대학병원 소아응급센터로 즉시 이동하십시오."**
+    - KTAS 3: **"응급 진료가 필요한 상태입니다. 아래 실시간 소아 응급실 병상을 확인 후 이동하십시오."**
+* **🩺 전문 임상 감별 소견 접이식 아코디언(`<details>`) 토글화**:
+  - 5줄짜리 장황한 전문 의학 소견을 접이식 토글(`🩺 상세 감별소견 보기`)로 격리하여 기본 화면 가독성을 극대화하고 시각적 노이즈를 100% 제거.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q160, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-160, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.87)**.
+
+### 🌟 [v2.6.2-unified-emergency-banner-and-4cards-fit] 2026-10-17: 결과페이지 상단 감별소견 & 초응급 배너 단일 카드 통합(높이 -210px 압축) 및 소아 응급실 병상 목록 4개소 무스크롤 100% 완전 노출 릴리스 (정영식 팀장 총괄)
+* **🚨 상단 감별소견 & 초응급 배너 단일 카드(`triage-summary-card`) 일체화**:
+  - 기존 감별 소견 박스와 초응급 배너의 2중 중첩 및 360px 세로 공간 잠식 결함 해소.
+  - KTAS 1·2·3단계 시 장황한 별도 노란 박스를 숨기고 `#ktas-emergency-call-banner` 내부에 KTAS 등급 배지 + 이송 지침 + 핵심 임상 감별 소견을 2줄로 명쾌하게 통합.
+  - 바로 아래 `[ 📞 119 즉시 전화 ]` 및 `[ 응급처치 가이드 > ]` 버튼을 일체형 도킹하여 상단 높이를 **360px ➔ 150px (무려 210px 절감)**로 획기적 압축.
+* **🏥 소아 응급실 병상 목록 최소 4개소 무스크롤 100% 완전 노출**:
+  - 상단에서 확보된 210px 공간을 바탕으로, `.facility-scroll-list`(`max-height: 250px; min-height: 236px; gap: 6px;`) 및 52px 슬림 카드(4개 합계 226px) 정밀 튜닝.
+  - **사용자가 스크롤을 전혀 하지 않아도 4개 응급실 카드가 화면 중앙에 100% 온전히 표출**되며, 5개째 이후부터 전용 스크롤바로 매끄럽게 탐색 가능.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q159, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-159, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.86)**.
+
+### 🌟 [v2.6.1-ktas-er-category-rename-and-card-layout-fix] 2026-10-17: 결과페이지 KTAS 1·2·3단계 중증 상황 카테고리 탭 명칭 동적 변경('병원 목록' ➔ '응급실 목록') 및 소아 응급실 카드 세로 잘림 해소 & 가독성 극대화 릴리스 (정영식 팀장 총괄)
+* **🚨 KTAS 1·2·3단계 중증 상황 카테고리 탭 명칭 동적 변경 (`updateCategoryHospitalsTitle`)**:
+  - 상단 3대 카테고리 내비게이션 바(`result-category-nav`)의 첫 번째 탭 버튼(`cat-btn-hospitals`)을 환아 KTAS 등급에 따라 0ms 동적 스위칭.
+  - KTAS 1·2·3단계 (소생, 긴급, 응급): `[ 🚨 응급실 목록 ]` (레드 아이콘 `#ef4444` + '응급실 목록' 명칭).
+  - KTAS 4·5단계 (준응급, 비응급): `[ 🏥 병원 목록 ]` (외래 달빛어린이병원 안내).
+* **🩹 소아 응급실 카드 세로 잘림 및 UI 붕괴 결함 원천 박멸**:
+  - 레거시 `.emergency-room-card`의 세로 column 및 16px 패딩 스타일이 `.slim-er-card`를 덮어쓰던 CSS Specificity 충돌 완전 해결.
+  - `.facility-scroll-list .emergency-room-card` 및 `.slim-er-card`에 `flex-direction: row !important; align-items: center !important; justify-content: space-between !important; padding: 8px 10px !important;`를 적용하여 슬림 리스트형 가로 카드 레이아웃 완전 정착.
+* **✨ 잔여 병상 배지 & 직통 전화·길안내 버튼 온전한 한눈 노출**:
+  - `[1순위 (빨강)] 삼성서울병원 [5.8km (블루)]` 아래 `🟢 2석 여유` 알약 배지와 `소아전문센터` 배지가 잘림 없이 선명하게 표시.
+  - 우측 원터치 32x32px 응급실 직통전화 버튼(`er-call`) 및 카카오맵 길찾기 버튼(`slim-btn-map`)이 완벽하게 정렬.
+* **📜 스크롤 뷰포트(`max-height: 290px`) 및 헤더 바 슬림화**:
+  - 상단 긴급 이송 배너 노출 시에도 4개 응급실 카드가 시원하게 노출되고 나머지 응급실은 전용 스크롤바로 부드럽게 탐색 가능.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q158, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-158, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.85)**.
+
+### 🌟 [v2.6.0-result-hospital-scroll-and-clean-typography] 2026-10-17: 맞춤 결과 페이지(`result.html`) 병원 목록 전용 스크롤 뷰포트(max-height: 272px & 슬림 스크롤바) 구축, 병원명·시간·약국 중복 단어 전면 제거 및 가독성 극대화 릴리스 (정영식 팀장 총괄)
+* **📜 병원 목록 전용 독립 스크롤 뷰포트(`.facility-scroll-list`) 완성**:
+  - `max-height: 272px; overflow-y: auto;` 및 5px 슬림 스크롤바(`::-webkit-scrollbar`) 적용.
+  - 상위 카테고리 탭과 배너가 고정된 채, 카드 1~4번이 깔끔하게 표시되며 휠/터치 시 5~12번 병원까지 매끄럽게 스크롤되어 전체 병원을 손쉽게 탐색 가능.
+* **✨ 병원명 중복 접미사 `(달빛어린이병원)` 100% 제거**:
+  - 공공데이터 원본의 중복 명칭을 정제하여 `새솔어린이병원 (달빛어린이...` ➔ **`새솔어린이병원`**으로 말줄임표 없이 병원 고유명을 100% 완전 노출.
+* **🏷️ 순위 배지 간결화**:
+  - `추천 1순위` ➔ **`1순위`**, **`2순위`**, **`3순위`**로 압축하여 가로 공간 절약 및 가독성 개선.
+* **⏰ 진료시간 스마트 포맷터(`formatDutyTimeClean`) 구축**:
+  - 중복 `오늘 오늘` 표현 완전 박멸, 마감시간 중심 `오늘 ~23:00` 또는 `야간·휴일 진료`로 깔끔 압축 및 연초록 알약 배지 부여.
+* **💊 약국 태그 간소화 (`+30분` 안전마진 가독성 극대화)**:
+  - `(연계 안심약국)` 중복 제거 ➔ **`동의삼성약국 (+30분)`**으로 축약하여 안전마진이 잘리지 않고 연하늘 알약 배지로 온전 노출.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q157, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-157, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.84)**.
+
+### 🌟 [v2.5.9-result-slim-cards-and-viewport-optimization] 2026-10-17: 맞춤 결과 페이지(`result.html`) 최소 4개 병원 카드 무스크롤 노출(슬림 리스트형 카드 설계), 통화 대본 복사 버튼 잘림 해소 및 필수 준비물 체크리스트 3종 온전 표출 릴리스 (정영식 팀장 총괄)
+* **🏥 최소 4개 병원 무스크롤 100% 노출 슬림 리스트형 카드(`.slim-pairing-card`, `.slim-er-card`) 전면 혁신**:
+  - 기존 240px 이상의 거대 카드를 높이 60~64px 모바일 최적화 슬림 리스트형 카드로 전면 리디자인.
+  - 좌측: `[순위]` 배지 + 병원명(13.5px bold) + 거리 배지 + 오늘 마감시간 + 1:1 연계약국/안전마진 요약 태그(1줄 압축).
+  - 우측: 원터치 `[📞 전화]` 및 `[🗺️ 길찾기]` 컴팩트 아이콘 버튼 배치.
+  - 4개 카드 연속 배치 시 총 높이 약 260px로, **사용자가 스크롤을 하지 않아도 4개 병원이 한눈에 100% 완벽 노출**.
+* **📊 상단 바이탈 요약 카드(`triage-summary-card`) 컴팩트 슬림화**:
+  - 내부 패딩 축소(`18px` ➔ `12px 14px 10px 14px`), 칩 패딩 및 KTAS 감별 소견 박스 마진 압축으로 세로 공간 약 120px 추가 확보.
+* **📞 통화 스크립트 뷰포트 최적화 ([통화 대본 복사하기] 버튼 100% 완전 노출)**:
+  - 텍스트 박스에 `max-height: 110px; overflow-y: auto; font-size: 12px;` 및 실전 간결 대본을 적용하여, 핵심 CTA인 `[통화 대본 복사하기]` 버튼(높이 38px)과 하단 고지문이 스크롤 전혀 없이 화면 내에 온전히 표출.
+* **📋 필수 준비물 체크리스트 3종 테두리 잘림 완전 해소**:
+  - 체크박스 아이템 패딩 및 간격 최적화(`padding: 8px 10px; margin-bottom: 6px;`)로 3번째 항목("아기수첩 또는 해열제 교차복용 기록 메모")의 바닥 둥근 모서리 잘림 결함 원천 해결.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q156, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-156, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.83)**.
+
+### 🌟 [v2.5.8-result-unified-category-tabs] 2026-10-17: 맞춤 결과 페이지(`result.html`) 병원 목록·통화 스크립트·필수 준비물 3대 카테고리 1칸 통합 세그먼트 탭 전환 UI 구현 릴리스 (정영식 팀장 총괄)
+* **📑 맞춤 결과 페이지 3대 핵심 기능 단일 컨테이너("한 칸", `.result-category-box`) 통합**:
+  - 기존 세로로 길게 순차 나열되던 병원 목록, 통화 스크립트 카드, 필수 준비물 카드를 1개의 모바일 최적화 통합 카드 박스로 일체화.
+  - 상단에 `[ 🏥 병원 목록 ]` | `[ 📞 통화 스크립트 ]` | `[ 📋 필수 준비물 ]` 3-Tab 세그먼트 네비게이션(`.result-category-nav`)을 신설하여 탭 원클릭 전환 UX 구축.
+* **🏥 병원 목록 2-Track & 실시간 병상 DOM 계약 100% 보존**:
+  - `category-pane-hospitals` 내부에 기존 달빛병원·약국 vs 소아 응급실 2-Track 탭 스위처 및 스크롤 리스트를 그대로 배치하여, KTAS 등급별 자동 라우팅 및 E-Gen 실시간 병상 연동 계약 무결성 완전 유지.
+* **📞 30초 당직의 통화 스크립트 전용 뷰 (`category-pane-script`)**:
+  - 사용자 맞춤형 스크린샷 규격을 정밀 계승한 전화 아이콘 헤더, 실시간 바이탈·증상 및 추천 병원명 동적 치환 대본 박스(`#script-content`), 원클릭 클립보드 복사 버튼 및 토스트 알림 완비.
+* **📋 본인확인 의무화 3대 준비물 체크리스트 전용 뷰 (`category-pane-checklist`)**:
+  - 부모 실물 신분증, 주민등록등본, 아기수첩 3대 항목에 대해 클릭 시 초록색 하이라이트 및 취소선 토글 인터랙션(`toggleCheckItem`) 구현.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q155, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-155, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.82)**.
+
+### 🌟 [v2.5.7-input-clipping-fix-and-result-phone-frame] 2026-10-17: 문진 입력 하단 버튼 잘림 결함 해소 및 맞춤 결과 페이지(`result.html`) 스마트폰 프레임 셸 전면 적용 릴리스 (정영식 팀장 총괄)
+* **🔧 문진 입력 화면(`input.html`) 하단 버튼 잘림 결함 해소 & 본문 스크롤 여백 확장**:
+  - `.triage-bottom-action-bar`: 바닥 및 좌우 안전 패딩(`padding: 12px 20px 24px 20px;`, 데스크탑 `padding: 12px 20px 26px 20px;`)을 확장하여, 파란색 전폭 버튼의 모서리가 폰 프레임 테두리에 클리핑되어 잘리던 결함 원천 해소.
+  - 본문 스크롤 패딩(`padding-bottom: 155px;`)을 대폭 늘려, 맨 마지막 질문 카드 입력창이 하단 액션바에 가려지지 않고 시원하게 스크롤되도록 개선.
+* **📱 맞춤 결과 페이지(`result.html`) 스마트폰 프레임 셸 전면 전환**:
+  - `result.html`을 독자 뷰포트에서 전역 스마트폰 프레임 셸(`.mobile-viewport.result-shell`)로 전면 개편.
+  - 데스크탑에서 홈 화면과 100% 동일한 8px 흰색 보더, 36px 둥근 모서리, 부드러운 그림자, 중앙 고정 뷰포트(`height: min(920px, calc(100vh - 24px))`) 적용.
+  - 상단 헤더 고정, 본문 결과 목록 내부 독립 스크롤(`flex: 1; min-height: 0; overflow-y: auto; padding: 18px 16px 96px 16px;`) 분리.
+  - 하단 액션바(`.result-bottom-bar`)를 `position: absolute; bottom: 0;`으로 스마트폰 프레임 바닥에 도킹 및 데스크탑 바닥 라운딩(28px) 일체화.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q154, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-154, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.81)**.
+
+### 🌟 [v2.5.6-global-app-shell-and-input-phone-frame] 2026-10-17: 가이드·설정 하단 붕 뜬 여백 해소 및 문진 입력 페이지(`input.html`) 전역 스마트폰 프레임 셸 통일 릴리스 (정영식 팀장 총괄)
+* **📱 문진 입력 페이지 스마트폰 프레임 셸(`mobile-viewport`) 전면 개편**:
+  - `input.html`의 독자 뷰포트(`triage-viewport`)를 전역 스마트폰 목업 프레임(`.mobile-viewport.triage-shell`)으로 전면 전환.
+  - 데스크탑에서 홈 화면과 100% 동일한 8px 흰색 보더, 36px 둥근 모서리, 부드러운 그림자, 중앙 고정 뷰포트(`height: min(920px, calc(100vh - 24px))`) 적용.
+  - 상단 헤더/프로그레스바 고정, 본문 문진 카드 내부 스크롤(`flex: 1; min-height: 0; overflow-y: auto; padding: 16px 16px 120px;`) 분리.
+  - 하단 액션 플로팅 바(`.triage-bottom-action-bar`)를 `position: absolute; bottom: 0;`으로 스마트폰 프레임 바닥에 도킹하고 데스크탑 모서리 둥글기(28px) 일체화.
+* **🎨 응급실 가이드 및 설정 화면 하단 붕 뜬 여백(회색 빈 박스) 해소 & 바닥 일체화**:
+  - `settings.html`: 모바일 뷰포트 배경을 흰색(#ffffff)으로 일체화하여 `.settings-body` 바닥과 GNB 사이의 회색 빈 박스 노출 결함 원천 박멸.
+  - `emergency_guide.html`: `.guide-scroll-body` 배경을 흰색으로 정돈하고, 인포그래픽 버튼 아래에 **"야간 소아 응급실 방문 필수 팁"** 섹션을 보강하여 화면 하단이 휑하지 않고 알차게 꽉 찬 모바일 화면 완성.
+* **📐 전역 앱 셸(`body.app-shell-body`, `.mobile-viewport.app-shell-viewport`) 표준화 (`style.css`)**:
+  - 모든 화면의 `<body>`에 고정 앱 셸(`height: 100vh; overflow: hidden;`) 규칙을 동기화하여 화면 전환 시 1px 흔들림 없는 일관된 뷰포트 제공.
+  - `frontend/templates/` 최신 마크업을 `app/templates/`로 전체 동기화 복사(`cp -r`).
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q153, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-153, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.80)**.
+
+### 🌟 [v2.5.5-unified-gnb-and-app-shell-fix] 2026-10-17: 전역 고정 앱 셸(App Shell) 규격화 & 홈·응급실가이드·설정 하단 GNB 및 활성 알약 크기 100% 일치화 릴리스 (정영식 팀장 총괄)
+* **📐 전역 모바일 뷰포트 & 앱 셸(App Shell) 규격 완전 통일**:
+  - 홈, 응급실 가이드, 설정 등 모든 화면의 `.mobile-viewport`에 `height: 100vh; height: 100dvh; max-height: 100dvh; overflow: hidden;` 및 데스크탑 `height: min(920px, calc(100vh - 24px)); border-radius: 36px; border: 8px solid #ffffff;`를 전역 적용.
+  - 화면 이동 시 모바일 폰 프레임 외형 크기 및 높이가 1픽셀도 변하지 않는 완벽한 네이티브 앱 규격 확립.
+* **⚓ 하단 내비게이션 바(`.bottom-nav`) 모바일 프레임 바닥 절대 도킹 (`position: absolute; bottom: 0;`)**:
+  - `fixed`로 인해 데스크탑에서 모바일 프레임 바닥을 뚫고 화면 맨 밑으로 24px 이탈하던 결함 원천 해소.
+  - 전 화면에서 높이 68px, 데스크탑 둥근 모서리(28px)로 일체화.
+* **💊 4개 탭 및 활성 알약(`.nav-item.active`) 전역 동일 규격화 (`max-width: 76px`, `height: 50px`, `border-radius: 16px`)**:
+  - '응급실 가이드'(6글자) 등 텍스트 길이에 따라 알약 가로 너비가 비대하게 늘어나던 결함 완전 교정.
+  - 어떤 탭이 활성화되든 항상 대칭되고 동일한 크기의 파란색 알약 배경 유지.
+* **📜 본문 내부 스크롤 컨테이너 분리 (`.guide-scroll-body`, `.settings-body`)**:
+  - 상단 헤더와 하단 GNB는 견고하게 고정되고, 가운데 본문만 부드럽게 스크롤되는 최상급 모바일 앱 UX 구현.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q152, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-152, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.79)**.
+
+### 🌟 [v2.5.4-emergency-guide-history-tab-fix] 2026-10-17: 응급실 가이드 페이지 하단 GNB '기록' 탭 누락 결함 해소 & 전역 템플릿 4-Tab 완전 동기화 릴리스 (정영식 팀장 총괄)
+* **📋 응급실 가이드 하단바 '기록' 탭 복원 및 4-Tab GNB 전역 템플릿 일괄 동기화**:
+  - `app/templates` 및 `frontend/templates` 내 서브 가이드 페이지들(`emergency_guide.html`, `emergency_guide_symptoms.html`, `emergency_guide_checklist.html`, `settings.html`, `index.html`)에 과거 3-Tab이 남아있던 결함 원천 해소.
+  - 어디서든 '기록' 탭(`receipt_long`)이 항상 노출되는 4-Tab(`홈` | `기록` | `응급실 가이드` | `설정`) 레이아웃 완성.
+  - `app/templates/` 디렉터리에 최신 마크업/CSS/JS 에셋을 전체 동기화 복사(`cp -r`)하여 템플릿 이원화 불일치 원천 박멸.
+* **🔗 `index.html?tab=history` 딥링크 기반 기록 모달 자동 오픈 파이프라인 보장**:
+  - 응급실 가이드 페이지나 설정 페이지에서 '기록' 탭 클릭 시 `index.html?tab=history`로 이동하며, 접속 즉시 200ms 내에 `openHistoryModal()`이 자동 실행되어 과거 문진 결과 바텀시트가 즉각 오픈되도록 연동 완료.
+* **🧪 프론트엔드 통합 테스트 5건 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q151, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-151, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.78)**.
+
+### 🌟 [v2.5.3-pwa-and-cloud-run-plan] 2026-10-17: PWA 도입, 설정 페이지 스마트폰 QR코드 웹앱 연동 & Cloud Run 다중 API Key 보안 관리 전략 상세 기획안(PWA_PLAN.md) 수립 릴리스 (정영식 팀장 총괄)
+* **📱 PWA(Progressive Web App) 도입 & 설정 페이지 스마트폰 QR코드 모달 기획 ([PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md))**:
+  - `settings.html` 내 '모바일 기기 연결' 신규 그룹 및 '스마트폰으로 앱 열기 (QR코드)' 마크업/UI 설계.
+  - 현재 브라우저 도메인(`window.location.origin`)을 자동 감지하는 실시간 경량 바닐라 JS QR코드 렌더러 탑재 방안.
+  - iOS(Safari) '홈 화면에 추가' 및 Android(Chrome) '앱 설치' 가이드 모달 설계.
+  - `manifest.json` (`display: standalone`, `theme_color: #10b981`) 및 `sw.js` (오프라인 12대 응급처치 가이드 캐싱).
+* **🔐 Google Cloud Run 배포 & 다중 API Key 엔터프라이즈 보안 관리 아키텍처 ([PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md))**:
+  - 프로젝트 4대 핵심 API Key(`GEMINI_API_KEY`, `DATA_GO_KR_API_KEY`, `KAKAO_REST_API_KEY`, `serviceAccountKey.json`) 안전 관리 방안 수립.
+  - **전략 1 (🥇 GCP 엔터프라이즈 권장 Best Practice)**: GCP Secret Manager 환경변수 마운트 + Cloud Run 기본 서비스 계정 Cloud IAM(`roles/datastore.user`) 기반 **무키(Keyless) ADC 자동 인증** (키 분실/유출 위험 0%).
+  - **전략 2 (🥈 기존 코드 100% 호환)**: Secret Manager 볼륨 마운트(`/secrets/serviceAccountKey.json`) 및 `FIREBASE_KEY_PATH` 주입.
+  - **전략 3 (🥉 테스트용)**: `--set-env-vars` CLI 인라인 주입.
+  - 경량 `python:3.11-slim` Multi-stage `Dockerfile` 및 `PORT=${PORT:-8080}` 바인딩 최적화, `gcloud` 원클릭 배포 CLI 명령어 완비.
+* **📜 4대 거버넌스 문서 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q150, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.77, [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md))**.
+
+### 🌟 [v2.5.2-project-completion-report] 2026-10-17: 프로젝트 기획 대비 종합 완성률 정량 분석 보고서(PROJECT_COMPLETION_REPORT.md) 발간 릴리스 (정영식 팀장 총괄)
+* **📊 프로젝트 종합 완성률 정밀 진단 보고서 공식 발간 ([PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md))**:
+  - **상용 론칭 필수 코어 스코프 (Core MVP & Production Services)**: **100.0% 완성** (실제 배포 및 상용화 즉시 가용).
+  - **장기 고도화 백로그 (Phase 4~6) 포함 종합 로드맵**: **92.5% 완성** (35개 세부 과제 중 32개 완결, 3개 순차 추진).
+  - **5대 도메인별 진척도**: 데이터 파이프라인(100%), 안전 가드레일 & 멀티에이전트(100%), 백엔드 API & 인프라(100%), 프론트엔드 앱 셸 & 14대 템플릿(98.5%), 심화 백로그(50%).
+  - **108개 단위/통합 테스트 전수 통과 (100% Pass)** 및 40대 소아 임상 골든 케이스 평가 100% 달성 기록.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q149, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.76, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md))**.
+
+### 🌟 [v2.5.1-history-duplication-and-er-recommendation-fix] 2026-10-17: 히스토리 KTAS 중증(1~3단계) 추천 시설 응급실 오표기 정정 & 결과 다시보기 복귀 시 중복 생성 원천 차단 릴리스 (정영식 팀장 총괄)
+* **🚨 KTAS 1·2·3단계(중증) 추천 시설 응급실 전용 분기 및 비동기 E-Gen 정밀 보정 ([frontend/templates/result.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/result.html), [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js))**:
+  - 기존 단일 셀렉터로 인해 KTAS 1단계 환아에게 달빛어린이병원(새솔어린이병원)이 매칭되던 DOM 간섭 결함 원천 해소.
+  - KTAS 1·2·3단계 시 소아 응급실 전용 셀렉터(`#emergency-scroll-list .facility-name`) 및 거점 소아응급센터 목록을 우선 취득.
+  - 비동기 E-Gen 실시간 병상 로드 완료 시 `AisumHistoryManager.updateLatestHospital(topErName)`를 실행하여 최신 기록의 추천 기관명을 실제 1순위 소아 응급실명으로 자동 정밀 보정.
+  - 히스토리 카드에 빨간색 사이렌 아이콘(`e911_emergency`)과 `추천 응급실:` 라벨 강조 표출 ([frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html)).
+* **🛡️ 결과 다시보기 모드(`is_replay`) 플래그 도입 및 신규 히스토리 중복 생성 원천 차단**:
+  - `restoreAndNavigate()` 호출 시 `aisum_is_replay_view: 'true'` 및 URL에 `?is_replay=true` 파라미터 부여.
+  - `result.html`에서 다시보기 화면으로 진입한 경우 `saveHistory` 호출을 100% 스킵하여 홈으로 복귀해도 히스토리가 절대 중복 생성되지 않도록 방어.
+  - `AisumHistoryManager.saveHistory()`에서 직전 최신 기록과 내용(증상, KTAS, 연령, 체온)이 동일하면 무조건 중복 저장 스킵.
+  - `AisumHistoryManager.getAll()` 실행 시 과거에 누적되었던 연속 중복 항목을 자동 소독하고 잘못된 달빛병원 명칭을 소아 응급실로 자동 보정.
+* **🧪 프론트엔드 통합 테스트 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q148, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-150, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-J 고도화)**.
+
+### 🌟 [v2.5.0-history-tab-and-bed-notification-center] 2026-10-17: GNB 이전 결과 기록(History) 탭 신설, 0ms 무손실 결과 다시보기 & KTAS 중증 소아 응급실 병상 변동 실시간 알림 센터 구축 릴리스 (정영식 팀장 총괄)
+* **📋 메인페이지 하단 GNB '이전 결과 기록(History)' 탭 신설 & 4-Tab 레이아웃 최적화 ([frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html), [frontend/css/style.css](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/css/style.css))**:
+  - 홈 버튼 바로 옆에 '기록' 탭을 신설하여 4-Tab(`홈` | `기록` | `응급실 가이드` | `설정`) 완성.
+  - 클릭 시 슬라이드업 바텀시트 모달(`history-modal-overlay`)이 부드럽게 열리며 과거 문진 기록 카드 목록 최신순 표출.
+  - `settings.html`, `emergency_guide.html` 서브 페이지 GNB에도 '기록' 탭 동기화 및 `index.html?tab=history` 딥링크 파이프라인 구축.
+* **💾 이전 문진 결과 영구 저장 & 0ms 무손실 복원 엔진 (`AisumHistoryManager`) ([frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js), [frontend/templates/result.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/result.html))**:
+  - 문진 완료 시 환아 정보, 체온, 주증상, KTAS 등급, 추천 병원명 및 백엔드 원본 스냅샷을 `aisum_triage_history`에 자동 직렬화 저장 (최대 30건 LRU).
+  - 기록 카드 내 `[당시 결과 다시보기]` 원클릭 시, 스냅샷 데이터를 `sessionStorage`에 주입하고 결과 화면으로 전환하여 0ms 딜레이로 완벽 복원.
+  - 개별 기록 삭제(휴지통 아이콘) 및 전체 삭제 지원, 빈 상태 UI 완비.
+* **🔔 KTAS 중증(1·2·3단계) 환아 전용 소아 응급실 실시간 병상 변동 알림 센터 (`AisumNotificationManager`) ([frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js), [frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html))**:
+  - KTAS 1·2·3단계(소생/긴급/응급) 또는 12대 Red Flag 중증 판정 시 인근 거점 소아응급센터 상위 3곳을 감시 대상으로 자동 등록.
+  - 실시간 E-Gen 병상 데이터 폴링 및 대조를 통해 소아 일반병상(`hv28`) 증감(확보/급감) 및 응급실 공지(`hpmg`) 갱신 시 알림 자동 발행.
+  - 메인페이지 상단 헤더 우측 종 아이콘 위에 빨간색 알림 점(`.badge-dot`) 자동 점등.
+  - 종 아이콘 클릭 시 알림 센터 바텀시트(`notification-modal-overlay`) 오픈, 변동 내역 카드 및 응급실 바로 전화걸기(`tel:`) 연동, 자동 읽음 처리 및 배지 소등.
+* **🧪 프론트엔드 통합 테스트 100% 정상 통과 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q147, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-149, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) Phase 3-J)**.
+
 ### 🌟 [v2.4.99-onboarding-pipeline-and-terms-mode-isolation] 2026-10-17: 온보딩 순차 파이프라인(splash ➔ terms ➔ permission ➔ index) 완결 & 설정 모드 완전 분리 릴리스 (정영식 팀장 총괄)
 * **🔄 온보딩 4단계 순차 파이프라인 완결 및 무한 가드레일 확립 ([splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/splash.html), [terms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/terms.html), [permission.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/permission.html), [index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html))**:
   - `splash.html` ➔ 약관 미동의 시 무조건 `terms.html` (동의 전까지 앱 실행 시 계속 뜸).

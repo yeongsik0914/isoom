@@ -18,17 +18,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 
-  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
-  <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
-  <link rel="stylesheet" href="css/style.css" id="aisum-css-local" />
-  <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
-<body>
+<body class="main-home-body">
 
   <!-- Mobile Viewport Canvas (Centered Preview Container) -->
-  <div class="mobile-viewport" id="app">
+  <div class="mobile-viewport main-home-shell" id="app">
 
     <!-- Top App Bar -->
     <header class="app-header">
@@ -36,18 +34,70 @@
         <a href="#" class="brand-logo" aria-label="아이숨 홈">
           아이숨
         </a>
-        <button type="button" class="location-pill" aria-label="현재 위치 변경: 역삼동">
+        <button type="button" class="location-pill" id="current-location-pill" aria-label="현재 위치 변경"
+          onclick="if(typeof window.openLocationModal==='function') window.openLocationModal();">
           <span class="material-symbols-outlined location-icon">location_on</span>
-          <span>역삼동</span>
+          <span id="current-location-text">위치 확인 중...</span>
           <span class="material-symbols-outlined dropdown-icon">expand_more</span>
         </button>
+        <script>
+          (function () {
+            try {
+              // 🛡️ 1단계: 이용약관 미동의 시 메인 홈 접근 차단 및 terms.html 강제 이동
+              var isTermsAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
+                sessionStorage.getItem('aisum_terms_agreed') === 'true';
+              if (!isTermsAgreed) {
+                window.location.replace('terms.html');
+                return;
+              }
+
+              // 🛡️ 2단계: 접근 권한 미동의 시 메인 홈 접근 차단 및 permission.html 강제 이동
+              var isPermGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
+                sessionStorage.getItem('aisum_permission_granted') === 'true';
+              if (!isPermGranted) {
+                window.location.replace('permission.html');
+                return;
+              }
+
+              // 과거 개발 시 고정되었던 문정동 하드코딩 잔재 자동 소독
+              var isManual = localStorage.getItem('aisum_location_manual') === 'true';
+              var dong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+              var lat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat');
+              if (!isManual && (dong === '문정동' || dong === '문정동 (법조타운)' || lat === '37.4858')) {
+                localStorage.removeItem('aisum_user_dong');
+                localStorage.removeItem('user_dong');
+                localStorage.removeItem('aisum_user_lat');
+                localStorage.removeItem('aisum_user_lon');
+                localStorage.removeItem('user_lat');
+                localStorage.removeItem('user_lon');
+                localStorage.removeItem('aisum_user_address');
+                sessionStorage.removeItem('aisum_user_dong');
+                sessionStorage.removeItem('user_dong');
+                sessionStorage.removeItem('aisum_user_lat');
+                sessionStorage.removeItem('aisum_user_lon');
+                sessionStorage.removeItem('user_lat');
+                sessionStorage.removeItem('user_lon');
+                sessionStorage.removeItem('aisum_user_address');
+                dong = null;
+              }
+              var el = document.getElementById('current-location-text');
+              if (el) {
+                if (dong && dong !== '위치 확인 중...' && dong !== '문정동') {
+                  el.textContent = dong;
+                } else {
+                  el.innerHTML = '<span style="display:inline-flex;align-items:center;gap:3px;"><span class="material-symbols-outlined" style="font-size:13px;animation:spin 1s linear infinite;">sync</span> 현재 위치 찾는 중...</span>';
+                }
+              }
+            } catch (e) { }
+          })();
+        </script>
       </div>
 
       <div class="header-right">
         <!-- Notification Bell with Alert Dot -->
-        <button type="button" class="icon-btn" aria-label="알림 확인">
+        <button type="button" class="icon-btn" id="btn-notification-bell" aria-label="알림 확인" onclick="openNotificationSheet()">
           <span class="material-symbols-outlined">notifications</span>
-          <span class="badge-dot" aria-hidden="true"></span>
+          <span class="badge-dot" id="header-notification-dot" aria-hidden="true" style="display: none;"></span>
         </button>
 
       </div>
@@ -66,7 +116,7 @@
             아이가 어디가 아픈가요?
           </h1>
         </div>
-        <br>
+
         <!-- Primary High-Contrast Full-Width CTA -->
         <button type="button" class="primary-cta-btn" id="start-triage-btn">
           <span class="material-symbols-outlined">add</span>
@@ -81,131 +131,41 @@
         <!-- Section Header -->
         <div class="section-header">
           <div class="section-title-wrap">
-            <h2 class="section-title" id="facility-heading">실시간 야간 의료시설</h2>
-            <span class="count-badge">10곳 운영중</span>
+            <h2 class="section-title" id="facility-heading">의료시설목록</h2>
+            <span class="count-badge" id="live-facilities-count">실시간 계산중...</span>
           </div>
         </div>
 
         <!-- Filter Segmented Tabs -->
         <div class="filter-tabs" role="tablist" aria-label="의료기관 필터">
-          <button type="button" class="filter-tab active" role="tab" aria-selected="true">
-            전체 10
+          <button type="button" class="filter-tab active" id="tab-filter-all" data-filter="all" role="tab"
+            aria-selected="true" onclick="filterLiveFacilities('all')">
+            전체 <span id="count-all">-</span>
           </button>
-          <button type="button" class="filter-tab" role="tab" aria-selected="false">
-            🌙 달빛병원 3
+          <button type="button" class="filter-tab" id="tab-filter-hospital" data-filter="hospital" role="tab"
+            aria-selected="false" onclick="filterLiveFacilities('hospital')">
+            🌙 달빛병원 <span id="count-hospital">-</span>
           </button>
-          <button type="button" class="filter-tab" role="tab" aria-selected="false">
-            💊 심야약국 5
+          <button type="button" class="filter-tab" id="tab-filter-pharmacy" data-filter="pharmacy" role="tab"
+            aria-selected="false" onclick="filterLiveFacilities('pharmacy')">
+            💊 심야약국 <span id="count-pharmacy">-</span>
           </button>
         </div>
 
         <!-- Facility Cards Stack -->
-        <div class="facility-card-stack">
-
-          <!-- Card 1: 송파어린이병원 (달빛어린이병원) -->
-          <article class="facility-card">
-            <div class="card-top">
-              <div class="facility-main">
-                <div class="facility-icon-wrap" aria-hidden="true">
-                  <span class="material-symbols-outlined">bedtime</span>
-                </div>
-                <div class="facility-meta">
-                  <div class="badge-row">
-                    <span class="tag-badge moonlight">달빛어린이병원</span>
-                    <span class="tag-badge status-open">
-                      <span class="status-indicator-dot" aria-hidden="true"></span>
-                      진료중 · 접수 가능
-                    </span>
-                  </div>
-                  <h3 class="facility-name">송파어린이병원</h3>
-                  <p class="facility-desc">소아청소년과 전문의 2명 진료중 · 대기 4팀</p>
-                </div>
-              </div>
-              <a href="tel:02-1234-5678" class="call-btn" aria-label="송파어린이병원 전화 걸기">
-                <span class="material-symbols-outlined">call</span>
-              </a>
-            </div>
-
-            <div class="card-footer">
-              <div class="distance-info">
-                <span class="material-symbols-outlined">near_me</span>
-                <span>내 위치 1.8km (도보 24분 / 차 6분)</span>
-              </div>
-              <span class="closing-time-tag">오늘 ~23:00 마감</span>
+        <div class="facility-card-stack" id="facility-card-stack">
+          <!-- Dynamic Live Cards Rendered Instantly by main.js via NATIONWIDE_PAIRINGS_DATA -->
+          <article class="facility-card live-loading-placeholder" id="facility-loading-placeholder"
+            style="padding: 32px 16px; text-align: center; color: var(--slate-500); border: 1px dashed var(--slate-300); background: #fafcff;">
+            <div
+              style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
+              <span class="material-symbols-outlined" style="font-size: 36px; color: var(--primary);">sync</span>
+              <p style="font-size: 15px; font-weight: 700; color: var(--slate-800); margin: 0;">내 위치 실시간 의료시설 탐색 중...
+              </p>
+              <p style="font-size: 13px; color: var(--slate-500); margin: 0;">반경 15km 이내 달빛어린이병원과 연계 협약약국을 실시간 거리순으로
+                계산합니다</p>
             </div>
           </article>
-
-          <!-- Card 2: 강남아이마음병원 (달빛어린이병원) -->
-          <article class="facility-card">
-            <div class="card-top">
-              <div class="facility-main">
-                <div class="facility-icon-wrap" aria-hidden="true">
-                  <span class="material-symbols-outlined">bedtime</span>
-                </div>
-                <div class="facility-meta">
-                  <div class="badge-row">
-                    <span class="tag-badge moonlight">달빛어린이병원</span>
-                    <span class="tag-badge status-open">
-                      <span class="status-indicator-dot" aria-hidden="true"></span>
-                      진료중 · 대기 적음
-                    </span>
-                  </div>
-                  <h3 class="facility-name">강남아이마음병원</h3>
-                  <p class="facility-desc">야간 호흡기 클리닉 · X-ray 촬영 가능</p>
-                </div>
-              </div>
-              <a href="tel:02-9876-5432" class="call-btn" aria-label="강남아이마음병원 전화 걸기">
-                <span class="material-symbols-outlined">call</span>
-              </a>
-            </div>
-
-            <div class="card-footer">
-              <div class="distance-info">
-                <span class="material-symbols-outlined">near_me</span>
-                <span>내 위치 2.4km (차 8분)</span>
-              </div>
-              <span class="closing-time-tag">오늘 ~22:30 마감</span>
-            </div>
-          </article>
-
-          <!-- Card 3: 송파달빛약국 (심야약국) -->
-          <article class="facility-card">
-            <div class="card-top">
-              <div class="facility-main">
-                <div class="facility-icon-wrap pharmacy" aria-hidden="true">
-                  <span class="material-symbols-outlined">medication</span>
-                </div>
-                <div class="facility-meta">
-                  <div class="badge-row">
-                    <span class="tag-badge pharmacy">심야약국</span>
-                    <span class="tag-badge distance-sub">송파어린이병원 인근 80m</span>
-                  </div>
-                  <h3 class="facility-name">송파달빛약국</h3>
-                  <p class="facility-desc">소아 시럽제 조제 가능 · 해열제/패치 상비</p>
-                </div>
-              </div>
-              <a href="tel:02-555-1234" class="call-btn" aria-label="송파달빛약국 전화 걸기">
-                <span class="material-symbols-outlined">call</span>
-              </a>
-            </div>
-
-            <div class="card-footer">
-              <div class="distance-info">
-                <span class="material-symbols-outlined">near_me</span>
-                <span>내 위치 1.85km</span>
-              </div>
-              <span class="closing-time-tag">오늘 ~24:00 마감</span>
-            </div>
-          </article>
-
-        </div>
-
-        <!-- Scroll / Expand Trigger -->
-        <div class="scroll-more-btn-wrap">
-          <button type="button" class="scroll-more-btn">
-            <span class="material-symbols-outlined">expand_more</span>
-            <span>스크롤하여 더 많은 의료시설 확인</span>
-          </button>
         </div>
       </section>
 
@@ -219,13 +179,19 @@
         <span class="nav-label">홈</span>
       </a>
 
-      <!-- Tab 2: 응급실 가이드 (Inactive) -->
+      <!-- Tab 2: 이전 결과 기록 (신규: 홈 바로 옆) -->
+      <button type="button" class="nav-item" id="nav-history-btn" aria-label="이전 결과 기록" onclick="openHistoryModal()">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="nav-label">기록</span>
+      </button>
+
+      <!-- Tab 3: 응급실 가이드 (Inactive) -->
       <a href="emergency_guide.html" class="nav-item">
         <span class="material-symbols-outlined">emergency</span>
         <span class="nav-label">응급실 가이드</span>
       </a>
 
-      <!-- Tab 3: 설정 (Inactive) -->
+      <!-- Tab 4: 설정 (Inactive) -->
       <a href="settings.html" class="nav-item">
         <span class="material-symbols-outlined">settings</span>
         <span class="nav-label">설정</span>
@@ -235,7 +201,8 @@
   </div>
 
   <!-- Emergency / Triage Medical Guidance Modal Dialog (사전 처치정보 및 법적 동의 모달) -->
-  <div class="modal-overlay" id="triage-consent-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-overlay" id="triage-consent-modal" aria-hidden="true" role="dialog" aria-modal="true"
+    aria-labelledby="modal-title">
     <div class="modal-dialog-card">
       <!-- Modal Header / Title -->
       <div class="modal-header">
@@ -251,23 +218,28 @@
         <ul class="modal-notice-list">
           <li>
             <span class="bullet">•</span>
-            <span><strong class="highlight-blue">의료법 제27조 준수</strong>: 본 서비스는 비의료 AI 기반 참고 서비스로, 의사의 전문적인 진단 및 처방을 대신할 수 없습니다.</span>
+            <span><strong class="highlight-blue">의료법 제27조 준수</strong>: 본 서비스는 비의료 AI 기반 참고 서비스로, 의사의 전문적인 진단 및 처방을 대신할 수
+              없습니다.</span>
           </li>
           <li>
             <span class="bullet">•</span>
-            <span><strong class="highlight-blue">위급 상황 즉시 119</strong>: 생후 100일 미만 38℃ 이상 고열, 경련, 청색증, 호흡곤란 등 응급 증상 발견 시 즉시 119에 연락하세요.</span>
+            <span><strong class="highlight-blue">위급 상황 즉시 119</strong>: 생후 100일 미만 38℃ 이상 고열, 경련, 청색증, 호흡곤란 등 응급 증상 발견 시
+              즉시 119에 연락하세요.</span>
           </li>
           <li>
             <span class="bullet">•</span>
-            <span><strong class="highlight-blue">현장 조기 마감 주의</strong>: 야간 달빛어린이병원 및 응급실은 대기 환자 폭증 시 조기 마감될 수 있으므로 내원 전 유선 확인을 권장합니다.</span>
+            <span><strong class="highlight-blue">현장 조기 마감 주의</strong>: 야간 달빛어린이병원 및 응급실은 대기 환자 폭증 시 조기 마감될 수 있으므로 내원 전
+              유선 확인을 권장합니다.</span>
           </li>
           <li>
             <span class="bullet">•</span>
-            <span><strong class="highlight-blue">본인확인 서류 지참</strong>: 2024년 5월 본인확인 의무화에 따라 내원 시 보호자 신분증과 환아 확인 서류(주민등록등본 등)를 지참해 주세요.</span>
+            <span><strong class="highlight-blue">본인확인 서류 지참</strong>: 2024년 5월 본인확인 의무화에 따라 내원 시 보호자 신분증과 환아 확인
+              서류(주민등록등본 등)를 지참해 주세요.</span>
           </li>
           <li>
             <span class="bullet">•</span>
-            <span>아이의 안전을 위한 최종 판단과 책임은 보호자에게 있습니다. <strong class="highlight-blue">안내 내용을 확인하고 증상 입력을 진행하시겠습니까?</strong></span>
+            <span>아이의 안전을 위한 최종 판단과 책임은 보호자에게 있습니다. <strong class="highlight-blue">안내 내용을 확인하고 증상 입력을
+                진행하시겠습니까?</strong></span>
           </li>
         </ul>
       </div>
@@ -277,16 +249,399 @@
         <button type="button" class="modal-action-btn btn-cancel" id="modal-cancel-btn">
           취소
         </button>
-        <button type="button" class="modal-action-btn btn-confirm" id="modal-confirm-btn" onclick="location.href='input.html'">
+        <button type="button" class="modal-action-btn btn-confirm" id="modal-confirm-btn"
+          onclick="location.href='input.html'">
           동의하고 증상 입력하기
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
-  <script src="js/main.js"></script>
+  <!-- Location Selector Bottom Sheet Modal -->
+  <div class="modal-overlay location-modal-overlay" id="location-select-modal" aria-hidden="true">
+    <div class="location-bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="location-modal-title">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <div class="sheet-title-group">
+          <h3 class="sheet-title" id="location-modal-title">위치 설정</h3>
+          <p class="sheet-subtitle">가까운 달빛어린이병원과 심야약국을 실시간 거리순으로 안내합니다</p>
+        </div>
+        <button type="button" class="sheet-close-btn" id="location-modal-close-btn" aria-label="위치 모달 닫기">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <!-- Current Active Address Display Bar -->
+      <div class="current-address-bar" id="modal-current-address-bar"
+        style="display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:9px 12px;margin-bottom:12px;">
+        <span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span>
+        <span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong
+            id="modal-current-address-val" style="color:#0f172a;">위치 확인 중...</strong></span>
+      </div>
+
+      <!-- Search Mode Segmented Tabs (주소 검색 vs 키워드 검색) -->
+      <div class="location-mode-tabs" role="tablist" style="display:flex;gap:8px;margin-bottom:12px;">
+        <button type="button" class="loc-mode-tab active" id="tab-mode-address" role="tab" aria-selected="true"
+          onclick="window.switchLocationSearchMode('address')"
+          style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:700;border:1.5px solid #0066ff;background:#f0f7ff;color:#0066ff;cursor:pointer;transition:all 0.15s ease;">
+          <span class="material-symbols-outlined" style="font-size:17px;">signpost</span>
+          <span>주소 검색 (지번/도로명)</span>
+        </button>
+        <button type="button" class="loc-mode-tab" id="tab-mode-keyword" role="tab" aria-selected="false"
+          onclick="window.switchLocationSearchMode('keyword')"
+          style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:600;border:1.5px solid #e2e8f0;background:#ffffff;color:#64748b;cursor:pointer;transition:all 0.15s ease;">
+          <span class="material-symbols-outlined" style="font-size:17px;">apartment</span>
+          <span>키워드 검색 (건물/지역)</span>
+        </button>
+      </div>
+
+      <!-- 1. Address & Keyword Search Input -->
+      <div class="location-search-box">
+        <span class="material-symbols-outlined search-icon" id="location-search-icon">signpost</span>
+        <input type="text" id="location-search-input" class="location-search-input"
+          placeholder="지번 또는 도로명 입력 (예: 문정동 642, 송파대로 201)" autocomplete="off" spellcheck="false" />
+        <button type="button" class="search-clear-btn" id="location-search-clear-btn" aria-label="검색어 지우기"
+          style="display:none;">
+          <span class="material-symbols-outlined">cancel</span>
+        </button>
+      </div>
+
+      <!-- 2. Set Current Location (GPS 현재 위치 설정) -->
+      <button type="button" class="btn-gps-refresh" id="btn-gps-refresh" onclick="window.refreshUserCurrentLocation()">
+        <span class="material-symbols-outlined gps-icon">my_location</span>
+        <div class="gps-text-wrap">
+          <span class="gps-main-text">현재 위치로 설정</span>
+          <span class="gps-sub-text">기기 실제 GPS 좌표를 실시간 측정하여 반영합니다</span>
+        </div>
+        <span class="material-symbols-outlined arrow-right">chevron_right</span>
+      </button>
+
+      <!-- 3. Dynamic Search Results (검색 시 노출) -->
+      <div class="location-search-results-section" id="location-search-results-section" style="display:none;">
+        <div class="search-results-header">
+          <span class="results-count-text" id="search-results-count">검색 결과 0건</span>
+        </div>
+        <ul class="location-results-list" id="location-results-list">
+          <!-- Dynamically populated by main.js -->
+        </ul>
+      </div>
+
+      <!-- 4. Quick Locations Grid (자주 찾는 주요 지역 / 최근 이용 지역) -->
+      <div class="quick-locations-section" id="quick-locations-section">
+        <div class="quick-header-row">
+          <h4 class="quick-locations-label">자주 찾는 주요 지역</h4>
+          <span class="current-selected-tag" id="modal-current-dong-tag">현재: -</span>
+        </div>
+        <div class="quick-locations-grid" id="quick-locations-grid">
+          <!-- Rendered dynamically by main.js based on user's actual search history (max 15) -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔔 응급실 병상 변동 실시간 알림 바텀시트 모달 -->
+  <div class="modal-overlay" id="notification-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="sheet-dialog-card" id="notification-sheet-card">
+      <div class="sheet-header">
+        <div class="sheet-header-left">
+          <span class="material-symbols-outlined" style="color: var(--primary); font-size: 24px;">notifications_active</span>
+          <h3 class="sheet-title">응급실 병상 변동 알림</h3>
+        </div>
+        <div class="sheet-header-actions">
+          <button type="button" class="text-action-btn" id="btn-notif-mark-read" onclick="markAllNotificationsAsRead()">모두 읽음</button>
+          <button type="button" class="close-icon-btn" id="notification-sheet-close" aria-label="닫기" onclick="closeNotificationSheet()">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Watch Status Banner -->
+      <div class="watch-status-banner" id="watch-status-banner">
+        <!-- Dynamic: 감시 진행 중 또는 일반 안내 -->
+      </div>
+
+      <div class="sheet-body" id="notification-list-container">
+        <!-- Dynamic Cards -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 📋 이전 문진 결과 기록 바텀시트 모달 -->
+  <div class="modal-overlay" id="history-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="sheet-dialog-card" id="history-sheet-card">
+      <div class="sheet-header">
+        <div class="sheet-header-left">
+          <span class="material-symbols-outlined" style="color: var(--primary); font-size: 24px;">receipt_long</span>
+          <h3 class="sheet-title">이전 문진 결과 기록</h3>
+        </div>
+        <div class="sheet-header-actions">
+          <button type="button" class="text-action-btn danger-text" id="btn-history-clear-all" onclick="clearAllHistoryRecords()">전체 삭제</button>
+          <button type="button" class="close-icon-btn" id="history-modal-close" aria-label="닫기" onclick="closeHistoryModal()">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sheet-body" id="history-list-container">
+        <!-- Dynamic History Cards -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Single Source JavaScript Modules -->
+  <script src="../js/national_moonlight_hospitals_156.js"></script>
+  <script src="../js/national_night_pharmacies_2028.js"></script>
+  <script src="../js/nationwide_pairings.js"></script>
+  <script src="../js/public_night_pharmacies.js"></script>
+  <script src="../js/national_emergency_hospitals.js"></script>
   <script src="../js/main.js"></script>
+  <script>
+    // 🔔 알림 센터 및 📋 이전 결과 기록 모달 인터랙션 컨트롤러
+    function openNotificationSheet() {
+      const overlay = document.getElementById('notification-modal-overlay');
+      if (!overlay) return;
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden', 'false');
+      renderNotificationList();
+      if (window.AisumNotificationManager) {
+        window.AisumNotificationManager.markAllAsRead();
+      }
+    }
+
+    function closeNotificationSheet() {
+      const overlay = document.getElementById('notification-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    function markAllNotificationsAsRead() {
+      if (window.AisumNotificationManager) {
+        window.AisumNotificationManager.markAllAsRead();
+        renderNotificationList();
+      }
+    }
+
+    function renderNotificationList() {
+      const listContainer = document.getElementById('notification-list-container');
+      const banner = document.getElementById('watch-status-banner');
+      if (!listContainer) return;
+
+      const notifs = window.AisumNotificationManager ? window.AisumNotificationManager.getNotifications() : [];
+      const isSevere = window.AisumNotificationManager ? window.AisumNotificationManager.isSevereUser() : false;
+      const targets = window.AisumNotificationManager ? window.AisumNotificationManager.getWatchTargets() : [];
+
+      if (banner) {
+        if (isSevere && targets.length > 0) {
+          const names = targets.map(t => t.dutyName).join(', ');
+          banner.className = 'watch-status-banner active-watch';
+          banner.innerHTML = `
+            <span class="material-symbols-outlined" style="color: #ef4444; font-size: 20px; flex-shrink: 0;">e911_emergency</span>
+            <div>
+              <strong>KTAS 중증 병상 실시간 모니터링 중</strong><br>
+              <span style="font-size: 12px; color: #b91c1c;">대상 응급실: ${names}</span>
+            </div>
+          `;
+        } else {
+          banner.className = 'watch-status-banner normal-info';
+          banner.innerHTML = `
+            <span class="material-symbols-outlined" style="color: var(--primary); font-size: 20px; flex-shrink: 0;">info</span>
+            <div>
+              <strong>소아 응급실 병상 변동 알림</strong><br>
+              <span style="font-size: 12px; color: #2563eb;">KTAS 1~3단계(중증/응급) 문진 시 거점 소아 응급실의 병상 변동이 자동 감시됩니다.</span>
+            </div>
+          `;
+        }
+      }
+
+      if (!notifs || notifs.length === 0) {
+        listContainer.innerHTML = `
+          <div class="sheet-empty-state">
+            <span class="material-symbols-outlined sheet-empty-icon">notifications_off</span>
+            <p class="sheet-empty-title">새로운 병상 변동 알림이 없습니다</p>
+            <p class="sheet-empty-desc">관심 거점 소아 응급실의 실시간 병상 증감 및 긴급 공지가 변경되면 즉시 알려드립니다.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = notifs.map(n => {
+        let badgeHtml = '';
+        if (n.changeType === 'increase') {
+          badgeHtml = '<span class="notif-badge increase">🟢 병상 확보</span>';
+        } else if (n.changeType === 'decrease') {
+          badgeHtml = '<span class="notif-badge decrease">🔴 병상 급감</span>';
+        } else if (n.changeType === 'alert') {
+          badgeHtml = '<span class="notif-badge alert">🚨 긴급 안내</span>';
+        } else {
+          badgeHtml = '<span class="notif-badge info">ℹ️ 알림</span>';
+        }
+
+        const telBtn = n.tel ? `<a href="tel:${n.tel}" class="btn-notif-call"><span class="material-symbols-outlined" style="font-size:14px;">call</span>응급실 전화</a>` : '';
+
+        return `
+          <div class="notif-card ${n.isRead ? '' : 'unread'}">
+            <div class="notif-card-header">
+              ${badgeHtml}
+              <span class="notif-time">${n.displayTime || ''}</span>
+            </div>
+            <h4 class="notif-title">${n.title}</h4>
+            <p class="notif-message">${n.message}</p>
+            ${telBtn ? `<div class="notif-card-footer">${telBtn}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openHistoryModal() {
+      const overlay = document.getElementById('history-modal-overlay');
+      if (!overlay) return;
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden', 'false');
+      renderHistoryList();
+    }
+
+    function closeHistoryModal() {
+      const overlay = document.getElementById('history-modal-overlay');
+      if (overlay) {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    function deleteHistoryRecord(id) {
+      if (!confirm('이 문진 결과를 삭제하시겠습니까?')) return;
+      if (window.AisumHistoryManager) {
+        window.AisumHistoryManager.deleteById(id);
+        renderHistoryList();
+      }
+    }
+
+    function clearAllHistoryRecords() {
+      if (!confirm('저장된 모든 문진 결과를 삭제하시겠습니까? 복원할 수 없습니다.')) return;
+      if (window.AisumHistoryManager) {
+        window.AisumHistoryManager.clearAll();
+        renderHistoryList();
+      }
+    }
+
+    function replayHistoryRecord(id) {
+      if (window.AisumHistoryManager) {
+        window.AisumHistoryManager.restoreAndNavigate(id);
+      }
+    }
+
+    function renderHistoryList() {
+      const listContainer = document.getElementById('history-list-container');
+      if (!listContainer) return;
+
+      const histories = window.AisumHistoryManager ? window.AisumHistoryManager.getAll() : [];
+      if (!histories || histories.length === 0) {
+        listContainer.innerHTML = `
+          <div class="sheet-empty-state">
+            <span class="material-symbols-outlined sheet-empty-icon">receipt_long</span>
+            <p class="sheet-empty-title">저장된 이전 문진 결과가 없습니다</p>
+            <p class="sheet-empty-desc">아이의 증상을 입력하시면 맞춤 소아과와 응급처치 결과가 안전하게 보관됩니다.</p>
+            <button type="button" class="primary-cta-btn" style="margin-top: 12px; width: 100%; max-width: 240px;" onclick="closeHistoryModal(); document.getElementById('start-triage-btn')?.click();">
+              <span>증상 입력하기</span>
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = histories.map(h => {
+        const ktasBadgeClass = `ktas-tier-${h.ktasLevel || 4}`;
+        return `
+          <div class="history-card">
+            <div class="history-card-header">
+              <span class="history-card-date">
+                <span class="material-symbols-outlined" style="font-size: 14px;">calendar_today</span>
+                ${h.displayDate || ''}
+              </span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span class="ktas-grade-badge ${ktasBadgeClass}" style="font-size: 11px; padding: 2px 8px;">KTAS ${h.ktasLevel}단계</span>
+                <button type="button" class="history-card-delete-btn" aria-label="기록 삭제" onclick="deleteHistoryRecord('${h.id}')">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="history-card-body">
+              <div class="history-child-info">
+                <span>${h.childAge || '아이'}</span>
+                <span>·</span>
+                <span>${h.childGender || ''}</span>
+                <span>·</span>
+                <span style="color: #ef4444;">${h.temperature || ''}</span>
+              </div>
+              <div class="history-symptom-tag">
+                #${(h.symptom || '').replace(/^#+/, '')}
+              </div>
+              <div class="history-hospital-info">
+                ${(h.ktasLevel <= 3)
+                  ? `<span class="material-symbols-outlined" style="font-size: 15px; color: #ef4444;">e911_emergency</span>
+                     <strong>추천 응급실:</strong> <span style="color: #b91c1c; font-weight: 700;">${h.recommendedHospital || '소아전문응급의료센터'}</span>`
+                  : `<span class="material-symbols-outlined" style="font-size: 15px; color: var(--primary);">local_hospital</span>
+                     <strong>추천 병원:</strong> <span>${h.recommendedHospital || '달빛어린이병원'}</span>`
+                }
+              </div>
+            </div>
+
+            <div class="history-card-actions">
+              <button type="button" class="btn-replay-result" onclick="replayHistoryRecord('${h.id}')">
+                <span class="material-symbols-outlined" style="font-size: 16px;">visibility</span>
+                <span>당시 결과 다시보기</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 모달 오버레이 바깥 클릭 시 닫기
+    document.addEventListener('click', function(e) {
+      const notifOverlay = document.getElementById('notification-modal-overlay');
+      if (notifOverlay && e.target === notifOverlay) {
+        closeNotificationSheet();
+      }
+      const historyOverlay = document.getElementById('history-modal-overlay');
+      if (historyOverlay && e.target === historyOverlay) {
+        closeHistoryModal();
+      }
+    });
+
+    // 0ms 렌더링 즉각 보장 & 실시간 알림 배지 동기화
+    try {
+      if (typeof window.initUserLocation === 'function') window.initUserLocation();
+      if (typeof window.initLiveFacilities === 'function') window.initLiveFacilities();
+      if (window.AisumNotificationManager) {
+        window.AisumNotificationManager.updateBadgeUI();
+        if (typeof window.AisumNotificationManager.syncAndCheckBeds === 'function') {
+          window.AisumNotificationManager.syncAndCheckBeds();
+          // 🔔 30초 주기 실시간 근방 소아 응급실 병상 변동 백그라운드 폴링 감시
+          setInterval(() => {
+            if (typeof window.AisumNotificationManager.hasEmergencyHistory === 'function' &&
+                window.AisumNotificationManager.hasEmergencyHistory()) {
+              window.AisumNotificationManager.syncAndCheckBeds();
+            }
+          }, 30000);
+        }
+      }
+
+      // 외부 링크 또는 타 페이지 GNB에서 진입 시 자동 오픈 지원
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('tab') === 'history' || window.location.hash === '#history') {
+        setTimeout(openHistoryModal, 200);
+      }
+      if (urlParams.get('tab') === 'notifications' || window.location.hash === '#notifications') {
+        setTimeout(openNotificationSheet, 200);
+      }
+    } catch (e) {
+      console.warn('Initial facilities auto-render:', e);
+    }
+  </script>
 </body>
 
 </html>

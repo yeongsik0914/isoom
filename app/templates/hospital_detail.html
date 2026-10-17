@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>병원 상세 및 실시간 접수 - 아이숨(i-Soom)</title>
+
+  <!-- PWA Standalone & iOS Safari Fullscreen Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="아이숨">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Pretendard:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Leaflet Interactive Map Engine CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Dual CSS Loader (Safari & Chrome Cross-Browsing Support) -->
+  <link rel="stylesheet" href="../css/style.css">
+  <script>
+    (function () {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = (window.location.protocol === 'file:') ? '../css/style.css' : '/css/style.css';
+      document.head.appendChild(link);
+    })();
+
+    // 0. Smart History Navigation Engine (어떤 환경에서도 이전 페이지 100% 무결점 복귀)
+    window.handleSmartGoBack = function (event) {
+      if (event) {
+        try {
+          event.preventDefault();
+          event.stopPropagation();
+        } catch (e) { }
+      }
+
+      const isFile = (window.location.protocol === 'file:');
+      const isHtmlPath = window.location.pathname.endsWith('.html');
+      const defaultHome = (isFile || isHtmlPath) ? 'index.html' : '/home';
+
+      // Helper: file:/// 경로 또는 URL을 안전한 로컬/상대경로로 정규화
+      function sanitizeTarget(target) {
+        if (!target) return '';
+        try {
+          let str = decodeURIComponent(target).trim();
+          if (str.startsWith('file:///')) {
+            const parts = str.split('/');
+            const lastPart = parts[parts.length - 1];
+            return lastPart.split('?')[0] ? lastPart : 'index.html';
+          }
+          if (str.startsWith('http://') || str.startsWith('https://')) {
+            const u = new URL(str);
+            if (u.origin === window.location.origin) {
+              return u.pathname + u.search;
+            }
+          }
+          return str;
+        } catch (e) {
+          return target;
+        }
+      }
+
+      // 1. URL 파라미터의 from / return_url 확인
+      let fromTarget = '';
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const rawFrom = urlParams.get('from') || urlParams.get('return_url') || urlParams.get('back');
+        if (rawFrom) {
+          fromTarget = sanitizeTarget(rawFrom);
+        }
+      } catch (e) { }
+
+      // 2. document.referrer 확인
+      let refTarget = '';
+      if (document.referrer) {
+        try {
+          refTarget = sanitizeTarget(document.referrer);
+          const curPath = window.location.pathname;
+          if (refTarget.includes(curPath) || curPath.includes(refTarget)) {
+            refTarget = '';
+          }
+        } catch (e) { }
+      }
+
+      // 3. sessionStorage에 저장된 이전 진입 페이지 확인
+      let sessionTarget = '';
+      try {
+        const stored = sessionStorage.getItem('aisum_last_visited_page');
+        if (stored) {
+          sessionTarget = sanitizeTarget(stored);
+          const curPath = window.location.pathname;
+          if (sessionTarget.includes(curPath) || curPath.includes(sessionTarget)) {
+            sessionTarget = '';
+          }
+        }
+      } catch (e) { }
+
+      const directTarget = fromTarget || refTarget || sessionTarget;
+
+      // 4. 브라우저 히스토리 스택이 1개 초과인 경우 최우선으로 history.back() 시도
+      if (window.history.length > 1) {
+        let navTriggered = false;
+        const onUnload = () => { navTriggered = true; };
+        window.addEventListener('pagehide', onUnload, { once: true });
+        window.addEventListener('beforeunload', onUnload, { once: true });
+
+        try {
+          window.history.back();
+        } catch (histErr) { }
+
+        setTimeout(() => {
+          if (!navTriggered) {
+            window.location.href = directTarget || defaultHome;
+          }
+        }, 200);
+        return;
+      }
+
+      // 5. 히스토리가 없는 경우: directTarget 또는 defaultHome으로 이동
+      window.location.href = directTarget || defaultHome;
+    };
+  </script>
+
+  <style>
+    /* Reset & Base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .app-viewport {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background-color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.06);
+      padding-bottom: 110px;
+      /* Safe padding for bottom fixed CTA */
+    }
+
+    /* Top Navigation Bar */
+    .detail-nav-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      height: 56px;
+    }
+
+    .nav-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #334155;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+      text-decoration: none;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.94);
+      background: #e2e8f0;
+    }
+
+    .nav-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    /* Hospital Hero Card */
+    .hospital-hero-card {
+      background: #ffffff;
+      padding: 22px 20px 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .hero-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .badge-moonlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: #fef3c7;
+      color: #b45309;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #fde68a;
+    }
+
+    .badge-open-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #a7f3d0;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+      0% {
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.9);
+        opacity: 0.8;
+      }
+    }
+
+    .hospital-main-name {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .hospital-subtitle {
+      font-size: 13.5px;
+      color: #64748b;
+      margin-bottom: 18px;
+    }
+
+    /* 2-Column Verified Metrics Bar */
+    .metrics-bar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 12px 16px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .metric-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .metric-col:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: #e2e8f0;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .metric-val {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.2px;
+    }
+
+    .metric-val.highlight-blue {
+      color: #0066ff;
+    }
+
+    /* Section Containers */
+    .detail-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .section-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.02);
+    }
+
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    /* Doctor Profile Card */
+    .doctor-profile-box {
+      display: flex;
+      gap: 14px;
+      background: #f0f7ff;
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid #dbeafe;
+    }
+
+    .doctor-avatar-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #e0f2fe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 102, 255, 0.12);
+    }
+
+    .doctor-info-wrap {
+      flex: 1;
+    }
+
+    .doctor-badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: #0066ff;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .doctor-name-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .doctor-desc {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    /* Warning Notice Banner */
+    .warning-notice-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fffbeb;
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid #fef3c7;
+      margin-top: 12px;
+    }
+
+    .warning-notice-banner .material-symbols-outlined {
+      color: #f59e0b;
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .warning-notice-text {
+      font-size: 12.5px;
+      color: #92400e;
+      line-height: 1.45;
+    }
+
+    /* Timetable Grid */
+    .time-table-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .time-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      background: #f8fafc;
+    }
+
+    .time-row.active-today {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      font-weight: 700;
+      color: #1e40af;
+    }
+
+    .today-tag {
+      font-size: 11px;
+      background: #2563eb;
+      color: #ffffff;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+
+    /* Pharmacy Bridge Card (Track B) */
+    .paired-pharmacy-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px 16px;
+      border: 1.5px solid #dbeafe;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      box-shadow: 0 4px 16px rgba(0, 102, 255, 0.05);
+    }
+
+    .pharmacy-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .pharmacy-title-area {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pharmacy-title-area h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .margin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #a7f3d0;
+    }
+
+    .pharmacy-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 12px 0 14px;
+    }
+
+    .p-tag {
+      font-size: 11.5px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+    }
+
+    .pharmacy-action-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .p-action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 42px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      transition: background 0.15s;
+    }
+
+    .p-action-btn:active {
+      background: #f1f5f9;
+    }
+
+    /* Location & Map Section */
+    .address-copy-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+
+    .address-text-wrap {
+      flex: 1;
+      font-size: 13px;
+      color: #334155;
+      line-height: 1.4;
+    }
+
+    .copy-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0066ff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .map-app-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-navi-app {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 44px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.1s;
+    }
+
+    .btn-navi-app:active {
+      transform: scale(0.98);
+    }
+
+    .btn-kakao-map {
+      background: #fee500;
+      color: #191919;
+    }
+
+    .btn-naver-map {
+      background: #03c75a;
+      color: #ffffff;
+    }
+
+    /* Checklist Section */
+    .checklist-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #334155;
+    }
+
+    .custom-chk {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 1.5px solid #0066ff;
+      background: #0066ff;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* Fixed Bottom Action Bar */
+    .detail-bottom-fixed {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid #e2e8f0;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+      box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.05);
+    }
+
+    .btn-bottom-call {
+      width: 600px;
+      height: 52px;
+      border-radius: 14px;
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 700;
+      gap: 2px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-bottom-call:active {
+      background: #e2e8f0;
+    }
+
+    .btn-bottom-ticket {
+      flex: 1;
+      height: 52px;
+      border-radius: 14px;
+      background: #0066ff;
+      color: #ffffff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 15.5px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35);
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn-bottom-ticket:active {
+      transform: scale(0.98);
+      background: #0052cc;
+    }
+
+    /* Modal Dialog for Mobile Ticket */
+    .ticket-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+    }
+
+    .ticket-modal-card {
+      background: #ffffff;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 360px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.2);
+      animation: modalSlideUp 0.25s ease-out;
+    }
+
+    @keyframes modalSlideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .ticket-emblem-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: #0066ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .ticket-number-display {
+      font-size: 38px;
+      font-weight: 800;
+      color: #0066ff;
+      font-family: 'Outfit', sans-serif;
+      margin: 8px 0;
+    }
+
+    .toast-popup {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.9);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      z-index: 300;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Leaflet Interactive Map Custom Style */
+    .leaflet-container {
+      width: 100%;
+      height: 100%;
+      font-family: 'Pretendard', sans-serif !important;
+      z-index: 1;
+    }
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+      padding: 2px;
+    }
+    .leaflet-popup-content {
+      margin: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.4;
+      text-align: center;
+    }
+    @keyframes mapPinPulse {
+      0% { transform: scale(0.8); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 0.2; }
+      100% { transform: scale(0.8); opacity: 0.8; }
+    }
+
+    /* Kakao Map Modern Card & Controls */
+    .map-card-container {
+      width: 100%;
+      height: 230px;
+      border-radius: 16px;
+      background: #e2e8f0;
+      margin-bottom: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+      cursor: pointer;
+    }
+
+    .static-map-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      overflow: hidden;
+    }
+
+    .kakao-static-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease, filter 0.2s ease;
+    }
+
+    .map-card-container:hover .kakao-static-img {
+      transform: scale(1.03);
+    }
+
+    .kakao-brand-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(254, 229, 0, 0.95);
+      backdrop-filter: blur(4px);
+      padding: 4px 9px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #191919;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 10;
+      pointer-events: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .kakao-badge-title {
+      font-weight: 700;
+      color: #374151;
+      font-size: 10.5px;
+    }
+
+    .kakao-map-zoom-bar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .btn-map-zoom {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-map-zoom:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .btn-map-zoom:active {
+      background: #e2e8f0;
+    }
+
+    .btn-map-zoom:first-child {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .kakao-map-bottom-bar {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 10;
+    }
+
+    .btn-map-external-link {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .btn-map-external-link:hover {
+      background: rgba(15, 23, 42, 0.95);
+      transform: translateY(-1px);
+    }
+
+    .map-touch-overlay {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      color: #ffffff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport">
+
+    <!-- 1. Top Navigation Bar -->
+    <header class="detail-nav-header">
+      <button type="button" class="nav-btn" id="btn-smart-back" onclick="handleSmartGoBack(event)"
+        aria-label="이전 페이지로 돌아가기">
+        <span class="material-symbols-outlined" style="font-size: 22px;">arrow_back</span>
+      </button>
+      <h1 class="nav-title">병원 상세 내역</h1>
+      <a href="index.html" onclick="if(window.location.protocol!=='file:'){window.location.href='/home';return false;}"
+        class="nav-btn" aria-label="홈으로 가기">
+        <span class="material-symbols-outlined" style="font-size: 20px;">home</span>
+      </a>
+    </header>
+
+    <!-- 2. Hospital Hero Card -->
+    <section class="hospital-hero-card">
+      <div class="hero-badge-row">
+        <span class="badge-moonlight">
+          <span class="material-symbols-outlined" style="font-size: 15px;">dark_mode</span>
+          보건복지부 지정 달빛어린이병원
+        </span>
+        <!-- <span class="badge-open-live" id="hospital-live-badge">
+          <span class="live-dot"></span>
+          <span id="hospital-live-time">실시간 야간진료 중 (~23:00)</span>
+        </span> -->
+      </div>
+
+      <h2 class="hospital-main-name" id="detail-hospital-name">송파어린이병원</h2>
+      <p class="hospital-subtitle" id="detail-hospital-sub">소아청소년과 전문의 상주 야간 안심진료</p>
+
+      <!-- 2-Column Verified Metrics Bar (거리 & 주차 실측 데이터) -->
+      <div class="metrics-bar-grid">
+        <div class="metric-col">
+          <span class="metric-label">내 위치 거리</span>
+          <span class="metric-val highlight-blue" id="detail-hospital-dist">계산중...</span>
+        </div>
+        <div class="metric-col">
+          <span class="metric-label">주차 지원</span>
+          <span class="metric-val" id="detail-parking-metric">무료 주차 지원</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Body -->
+    <main class="detail-body">
+
+      <!-- 3. On-Duty Doctor Section -->
+      <section class="section-card">
+        <div class="section-title-row">
+          <h3 class="section-title">
+            <span class="material-symbols-outlined" style="color: #0066ff;">stethoscope</span>
+            야간 당직 전문의 현황
+          </h3>
+          <span style="font-size: 12px; color: #10b981; font-weight: 600;" id="doctor-live-badge">진료중</span>
+        </div>
+
+        <div class="doctor-profile-box">
+          <div class="doctor-avatar-circle">
+            <span class="material-symbols-outlined" style="font-size: 32px; color: #0066ff;">person</span>
+          </div>
+          <div class="doctor-info-wrap">
+            <span class="doctor-badge-status" id="doctor-room-badge">소아청소년과 전문의</span>
+            <div class="doctor-name-title" id="doctor-name-title">Dr. 소아청소년과 전문의 진료팀</div>
+            <div class="doctor-desc" id="doctor-desc-text">
+              소아청소년과 전문의 상주 · 소아 급성발열, 호흡기 질환, 수액 치료 전문<br>
+              <strong style="color: #0066ff;" id="doctor-queue-status">야간 진료 접수 운영 중</strong> (현장 순번 진료)
+            </div>
+          </div>
+        </div>
+
+        <!-- Warning Notice Banner -->
+        <div class="warning-notice-banner">
+          <span class="material-symbols-outlined">warning</span>
+          <div class="warning-notice-text" id="hospital-deadline-notice">
+            <strong id="hospital-deadline-title">야간 접수 마감 주의 (22:30 마감)</strong><br>
+            환아 폭증 시 마감 30분 전 조기 마감될 수 있으므로, 출발 전 전화 확인 또는 하단 길안내 확인을 권장합니다.
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Operating Hours Schedule -->
+      <section class="section-card">
+        <div class="section-title-row">
+          <h3 class="section-title">
+            <span class="material-symbols-outlined" style="color: #0066ff;">schedule</span>
+            진료 시간표
+          </h3>
+          <span style="font-size: 12px; color: #64748b;">DB 실시간 동기화</span>
+        </div>
+
+        <div class="time-table-list">
+          <div class="time-row active-today">
+            <span>오늘 진료시간<span class="today-tag">오늘</span></span>
+            <span id="detail-today-hours">09:00 ~ 23:00 (접수마감 22:30)</span>
+          </div>
+          <div class="time-row">
+            <span>토요일 진료</span>
+            <span id="detail-sat-hours">09:00 ~ 18:00</span>
+          </div>
+          <div class="time-row">
+            <span>일요일 및 공휴일</span>
+            <span id="detail-sun-hours">09:00 ~ 18:00 (달빛어린이병원 운영)</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Paired Night Pharmacy (Track B) -->
+      <section class="paired-pharmacy-card">
+        <div class="pharmacy-header">
+          <div class="pharmacy-title-area">
+            <span class="material-symbols-outlined" style="color: #0066ff; font-size: 22px;">medication</span>
+            <h3 id="pharmacy-name">연계 안심약국</h3>
+          </div>
+          <span class="margin-badge">
+            <span class="material-symbols-outlined" style="font-size: 15px;">verified</span>
+            +30분 조제 안전마진
+          </span>
+        </div>
+
+        <p style="font-size: 13px; color: #475569;" id="pharmacy-desc">
+          병원 인근 <strong>도보 1~2분</strong> · 오늘 야간영업 <strong>23:30 마감</strong>
+        </p>
+
+        <div class="pharmacy-tag-row">
+          <span class="p-tag">소아 시럽제 상비</span>
+          <span class="p-tag">호흡기 네블라이저 구비</span>
+          <span class="p-tag">해열제 교차복용 복약지도</span>
+        </div>
+
+        <div class="pharmacy-action-btns">
+          <a href="tel:" class="p-action-btn" id="btn-pharmacy-call">
+            <span class="material-symbols-outlined" style="font-size: 17px; color: #0066ff;">call</span>
+            약국 문의
+          </a>
+          <a href="#" class="p-action-btn" id="btn-pharmacy-detail">
+            <span class="material-symbols-outlined" style="font-size: 17px; color: #0066ff;">info</span>
+            약국 상세 보기
+          </a>
+        </div>
+      </section>
+
+      <!-- 6. Location & Routing -->
+      <section class="section-card">
+        <div class="section-title-row">
+          <h3 class="section-title">
+            <span class="material-symbols-outlined" style="color: #0066ff;">location_on</span>
+            오시는 길 및 주차
+          </h3>
+        </div>
+
+        <!-- In-Page Kakao Map Viewport -->
+        <div id="hospital-map-container" class="map-card-container" title="클릭 시 카카오맵 실시간 길찾기 연결">
+          <!-- Kakao Static Map Canvas -->
+          <div id="hospital-kakao-map" style="width: 100%; height: 100%;"></div>
+
+          <!-- Official Kakao Brand Header Badge -->
+          <div class="kakao-brand-badge">
+            <span style="letter-spacing: -0.3px;">kakaomap</span>
+            <span class="kakao-badge-title">정밀 지도</span>
+          </div>
+
+          <!-- Dynamic Zoom Controls -->
+          <div class="kakao-map-zoom-bar">
+            <button type="button" class="btn-map-zoom" id="btn-hospital-zoom-in" title="지도 확대" onclick="handleHospitalMapZoom(-1, event)">
+              <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+            </button>
+            <button type="button" class="btn-map-zoom" id="btn-hospital-zoom-out" title="지도 축소" onclick="handleHospitalMapZoom(1, event)">
+              <span class="material-symbols-outlined" style="font-size: 18px;">remove</span>
+            </button>
+          </div>
+
+          <!-- External View Link Button -->
+          <div class="kakao-map-bottom-bar">
+            <a href="https://map.kakao.com" id="link-kakao-fullmap" target="_blank" rel="noopener noreferrer" class="btn-map-external-link" onclick="event.stopPropagation();">
+              <span class="material-symbols-outlined" style="font-size: 13px;">open_in_new</span>
+              카카오맵 크게보기
+            </a>
+          </div>
+        </div>
+
+        <div class="address-copy-box">
+          <div class="address-text-wrap">
+            <strong style="color: #0f172a;" id="detail-address-text">주소 정보를 불러오는 중...</strong><br>
+            <span style="font-size: 12px; color: #64748b;" id="detail-parking-text">주차 정보를 불러오는 중...</span>
+          </div>
+          <button type="button" class="copy-btn" onclick="copyAddress()">
+            <span class="material-symbols-outlined" style="font-size: 15px;">content_copy</span>
+            복사
+          </button>
+        </div>
+
+        <div class="map-app-links">
+          <a href="https://map.kakao.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-kakao-map"
+            id="btn-kakao-map">
+            카카오맵 길안내
+          </a>
+          <a href="https://map.naver.com" target="_blank" rel="noopener noreferrer" class="btn-navi-app btn-naver-map"
+            id="btn-naver-map">
+            네이버지도 길안내
+          </a>
+        </div>
+      </section>
+
+      <!-- 7. Mandatory Documents Checklist -->
+      <section class="section-card">
+        <div class="section-title-row">
+          <h3 class="section-title">
+            <span class="material-symbols-outlined" style="color: #0066ff;">checklist</span>
+            내원 전 지참 서류 (2024년 5월 본인확인 의무화)
+          </h3>
+        </div>
+
+        <div class="checklist-list">
+          <div class="check-item">
+            <span class="custom-chk material-symbols-outlined">check</span>
+            <span><strong>보호자 신분증</strong> (주민등록증 / 운전면허증 / 모바일신분증)</span>
+          </div>
+          <div class="check-item">
+            <span class="custom-chk material-symbols-outlined">check</span>
+            <span><strong>환아 확인 서류</strong> (주민등록등본 또는 가족관계증명서)</span>
+          </div>
+          <div class="check-item">
+            <span class="custom-chk material-symbols-outlined">check</span>
+            <span><strong>복용 중인 약</strong> (교차복용 확인용 해열제 및 복약 수첩)</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 8. Fixed Bottom Action Bar -->
+    <div class="detail-bottom-fixed">
+      <a href="tel:024007575" class="btn-bottom-call" id="btn-hospital-call">
+        <span class="material-symbols-outlined" style="font-size: 20px; color: #0066ff;">call</span>
+        <span>병원 전화</span>
+      </a>
+      <!-- <button type="button" class="btn-bottom-ticket" onclick="openTicketModal()">
+        <span class="material-symbols-outlined" style="font-size: 22px;">confirmation_number</span>
+        <span>모바일 번호표 접수하기</span>
+      </button> -->
+    </div>
+
+    <!-- 9. Mobile Ticket Dialog Modal -->
+    <div class="ticket-modal-backdrop" id="ticket-modal">
+      <div class="ticket-modal-card">
+        <div class="ticket-emblem-circle">
+          <span class="material-symbols-outlined" style="font-size: 36px;">check_circle</span>
+        </div>
+        <h3 style="font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">야간 접수 대기표</h3>
+        <p style="font-size: 13px; color: #64748b;" id="ticket-hospital-dept">송파어린이병원 야간소아진료실</p>
+
+        <div class="ticket-number-display" id="ticket-number-display">19번</div>
+
+        <div
+          style="background: #f8fafc; border-radius: 12px; padding: 12px; margin: 14px 0; border: 1px solid #e2e8f0; font-size: 13px; text-align: left;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">진료 접수 방식</span>
+            <strong style="color: #0066ff;" id="ticket-waiting-summary">현장 내원 순번 접수</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: #64748b;">진료 담당의</span>
+            <strong style="color: #0f172a;" id="ticket-doctor-name">소아청소년과 전문의</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: #64748b;">내원 권고 시간</span>
+            <span style="color: #059669; font-weight: 600;" id="ticket-visit-time">22:15까지 내원 필수</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <button type="button" onclick="closeTicketModal()"
+            style="flex: 1; height: 46px; border-radius: 12px; border: 1px solid #cbd5e1; background: #ffffff; color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer;">
+            닫기
+          </button>
+          <button type="button" onclick="confirmTicket()"
+            style="flex: 1; height: 46px; border-radius: 12px; border: none; background: #0066ff; color: #ffffff; font-size: 14px; font-weight: 700; cursor: pointer;">
+            확인 완료
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-popup" id="toast-popup">
+      주소가 클립보드에 복사되었습니다!
+    </div>
+
+  </div>
+
+  <script>
+    let activeHospital = {
+      id: "",
+      name: "하이엔소아청소년과의원",
+      dist_km: 1.8,
+      drive_min: 6,
+      walk_min: 25,
+      is_open_now: true,
+      status_badge: "실시간 야간진료 중 (~23:00)",
+      today_hours: "09:00 ~ 23:00 (접수마감 22:30)",
+      today_deadline: "22:30",
+      hours_weekday: "09:00 ~ 23:00",
+      hours_saturday: "09:00 ~ 18:00",
+      hours_sunday: "09:00 ~ 18:00",
+      phone: "02-400-7575",
+      address: "서울특별시 송파구 송파대로 111",
+      lat: 37.4858,
+      lon: 127.1225,
+      pediatric_specialists: 3,
+      general_doctors: 1,
+      doctor_desc: "소아청소년과 전문의 3명 상주 · 소아 급성발열, 호흡기 질환, 수액 치료 전문\n야간 소아 전담 진료팀 운영 중 (순번 진행 원활)",
+      parking_available: 1,
+      parking_spaces: 35,
+      parking_fee: "무료 (진료 시 2시간)",
+      parking_guide: "지하 1~2층 자주식 주차장 (SUV 입차 가능)",
+      congestion_level: "보통 (순번 진행 원활)",
+      estimated_wait_min: 20,
+      paired_pharmacy_name: "문정스타약국",
+      paired_pharmacy_phone: "02-400-7576",
+      paired_pharmacy_address: "동일 건물 1층",
+      paired_pharmacy_closing: "23:30 마감",
+      paired_pharmacy_dist_m: 80
+    };
+
+    // 1. Fetch from Database API and Hydrate UI
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const qName = urlParams.get('name') || '';
+        const qId = urlParams.get('id') || '';
+
+        const userLat = parseFloat(localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || '37.4858');
+        const userLon = parseFloat(localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || '127.1225');
+
+        let fetchedData = null;
+
+        // Try Dataset API first
+        if (qName || qId) {
+          try {
+            const apiTarget = `/api/v1/emergency/facility-detail?type=hospital&name=${encodeURIComponent(qName)}&id=${encodeURIComponent(qId)}&lat=${userLat}&lon=${userLon}`;
+            const res = await fetch(apiTarget);
+            if (res.ok) {
+              const resJson = await res.json();
+              if (resJson.status === 'success' && resJson.data) {
+                fetchedData = resJson.data;
+              }
+            }
+          } catch (apiErr) {
+            console.warn('[HospitalDetail] API fetch failed, falling back to local dataset JS:', apiErr);
+          }
+        }
+
+        // 2. Local JS Dataset Fallback (window.HOSPITAL_DETAILS_DATA from 24h sync)
+        if (!fetchedData && window.HOSPITAL_DETAILS_DATA && window.HOSPITAL_DETAILS_DATA.length) {
+          const cleanQ = (qName || '').replace(' (달빛어린이병원)', '').trim();
+          const found = window.HOSPITAL_DETAILS_DATA.find(item =>
+            (qId && item.id === qId) ||
+            (cleanQ && item.name && (item.name === cleanQ || item.name.includes(cleanQ) || cleanQ.includes(item.name)))
+          );
+          if (found) {
+            fetchedData = Object.assign({}, found);
+            console.info('[HospitalDetail] Successfully resolved from window.HOSPITAL_DETAILS_DATA:', found.name);
+          }
+        }
+
+        if (fetchedData) {
+          activeHospital = Object.assign(activeHospital, fetchedData);
+        } else {
+          // SessionStorage or Pairings Fallback
+          const stored = sessionStorage.getItem('selected_hospital');
+          if (stored) {
+            const sObj = JSON.parse(stored);
+            activeHospital.name = sObj.name || activeHospital.name;
+            activeHospital.phone = sObj.tel || sObj.phone || activeHospital.phone;
+            activeHospital.address = sObj.address || activeHospital.address;
+            activeHospital.dist_km = sObj.dist || activeHospital.dist_km;
+            activeHospital.drive_min = sObj.drive_min || activeHospital.drive_min;
+            if (sObj.pharmacy) {
+              activeHospital.paired_pharmacy_name = sObj.pharmacy.name || activeHospital.paired_pharmacy_name;
+              activeHospital.paired_pharmacy_phone = sObj.pharmacy.tel || activeHospital.paired_pharmacy_phone;
+              activeHospital.paired_pharmacy_closing = sObj.pharmacy.duty_time || activeHospital.paired_pharmacy_closing;
+            }
+          }
+        }
+
+        // 2. Render Hospital Metadata to DOM
+        document.title = `${activeHospital.name} 상세 및 접수 - 아이숨(i-Soom)`;
+
+        // Title & Badge
+        const nameEl = document.getElementById('detail-hospital-name');
+        if (nameEl) nameEl.innerText = activeHospital.name;
+
+        const liveTimeEl = document.getElementById('hospital-live-time');
+        if (liveTimeEl) liveTimeEl.innerText = activeHospital.status_badge || `실시간 야간진료 중 (~${activeHospital.closing_time || '23:00'})`;
+
+        // 2-Column Verified Metrics (거리 & 주차 실측 데이터)
+        const distEl = document.getElementById('detail-hospital-dist');
+        if (distEl) {
+          distEl.innerText = `${activeHospital.dist_km} km (차 ${activeHospital.drive_min}분)`;
+        }
+
+        const parkingMetricEl = document.getElementById('detail-parking-metric');
+        if (parkingMetricEl) {
+          parkingMetricEl.innerText = activeHospital.parking_available ? (activeHospital.parking_fee || '무료 2시간') : '인근 유료 주차';
+        }
+
+        // Doctor Section
+        const docBadgeEl = document.getElementById('doctor-room-badge');
+        if (docBadgeEl) {
+          docBadgeEl.innerText = `전문의 ${activeHospital.pediatric_specialists || 2}명 상주`;
+        }
+
+        const docTitleEl = document.getElementById('doctor-name-title');
+        if (docTitleEl) {
+          docTitleEl.innerText = `Dr. ${activeHospital.name.replace(/의원|병원/g, '')} 소아전담팀`;
+        }
+
+        const docDescEl = document.getElementById('doctor-desc-text');
+        if (docDescEl) {
+          docDescEl.innerHTML = `
+            소아청소년과 전문의 <strong>${activeHospital.pediatric_specialists || 2}명</strong> 상주 · 소아 급성발열, 호흡기 질환, 수액 치료 전문<br>
+            <strong style="color: #0066ff;" id="doctor-queue-status">야간 진료 접수 운영 중</strong> (현장 순번 진료)
+          `;
+        }
+
+        // Warning Deadline Banner
+        const deadlineTitleEl = document.getElementById('hospital-deadline-title');
+        if (deadlineTitleEl) {
+          deadlineTitleEl.innerText = `야간 접수 마감 주의 (${activeHospital.today_deadline || '22:30'} 마감)`;
+        }
+
+        // Operating Hours
+        const todayHoursEl = document.getElementById('detail-today-hours');
+        if (todayHoursEl) todayHoursEl.innerText = activeHospital.today_hours || '09:00 ~ 23:00 (접수마감 22:30)';
+
+        const satHoursEl = document.getElementById('detail-sat-hours');
+        if (satHoursEl) satHoursEl.innerText = activeHospital.hours_saturday || '09:00 ~ 18:00';
+
+        const sunHoursEl = document.getElementById('detail-sun-hours');
+        if (sunHoursEl) sunHoursEl.innerText = activeHospital.hours_sunday || '09:00 ~ 18:00 (달빛어린이병원 운영)';
+
+        // Paired Pharmacy Card
+        const pNameEl = document.getElementById('pharmacy-name');
+        if (pNameEl) pNameEl.innerText = activeHospital.paired_pharmacy_name || '인근 안심 심야약국';
+
+        const pDescEl = document.getElementById('pharmacy-desc');
+        if (pDescEl) {
+          const distM = activeHospital.paired_pharmacy_dist_m || 80;
+          pDescEl.innerHTML = `병원 인근 <strong>도보 ${Math.max(1, Math.round(distM / 65))}분 (${distM}m)</strong> · 오늘 야간영업 <strong>${activeHospital.paired_pharmacy_closing || '23:30 마감'}</strong>`;
+        }
+
+        const pCallEl = document.getElementById('btn-pharmacy-call');
+        if (pCallEl && activeHospital.paired_pharmacy_phone) {
+          pCallEl.href = `tel:${activeHospital.paired_pharmacy_phone.replace(/[^0-9]/g, '')}`;
+        }
+
+        const pDetailEl = document.getElementById('btn-pharmacy-detail');
+        if (pDetailEl && activeHospital.paired_pharmacy_name) {
+          const isFile = (window.location.protocol === 'file:');
+          const isHtml = window.location.pathname.endsWith('.html');
+          const targetPharmacyPage = (isHtml || isFile) ? 'pharmacy_detail.html' : '/pharmacy_detail';
+          const curReturn = (isFile || isHtml) ? ('hospital_detail.html' + window.location.search) : (window.location.pathname + window.location.search);
+          pDetailEl.href = `${targetPharmacyPage}?name=${encodeURIComponent(activeHospital.paired_pharmacy_name)}&from=${encodeURIComponent(curReturn)}`;
+        }
+
+        // Location & Parking
+        const addrEl = document.getElementById('detail-address-text');
+        if (addrEl) addrEl.innerText = activeHospital.address || '주소 정보 확인';
+
+        const parkingTextEl = document.getElementById('detail-parking-text');
+        if (parkingTextEl) {
+          parkingTextEl.innerText = `${activeHospital.parking_guide || '지하 주차장 완비'} (총 ${activeHospital.parking_spaces || 30}대 지원)`;
+        }
+
+        // Map Links
+        const kakaoMapBtn = document.getElementById('btn-kakao-map');
+        if (kakaoMapBtn) {
+          kakaoMapBtn.href = `https://map.kakao.com/link/to/${encodeURIComponent(activeHospital.name)},${activeHospital.lat},${activeHospital.lon}`;
+        }
+
+        const naverMapBtn = document.getElementById('btn-naver-map');
+        if (naverMapBtn) {
+          naverMapBtn.href = `https://map.naver.com/v5/search/${encodeURIComponent(activeHospital.name)}`;
+        }
+
+        // Bottom Call CTA
+        const callBtn = document.getElementById('btn-hospital-call');
+        if (callBtn && activeHospital.phone) {
+          callBtn.href = `tel:${activeHospital.phone.replace(/[^0-9]/g, '')}`;
+        }
+
+        // 3. Render Interactive In-Page Map
+        renderInPageMap(activeHospital.lat, activeHospital.lon, activeHospital.name);
+
+      } catch (err) {
+        console.warn('[HospitalDetail] Initialization error:', err);
+      }
+    });
+
+    // In-Page Kakao Map Renderer & Dynamic Controls
+    let currentHospitalMapZoom = 3;
+    let currentHospitalLat = 37.4858;
+    let currentHospitalLon = 127.1225;
+    let currentHospitalName = '';
+
+    function handleHospitalMapZoom(delta, event) {
+      if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
+      currentHospitalMapZoom = Math.min(Math.max(currentHospitalMapZoom + delta, 1), 6);
+      updateHospitalStaticMap();
+    }
+
+    function updateHospitalStaticMap() {
+      const container = document.getElementById('hospital-kakao-map');
+      if (!container) return;
+
+      const staticUrl = `/api/v1/location/staticmap?lat=${currentHospitalLat}&lon=${currentHospitalLon}&name=${encodeURIComponent(currentHospitalName)}&width=600&height=340&zoom=${currentHospitalMapZoom}&scale=2&marker_type=hospital`;
+
+      container.innerHTML = `
+        <div class="static-map-img-wrapper">
+          <img src="${staticUrl}" alt="${currentHospitalName} 카카오 지도" class="kakao-static-img" onerror="fallbackToHospitalLeaflet()" />
+          <div class="map-touch-overlay">
+            <span class="material-symbols-outlined" style="font-size: 14px; color: #60a5fa;">navigation</span>
+            <span>탭하여 길찾기</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function fallbackToHospitalLeaflet() {
+      const container = document.getElementById('hospital-kakao-map');
+      if (!container || !window.L || !window.L.map) return;
+
+      try {
+        if (window._currentHospitalMap) {
+          try { window._currentHospitalMap.remove(); } catch (e) {}
+          window._currentHospitalMap = null;
+        }
+        container.innerHTML = '';
+        const map = L.map(container, {
+          center: [currentHospitalLat, currentHospitalLon],
+          zoom: 16,
+          zoomControl: false,
+          attributionControl: false
+        });
+        window._currentHospitalMap = map;
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+        const hospitalIcon = L.divIcon({
+          className: 'custom-map-pin hospital-pin',
+          html: `
+            <div style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
+              <div style="position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(0,102,255,0.3);animation:mapPinPulse 2s infinite;"></div>
+              <div style="position:relative;width:30px;height:30px;border-radius:50%;background:#0066ff;border:2.5px solid #ffffff;box-shadow:0 3px 10px rgba(0,102,255,0.45);display:flex;align-items:center;justify-content:center;color:#ffffff;">
+                <span class="material-symbols-outlined" style="font-size:17px;">local_hospital</span>
+              </div>
+            </div>
+          `,
+          iconSize: [40, 40],
+          iconAnchor: [20, 20]
+        });
+        L.marker([currentHospitalLat, currentHospitalLon], { icon: hospitalIcon }).addTo(map);
+      } catch (err) {
+        console.warn('[Map Fallback Error]', err);
+      }
+    }
+
+    function renderInPageMap(lat, lon, name) {
+      currentHospitalLat = parseFloat(lat) || 37.4858;
+      currentHospitalLon = parseFloat(lon) || 127.1225;
+      currentHospitalName = name || '달빛어린이병원';
+
+      // 1. Setup External Links
+      const fullMapLink = document.getElementById('link-kakao-fullmap');
+      if (fullMapLink) {
+        fullMapLink.href = `https://map.kakao.com/link/map/${encodeURIComponent(currentHospitalName)},${currentHospitalLat},${currentHospitalLon}`;
+      }
+      const kakaoMapBtn = document.getElementById('btn-kakao-map');
+      if (kakaoMapBtn) {
+        kakaoMapBtn.href = `https://map.kakao.com/link/to/${encodeURIComponent(currentHospitalName)},${currentHospitalLat},${currentHospitalLon}`;
+      }
+      const naverMapBtn = document.getElementById('btn-naver-map');
+      if (naverMapBtn) {
+        naverMapBtn.href = `https://map.naver.com/v5/search/${encodeURIComponent(currentHospitalName)}`;
+      }
+
+      // 2. Click entire map card to open Kakao Map Route
+      const mapCard = document.getElementById('hospital-map-container');
+      if (mapCard) {
+        mapCard.onclick = function() {
+          window.open(`https://map.kakao.com/link/to/${encodeURIComponent(currentHospitalName)},${currentHospitalLat},${currentHospitalLon}`, '_blank');
+        };
+      }
+
+      // 3. Render Kakao Static Map
+      updateHospitalStaticMap();
+    }
+
+    function openTicketModal() {
+      document.getElementById('ticket-modal').style.display = 'flex';
+      const ticketDept = document.getElementById('ticket-hospital-dept');
+      if (ticketDept) ticketDept.innerText = `${activeHospital.name} 야간소아진료실`;
+      const ticketWait = document.getElementById('ticket-waiting-summary');
+      if (ticketWait) ticketWait.innerText = '현장 내원 순번 접수 (방문 필수)';
+    }
+
+    function closeTicketModal() {
+      document.getElementById('ticket-modal').style.display = 'none';
+    }
+
+    function confirmTicket() {
+      closeTicketModal();
+      showToast('모바일 접수 등록이 완료되었습니다. 출발해주세요!');
+    }
+
+    function copyAddress() {
+      const address = activeHospital.address || "병원 주소";
+      navigator.clipboard.writeText(address).then(() => {
+        showToast('병원 주소가 클립보드에 복사되었습니다.');
+      }).catch(() => {
+        showToast('주소: ' + address);
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-popup');
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2500);
+    }
+  </script>
+  <!-- Leaflet Interactive Map Engine JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
+  <script src="../js/hospital_details_data.js"></script>
+  <script src="../js/nationwide_pairings.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+
+</html>

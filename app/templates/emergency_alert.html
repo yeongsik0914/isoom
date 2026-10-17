@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>🚨 초응급 119 긴급 안내 - 아이숨(i-Soom)</title>
+
+  <!-- PWA Standalone & iOS Safari Fullscreen Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="아이숨 119">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#dc2626">
+
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <style>
+    /* Reset & Base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      background-color: #0b0f19;
+      color: #ffffff;
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .app-viewport {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #1e1b2e 0%, #0b0f19 100%);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 32px rgba(220, 38, 38, 0.2);
+      padding: 24px 20px calc(30px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Top Emergency Alert Bar */
+    .emergency-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      margin-bottom: 20px;
+      align-self: flex-start;
+      animation: alertPulse 1.2s infinite alternate;
+    }
+
+    @keyframes alertPulse {
+      0% { box-shadow: 0 0 0 rgba(239, 68, 68, 0.4); }
+      100% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.8); }
+    }
+
+    /* Siren Centerpiece */
+    .siren-hero-center {
+      text-align: center;
+      margin: 10px 0 24px;
+      position: relative;
+    }
+
+    .siren-circle-outer {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.25);
+      border: 2px solid #ef4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      position: relative;
+    }
+
+    .siren-circle-outer::before {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.15);
+      animation: ripple 1.6s infinite ease-out;
+    }
+
+    @keyframes ripple {
+      0% { transform: scale(0.7); opacity: 1; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    .siren-icon {
+      font-size: 46px;
+      color: #ff4d4d;
+      animation: iconWiggle 0.8s infinite;
+    }
+
+    @keyframes iconWiggle {
+      0% { transform: rotate(-8deg); }
+      50% { transform: rotate(8deg); }
+      100% { transform: rotate(-8deg); }
+    }
+
+    .emergency-headline {
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .emergency-subline {
+      font-size: 14.5px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    /* Hero 119 Dial CTA */
+    .btn-119-dial-hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      height: 64px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+      box-shadow: 0 8px 24px rgba(220, 38, 38, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 24px;
+      transition: transform 0.1s ease, box-shadow 0.15s;
+    }
+
+    .btn-119-dial-hero:active {
+      transform: scale(0.97);
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+    }
+
+    /* Location Broadcast Card */
+    .location-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .location-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .location-address {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f8fafc;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .location-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Golden Time First-Aid Guide */
+    .first-aid-box {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 18px;
+      padding: 20px 18px;
+      margin-bottom: 24px;
+    }
+
+    .first-aid-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fca5a5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .first-aid-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .aid-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .aid-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ef4444;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .aid-content {
+      font-size: 13.5px;
+      color: #e2e8f0;
+      line-height: 1.45;
+    }
+
+    .aid-content strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Secondary Actions */
+    .secondary-actions-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .btn-er-board {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 0.15s;
+    }
+
+    .btn-er-board:active {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .btn-back-input {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 44px;
+      border-radius: 12px;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Toast */
+    .toast-box {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ef4444;
+      color: #ffffff;
+      padding: 9px 16px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: none;
+      z-index: 999;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-viewport">
+
+    <!-- 1. Emergency Badge -->
+    <div class="emergency-top-badge">
+      <span class="material-symbols-outlined" style="font-size: 18px;">warning</span>
+      <span>0ms 긴급 가드레일 (Red Flag) 감지</span>
+    </div>
+
+    <!-- 2. Siren Centerpiece -->
+    <div class="siren-hero-center">
+      <div class="siren-circle-outer">
+        <span class="material-symbols-outlined siren-icon">emergency</span>
+      </div>
+      <h1 class="emergency-headline">
+        지금 즉시 119 구급차를<br>호출해야 합니다!
+      </h1>
+      <p class="emergency-subline">
+        입력하신 증상은 소아 외래 진료가 아닌<br>
+        <strong>상급 권역응급의료센터 즉각 이송</strong>이 필요합니다.
+      </p>
+    </div>
+
+    <!-- 3. Hero 119 CTA Button -->
+    <a href="tel:119" class="btn-119-dial-hero" id="btn-119-call">
+      <span class="material-symbols-outlined" style="font-size: 28px;">call</span>
+      <span>지금 즉시 119 전화걸기</span>
+    </a>
+
+    <!-- 4. Location Broadcast Card -->
+    <section class="location-card">
+      <div class="location-header">
+        <span class="material-symbols-outlined" style="font-size: 16px; color: #ef4444;">location_on</span>
+        <span>119 구급대원에게 현재 위치를 불러주세요</span>
+      </div>
+      <div class="location-address" id="current-location-text">
+        서울특별시 송파구 올림픽로 300 (신천동)
+      </div>
+      <button type="button" class="location-copy-btn" onclick="copyLocationAddress()">
+        <span class="material-symbols-outlined" style="font-size: 15px;">content_copy</span>
+        <span>주소 복사</span>
+      </button>
+    </section>
+
+    <!-- 5. First-Aid Golden Time Guide -->
+    <section class="first-aid-box">
+      <h2 class="first-aid-title">
+        <span class="material-symbols-outlined">health_and_safety</span>
+        구급차 도착 전 긴급 처치 수칙
+      </h2>
+      <div class="first-aid-list">
+        <div class="aid-item">
+          <span class="aid-num">1</span>
+          <div class="aid-content">
+            <strong>기도 확보 (질식 방지)</strong><br>
+            환아의 고개를 옆으로 돌려 침이나 구토물이 기도를 막지 않도록 해주세요.
+          </div>
+        </div>
+        <div class="aid-item">
+          <span class="aid-num">2</span>
+          <div class="aid-content">
+            <strong>경련 시 절대 주의</strong><br>
+            아이 팔다리를 억지로 펴거나 주무르지 말고, 입 안에 손가락이나 수건을 넣지 마세요.
+          </div>
+        </div>
+        <div class="aid-item">
+          <span class="aid-num">3</span>
+          <div class="aid-content">
+            <strong>체온 조절 & 옷 느슨하게</strong><br>
+            단추를 풀고 시원한 공기가 순환되게 해주세요. (찬물 목욕은 금기)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Secondary Actions -->
+    <div class="secondary-actions-col">
+      <a href="result.html?tab=emergency" class="btn-er-board">
+        <span class="material-symbols-outlined" style="font-size: 18px;">local_hospital</span>
+        <span>인근 소아전문응급센터 실시간 병상 보기</span>
+      </a>
+      <a href="input.html" class="btn-back-input">
+        <span class="material-symbols-outlined" style="font-size: 16px;">arrow_back</span>
+        <span>증상 다시 입력하기</span>
+      </a>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-box" id="toast-box">
+      주소가 복사되었습니다.
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Hydrate Emergency Reason from Backend Response or Client Red Flag Detection
+      try {
+        let guideText = null;
+        const stored = sessionStorage.getItem('backend_result');
+        if (stored) {
+          const data = JSON.parse(stored);
+          if (data.is_emergency && (data.message || data.emergency_guide)) {
+            guideText = data.emergency_guide || data.message;
+          }
+        }
+        if (!guideText) {
+          guideText = sessionStorage.getItem('red_flag_reason');
+        }
+
+        if (guideText) {
+          const subline = document.querySelector('.emergency-subline');
+          if (subline) {
+            subline.innerHTML = `<span style="display:inline-block; margin-bottom:4px; color:#ef4444; font-weight:800;">🚨 ${guideText}</span><br>소아 외래 진료가 아닌 <strong>상급 권역응급의료센터 즉각 이송</strong>이 필요합니다.`;
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to parse emergency reason for emergency alert:', e);
+      }
+
+      // 2. Hydrate Real User Location Address if available
+      try {
+        const userAddr = localStorage.getItem('user_address') || sessionStorage.getItem('user_address');
+        if (userAddr) {
+          const locEl = document.getElementById('current-location-text');
+          if (locEl) locEl.innerText = userAddr;
+        }
+      } catch (e) {
+        console.warn('Failed to parse location:', e);
+      }
+    });
+
+    function copyLocationAddress() {
+      const addr = document.getElementById('current-location-text').innerText.trim();
+      navigator.clipboard.writeText(addr).then(() => {
+        showToast('주소가 클립보드에 복사되었습니다.');
+      }).catch(() => {
+        showToast('주소: ' + addr);
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-box');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
