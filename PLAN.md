@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v3.17 (구급대원 필독사항 환아 인적사항 카드 내 포함 및 일체화, v2.9.6)
+> **문서 버전**: v3.18 (PWA Service Worker v2 업그레이드 & Cloud Run 최신 리비전 100% 동기화 배포, v2.9.7)
 > **최종 갱신 일자**: 2026-10-18
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
 
@@ -497,6 +497,13 @@ graph TD
     - **4대 템플릿 100% 동기화 & 23대 브리핑 카드 통합 계약 테스트 검증 완료**:
       - `briefing_card.html`(frontend & app), `emergency_guide.html`(frontend & app) 4대 템플릿 전수 일치.
       - `scripts/test_briefing_card_integration.py` 23개 항목 100% All-Green 통과.
+35. **[완료] PWA Service Worker v2 업그레이드 & Cloud Run 최신 리비전 100% 완전 동기화 배포 (Phase 3-Y)**:
+    - **PWA Service Worker 캐시 v2 개편 (`sw.js`)**:
+      - `CACHE_NAME`을 `aisum-cache-v2`로 승격하고, 구버전 캐시 즉각 자동 소멸 및 HTML 문서 요청에 대해 `networkFirst` 전략을 적용하여 실서버 배포 시 구버전 화면 고착 현상 원천 차단.
+    - **루트(`/`) 라우팅 메인 홈(`index.html`) 직결 및 HTTP 캐시 버스팅**:
+      - 루트 진입 시 `index.html`로 정확히 서빙하고 주요 CSS/JS에 `?v=20261018_v2` 캐시 버스팅 파라미터 적용.
+    - **Google Cloud Run 무중단 배포 및 트래픽 100% 전환**:
+      - 최신 리비전 `aisum-service-00008-msb` 배포 및 실서버(`https://aisum-service-489063687989.asia-northeast3.run.app`) 정상 서빙 검증 완료.
 
 
 

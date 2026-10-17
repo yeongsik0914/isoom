@@ -411,6 +411,24 @@ window.AisumHistoryManager = {
       let list = this.getAll();
       list = list.filter(item => item.id !== id);
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+
+      // 🚨 브리핑 카드 활성 레코드가 삭제된 경우 정리
+      try {
+        const activeId = localStorage.getItem('aisum_briefing_active_record_id');
+        if (activeId && String(activeId) === String(id)) {
+          if (list.length > 0) {
+            localStorage.setItem('aisum_briefing_active_record_id', String(list[0].id));
+          } else {
+            localStorage.removeItem('aisum_briefing_active_record_id');
+          }
+        }
+      } catch (_) {}
+
+      // 🚨 기록 삭제 시 해당 응급실 모니터링 여부를 즉시 재평가하고 알림칸 감시 대상 동기화!
+      if (window.AisumNotificationManager && typeof window.AisumNotificationManager.syncWatchTargetsWithHistory === 'function') {
+        window.AisumNotificationManager.syncWatchTargetsWithHistory();
+      }
+
       return true;
     } catch (e) {
       console.warn('[AisumHistoryManager] deleteById error:', e);
@@ -421,6 +439,12 @@ window.AisumHistoryManager = {
   clearAll: function() {
     try {
       localStorage.removeItem(this.STORAGE_KEY);
+      try { localStorage.removeItem('aisum_briefing_active_record_id'); } catch (_) {}
+
+      // 🚨 전체 기록 삭제 시 모든 응급실 모니터링 즉시 전면 해제!
+      if (window.AisumNotificationManager && typeof window.AisumNotificationManager.syncWatchTargetsWithHistory === 'function') {
+        window.AisumNotificationManager.syncWatchTargetsWithHistory();
+      }
       return true;
     } catch (e) {
       console.warn('[AisumHistoryManager] clearAll error:', e);
@@ -492,14 +516,35 @@ window.AisumNotificationManager = {
 
   getWatchTargets: function() {
     try {
+      // 🚨 기록페이지에 중증 응급실(KTAS <= 3) 기록이 없다면 감시 대상은 빈 배열이어야 함!
+      if (!this.hasEmergencyHistory()) {
+        try { localStorage.removeItem(this.WATCH_KEY); } catch (_) {}
+        return [];
+      }
+
       const data = localStorage.getItem(this.WATCH_KEY);
       let targets = data ? JSON.parse(data) : [];
 
-      // 🚨 기록페이지(AisumHistoryManager)에 중증 응급실(KTAS <= 3) 기록이 있다면,
-      // 그 기록의 실제 추천 응급실명을 1순위 감시 대상으로 자동 보정 및 연동!
+      // 🚨 기록페이지(AisumHistoryManager)에 남아있는 중증 응급실(KTAS <= 3) 기록을 바탕으로 감시 대상 보정
       if (window.AisumHistoryManager) {
         const histories = window.AisumHistoryManager.getAll();
-        const latestEmergencyHist = Array.isArray(histories) ? histories.find(h => typeof h.ktasLevel === 'number' && h.ktasLevel <= 3 && h.recommendedHospital) : null;
+        const emergencyHistories = Array.isArray(histories)
+          ? histories.filter(h => typeof h.ktasLevel === 'number' && h.ktasLevel <= 3 && h.recommendedHospital)
+          : [];
+
+        if (emergencyHistories.length === 0) {
+          localStorage.removeItem(this.WATCH_KEY);
+          return [];
+        }
+
+        const validNames = emergencyHistories.map(h => (h.recommendedHospital || '').trim()).filter(Boolean);
+        // 남아있지 않은 병원 감시 대상에서 제외
+        targets = targets.filter(target => {
+          const tName = target.dutyName || '';
+          return validNames.some(vn => vn.includes(tName) || tName.includes(vn));
+        });
+
+        const latestEmergencyHist = emergencyHistories[0];
         if (latestEmergencyHist) {
           const recName = latestEmergencyHist.recommendedHospital.trim();
           if (recName && recName !== '인근 소아 진료기관' && recName !== '소아전문응급의료센터') {
@@ -542,7 +587,76 @@ window.AisumNotificationManager = {
   },
 
   isSevereUser: function() {
-    return this.hasEmergencyHistory() || (this.getWatchTargets().length > 0);
+    // 🚨 반드시 실제 중증 응급실 문진 기록이 존재할 때만 모니터링 대상으로 인정!
+    return this.hasEmergencyHistory() && (this.getWatchTargets().length > 0);
+  },
+
+  syncWatchTargetsWithHistory: function() {
+    try {
+      const histories = window.AisumHistoryManager ? window.AisumHistoryManager.getAll() : [];
+      const emergencyHistories = Array.isArray(histories)
+        ? histories.filter(h => typeof h.ktasLevel === 'number' && h.ktasLevel <= 3 && h.recommendedHospital)
+        : [];
+
+      // 🚨 Case 1: 중증 기록이 0건인 경우 -> 감시 대상 전면 제거 및 모니터링 즉시 종료
+      if (emergencyHistories.length === 0) {
+        console.log('🛑 [AisumNotificationManager] 중증 응급실 기록이 모두 삭제되어 모니터링을 전면 종료합니다.');
+        localStorage.removeItem(this.WATCH_KEY);
+        this.updateBadgeUI();
+        if (typeof renderNotificationList === 'function') {
+          renderNotificationList();
+        }
+        return [];
+      }
+
+      // 🚨 Case 2: 남아있는 중증 기록의 추천 병원들만 감시 대상으로 정제
+      const validNames = emergencyHistories.map(h => (h.recommendedHospital || '').trim()).filter(Boolean);
+      let currentTargets = [];
+      try {
+        const raw = localStorage.getItem(this.WATCH_KEY);
+        currentTargets = raw ? JSON.parse(raw) : [];
+      } catch (_) {
+        currentTargets = [];
+      }
+
+      let filteredTargets = currentTargets.filter(target => {
+        const tName = target.dutyName || '';
+        return validNames.some(vn => vn.includes(tName) || tName.includes(vn));
+      });
+
+      const latestHist = emergencyHistories[0];
+      const recName = latestHist.recommendedHospital.trim();
+      if (recName && recName !== '인근 소아 진료기관' && recName !== '소아전문응급의료센터') {
+        const existIdx = filteredTargets.findIndex(t => t.dutyName === recName || recName.includes(t.dutyName) || (t.dutyName && t.dutyName.includes(recName)));
+        if (existIdx >= 0) {
+          const matched = filteredTargets.splice(existIdx, 1)[0];
+          matched.dutyName = recName;
+          filteredTargets.unshift(matched);
+        } else {
+          filteredTargets.unshift({
+            hpid: 'HP_' + recName.replace(/\s+/g, ''),
+            dutyName: recName,
+            dutyTel3: latestHist.hospitalTel || '119',
+            lastBedCount: 0,
+            lastHpmg: '',
+            registeredAt: new Date().toISOString(),
+            ktasLevel: latestHist.ktasLevel
+          });
+        }
+      }
+
+      filteredTargets = filteredTargets.filter(t => t.dutyName !== '소아응급센터');
+      localStorage.setItem(this.WATCH_KEY, JSON.stringify(filteredTargets));
+      console.log('🔄 [AisumNotificationManager] 기록 변경에 따른 응급실 모니터링 대상 재동기화 완료:', filteredTargets);
+      this.updateBadgeUI();
+      if (typeof renderNotificationList === 'function') {
+        renderNotificationList();
+      }
+      return filteredTargets;
+    } catch (e) {
+      console.warn('[AisumNotificationManager] syncWatchTargetsWithHistory error:', e);
+      return [];
+    }
   },
 
   getUnreadCount: function() {

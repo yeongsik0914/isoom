@@ -28,6 +28,15 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.7-pwa-cache-v2-cloudrun-sync] 2026-10-18: PWA Service Worker v2 업그레이드 & Cloud Run 최신 리비전(00008) 100% 완전 동기화 배포 (정영식 팀장 총괄)
+* **🌐 Cloud Run 실서버 구버전 화면 노출 원천 차단 및 PWA Service Worker v2 개편**:
+  - Cloud Run 실서버(`https://aisum-service-489063687989.asia-northeast3.run.app`) 접속 시 PWA Service Worker 캐시 고착(`aisum-cache-v1`)으로 인해 과거 3-Tab UI 및 구버전 스플래시가 뜨던 문제를 해결하기 위해 `CACHE_NAME`을 `aisum-cache-v2`로 전면 업그레이드.
+  - 구버전 캐시 즉각 자동 파기 및 HTML 문서 요청에 대해 `networkFirst` 전략(네트워크 최우선, 실패 시 캐시 폴백)을 적용하여 배포 즉시 최신 UI가 서빙되도록 파이프라인 개편.
+* **🚀 루트(`/`) 라우팅 메인 홈(`index.html`) 직결 및 HTTP 캐시 버스팅**:
+  - `main.py` 루트 라우팅을 `index.html`로 정규화하고, 정적 자산 로드 URL에 `?v=20261018_v2` 캐시 버스팅 파라미터를 추가하여 브라우저/CDN 캐시를 강제 무효화.
+* **☁️ Google Cloud Run 무중단 배포 및 트래픽 100% 전환**:
+  - 최신 도커 이미지 빌드 및 Cloud Run 리비전 `aisum-service-00008-msb` 배포를 통해 실서버에서도 로컬과 동일한 최신 UI(4-Tab 네비게이션, 구급대원 필독사항 일체화 브리핑 카드, 전용 기록 페이지 등)가 100% 완벽 동작함을 검증 완료.
+
 ### 🌟 [v2.9.6-briefing-patient-notes-integrated] 2026-10-18: 구급대원 필독사항 환아 인적사항 카드 내 포함 및 일체화 릴리스 (정영식 팀장 총괄)
 * **✨ 구급대원 필독사항 환아 인적사항 카드 내부 서브 박스로 일체화**:
   - 기존에 독립된 카드로 분리되어 세로 스크롤을 유발하던 '🚨 구급대원 필독사항(알레르기, 기저질환, 복용약물, 특이사항)'을 '👶 환아 인적사항' 카드(`cardPatientProfile`) 내부 서브 컨테이너(`.patient-special-notes-box`)로 완벽 수납.

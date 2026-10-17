@@ -199,6 +199,8 @@
 | **[ISSUE-190]** | 브리핑 카드 '기록 변경' 버튼 미작동 버그 해결 & 주요 증상 구급대원 인계 브리핑 상세 요약 박스 구축 | 모달 오버레이의 `.active` 클래스 누락(`visibility: hidden`, `opacity: 0`)으로 인한 클릭 무반응 버그 해결, 인라인 `onclick` 전역 바인딩 보강, 및 소아 KTAS 지침 기반 주증상·긴급 행동지침·임상 주의사항·보호자 진술이 융합된 구급대원/의료진 인계 브리핑 요약 박스 신설 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-191]** | 브리핑 카드 주요 증상 태그 & 구급대원 인계 브리핑 일체형 단일 카드 통합 및 간소화 | 위아래 분리되어 있던 주요 증상 라벨·태그와 구급대원 인계 브리핑 박스를 단일 카드(`briefing-unified-symptom-card`)로 통합, 헤더 태그·뱃지 나란히 배치, 본문 내 중복 증상명 파싱 제거 및 가독성 극대화 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-192]** | 구급대원 필독사항 환아 인적사항 카드 내 포함 및 일체화 | 분리되어 있던 구급대원 필독사항(`<section id="cardSpecialNotes">`)을 환아 인적사항 카드(`cardPatientProfile`) 내부 서브 박스로 일체화, 인라인 수정 폼 연동 및 23개 통합 테스트 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-193]** | 프로덕션 실서버 구버전 화면 노출 원인 규명 및 PWA Service Worker v2 업그레이드 & Cloud Run 최신 리비전(00008) 100% 완전 동기화 배포 | PWA 서비스워커(CACHE_NAME: aisum-cache-v2, networkFirst 캐시 바이패스), 루트(/) 진입 시 메인 홈(index.html) 직결 서빙, JS/CSS ?v=20261018_v2 버스팅 및 Cloud Run 무중단 배포를 통한 구버전 고착 결함 완벽 해결 | **해결 완료 (Resolved)** | 2026-10-18 |
+
 
 
 
@@ -6700,6 +6702,39 @@
   * [scripts/test_briefing_card_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/scripts/test_briefing_card_integration.py)
 * **조치 결과**:
   * 환아 인적사항과 필독사항이 하나의 카드 안에서 일목요연하게 파악 가능해져 스크롤 없이 주요 신상 정보를 즉시 확인할 수 있게 됨.
+
+---
+
+### [ISSUE-193] 프로덕션 실서버 구버전 화면 노출 원인 규명 및 PWA Service Worker v2 업그레이드 & Cloud Run 최신 리비전(00008) 100% 완전 동기화 배포
+
+* **발생 일자**: 2026-10-18
+* **분류**: PWA 캐시 무효화 / Cloud Run 배포 / 프론트엔드 라우팅 정합성
+* **문제 상황**:
+  * 로컬 개발 환경(`http://127.0.0.1:8000`)에서는 최신 UI(응급 브리핑 카드, 구급대원 필독사항 일체화, 전용 기록 페이지 등)가 완벽하게 노출되나, 프로덕션 Cloud Run 실서버(`https://aisum-service-489063687989.asia-northeast3.run.app`) 접속 시 과거 3-Tab(홈/응급실 가이드/설정) 및 과거 스플래시 화면 등 구버전이 노출되는 현상이 발생함.
+* **원인 분석**:
+  1. **PWA Service Worker 캐시 고착**: 기존 `sw.js`의 캐시 버전이 `aisum-cache-v1`로 고정되어 브라우저가 정적 파일(`index.html`, `main.js`, `style.css` 등)을 네트워크가 아닌 이전 오프라인 캐시에서 계속 제공함.
+  2. **루트(`/`) 라우팅 강제 스플래시 플로우**: 백엔드 `main.py`의 루트(`/`) 핸들러에서 무조건 `splash.html`을 반환하고 있어, PWA 진입점 및 직접 접속 시 온보딩을 이미 마친 사용자도 레거시 스플래시 화면에 갇히는 구조적 한계 존재.
+  3. **브라우저 HTTP 캐시 버스팅 부재**: HTML 파일 내 로드되는 JS/CSS에 버전 쿼리스트링이 없어 CDN 및 모바일 브라우저 캐시가 갱신되지 않음.
+* **해결 방안 및 구현**:
+  1. **PWA Service Worker v2 업그레이드 및 캐시 바이패스**:
+     * `frontend/sw.js` 및 `app/static/sw.js`의 `CACHE_NAME`을 `aisum-cache-v2`로 판올림.
+     * `activate` 이벤트 시 구버전 `aisum-cache-v1`을 전면 파기하고, HTML 문서 요청에 대해 `networkFirst` 전략(네트워크 최우선, 실패 시 캐시 폴백)을 적용하여 항상 최신 배포본을 제공하도록 개편.
+  2. **루트(`/`) 라우팅 메인 홈(`index.html`) 직결**:
+     * `main.py`의 루트(`/`) 엔드포인트에서 `index.html`을 즉시 반환하도록 정규화하고, 스플래시/온보딩은 클라이언트 자바스크립트의 약관/권한 동의 판별 로직을 통해 필요 시에만 스무스하게 유도.
+  3. **정적 에셋 캐시 버스팅 파라미터 적용**:
+     * `index.html` 내 JS/CSS 호출 경로에 `?v=20261018_v2`를 부여하여 브라우저 및 프록시 캐시를 100% 강제 무효화.
+  4. **Google Cloud Run 최신 리비전 무중단 배포**:
+     * `scripts/deploy_cloud_run.sh`를 실행하여 Docker 컨테이너 최신 빌드 및 Cloud Run 서비스 `aisum-service` 배포 완료 (최신 리비전 `aisum-service-00008-msb`, 100% 트래픽 할당, URL: `https://aisum-service-489063687989.asia-northeast3.run.app`).
+* **적용 파일**:
+  * [frontend/sw.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/sw.js)
+  * [app/static/sw.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/static/sw.js)
+  * [main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py)
+  * [frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html)
+  * [app/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/index.html)
+  * [scripts/deploy_cloud_run.sh](file:///Users/jeong-yeongsig/Desktop/Project/isoom/scripts/deploy_cloud_run.sh)
+* **조치 결과**:
+  * 실서버 접속 시 즉시 최신 메인 홈 화면이 렌더링되며, 하단 4-Tab GNB(홈/기록/응급브리핑/설정) 및 최신 브리핑 카드가 실서버에서도 로컬과 100% 동일하게 정상 작동함을 검증 완료.
+
 
 
 

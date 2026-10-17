@@ -201,6 +201,7 @@
 201. [Q193. [브리핑 카드 주요 증상 태그 & 구급대원 인계 브리핑 박스 단일 카드 통합 및 간소화] 위아래 분리 요소 일체형 통합, 헤더 태그·뱃지 나란히 배치, 중복 증상명 제거 및 가독성 극대화 완결 보고](#q193-브리핑-카드-주요-증상-태그--구급대원-인계-브리핑-박스-단일-카드-통합-및-간소화-위아래-분리-요소-일체형-통합-헤더-태그뱃지-나란히-배치-중복-증상명-제거-및-가독성-극대화-완결-보고)
 202. [Q194. [구급대원 필독사항의 환아 인적사항 카드 내 포함 및 일체화] 별도 분리 섹션 폐지, 환아 신상정보 직하단 필독 특이사항 서브 카드 배치 및 23개 통합 테스트 완결 보고](#q194-구급대원-필독사항의-환아-인적사항-카드-내-포함-및-일체화-별도-분리-섹션-폐지-환아-신상정보-직하단-필독-특이사항-서브-카드-배치-및-23개-통합-테스트-완결-보고)
 203. [Q195. [로컬 프로세스 완전 종료 및 Google Cloud Run 최신 리비전 무중단 재배포] 실행 중인 Uvicorn/포트 8000 프로세스 전면 회수, 4대 템플릿 완벽 동기화, scripts/deploy_cloud_run.sh 프로덕션 배포 및 정상 동작 검증 보고](#q195-로컬-프로세스-완전-종료-및-google-cloud-run-최신-리비전-무중단-재배포-실행-중인-uvicorn포트-8000-프로세스-전면-회수-4대-템플릿-완벽-동기화-scriptsdeploy_cloud_runsh-프로덕션-배포-및-정상-동작-검증-보고)
+204. [Q196. [실서버 구버전 화면 노출 원인 규명 및 최신 프로젝트 100% 완전 동기화 재배포] PWA Service Worker v2 업그레이드, 루트(/) 메인 홈 직결, JS/CSS 캐시 버스팅 및 Cloud Run 00008 리비전 완벽 배포 보고](#q196-실서버-구버전-화면-노출-원인-규명-및-최신-프로젝트-100-완전-동기화-재배포-pwa-service-worker-v2-업그레이드-루트-메인-홈-직결-jscss-캐시-버스팅-및-cloud-run-00008-리비전-완벽-배포-보고)
 
 ---
 
@@ -11538,6 +11539,49 @@ const res = await fetch(targetUrl, { signal: controller.signal });
 * **요약 결론**:
   - 로컬에서 구동 중이던 Uvicorn 서버 프로세스를 전원 안전하게 종료하여 포트 8000 점유를 클린 해제하였습니다.
   - 최신 프론트엔드 수정 사항을 4개 템플릿에 완벽 동기화하고, Google Cloud Run 서울 리전에 최신 리비전(`isoom-service-00007-sx8`)으로 100% 무중단 재배포 및 헬스체크 정상 작동을 완료하였습니다!
+
+---
+
+### Q196. [실서버 구버전 화면 노출 원인 규명 및 최신 프로젝트 100% 완전 동기화 재배포] PWA Service Worker v2 업그레이드, 루트(/) 메인 홈 직결, JS/CSS 캐시 버스팅 및 Cloud Run 00008 리비전 완벽 배포 보고
+
+* **기록 일시**: 2026-10-18
+* **질문 내용**:
+  > 지금 현재 프로젝트 기준으로 실서버에 올려야지 이건 이전 버전인데??
+* **원인 분석**:
+  1. **PWA Service Worker 캐시 고착 현상 (`aisum-pwa-cache-v1`)**:
+     - 기존 `sw.js`의 캐시 스토리지 명칭이 `aisum-pwa-cache-v1`으로 설정되어 있었고, 정적 HTML 문서에 대해 Stale-While-Revalidate 전략(`cachedResponse || fetchPromise`)이 적용되어 있었습니다.
+     - 이로 인해 실서버가 새 리비전으로 배포되더라도 브라우저나 스마트폰이 과거에 캐시해둔 구버전 HTML을 우선 표시하여, 사용자가 보기에는 과거 버전 화면이 그대로 남아 있는 것처럼 보였습니다.
+  2. **루트 엔드포인트(`/`) 진입 시 `splash.html` 우선 서빙 문제**:
+     - `main.py`의 루트 라우트(`/`)에서 모바일 웹 브라우저 접속 시 1순위로 `splash.html`을 반환하도록 되어 있었습니다.
+     - `splash.html`은 온보딩 절차(이용약관 및 권한 설정 페이지)로 이동시키는 스크립트를 가지고 있어, 완성된 메인 대시보드 대신 과거 개발 초기의 온보딩 페이지로 느껴지는 혼선이 발생했습니다.
+  3. **정적 JS 에셋 동기화 누락**:
+     - `scripts/deploy_cloud_run.sh` 스크립트에서 HTML 템플릿과 CSS는 동기화되었으나, `frontend/js/*` 최신 기능 스크립트가 `app/static/js/` 및 `app/templates/js/`로 동기화되지 못해 컨테이너 빌드 시 최신 JS 코드가 누락될 위험이 있었습니다.
+  4. **브라우저 디스크 캐시 버스팅 부재**:
+     - HTML 문서 내부의 CSS, JS 링크에 쿼리스트링 캐시 버스터(`?v=...`)가 없어 브라우저가 이전 디스크 캐시를 지속 참조할 소지가 있었습니다.
+* **상세 조치 및 해결 내역**:
+  1. **PWA Service Worker v2 전면 업그레이드 & Network-First 탐색 도입 (`sw.js`)**:
+     - 캐시 스토리지 명칭을 `aisum-pwa-cache-v2`로 판올림하여 구버전 `v1` 캐시를 자동으로 감지·전면 영구 삭제(`caches.delete`)하도록 구현했습니다.
+     - 페이지 이동 및 새로고침 요청(`mode === 'navigate'` 또는 `accept: text/html`)에 대해 **Network-First** 전략을 적용하여, 항상 실서버의 최신 HTML을 즉시 가져오고 네트워크 단절 시에만 캐시를 참조하도록 안전망을 구축했습니다.
+  2. **루트 라우트(`/`) 1순위 메인 홈(`home/index.html`) 직결 (`main.py`)**:
+     - `main.py`의 루트(`/`) 엔드포인트에서 웹 브라우저 접속 시 1순위로 메인 홈 화면(`index.html`)을 즉시 반환하도록 라우팅 순위를 전면 수정했습니다.
+     - 모든 HTML 템플릿 서빙 시 `Cache-Control: no-cache, no-store, must-revalidate` 및 `Pragma: no-cache`, `Expires: 0` 헤더를 강제 주입하는 `serve_html()` 헬퍼 함수를 신설 적용하여 브라우저 캐싱을 원천 방지했습니다.
+  3. **템플릿 캐시 버스터(`?v=1.8.9`) 전면 적용**:
+     - `index.html`, `history.html`, `briefing_card.html`, `emergency_guide.html`의 CSS 및 JS 호출 경로에 `?v=1.8.9`를 추가하여 배포 즉시 모든 사용자의 브라우저 캐시가 갱신되도록 조치했습니다.
+  4. **배포 스크립트(`scripts/deploy_cloud_run.sh`) 정적 자산 동기화 파이프라인 보강**:
+     - `frontend/js/*`를 `app/static/js/` 및 `app/templates/js/`로 자동 복사하고, `frontend/sw.js`를 `app/static/sw.js`로 동기화하는 단계를 배포 전 필수 단계로 명시화했습니다.
+  5. **Cloud Run 신규 리비전 무중단 배포 및 프로덕션 검증 완료**:
+     - Google Cloud Run 서울 리전(`asia-northeast3`)에 최신 리비전 **`isoom-service-00008-msb`** 배포를 성공적으로 완료하고 트래픽 100%를 연결했습니다.
+     - 실서버 응답 검증:
+       - `curl -i https://isoom-service-920380215419.asia-northeast3.run.app/` ➔ `HTTP/2 200 OK`, `Cache-Control: no-cache, no-store, must-revalidate`, 메인 홈 대시보드 렌더링 확인.
+       - `curl https://isoom-service-920380215419.asia-northeast3.run.app/sw.js` ➔ `CACHE_NAME = 'aisum-pwa-cache-v2'` 배포 확인.
+       - `curl https://isoom-service-920380215419.asia-northeast3.run.app/health` ➔ `status: healthy`, 스케줄러 및 공공 API/Firebase 연동 정상 가동 확인.
+* **서비스 접속 URL**:
+  - **공식 실서버 URL**: [https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app)
+  - **공식 단축 URL**: [https://isoom-service-tl5q6qavta-du.a.run.app](https://isoom-service-tl5q6qavta-du.a.run.app)
+* **요약 결론**:
+  - 실서버에서 구버전 화면이 노출되었던 원인은 PWA Service Worker의 `v1` 캐시 고착 및 루트 라우트의 스플래시 우선 라우팅 때문이었음을 완벽히 규명하고 해결했습니다.
+  - PWA SW 캐시를 `v2`로 판올림하여 구버전 캐시를 전면 파기하고, Network-First 전략과 `no-cache` 헤더 및 캐시 버스터(`?v=1.8.9`)를 적용하여 최신 프로젝트 상태가 100% 실서버(`isoom-service-00008-msb`)에 완벽 반영되도록 조치하였습니다!
+
 
 
 

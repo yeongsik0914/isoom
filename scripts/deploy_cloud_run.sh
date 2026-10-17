@@ -81,14 +81,16 @@ else
 fi
 
 # 3. 정적 자산 및 PWA 매니페스트 동기화 점검
-echo -e "\n${GREEN}[3/5] PWA 정적 자산(manifest, sw.js, icons) 동기화 점검...${NC}"
-mkdir -p app/static/img app/static/css app/templates
+echo -e "\n${GREEN}[3/5] PWA 정적 자산(manifest, sw.js, icons, js) 동기화 점검...${NC}"
+mkdir -p app/static/img app/static/css app/static/js app/templates app/templates/js
 cp frontend/manifest.json app/static/manifest.json 2>/dev/null || true
 cp frontend/sw.js app/static/sw.js 2>/dev/null || true
 cp -r frontend/img/* app/static/img/ 2>/dev/null || true
 cp frontend/templates/*.html app/templates/ 2>/dev/null || true
 cp frontend/css/style.css app/static/css/style.css 2>/dev/null || true
-echo -e "  • PWA 및 템플릿 동기화 완료"
+cp -r frontend/js/* app/static/js/ 2>/dev/null || true
+cp -r frontend/js/* app/templates/js/ 2>/dev/null || true
+echo -e "  • PWA 및 템플릿/JS 동기화 완료"
 
 # 4. gcloud CLI 설치 및 인증 확인
 echo -e "\n${GREEN}[4/5] Google Cloud CLI (gcloud) 상태 확인...${NC}"
