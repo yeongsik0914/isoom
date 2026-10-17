@@ -179,6 +179,7 @@
 | **[ISSUE-170]** | 모바일 응급실·달빛병원 카드 목록 터치 스크롤 불가 결함 해소 및 가속 스크롤(clamp 280~350px) 전면 복원 | `.facility-scroll-list`에 `max-height: none` 적용으로 카드 목록 자체의 스크롤 컨테이너가 꺼지고 부모 `overflow: hidden`에 잘려 스크롤 락이 발생하던 현상 해결. `clamp(280px, 42vh, 350px)`, `overflow-y: auto`, `touch-action: pan-y`, `-webkit-overflow-scrolling: touch` 적용으로 최소 4개 즉시 노출 및 부드러운 터치 스크롤 복원 | **해결 완료 (Resolved)** | 2026-10-17 |
 | **[ISSUE-171]** | 설정 페이지 '오픈소스 라이선스' 전용 뷰(`/licenses`) 신설 및 14개 오픈소스·공공데이터 저작권 고지 체계 구축 | 설정 페이지 내 비활성화 상태였던 오픈소스 항목을 `/licenses` 페이지로 연동하고, FastAPI/Gemini/Leaflet/Firebase/NMC 등 14개 오픈소스의 라이선스 배지, 저작권자, 용도 설명, 아코디언 전문을 체계화한 전용 뷰 신설 및 로컬 구동 검증 완료 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-172]** | 설정 페이지 '앱 알림' On/Off 기능과 메인화면 실시간 응급실 소아병동 알림 연동 체계 구축 | 설정 페이지 내 토글 스위치 상태를 `localStorage` (`aisum_app_notification_enabled`) 및 `AisumNotificationManager`와 연동하여, Off 시 소아 응급실 병상 변동 알림 등록/푸시/배지 점등을 원천 차단하고 On 시 정상 수신하도록 제어 파이프라인 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-173]** | 설정 페이지 '아이숨 가이드북' 전용 뷰(`/guidebook`) 신설 및 5대 핵심 가이드 체계 구축 | 설정 페이지 내 비활성화 상태였던 '아이숨 가이드북'을 `/guidebook` 전용 페이지로 연동하고, 0ms AI 문진, 2-트랙 의료기관 선택, 실시간 병상 변동 알림, 사전 통화 스크립트 및 필수 준비물, FAQ 아코디언을 집대성한 가이드북 신설 및 검증 완료 | **해결 완료 (Resolved)** | 2026-10-18 |
 
 
 
@@ -5997,6 +5998,45 @@
   * [tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py)
 * **조치 결과**:
   - 설정 화면에서 토글을 끄면 메인화면의 실시간 병상 변동 알림 및 뱃지가 완벽하게 차단되며, 켜면 정상적으로 수신됨을 검증 완료.
+
+---
+
+### [ISSUE-173] 설정 페이지 '아이숨 가이드북' 전용 뷰(`/guidebook`) 신설 및 5대 핵심 가이드 체계 구축
+
+* **발생 일자**: 2026-10-18
+* **작업자**: Antigravity AI Pair Programmer
+* **문제 현상**:
+  - 설정 화면(`settings.html`)의 '정보' 섹션에 '아이숨 가이드북' 항목이 버튼 형태로 존재하나 실제 가이드북 페이지가 연결되어 있지 않아 사용자가 앱의 주요 기능(AI 문진, 2-트랙 의료기관 선택, 실시간 병상 알림, 통화 스크립트 등)에 대한 안내를 열람할 수 없는 결함.
+* **원인 분석**:
+  - `guidebook.html` 템플릿 부재 및 백엔드 라우팅 미등록, 설정 페이지 버튼의 링크 미연결.
+* **구체적 해결 방안**:
+  1. **설정 화면([settings.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/settings.html)) 링크 연결**:
+     - 기존 `<button>`을 `<a href="guidebook.html">` 링크로 교체하여 클릭 시 원터치 이동 지원.
+  2. **가이드북 전용 페이지([guidebook.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/guidebook.html)) 신규 구축**:
+     - 상단 헤더: 뒤로가기(`handleGoBack()`), 타이틀, 홈 바로가기.
+     - 히어로 배너: "야간 소아 응급실 뺑뺑이 끝! 아이숨과 함께라면 안심" 슬로건 및 4대 가치 칩.
+     - 5대 챕터 네비게이션 및 상세 섹션:
+       - STEP 1. 0ms AI 안심 문진 (소아 KTAS 168개 주증상 기반 3단계 터치 문진 및 0초 세이프티 가드레일)
+       - STEP 2. 2-트랙 맞춤 안내 (소아전문응급센터 중증 vs 달빛어린이병원 경증 비교 및 야간 달빛약국 연계)
+       - STEP 3. 소아 응급실 실시간 병상 변동 알림 (NMC E-Gen 3분 주기 감지 및 설정 앱 알림 토글 연동)
+       - STEP 4. 1초 안심 통화 대본 & 필수 준비물 5종 (사전 브리핑 대본 및 등본, 신분증, 약, 기저귀, 담요)
+       - STEP 5. 자주 묻는 질문 FAQ 아코디언 (비용, 병상 데이터 신뢰도, 과거 기록 복원 등)
+     - 하단 CTA 바: `우리 아이 증상 문진 시작` 원터치 버튼.
+  3. **FastAPI 백엔드 라우팅 연동 ([main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py))**:
+     - `@app.get("/guidebook")`, `@app.get("/guidebook.html")` 엔드포인트 신설.
+     - 루트 탐색 딕셔너리에 `"aisum_guidebook": "/guidebook"` 추가.
+  4. **통합 테스트 검증**:
+     - `tests/test_step8_frontend_integration.py`에 TC-808 (`test_08_guidebook_page_contract`) 추가 및 **8/8 전수 통과**.
+* **적용 파일**:
+  * [frontend/templates/guidebook.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/guidebook.html)
+  * [app/templates/guidebook.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/guidebook.html)
+  * [frontend/templates/settings.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/settings.html)
+  * [app/templates/settings.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/settings.html)
+  * [main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py)
+  * [tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py)
+* **조치 결과**:
+  - 설정 화면에서 '아이숨 가이드북'을 누르면 `/guidebook`으로 이동하여 5대 핵심 가이드와 FAQ를 쾌적하게 열람할 수 있음을 로컬 서버 및 테스트로 검증 완료.
+
 
 
 

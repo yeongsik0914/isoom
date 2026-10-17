@@ -234,8 +234,43 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
         self.assertIn("설정에서 알림 켜기", index_html)
         self.assertIn("window.addEventListener('storage'", index_html)
 
+    async def test_08_guidebook_page_contract(self):
+        """TC-808: Validates the comprehensive Aisum Guidebook page (/guidebook) and settings.html linkage."""
+        # 1. settings.html linkage contract
+        res_settings = self.client.get("/settings.html")
+        self.assertEqual(res_settings.status_code, 200)
+        self.assertIn('href="guidebook.html"', res_settings.text)
+        self.assertIn("아이숨 가이드북", res_settings.text)
+
+        # 2. /guidebook endpoint status and basic header
+        res_guide = self.client.get("/guidebook")
+        self.assertEqual(res_guide.status_code, 200)
+        html = res_guide.text
+
+        # Core title & branding
+        self.assertIn("아이숨 가이드북", html)
+        self.assertIn("야간 소아 응급실 뺑뺑이 끝", html)
+
+        # 5 Chapters content contract
+        self.assertIn("0ms AI 안심 문진", html)
+        self.assertIn("2-트랙 맞춤 안내", html)
+        self.assertIn("소아 응급실 실시간 병상 변동 알림", html)
+        self.assertIn("1초 안심 통화 대본", html)
+        self.assertIn("자주 묻는 질문", html)
+
+        # Interactive functions & navigation
+        self.assertIn("filterChapter('all')", html)
+        self.assertIn("filterChapter('ch1')", html)
+        self.assertIn("handleGoBack()", html)
+        self.assertIn("우리 아이 증상 문진 시작", html)
+
+        # Check /guidebook.html alias as well
+        res_alias = self.client.get("/guidebook.html")
+        self.assertEqual(res_alias.status_code, 200)
+
 
 if __name__ == "__main__":
     unittest.main()
+
 
 

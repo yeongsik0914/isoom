@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>아이숨 가이드북 - 아이숨 (i-Soom)</title>
+  <meta name="description" content="야간·휴일 소아 응급의료 케어 서비스 아이숨(i-Soom) 이용 완벽 가이드북. 0ms AI 문진, 2-트랙 의료기관 선택, 실시간 병상 알림 및 필수 준비물 안내" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <style>
+    /* Guidebook Page Custom Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8faff;
+      font-family: 'Noto Sans KR', 'Plus Jakarta Sans', sans-serif;
+      color: #0f172a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .guidebook-viewport {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-color: #f8faff;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 24px rgba(15, 23, 42, 0.06);
+      padding-bottom: 90px;
+      box-sizing: border-box;
+    }
+
+    /* Top Sticky Header */
+    .guidebook-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: calc(56px + env(safe-area-inset-top, 0px));
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid #eef2f6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 0px) 16px 0 16px;
+      box-sizing: border-box;
+    }
+
+    .guidebook-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .guidebook-back-btn,
+    .guidebook-home-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: none;
+      color: #334155;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .guidebook-back-btn:active,
+    .guidebook-home-btn:active {
+      transform: scale(0.94);
+      background: #e2e8f0;
+    }
+
+    .guidebook-header-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.4px;
+      margin: 0;
+    }
+
+    /* Hero Banner */
+    .guidebook-hero {
+      background: linear-gradient(135deg, #0066ff 0%, #1e40af 100%);
+      color: #ffffff;
+      padding: 24px 20px;
+      margin: 16px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 102, 255, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .guidebook-hero::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 140px;
+      height: 140px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-desc {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.92);
+      margin: 0 0 16px 0;
+      word-break: keep-all;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .hero-tag-chip {
+      background: rgba(255, 255, 255, 0.14);
+      padding: 4px 9px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Filter / Chapter Navigation Tabs */
+    .chapter-nav-wrapper {
+      padding: 0 16px 12px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      gap: 8px;
+    }
+
+    .chapter-nav-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chapter-tab-btn {
+      flex-shrink: 0;
+      padding: 8px 14px;
+      border-radius: 9999px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .chapter-tab-btn.active {
+      background: #0066ff;
+      color: #ffffff;
+      border-color: #0066ff;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+    }
+
+    /* Content Area */
+    .guidebook-content {
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Guide Section Card */
+    .guide-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px 18px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+      border: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scroll-margin-top: 76px;
+    }
+
+    .guide-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .guide-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .icon-blue { background: #eff6ff; color: #0066ff; }
+    .icon-red { background: #fef2f2; color: #ef4444; }
+    .icon-emerald { background: #ecfdf5; color: #059669; }
+    .icon-purple { background: #f5f3ff; color: #7c3aed; }
+    .icon-amber { background: #fffbeb; color: #d97706; }
+
+    .guide-card-title-group {
+      flex: 1;
+    }
+
+    .guide-card-step-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: #0066ff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .guide-card-title {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+      letter-spacing: -0.3px;
+    }
+
+    .guide-card-desc {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #475569;
+      margin: 0;
+      word-break: keep-all;
+    }
+
+    /* Visual Feature Boxes */
+    .feature-box-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .feature-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .feature-box.highlight {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+
+    .feature-box-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feature-box-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1e293b;
+      margin: 0;
+    }
+
+    .feature-box-desc {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: #64748b;
+      margin: 0;
+      word-break: keep-all;
+    }
+
+    /* Comparison Box (2-Track) */
+    .track-compare-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .track-box {
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .track-er {
+      background: #fff5f5;
+      border: 1px solid #fed7d7;
+    }
+
+    .track-moonlight {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+    }
+
+    .track-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      align-self: flex-start;
+    }
+
+    .track-er .track-badge {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    .track-moonlight .track-badge {
+      background: #10b981;
+      color: #ffffff;
+    }
+
+    .track-box ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: #334155;
+    }
+
+    .track-box li {
+      margin-bottom: 4px;
+    }
+
+    /* Checklist Section */
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checklist-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .checklist-icon {
+      color: #0066ff;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    /* FAQ Accordion Details */
+    .faq-accordion {
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      overflow: hidden;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .faq-accordion[open] {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    }
+
+    .faq-summary {
+      padding: 14px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      list-style: none;
+    }
+
+    .faq-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-summary::after {
+      content: 'expand_more';
+      font-family: 'Material Symbols Outlined';
+      font-size: 20px;
+      color: #64748b;
+      transition: transform 0.2s ease;
+    }
+
+    .faq-accordion[open] .faq-summary::after {
+      transform: rotate(180deg);
+      color: #0066ff;
+    }
+
+    .faq-body {
+      padding: 0 16px 14px 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #475569;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 10px;
+      word-break: keep-all;
+    }
+
+    /* Floating Action CTA Bar */
+    .guidebook-cta-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)) 16px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid #eef2f6;
+      display: flex;
+      gap: 10px;
+      box-sizing: border-box;
+      z-index: 60;
+    }
+
+    .btn-cta-triage {
+      flex: 1;
+      height: 48px;
+      background: #0066ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-size: 14.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0, 102, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cta-triage:active {
+      transform: scale(0.98);
+      background: #0052cc;
+    }
+
+    .btn-cta-guide {
+      height: 48px;
+      padding: 0 16px;
+      background: #f1f5f9;
+      color: #334155;
+      border: none;
+      border-radius: 14px;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cta-guide:active {
+      background: #e2e8f0;
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="guidebook-viewport">
+
+    <!-- 1. Top Sticky Header -->
+    <header class="guidebook-header" role="banner">
+      <div class="guidebook-header-left">
+        <button type="button" class="guidebook-back-btn" onclick="handleGoBack()" aria-label="이전 화면으로 돌아가기">
+          <span class="material-symbols-outlined" style="font-size: 20px;">arrow_back_ios_new</span>
+        </button>
+        <h1 class="guidebook-header-title">아이숨 가이드북</h1>
+      </div>
+      <a href="index.html" class="guidebook-home-btn" aria-label="홈으로 이동" title="홈으로 이동">
+        <span class="material-symbols-outlined" style="font-size: 20px;">home</span>
+      </a>
+    </header>
+
+    <!-- 2. Hero Visual Banner -->
+    <section class="guidebook-hero" aria-label="아이숨 가이드북 소개">
+      <div class="hero-badge">
+        <span class="material-symbols-outlined" style="font-size: 15px;">verified</span>
+        <span>소아 야간 응급의료 케어 가이드</span>
+      </div>
+      <h2 class="hero-title">아이숨과 함께라면,<br>야간 소아 응급실 뺑뺑이 끝!</h2>
+      <p class="hero-desc">
+        늦은 밤 아이가 갑자기 열이 나거나 아플 때, 당황하지 마세요.<br>
+        0ms AI 문진과 실시간 병상 연동으로 가장 빠르고 안전한 병원을 찾아드립니다.
+      </p>
+      <div class="hero-tags">
+        <span class="hero-tag-chip">⚡ 0ms AI 안심 문진</span>
+        <span class="hero-tag-chip">🚨 실시간 소아병상 연동</span>
+        <span class="hero-tag-chip">🌙 달빛어린이병원 매칭</span>
+        <span class="hero-tag-chip">📋 1초 안심 통화 대본</span>
+      </div>
+    </section>
+
+    <!-- 3. Chapter Quick Filter Tabs -->
+    <div class="chapter-nav-wrapper" role="tablist" aria-label="가이드북 목차">
+      <button type="button" class="chapter-tab-btn active" onclick="filterChapter('all')">
+        <span class="material-symbols-outlined" style="font-size: 16px;">apps</span>전체 보기
+      </button>
+      <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch1')">
+        <span class="material-symbols-outlined" style="font-size: 16px;">health_and_safety</span>AI 문진
+      </button>
+      <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch2')">
+        <span class="material-symbols-outlined" style="font-size: 16px;">alt_route</span>2-트랙 안내
+      </button>
+      <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch3')">
+        <span class="material-symbols-outlined" style="font-size: 16px;">notifications_active</span>병상 알림
+      </button>
+      <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch4')">
+        <span class="material-symbols-outlined" style="font-size: 16px;">call</span>통화 & 준비물
+      </button>
+      <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch5')">
+        <span class="material-symbols-outlined" style="font-size: 16px;">help</span>자주 묻는 질문
+      </button>
+    </div>
+
+    <!-- 4. Guidebook Content Sections -->
+    <main class="guidebook-content" id="guidebook-content" role="main">
+
+      <!-- CHAPTER 1: AI 안심 문진 -->
+      <section class="guide-card chapter-section" id="section-ch1" data-chapter="ch1">
+        <div class="guide-card-header">
+          <div class="guide-card-icon icon-blue">
+            <span class="material-symbols-outlined">health_and_safety</span>
+          </div>
+          <div class="guide-card-title-group">
+            <div class="guide-card-step-badge">STEP 1. 스마트 증상 분류</div>
+            <h3 class="guide-card-title">0ms AI 안심 문진</h3>
+          </div>
+        </div>
+        <p class="guide-card-desc">
+          보건복지부 및 대한소아응급의학회의 <strong>2021 소아 KTAS 지침(168개 주증상)</strong>을 완벽 반영한 0ms 실시간 AI 문진 엔진이 환아의 응급 중증도를 즉시 판정합니다.
+        </p>
+
+        <div class="feature-box-grid">
+          <div class="feature-box highlight">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">touch_app</span>
+              <h4 class="feature-box-title">터치 3번으로 끝나는 초간편 문진</h4>
+            </div>
+            <p class="feature-box-desc">
+              ① 출생연도(개월수) 선택 ➔ ② 체온 선택 ➔ ③ 주요 증상(발열, 호흡곤란, 경련, 구토 등) 터치만으로 10초 만에 완료됩니다.
+            </p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #ef4444; font-size: 18px;">emergency</span>
+              <h4 class="feature-box-title">초응급 0ms 세이프티 가드레일</h4>
+            </div>
+            <p class="feature-box-desc">
+              의식 저하, 무호흡, 청색증 등 생명과 직결된 초응급 신호 감지 시, 대기 시간 없이 즉시 119 구급대 연계 및 응급처치 수칙을 화면 상단에 띄웁니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 2: 2-트랙 지능형 안내 -->
+      <section class="guide-card chapter-section" id="section-ch2" data-chapter="ch2">
+        <div class="guide-card-header">
+          <div class="guide-card-icon icon-red">
+            <span class="material-symbols-outlined">alt_route</span>
+          </div>
+          <div class="guide-card-title-group">
+            <div class="guide-card-step-badge">STEP 2. 최적 의료기관 매칭</div>
+            <h3 class="guide-card-title">2-트랙 맞춤 안내 (응급실 vs 달빛병원)</h3>
+          </div>
+        </div>
+        <p class="guide-card-desc">
+          아이가 아플 때 무조건 큰 대학병원 응급실로 달려가면 수시간의 대기와 값비싼 응급관리료가 발생할 수 있습니다. 아이숨은 아이의 상태에 맞는 최선의 의료기관을 추천합니다.
+        </p>
+
+        <div class="track-compare-container">
+          <!-- Track 1: Emergency -->
+          <div class="track-box track-er">
+            <span class="track-badge">
+              <span class="material-symbols-outlined" style="font-size: 14px;">e911_emergency</span>
+              트랙 1: 소아전문응급센터 (KTAS 1·2·3단계 중증)
+            </span>
+            <ul>
+              <li><strong>대상</strong>: 호흡곤란, 39도 이상 고열 지속, 열성 경련, 지속적인 처짐/탈수</li>
+              <li><strong>제공 정보</strong>: 인근 소아응급실 실시간 잔여 병상(hv28), 소아과 전문의 당직 여부, 원터치 전화 및 길안내</li>
+              <li><strong>목표</strong>: 병상 부족으로 인한 재이송(뺑뺑이) 원천 방지</li>
+            </ul>
+          </div>
+
+          <!-- Track 2: Moonlight -->
+          <div class="track-box track-moonlight">
+            <span class="track-badge">
+              <span class="material-symbols-outlined" style="font-size: 14px;">bedtime</span>
+              트랙 2: 달빛어린이병원 (KTAS 4·5단계 경증/준응급)
+            </span>
+            <ul>
+              <li><strong>대상</strong>: 단순 감기/미열, 가벼운 구토/설사, 두드러기, 가벼운 찰과상</li>
+              <li><strong>장점</strong>: 응급실 대비 1/3 수준의 진료비, 소아청소년과 전문의 진료, 빠른 진료 시작</li>
+              <li><strong>연계 약국</strong>: 늦은 밤에도 문을 여는 지정 달빛약국 원스톱 자동 매칭</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 3: 실시간 병상 알림 -->
+      <section class="guide-card chapter-section" id="section-ch3" data-chapter="ch3">
+        <div class="guide-card-header">
+          <div class="guide-card-icon icon-emerald">
+            <span class="material-symbols-outlined">notifications_active</span>
+          </div>
+          <div class="guide-card-title-group">
+            <div class="guide-card-step-badge">STEP 3. 실시간 모니터링</div>
+            <h3 class="guide-card-title">소아 응급실 실시간 병상 변동 알림</h3>
+          </div>
+        </div>
+        <p class="guide-card-desc">
+          국립중앙의료원(NMC) 중앙응급의료센터 E-Gen 공공데이터를 <strong>3분 주기로 실시간 연동</strong>하여 소아 응급실 병상 정보를 스마트폰으로 브리핑합니다.
+        </p>
+
+        <div class="feature-box-grid">
+          <div class="feature-box">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #059669; font-size: 18px;">sync</span>
+              <h4 class="feature-box-title">병상 증감 및 만실 자동 감지</h4>
+            </div>
+            <p class="feature-box-desc">
+              중증 환아 판정 시, 인근 거점 소아응급센터의 병상이 확보(+N석)되거나 급감(-N석), 만실(0석)될 때 실시간 인앱 알림 및 푸시를 발송합니다.
+            </p>
+          </div>
+          <div class="feature-box highlight">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">tune</span>
+              <h4 class="feature-box-title">설정 페이지 '앱 알림' 완벽 연동</h4>
+            </div>
+            <p class="feature-box-desc">
+              [설정 &gt; 앱 알림] 토글 스위치를 통해 원치 않을 때 언제든 알림 및 상단 붉은 뱃지를 끌 수 있으며, 켜면 즉시 병상 감시가 재개됩니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 4: 통화 스크립트 & 필수 준비물 -->
+      <section class="guide-card chapter-section" id="section-ch4" data-chapter="ch4">
+        <div class="guide-card-header">
+          <div class="guide-card-icon icon-purple">
+            <span class="material-symbols-outlined">call</span>
+          </div>
+          <div class="guide-card-title-group">
+            <div class="guide-card-step-badge">STEP 4. 출발 전 안심 준비</div>
+            <h3 class="guide-card-title">1초 안심 통화 대본 &amp; 필수 준비물</h3>
+          </div>
+        </div>
+        <p class="guide-card-desc">
+          응급실에 가기 전, 의료진에게 전화를 걸어 지금 진료가 가능한지 확인하는 것이 가장 안전합니다. 당황스러운 부모님을 위해 브리핑 대본과 준비물을 정리했습니다.
+        </p>
+
+        <div class="feature-box highlight" style="margin-bottom: 8px;">
+          <div class="feature-box-top">
+            <span class="material-symbols-outlined" style="color: #7c3aed; font-size: 18px;">record_voice_over</span>
+            <h4 class="feature-box-title">표준 사전 통화 브리핑 대본</h4>
+          </div>
+          <p class="feature-box-desc" style="font-family: monospace; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #ddd6fe; color: #4338ca;">
+            "여보세요, 24개월 환아 보호자입니다. 현재 체온 39.2도이며 열성 경련 증세가 있어 이동하려 합니다. 현재 소아과 전문의 진료 및 입원 병상 배정이 가능한가요?"
+          </p>
+        </div>
+
+        <h4 style="font-size: 14px; font-weight: 800; color: #1e293b; margin: 6px 0 2px 0;">🎒 응급실 출발 전 필수 준비물 5종</h4>
+        <div class="checklist-items">
+          <div class="checklist-row">
+            <span class="material-symbols-outlined checklist-icon">check_circle</span>
+            <span>주민등록등본 또는 가족관계증명서 (모바일 전자문서 가능)</span>
+          </div>
+          <div class="checklist-row">
+            <span class="material-symbols-outlined checklist-icon">check_circle</span>
+            <span>보호자(부모) 신분증</span>
+          </div>
+          <div class="checklist-row">
+            <span class="material-symbols-outlined checklist-icon">check_circle</span>
+            <span>복용 중인 약 또는 처방전/복약수첩</span>
+          </div>
+          <div class="checklist-row">
+            <span class="material-symbols-outlined checklist-icon">check_circle</span>
+            <span>여벌 옷, 기저귀, 물티슈, 젖병/보온병</span>
+          </div>
+          <div class="checklist-row">
+            <span class="material-symbols-outlined checklist-icon">check_circle</span>
+            <span>환아 보온을 위한 겉옷 또는 얇은 담요</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 5: 자주 묻는 질문 (FAQ) -->
+      <section class="guide-card chapter-section" id="section-ch5" data-chapter="ch5">
+        <div class="guide-card-header">
+          <div class="guide-card-icon icon-amber">
+            <span class="material-symbols-outlined">quiz</span>
+          </div>
+          <div class="guide-card-title-group">
+            <div class="guide-card-step-badge">FAQ. 궁금증 해결</div>
+            <h3 class="guide-card-title">자주 묻는 질문</h3>
+          </div>
+        </div>
+
+        <details class="faq-accordion" open>
+          <summary class="faq-summary">Q1. 달빛어린이병원과 소아 응급실은 어떻게 다른가요?</summary>
+          <div class="faq-body">
+            <strong>달빛어린이병원</strong>은 평일 야간 및 주말/공휴일에도 경증 소아 환자를 전문의가 진료하는 소아청소년과 클리닉입니다. 응급실보다 대기 시간이 훨씬 짧고 진료비 부담도 적습니다. 반면 <strong>소아 응급실</strong>은 심한 호흡곤란, 의식 저하, 심한 탈수 등 생명이 위급한 중증 환아를 치료하는 곳입니다.
+          </div>
+        </details>
+
+        <details class="faq-accordion">
+          <summary class="faq-summary">Q2. 실시간 병상 정보는 얼마나 정확한가요?</summary>
+          <div class="faq-body">
+            아이숨의 응급실 병상 데이터는 국립중앙의료원(NMC) 중앙응급의료센터 E-Gen 시스템과 3분 주기로 실시간 동기화됩니다. 다만 병원 현장의 응급 환자 이송 상황에 따라 수시로 변동될 수 있으므로, 출발 전 '사전 통화 스크립트'를 통해 유선 확인하시는 것을 권장합니다.
+          </div>
+        </details>
+
+        <details class="faq-accordion">
+          <summary class="faq-summary">Q3. 아이숨 서비스 이용 요금이 있나요?</summary>
+          <div class="faq-body">
+            아닙니다. 아이숨은 대한민국 모든 영유아 및 어린이의 야간 의료 공백을 해소하기 위한 <strong>100% 무료 공공 복지 서비스</strong>입니다. 회원가입 없이도 누구나 즉시 안심하고 이용하실 수 있습니다.
+          </div>
+        </details>
+
+        <details class="faq-accordion">
+          <summary class="faq-summary">Q4. 이전 문진 결과는 어디서 다시 볼 수 있나요?</summary>
+          <div class="faq-body">
+            하단 메뉴의 <strong>[기록]</strong> 탭을 누르시면, 이전에 진행했던 문진 내용과 판정 결과, 추천받은 병원 목록을 0ms 만에 그대로 다시 확인하실 수 있습니다.
+          </div>
+        </details>
+
+        <details class="faq-accordion">
+          <summary class="faq-summary">Q5. 집에서 할 수 있는 응급처치 수칙은 어디서 보나요?</summary>
+          <div class="faq-body">
+            하단 메뉴의 <strong>[응급실 가이드]</strong> 탭에서 소아 고열 대처법, 열성 경련 시 응급처치, 기도 이물 폐쇄(하임리히법), 화상 응급처치 등 전문의 감수 수칙을 카드뉴스로 확인하실 수 있습니다.
+          </div>
+        </details>
+      </section>
+
+    </main>
+
+    <!-- 5. Floating Action CTA Bar -->
+    <div class="guidebook-cta-bar" role="region" aria-label="빠른 실행 메뉴">
+      <a href="index.html" class="btn-cta-triage">
+        <span class="material-symbols-outlined" style="font-size: 19px;">stethoscope</span>
+        <span>우리 아이 증상 문진 시작</span>
+      </a>
+      <a href="emergency_guide.html" class="btn-cta-guide" title="응급처치 가이드">
+        <span class="material-symbols-outlined" style="font-size: 18px;">menu_book</span>
+        <span>응급수칙</span>
+      </a>
+    </div>
+
+  </div>
+
+  <script>
+    // 뒤로가기 스마트 핸들러
+    function handleGoBack() {
+      if (window.history.length > 1 && document.referrer) {
+        window.history.back();
+      } else {
+        window.location.href = 'settings.html';
+      }
+    }
+
+    // 챕터별 필터링 스크립트
+    function filterChapter(chapterId) {
+      // 1. 버튼 활성화 상태 업데이트
+      const buttons = document.querySelectorAll('.chapter-tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      const activeBtn = Array.from(buttons).find(b => b.getAttribute('onclick').includes(`'${chapterId}'`));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // 2. 섹션 표시/숨김 제어
+      const sections = document.querySelectorAll('.chapter-section');
+      if (chapterId === 'all') {
+        sections.forEach(sec => {
+          sec.style.display = 'flex';
+        });
+      } else {
+        sections.forEach(sec => {
+          if (sec.getAttribute('data-chapter') === chapterId) {
+            sec.style.display = 'flex';
+            // 부드러운 스크롤 이동
+            setTimeout(() => {
+              sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
+          } else {
+            sec.style.display = 'none';
+          }
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>

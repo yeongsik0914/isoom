@@ -28,6 +28,24 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.7.7-app-guidebook-view] 2026-10-18: 설정 페이지 '아이숨 가이드북' 전용 뷰(`/guidebook`) 신설 & 5대 핵심 가이드 체계 완결 릴리스 (정영식 팀장 총괄)
+* **📖 설정 화면 내 '아이숨 가이드북' 원터치 연동 (`settings.html`)**:
+  - '정보' 섹션의 아이숨 가이드북 항목을 `<a href="guidebook.html">` 링크로 연결하여 설정에서 한 번의 탭으로 가이드북에 즉시 진입 가능.
+* **🌐 프리미엄 아이숨 가이드북 전용 페이지 신규 구축 (`guidebook.html`, `/guidebook`)**:
+  - **비주얼 히어로 배너**: "야간 소아 응급실 뺑뺑이 끝! 아이숨과 함께라면 안심" 슬로건과 4대 가치 캡슐 배지 탑재.
+  - **원클릭 챕터 퀵 필터 탭**: `전체 보기`, `AI 문진`, `2-트랙 안내`, `병상 알림`, `통화 & 준비물`, `자주 묻는 질문`.
+  - **5대 핵심 챕터 가이드**:
+    - **STEP 1. 0ms AI 안심 문진**: 2021 소아 KTAS 168개 주증상 기반 3단계 터치 문진 및 초응급 0초 세이프티 가드레일.
+    - **STEP 2. 2-트랙 맞춤 안내**: 소아전문응급센터(KTAS 1~3 중증) vs 달빛어린이병원(KTAS 4~5 경증) 비교 가이드 및 야간 달빛약국 원스톱 연계.
+    - **STEP 3. 소아 응급실 실시간 병상 변동 알림**: 국립중앙의료원(NMC) E-Gen 3분 주기 감지 및 설정 앱 알림 토글 연동.
+    - **STEP 4. 1초 안심 통화 대본 & 필수 준비물 5종**: 당황한 부모님을 위한 사전 통화 표준 브리핑 대본 및 필수 준비물(등본, 신분증, 약, 기저귀, 담요) 체크리스트.
+    - **STEP 5. 자주 묻는 질문 (FAQ) 아코디언**: 달빛병원과 응급실 차이, 병상 데이터 정확도, 무료 이용, 이전 기록 다시보기 등 핵심 질의응답 수록.
+  - **하단 플로팅 CTA 바**: `[ 🩺 우리 아이 증상 문진 시작 ]` 원터치 버튼 탑재.
+* **⚡ FastAPI 라우팅 및 100% 통합 검증 (`main.py`, `tests/test_step8_frontend_integration.py`)**:
+  - `/guidebook`, `/guidebook.html` 라우팅 등록 및 루트 탐색 딕셔너리 연동.
+  - TC-808 (`test_08_guidebook_page_contract`) 신설 및 8/8 전수 100% 통과.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q173, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-173, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.98)**.
+
 ### 🌟 [v2.7.6-app-notification-toggle-integration] 2026-10-18: 설정 페이지 '앱 알림' On/Off 기능 & 메인화면 실시간 응급실 소아병동 알림 연동 체계 완결 릴리스 (정영식 팀장 총괄)
 * **🔔 설정 화면 '앱 알림' 토글 스위치 영구 연동 (`settings.html`)**:
   - `localStorage` 키 `aisum_app_notification_enabled` 기반으로 토글 On/Off 상태를 동기화하고 변경 시 실시간 영구 보존.

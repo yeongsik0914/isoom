@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v2.97 (설정 앱 알림 On/Off & 메인화면 실시간 소아병동 알림 연동 체계 구축, v2.7.6)
+> **문서 버전**: v2.98 (설정 아이숨 가이드북 전용 뷰 /guidebook 신설 & 5대 핵심 가이드 체계 구축, v2.7.7)
 > **최종 갱신 일자**: 2026-10-18
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 중복/추천기관 정제 엔진, AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md).

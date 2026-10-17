@@ -154,6 +154,7 @@ async def root(request: Request):
             "aisum_terms": "/terms",
             "aisum_qr": "/qr",
             "aisum_licenses": "/licenses",
+            "aisum_guidebook": "/guidebook",
         },
     }
 
@@ -347,6 +348,16 @@ async def get_aisum_licenses():
     if path:
         return FileResponse(path, media_type="text/html")
     return JSONResponse(status_code=404, content={"detail": "Licenses page not found"})
+
+
+@app.get("/guidebook", tags=["Frontend"], response_class=FileResponse)
+@app.get("/guidebook.html", tags=["Frontend"], response_class=FileResponse)
+async def get_aisum_guidebook():
+    """Serves the comprehensive Aisum App Guidebook page."""
+    path = find_frontend_html("guide", "guidebook.html")
+    if path:
+        return FileResponse(path, media_type="text/html")
+    return JSONResponse(status_code=404, content={"detail": "Guidebook page not found"})
 
 
 @app.get("/css/style.css", include_in_schema=False)
