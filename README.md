@@ -28,6 +28,89 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.8.3-notification-bed-sync-complete] 2026-10-18: 응급실 기록 모니터링 대상 자동 연동 및 E-Gen 실시간 병상 변동 감지 파이프라인 완결 릴리스 (정영식 팀장 총괄)
+* **🎯 기록 페이지 추천 응급실 감시 대상 1순위 자동 연동 (`main.js` - `getWatchTargets`, `result.html`)**:
+  - `AisumNotificationManager.getWatchTargets` 호출 시 `AisumHistoryManager`의 최신 중증(KTAS 1~3단계) 기록의 추천 시설명(`한림대학교성심병원`)을 1순위 감시 대상으로 자동 주입 및 동기화.
+  - 기존 레거시 제네릭 명칭(`소아응급센터`)을 영구 소독하여 알림 바텀시트 상단 배너에 정확한 병원명이 표출되도록 개선.
+  - `result.html` 렌더링 시 `registerWatch(hospitals, window.currentKtasLevel)`를 명시적으로 호출하여 최신 감시 타겟 즉시 등록.
+* **⚡ E-Gen API 응답 파싱 및 소아 병상(`pediatric_beds`) 필드 매핑 완비 (`main.js`)**:
+  - `syncAndCheckBeds`에서 백엔드 응답 `data.hospitals`를 정상 수신하도록 개선하여 백그라운드 30초 주기 폴링 파이프라인 정상 가동.
+  - `checkBedUpdates` 및 `registerWatch`에서 소아 잔여 병상 필드인 `pediatric_beds`를 1순위로 조회하여 실제 병상 증감(증가/감소/만실) 알림이 100% 정상 발송되도록 완결.
+* **🧪 13대 통합 계약 테스트 100% 전수 통과 (`tests/test_step8_frontend_integration.py`)**:
+  - TC-813 (`test_13_emergency_notification_history_sync_and_pediatric_beds_contract`) 신설 및 **13/13 100% 통과**.
+* **📜 4대 불변 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q179, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-179, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v3.04)**.
+
+### 🌟 [v2.8.2-history-dummy-prevention] 2026-10-18: 비동기 병상 로드 시 더미 히스토리 생성 원천 차단 및 사용자 입력값 1:1 매칭 릴리스 (정영식 팀장 총괄)
+* **🚫 비동기 병상 로드 시 유령 더미 레코드 생성 원천 차단 (`result.html`)**:
+  - `renderEmergencyBedCards` 내에서 기존 기록이 없을 때 임시 생성하던 더미 레코드(`childAge: '아이', temperature: '고열/응급'`) 코드를 완전히 제거.
+  - 비동기 로딩 완료 시에는 오직 최신 기록의 추천 시설명만 정밀 보정(`updateLatestHospital`)하도록 책임 분리.
+* **🎯 사용자 직접 입력값(`triageData`) 최우선 동기화 (`result.html`)**:
+  - `triageData.age`(`12개월 (영아)`) 및 `triageData.temp`(`체온 미측정(모름)`)를 최우선으로 반영하여, 입력 페이지 세팅값이 결과 화면 바이탈 칩 및 기록 카드에 100% 온전히 유지되도록 개선.
+* **🧹 과거 유령 더미 레코드 자동 소독 (`main.js` - `AisumHistoryManager`)**:
+  - `getAll()` 실행 시 과거에 누적되었던 `아이 / 고열·응급 / 소아 응급 상황` 형태의 유령 더미 레코드를 자동 감지하여 영구 소독.
+  - 최신 레코드가 더미인 경우 신규 생성 대신 실제 문진 데이터로 덮어쓰도록 처리.
+* **🧪 12대 통합 계약 테스트 100% 전수 통과 (`tests/test_step8_frontend_integration.py`)**:
+  - TC-812 (`test_12_history_duplicate_and_dummy_prevention_contract`) 신설 및 **12/12 100% 통과**.
+* **📜 4대 불변 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q178, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-178, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v3.03)**.
+
+### 🌟 [v2.8.1-notification-sheet-collapse-fix] 2026-10-18: 응급실 병상 변동 알림 카드 찌그러짐(Collapsing) 버그 해결 및 중복 알림 스마트 디듀플리케이션 체계 완결 릴리스 (정영식 팀장 총괄)
+* **🛡️ Flexbox 수축(Flex-Shrink) 원천 차단 및 무결점 카드 높이 보장 (`style.css`)**:
+  - 알림이 다수 누적될 때 `.sheet-body` 플렉스 컨테이너 안에서 카드가 1~2px 두께로 찌그러지던 CSS 수축 버그를 완벽 해결.
+  - `.sheet-body`에 `min-height: 0; flex: 1; overflow-y: auto;`를 부여하고, `.notif-card-wrapper` 및 `.notif-card`에 `flex-shrink: 0; min-height: 85px;`를 명시하여 아무리 많은 알림이 쌓여도 부드럽게 세로 스크롤되도록 보장.
+  - `.watch-status-banner` 및 `.history-card`에도 `flex-shrink: 0;`를 사전 적용하여 잠재적 레이아웃 붕괴 전면 차단.
+* **⚡ 스마트 디듀플리케이션 및 중복 병원명 Set 필터링 (`main.js`, `index.html`)**:
+  - `addNotification`에 3분 이내 동일 제목/메시지 중복 등록 방지 및 `WATCH_START` 30분 쿨다운을 적용하여 동일 알림 폭증 차단.
+  - 상단 감시 배너의 대상 응급실 명칭에서 `Set`을 적용하여 "소아응급센터, 소아응급센터, 소아응급센터" 중복 표출 현상을 완전 소독.
+* **🧪 11대 통합 계약 테스트 100% 전수 통과 (`tests/test_step8_frontend_integration.py`)**:
+  - TC-811 (`test_11_notification_sheet_collapse_prevention_contract`) 신설 및 **11/11 100% 통과**.
+* **📜 4대 불변 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q177, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-177, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v3.02)**.
+
+### 🌟 [v2.8.0-integrated-measurement-hub] 2026-10-18: 입력 페이지 체온·나이·해열제 3대 측정 항목 통합 탭 카드 구축(한 칸 내 원터치 전환 UI) 릴리스 (정영식 팀장 총괄)
+* **🎛️ 3대 핵심 측정 항목 단일 통합 허브 카드 결합 (`#card-measurement-hub`, `.integrated-measure-card`)**:
+  - 기존 세로 3단계(체온, 나이, 해열제)로 길게 나열되어 스크롤 피로도가 높았던 구조를 단 1개의 세련된 통합 카드로 전면 개편.
+  - 상단에 **3대 카테고리 탭 버튼 바 (`.measure-tab-bar`)** 신설:
+    - `[ 🌡️ 현재 체온 (36.5℃) ]`
+    - `[ 👶 아이 나이 (14개월) ]`
+    - `[ 💊 해열제·상태 (복용 안 함) ]`
+* **🔄 원터치 0ms 탭 전환 엔진 및 퀵 내비게이션 구축 (`switchMeasureTab`, `.measure-panel`)**:
+  - 상단 탭 버튼 클릭 시 한 칸(단일 컨테이너) 안에서 체온 게이지 패널 / 3+2 나이 조절 패널 / 해열제 및 동반 증상 패널이 페이드인 애니메이션과 함께 매끄럽게 교체 표출.
+  - 각 패널 하단에 `[ 다음 단계 설정 → ]` 퀵 버튼을 두어 자연스러운 순차 입력 플로우 제공.
+* **⚡ 실시간 탭 요약 배지 & 하단 액션바 양방향 동기화**:
+  - 어느 탭에서 값을 조작하든 탭 헤더의 상태 배지(`tab-val-temp`, `tab-val-age`, `tab-val-med`)가 0ms로 실시간 반영되어 다른 탭을 보면서도 전체 세팅 현황을 한눈에 파악 가능.
+* **🧪 10대 통합 계약 테스트 100% 전수 통과 (`tests/test_step8_frontend_integration.py`)**:
+  - TC-810 (`test_10_integrated_measurement_tabs_contract`) 신설 및 **10/10 100% 통과**.
+* **📜 4대 불변 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q176, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-176, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v3.01)**.
+
+### 🌟 [v2.7.9-pediatric-age-grid-buttons] 2026-10-18: 입력 페이지 선택박스 전면 제거 & 3+2 반응형 그리드 카테고리 버튼 도입(청소년 버튼 잘림 완전 해소) 릴리스 (정영식 팀장 총괄)
+* **🗑️ 드롭다운 선택박스 제거 및 직관적 원터치 카테고리 버튼 전면 전환 (`input.html`)**:
+  - 화면 상단을 불필요하게 차지하던 `<select>` 드롭다운 박스를 전면 제거하고, 오직 손가락으로 가볍게 터치할 수 있는 카테고리 버튼만으로 연령대를 분류하도록 UI를 극적으로 단순화.
+* **📱 청소년 버튼 UI 잘림 원천 해결: 6컬럼 3+2 반응형 스마트 그리드 구축 (`.age-cat-grid`, `.age-cat-btn`)**:
+  - 기존 1열 나열 시 모바일 화면 우측 경계에서 '청소년' 버튼이 잘리던 문제를 해결하기 위해 6컬럼 3+2 스마트 그리드로 재설계.
+  - **상단 3개 (각 2컬럼 차지)**: `[👶 신생아 (28일 미만)]`, `[🍼 영아 (~24개월)]`, `[🧸 유아 (만 2~5세)]`.
+  - **하단 2개 (각 3컬럼 차지, 50% 와이드 레이아웃)**: `[🎒 어린이(아동) (만 6~12세 미만)]`, `[🎧 청소년 (만 12~18세)]`.
+  - 모든 버튼에 이모지, 연령명, 기준 세부 연령(sub)을 체계적으로 담아 글자가 절대 잘리지 않으며, 손가락 터치 면적이 넉넉하게 확보되어 모바일 UX 극대화.
+* **⚡ 자바스크립트 양방향 연동 & 100% 통합 검증 (`tests/test_step8_frontend_integration.py`)**:
+  - `setAgeCategory`에서 `ageCatButtons`의 활성화 토글을 즉각 반영하고, 슬라이더/눈금선/프리셋과 완벽 호환.
+  - TC-809 (`test_09_pediatric_age_category_selector_contract`) 검증 갱신 및 9/9 전수 100% 통과.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q175, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-175, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v3.00)**.
+
+### 🌟 [v2.7.8-pediatric-age-category-engine] 2026-10-18: 입력 페이지 소아 연령 0세~만18세 전면 확장 & 5대 연령 분류 선택박스·맞춤형 동적 조절 칸 엔진 구축 릴리스 (정영식 팀장 총괄)
+* **👶 소아 연령 0세 ~ 만 18세 전 연령대 확장 및 5대 의학적 분류 선택박스 (`input.html`)**:
+  - 기존 0~7세 단일 슬라이더의 한계를 극복하고, 소아청소년과 임상 지침에 맞춘 5대 연령 분류 선택박스(`<select id="age-category-select">`) 및 원터치 칩 연동:
+    - **신생아**: 출생 후 28일 미만 (생후 4주일까지 / 0~27일 일령 조절)
+    - **영아**: 생후 28일 이상 ~ 24개월 미만 (1~23개월 개월수 조절, 100일 미만 주의 배지 연동)
+    - **유아**: 생후 24개월 이상 ~ 만 6세 미만 (만 2~5세 만 나이 및 개월수 병기)
+    - **어린이(아동)**: 만 6세 이상 ~ 만 12세 미만 (만 6~11세 학령기 프리셋 연동)
+    - **청소년**: 만 12세 이상 ~ 만 19세 미만 (만 12~18세 중·고교생 연령 조절)
+* **🎛️ 카테고리별 맞춤형 동적 나이 조절 칸 엔진 (`setAgeCategory`, `updateAgeDisplay`)**:
+  - 선택박스에서 분류 변경 시 슬라이더 범위(min/max/step), 정밀 눈금선(marks), 퀵 프리셋 버튼(presets), 위험 안내문(notice)이 즉시 동적으로 생성/재배치.
+  - 신생아 선택 시 일령(일) 단위 슬라이더 및 신생아 발열·패혈증 응급실 진료 권고 배너 노출.
+  - 영아 선택 시 생후 100일 미만 🚨 퀵 프리셋과 3개월 이하 자동 감지 배지 점등.
+* **⚡ 데이터 표준화 및 100% 통합 검증 (`tests/test_step8_frontend_integration.py`)**:
+  - `getFormattedAge()` 표준화로 서머리 바 및 백엔드 제출 페이로드 완벽 일치.
+  - TC-809 (`test_09_pediatric_age_category_selector_contract`) 신설 및 9/9 전수 100% 통과.
+* **📜 4대 거버넌스 문서 완벽 동기화 ([Answer-영식.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/Answer-영식.md) Q174, [log.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/log.md) ISSUE-174, [PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PLAN.md) v2.99)**.
+
 ### 🌟 [v2.7.7-app-guidebook-view] 2026-10-18: 설정 페이지 '아이숨 가이드북' 전용 뷰(`/guidebook`) 신설 & 5대 핵심 가이드 체계 완결 릴리스 (정영식 팀장 총괄)
 * **📖 설정 화면 내 '아이숨 가이드북' 원터치 연동 (`settings.html`)**:
   - '정보' 섹션의 아이숨 가이드북 항목을 `<a href="guidebook.html">` 링크로 연결하여 설정에서 한 번의 탭으로 가이드북에 즉시 진입 가능.

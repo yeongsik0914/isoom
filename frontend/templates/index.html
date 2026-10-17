@@ -553,7 +553,7 @@
         } else if (isSevere && targets.length > 0) {
           banner.style.background = '';
           banner.style.borderColor = '';
-          const names = targets.map(t => t.dutyName).join(', ');
+          const names = Array.from(new Set(targets.map(t => t.dutyName).filter(Boolean))).join(', ') || '소아응급센터';
           banner.className = 'watch-status-banner active-watch';
           banner.innerHTML = `
             <span class="material-symbols-outlined" style="color: #ef4444; font-size: 20px; flex-shrink: 0;">e911_emergency</span>

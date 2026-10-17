@@ -3662,6 +3662,7 @@ body.font-size-large .location-pill {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -3678,6 +3679,7 @@ body.font-size-large .location-pill {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .watch-status-banner.active-watch {
@@ -3700,6 +3702,9 @@ body.font-size-large .location-pill {
   padding: 16px;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  flex-shrink: 0;
+  min-height: 80px;
+  box-sizing: border-box;
 }
 
 .history-card:active {
@@ -3817,6 +3822,10 @@ body.font-size-large .location-pill {
   margin-bottom: 10px;
   touch-action: pan-y;
   background: #fee2e2;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 85px;
 }
 
 .notif-swipe-bg {
@@ -3848,6 +3857,9 @@ body.font-size-large .location-pill {
   z-index: 2;
   will-change: transform, opacity;
   user-select: none;
+  flex-shrink: 0;
+  min-height: 85px;
+  box-sizing: border-box;
 }
 
 .notif-card.swiping {

@@ -15,8 +15,7 @@
     rel="stylesheet" />
 
   <!-- Material Symbols Outlined -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
 
   <!-- Mobile App / PWA Standalone Meta Tags -->
@@ -339,9 +338,17 @@
     }
 
     @keyframes micPulseWave {
-      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
-      70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+      }
     }
 
     .voice-status-tip {
@@ -518,8 +525,286 @@
     }
 
     /* --------------------------------------------------------------------------
-       3. Section 3: Clean Age Selector (100% Proportional Alignment)
+       통합 측정 탭 허브 (한 칸에서 체온, 나이, 해열제 모두 조작)
        -------------------------------------------------------------------------- */
+    .integrated-measure-card {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1.5px solid #e2e8f0;
+      padding: 16px 14px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+
+    .measure-tab-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+    }
+
+    .measure-tab-btn {
+      background: transparent;
+      border: none;
+      border-radius: 11px;
+      padding: 8px 4px 7px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      -webkit-tap-highlight-color: transparent;
+      min-height: 52px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .measure-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    .measure-tab-btn.active {
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    }
+
+    .measure-tab-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #64748b;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      line-height: 1.2;
+    }
+
+    .measure-tab-btn.active .measure-tab-title {
+      color: #0066ff;
+    }
+
+    .measure-tab-val-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #64748b;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      padding: 2px 7px;
+      margin-top: 3px;
+      line-height: 1.1;
+      max-width: 95%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .measure-tab-btn.active .measure-tab-val-badge {
+      background: #eff6ff;
+      color: #0066ff;
+      font-weight: 800;
+    }
+
+    .measure-panel {
+      display: none;
+      animation: fadeInMeasurePanel 0.2s ease-out;
+    }
+
+    .measure-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeInMeasurePanel {
+      from {
+        opacity: 0;
+        transform: translateY(3px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .panel-quick-nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed #e2e8f0;
+    }
+
+    .panel-nav-btn {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px 11px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .panel-nav-btn:hover {
+      background: #f1f5f9;
+      color: #0066ff;
+      border-color: #cbd5e1;
+    }
+
+    .panel-nav-btn.primary {
+      background: #eff6ff;
+      color: #0066ff;
+      border-color: #bfdbfe;
+    }
+
+    .panel-nav-btn.primary:hover {
+      background: #0066ff;
+      color: #ffffff;
+      border-color: #0066ff;
+    }
+
+    /* --------------------------------------------------------------------------
+       3. Section 3: 소아 5대 연령 카테고리 버튼 & 맞춤형 동적 조절 칸 (0세 ~ 만 18세)
+       -------------------------------------------------------------------------- */
+    .age-category-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+
+    .age-cat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 0 2px;
+    }
+
+    .age-cat-header-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #334155;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .age-cat-header-sub {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    /* 5대 연령 카테고리 3+2 반응형 그리드 (잘림 제로, 가독성 극대화) */
+    .age-cat-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* 상단 3개: 신생아, 영아, 유아 (각 2칸 차지) */
+    .age-cat-btn {
+      grid-column: span 2;
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 9px 4px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.18s ease;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 56px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    /* 하단 2개: 어린이(아동), 청소년 (각 3칸 차지) */
+    .age-cat-btn.wide {
+      grid-column: span 3;
+      padding: 9px 10px 8px;
+      flex-direction: row;
+      gap: 8px;
+      min-height: 52px;
+      justify-content: center;
+    }
+
+    .age-cat-btn.wide .age-cat-btn-text-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .age-cat-btn-icon {
+      font-size: 18px;
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+
+    .age-cat-btn.wide .age-cat-btn-icon {
+      font-size: 20px;
+      margin-bottom: 0;
+    }
+
+    .age-cat-btn-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+
+    .age-cat-btn-sub {
+      font-size: 10px;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: 2px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .age-cat-btn:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .age-cat-btn:active {
+      transform: scale(0.97);
+    }
+
+    .age-cat-btn.active {
+      background: #0066ff;
+      border-color: #0066ff;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+    }
+
+    .age-cat-btn.active .age-cat-btn-name {
+      color: #ffffff;
+    }
+
+    .age-cat-btn.active .age-cat-btn-sub {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    /* Clean Age Display Box */
     .age-display-box {
       display: flex;
       align-items: center;
@@ -529,15 +814,31 @@
       padding: 12px 16px;
       border-radius: 14px;
       border: 1px solid #e2e8f0;
-      min-height: 72px; /* 나이 변경 시 카드 높이 덜컥임 완전 차단 */
+      min-height: 72px;
       box-sizing: border-box;
+    }
+
+    .age-label-sub-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
     }
 
     .age-label-sub {
       font-size: 11px;
       font-weight: 600;
       color: #64748b;
-      margin-bottom: 3px;
+    }
+
+    .age-cat-pill-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #0066ff;
+      background: #eff6ff;
+      border: 1px solid #dbeafe;
+      padding: 1px 7px;
+      border-radius: 9999px;
     }
 
     .age-value-text {
@@ -595,7 +896,6 @@
       transform: scale(1.15);
     }
 
-    /* Precisely Positioned Ruler Marks matching 0, 12, 24, 48, 84 months */
     .age-ruler-track {
       position: relative;
       width: 100%;
@@ -612,69 +912,64 @@
       white-space: nowrap;
     }
 
-    .age-mark-item.pos-0  { left: 0%; transform: translateX(0); }
-    .age-mark-item.pos-24 { left: 28.6%; }
-    .age-mark-item.pos-48 { left: 57.1%; }
-    .age-mark-item.pos-84 { left: 100%; transform: translateX(-100%); }
-
-    .age-mark-dot {
-      position: absolute;
-      top: 6px;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #cbd5e1;
-      transform: translateX(-50%);
-    }
-    .age-mark-dot.pos-12 { left: 14.3%; }
-
-    /* Single Essential Newborn Button */
-    .newborn-quick-row {
+    /* Preset Quick Action Buttons */
+    .age-quick-preset-row {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      justify-content: flex-start;
+      gap: 6px;
       margin-top: 14px;
     }
 
-    .newborn-pill-btn {
-      background: #fef2f2;
-      border: 1.5px solid #fecaca;
-      color: #dc2626;
-      padding: 7px 14px;
+    .age-preset-pill-btn {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      padding: 6px 12px;
       border-radius: 9999px;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       transition: all 0.15s ease;
       font-family: inherit;
     }
 
-    .newborn-pill-btn:hover {
-      background: #fee2e2;
-      border-color: #f87171;
+    .age-preset-pill-btn:hover {
+      background: #e2e8f0;
     }
 
-    .newborn-pill-btn.active {
+    .age-preset-pill-btn.danger {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #dc2626;
+    }
+
+    .age-preset-pill-btn.danger.active {
       background: #dc2626;
       color: #ffffff;
       border-color: #dc2626;
     }
 
-    .newborn-alert-banner {
+    .age-preset-pill-btn.active:not(.danger) {
+      background: #0066ff;
+      color: #ffffff;
+      border-color: #0066ff;
+    }
+
+    .age-special-notice-box {
       display: none;
-      background: #fee2e2;
-      border: 1.5px solid #ef4444;
-      color: #991b1b;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1.5;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 8px 12px;
       margin-top: 12px;
-      animation: fadeIn 0.2s ease;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #991b1b;
+      font-weight: 600;
     }
 
     /* --------------------------------------------------------------------------
@@ -928,8 +1223,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
@@ -937,10 +1239,10 @@
 <body class="app-shell-body">
   <script>
     // 🛡️ 1단계: 이용약관 미동의 시 문진 진입 차단 및 terms.html 강제 이동
-    (function() {
+    (function () {
       try {
         var isTermsAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
-                            sessionStorage.getItem('aisum_terms_agreed') === 'true';
+          sessionStorage.getItem('aisum_terms_agreed') === 'true';
         if (!isTermsAgreed) {
           window.location.replace('terms.html');
           return;
@@ -948,7 +1250,7 @@
 
         // 🛡️ 2단계: 접근 권한 미동의 시 permission.html 강제 이동
         var isPermGranted = localStorage.getItem('aisum_permission_granted') === 'true' ||
-                            sessionStorage.getItem('aisum_permission_granted') === 'true';
+          sessionStorage.getItem('aisum_permission_granted') === 'true';
         if (!isPermGranted) {
           window.location.replace('permission.html');
           return;
@@ -1006,19 +1308,15 @@
 
         <!-- Underline Input Field with Clear & Mic Buttons -->
         <div class="symptom-input-box">
-          <input
-            type="text"
-            id="symptom-input"
-            class="symptom-underline-field"
-            placeholder="아이가 어디가 아픈가요? (음성 가능)"
-            autocomplete="off"
-            autofocus
-          />
+          <input type="text" id="symptom-input" class="symptom-underline-field" placeholder="아이가 어디가 아픈가요? (음성 가능)"
+            autocomplete="off" autofocus />
           <div class="input-action-buttons">
-            <button type="button" class="icon-action-btn" id="input-clear-btn" style="display: none;" aria-label="내용 지우기">
+            <button type="button" class="icon-action-btn" id="input-clear-btn" style="display: none;"
+              aria-label="내용 지우기">
               <span class="material-symbols-outlined" style="font-size: 19px;">cancel</span>
             </button>
-            <button type="button" class="icon-action-btn mic-record-btn" id="mic-record-btn" title="음성으로 증상 말하기" aria-label="음성인식 시작">
+            <button type="button" class="icon-action-btn mic-record-btn" id="mic-record-btn" title="음성으로 증상 말하기"
+              aria-label="음성인식 시작">
               <span class="material-symbols-outlined" id="mic-icon" style="font-size: 20px;">mic</span>
             </button>
           </div>
@@ -1043,247 +1341,349 @@
       </section>
 
       <!-- ====================================================================
-           2. 현재 체온 (180도 부채꼴 다이얼 + 미입력/미조작 시 기본 '모름' 자동 처리)
+           2. 아이 상태 및 측정 상세 (체온 · 나이 · 해열제 3대 카테고리 탭 통합 카드)
            ==================================================================== -->
-      <section class="triage-section-card" id="card-temp">
+      <section class="triage-section-card integrated-measure-card" id="card-measurement-hub">
         <div class="section-header">
           <div class="section-title-wrap">
             <span class="section-step-num">2</span>
-            <h2 class="section-title">현재 체온</h2>
+            <h2 class="section-title">아이 상태 상세 측정</h2>
           </div>
-          <span class="section-badge" id="temp-stage-badge">터치하여 설정</span>
+          <span class="section-badge" style="background: #eff6ff; color: #0066ff;">3개 항목 탭 선택</span>
         </div>
 
-        <!-- Thermometer Radial Gauge Container -->
-        <div class="gauge-container">
-          <div class="gauge-svg-wrap" id="gauge-touch-area">
-            <svg class="gauge-svg" viewBox="0 0 340 210">
-              <defs>
-                <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#10b981" />   <!-- 36.0℃ 정상 (초록) -->
-                  <stop offset="30%" stop-color="#34d399" />  <!-- 37.5℃ 미열 시작 (연초록) -->
-                  <stop offset="40%" stop-color="#f59e0b" />  <!-- 38.0℃ 발열 기준점 (황색) -->
-                  <stop offset="60%" stop-color="#f97316" />  <!-- 39.0℃ 고열 주의 (주황) -->
-                  <stop offset="80%" stop-color="#ef4444" />  <!-- 40.0℃ 초고열 위급 (적색) -->
-                  <stop offset="100%" stop-color="#991b1b" /> <!-- 41.0℃ 위험 (암적색) -->
-                </linearGradient>
-
-                <filter id="needleShadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25" />
-                </filter>
-              </defs>
-
-              <!-- Track Background Arc -->
-              <path
-                d="M 30,180 A 140,140 0 0,1 310,180"
-                fill="none"
-                stroke="#f1f5f9"
-                stroke-width="20"
-                stroke-linecap="round"
-              />
-
-              <!-- Colored Temperature Gradient Arc -->
-              <path
-                d="M 30,180 A 140,140 0 0,1 310,180"
-                fill="none"
-                stroke="url(#gaugeGradient)"
-                stroke-width="18"
-                stroke-linecap="round"
-              />
-
-              <!-- Gauge Scale Ticks -->
-              <g stroke="#94a3b8" stroke-width="2" stroke-linecap="round" opacity="0.6">
-                <line x1="30" y1="180" x2="42" y2="180" />
-                <line x1="57" y1="102" x2="68" y2="107" />
-                <line x1="122" y1="48" x2="128" y2="59" />
-                <line x1="218" y1="48" x2="212" y2="59" />
-                <line x1="283" y1="102" x2="272" y2="107" />
-                <line x1="310" y1="180" x2="298" y2="180" />
-              </g>
-
-              <!-- Scale Text Labels -->
-              <g font-size="11" font-weight="700" fill="#64748b" text-anchor="middle">
-                <text x="32" y="198">36℃</text>
-                <text x="64" y="94">37℃</text>
-                <text x="126" y="38">38℃</text>
-                <text x="214" y="38">39℃</text>
-                <text x="282" y="94">40℃</text>
-                <text x="308" y="198">41℃</text>
-              </g>
-
-              <!-- Rotating Needle Group -->
-              <g id="gauge-needle" class="gauge-needle-group" filter="url(#needleShadow)">
-                <polygon points="167,180 173,180 171,44 169,44" fill="#0f172a" />
-                <circle cx="170" cy="180" r="16" fill="#0f172a" />
-                <circle cx="170" cy="180" r="7" fill="#ffffff" />
-                <circle cx="170" cy="44" r="12" fill="#0066ff" stroke="#ffffff" stroke-width="3" />
-              </g>
-            </svg>
-
-            <!-- Center Digital Temperature Readout -->
-            <div class="gauge-center-display">
-              <div class="gauge-temp-value" id="gauge-temp-text">
-                <span id="temp-number-display">36.5 <span class="gauge-temp-unit">℃</span></span>
-              </div>
-              <div class="gauge-temp-badge" id="temp-status-badge" style="background: #d1fae5; color: #065f46;">
-                <span>🟢 정상 체온</span>
-              </div>
+        <!-- 3대 카테고리 탭 버튼 바 (체온, 나이, 해열제 및 동반 상태) -->
+        <div class="measure-tab-bar" role="tablist" aria-label="아이 상태 측정 탭">
+          <!-- 탭 1: 현재 체온 -->
+          <button type="button" class="measure-tab-btn active" id="tab-btn-temp" role="tab" aria-selected="true"
+            data-target-panel="card-temp">
+            <div class="measure-tab-title">
+              <span class="material-symbols-outlined" style="font-size: 15px;">device_thermostat</span>
+              <span>현재 체온</span>
             </div>
+            <span class="measure-tab-val-badge" id="tab-val-temp">36.5℃</span>
+          </button>
 
-            <!-- "Unknown Temperature" Semi-transparent Overlay -->
-            <div class="gauge-unknown-overlay" id="gauge-unknown-overlay" style="display: none;">
-              <span class="material-symbols-outlined" style="font-size: 32px; color: #64748b;">help_outline</span>
-              <p style="margin: 6px 0 0; font-size: 15px; font-weight: 800; color: #334155;">체온 미측정 (모름)</p>
-              <p style="margin: 2px 0 0; font-size: 12px; color: #64748b;">체온을 측정하지 않아도 안전하게 병원을 찾아드립니다</p>
+          <!-- 탭 2: 아이 나이 -->
+          <button type="button" class="measure-tab-btn" id="tab-btn-age" role="tab" aria-selected="false"
+            data-target-panel="card-age">
+            <div class="measure-tab-title">
+              <span class="material-symbols-outlined" style="font-size: 15px;">child_care</span>
+              <span>아이 나이</span>
             </div>
-          </div>
+            <span class="measure-tab-val-badge" id="tab-val-age">14개월</span>
+          </button>
 
-          <!-- "체온 모름" Toggle Button -->
-          <button type="button" class="temp-unknown-toggle-btn" id="btn-unknown-temp">
-            <span class="material-symbols-outlined" style="font-size: 17px;">question_mark</span>
-            <span id="unknown-toggle-text">체온을 재지 못했거나 몰라요</span>
+          <!-- 탭 3: 해열제 & 상태 -->
+          <button type="button" class="measure-tab-btn" id="tab-btn-med" role="tab" aria-selected="false"
+            data-target-panel="card-medication">
+            <div class="measure-tab-title">
+              <span class="material-symbols-outlined" style="font-size: 15px;">medication</span>
+              <span>해열제·상태</span>
+            </div>
+            <span class="measure-tab-val-badge" id="tab-val-med">복용 안 함</span>
           </button>
         </div>
-      </section>
 
-      <!-- ====================================================================
-           3. 아이 나이 (24개월 이하 개월 수, 이후 나이 표기 & 비례 눈금 100% 일치)
-           ==================================================================== -->
-      <section class="triage-section-card" id="card-age">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <span class="section-step-num">3</span>
-            <h2 class="section-title">아이 나이</h2>
-          </div>
-        </div>
+        <!-- 3대 측정 통합 패널 컨테이너 (한 칸에서 탭 전환) -->
+        <div class="measure-panels-container">
+          <!-- ------------------------------------------------------------------
+               패널 1. 현재 체온 (180도 부채꼴 다이얼 + 모름 토글)
+               ------------------------------------------------------------------ -->
+          <div class="measure-panel active" id="card-temp" role="tabpanel" aria-labelledby="tab-btn-temp">
+            <div class="panel-inner-header"
+              style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span
+                style="font-size: 12px; font-weight: 700; color: #475569; display: inline-flex; align-items: center; gap: 4px;">
+                <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">thermostat</span>
+                <span>체온을 터치하거나 다이얼을 돌려주세요</span>
+              </span>
+              <span class="section-badge" id="temp-stage-badge">터치하여 설정</span>
+            </div>
 
-        <!-- Clean Age Display Box with Fixed Height (Zero Layout Shift) -->
-        <div class="age-display-box">
-          <div>
-            <div class="age-label-sub">선택된 연령</div>
-            <div class="age-value-text" id="age-value-text">
-              <span id="age-main-display">14개월</span>
+            <!-- Thermometer Radial Gauge Container -->
+            <div class="gauge-container">
+              <div class="gauge-svg-wrap" id="gauge-touch-area">
+                <svg class="gauge-svg" viewBox="0 0 340 210">
+                  <defs>
+                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#10b981" /> <!-- 36.0℃ 정상 (초록) -->
+                      <stop offset="30%" stop-color="#34d399" /> <!-- 37.5℃ 미열 시작 (연초록) -->
+                      <stop offset="40%" stop-color="#f59e0b" /> <!-- 38.0℃ 발열 기준점 (황색) -->
+                      <stop offset="60%" stop-color="#f97316" /> <!-- 39.0℃ 고열 주의 (주황) -->
+                      <stop offset="80%" stop-color="#ef4444" /> <!-- 40.0℃ 초고열 위급 (적색) -->
+                      <stop offset="100%" stop-color="#991b1b" /> <!-- 41.0℃ 위험 (암적색) -->
+                    </linearGradient>
+
+                    <filter id="needleShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.25" />
+                    </filter>
+                  </defs>
+
+                  <!-- Track Background Arc -->
+                  <path d="M 30,180 A 140,140 0 0,1 310,180" fill="none" stroke="#f1f5f9" stroke-width="20"
+                    stroke-linecap="round" />
+
+                  <!-- Colored Temperature Gradient Arc -->
+                  <path d="M 30,180 A 140,140 0 0,1 310,180" fill="none" stroke="url(#gaugeGradient)" stroke-width="18"
+                    stroke-linecap="round" />
+
+                  <!-- Gauge Scale Ticks -->
+                  <g stroke="#94a3b8" stroke-width="2" stroke-linecap="round" opacity="0.6">
+                    <line x1="30" y1="180" x2="42" y2="180" />
+                    <line x1="57" y1="102" x2="68" y2="107" />
+                    <line x1="122" y1="48" x2="128" y2="59" />
+                    <line x1="218" y1="48" x2="212" y2="59" />
+                    <line x1="283" y1="102" x2="272" y2="107" />
+                    <line x1="310" y1="180" x2="298" y2="180" />
+                  </g>
+
+                  <!-- Scale Text Labels -->
+                  <g font-size="11" font-weight="700" fill="#64748b" text-anchor="middle">
+                    <text x="32" y="198">36℃</text>
+                    <text x="64" y="94">37℃</text>
+                    <text x="126" y="38">38℃</text>
+                    <text x="214" y="38">39℃</text>
+                    <text x="282" y="94">40℃</text>
+                    <text x="308" y="198">41℃</text>
+                  </g>
+
+                  <!-- Rotating Needle Group -->
+                  <g id="gauge-needle" class="gauge-needle-group" filter="url(#needleShadow)">
+                    <polygon points="167,180 173,180 171,44 169,44" fill="#0f172a" />
+                    <circle cx="170" cy="180" r="16" fill="#0f172a" />
+                    <circle cx="170" cy="180" r="7" fill="#ffffff" />
+                    <circle cx="170" cy="44" r="12" fill="#0066ff" stroke="#ffffff" stroke-width="3" />
+                  </g>
+                </svg>
+
+                <!-- Center Digital Temperature Readout -->
+                <div class="gauge-center-display">
+                  <div class="gauge-temp-value" id="gauge-temp-text">
+                    <span id="temp-number-display">36.5 <span class="gauge-temp-unit">℃</span></span>
+                  </div>
+                  <div class="gauge-temp-badge" id="temp-status-badge" style="background: #d1fae5; color: #065f46;">
+                    <span>🟢 정상 체온</span>
+                  </div>
+                </div>
+
+                <!-- "Unknown Temperature" Semi-transparent Overlay -->
+                <div class="gauge-unknown-overlay" id="gauge-unknown-overlay" style="display: none;">
+                  <span class="material-symbols-outlined" style="font-size: 32px; color: #64748b;">help_outline</span>
+                  <p style="margin: 6px 0 0; font-size: 15px; font-weight: 800; color: #334155;">체온 미측정 (모름)</p>
+                  <p style="margin: 2px 0 0; font-size: 12px; color: #64748b;">체온을 측정하지 않아도 안전하게 병원을 찾아드립니다</p>
+                </div>
+              </div>
+
+              <!-- "체온 모름" Toggle Button -->
+              <button type="button" class="temp-unknown-toggle-btn" id="btn-unknown-temp">
+                <span class="material-symbols-outlined" style="font-size: 17px;">question_mark</span>
+                <span id="unknown-toggle-text">체온을 재지 못했거나 몰라요</span>
+              </button>
+            </div>
+
+            <!-- 패널 하단 퀵 이동 바 -->
+            <div class="panel-quick-nav-row">
+              <span style="font-size: 11px; color: #94a3b8;">체온 설정 완료 시 다음으로</span>
+              <button type="button" class="panel-nav-btn primary" onclick="switchMeasureTab('card-age')">
+                <span>아이 나이 설정</span>
+                <span class="material-symbols-outlined" style="font-size: 14px;">arrow_forward</span>
+              </button>
             </div>
           </div>
-          <!-- Inline Medical Alert Badge (No layout shift) -->
-          <div id="age-status-badge" class="age-status-badge">
-            <span class="material-symbols-outlined" style="font-size: 14px;">crisis_alert</span>
-            <span id="age-status-badge-text">100일 미만 주의</span>
-          </div>
-        </div>
 
-        <!-- Horizontal Range Slider with Mathematically Aligned Ruler -->
-        <div class="age-slider-wrap">
-          <input
-            type="range"
-            id="age-range-slider"
-            class="age-range-input"
-            min="0"
-            max="84"
-            step="1"
-            value="14"
-          />
-          <div class="age-ruler-track">
-            <span class="age-mark-item pos-0">0개월</span>
-            <span class="age-mark-dot pos-12" title="12개월(돌)"></span>
-            <span class="age-mark-item pos-24">24개월</span>
-            <span class="age-mark-item pos-48">4세</span>
-            <span class="age-mark-item pos-84">7세</span>
-          </div>
-        </div>
+          <!-- ------------------------------------------------------------------
+               패널 2. 아이 나이 (0세 ~ 만 18세: 5대 연령 분류 버튼 & 맞춤형 동적 조절 칸)
+               ------------------------------------------------------------------ -->
+          <div class="measure-panel" id="card-age" role="tabpanel" aria-labelledby="tab-btn-age">
 
-        <!-- Single Essential Newborn Button -->
-        <div class="newborn-quick-row">
-          <button type="button" class="newborn-pill-btn" id="btn-newborn-100d">
-            <span class="material-symbols-outlined" style="font-size: 15px;">crisis_alert</span>
-            <span>생후 100일 미만 🚨</span>
-          </button>
-        </div>
-      </section>
+            <!-- 3-1. 소아 5대 연령 카테고리 선택 버튼 (선택박스 제거 & 잘림 없는 3+2 반응형 그리드) -->
+            <div class="age-category-card">
+              <div class="age-cat-header">
+                <span class="age-cat-header-label">
+                  <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">tune</span>
+                  <span>아이 연령 분류</span>
+                </span>
+                <span class="age-cat-header-sub">해당 구간을 선택해주세요</span>
+              </div>
 
-      <!-- ====================================================================
-           4. 해열제 복용 및 추가 증상 (소아 해열제 성분별 정밀 선택 & 심플 텍스트 인풋)
-           ==================================================================== -->
-      <section class="triage-section-card" id="card-medication">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <span class="section-step-num">4</span>
-            <h2 class="section-title">해열제 복용 및 동반 상태</h2>
-          </div>
-          <span class="section-badge">선택 사항</span>
-        </div>
-
-        <div class="med-category-title">
-          <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">medication</span>
-          <span>복용한 해열제 종류를 선택해주세요</span>
-        </div>
-
-        <div class="med-category-grid" id="med-category-grid">
-          <div class="med-type-card selected" data-med-type="none">
-            <div class="med-type-info">
-              <span class="med-type-name">복용 안 함</span>
-              <span class="med-type-desc">아직 해열제를 투약하지 않았어요</span>
+              <!-- 5대 연령 분류 3+2 스마트 그리드 (절대 잘리지 않고 가독성 극대화) -->
+              <div class="age-cat-grid" role="tablist" aria-label="소아 연령 분류 선택">
+                <!-- 1. 신생아 -->
+                <button type="button" class="age-cat-btn" data-category="newborn">
+                  <span class="age-cat-btn-icon">👶</span>
+                  <span class="age-cat-btn-name">신생아</span>
+                  <span class="age-cat-btn-sub">28일 미만</span>
+                </button>
+                <!-- 2. 영아 (기본값) -->
+                <button type="button" class="age-cat-btn active" data-category="infant">
+                  <span class="age-cat-btn-icon">🍼</span>
+                  <span class="age-cat-btn-name">영아</span>
+                  <span class="age-cat-btn-sub">~24개월</span>
+                </button>
+                <!-- 3. 유아 -->
+                <button type="button" class="age-cat-btn" data-category="toddler">
+                  <span class="age-cat-btn-icon">🧸</span>
+                  <span class="age-cat-btn-name">유아</span>
+                  <span class="age-cat-btn-sub">만 2~5세</span>
+                </button>
+                <!-- 4. 어린이(아동) -->
+                <button type="button" class="age-cat-btn wide" data-category="child">
+                  <span class="age-cat-btn-icon">🎒</span>
+                  <div class="age-cat-btn-text-wrap">
+                    <span class="age-cat-btn-name">어린이(아동)</span>
+                    <span class="age-cat-btn-sub">만 6세 ~ 만 12세 미만</span>
+                  </div>
+                </button>
+                <!-- 5. 청소년 (UI 절대 잘리지 않음) -->
+                <button type="button" class="age-cat-btn wide" data-category="adolescent">
+                  <span class="age-cat-btn-icon">🎧</span>
+                  <div class="age-cat-btn-text-wrap">
+                    <span class="age-cat-btn-name">청소년</span>
+                    <span class="age-cat-btn-sub">만 12세 ~ 만 18세</span>
+                  </div>
+                </button>
+              </div>
             </div>
-            <div class="med-type-radio-circle"></div>
-          </div>
 
-          <div class="med-type-card" data-med-type="acetaminophen">
-            <div class="med-type-info">
-              <span class="med-type-name">아세트아미노펜 계열</span>
-              <span class="med-type-desc">빨간 챔프 시럽 · 어린이 타이레놀 · 콜대원 키즈 펜</span>
+            <!-- 3-2. 선택된 연령 메인 디스플레이 박스 -->
+            <div class="age-display-box">
+              <div>
+                <div class="age-label-sub-wrap">
+                  <span class="age-label-sub">선택된 연령</span>
+                  <span id="age-cat-pill-badge" class="age-cat-pill-badge">🍼 영아기</span>
+                </div>
+                <div class="age-value-text" id="age-value-text">
+                  <span id="age-main-display">14개월</span>
+                </div>
+              </div>
+              <!-- 인라인 의학 경고 배지 -->
+              <div id="age-status-badge" class="age-status-badge">
+                <span class="material-symbols-outlined" style="font-size: 14px;">crisis_alert</span>
+                <span id="age-status-badge-text">100일 미만 주의</span>
+              </div>
             </div>
-            <div class="med-type-radio-circle"></div>
-          </div>
 
-          <div class="med-type-card" data-med-type="ibuprofen">
-            <div class="med-type-info">
-              <span class="med-type-name">이부프로펜 계열</span>
-              <span class="med-type-desc">파란 챔프 이부펜 · 어린이 부루펜 시럽</span>
+            <!-- 3-3. 맞춤형 동적 나이 조절 칸 (슬라이더 & 눈금선) -->
+            <div class="age-slider-wrap" id="age-slider-wrap">
+              <input type="range" id="age-range-slider" class="age-range-input" min="1" max="23" step="1" value="14"
+                aria-label="연령 상세 조절 슬라이더" />
+              <div class="age-ruler-track" id="age-ruler-track">
+                <!-- 자바스크립트로 선택된 카테고리에 맞춰 정밀 배치 -->
+              </div>
             </div>
-            <div class="med-type-radio-circle"></div>
-          </div>
 
-          <div class="med-type-card" data-med-type="dexibuprofen">
-            <div class="med-type-info">
-              <span class="med-type-name">덱시부프로펜 계열</span>
-              <span class="med-type-desc">맥시부펜 시럽 · 애니펜 시럽</span>
+            <!-- 3-4. 연령별 퀵 프리셋 버튼 및 신생아 특이 안내 -->
+            <div class="age-quick-preset-row" id="age-quick-preset-row">
+              <!-- 동적 퀵 버튼들이 렌더링됨 -->
             </div>
-            <div class="med-type-radio-circle"></div>
-          </div>
 
-          <div class="med-type-card" data-med-type="alternating">
-            <div class="med-type-info">
-              <span class="med-type-name">두 계열 교차 복용 중</span>
-              <span class="med-type-desc">아세트아미노펜과 이부/덱시부프로펜을 번갈아 투약</span>
+            <!-- 신생아/위험군 특이 안내 배너 -->
+            <div class="age-special-notice-box" id="age-special-notice-box">
+              <span class="material-symbols-outlined"
+                style="font-size: 16px; vertical-align: text-bottom; margin-right: 4px;">warning</span>
+              <span id="age-special-notice-text">출생 후 28일 미만 신생아는 미열이나 처짐에도 즉시 소아응급실 진료가 필수적입니다.</span>
             </div>
-            <div class="med-type-radio-circle"></div>
-          </div>
-        </div>
 
-        <div class="med-time-subcard" id="med-time-subcard">
-          <div class="med-time-label">
-            <span class="material-symbols-outlined" style="font-size: 15px;">schedule</span>
-            <span>언제 복용했나요?</span>
+            <!-- 패널 하단 퀵 이동 바 -->
+            <div class="panel-quick-nav-row">
+              <button type="button" class="panel-nav-btn" onclick="switchMeasureTab('card-temp')">
+                <span class="material-symbols-outlined" style="font-size: 14px;">arrow_back</span>
+                <span>체온</span>
+              </button>
+              <button type="button" class="panel-nav-btn primary" onclick="switchMeasureTab('card-medication')">
+                <span>해열제·상태 설정</span>
+                <span class="material-symbols-outlined" style="font-size: 14px;">arrow_forward</span>
+              </button>
+            </div>
           </div>
-          <div class="med-time-select-row">
-            <button type="button" class="med-time-chip active" data-time="2시간 이내">2시간 이내</button>
-            <button type="button" class="med-time-chip" data-time="2~4시간 전">2~4시간 전</button>
-            <button type="button" class="med-time-chip" data-time="4시간 이상 경과">4시간 이상 경과</button>
-          </div>
-        </div>
 
-        <div class="companion-input-wrap">
-          <div class="med-category-title" style="margin-bottom: 6px;">
-            <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">edit_note</span>
-            <span>함께 나타나는 증상이 있나요? (선택)</span>
+          <!-- ------------------------------------------------------------------
+               패널 3. 해열제 복용 및 동반 상태
+               ------------------------------------------------------------------ -->
+          <div class="measure-panel" id="card-medication" role="tabpanel" aria-labelledby="tab-btn-med">
+
+            <div class="med-category-title">
+              <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">medication</span>
+              <span>복용한 해열제 종류를 선택해주세요</span>
+            </div>
+
+            <div class="med-category-grid" id="med-category-grid">
+              <div class="med-type-card selected" data-med-type="none">
+                <div class="med-type-info">
+                  <span class="med-type-name">복용 안 함</span>
+                  <span class="med-type-desc">아직 해열제를 투약하지 않았어요</span>
+                </div>
+                <div class="med-type-radio-circle"></div>
+              </div>
+
+              <div class="med-type-card" data-med-type="acetaminophen">
+                <div class="med-type-info">
+                  <span class="med-type-name">아세트아미노펜 계열</span>
+                  <span class="med-type-desc">빨간 챔프 시럽 · 어린이 타이레놀 · 콜대원 키즈 펜</span>
+                </div>
+                <div class="med-type-radio-circle"></div>
+              </div>
+
+              <div class="med-type-card" data-med-type="ibuprofen">
+                <div class="med-type-info">
+                  <span class="med-type-name">이부프로펜 계열</span>
+                  <span class="med-type-desc">파란 챔프 이부펜 · 어린이 부루펜 시럽</span>
+                </div>
+                <div class="med-type-radio-circle"></div>
+              </div>
+
+              <div class="med-type-card" data-med-type="dexibuprofen">
+                <div class="med-type-info">
+                  <span class="med-type-name">덱시부프로펜 계열</span>
+                  <span class="med-type-desc">맥시부펜 시럽 · 애니펜 시럽</span>
+                </div>
+                <div class="med-type-radio-circle"></div>
+              </div>
+
+              <div class="med-type-card" data-med-type="alternating">
+                <div class="med-type-info">
+                  <span class="med-type-name">두 계열 교차 복용 중</span>
+                  <span class="med-type-desc">아세트아미노펜과 이부/덱시부프로펜을 번갈아 투약</span>
+                </div>
+                <div class="med-type-radio-circle"></div>
+              </div>
+            </div>
+
+            <div class="med-time-subcard" id="med-time-subcard">
+              <div class="med-time-label">
+                <span class="material-symbols-outlined" style="font-size: 15px;">schedule</span>
+                <span>언제 복용했나요?</span>
+              </div>
+              <div class="med-time-select-row">
+                <button type="button" class="med-time-chip active" data-time="2시간 이내">2시간 이내</button>
+                <button type="button" class="med-time-chip" data-time="2~4시간 전">2~4시간 전</button>
+                <button type="button" class="med-time-chip" data-time="4시간 이상 경과">4시간 이상 경과</button>
+              </div>
+            </div>
+
+            <div class="companion-input-wrap">
+              <div class="med-category-title" style="margin-bottom: 6px;">
+                <span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff;">edit_note</span>
+                <span>함께 나타나는 증상이 있나요? (선택)</span>
+              </div>
+              <input type="text" id="companion-simple-input" class="companion-simple-field"
+                placeholder="예: 구토, 설사, 콧물, 처짐, 보챔 등" autocomplete="off" />
+            </div>
+
+            <!-- 패널 하단 퀵 이동 바 -->
+            <div class="panel-quick-nav-row">
+              <button type="button" class="panel-nav-btn" onclick="switchMeasureTab('card-age')">
+                <span class="material-symbols-outlined" style="font-size: 14px;">arrow_back</span>
+                <span>아이 나이</span>
+              </button>
+              <span
+                style="font-size: 11px; font-weight: 700; color: #10b981; display: inline-flex; align-items: center; gap: 3px;">
+                <span class="material-symbols-outlined" style="font-size: 15px;">check_circle</span>
+                <span>모든 설정 완료</span>
+              </span>
+            </div>
           </div>
-          <input
-            type="text"
-            id="companion-simple-input"
-            class="companion-simple-field"
-            placeholder="예: 구토, 설사, 콧물, 처짐, 보챔 등"
-            autocomplete="off"
-          />
         </div>
       </section>
 
@@ -1340,7 +1740,11 @@
         temp: 36.5,
         tempTouched: false,        // 사용자가 게이지나 텍스트로 체온을 조작했는지 여부
         tempUnknown: false,        // 화면상에는 바늘과 다이얼을 정상 표시!
-        ageMonths: 14,
+        ageCategory: 'infant',     // 'newborn' | 'infant' | 'toddler' | 'child' | 'adolescent'
+        ageValue: 14,              // 현재 슬라이더의 값 (일수, 개월수 또는 세)
+        ageMonths: 14,             // 백엔드 전달용 정수 개월수
+        ageDays: null,             // 신생아일 때 일수
+        isUnder100Days: false,     // 100일 미만 여부
         ageTouched: false,         // 사용자가 슬라이더나 버튼으로 나이를 조작했는지 여부
         medType: 'none',
         medTypeName: '복용 안 함',
@@ -1372,11 +1776,16 @@
       const gaugeUnknownOverlay = document.getElementById('gauge-unknown-overlay');
       const unknownToggleText = document.getElementById('unknown-toggle-text');
 
+      const ageCatButtons = document.querySelectorAll('.age-cat-btn, .age-cat-chip');
+      const ageCatPillBadge = document.getElementById('age-cat-pill-badge');
       const ageSlider = document.getElementById('age-range-slider');
       const ageMainDisplay = document.getElementById('age-main-display');
       const ageStatusBadge = document.getElementById('age-status-badge');
       const ageStatusBadgeText = document.getElementById('age-status-badge-text');
-      const btnNewborn100d = document.getElementById('btn-newborn-100d');
+      const ageRulerTrack = document.getElementById('age-ruler-track');
+      const ageQuickPresetRow = document.getElementById('age-quick-preset-row');
+      const ageSpecialNoticeBox = document.getElementById('age-special-notice-box');
+      const ageSpecialNoticeText = document.getElementById('age-special-notice-text');
 
       const medCards = document.querySelectorAll('.med-type-card');
       const medTimeSubcard = document.getElementById('med-time-subcard');
@@ -1457,13 +1866,28 @@
         return null;
       }
 
-      // Extract age from text: 사용자가 명시한 숫자(개월, 세, 살)만 감지 (키워드 임의 매핑 금지)
+      // Extract age from text: 사용자가 명시한 숫자(일, 개월, 세, 살) 감지 (0세 ~ 만 18세 지원)
       function extractAgeFromText(text) {
         if (!text) return null;
+        const dMatch = text.match(/(?:생후\s*)?([0-9]{1,2})\s*일(?:\s*(?:미만|차|된))?/);
+        if (dMatch) {
+          const days = parseInt(dMatch[1], 10);
+          if (days <= 28) return { days, months: 0, category: 'newborn' };
+        }
         const mMatch = text.match(/([0-9]{1,2})\s*개월/);
-        if (mMatch) return parseInt(mMatch[1], 10);
-        const yMatch = text.match(/(?:만\s*)?([1-9]|1[0-2])\s*(?:세|살)/);
-        if (yMatch) return parseInt(yMatch[1], 10) * 12;
+        if (mMatch) {
+          const m = parseInt(mMatch[1], 10);
+          return { months: m, category: m <= 24 ? 'infant' : 'toddler' };
+        }
+        const yMatch = text.match(/(?:만\s*)?([1-9]|1[0-8])\s*(?:세|살)/);
+        if (yMatch) {
+          const y = parseInt(yMatch[1], 10);
+          let cat = 'child';
+          if (y < 6) cat = 'toddler';
+          else if (y < 12) cat = 'child';
+          else cat = 'adolescent';
+          return { years: y, months: y * 12, category: cat };
+        }
         return null;
       }
 
@@ -1759,61 +2183,329 @@
       });
 
       // ------------------------------------------------------------------------
-      // 3. Clean Age Logic (미조작 시 기본 '나이 모름' 처리 & 미니멀 연령 표기)
+      // 3. 소아 연령대 선택박스 & 맞춤형 동적 나이 조절 엔진 (0세 ~ 만 18세 완벽 지원)
+      //    신생아: 출생 후 28일 미만 (생후 4주일까지)
+      //    영아: 생후 28일 이상 ~ 24개월 미만 (또는 출생 후 1년까지)
+      //    유아: 생후 24개월 이상 ~ 만 6세 미만
+      //    어린이(아동): 만 6세 이상 ~ 만 12세 미만 (또는 24개월 이상 ~ 만 12세 미만)
+      //    청소년: 만 12세(또는 13세) 이상 ~ 만 19세 미만 (만 18세까지)
       // ------------------------------------------------------------------------
-      function updateAgeDisplay(m) {
-        state.ageMonths = m;
+      const AGE_CONFIGS = {
+        newborn: {
+          key: 'newborn',
+          label: '신생아',
+          badgeText: '👶 신생아기',
+          rangeDesc: '출생 후 28일 미만 (생후 4주일까지)',
+          unit: '일',
+          min: 0,
+          max: 27,
+          step: 1,
+          defaultVal: 14,
+          marks: [
+            { pos: 0, label: '0일(출생)' },
+            { pos: 25.9, label: '7일(1주)' },
+            { pos: 51.8, label: '14일(2주)' },
+            { pos: 77.7, label: '21일(3주)' },
+            { pos: 100, label: '27일' }
+          ],
+          presets: [
+            { val: 0, label: '출생 당일 (0일)' },
+            { val: 7, label: '생후 7일 (1주)' },
+            { val: 14, label: '생후 14일 (2주)' },
+            { val: 21, label: '생후 21일 (3주)' }
+          ],
+          notice: '출생 후 28일 미만 신생아는 미열이나 처짐에도 패혈증 등 중증 위험이 있어 즉각적인 소아응급실 진료가 권고됩니다.'
+        },
+        infant: {
+          key: 'infant',
+          label: '영아',
+          badgeText: '🍼 영아기',
+          rangeDesc: '생후 28일 이상 ~ 24개월 미만 (또는 출생 후 1년까지)',
+          unit: '개월',
+          min: 1,
+          max: 23,
+          step: 1,
+          defaultVal: 14,
+          marks: [
+            { pos: 0, label: '1개월' },
+            { pos: 22.7, label: '6개월' },
+            { pos: 50.0, label: '12개월(돌)' },
+            { pos: 77.3, label: '18개월' },
+            { pos: 100, label: '23개월' }
+          ],
+          presets: [
+            { val: 3, label: '생후 100일 미만 🚨', isDanger: true },
+            { val: 6, label: '6개월' },
+            { val: 12, label: '12개월 (돌)' },
+            { val: 18, label: '18개월' }
+          ],
+          notice: null
+        },
+        toddler: {
+          key: 'toddler',
+          label: '유아',
+          badgeText: '🧸 유아기',
+          rangeDesc: '생후 24개월 이상 ~ 만 6세 미만',
+          unit: '세',
+          min: 2,
+          max: 5,
+          step: 1,
+          defaultVal: 3,
+          marks: [
+            { pos: 0, label: '만 2세' },
+            { pos: 33.3, label: '만 3세' },
+            { pos: 66.7, label: '만 4세' },
+            { pos: 100, label: '만 5세' }
+          ],
+          presets: [
+            { val: 2, label: '만 2세' },
+            { val: 3, label: '만 3세' },
+            { val: 4, label: '만 4세' },
+            { val: 5, label: '만 5세' }
+          ],
+          notice: null
+        },
+        child: {
+          key: 'child',
+          label: '어린이(아동)',
+          badgeText: '🎒 어린이·아동',
+          rangeDesc: '만 6세 이상 ~ 만 12세 미만 (또는 24개월 이상 ~ 만 12세 미만)',
+          unit: '세',
+          min: 6,
+          max: 11,
+          step: 1,
+          defaultVal: 8,
+          marks: [
+            { pos: 0, label: '만 6세' },
+            { pos: 20, label: '만 7세' },
+            { pos: 40, label: '만 8세' },
+            { pos: 60, label: '만 9세' },
+            { pos: 80, label: '만 10세' },
+            { pos: 100, label: '만 11세' }
+          ],
+          presets: [
+            { val: 6, label: '만 6세 (초1)' },
+            { val: 8, label: '만 8세 (초3)' },
+            { val: 10, label: '만 10세 (초5)' },
+            { val: 11, label: '만 11세 (초6)' }
+          ],
+          notice: null
+        },
+        adolescent: {
+          key: 'adolescent',
+          label: '청소년',
+          badgeText: '🎧 청소년',
+          rangeDesc: '만 12세(또는 13세) 이상 ~ 만 19세 미만 (만 18세까지)',
+          unit: '세',
+          min: 12,
+          max: 18,
+          step: 1,
+          defaultVal: 15,
+          marks: [
+            { pos: 0, label: '만 12세' },
+            { pos: 33.3, label: '만 14세' },
+            { pos: 66.7, label: '만 16세' },
+            { pos: 100, label: '만 18세' }
+          ],
+          presets: [
+            { val: 12, label: '만 12세 (중1)' },
+            { val: 14, label: '만 14세 (중3)' },
+            { val: 16, label: '만 16세 (고1)' },
+            { val: 18, label: '만 18세 (고3)' }
+          ],
+          notice: null
+        }
+      };
 
-        // 3개월 이하 (0~3개월)는 모두 100일 미만 위험군으로 명확히 분류
-        const isUnder100 = (m <= 3);
-        state.isUnder100Days = isUnder100;
+      function renderAgeRulerAndPresets(categoryKey) {
+        const config = AGE_CONFIGS[categoryKey] || AGE_CONFIGS.infant;
 
-        if (isUnder100) {
-          btnNewborn100d.classList.add('active');
-          if (ageStatusBadge) {
-            ageStatusBadge.style.display = 'inline-flex';
-            if (ageStatusBadgeText) {
-              ageStatusBadgeText.innerText = (m === 0) ? '신생아 위험군' : '100일 미만 위험군';
-            }
-          }
-
-          if (m === 0) {
-            ageMainDisplay.innerText = '0개월 (신생아)';
-          } else {
-            // 3개월도 전/후 분기 없이 깔끔하게 '3개월'로 표기
-            ageMainDisplay.innerText = `${m}개월`;
-          }
-        } else {
-          btnNewborn100d.classList.remove('active');
-          if (ageStatusBadge) ageStatusBadge.style.display = 'none';
-
-          if (m <= 24) {
-            ageMainDisplay.innerText = `${m}개월`;
-          } else {
-            const years = Math.floor(m / 12);
-            ageMainDisplay.innerText = `${years}세`;
-          }
+        // 1. 눈금선 렌더링
+        if (ageRulerTrack) {
+          ageRulerTrack.innerHTML = config.marks.map(m => {
+            const isLeftZero = m.pos === 0;
+            const isRightHundred = m.pos === 100;
+            const transformStyle = isLeftZero ? 'transform: translateX(0);' : (isRightHundred ? 'transform: translateX(-100%);' : '');
+            return `<span class="age-mark-item" style="left: ${m.pos}%; ${transformStyle}">${m.label}</span>`;
+          }).join('');
         }
 
-        ageSlider.value = m;
+        // 2. 퀵 프리셋 버튼 렌더링
+        if (ageQuickPresetRow) {
+          ageQuickPresetRow.innerHTML = config.presets.map(p => {
+            const dangerClass = p.isDanger ? 'danger' : '';
+            return `<button type="button" class="age-preset-pill-btn ${dangerClass}" data-val="${p.val}">${p.label}</button>`;
+          }).join('');
+
+          // 퀵 프리셋 클릭 이벤트 바인딩
+          ageQuickPresetRow.querySelectorAll('.age-preset-pill-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              state.ageTouched = true;
+              const val = parseInt(btn.getAttribute('data-val'), 10);
+              updateAgeDisplay(val);
+            });
+          });
+        }
+
+        // 3. 특이 안내 박스
+        if (ageSpecialNoticeBox) {
+          if (config.notice) {
+            if (ageSpecialNoticeText) ageSpecialNoticeText.innerText = config.notice;
+            ageSpecialNoticeBox.style.display = 'block';
+          } else {
+            ageSpecialNoticeBox.style.display = 'none';
+          }
+        }
+      }
+
+      function setAgeCategory(categoryKey, targetVal) {
+        if (!AGE_CONFIGS[categoryKey]) categoryKey = 'infant';
+        const config = AGE_CONFIGS[categoryKey];
+        state.ageCategory = categoryKey;
+
+        // 1. 카테고리 버튼 활성화 상태 동기화
+        if (ageCatButtons) {
+          ageCatButtons.forEach(btn => {
+            if (btn.getAttribute('data-category') === categoryKey) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
+          });
+        }
+
+        // 3. 디스플레이 캡슐 배지 텍스트
+        if (ageCatPillBadge) {
+          ageCatPillBadge.innerText = config.badgeText;
+        }
+
+        // 4. 슬라이더 min / max / step 재설정
+        if (ageSlider) {
+          ageSlider.min = config.min;
+          ageSlider.max = config.max;
+          ageSlider.step = config.step;
+        }
+
+        // 5. 눈금 트랙 및 퀵 버튼 동적 렌더링
+        renderAgeRulerAndPresets(categoryKey);
+
+        // 6. 값 업데이트
+        const nextVal = (targetVal !== undefined && targetVal !== null) ? targetVal : config.defaultVal;
+        updateAgeDisplay(nextVal);
+      }
+
+      function updateAgeDisplay(val) {
+        const config = AGE_CONFIGS[state.ageCategory] || AGE_CONFIGS.infant;
+        val = parseInt(val, 10);
+        if (isNaN(val)) val = config.defaultVal;
+        val = Math.max(config.min, Math.min(config.max, val));
+
+        state.ageValue = val;
+
+        if (state.ageCategory === 'newborn') {
+          state.ageDays = val;
+          state.ageMonths = 0;
+          state.isUnder100Days = true;
+
+          ageMainDisplay.innerText = (val === 0) ? '생후 0일 (출생 당일)' : `생후 ${val}일`;
+          if (ageStatusBadge) {
+            ageStatusBadge.style.display = 'inline-flex';
+            if (ageStatusBadgeText) ageStatusBadgeText.innerText = '신생아 위험군';
+          }
+        } else if (state.ageCategory === 'infant') {
+          state.ageDays = null;
+          state.ageMonths = val;
+          const isUnder100 = (val <= 3);
+          state.isUnder100Days = isUnder100;
+
+          ageMainDisplay.innerText = `${val}개월`;
+          if (ageStatusBadge) {
+            if (isUnder100) {
+              ageStatusBadge.style.display = 'inline-flex';
+              if (ageStatusBadgeText) ageStatusBadgeText.innerText = '100일 미만 주의';
+            } else {
+              ageStatusBadge.style.display = 'none';
+            }
+          }
+        } else if (state.ageCategory === 'toddler') {
+          state.ageDays = null;
+          state.ageMonths = val * 12;
+          state.isUnder100Days = false;
+
+          ageMainDisplay.innerText = `만 ${val}세 (${val * 12}개월)`;
+          if (ageStatusBadge) ageStatusBadge.style.display = 'none';
+        } else if (state.ageCategory === 'child') {
+          state.ageDays = null;
+          state.ageMonths = val * 12;
+          state.isUnder100Days = false;
+
+          ageMainDisplay.innerText = `만 ${val}세`;
+          if (ageStatusBadge) ageStatusBadge.style.display = 'none';
+        } else if (state.ageCategory === 'adolescent') {
+          state.ageDays = null;
+          state.ageMonths = val * 12;
+          state.isUnder100Days = false;
+
+          ageMainDisplay.innerText = `만 ${val}세`;
+          if (ageStatusBadge) ageStatusBadge.style.display = 'none';
+        }
+
+        if (ageSlider) ageSlider.value = val;
+
+        // 프리셋 버튼 활성화 상태 표시
+        if (ageQuickPresetRow) {
+          ageQuickPresetRow.querySelectorAll('.age-preset-pill-btn').forEach(btn => {
+            const bVal = parseInt(btn.getAttribute('data-val'), 10);
+            if (bVal === val) {
+              btn.classList.add('active');
+            } else {
+              btn.classList.remove('active');
+            }
+          });
+        }
+
         updateSummaryBar();
       }
 
-      ageSlider.addEventListener('input', (e) => {
-        state.ageTouched = true; // 사용자가 나이 슬라이더 직접 조작
-        const val = parseInt(e.target.value, 10);
-        updateAgeDisplay(val);
-      });
-
-      btnNewborn100d.addEventListener('click', () => {
-        state.ageTouched = true;
-        if (state.ageMonths > 3) {
-          // 4개월 이상에서 누르면 100일 미만 위험군 구간인 3개월로 이동
-          updateAgeDisplay(3);
-        } else {
-          updateAgeDisplay(state.ageMonths);
+      function getFormattedAge(includeCategory = false) {
+        if (isEffectiveAgeUnknown()) return '나이 미입력(모름)';
+        const cat = state.ageCategory;
+        if (cat === 'newborn') {
+          return includeCategory ? `생후 ${state.ageValue}일 (신생아)` : `생후 ${state.ageValue}일`;
+        } else if (cat === 'infant') {
+          return includeCategory ? `${state.ageValue}개월 (영아)` : `${state.ageValue}개월`;
+        } else if (cat === 'toddler') {
+          return includeCategory ? `만 ${state.ageValue}세 (유아, ${state.ageMonths}개월)` : `만 ${state.ageValue}세`;
+        } else if (cat === 'child') {
+          return includeCategory ? `만 ${state.ageValue}세 (어린이)` : `만 ${state.ageValue}세`;
+        } else if (cat === 'adolescent') {
+          return includeCategory ? `만 ${state.ageValue}세 (청소년)` : `만 ${state.ageValue}세`;
         }
-      });
+        return `${state.ageMonths}개월`;
+      }
+
+      // 이벤트 바인딩: 5대 연령 카테고리 버튼 클릭
+      if (ageCatButtons) {
+        ageCatButtons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            state.ageTouched = true;
+            const cat = btn.getAttribute('data-category');
+            setAgeCategory(cat);
+          });
+        });
+      }
+
+      // 이벤트 바인딩: 슬라이더 조작
+      if (ageSlider) {
+        ageSlider.addEventListener('input', (e) => {
+          state.ageTouched = true;
+          const val = parseInt(e.target.value, 10);
+          updateAgeDisplay(val);
+        });
+      }
+
+      // 초기화: 기본값은 '영아 (infant)' 14개월로 시작
+      setAgeCategory('infant', 14);
 
       // ------------------------------------------------------------------------
       // 4. Medication Categories & Timing & Clean Companion
@@ -1862,6 +2554,34 @@
       });
 
       // ------------------------------------------------------------------------
+      // 3대 측정 카테고리 탭 전환 엔진 (한 칸에서 체온, 나이, 해열제 모두 조작)
+      // ------------------------------------------------------------------------
+      function switchMeasureTab(targetPanelId) {
+        const tabBtns = document.querySelectorAll('.measure-tab-btn');
+        const panels = document.querySelectorAll('.measure-panel');
+
+        tabBtns.forEach(btn => {
+          const isTarget = btn.getAttribute('data-target-panel') === targetPanelId;
+          btn.classList.toggle('active', isTarget);
+          btn.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+        });
+
+        panels.forEach(panel => {
+          const isTarget = panel.id === targetPanelId;
+          panel.classList.toggle('active', isTarget);
+        });
+      }
+      window.switchMeasureTab = switchMeasureTab;
+
+      // 탭 버튼 클릭 이벤트 바인딩
+      document.querySelectorAll('.measure-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.getAttribute('data-target-panel');
+          switchMeasureTab(target);
+        });
+      });
+
+      // ------------------------------------------------------------------------
       // Summary & Submit Execution (미입력/미조작 시 체온·나이 모름 기본 안전 처리)
       // ------------------------------------------------------------------------
       function isEffectiveTempUnknown() {
@@ -1879,9 +2599,9 @@
 
       function updateSummaryBar() {
         const effectiveAgeUnk = isEffectiveAgeUnknown();
-        const ageLabel = effectiveAgeUnk 
-          ? '나이 미입력(모름)' 
-          : (state.ageMonths <= 24 ? `${state.ageMonths}개월` : `${Math.floor(state.ageMonths / 12)}세`);
+        const ageLabel = effectiveAgeUnk
+          ? '나이 미입력(모름)'
+          : getFormattedAge(false);
 
         const tempUnknownEffective = isEffectiveTempUnknown();
         const tempStr = tempUnknownEffective ? '체온 미측정(모름)' : `${state.temp.toFixed(1)}℃`;
@@ -1890,6 +2610,20 @@
         const medSummary = state.medType === 'none' ? '해열제 미복용' : `${state.medTypeName}(${state.medTime})`;
 
         actionSummaryText.innerHTML = `<span>${ageLabel}</span> · <span>${tempStr}</span> · <span>${medSummary}</span>`;
+
+        // 3대 측정 카테고리 탭 상단 배지 동기화
+        const tabValTemp = document.getElementById('tab-val-temp');
+        if (tabValTemp) {
+          tabValTemp.innerText = tempUnknownEffective ? '미측정' : `${state.temp.toFixed(1)}℃`;
+        }
+        const tabValAge = document.getElementById('tab-val-age');
+        if (tabValAge) {
+          tabValAge.innerText = effectiveAgeUnk ? '미입력' : getFormattedAge(false);
+        }
+        const tabValMed = document.getElementById('tab-val-med');
+        if (tabValMed) {
+          tabValMed.innerText = state.medType === 'none' ? '복용 안 함' : state.medTypeName;
+        }
 
         let progress = 25;
         if (symVal.valid) progress += 25;
@@ -1907,9 +2641,9 @@
       triageSubmitBtn.addEventListener('click', () => {
         let symText = state.symptom.trim();
         const effectiveAgeUnk = isEffectiveAgeUnknown();
-        const ageFormatted = effectiveAgeUnk 
-          ? '나이 미입력(모름)' 
-          : (state.ageMonths <= 24 ? `${state.ageMonths}개월` : `${Math.floor(state.ageMonths / 12)}세`);
+        const ageFormatted = effectiveAgeUnk
+          ? '나이 미입력(모름)'
+          : getFormattedAge(true);
 
         const effectiveUnknown = isEffectiveTempUnknown();
         const effectiveTemp = effectiveUnknown ? null : state.temp;
@@ -1973,7 +2707,7 @@
         const userLat = parseFloat(localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '37.5133');
         const userLon = parseFloat(localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '127.1001');
         const userAddress = localStorage.getItem('user_address') || sessionStorage.getItem('user_address') || null;
-        
+
         const ageMsgText = effectiveAgeUnk ? '나이는 미입력(모름) 상태' : `${ageFormatted} 아기`;
         const tempMsgText = effectiveUnknown ? '체온은 미측정(모름) 상태' : `체온은 ${effectiveTempStr}`;
         const userMessage = `${ageMsgText}이고 ${tempMsgText}입니다. 주요 증상: ${finalSymptom}, 투약/동반: ${finalCompanion}`;
@@ -1995,7 +2729,7 @@
           }
         };
         sessionStorage.setItem('pending_chat_request', JSON.stringify(backendChatRequest));
-        try { sessionStorage.removeItem('aisum_is_replay_view'); } catch (_) {}
+        try { sessionStorage.removeItem('aisum_is_replay_view'); } catch (_) { }
 
         launchAnalyzingSequence(backendChatRequest);
       });

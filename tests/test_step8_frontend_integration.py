@@ -268,9 +268,139 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
         res_alias = self.client.get("/guidebook.html")
         self.assertEqual(res_alias.status_code, 200)
 
+    async def test_09_pediatric_age_category_selector_contract(self):
+        """TC-809: Validates the 5-tier age category buttons (3+2 grid, no select box) and dynamic controls."""
+        res = self.client.get("/input.html")
+        self.assertEqual(res.status_code, 200)
+        html = res.text
+
+        # 1. Select box must be removed per user request
+        self.assertNotIn('id="age-category-select"', html)
+
+        # 2. 5-Tier Age Category Buttons in non-truncating 3+2 grid
+        self.assertIn('class="age-cat-grid"', html)
+        self.assertIn('data-category="newborn"', html)
+        self.assertIn('data-category="infant"', html)
+        self.assertIn('data-category="toddler"', html)
+        self.assertIn('data-category="child"', html)
+        self.assertIn('data-category="adolescent"', html)
+
+        # 3. Label & Subtitle Contracts (zero truncation)
+        self.assertIn("신생아", html)
+        self.assertIn("28일 미만", html)
+        self.assertIn("영아", html)
+        self.assertIn("~24개월", html)
+        self.assertIn("유아", html)
+        self.assertIn("만 2~5세", html)
+        self.assertIn("어린이(아동)", html)
+        self.assertIn("만 6세 ~ 만 12세 미만", html)
+        self.assertIn("청소년", html)
+        self.assertIn("만 12세 ~ 만 18세", html)
+
+        # 4. Dynamic Controls & Ruler Containers
+        self.assertIn('id="age-cat-pill-badge"', html)
+        self.assertIn('id="age-ruler-track"', html)
+        self.assertIn('id="age-quick-preset-row"', html)
+        self.assertIn('id="age-special-notice-box"', html)
+
+        # 5. JavaScript Engine Contracts
+        self.assertIn("const AGE_CONFIGS =", html)
+        self.assertIn("function setAgeCategory(", html)
+        self.assertIn("function updateAgeDisplay(", html)
+        self.assertIn("function getFormattedAge(", html)
+        self.assertIn("setAgeCategory('infant', 14);", html)
+
+    async def test_10_integrated_measurement_tabs_contract(self):
+        """TC-810: Validates the integrated measurement card containing temperature, age, and medication tabs in one container."""
+        res = self.client.get("/input.html")
+        self.assertEqual(res.status_code, 200)
+        html = res.text
+
+        # 1. Integrated Hub Container
+        self.assertIn('id="card-measurement-hub"', html)
+        self.assertIn('class="triage-section-card integrated-measure-card"', html)
+
+        # 2. 3-Category Tab Bar & Badges
+        self.assertIn('class="measure-tab-bar"', html)
+        self.assertIn('id="tab-btn-temp"', html)
+        self.assertIn('id="tab-btn-age"', html)
+        self.assertIn('id="tab-btn-med"', html)
+        self.assertIn('id="tab-val-temp"', html)
+        self.assertIn('id="tab-val-age"', html)
+        self.assertIn('id="tab-val-med"', html)
+
+        # 3. 3 Panels inside Container
+        self.assertIn('class="measure-panels-container"', html)
+        self.assertIn('id="card-temp"', html)
+        self.assertIn('id="card-age"', html)
+        self.assertIn('id="card-medication"', html)
+
+        # 4. Tab Switch Engine in JavaScript
+        self.assertIn("function switchMeasureTab(", html)
+        self.assertIn("window.switchMeasureTab = switchMeasureTab", html)
+
+    async def test_11_notification_sheet_collapse_prevention_contract(self):
+        """TC-811: Validates that notification sheet cards prevent flexbox collapse/shrink and apply deduplication."""
+        # 1. Validate style.css contracts
+        res_css = self.client.get("/css/style.css")
+        self.assertEqual(res_css.status_code, 200)
+        css = res_css.text
+
+        self.assertIn(".sheet-body {", css)
+        self.assertIn("min-height: 0;", css)
+        self.assertIn(".notif-card-wrapper {", css)
+        self.assertIn("flex-shrink: 0;", css)
+        self.assertIn("min-height: 85px;", css)
+
+        # 2. Validate main.js deduplication contract
+        res_js = self.client.get("/js/main.js")
+        self.assertEqual(res_js.status_code, 200)
+        js = res_js.text
+
+        self.assertIn("const seenNames = new Set();", js)
+        self.assertIn("isDuplicate", js)
+
+    async def test_12_history_duplicate_and_dummy_prevention_contract(self):
+        """TC-812: Validates that dummy ghost history creation is removed and user triage data is preserved."""
+        # 1. Validate result.html contract
+        res = self.client.get("/result")
+        self.assertEqual(res.status_code, 200)
+        html = res.text
+
+        # Dummy history creation must NOT exist in renderEmergencyBedCards
+        self.assertNotIn("childAge: '아이'", html)
+        self.assertNotIn("symptom: '소아 응급 상황'", html)
+
+        # 2. Validate main.js ghost sanitization contract
+        res_js = self.client.get("/js/main.js")
+        self.assertEqual(res_js.status_code, 200)
+        js = res_js.text
+
+        self.assertIn("isDummyGhost", js)
+        self.assertIn("isLatestDummy", js)
+
+    async def test_13_emergency_notification_history_sync_and_pediatric_beds_contract(self):
+        """TC-813: Validates that AisumNotificationManager syncs with history records and parses pediatric_beds & hospitals properly."""
+        # 1. Validate main.js contracts
+        res_js = self.client.get("/js/main.js")
+        self.assertEqual(res_js.status_code, 200)
+        js = res_js.text
+
+        self.assertIn("latestEmergencyHist", js)
+        self.assertIn("typeof live.pediatric_beds === 'number'", js)
+        self.assertIn("Array.isArray(data.hospitals)", js)
+
+        # 2. Validate result.html registerWatch call contract
+        res_res = self.client.get("/result")
+        self.assertEqual(res_res.status_code, 200)
+        html = res_res.text
+
+        self.assertIn("window.AisumNotificationManager.registerWatch(hospitals, window.currentKtasLevel)", html)
+
 
 if __name__ == "__main__":
     unittest.main()
+
 
 
 

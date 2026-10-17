@@ -1807,22 +1807,27 @@
       let symptom = '소아 증상';
       let callScript = null;
 
-      if (data) {
-        if (data.age_months !== null && data.age_months !== undefined) {
-          age = (data.age_months <= 24) ? `${data.age_months}개월` : `${Math.floor(data.age_months / 12)}세`;
-        } else if (triageData && triageData.age && !triageData.age.includes('모름')) {
-          age = triageData.age;
-        } else {
-          age = '나이 미입력(모름)';
-        }
+      if (triageData && triageData.age && !triageData.age.includes('모름') && !triageData.age.includes('미입력')) {
+        age = triageData.age;
+      } else if (data && data.patient_vitals && data.patient_vitals.age && !data.patient_vitals.age.includes('모름')) {
+        age = data.patient_vitals.age;
+      } else if (data && data.age_months !== null && data.age_months !== undefined) {
+        age = (data.age_months <= 24) ? `${data.age_months}개월` : `${Math.floor(data.age_months / 12)}세`;
+      } else {
+        age = '나이 미입력(모름)';
+      }
 
-        if (data.temperature !== null && data.temperature !== undefined) {
-          rawTemp = `${data.temperature}℃`;
-        } else if (triageData && triageData.temp && !triageData.temp.includes('모름')) {
-          rawTemp = triageData.temp;
-        } else {
-          rawTemp = '체온 미측정(모름)';
-        }
+      if (triageData && triageData.temp && !triageData.temp.includes('모름') && !triageData.temp.includes('미측정')) {
+        rawTemp = triageData.temp;
+      } else if (data && data.patient_vitals && data.patient_vitals.temp && !data.patient_vitals.temp.includes('모름')) {
+        rawTemp = data.patient_vitals.temp;
+      } else if (data && data.temperature !== null && data.temperature !== undefined) {
+        rawTemp = `${data.temperature}℃`;
+      } else {
+        rawTemp = '체온 미측정(모름)';
+      }
+
+      if (data) {
 
         if (data.symptoms && data.symptoms.length > 0) {
           symptom = data.symptoms.join(', ');
@@ -2599,6 +2604,7 @@
         window._lastLoadedEmergencyHospitals = hospitals;
         try {
           if (window.currentKtasLevel <= 3 && window.AisumNotificationManager && Array.isArray(hospitals) && hospitals.length > 0) {
+            window.AisumNotificationManager.registerWatch(hospitals, window.currentKtasLevel);
             window.AisumNotificationManager.checkBedUpdates(hospitals);
           }
           // 🚨 비동기 소아 응급실 병상 로드 완료 시 최신 히스토리의 추천 시설명을 실제 1순위 소아 응급실명으로 정밀 보정
@@ -2606,17 +2612,7 @@
             const topEr = hospitals[0];
             const erName = topEr.hospital_name || topEr.dutyName;
             if (erName) {
-              const updated = window.AisumHistoryManager.updateLatestHospital(erName);
-              if (!updated && (!window.AisumHistoryManager.getAll() || window.AisumHistoryManager.getAll().length === 0)) {
-                window.AisumHistoryManager.saveHistory({
-                  childAge: '아이',
-                  temperature: '고열/응급',
-                  symptom: '소아 응급 상황',
-                  ktasLevel: window.currentKtasLevel || 1,
-                  ktasName: '응급실 즉시 이송 권고',
-                  recommendedHospital: erName
-                });
-              }
+              window.AisumHistoryManager.updateLatestHospital(erName);
             }
           }
         } catch (e) {

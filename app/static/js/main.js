@@ -227,24 +227,44 @@ window.AisumHistoryManager = {
     try {
       const data = localStorage.getItem(this.STORAGE_KEY);
       let list = data ? JSON.parse(data) : [];
-      // 🛡️ 과거 저장된 연속 완전 중복 데이터 소독 & KTAS 1~3 응급실 추천명 자동 보정
+      // 🛡️ 과거 저장된 연속 완전 중복 데이터 소독, 더미 레코드 제거 & KTAS 1~3 응급실 추천명 자동 보정
       let cleaned = [];
       let modified = false;
       for (let i = 0; i < list.length; i++) {
         const item = list[i];
+
+        // 🚨 유령 더미 레코드(비동기 병상 로드 시 임시 생성되었던 '아이/고열·응급/소아 응급 상황') 영구 소독
+        const isDummyGhost = (
+          item.childAge === '아이' &&
+          (item.temperature === '고열/응급' || item.temperature === '미측정') &&
+          (item.symptom === '소아 응급 상황' || item.symptom === '소아 증상')
+        );
+        if (isDummyGhost) {
+          modified = true;
+          continue; // 유령 더미 레코드 제거
+        }
+
         // KTAS 1~3단계인데 달빛어린이병원으로 잘못 박힌 경우 소아 응급실로 자동 보정
         if (item.ktasLevel <= 3 && item.recommendedHospital && (item.recommendedHospital.includes('달빛') || item.recommendedHospital.includes('새솔'))) {
           item.recommendedHospital = (item.ktasLevel === 1) ? '119 즉시 신고 및 권역응급의료센터' : (item.ktasLevel === 2 ? '권역 소아전문응급센터' : '실시간 소아 가용 응급실');
           modified = true;
         }
-        // 직전 항목과 내용이 100% 동일한 중복 항목 자동 제거
+
+        // 직전 항목과 내용이 동일하거나 같은 시각(30초 이내) 동일 병원 중복 항목 자동 제거
         if (cleaned.length > 0) {
           const prev = cleaned[cleaned.length - 1];
-          const isDup = (prev.symptom === item.symptom &&
-                         prev.ktasLevel === item.ktasLevel &&
-                         prev.childAge === item.childAge &&
-                         prev.temperature === item.temperature);
-          if (isDup) {
+          const isExactDup = (
+            prev.symptom === item.symptom &&
+            prev.ktasLevel === item.ktasLevel &&
+            prev.childAge === item.childAge &&
+            prev.temperature === item.temperature
+          );
+          const isSameTimeSameHosp = (
+            prev.displayDate === item.displayDate &&
+            prev.recommendedHospital === item.recommendedHospital &&
+            item.childAge === '아이'
+          );
+          if (isExactDup || isSameTimeSameHosp) {
             modified = true;
             continue; // 중복 건너뜀
           }
@@ -285,7 +305,29 @@ window.AisumHistoryManager = {
 
       const list = this.getAll();
 
-      // 🛡️ 2) 최근 15초 이내 동일 문진 결과의 새로고침 중복 방지 (15초 초과 시 새로운 문진으로 정상 저장)
+      // 🛡️ 2) 최신 기록이 더미 레코드인 경우 진짜 문진 데이터로 즉시 덮어쓰기
+      if (list.length > 0) {
+        const latest = list[0];
+        const isLatestDummy = (
+          latest.childAge === '아이' &&
+          (latest.temperature === '고열/응급' || latest.temperature === '미측정') &&
+          (latest.symptom === '소아 응급 상황' || latest.symptom === '소아 증상')
+        );
+        if (isLatestDummy) {
+          latest.childAge = record.childAge || '연령 미입력';
+          latest.childGender = record.childGender || '성별 미입력';
+          latest.temperature = record.temperature || '미측정';
+          latest.symptom = record.symptom || '증상 미입력';
+          latest.ktasLevel = record.ktasLevel || latest.ktasLevel;
+          latest.ktasName = record.ktasName || latest.ktasName;
+          if (record.recommendedHospital) latest.recommendedHospital = record.recommendedHospital;
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
+          console.log('✅ [AisumHistoryManager] 기존 더미 레코드를 실제 문진 데이터로 덮어쓰기 완료');
+          return latest;
+        }
+      }
+
+      // 🛡️ 3) 최근 15초 이내 동일 문진 결과의 새로고침 중복 방지 (15초 초과 시 새로운 문진으로 정상 저장)
       if (list.length > 0) {
         const latest = list[0];
         const isExactSame = (
@@ -349,15 +391,18 @@ window.AisumHistoryManager = {
 
   updateLatestHospital: function(hospName) {
     try {
-      if (!hospName) return;
+      if (!hospName) return false;
       const list = this.getAll();
       if (list.length > 0) {
         list[0].recommendedHospital = hospName;
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(list));
         console.log('✅ [AisumHistoryManager] 최신 기록 추천 시설명 정밀 보정 완료:', hospName);
+        return true;
       }
+      return false;
     } catch (e) {
       console.warn('[AisumHistoryManager] updateLatestHospital error:', e);
+      return false;
     }
   },
 
@@ -448,7 +493,40 @@ window.AisumNotificationManager = {
   getWatchTargets: function() {
     try {
       const data = localStorage.getItem(this.WATCH_KEY);
-      return data ? JSON.parse(data) : [];
+      let targets = data ? JSON.parse(data) : [];
+
+      // 🚨 기록페이지(AisumHistoryManager)에 중증 응급실(KTAS <= 3) 기록이 있다면,
+      // 그 기록의 실제 추천 응급실명을 1순위 감시 대상으로 자동 보정 및 연동!
+      if (window.AisumHistoryManager) {
+        const histories = window.AisumHistoryManager.getAll();
+        const latestEmergencyHist = Array.isArray(histories) ? histories.find(h => typeof h.ktasLevel === 'number' && h.ktasLevel <= 3 && h.recommendedHospital) : null;
+        if (latestEmergencyHist) {
+          const recName = latestEmergencyHist.recommendedHospital.trim();
+          if (recName && recName !== '인근 소아 진료기관' && recName !== '소아전문응급의료센터') {
+            const existingIdx = targets.findIndex(t => t.dutyName === recName || recName.includes(t.dutyName) || (t.dutyName && t.dutyName.includes(recName)));
+            if (existingIdx >= 0) {
+              const matched = targets.splice(existingIdx, 1)[0];
+              matched.dutyName = recName;
+              targets.unshift(matched);
+            } else {
+              targets.unshift({
+                hpid: 'HP_' + recName.replace(/\s+/g, ''),
+                dutyName: recName,
+                dutyTel3: latestEmergencyHist.hospitalTel || '119',
+                lastBedCount: 0,
+                lastHpmg: '',
+                registeredAt: new Date().toISOString(),
+                ktasLevel: latestEmergencyHist.ktasLevel
+              });
+            }
+            // '소아응급센터' 제네릭 더미 이름 제거
+            targets = targets.filter(t => t.dutyName !== '소아응급센터');
+            localStorage.setItem(this.WATCH_KEY, JSON.stringify(targets));
+          }
+        }
+      }
+
+      return targets;
     } catch (e) {
       return [];
     }
@@ -477,20 +555,43 @@ window.AisumNotificationManager = {
       if (!hospitalList || !Array.isArray(hospitalList) || hospitalList.length === 0) return;
       if (ktasLevel > 3) return; // 준응급/비응급은 감시 대상 제외
 
-      const topHospitals = hospitalList.slice(0, 4).map(h => {
-        const bedVal = (typeof h.available_beds === 'number')
-          ? h.available_beds
-          : (typeof h.hv28 === 'number' ? h.hv28 : (parseInt(h.available_beds || h.hv28, 10) || 0));
-        return {
-          hpid: h.hpid || ('HP_' + (h.hospital_name || h.dutyName || h.name || '').replace(/\s+/g, '')),
-          dutyName: h.hospital_name || h.dutyName || h.name || '소아응급센터',
+      const seenNames = new Set();
+      const topHospitals = [];
+      for (const h of hospitalList) {
+        const name = (h.hospital_name || h.dutyName || h.name || '소아응급센터').trim();
+        if (seenNames.has(name) || name === '소아응급센터') continue;
+        seenNames.add(name);
+        const bedVal = (typeof h.pediatric_beds === 'number')
+          ? h.pediatric_beds
+          : ((typeof h.available_beds === 'number')
+            ? h.available_beds
+            : ((typeof h.hv28 === 'number') ? h.hv28 : (parseInt(h.pediatric_beds || h.available_beds || h.hv28, 10) || 0)));
+        topHospitals.push({
+          hpid: h.hpid || ('HP_' + name.replace(/\s+/g, '')),
+          dutyName: name,
           dutyTel3: h.tel || h.dutyTel3 || '119',
           lastBedCount: bedVal,
           lastHpmg: h.hpmg || '',
           registeredAt: new Date().toISOString(),
           ktasLevel: ktasLevel
-        };
-      });
+        });
+        if (topHospitals.length >= 4) break;
+      }
+
+      // 만약 유효 병원이 없었다면 fallback 방어
+      if (topHospitals.length === 0 && hospitalList[0]) {
+        const h0 = hospitalList[0];
+        const n0 = (h0.hospital_name || h0.dutyName || h0.name || '소아응급센터').trim();
+        topHospitals.push({
+          hpid: h0.hpid || ('HP_' + n0.replace(/\s+/g, '')),
+          dutyName: n0,
+          dutyTel3: h0.tel || h0.dutyTel3 || '119',
+          lastBedCount: (typeof h0.pediatric_beds === 'number') ? h0.pediatric_beds : 0,
+          lastHpmg: '',
+          registeredAt: new Date().toISOString(),
+          ktasLevel: ktasLevel
+        });
+      }
 
       localStorage.setItem(this.WATCH_KEY, JSON.stringify(topHospitals));
       console.log('🚨 [AisumNotificationManager] KTAS 중증 감시 대상 병원 등록 완료:', topHospitals);
@@ -501,9 +602,9 @@ window.AisumNotificationManager = {
         type: 'WATCH_START',
         title: `🚨 KTAS ${ktasLevel}단계 긴급 모니터링 시작`,
         message: `소아 응급실 판정에 따라 인근 거점 소아응급센터(${hospNames})의 실시간 병상 변동을 집중 감시합니다.`,
-        hospitalName: topHospitals[0].dutyName,
-        bedCount: topHospitals[0].lastBedCount,
-        tel: topHospitals[0].dutyTel3,
+        hospitalName: topHospitals[0] ? topHospitals[0].dutyName : '',
+        bedCount: topHospitals[0] ? topHospitals[0].lastBedCount : null,
+        tel: topHospitals[0] ? topHospitals[0].dutyTel3 : '',
         changeType: 'alert'
       });
     } catch (e) {
@@ -518,6 +619,28 @@ window.AisumNotificationManager = {
         return null;
       }
       const list = this.getNotifications();
+
+      // 🛡️ 스마트 디듀플리케이션: 3분 이내 동일 제목/메시지 중복 등록 방지
+      const isDuplicate = list.some(item => {
+        const isSameContent = (item.title === notif.title && item.message === notif.message);
+        const isRecent = (Date.now() - new Date(item.timestamp).getTime()) < 3 * 60 * 1000;
+        return isSameContent && isRecent;
+      });
+      if (isDuplicate) {
+        console.log('🔄 [AisumNotificationManager] 최근 동일한 알림이 이미 등록되어 중복을 방지합니다.');
+        return null;
+      }
+
+      // WATCH_START의 경우 30분 내 중복 방지
+      if (notif.type === 'WATCH_START') {
+        const hasRecentWatchStart = list.some(item => 
+          item.type === 'WATCH_START' && (Date.now() - new Date(item.timestamp).getTime()) < 30 * 60 * 1000
+        );
+        if (hasRecentWatchStart) {
+          return null;
+        }
+      }
+
       const dateObj = new Date();
       const pad = n => String(n).padStart(2, '0');
       const timeStr = `${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
@@ -592,9 +715,11 @@ window.AisumNotificationManager = {
         });
 
         if (live) {
-          const currentBed = (typeof live.available_beds === 'number')
-            ? live.available_beds
-            : (typeof live.hv28 === 'number' ? live.hv28 : (parseInt(live.available_beds || live.hv28, 10) || 0));
+          const currentBed = (typeof live.pediatric_beds === 'number')
+            ? live.pediatric_beds
+            : ((typeof live.available_beds === 'number')
+              ? live.available_beds
+              : ((typeof live.hv28 === 'number') ? live.hv28 : (parseInt(live.pediatric_beds || live.available_beds || live.hv28, 10) || 0)));
           const currentHpmg = live.hpmg || '';
           const prevBed = target.lastBedCount;
 
@@ -689,7 +814,9 @@ window.AisumNotificationManager = {
       const res = await fetch(url);
       if (!res.ok) return;
       const data = await res.json();
-      const facilities = (data && data.facilities) ? data.facilities : data;
+      const facilities = (data && Array.isArray(data.hospitals)) ? data.hospitals :
+                         ((data && Array.isArray(data.facilities)) ? data.facilities :
+                         (Array.isArray(data) ? data : []));
       if (Array.isArray(facilities) && facilities.length > 0) {
         // 🚨 조건 2: 근방 응급실 병상 정보 변동 검사 및 알림 발송
         this.checkBedUpdates(facilities);
