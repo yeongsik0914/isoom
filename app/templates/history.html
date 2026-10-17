@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>문진 결과 기록 - 아이숨 (Aisum)</title>
+  <meta name="description" content="소아 맞춤 KTAS 판정 및 달빛어린이병원/소아 응급실 이전 문진 결과 기록 열람" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Mobile App / PWA Standalone Meta Tags -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="apple-touch-icon" href="/img/icon-192.png" />
+
+  <style>
+    /* ==========================================================================
+       History Page Custom Aesthetics (Aisum Calm Harbor Design)
+       ========================================================================== */
+    body {
+      padding: 0 !important;
+      margin: 0 !important;
+      background-color: #f8faff !important;
+      overflow-x: hidden;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    .mobile-viewport.history-shell {
+      width: 100%;
+      max-width: 500px;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 100dvh;
+      max-height: 100dvh;
+      background-color: #f8faff;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 639px) {
+      .mobile-viewport.history-shell {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: 100dvh !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+    }
+
+    @media (min-width: 640px) {
+      .mobile-viewport.history-shell {
+        border-radius: 0 !important;
+        box-shadow: 0 0 24px rgba(15, 23, 42, 0.08) !important;
+      }
+    }
+
+    /* Fixed Header Bar */
+    .history-header {
+      flex-shrink: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid #eef2f6;
+      height: calc(56px + env(safe-area-inset-top, 0px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 0px) 16px 0 16px;
+      box-sizing: border-box;
+    }
+
+    .history-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .history-back-btn {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      color: #1e293b;
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+    }
+
+    .history-back-btn:active {
+      background-color: #f1f5f9;
+    }
+
+    .history-header-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+      margin: 0;
+    }
+
+    .history-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .history-btn-clear-all {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #ef4444;
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+    }
+
+    .history-btn-clear-all:active {
+      background: #fca5a5;
+    }
+
+    /* Scrollable Body Content */
+    .history-main-content {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 12px 16px calc(76px + env(safe-area-inset-bottom, 12px)) 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-sizing: border-box;
+    }
+
+    /* Summary & Guide Info Bar */
+    .history-summary-bar {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 12px 14px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .history-summary-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .history-summary-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(0, 102, 255, 0.08);
+      color: #0066ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .history-summary-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .history-summary-count {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.2px;
+    }
+
+    .history-summary-desc {
+      font-size: 11px;
+      color: #64748b;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-new-triage {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      background: #0066ff;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 102, 255, 0.2);
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-new-triage:active {
+      background: #0052cc;
+    }
+
+    /* Empty State */
+    .history-empty-container {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px dashed #cbd5e1;
+      padding: 40px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .history-empty-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .history-empty-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1e293b;
+      margin: 0 0 6px 0;
+    }
+
+    .history-empty-desc {
+      font-size: 12.5px;
+      color: #64748b;
+      line-height: 1.5;
+      margin: 0 0 20px 0;
+      max-width: 280px;
+      word-break: keep-all;
+    }
+
+    .history-empty-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 24px;
+      background: #0066ff;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.25);
+    }
+
+    /* History Cards List */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .history-card {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1px solid #e2e8f0;
+      padding: 14px 16px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .history-card:active {
+      transform: scale(0.995);
+    }
+
+    .history-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px dashed #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .history-card-date {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .history-card-header-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .history-card-delete-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .history-card-delete-btn:hover,
+    .history-card-delete-btn:active {
+      color: #ef4444;
+    }
+
+    .history-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .history-child-info {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .history-symptom-tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0066ff;
+      background: #eff6ff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      width: fit-content;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .history-hospital-info {
+      font-size: 12.5px;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #f8fafc;
+      padding: 7px 10px;
+      border-radius: 10px;
+      margin-top: 2px;
+    }
+
+    .history-hospital-info strong {
+      color: #0f172a;
+    }
+
+    .history-card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .btn-replay-result {
+      flex: 1;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #0066ff;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 102, 255, 0.2);
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-replay-result:active {
+      background: #0052cc;
+    }
+
+    /* KTAS Tier Badges */
+    .ktas-grade-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2.5px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+
+    .ktas-grade-badge.ktas-tier-1 {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+    }
+
+    .ktas-grade-badge.ktas-tier-2 {
+      background: #ffedd5;
+      color: #c2410c;
+      border: 1px solid #fdba74;
+    }
+
+    .ktas-grade-badge.ktas-tier-3 {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fcd34d;
+    }
+
+    .ktas-grade-badge.ktas-tier-4 {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .ktas-grade-badge.ktas-tier-5 {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+  </style>
+</head>
+
+<body class="app-shell-body">
+
+  <!-- Mobile Viewport Shell (History Page) -->
+  <div class="mobile-viewport history-shell" id="app">
+
+    <!-- 1. Header Bar -->
+    <header class="history-header">
+      <div class="history-header-left">
+        <a href="index.html" class="history-back-btn" aria-label="메인 홈으로 이동">
+          <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+        <h1 class="history-header-title">문진 결과 기록</h1>
+      </div>
+      <div class="history-header-actions">
+        <button type="button" class="history-btn-clear-all" id="btn-history-clear-all" onclick="clearAllHistoryRecords()" title="저장된 전체 문진 기록 삭제">
+          <span class="material-symbols-outlined" style="font-size: 16px;">delete_sweep</span>
+          <span>전체 삭제</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. Main Scrollable Content Area -->
+    <main class="history-main-content" id="history-main-content">
+
+      <!-- Summary / Control Bar -->
+      <section class="history-summary-bar" aria-label="기록 현황">
+        <div class="history-summary-left">
+          <div class="history-summary-icon">
+            <span class="material-symbols-outlined" style="font-size: 22px;">receipt_long</span>
+          </div>
+          <div class="history-summary-texts">
+            <span class="history-summary-count" id="history-count-badge">총 0건의 문진 기록</span>
+            <p class="history-summary-desc">이전 문진 내용과 당시 추천 병원을 0ms로 다시 확인합니다</p>
+          </div>
+        </div>
+        <a href="input.html" class="btn-new-triage" aria-label="새로운 증상 입력하기">
+          <span class="material-symbols-outlined" style="font-size: 16px;">add</span>
+          <span>새 문진</span>
+        </a>
+      </section>
+
+      <!-- History List Dynamic Container -->
+      <div class="history-list" id="history-list-container">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+    </main>
+
+    <!-- 3. Fixed Bottom Navigation Bar (GNB) -->
+    <nav class="bottom-nav" aria-label="주요 메뉴">
+      <!-- Tab 1: 홈 -->
+      <a href="index.html" class="nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span class="nav-label">홈</span>
+      </a>
+
+      <!-- Tab 2: 기록 (Active) -->
+      <a href="history.html" class="nav-item active" aria-current="page">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="nav-label">기록</span>
+      </a>
+
+      <!-- Tab 3: 브리핑 카드 -->
+      <a href="briefing_card.html" class="nav-item" aria-label="구급대원용 응급 브리핑 카드">
+        <span class="material-symbols-outlined">assignment_ind</span>
+        <span class="nav-label">브리핑 카드</span>
+      </a>
+
+      <!-- Tab 4: 설정 -->
+      <a href="settings.html" class="nav-item">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="nav-label">설정</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Single Source JavaScript Modules -->
+  <script src="../js/main.js"></script>
+
+  <script>
+    // 📋 이전 문진 결과 기록 페이지 렌더러 및 컨트롤러
+    function renderHistoryList() {
+      const listContainer = document.getElementById('history-list-container');
+      const countBadge = document.getElementById('history-count-badge');
+      const clearAllBtn = document.getElementById('btn-history-clear-all');
+      if (!listContainer) return;
+
+      const histories = window.AisumHistoryManager ? window.AisumHistoryManager.getAll() : [];
+      const totalCount = histories.length;
+
+      if (countBadge) {
+        countBadge.textContent = `총 ${totalCount}건의 문진 기록`;
+      }
+
+      if (clearAllBtn) {
+        clearAllBtn.style.display = totalCount > 0 ? 'inline-flex' : 'none';
+      }
+
+      if (totalCount === 0) {
+        listContainer.innerHTML = `
+          <div class="history-empty-container">
+            <div class="history-empty-icon-wrap">
+              <span class="material-symbols-outlined" style="font-size: 32px;">receipt_long</span>
+            </div>
+            <h2 class="history-empty-title">저장된 이전 문진 결과가 없습니다</h2>
+            <p class="history-empty-desc">
+              아이의 증상을 입력하시면 맞춤 소아과와 응급처치 결과가 안전하게 영구 보관되며 언제든 다시 확인하실 수 있습니다.
+            </p>
+            <a href="input.html" class="history-empty-cta">
+              <span class="material-symbols-outlined">edit_note</span>
+              <span>증상 입력하고 병원 찾기</span>
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = histories.map(h => {
+        const ktasLevel = h.ktasLevel || 4;
+        const ktasBadgeClass = `ktas-tier-${ktasLevel}`;
+        const isEmergency = ktasLevel <= 3;
+
+        return `
+          <article class="history-card" id="history-card-${h.id}">
+            <div class="history-card-header">
+              <span class="history-card-date">
+                <span class="material-symbols-outlined" style="font-size: 15px; color: #64748b;">calendar_today</span>
+                <span>${h.displayDate || '일시 정보 없음'}</span>
+              </span>
+              <div class="history-card-header-right">
+                <span class="ktas-grade-badge ${ktasBadgeClass}">KTAS ${ktasLevel}단계</span>
+                <button type="button" class="history-card-delete-btn" aria-label="기록 삭제" onclick="deleteHistoryRecord('${h.id}')" title="삭제">
+                  <span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="history-card-body">
+              <div class="history-child-info">
+                <span>${h.childAge || '아이'}</span>
+                <span>·</span>
+                <span>${h.childGender || '성별 미입력'}</span>
+                <span>·</span>
+                <span style="color: #ef4444; font-weight: 800;">${h.temperature || '미측정'}</span>
+              </div>
+              <div class="history-symptom-tag">
+                #${(h.symptom || '증상 미입력').replace(/^#+/, '')}
+              </div>
+              <div class="history-hospital-info">
+                ${isEmergency
+                  ? `<span class="material-symbols-outlined" style="font-size: 16px; color: #ef4444; flex-shrink: 0;">e911_emergency</span>
+                     <div style="min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                       <strong>추천 응급실:</strong> <span style="color: #b91c1c; font-weight: 700;">${h.recommendedHospital || '소아전문응급의료센터'}</span>
+                     </div>`
+                  : `<span class="material-symbols-outlined" style="font-size: 16px; color: #0066ff; flex-shrink: 0;">local_hospital</span>
+                     <div style="min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                       <strong>추천 병원:</strong> <span>${h.recommendedHospital || '달빛어린이병원'}</span>
+                     </div>`
+                }
+              </div>
+            </div>
+
+            <div class="history-card-actions">
+              <button type="button" class="btn-replay-result" onclick="replayHistoryRecord('${h.id}')">
+                <span class="material-symbols-outlined" style="font-size: 17px;">visibility</span>
+                <span>당시 결과 다시보기</span>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function deleteHistoryRecord(id) {
+      if (!confirm('이 문진 결과를 삭제하시겠습니까?')) return;
+      if (window.AisumHistoryManager) {
+        window.AisumHistoryManager.deleteById(id);
+        if (window.AisumNotificationManager && typeof window.AisumNotificationManager.syncWatchTargetsWithHistory === 'function') {
+          window.AisumNotificationManager.syncWatchTargetsWithHistory();
+        }
+        renderHistoryList();
+      }
+    }
+
+    function clearAllHistoryRecords() {
+      const histories = window.AisumHistoryManager ? window.AisumHistoryManager.getAll() : [];
+      if (!histories || histories.length === 0) return;
+      if (!confirm('저장된 모든 문진 결과를 삭제하시겠습니까? 복원할 수 없습니다.')) return;
+      if (window.AisumHistoryManager) {
+        window.AisumHistoryManager.clearAll();
+        if (window.AisumNotificationManager && typeof window.AisumNotificationManager.syncWatchTargetsWithHistory === 'function') {
+          window.AisumNotificationManager.syncWatchTargetsWithHistory();
+        }
+        renderHistoryList();
+      }
+    }
+
+    function replayHistoryRecord(id) {
+      if (window.AisumHistoryManager) {
+        window.AisumHistoryManager.restoreAndNavigate(id);
+      }
+    }
+
+    // 0ms 초기 렌더링 즉각 보장
+    document.addEventListener('DOMContentLoaded', function() {
+      renderHistoryList();
+      if (window.AisumNotificationManager && typeof window.AisumNotificationManager.updateBadgeUI === 'function') {
+        window.AisumNotificationManager.updateBadgeUI();
+      }
+    });
+
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').catch(function(e) {
+          console.warn('[PWA] Service worker registration failed:', e);
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>

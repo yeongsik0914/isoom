@@ -544,10 +544,10 @@
         <span class="nav-label">기록</span>
       </a>
 
-      <!-- Tab 3: 응급실 가이드 -->
-      <a href="emergency_guide.html" class="nav-item">
-        <span class="material-symbols-outlined">emergency</span>
-        <span class="nav-label">응급실 가이드</span>
+      <!-- Tab 3: 브리핑 카드 -->
+      <a href="briefing_card.html" class="nav-item" aria-label="구급대원용 응급 브리핑 카드">
+        <span class="material-symbols-outlined">assignment_ind</span>
+        <span class="nav-label">브리핑 카드</span>
       </a>
 
       <!-- Tab 4: 설정 -->
@@ -660,6 +660,9 @@
       if (!confirm('이 문진 결과를 삭제하시겠습니까?')) return;
       if (window.AisumHistoryManager) {
         window.AisumHistoryManager.deleteById(id);
+        if (window.AisumNotificationManager && typeof window.AisumNotificationManager.syncWatchTargetsWithHistory === 'function') {
+          window.AisumNotificationManager.syncWatchTargetsWithHistory();
+        }
         renderHistoryList();
       }
     }
@@ -670,6 +673,9 @@
       if (!confirm('저장된 모든 문진 결과를 삭제하시겠습니까? 복원할 수 없습니다.')) return;
       if (window.AisumHistoryManager) {
         window.AisumHistoryManager.clearAll();
+        if (window.AisumNotificationManager && typeof window.AisumNotificationManager.syncWatchTargetsWithHistory === 'function') {
+          window.AisumNotificationManager.syncWatchTargetsWithHistory();
+        }
         renderHistoryList();
       }
     }

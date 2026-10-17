@@ -1,0 +1,2779 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>구급대원용 응급 브리핑 카드 - 아이숨 (Aisum)</title>
+  <meta name="description" content="119 구급대원 및 응급실 의료진에게 즉시 보여주는 환아 필수 신상, KTAS 문진 기록, 혈액형 및 응급 특이사항 브리핑 카드" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- PWA & Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="아이숨" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Global Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <style>
+    /* =============================================================
+       Paramedic Briefing Card - Aisum Modern Healthcare Aesthetics
+       Fixed Shell + Smooth Internal Scrolling & Refined Minimal UI
+    ============================================================= */
+    :root {
+      --em-red: #ef4444;
+      --em-red-dark: #dc2626;
+      --em-red-light: #fef2f2;
+      --em-red-border: #fecaca;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --card-radius: 18px;
+    }
+
+    body {
+      padding: 0 !important;
+      margin: 0 !important;
+      background-color: #f8fafc !important;
+      overflow-x: hidden;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* Fixed App Shell Viewport */
+    .mobile-viewport.briefing-shell {
+      width: 100%;
+      max-width: 500px;
+      height: 100vh;
+      height: 100dvh;
+      min-height: 100dvh;
+      max-height: 100dvh;
+      background-color: #f8fafc;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      overflow: hidden; /* Lock outer frame */
+      box-sizing: border-box;
+      padding-bottom: 0 !important;
+    }
+
+    @media (max-width: 639px) {
+      .mobile-viewport.briefing-shell {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: 100dvh !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+    }
+
+    @media (min-width: 640px) {
+      .mobile-viewport.briefing-shell {
+        border-radius: 0 !important;
+        box-shadow: 0 0 24px rgba(15, 23, 42, 0.08) !important;
+      }
+    }
+
+    /* Fixed Top App Bar */
+    .briefing-header {
+      flex-shrink: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid #f1f5f9;
+      height: calc(56px + env(safe-area-inset-top, 0px));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: env(safe-area-inset-top, 0px) 16px 0 16px;
+      box-sizing: border-box;
+    }
+
+    .header-left-btn {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: var(--slate-700);
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+      cursor: pointer;
+    }
+    .header-left-btn:active {
+      background-color: #f1f5f9;
+      transform: scale(0.96);
+    }
+
+    .header-title-box {
+      text-align: center;
+      flex: 1;
+      padding: 0 10px;
+    }
+    .header-main-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin: 0;
+      letter-spacing: -0.4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .header-right-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      border-radius: 9999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .header-right-action-btn:active {
+      transform: scale(0.96);
+      background: #dbeafe;
+    }
+
+    /* -------------------------------------------------------------
+       Main Scrollable Body - Smooth, Frictionless & No-Overlap
+    ------------------------------------------------------------- */
+    .briefing-content {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto !important;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 14px 16px calc(80px + env(safe-area-inset-bottom, 0px) + 24px) 16px !important;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-sizing: border-box;
+    }
+
+    /* 1. Quick Emergency Paramedic Notice Banner */
+    .paramedic-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+    }
+    .paramedic-banner-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .paramedic-banner-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(239, 68, 68, 0.25);
+      color: #f87171;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      flex-shrink: 0;
+    }
+    .paramedic-banner-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    .paramedic-banner-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .paramedic-banner-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .banner-action-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .btn-fullscreen-toggle {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 9px;
+      padding: 6px 9px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s;
+    }
+    .btn-fullscreen-toggle:active {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(0.96);
+    }
+    .btn-call-119 {
+      background: #ef4444;
+      color: #ffffff;
+      border: none;
+      border-radius: 9px;
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
+      transition: all 0.15s;
+    }
+    .btn-call-119:active {
+      transform: scale(0.96);
+      background: #dc2626;
+    }
+
+    /* -------------------------------------------------------------
+       Clean Cards Styling (Minimalist, No Clutter)
+    ------------------------------------------------------------- */
+    .briefing-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1px solid #eef2f6;
+      box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.04);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+
+    .card-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f8fafc;
+      padding-bottom: 8px;
+    }
+    .card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-title-icon {
+      font-size: 18px;
+      color: var(--slate-700);
+    }
+    .card-title-text {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -0.3px;
+      margin: 0;
+    }
+
+    .btn-card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: transparent;
+      color: var(--slate-500);
+      border: none;
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-card-action:hover, .btn-card-action:active {
+      background: #f1f5f9;
+      color: var(--slate-800);
+    }
+
+    /* Section 1: Patient Profile */
+    .profile-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .patient-identity-box {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .patient-name-large {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--slate-900);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .patient-sub-age {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--slate-500);
+    }
+    .patient-birth-date {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--slate-400);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Blood Type Highlight Badge */
+    .blood-badge-hero {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 76px;
+      box-shadow: 0 3px 8px rgba(239, 68, 68, 0.25);
+      flex-shrink: 0;
+    }
+    .blood-badge-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.4px;
+    }
+    .blood-badge-val {
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+      color: #ffffff;
+      line-height: 1.15;
+    }
+
+    /* Emergency Contact Pill */
+    .emergency-contact-box {
+      background: #f8fafc;
+      border: 1px solid #eef2f6;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .contact-info-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .contact-icon-bubble {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .contact-text-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .contact-relation-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--slate-400);
+    }
+    .contact-phone-number {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--slate-800);
+      letter-spacing: -0.2px;
+    }
+    .btn-direct-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #10b981;
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25);
+      transition: transform 0.15s;
+    }
+    .btn-direct-call:active {
+      transform: scale(0.96);
+    }
+
+    /* Inline Profile Form in Card */
+    .profile-inline-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 14px 14px;
+    }
+    .inline-form-notice {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--slate-700);
+      background: #eff6ff;
+      border: 1px solid #dbeafe;
+      border-radius: 9px;
+      padding: 8px 10px;
+    }
+    .inline-form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .inline-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .inline-form-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--slate-700);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .inline-form-input {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 9px;
+      border: 1px solid #cbd5e1;
+      font-size: 13.5px;
+      color: var(--slate-900);
+      box-sizing: border-box;
+      background: #ffffff;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .inline-form-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .inline-chip-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .inline-chip {
+      flex: 1;
+      min-width: 44px;
+      padding: 8px 4px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: var(--slate-700);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .inline-chip.active {
+      background: #eff6ff;
+      border-color: #2563eb;
+      color: #1d4ed8;
+      font-weight: 800;
+    }
+    .inline-chip.active-red {
+      background: #fef2f2;
+      border-color: #ef4444;
+      color: #b91c1c;
+      font-weight: 800;
+    }
+    .inline-form-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .inline-btn-save {
+      flex: 1;
+      padding: 11px;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
+      transition: background-color 0.15s;
+    }
+    .inline-btn-save:active {
+      background: #1d4ed8;
+      transform: scale(0.98);
+    }
+    .inline-btn-cancel {
+      padding: 11px 16px;
+      background: #ffffff;
+      color: var(--slate-600);
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .inline-btn-cancel:active {
+      background: #f1f5f9;
+    }
+
+    /* Empty Profile Clean Card (fallback) */
+    .profile-empty-clean {
+      background: #f8fafc;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+    .profile-empty-clean-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--slate-800);
+    }
+    .profile-empty-clean-desc {
+      font-size: 11.5px;
+      color: var(--slate-500);
+      line-height: 1.4;
+      margin: 0;
+    }
+    .btn-setup-clean {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 4px;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+    }
+    .btn-setup-clean:active {
+      transform: scale(0.96);
+    }
+
+    /* Section 2: Medical Record Briefing Card */
+    .ktas-status-banner {
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .ktas-tier-1-bg, .ktas-tier-2-bg {
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      color: #991b1b;
+    }
+    .ktas-tier-3-bg {
+      background: #fff7ed;
+      border: 1px solid #ffedd5;
+      color: #9a3412;
+    }
+    .ktas-tier-4-bg {
+      background: #f0fdf4;
+      border: 1px solid #dcfce7;
+      color: #166534;
+    }
+    .ktas-tier-5-bg {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+    }
+
+    .ktas-status-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ktas-level-badge {
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+    .ktas-urgency-chip {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.85;
+    }
+    .record-time-stamp {
+      font-size: 11px;
+      font-weight: 500;
+      opacity: 0.8;
+      flex-shrink: 0;
+    }
+
+    /* Vitals Grid */
+    .vitals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .vital-item-box {
+      background: #f8fafc;
+      border: 1px solid #eef2f6;
+      border-radius: 10px;
+      padding: 9px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .vital-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--slate-400);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .vital-value {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--slate-800);
+      letter-spacing: -0.2px;
+    }
+    .vital-value.fever-high {
+      color: #dc2626;
+    }
+
+    /* Symptoms Tags */
+    .symptom-tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .symptom-tag {
+      background: #f1f5f9;
+      color: var(--slate-700);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* Destination Hospital Box */
+    .target-hospital-box {
+      background: #eff6ff;
+      border: 1px solid #dbeafe;
+      border-radius: 10px;
+      padding: 9px 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .target-hosp-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .target-hosp-icon {
+      font-size: 18px;
+      color: #2563eb;
+    }
+    .target-hosp-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .target-hosp-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #3b82f6;
+    }
+    .target-hosp-name {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #1e3a8a;
+    }
+
+    /* Section 1 Sub: Special Directives & Notes inside Patient Profile */
+    .patient-special-notes-box {
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 1px dashed #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .special-notes-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .special-notes-title {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #ea580c;
+    }
+
+    /* Section 3: Special Directives & Notes Card */
+    .directive-item-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .directive-item-box.refusal-alert {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+    .directive-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .directive-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--slate-700);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .directive-title.refusal-title {
+      color: #991b1b;
+    }
+    .directive-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+    .badge-refusal {
+      background: #dc2626;
+      color: #ffffff;
+    }
+    .badge-consent {
+      background: #10b981;
+      color: #ffffff;
+    }
+    .directive-body-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--slate-600);
+      line-height: 1.4;
+      margin: 0;
+    }
+    .directive-body-text.refusal-text {
+      color: #7f1d1d;
+    }
+
+    /* Doctor Info Row */
+    .doctor-contact-box {
+      background: #f8fafc;
+      border: 1px solid #eef2f6;
+      border-radius: 10px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .doctor-info-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .doctor-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--slate-400);
+    }
+    .doctor-name-hospital {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--slate-800);
+    }
+    .doctor-phone-sub {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--slate-500);
+    }
+
+    /* Bottom Global Navigation */
+    .briefing-shell .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid #f1f5f9;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 10000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+    }
+    .modal-overlay.active {
+      display: flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    .modal-sheet {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: sheetSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes sheetSlideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* Briefing Symptom Summary Box (Integrated & Simplified Clinical Handover) */
+    .briefing-symptom-summary-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #0284c7;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .briefing-symptom-summary-box.urgent {
+      background: #fef2f2;
+      border-color: #fecaca;
+      border-left-color: #ef4444;
+    }
+    .briefing-symptom-summary-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+    }
+    .briefing-symptom-summary-box.urgent .symptom-tag {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fca5a5;
+      font-weight: 700;
+    }
+    .briefing-symptom-summary-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #0369a1;
+      letter-spacing: -0.2px;
+      margin-left: auto;
+    }
+    .briefing-symptom-summary-box.urgent .briefing-symptom-summary-header {
+      color: #b91c1c;
+    }
+    .briefing-symptom-summary-text {
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0;
+      word-break: keep-all;
+    }
+    .briefing-symptom-subtext {
+      font-size: 11.5px;
+      color: #64748b;
+      margin: 0;
+      line-height: 1.4;
+    }
+    .briefing-symptom-summary-box.urgent .briefing-symptom-subtext {
+      color: #991b1b;
+    }
+
+    .modal-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin: 0;
+    }
+    .btn-close-modal {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: none;
+      color: var(--slate-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .modal-body-scroll {
+      padding: 16px 18px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--slate-700);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .required-star {
+      color: #ef4444;
+      font-size: 13px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
+      color: var(--slate-900);
+      box-sizing: border-box;
+      outline: none;
+      transition: border 0.15s;
+    }
+    .form-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .blood-chip-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .blood-chip {
+      padding: 9px 0;
+      text-align: center;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--slate-700);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .blood-chip.active {
+      border-color: #ef4444;
+      background: #fef2f2;
+      color: #b91c1c;
+      font-weight: 800;
+    }
+
+    .rh-toggle-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .rh-chip {
+      flex: 1;
+      padding: 8px 0;
+      text-align: center;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--slate-700);
+      cursor: pointer;
+    }
+    .rh-chip.active {
+      border-color: #ef4444;
+      background: #fef2f2;
+      color: #b91c1c;
+      font-weight: 800;
+    }
+
+    /* Transfusion Choice Pills */
+    .transfusion-pill-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .transfusion-option {
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: #f8fafc;
+      transition: all 0.15s;
+    }
+    .transfusion-option.active {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .modal-footer {
+      padding: 12px 18px calc(env(safe-area-inset-bottom, 0px) + 12px) 18px;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn-modal-cancel {
+      flex: 1;
+      padding: 11px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: var(--slate-600);
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-modal-save {
+      flex: 2;
+      padding: 11px;
+      border: none;
+      background: #2563eb;
+      color: #ffffff;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Fullscreen High-Contrast Paramedic Mode */
+    .fullscreen-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #090d16;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      padding: calc(env(safe-area-inset-top, 0px) + 16px) 18px calc(env(safe-area-inset-bottom, 0px) + 18px) 18px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      color: #ffffff;
+    }
+    .fullscreen-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+    .fullscreen-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #f87171;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-close-fullscreen {
+      background: #1e293b;
+      color: #ffffff;
+      border: 1px solid #334155;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .fs-card-box {
+      background: #111827;
+      border: 1.5px solid #1f2937;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .fs-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .fs-val-huge {
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.4px;
+    }
+    .fs-val-highlight {
+      color: #f87171;
+    }
+    .fs-vital-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+      border-top: 1px solid #1f2937;
+      padding-top: 10px;
+    }
+
+    /* Record Select Modal Sheet */
+    .record-select-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .record-select-item {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #f8fafc;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: all 0.15s;
+    }
+    .record-select-item:hover {
+      border-color: #2563eb;
+      background: #f8faff;
+    }
+    .record-select-item.selected {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mobile-viewport briefing-shell" id="appShell">
+
+    <!-- 1. Top Fixed Navigation Header -->
+    <header class="briefing-header" id="briefingHeader">
+      <a href="index.html" class="header-left-btn" id="btnBackHome" aria-label="메인 홈으로 이동">
+        <span class="material-symbols-outlined" style="font-size: 20px;">arrow_back</span>
+      </a>
+      <div class="header-title-box">
+        <h1 class="header-main-title">
+          119 응급 브리핑
+        </h1>
+      </div>
+      <button type="button" class="header-right-action-btn" id="btnOpenEditProfile" aria-label="기본 신상정보 수정">
+        <span class="material-symbols-outlined" style="font-size: 15px;">edit</span>
+        <span>신상 수정</span>
+      </button>
+    </header>
+
+    <!-- 2. Main Content Body - Smooth Scroll Container -->
+    <main class="briefing-content" id="briefingMain">
+
+
+      <!-- Section 1: 환아 기본 신상 정보 카드 (필수 정보) -->
+      <section class="briefing-card" id="cardPatientProfile" aria-label="환아 기본 신상 정보">
+        <div class="card-header-bar">
+          <div class="card-title-group">
+            <span class="material-symbols-outlined card-title-icon" style="color: #2563eb;">person</span>
+            <h2 class="card-title-text">환아 인적사항</h2>
+          </div>
+          <button type="button" class="btn-card-action" id="btnCardEditProfile" aria-label="신상정보 수정하기">
+            <span class="material-symbols-outlined" style="font-size: 13px;">edit</span>
+            <span>정보 변경</span>
+          </button>
+        </div>
+
+        <!-- Rendered when Profile exists -->
+        <div id="profileExistingView" style="display: none; flex-direction: column; gap: 10px;">
+          <div class="profile-main-row">
+            <div class="patient-identity-box">
+              <div class="patient-name-large">
+                <span id="txtPatientName">아이</span>
+                <span class="patient-sub-age" id="txtPatientAgeGender">(나이 · 성별)</span>
+              </div>
+              <div class="patient-birth-date">
+                <span class="material-symbols-outlined" style="font-size: 13px;">cake</span>
+                <span id="txtPatientBirth">생년월일: -</span>
+              </div>
+            </div>
+            <!-- Blood Type Hero Badge -->
+            <div class="blood-badge-hero" id="badgeBloodType">
+              <span class="blood-badge-label">혈액형</span>
+              <span class="blood-badge-val" id="txtBloodTypeVal">RH+ A</span>
+            </div>
+          </div>
+
+          <!-- Emergency Contact Box -->
+          <div class="emergency-contact-box">
+            <div class="contact-info-left">
+              <div class="contact-icon-bubble">
+                <span class="material-symbols-outlined">call</span>
+              </div>
+              <div class="contact-text-wrap">
+                <span class="contact-relation-label" id="txtContactRelation">비상 연락처</span>
+                <span class="contact-phone-number" id="txtContactPhone">010-0000-0000</span>
+              </div>
+            </div>
+            <a href="tel:119" class="btn-direct-call" id="btnDirectCallContact">
+              <span class="material-symbols-outlined" style="font-size: 14px;">call</span>
+              <span>통화 연결</span>
+            </a>
+          </div>
+
+          <!-- 구급대원 필독 특이사항 (환자 인적사항 카드 내 포함) -->
+          <div class="patient-special-notes-box" id="cardSpecialNotes" aria-label="구급대원 필독 특이사항">
+            <div class="special-notes-header">
+              <div class="special-notes-title">
+                <span class="material-symbols-outlined" style="font-size: 15px;">warning</span>
+                <span>구급대원 필독 특이사항</span>
+              </div>
+              <button type="button" class="btn-card-action" id="btnEditDirectives" style="font-size: 11px; padding: 3px 8px;" aria-label="특이사항 수정">
+                <span class="material-symbols-outlined" style="font-size: 12px;">tune</span>
+                <span>설정</span>
+              </button>
+            </div>
+
+            <!-- 1. 특수 지시사항 (종교적 수혈 거부 여부) -->
+            <div class="directive-item-box" id="boxTransfusionDirective">
+              <div class="directive-header">
+                <div class="directive-title" id="txtTransfusionTitle">
+                  <span class="material-symbols-outlined" style="font-size: 15px;">verified_user</span>
+                  <span>수혈 관련 사전 지시사항</span>
+                </div>
+                <span class="directive-badge badge-consent" id="badgeTransfusionStatus">수혈 동의</span>
+              </div>
+              <p class="directive-body-text" id="txtTransfusionBody">
+                응급 수혈에 특별한 거부 의사가 없으며, 의료진의 판단에 따른 수혈 처치를 수용합니다.
+              </p>
+            </div>
+
+            <!-- 2. 주치의 병원명 및 담당 의사 연락처 -->
+            <div class="doctor-contact-box" id="boxDoctorContact">
+              <div class="doctor-info-text">
+                <span class="doctor-label">주치의 / 기존 진료 병원</span>
+                <span class="doctor-name-hospital" id="txtDoctorHospital">등록된 주치의 병원 없음</span>
+                <span class="doctor-phone-sub" id="txtDoctorContact">-</span>
+              </div>
+              <a href="tel:" class="btn-direct-call" id="btnDoctorCall" style="background: #0284c7; display: none;">
+                <span class="material-symbols-outlined" style="font-size: 13px;">call</span>
+                <span>주치의 통화</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline Input / Edit Form (브리핑 페이지에서 직접 입력 & 저장) -->
+        <div id="profileInlineForm" class="profile-inline-form" style="display: none;">
+          <div class="inline-form-notice">
+            <span class="material-symbols-outlined" style="font-size: 18px; color: #2563eb;">contact_emergency</span>
+            <span>119 구급대원 즉시 인계를 위한 필수 신상 정보입니다.</span>
+          </div>
+
+          <!-- 이름 & 생년월일 2열 그리드 -->
+          <div class="inline-form-row-2">
+            <div class="inline-form-group">
+              <label class="inline-form-label" for="inlineInpName">
+                <span>환아 이름</span>
+                <span class="required-star">*</span>
+              </label>
+              <input type="text" id="inlineInpName" class="inline-form-input" placeholder="예: 김이숨" maxlength="15" autocomplete="off" />
+            </div>
+            <div class="inline-form-group">
+              <label class="inline-form-label" for="inlineInpBirth">
+                <span>생년월일</span>
+                <span class="required-star">*</span>
+              </label>
+              <input type="date" id="inlineInpBirth" class="inline-form-input" />
+            </div>
+          </div>
+
+          <!-- 성별 & Rh 혈액형 -->
+          <div class="inline-form-row-2">
+            <div class="inline-form-group">
+              <label class="inline-form-label">
+                <span>성별</span>
+                <span class="required-star">*</span>
+              </label>
+              <div class="inline-chip-group">
+                <button type="button" class="inline-chip active" id="inlineChipGenderMale">남아</button>
+                <button type="button" class="inline-chip" id="inlineChipGenderFemale">여아</button>
+              </div>
+            </div>
+            <div class="inline-form-group">
+              <label class="inline-form-label">
+                <span>Rh 혈액형</span>
+                <span class="required-star">*</span>
+              </label>
+              <div class="inline-chip-group">
+                <button type="button" class="inline-chip active-red" id="inlineChipRhPlus" data-rh="Rh+">Rh+</button>
+                <button type="button" class="inline-chip" id="inlineChipRhMinus" data-rh="Rh-">Rh-</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ABO 혈액형 선택 -->
+          <div class="inline-form-group">
+            <label class="inline-form-label">
+              <span>ABO 혈액형</span>
+              <span class="required-star">*</span>
+            </label>
+            <div class="inline-chip-group">
+              <button type="button" class="inline-chip inline-blood-chip active" data-abo="A">A형</button>
+              <button type="button" class="inline-chip inline-blood-chip" data-abo="B">B형</button>
+              <button type="button" class="inline-chip inline-blood-chip" data-abo="O">O형</button>
+              <button type="button" class="inline-chip inline-blood-chip" data-abo="AB">AB형</button>
+            </div>
+          </div>
+
+          <!-- 비상 연락처 & 관계 -->
+          <div class="inline-form-row-2">
+            <div class="inline-form-group">
+              <label class="inline-form-label" for="inlineInpPhone">
+                <span>보호자 연락처</span>
+                <span class="required-star">*</span>
+              </label>
+              <input type="tel" id="inlineInpPhone" class="inline-form-input" placeholder="010-0000-0000" maxlength="14" autocomplete="tel" />
+            </div>
+            <div class="inline-form-group">
+              <label class="inline-form-label" for="inlineInpRelation">
+                <span>보호자 관계</span>
+              </label>
+              <input type="text" id="inlineInpRelation" class="inline-form-input" placeholder="예: 엄마, 아빠" value="보호자" maxlength="10" />
+            </div>
+          </div>
+
+          <!-- 추가 특이사항 토글 (선택 입력: 수혈 거부 여부 & 주치의) -->
+          <details id="detailsSpecialDirectives" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 12px; margin-top: 2px;">
+            <summary style="font-size: 12px; font-weight: 700; color: var(--slate-600); cursor: pointer; user-select: none;">
+              + 구급대원 필독사항 추가 입력 (수혈 거부 여부, 주치의 등)
+            </summary>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px; padding-top: 8px; border-top: 1px solid #f1f5f9;">
+              <div class="inline-form-group">
+                <label class="inline-form-label">수혈 동의 / 거부</label>
+                <div class="inline-chip-group">
+                  <button type="button" class="inline-chip active" id="inlineTransfusionConsent" data-transfusion="consent">수혈 동의</button>
+                  <button type="button" class="inline-chip" id="inlineTransfusionRefusal" data-transfusion="refusal" style="color: #b91c1c;">⚠️ 수혈 절대 거부 (신념)</button>
+                </div>
+              </div>
+              <div class="inline-form-row-2">
+                <div class="inline-form-group">
+                  <label class="inline-form-label" for="inlineInpDoctorHospital">주치의 병원</label>
+                  <input type="text" id="inlineInpDoctorHospital" class="inline-form-input" placeholder="예: 서울대어린이병원" />
+                </div>
+                <div class="inline-form-group">
+                  <label class="inline-form-label" for="inlineInpDoctorContact">주치의 연락처</label>
+                  <input type="tel" id="inlineInpDoctorContact" class="inline-form-input" placeholder="예: 02-000-0000" />
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- 하단 액션 버튼 -->
+          <div class="inline-form-actions">
+            <button type="button" class="inline-btn-cancel" id="btnInlineCancel" style="display: none;">취소</button>
+            <button type="button" class="inline-btn-save" id="btnInlineSave">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              <span>환아 정보 저장하기</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Rendered when Profile is empty (기존 호환성 유지) -->
+        <div id="profileEmptyView" style="display: none;">
+          <button type="button" class="btn-setup-clean" id="btnSetupProfileCta" style="display: none;"></button>
+        </div>
+      </section>
+
+      <!-- Section 2: 필수 의료 정보 카드 (기록 결과 페이지 연동) -->
+      <section class="briefing-card" id="cardMedicalRecord" aria-label="필수 의료 정보">
+        <div class="card-header-bar">
+          <div class="card-title-group">
+            <span class="material-symbols-outlined card-title-icon" style="color: #0284c7;">clinical_notes</span>
+            <h2 class="card-title-text">최근 문진 및 응급도</h2>
+          </div>
+          <button type="button" class="btn-card-action" id="btnOpenRecordSelectModal" onclick="openRecordSelectModal()" aria-label="다른 문진 기록 불러오기">
+            <span class="material-symbols-outlined" style="font-size: 13px;">sync</span>
+            <span>기록 변경</span>
+          </button>
+        </div>
+
+        <!-- When Record Exists -->
+        <div id="medicalRecordExistingView" style="display: flex; flex-direction: column; gap: 10px;">
+          <!-- KTAS Status Banner -->
+          <div class="ktas-status-banner ktas-tier-2-bg" id="briefingKtasBanner">
+            <div class="ktas-status-left">
+              <span class="ktas-level-badge" id="txtBriefingKtasBadge">🚨 KTAS 2단계</span>
+              <span class="ktas-urgency-chip" id="txtBriefingKtasUrgency">긴급 (15분 이내)</span>
+            </div>
+            <span class="record-time-stamp" id="txtBriefingRecordTime">최근 문진</span>
+          </div>
+
+          <!-- Vitals Grid -->
+          <div class="vitals-grid">
+            <div class="vital-item-box">
+              <span class="vital-label">
+                <span class="material-symbols-outlined" style="font-size: 13px; color: #ef4444;">device_thermostat</span>
+                측정 체온
+              </span>
+              <span class="vital-value fever-high" id="txtBriefingTemp">38.0℃</span>
+            </div>
+            <div class="vital-item-box">
+              <span class="vital-label">
+                <span class="material-symbols-outlined" style="font-size: 13px; color: #0284c7;">medication</span>
+                해열제 복용
+              </span>
+              <span class="vital-value" id="txtBriefingMeds" style="font-size: 13px; font-weight: 700;">복용 안 함</span>
+            </div>
+          </div>
+
+          <!-- 주요 발생 증상 및 구급 인계 통합 카드 (간소화 일체형) -->
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 11px; font-weight: 700; color: var(--slate-400);">주요 발생 증상 및 구급 인계</span>
+            <div class="briefing-symptom-summary-box" id="briefingSymptomSummaryBox">
+              <div class="briefing-symptom-summary-top">
+                <div class="symptom-tag-container" id="briefingSymptomTagBox" style="margin: 0;">
+                  <span class="symptom-tag">#소아 발열</span>
+                </div>
+                <div class="briefing-symptom-summary-header">
+                  <span class="material-symbols-outlined" style="font-size: 13px;">vital_signs</span>
+                  <span id="txtBriefingSummaryHeaderTitle">🚨 긴급 구급 인계</span>
+                </div>
+              </div>
+              <p class="briefing-symptom-summary-text" id="txtBriefingSummaryHeadline">
+                증상 분석 및 확인 중...
+              </p>
+              <p class="briefing-symptom-subtext" id="txtBriefingSummaryClinicalNote">
+                소아과 전문의 대면 진찰 요망
+              </p>
+              <p class="briefing-symptom-subtext" id="txtBriefingSummaryNarrative" style="display: none; font-style: italic;">
+              </p>
+            </div>
+          </div>
+
+          <!-- Target Facility -->
+          <div class="target-hospital-box" id="briefingTargetHospitalBox">
+            <div class="target-hosp-info">
+              <span class="material-symbols-outlined target-hosp-icon">local_hospital</span>
+              <div class="target-hosp-text">
+                <span class="target-hosp-label">이송 목표 추천 응급실</span>
+                <span class="target-hosp-name" id="txtBriefingHospitalName">서울아산병원 권역응급센터</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- When No Record Exists -->
+        <div id="medicalRecordEmptyView" style="display: none; padding: 16px 12px; background: #f8fafc; border-radius: 12px; text-align: center; border: 1px dashed #cbd5e1;">
+          <p style="font-size: 12.5px; color: var(--slate-500); margin: 0 0 10px 0;">
+            아직 저장된 문진 기록이 없습니다.<br />문진을 진행하면 결과가 자동으로 연동됩니다.
+          </p>
+          <a href="input.html" class="btn-setup-clean" style="font-size: 12px; padding: 7px 14px; text-decoration: none;">
+            <span class="material-symbols-outlined" style="font-size: 15px;">edit_note</span>
+            <span>지금 소아 문진 시작하기</span>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 4. Fixed Bottom Navigation Bar (GNB 4-Tab) -->
+    <nav class="bottom-nav" aria-label="주요 메뉴">
+      <!-- Tab 1: 홈 -->
+      <a href="index.html" class="nav-item">
+        <span class="material-symbols-outlined">home</span>
+        <span class="nav-label">홈</span>
+      </a>
+
+      <!-- Tab 2: 기록 -->
+      <a href="history.html" class="nav-item" aria-label="이전 결과 기록">
+        <span class="material-symbols-outlined">receipt_long</span>
+        <span class="nav-label">기록</span>
+      </a>
+
+      <!-- Tab 3: 브리핑 카드 (Active) -->
+      <a href="briefing_card.html" class="nav-item active" aria-current="page" aria-label="구급대원용 응급 브리핑 카드">
+        <span class="material-symbols-outlined">assignment_ind</span>
+        <span class="nav-label">브리핑 카드</span>
+      </a>
+
+      <!-- Tab 4: 설정 -->
+      <a href="settings.html" class="nav-item">
+        <span class="material-symbols-outlined">settings</span>
+        <span class="nav-label">설정</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Modal 1: 기본 신상 정보 & 특이사항 입력/수정 팝업 -->
+  <div class="modal-overlay" id="profileInputModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 class="modal-title" id="profileModalTitle">환아 기본 신상 &amp; 특이사항 설정</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseProfileModal" aria-label="닫기">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="modal-body-scroll">
+        <!-- 1. Name -->
+        <div class="form-group">
+          <label class="form-label" for="inpPatientName">
+            <span>아이 이름</span>
+            <span class="required-star">*</span>
+          </label>
+          <input type="text" id="inpPatientName" class="form-input" placeholder="예: 김이숨" maxlength="20" required />
+        </div>
+
+        <!-- 2. Birth Date -->
+        <div class="form-group">
+          <label class="form-label" for="inpPatientBirth">
+            <span>생년월일</span>
+            <span class="required-star">*</span>
+          </label>
+          <input type="date" id="inpPatientBirth" class="form-input" required />
+        </div>
+
+        <!-- 3. Gender -->
+        <div class="form-group">
+          <label class="form-label"><span>성별</span><span class="required-star">*</span></label>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="rh-chip active" id="chipGenderMale" data-gender="남아">남아</button>
+            <button type="button" class="rh-chip" id="chipGenderFemale" data-gender="여아">여아</button>
+          </div>
+        </div>
+
+        <!-- 4. Blood Type (ABO & Rh) -->
+        <div class="form-group">
+          <label class="form-label">
+            <span>혈액형 (ABO 및 Rh형)</span>
+            <span class="required-star">*</span>
+          </label>
+          <div class="blood-chip-grid">
+            <button type="button" class="blood-chip active" data-abo="A">A형</button>
+            <button type="button" class="blood-chip" data-abo="B">B형</button>
+            <button type="button" class="blood-chip" data-abo="O">O형</button>
+            <button type="button" class="blood-chip" data-abo="AB">AB형</button>
+          </div>
+          <div class="rh-toggle-row">
+            <button type="button" class="rh-chip active" data-rh="Rh+">Rh+ (양성)</button>
+            <button type="button" class="rh-chip" data-rh="Rh-">Rh- (희귀 음성)</button>
+          </div>
+        </div>
+
+        <!-- 5. Emergency Contact -->
+        <div class="form-group">
+          <label class="form-label" for="inpEmergencyPhone">
+            <span>비상 연락처 (보호자 전화번호)</span>
+            <span class="required-star">*</span>
+          </label>
+          <input type="tel" id="inpEmergencyPhone" class="form-input" placeholder="010-0000-0000" maxlength="15" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="inpContactRelation">보호자 관계</label>
+          <input type="text" id="inpContactRelation" class="form-input" placeholder="예: 엄마, 아빠, 할머니" value="엄마" maxlength="10" />
+        </div>
+
+        <!-- 6. Special Directives (Transfusion Refusal) -->
+        <div class="form-group" style="margin-top: 6px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
+          <label class="form-label">
+            <span>수혈 관련 특수 지시사항 (종교적 신념 등)</span>
+          </label>
+          <div class="transfusion-pill-group">
+            <label class="transfusion-option active" data-transfusion="consent">
+              <input type="radio" name="transfusionOpt" value="consent" checked style="accent-color: #2563eb;" />
+              <div>
+                <strong style="font-size: 13.5px; color: #0f172a;">수혈 동의 (특이사항 없음)</strong>
+                <div style="font-size: 11.5px; color: #64748b;">의료진의 판단에 따른 수혈 처치를 수용합니다.</div>
+              </div>
+            </label>
+            <label class="transfusion-option" data-transfusion="refusal">
+              <input type="radio" name="transfusionOpt" value="refusal" style="accent-color: #ef4444;" />
+              <div>
+                <strong style="font-size: 13.5px; color: #b91c1c;">⚠️ 수혈 절대 거부 (종교적 신념 등)</strong>
+                <div style="font-size: 11.5px; color: #991b1b;">모든 전혈/혈액제제 수혈을 거부하며 무수혈 대체요법을 요망합니다.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 7. Primary Doctor Info -->
+        <div class="form-group" style="margin-top: 6px; padding-top: 12px; border-top: 1px solid #f1f5f9;">
+          <label class="form-label">주치의 병원 및 담당의 (선택)</label>
+          <input type="text" id="inpDoctorHospital" class="form-input" placeholder="병원명 (예: 서울성모병원 소아청소년과)" maxlength="30" />
+          <input type="tel" id="inpDoctorContact" class="form-input" placeholder="주치의/병원 직통번호" maxlength="15" style="margin-top: 6px;" />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-cancel" id="btnCancelProfileModal">취소</button>
+        <button type="button" class="btn-modal-save" id="btnSaveProfile">설정 저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: 이전 문진 기록 선택 모달 -->
+  <div class="modal-overlay" id="recordSelectModal" role="dialog" aria-modal="true" aria-labelledby="recordModalTitle">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 class="modal-title" id="recordModalTitle">표시할 문진 기록 선택</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseRecordModal" aria-label="닫기">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body-scroll">
+        <p style="font-size: 12.5px; color: var(--slate-500); margin: 0 0 10px 0;">
+          구급대원에게 보여줄 환아의 문진 기록을 선택하세요.
+        </p>
+        <div class="record-select-list" id="recordSelectListContainer">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Fullscreen Paramedic Mode (고대비 야간모드) -->
+  <div class="fullscreen-modal" id="fullscreenParamedicModal" role="dialog" aria-modal="true">
+    <div class="fullscreen-header">
+      <div class="fullscreen-title">
+        <span class="material-symbols-outlined" style="font-size: 26px;">emergency</span>
+        <span>구급대원 인계 전용</span>
+      </div>
+      <button type="button" class="btn-close-fullscreen" id="btnCloseFullscreenModal">
+        화면 닫기 ✕
+      </button>
+    </div>
+
+    <!-- FS Box 1: Patient ID & Blood -->
+    <div class="fs-card-box">
+      <div class="fs-label">환아 기본 인적사항</div>
+      <div class="fs-val-huge">
+        <span id="fsPatientName">김이숨</span>
+        <span style="font-size: 18px; color: #94a3b8; font-weight: 700;" id="fsPatientAgeGender">(나이 · 성별)</span>
+      </div>
+      <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 20px; font-weight: 900; background: #dc2626; color: #ffffff; padding: 4px 14px; border-radius: 10px;" id="fsBloodType">
+          RH+ A형
+        </span>
+        <span style="font-size: 13.5px; color: #cbd5e1;" id="fsPatientBirth">생년월일: -</span>
+      </div>
+    </div>
+
+    <!-- FS Box 2: Triage & Vitals -->
+    <div class="fs-card-box">
+      <div class="fs-label">소아 KTAS 응급도 &amp; 측정 바이탈</div>
+      <div class="fs-val-huge fs-val-highlight" id="fsKtasStage">
+        KTAS 2단계 (긴급)
+      </div>
+      <div class="fs-vital-row">
+        <div>
+          <div class="fs-label">체온</div>
+          <div style="font-size: 22px; font-weight: 900; color: #f87171;" id="fsTemp">38.0℃</div>
+        </div>
+        <div>
+          <div class="fs-label">해열제 복용</div>
+          <div style="font-size: 17px; font-weight: 800; color: #ffffff;" id="fsMeds">복용 안 함</div>
+        </div>
+      </div>
+      <div style="margin-top: 12px;">
+        <div class="fs-label">주요 발생 증상 및 구급 인계</div>
+        <!-- High Contrast Handover Box for Paramedics (일체형 통합) -->
+        <div style="margin-top: 6px; background: rgba(255, 255, 255, 0.08); border-left: 3px solid #38bdf8; border-radius: 8px; padding: 10px 12px;" id="fsSymptomBriefingBox">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px;">
+            <div style="font-size: 15px; font-weight: 800; color: #38bdf8;" id="fsSymptoms">
+              #소아 발열
+            </div>
+            <div style="font-size: 11px; font-weight: 800; color: #f87171; background: rgba(239, 68, 68, 0.2); padding: 2px 8px; border-radius: 6px;" id="fsSymptomUrgencyBadge">
+              🚨 긴급 구급 인계
+            </div>
+          </div>
+          <div style="font-size: 13.5px; font-weight: 700; color: #ffffff; line-height: 1.45;" id="fsSymptomHeadline">
+            인계 브리핑 대기 중
+          </div>
+          <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px;" id="fsSymptomClinicalNote">
+            소아과 대면 진찰 요망
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FS Box 3: Special Directives (Refusal & Contacts) -->
+    <div class="fs-card-box" id="fsDirectiveBox" style="border-color: #ef4444;">
+      <div class="fs-label" style="color: #f87171;">⚠️ 응급 특수 지시사항 (수혈 거부 등)</div>
+      <div style="font-size: 17px; font-weight: 800; color: #ffffff;" id="fsTransfusionText">
+        수혈 동의 (특이사항 없음)
+      </div>
+      <div style="margin-top: 12px; border-top: 1px solid #1f2937; padding-top: 10px;">
+        <div class="fs-label">보호자 비상 연락처</div>
+        <div style="font-size: 18px; font-weight: 900; color: #38bdf8;" id="fsEmergencyPhone">
+          010-0000-0000 (보호자)
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/main.js"></script>
+  <script src="/js/main.js"></script>
+
+  <script>
+    /* =============================================================
+       Aisum Paramedic Emergency Briefing Card Controller
+    ============================================================= */
+    (function () {
+      'use strict';
+
+      // Storage Keys
+      const STORAGE_PROFILE_KEY = 'aisum_patient_profile';
+      const STORAGE_ACTIVE_RECORD_ID_KEY = 'aisum_active_briefing_record_id';
+
+      // State
+      let patientProfile = null;
+      let activeRecord = null;
+      let allRecords = [];
+
+      // Current Form State
+      let selectedAbo = 'A';
+      let selectedRh = 'Rh+';
+      let selectedGender = '남아';
+      let selectedTransfusion = 'consent';
+
+      // DOM Elements
+      const profileExistingView = document.getElementById('profileExistingView');
+      const profileEmptyView = document.getElementById('profileEmptyView');
+      const profileInlineForm = document.getElementById('profileInlineForm');
+      const medicalRecordExistingView = document.getElementById('medicalRecordExistingView');
+      const medicalRecordEmptyView = document.getElementById('medicalRecordEmptyView');
+
+      // Inline Profile Form Elements
+      const inlineInpName = document.getElementById('inlineInpName');
+      const inlineInpBirth = document.getElementById('inlineInpBirth');
+      const inlineInpPhone = document.getElementById('inlineInpPhone');
+      const inlineInpRelation = document.getElementById('inlineInpRelation');
+      const inlineInpDoctorHospital = document.getElementById('inlineInpDoctorHospital');
+      const inlineInpDoctorContact = document.getElementById('inlineInpDoctorContact');
+      const btnInlineCancel = document.getElementById('btnInlineCancel');
+      const btnInlineSave = document.getElementById('btnInlineSave');
+      const btnCardEditProfile = document.getElementById('btnCardEditProfile');
+
+      // Profile Modal Elements (For backward compatibility)
+      const profileInputModal = document.getElementById('profileInputModal');
+      const inpPatientName = document.getElementById('inpPatientName');
+      const inpPatientBirth = document.getElementById('inpPatientBirth');
+      const inpEmergencyPhone = document.getElementById('inpEmergencyPhone');
+      const inpContactRelation = document.getElementById('inpContactRelation');
+      const inpDoctorHospital = document.getElementById('inpDoctorHospital');
+      const inpDoctorContact = document.getElementById('inpDoctorContact');
+
+      // Record Modal Elements
+      const recordSelectModal = document.getElementById('recordSelectModal');
+      const recordSelectListContainer = document.getElementById('recordSelectListContainer');
+
+      // Fullscreen Modal Elements
+      const fullscreenParamedicModal = document.getElementById('fullscreenParamedicModal');
+
+      // -------------------------------------------------------------
+      // 1. Initialization
+      // -------------------------------------------------------------
+      function init() {
+        loadProfile();
+        loadRecords();
+        bindEvents();
+      }
+
+      // -------------------------------------------------------------
+      // 2. Profile Management
+      // -------------------------------------------------------------
+      function loadProfile() {
+        try {
+          const raw = localStorage.getItem(STORAGE_PROFILE_KEY);
+          if (raw) {
+            patientProfile = JSON.parse(raw);
+          }
+        } catch (e) {
+          console.warn('[Briefing] Profile parse error:', e);
+          patientProfile = null;
+        }
+
+        renderProfile();
+      }
+
+      function renderProfile() {
+        if (!patientProfile || !patientProfile.name) {
+          profileExistingView.style.display = 'none';
+          if (profileInlineForm) profileInlineForm.style.display = 'flex';
+          if (profileEmptyView) profileEmptyView.style.display = 'none';
+          if (btnInlineCancel) btnInlineCancel.style.display = 'none';
+          if (btnCardEditProfile) btnCardEditProfile.style.display = 'none';
+
+          populateInlineForm(null);
+          renderSpecialDirectives(null);
+          updateFullscreenContent();
+          return;
+        }
+
+        if (profileInlineForm) profileInlineForm.style.display = 'none';
+        if (profileEmptyView) profileEmptyView.style.display = 'none';
+        profileExistingView.style.display = 'flex';
+        if (btnCardEditProfile) btnCardEditProfile.style.display = 'inline-flex';
+
+        // Render Name & Age & Birth
+        document.getElementById('txtPatientName').textContent = patientProfile.name || '아이';
+        const ageGenderText = `(${calculateAgeText(patientProfile.birth)} · ${patientProfile.gender || '남아'})`;
+        document.getElementById('txtPatientAgeGender').textContent = ageGenderText;
+        document.getElementById('txtPatientBirth').textContent = `생년월일: ${formatDate(patientProfile.birth)}`;
+
+        // Render Blood Type
+        document.getElementById('txtBloodTypeVal').textContent = `${patientProfile.rh || 'Rh+'} ${patientProfile.abo || 'A'}`;
+
+        // Render Emergency Phone
+        const relText = patientProfile.relation ? ` (${patientProfile.relation})` : '';
+        document.getElementById('txtContactRelation').textContent = `비상 연락처${relText}`;
+        const phone = patientProfile.phone || '010-0000-0000';
+        document.getElementById('txtContactPhone').textContent = phone;
+        document.getElementById('btnDirectCallContact').setAttribute('href', `tel:${phone.replace(/[^0-9]/g, '')}`);
+
+        // Render Special Directives
+        renderSpecialDirectives(patientProfile);
+
+        // Update Fullscreen View Cache
+        updateFullscreenContent();
+      }
+
+      function renderSpecialDirectives(profile) {
+        const box = document.getElementById('boxTransfusionDirective');
+        const title = document.getElementById('txtTransfusionTitle');
+        const badge = document.getElementById('badgeTransfusionStatus');
+        const body = document.getElementById('txtTransfusionBody');
+
+        const isRefusal = profile && profile.transfusion === 'refusal';
+
+        if (isRefusal) {
+          box.className = 'directive-item-box refusal-alert';
+          title.className = 'directive-title refusal-title';
+          badge.className = 'directive-badge badge-refusal';
+          badge.textContent = '수혈 거부 (신념)';
+          body.className = 'directive-body-text refusal-text';
+          body.innerHTML = '<strong>⚠️ 종교적 신념에 따라 모든 전혈 및 주요 혈액 제제 수혈을 절대 거부합니다.</strong><br/>의료진은 대체 요법(무수혈 치료, 수액/조혈제 등)을 최우선 적용해주시기 바랍니다.';
+        } else {
+          box.className = 'directive-item-box';
+          title.className = 'directive-title';
+          badge.className = 'directive-badge badge-consent';
+          badge.textContent = '수혈 동의';
+          body.className = 'directive-body-text';
+          body.textContent = '응급 수혈에 특별한 거부 의사가 없으며, 의료진의 판단에 따른 수혈 처치를 수용합니다.';
+        }
+
+        // Doctor Info
+        const hospEl = document.getElementById('txtDoctorHospital');
+        const docPhoneEl = document.getElementById('txtDoctorContact');
+        const docBtn = document.getElementById('btnDoctorCall');
+
+        if (profile && profile.doctorHospital) {
+          hospEl.textContent = profile.doctorHospital;
+          docPhoneEl.textContent = profile.doctorContact || '-';
+          if (profile.doctorContact) {
+            docBtn.style.display = 'inline-flex';
+            docBtn.setAttribute('href', `tel:${profile.doctorContact.replace(/[^0-9]/g, '')}`);
+          } else {
+            docBtn.style.display = 'none';
+          }
+        } else {
+          hospEl.textContent = '등록된 주치의 병원 없음';
+          docPhoneEl.textContent = '-';
+          docBtn.style.display = 'none';
+        }
+      }
+
+      // -------------------------------------------------------------
+      // 3. Medical Records Management
+      // -------------------------------------------------------------
+      function loadRecords() {
+        if (window.AisumHistoryManager) {
+          allRecords = window.AisumHistoryManager.getAll() || [];
+        } else {
+          try {
+            allRecords = JSON.parse(localStorage.getItem('aisum_triage_history') || localStorage.getItem('aisum_triage_histories_v1') || '[]');
+          } catch (e) {
+            allRecords = [];
+          }
+        }
+
+        // Determine Active Record
+        const savedActiveId = localStorage.getItem(STORAGE_ACTIVE_RECORD_ID_KEY);
+        if (savedActiveId && allRecords.length > 0) {
+          activeRecord = allRecords.find(r => String(r.id) === String(savedActiveId)) || allRecords[0];
+        } else if (allRecords.length > 0) {
+          activeRecord = allRecords[0];
+        } else {
+          activeRecord = null;
+        }
+
+        renderMedicalRecord();
+      }
+
+      function cleanHospitalName(rawName) {
+        if (!rawName) return '권역 소아응급센터';
+        return rawName.replace(/재단법인|사단법인|학교법인|의료법인|아산사회복지재단/g, '').trim();
+      }
+
+      function renderMedicalRecord() {
+        if (!activeRecord) {
+          medicalRecordExistingView.style.display = 'none';
+          medicalRecordEmptyView.style.display = 'block';
+          return;
+        }
+
+        medicalRecordEmptyView.style.display = 'none';
+        medicalRecordExistingView.style.display = 'flex';
+
+        // KTAS Banner Styling
+        const banner = document.getElementById('briefingKtasBanner');
+        const badge = document.getElementById('txtBriefingKtasBadge');
+        const urgency = document.getElementById('txtBriefingKtasUrgency');
+        const timeEl = document.getElementById('txtBriefingRecordTime');
+
+        const level = activeRecord.ktasLevel || 4;
+        banner.className = `ktas-status-banner ktas-tier-${level}-bg`;
+        badge.textContent = `🚨 KTAS ${level}단계`;
+
+        const urgencyMap = {
+          1: '소생 (즉시 처치)',
+          2: '긴급 (15분 이내)',
+          3: '응급 (30분 이내)',
+          4: '준응급 (1~2시간)',
+          5: '비응급 (일반 외래)'
+        };
+        urgency.textContent = urgencyMap[level] || '응급';
+
+        // Time / Display Date
+        timeEl.textContent = activeRecord.displayDate || formatTimeAgo(activeRecord.createdAt || activeRecord.timestamp);
+
+        // Vitals
+        const tempEl = document.getElementById('txtBriefingTemp');
+        const tempVal = activeRecord.temperature || '36.5℃';
+        tempEl.textContent = tempVal;
+        const numTemp = parseFloat(tempVal);
+        if (!isNaN(numTemp) && numTemp >= 38.0) {
+          tempEl.className = 'vital-value fever-high';
+        } else {
+          tempEl.className = 'vital-value';
+        }
+
+        document.getElementById('txtBriefingMeds').textContent = activeRecord.antipyretic || activeRecord.medication || (activeRecord.snapshot?.backendResult?.antipyretic) || '복용 안 함 / 미입력';
+
+        // Symptoms
+        const tagBox = document.getElementById('briefingSymptomTagBox');
+        if (tagBox) {
+          tagBox.innerHTML = '';
+          let symptoms = [];
+          if (activeRecord.symptom) {
+            symptoms.push(activeRecord.symptom);
+          } else if (Array.isArray(activeRecord.symptoms) && activeRecord.symptoms.length > 0) {
+            symptoms.push(...activeRecord.symptoms);
+          } else if (activeRecord.chiefComplaint) {
+            symptoms.push(activeRecord.chiefComplaint);
+          } else {
+            symptoms.push('소아 발열 및 이상');
+          }
+
+          symptoms.forEach(sym => {
+            const span = document.createElement('span');
+            span.className = 'symptom-tag';
+            span.textContent = sym.startsWith('#') ? sym : `#${sym}`;
+            tagBox.appendChild(span);
+          });
+        }
+
+        // 🚑 상세하지만 간단 명료한 구급대원·의료진 인계 브리핑 박스 렌더링
+        const briefingSummary = buildSymptomBriefingSummary(activeRecord);
+        const summaryBox = document.getElementById('briefingSymptomSummaryBox');
+        const summaryHeadline = document.getElementById('txtBriefingSummaryHeadline');
+        const summaryNote = document.getElementById('txtBriefingSummaryClinicalNote');
+        const summaryNarrative = document.getElementById('txtBriefingSummaryNarrative');
+        const summaryHeader = document.getElementById('txtBriefingSummaryHeaderTitle');
+
+        if (summaryBox && summaryHeadline && summaryNote) {
+          if (briefingSummary.isUrgent) {
+            summaryBox.className = 'briefing-symptom-summary-box urgent';
+            if (summaryHeader) summaryHeader.textContent = '🚨 긴급 구급 인계';
+          } else {
+            summaryBox.className = 'briefing-symptom-summary-box';
+            if (summaryHeader) summaryHeader.textContent = '🩺 의료진 인계';
+          }
+
+          summaryHeadline.textContent = briefingSummary.headline;
+          summaryNote.textContent = briefingSummary.clinicalNote;
+
+          if (summaryNarrative) {
+            if (briefingSummary.narrative) {
+              summaryNarrative.style.display = 'block';
+              summaryNarrative.textContent = `💬 보호자 진술: ${briefingSummary.narrative}`;
+            } else {
+              summaryNarrative.style.display = 'none';
+            }
+          }
+        }
+
+        // Recommended Hospital
+        document.getElementById('txtBriefingHospitalName').textContent = cleanHospitalName(activeRecord.recommendedHospital);
+
+        // Update Fullscreen View
+        updateFullscreenContent();
+      }
+
+      // -------------------------------------------------------------
+      // 4. Inline & Modal Profile Operations
+      // -------------------------------------------------------------
+      function openInlineEditForm() {
+        populateInlineForm(patientProfile);
+        profileExistingView.style.display = 'none';
+        if (profileInlineForm) profileInlineForm.style.display = 'flex';
+        if (btnInlineCancel) {
+          btnInlineCancel.style.display = patientProfile && patientProfile.name ? 'block' : 'none';
+        }
+        if (btnCardEditProfile) btnCardEditProfile.style.display = 'none';
+
+        const detailsEl = document.getElementById('detailsSpecialDirectives');
+        if (detailsEl && patientProfile && (patientProfile.transfusion === 'refusal' || patientProfile.doctorHospital || patientProfile.doctorContact)) {
+          detailsEl.open = true;
+        }
+
+        const card = document.getElementById('cardPatientProfile');
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        if (inlineInpName) inlineInpName.focus();
+      }
+
+      function cancelInlineEdit() {
+        if (patientProfile && patientProfile.name) {
+          if (profileInlineForm) profileInlineForm.style.display = 'none';
+          profileExistingView.style.display = 'flex';
+          if (btnCardEditProfile) btnCardEditProfile.style.display = 'inline-flex';
+        }
+      }
+
+      function populateInlineForm(profile) {
+        if (profile) {
+          if (inlineInpName) inlineInpName.value = profile.name || '';
+          if (inlineInpBirth) inlineInpBirth.value = profile.birth || '';
+          if (inlineInpPhone) inlineInpPhone.value = profile.phone || '';
+          if (inlineInpRelation) inlineInpRelation.value = profile.relation || '보호자';
+          if (inlineInpDoctorHospital) inlineInpDoctorHospital.value = profile.doctorHospital || '';
+          if (inlineInpDoctorContact) inlineInpDoctorContact.value = profile.doctorContact || '';
+          selectedAbo = profile.abo || 'A';
+          selectedRh = profile.rh || 'Rh+';
+          selectedGender = profile.gender || '남아';
+          selectedTransfusion = profile.transfusion || 'consent';
+        } else {
+          if (inlineInpName) inlineInpName.value = '';
+          if (inlineInpBirth) inlineInpBirth.value = '';
+          if (inlineInpPhone) inlineInpPhone.value = '';
+          if (inlineInpRelation) inlineInpRelation.value = '보호자';
+          if (inlineInpDoctorHospital) inlineInpDoctorHospital.value = '';
+          if (inlineInpDoctorContact) inlineInpDoctorContact.value = '';
+          selectedAbo = 'A';
+          selectedRh = 'Rh+';
+          selectedGender = '남아';
+          selectedTransfusion = 'consent';
+        }
+        syncChipsUI();
+      }
+
+      function saveInlineProfile() {
+        const name = inlineInpName ? inlineInpName.value.trim() : '';
+        const birth = inlineInpBirth ? inlineInpBirth.value.trim() : '';
+        const phone = inlineInpPhone ? inlineInpPhone.value.trim() : '';
+
+        if (!name) {
+          alert('아이의 이름을 입력해주세요.');
+          if (inlineInpName) inlineInpName.focus();
+          return;
+        }
+        if (!birth) {
+          alert('아이의 생년월일을 선택해주세요.');
+          if (inlineInpBirth) inlineInpBirth.focus();
+          return;
+        }
+        if (!phone) {
+          alert('구급대원이 연락할 비상 연락처를 입력해주세요.');
+          if (inlineInpPhone) inlineInpPhone.focus();
+          return;
+        }
+
+        patientProfile = {
+          name: name,
+          birth: birth,
+          gender: selectedGender,
+          abo: selectedAbo,
+          rh: selectedRh,
+          phone: phone,
+          relation: (inlineInpRelation && inlineInpRelation.value.trim()) || '보호자',
+          transfusion: selectedTransfusion,
+          doctorHospital: inlineInpDoctorHospital ? inlineInpDoctorHospital.value.trim() : (patientProfile ? patientProfile.doctorHospital : ''),
+          doctorContact: inlineInpDoctorContact ? inlineInpDoctorContact.value.trim() : (patientProfile ? patientProfile.doctorContact : ''),
+          updatedAt: new Date().toISOString()
+        };
+
+        try {
+          localStorage.setItem(STORAGE_PROFILE_KEY, JSON.stringify(patientProfile));
+        } catch (e) {
+          console.error('[Briefing] Failed to save profile:', e);
+        }
+
+        renderProfile();
+      }
+
+      function openProfileModal() {
+        openInlineEditForm();
+      }
+
+      function closeProfileModal() {
+        if (profileInputModal) profileInputModal.style.display = 'none';
+      }
+
+      function syncChipsUI() {
+        // Gender (Modal & Inline)
+        const isMale = selectedGender === '남아';
+        const modalMale = document.getElementById('chipGenderMale');
+        const modalFemale = document.getElementById('chipGenderFemale');
+        if (modalMale) modalMale.className = isMale ? 'rh-chip active' : 'rh-chip';
+        if (modalFemale) modalFemale.className = !isMale ? 'rh-chip active' : 'rh-chip';
+
+        const inlineMale = document.getElementById('inlineChipGenderMale');
+        const inlineFemale = document.getElementById('inlineChipGenderFemale');
+        if (inlineMale) inlineMale.className = isMale ? 'inline-chip active' : 'inline-chip';
+        if (inlineFemale) inlineFemale.className = !isMale ? 'inline-chip active' : 'inline-chip';
+
+        // ABO (Modal & Inline)
+        document.querySelectorAll('.blood-chip').forEach(btn => {
+          btn.className = btn.dataset.abo === selectedAbo ? 'blood-chip active' : 'blood-chip';
+        });
+        document.querySelectorAll('.inline-blood-chip').forEach(btn => {
+          btn.className = btn.dataset.abo === selectedAbo ? 'inline-chip inline-blood-chip active' : 'inline-chip inline-blood-chip';
+        });
+
+        // Rh (Modal & Inline)
+        const isRhPlus = selectedRh === 'Rh+';
+        document.querySelectorAll('.rh-toggle-row .rh-chip').forEach(btn => {
+          btn.className = btn.dataset.rh === selectedRh ? 'rh-chip active' : 'rh-chip';
+        });
+        const inlineRhPlus = document.getElementById('inlineChipRhPlus');
+        const inlineRhMinus = document.getElementById('inlineChipRhMinus');
+        if (inlineRhPlus) inlineRhPlus.className = isRhPlus ? 'inline-chip active-red' : 'inline-chip';
+        if (inlineRhMinus) inlineRhMinus.className = !isRhPlus ? 'inline-chip active-red' : 'inline-chip';
+
+        // Transfusion (Modal & Inline)
+        document.querySelectorAll('.transfusion-option').forEach(opt => {
+          const isCurrent = opt.dataset.transfusion === selectedTransfusion;
+          opt.className = isCurrent ? 'transfusion-option active' : 'transfusion-option';
+          const radio = opt.querySelector('input[type="radio"]');
+          if (radio) radio.checked = isCurrent;
+        });
+        const inlineConsent = document.getElementById('inlineTransfusionConsent');
+        const inlineRefusal = document.getElementById('inlineTransfusionRefusal');
+        if (inlineConsent) inlineConsent.className = selectedTransfusion === 'consent' ? 'inline-chip active' : 'inline-chip';
+        if (inlineRefusal) inlineRefusal.className = selectedTransfusion === 'refusal' ? 'inline-chip active-red' : 'inline-chip';
+      }
+
+      function saveProfile() {
+        saveInlineProfile();
+        closeProfileModal();
+      }
+
+      // 🚑 소아 KTAS 임상 지침 기반 구급대원·의료진 인계 브리핑 요약 생성기
+      function buildSymptomBriefingSummary(record) {
+        if (!record) {
+          return {
+            headline: '기록된 문진 증상 정보가 없습니다.',
+            clinicalNote: '소아과 전문의 대면 진찰 및 상태 확인 요망',
+            narrative: '',
+            isUrgent: false
+          };
+        }
+
+        const symptomRaw = String(record.symptom || record.chiefComplaint || '소아 발열 및 이상').replace(/^#+/, '').trim();
+        const level = Number(record.ktasLevel) || 4;
+        const temp = record.temperature || '36.5℃';
+        const numTemp = parseFloat(temp);
+        const hasHighFever = !isNaN(numTemp) && numTemp >= 38.0;
+        const isUrgent = level <= 3 || hasHighFever;
+
+        // 백엔드 AI 또는 레드플래그 소견이 있을 경우
+        const bResult = record.snapshot?.backendResult || {};
+        const redFlagReason = bResult.red_flag_reason || bResult.reason || bResult.clinical_reasoning || '';
+        const userInput = bResult.user_input || bResult.raw_symptoms || '';
+
+        const s = symptomRaw.toLowerCase();
+        let actionTip = '';
+        let clinicalNote = '';
+
+        if (s.includes('절단') || s.includes('외상') || s.includes('사지') || s.includes('골절') || s.includes('출혈')) {
+          actionTip = '신체 부위 중증 외상·손상으로 15분 이내 전문 접합 및 응급 지혈 처치가 시급합니다.';
+          clinicalNote = '절단부 청결 멸균 거즈 밀봉 및 냉장 보관 상태 유지 요망';
+        } else if (s.includes('경련') || s.includes('의식') || s.includes('발작') || s.includes('눈돌')) {
+          actionTip = '고열 동반 열성 경련 또는 의식 저하 위험으로 기도 확보 및 뇌압 감시 집중 관리가 필요합니다.';
+          clinicalNote = '고개 옆으로 기도 확보, 억지로 입 벌리지 않도록 주의 요망';
+        } else if (s.includes('호흡') || s.includes('숨') || s.includes('청색') || s.includes('쌕쌕') || s.includes('그르렁') || s.includes('천명')) {
+          actionTip = '급성 호흡곤란 및 산소포화도 저하 위험으로 즉각적인 산소 공급 및 기도 모니터링이 필요합니다.';
+          clinicalNote = '소아 흉벽 함몰 및 흉부 청진, 상기도 폐쇄 여부 감시 요망';
+        } else if (s.includes('구토') || s.includes('토') || s.includes('장중첩') || s.includes('혈변') || s.includes('복통')) {
+          actionTip = '반복 구토 및 복부 통증으로 급성 장중첩증 또는 탈수 위험이 있어 수액 처치 및 복부 진찰이 필요합니다.';
+          clinicalNote = '주기적 보챔 여부 및 소변량 감소, 탈수 징후 관찰 요망';
+        } else if (hasHighFever || s.includes('열') || s.includes('발열') || s.includes('39') || s.includes('38')) {
+          actionTip = `체온 ${temp} 발열 상태로 해열 처치 및 감염원 감별 진료가 필요합니다.`;
+          const medText = record.antipyretic && record.antipyretic !== '복용 안 함' && record.antipyretic !== '미입력'
+            ? `최근 해열제(${record.antipyretic}) 복용 이력 확인 요망`
+            : '아직 해열제 미복용 상태로 열 발산 조치 요망';
+          clinicalNote = medText;
+        } else {
+          actionTip = '소아청소년과 전문의 대면 진찰 및 활력징후 관찰이 권고됩니다.';
+          clinicalNote = '활력 징후 및 전신 상태 이상 여부 확인 요망';
+        }
+
+        // 만약 AI가 도출한 명확한 레드플래그 소견이 있으면 임상 노트에 보강
+        if (redFlagReason && redFlagReason.length > 5 && !clinicalNote.includes(redFlagReason.slice(0, 10))) {
+          clinicalNote = `${clinicalNote} (${redFlagReason})`;
+        }
+
+        let narrative = userInput && userInput !== symptomRaw ? userInput : '';
+
+        return {
+          headline: actionTip,
+          clinicalNote: `📋 임상 주의: ${clinicalNote}`,
+          narrative: narrative,
+          isUrgent: isUrgent
+        };
+      }
+
+      // Record Selection Modal
+      function openRecordSelectModal() {
+        if (!recordSelectModal || !recordSelectListContainer) return;
+        recordSelectListContainer.innerHTML = '';
+        // 🔄 모달 오픈 시 최신 문진 기록 재동기화
+        loadRecords();
+
+        if (!allRecords || allRecords.length === 0) {
+          recordSelectListContainer.innerHTML = `
+            <div style="text-align: center; padding: 28px 16px; background: #f8fafc; border-radius: 14px; border: 1px dashed #cbd5e1; margin-top: 4px;">
+              <span class="material-symbols-outlined" style="font-size: 36px; color: #94a3b8; margin-bottom: 8px;">receipt_long</span>
+              <h4 style="font-size: 14px; font-weight: 800; color: #1e293b; margin: 0 0 6px 0;">저장된 문진 기록이 없습니다</h4>
+              <p style="font-size: 12px; color: #64748b; margin: 0 0 14px 0; line-height: 1.5;">
+                아이의 증상을 입력하시면 맞춤 소아과 결과가 안전하게 보관되어 여기서 선택하실 수 있습니다.
+              </p>
+              <a href="input.html" class="btn-setup-clean" style="display: inline-flex; font-size: 12.5px; padding: 8px 16px; text-decoration: none; border-radius: 10px; background: #0066ff; color: #ffffff; font-weight: 700; align-items: center; justify-content: center; gap: 6px;">
+                <span class="material-symbols-outlined" style="font-size: 16px;">edit_note</span>
+                <span>지금 소아 문진 시작하기</span>
+              </a>
+            </div>`;
+          recordSelectModal.classList.add('active');
+          recordSelectModal.style.display = 'flex';
+          recordSelectModal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          return;
+        }
+
+        allRecords.forEach((rec, idx) => {
+          const isSelected = activeRecord && String(activeRecord.id) === String(rec.id);
+          const item = document.createElement('div');
+          item.className = `record-select-item ${isSelected ? 'selected' : ''}`;
+          item.dataset.recordId = rec.id;
+
+          const level = rec.ktasLevel || 4;
+          const timeStr = rec.displayDate || (rec.createdAt ? new Date(rec.createdAt).toLocaleString() : `기록 #${idx + 1}`);
+          const childInfo = `${rec.childAge || '아이'} · ${rec.childGender || '성별 미입력'}`;
+          const tempStr = rec.temperature ? `체온 ${rec.temperature}` : '체온 미측정';
+          const hospStr = cleanHospitalName(rec.recommendedHospital);
+          const rawSymptom = rec.symptom || (Array.isArray(rec.symptoms) ? rec.symptoms.join(', ') : (rec.chiefComplaint || '증상 미입력'));
+          const symptomStr = String(rawSymptom).replace(/^#+/, '');
+
+          // KTAS 등급별 배경/텍스트 색상
+          let tierBg = '#fee2e2';
+          let tierColor = '#b91c1c';
+          if (level === 3) { tierBg = '#ffedd5'; tierColor = '#c2410c'; }
+          else if (level >= 4) { tierBg = '#eff6ff'; tierColor = '#1d4ed8'; }
+
+          item.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span class="card-section-tag" style="background: ${tierBg}; color: ${tierColor}; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">KTAS ${level}단계</span>
+                <strong style="font-size: 13px; color: #0f172a;">${timeStr}</strong>
+              </div>
+              <div style="font-size: 12px; color: #334155; font-weight: 600;">
+                <span>${childInfo}</span>
+                <span style="color: #cbd5e1; margin: 0 4px;">|</span>
+                <span style="color: #ef4444; font-weight: 700;">${tempStr}</span>
+              </div>
+              <div style="font-size: 11.5px; color: #64748b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                <strong>증상:</strong> #${symptomStr}
+              </div>
+              <div style="font-size: 11.5px; color: #0284c7; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                <span class="material-symbols-outlined" style="font-size: 13px; vertical-align: -2px; margin-right: 2px;">local_hospital</span>${hospStr}
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; flex-shrink: 0; margin-left: 8px;">
+              ${isSelected
+                ? '<span class="material-symbols-outlined" style="color: #2563eb; font-size: 24px;">check_circle</span>'
+                : '<span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 24px;">radio_button_unchecked</span>'}
+            </div>
+          `;
+
+          item.addEventListener('click', () => {
+            selectActiveRecord(rec);
+            closeRecordSelectModal();
+          });
+
+          recordSelectListContainer.appendChild(item);
+        });
+
+        recordSelectModal.classList.add('active');
+        recordSelectModal.style.display = 'flex';
+        recordSelectModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeRecordSelectModal() {
+        if (!recordSelectModal) return;
+        recordSelectModal.classList.remove('active');
+        recordSelectModal.style.display = 'none';
+        recordSelectModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      function selectActiveRecord(rec) {
+        activeRecord = rec;
+        try {
+          localStorage.setItem(STORAGE_ACTIVE_RECORD_ID_KEY, String(rec.id));
+        } catch (e) {}
+        renderMedicalRecord();
+      }
+
+      // 전역 스코프에 함수 노출 (버튼 인라인 onclick 및 어디서든 직접 호출 가능하도록 보장)
+      window.openRecordSelectModal = openRecordSelectModal;
+      window.closeRecordSelectModal = closeRecordSelectModal;
+      window.selectActiveRecord = selectActiveRecord;
+
+      // Fullscreen Modal
+      function openFullscreenModal() {
+        updateFullscreenContent();
+        fullscreenParamedicModal.style.display = 'flex';
+      }
+
+      function closeFullscreenModal() {
+        fullscreenParamedicModal.style.display = 'none';
+      }
+
+      function updateFullscreenContent() {
+        // Patient Name & Blood
+        if (patientProfile && patientProfile.name) {
+          document.getElementById('fsPatientName').textContent = patientProfile.name;
+          document.getElementById('fsPatientAgeGender').textContent = `(${calculateAgeText(patientProfile.birth)} · ${patientProfile.gender || '남아'})`;
+          document.getElementById('fsBloodType').textContent = `${patientProfile.rh || 'Rh+'} ${patientProfile.abo || 'A'}형`;
+          document.getElementById('fsPatientBirth').textContent = `생년월일: ${formatDate(patientProfile.birth)}`;
+          document.getElementById('fsEmergencyPhone').textContent = `${patientProfile.phone || '-'} (${patientProfile.relation || '보호자'})`;
+
+          if (patientProfile.transfusion === 'refusal') {
+            document.getElementById('fsDirectiveBox').style.borderColor = '#ef4444';
+            document.getElementById('fsTransfusionText').innerHTML = '⚠️ <strong style="color: #f87171;">종교적 신념에 따른 수혈 절대 거부</strong> (무수혈 치료 요망)';
+          } else {
+            document.getElementById('fsDirectiveBox').style.borderColor = '#1f2937';
+            document.getElementById('fsTransfusionText').textContent = '수혈 동의 (특이사항 없음)';
+          }
+        } else {
+          document.getElementById('fsPatientName').textContent = '미등록 (신상 필요)';
+          document.getElementById('fsPatientAgeGender').textContent = '';
+          document.getElementById('fsBloodType').textContent = '미등록';
+          document.getElementById('fsPatientBirth').textContent = '생년월일 미입력';
+          document.getElementById('fsEmergencyPhone').textContent = '연락처 미입력';
+          document.getElementById('fsTransfusionText').textContent = '수혈 동의 (특이사항 없음)';
+        }
+
+        // Triage
+        if (activeRecord) {
+          const level = activeRecord.ktasLevel || 3;
+          document.getElementById('fsKtasStage').textContent = `KTAS ${level}단계 (${activeRecord.ktasTitle || '응급'})`;
+          document.getElementById('fsTemp').textContent = activeRecord.temperature || '36.5℃';
+          document.getElementById('fsMeds').textContent = activeRecord.antipyretic || '미입력';
+
+          const syms = Array.isArray(activeRecord.symptoms) && activeRecord.symptoms.length > 0
+            ? activeRecord.symptoms.map(s => s.startsWith('#') ? s : `#${s}`).join(' ')
+            : '#소아 발열';
+          document.getElementById('fsSymptoms').textContent = syms;
+
+          // 전체화면 모드 상세 요약 박스 업데이트
+          const briefingSummary = buildSymptomBriefingSummary(activeRecord);
+          const fsBox = document.getElementById('fsSymptomBriefingBox');
+          const fsBadge = document.getElementById('fsSymptomUrgencyBadge');
+          const fsHeadline = document.getElementById('fsSymptomHeadline');
+          const fsNote = document.getElementById('fsSymptomClinicalNote');
+
+          if (fsBox && fsBadge) {
+            if (briefingSummary.isUrgent) {
+              fsBox.style.borderLeftColor = '#ef4444';
+              fsBadge.textContent = '🚨 긴급 구급 인계';
+              fsBadge.style.color = '#f87171';
+              fsBadge.style.background = 'rgba(239, 68, 68, 0.2)';
+            } else {
+              fsBox.style.borderLeftColor = '#38bdf8';
+              fsBadge.textContent = '🩺 의료진 인계';
+              fsBadge.style.color = '#38bdf8';
+              fsBadge.style.background = 'rgba(56, 189, 248, 0.2)';
+            }
+          }
+
+          if (fsHeadline) fsHeadline.textContent = briefingSummary.headline;
+          if (fsNote) fsNote.textContent = briefingSummary.clinicalNote;
+        }
+      }
+
+      // -------------------------------------------------------------
+      // 5. Utility Helpers
+      // -------------------------------------------------------------
+      function calculateAgeText(birthDateStr) {
+        if (!birthDateStr) return '나이 미입력';
+        try {
+          const birth = new Date(birthDateStr);
+          const now = new Date();
+          let months = (now.getFullYear() - birth.getFullYear()) * 12 + (now.getMonth() - birth.getMonth());
+          if (now.getDate() < birth.getDate()) months--;
+          if (months < 0) months = 0;
+
+          if (months < 24) {
+            return `${months}개월`;
+          } else {
+            const years = Math.floor(months / 12);
+            return `만 ${years}세 (${months}개월)`;
+          }
+        } catch (e) {
+          return '나이 미입력';
+        }
+      }
+
+      function formatDate(dateStr) {
+        if (!dateStr) return '-';
+        try {
+          const d = new Date(dateStr);
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, '0');
+          const dd = String(d.getDate()).padStart(2, '0');
+          return `${yyyy}.${mm}.${dd}`;
+        } catch (e) {
+          return dateStr;
+        }
+      }
+
+      function formatTimeAgo(timestamp) {
+        if (!timestamp) return '최근';
+        try {
+          const d = new Date(timestamp);
+          const now = new Date();
+          const diffMs = now - d;
+          const diffMin = Math.floor(diffMs / (1000 * 60));
+
+          const hh = String(d.getHours()).padStart(2, '0');
+          const mm = String(d.getMinutes()).padStart(2, '0');
+          const timeStr = `${hh}:${mm}`;
+
+          if (diffMin < 1) return `${timeStr} (방금 전)`;
+          if (diffMin < 60) return `${timeStr} (${diffMin}분 전)`;
+          const diffHour = Math.floor(diffMin / 60);
+          if (diffHour < 24) return `${timeStr} (${diffHour}시간 전)`;
+          return `${d.getMonth() + 1}/${d.getDate()} ${timeStr}`;
+        } catch (e) {
+          return '최근';
+        }
+      }
+
+      // -------------------------------------------------------------
+      // 6. Event Binding
+      // -------------------------------------------------------------
+      function bindEvents() {
+        // Edit Profile Buttons (Open Inline Form)
+        const btnOpenEdit = document.getElementById('btnOpenEditProfile');
+        if (btnOpenEdit) btnOpenEdit.addEventListener('click', openInlineEditForm);
+
+        const btnCardEdit = document.getElementById('btnCardEditProfile');
+        if (btnCardEdit) btnCardEdit.addEventListener('click', openInlineEditForm);
+
+        const btnSetupCta = document.getElementById('btnSetupProfileCta');
+        if (btnSetupCta) btnSetupCta.addEventListener('click', openInlineEditForm);
+
+        // Edit Directives Button
+        const btnEditDirectives = document.getElementById('btnEditDirectives');
+        if (btnEditDirectives) {
+          btnEditDirectives.addEventListener('click', () => {
+            openInlineEditForm();
+            const detailsEl = document.getElementById('detailsSpecialDirectives');
+            if (detailsEl) {
+              detailsEl.open = true;
+              setTimeout(() => {
+                detailsEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }, 50);
+            }
+          });
+        }
+
+        // Inline Form Actions
+        if (btnInlineSave) btnInlineSave.addEventListener('click', saveInlineProfile);
+        if (btnInlineCancel) btnInlineCancel.addEventListener('click', cancelInlineEdit);
+
+        // Inline Gender Chips
+        const inlineMale = document.getElementById('inlineChipGenderMale');
+        if (inlineMale) inlineMale.addEventListener('click', () => {
+          selectedGender = '남아';
+          syncChipsUI();
+        });
+        const inlineFemale = document.getElementById('inlineChipGenderFemale');
+        if (inlineFemale) inlineFemale.addEventListener('click', () => {
+          selectedGender = '여아';
+          syncChipsUI();
+        });
+
+        // Inline Rh Chips
+        const inlineRhPlus = document.getElementById('inlineChipRhPlus');
+        if (inlineRhPlus) inlineRhPlus.addEventListener('click', () => {
+          selectedRh = 'Rh+';
+          syncChipsUI();
+        });
+        const inlineRhMinus = document.getElementById('inlineChipRhMinus');
+        if (inlineRhMinus) inlineRhMinus.addEventListener('click', () => {
+          selectedRh = 'Rh-';
+          syncChipsUI();
+        });
+
+        // Inline Blood Chips
+        document.querySelectorAll('.inline-blood-chip').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectedAbo = btn.dataset.abo;
+            syncChipsUI();
+          });
+        });
+
+        // Inline Transfusion Options
+        const inlineConsent = document.getElementById('inlineTransfusionConsent');
+        if (inlineConsent) inlineConsent.addEventListener('click', () => {
+          selectedTransfusion = 'consent';
+          syncChipsUI();
+        });
+        const inlineRefusal = document.getElementById('inlineTransfusionRefusal');
+        if (inlineRefusal) inlineRefusal.addEventListener('click', () => {
+          selectedTransfusion = 'refusal';
+          syncChipsUI();
+        });
+
+        // Modal Close/Cancel (For modal compatibility)
+        const btnCloseProf = document.getElementById('btnCloseProfileModal');
+        if (btnCloseProf) btnCloseProf.addEventListener('click', closeProfileModal);
+        const btnCancelProf = document.getElementById('btnCancelProfileModal');
+        if (btnCancelProf) btnCancelProf.addEventListener('click', closeProfileModal);
+        const btnSaveProf = document.getElementById('btnSaveProfile');
+        if (btnSaveProf) btnSaveProf.addEventListener('click', saveProfile);
+
+        // Gender Chips (Modal)
+        const chipMale = document.getElementById('chipGenderMale');
+        if (chipMale) chipMale.addEventListener('click', () => {
+          selectedGender = '남아';
+          syncChipsUI();
+        });
+        const chipFemale = document.getElementById('chipGenderFemale');
+        if (chipFemale) chipFemale.addEventListener('click', () => {
+          selectedGender = '여아';
+          syncChipsUI();
+        });
+
+        // ABO Chips (Modal)
+        document.querySelectorAll('.blood-chip').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectedAbo = btn.dataset.abo;
+            syncChipsUI();
+          });
+        });
+
+        // Rh Chips (Modal)
+        document.querySelectorAll('.rh-toggle-row .rh-chip').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectedRh = btn.dataset.rh;
+            syncChipsUI();
+          });
+        });
+
+        // Transfusion Options (Modal)
+        document.querySelectorAll('.transfusion-option').forEach(opt => {
+          opt.addEventListener('click', () => {
+            selectedTransfusion = opt.dataset.transfusion;
+            syncChipsUI();
+          });
+        });
+
+        // Record Select Modal
+        document.getElementById('btnOpenRecordSelectModal').addEventListener('click', openRecordSelectModal);
+        document.getElementById('btnCloseRecordModal').addEventListener('click', closeRecordSelectModal);
+        recordSelectModal.addEventListener('click', (e) => {
+          if (e.target === recordSelectModal) closeRecordSelectModal();
+        });
+
+        // Fullscreen Modal
+        document.getElementById('btnToggleFullscreen')?.addEventListener('click', openFullscreenModal);
+        document.getElementById('btnCloseFullscreenModal')?.addEventListener('click', closeFullscreenModal);
+
+        // ESC Key to close modals or cancel inline edit
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            cancelInlineEdit();
+            closeProfileModal();
+            closeRecordSelectModal();
+            closeFullscreenModal();
+          }
+        });
+      }
+
+      // DOM Ready Init
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+  </script>
+</body>
+
+</html>

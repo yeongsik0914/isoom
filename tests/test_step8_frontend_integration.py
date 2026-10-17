@@ -419,9 +419,249 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(res_settings.status_code, 200)
         self.assertIn('href="history.html"', res_settings.text)
 
+    async def test_15_paramedic_briefing_card_contract(self):
+        """TC-815: Validates Paramedic Emergency Briefing Card (/briefing-card) and GNB 4-Tab integration."""
+        # 1. /briefing-card, /briefing_card.html, /emergency_guide.html 200 endpoint checks
+        res_card = self.client.get("/briefing-card")
+        self.assertEqual(res_card.status_code, 200)
+        html = res_card.text
+
+        # 2. Key DOM Contracts: 3 core sections & modals
+        self.assertIn("cardPatientProfile", html)
+        self.assertIn("txtBloodTypeVal", html)
+        self.assertIn("btnDirectCallContact", html)
+        self.assertIn("cardMedicalRecord", html)
+        self.assertIn("btnOpenRecordSelectModal", html)
+        self.assertIn("cardSpecialNotes", html)
+        self.assertIn("boxTransfusionDirective", html)
+        self.assertIn("boxDoctorContact", html)
+        self.assertIn("profileInputModal", html)
+        self.assertIn("fullscreenParamedicModal", html)
+
+        # 3. Aliased endpoints return same briefing card
+        res_alias1 = self.client.get("/briefing_card.html")
+        self.assertEqual(res_alias1.status_code, 200)
+        self.assertIn("응급 브리핑 카드", res_alias1.text)
+
+        res_alias2 = self.client.get("/emergency_guide.html")
+        self.assertEqual(res_alias2.status_code, 200)
+        self.assertIn("응급 브리핑 카드", res_alias2.text)
+
+        # 4. GNB Tab 3 verification in index.html, history.html, settings.html
+        res_idx = self.client.get("/index.html")
+        self.assertEqual(res_idx.status_code, 200)
+        self.assertIn('href="briefing_card.html"', res_idx.text)
+        self.assertIn("브리핑 카드", res_idx.text)
+
+        res_hist = self.client.get("/history.html")
+        self.assertEqual(res_hist.status_code, 200)
+        self.assertIn('href="briefing_card.html"', res_hist.text)
+        self.assertIn("브리핑 카드", res_hist.text)
+
+        res_sett = self.client.get("/settings.html")
+        self.assertEqual(res_sett.status_code, 200)
+        self.assertIn('href="briefing_card.html"', res_sett.text)
+        self.assertIn("브리핑 카드", res_sett.text)
+
+        # 5. Inline Profile Form Contract (브리핑 페이지에서 직접 입력 & 저장)
+        self.assertIn("profileInlineForm", html)
+        self.assertIn("inlineInpName", html)
+        self.assertIn("inlineInpBirth", html)
+        self.assertIn("inlineChipGenderFemale", html)
+        self.assertIn("inlineChipRhPlus", html)
+        self.assertIn("inlineInpPhone", html)
+        self.assertIn("btnInlineSave", html)
+        self.assertIn("btnInlineCancel", html)
+
+    async def test_16_patient_profile_autofill_and_symptom_age_status_sync(self):
+        """TC-816: Input page auto-detects patient profile from briefing card and syncs age/status from symptom."""
+        res = self.client.get("/input.html")
+        self.assertEqual(res.status_code, 200)
+        html = res.text
+
+        # 1. Briefing Card Patient Profile Auto-Fill Contract
+        self.assertIn("patientProfileAutofillBanner", html)
+        self.assertIn("txtAutofillPatientName", html)
+        self.assertIn("txtAutofillPatientDesc", html)
+        self.assertIn("loadSavedProfileAndAutoFillAge", html)
+        self.assertIn("aisum_patient_profile", html)
+
+        # 2. Symptom Age & Status Measurement Detection Contract
+        self.assertIn("extractAgeFromText", html)
+        self.assertIn("extractStatusFromText", html)
+        self.assertIn("applyDetectedMedication", html)
+        self.assertIn("auto-sync-temp-badge", html)
+        self.assertIn("auto-sync-temp-badge warning", html)
+        self.assertIn("auto-sync-temp-badge success", html)
+
+        # 3. Comprehensive Age & Clinical Status Detection keywords
+        self.assertIn("생후 100일 미만 발열 위험 감지", html)
+        self.assertIn("상태 측정에 자동 반영되었습니다", html)
+
+    async def test_17_profile_age_priority_over_symptom_duplicate_age(self):
+        """TC-817: When briefing card profile exists, child age is strictly auto-maintained/prioritized even if duplicate/different age is typed in symptom."""
+        res = self.client.get("/input.html")
+        self.assertEqual(res.status_code, 200)
+        html = res.text
+
+        # 1. Profile Priority State Contract
+        self.assertIn("hasSavedProfile", html)
+        self.assertIn("useProfileAgeFirst", html)
+        self.assertIn("savedProfileData", html)
+
+        # 2. Priority Handling & Auto-Maintenance Contract
+        self.assertIn("state.hasSavedProfile && state.savedProfileData && state.useProfileAgeFirst", html)
+        self.assertIn("브리핑 카드 나이", html)
+        self.assertIn("자동 유지", html)
+
+        # 3. Switch & Restore Interactive Control Contract
+        self.assertIn("btnSwitchToDetectedAge", html)
+        self.assertIn("btnRestoreProfileAge", html)
+        self.assertIn("tagAutofillSyncStatus", html)
+
+    async def test_18_briefing_card_age_auto_applied_without_unknown_badge(self):
+        """TC-818: Briefing card age is automatically applied to tab-val-age and summary bar without showing '미입력'."""
+        res = self.client.get("/input.html")
+        self.assertEqual(res.status_code, 200)
+        html = res.text
+
+        # 1. Multi-source Briefing Card Detection Contract
+        self.assertIn("aisum_patient_profile", html)
+        self.assertIn("aisum_active_briefing_record_id", html)
+        self.assertIn("aisum_triage_histories_v1", html)
+
+        # 2. State & No '미입력' Contract
+        self.assertIn("state.hasSavedProfile = true;", html)
+        self.assertIn("state.ageTouched = true;", html)
+        self.assertIn("if (state.hasSavedProfile) return false;", html)
+
+        # 3. Direct Tab & Summary Sync Contract
+    async def test_19_briefing_card_age_not_overwritten_by_defaults(self):
+        """TC-819: Ensure briefing card age is preserved on initial load and not overwritten by default 14 months."""
+        res = self.client.get("/input.html")
+        self.assertEqual(res.status_code, 200)
+        html = res.text
+
+        # 1. Profile AutoFill Priority in Defaults
+        self.assertIn("const profileLoaded = loadSavedProfileAndAutoFillAge();", html)
+        self.assertIn("if (!profileLoaded && !state.hasSavedProfile)", html)
+
+        # 2. Both app and frontend templates consistency
+        self.assertIn("patientProfileAutofillBanner", html)
+        self.assertIn("setAgeCategory(foundAge.category, foundAge.val);", html)
+
+    async def test_20_sync_watch_targets_on_history_deletion(self):
+        """TC-820: Ensure emergency monitoring watch targets are synced and cleared upon history deletion."""
+        # 1. Verify history.html triggers syncWatchTargetsWithHistory
+        res_hist = self.client.get("/history.html")
+        self.assertEqual(res_hist.status_code, 200)
+        hist_html = res_hist.text
+        self.assertIn("AisumNotificationManager.syncWatchTargetsWithHistory", hist_html)
+        self.assertIn("deleteHistoryRecord", hist_html)
+        self.assertIn("clearAllHistoryRecords", hist_html)
+
+        # 2. Verify main.js contains syncWatchTargetsWithHistory logic
+        with open("frontend/js/main.js", "r", encoding="utf-8") as f:
+            main_js = f.read()
+        self.assertIn("syncWatchTargetsWithHistory: function()", main_js)
+        self.assertIn("localStorage.removeItem(this.WATCH_KEY)", main_js)
+        self.assertIn("isSevereUser: function()", main_js)
+        self.assertIn("this.hasEmergencyHistory() && (this.getWatchTargets().length > 0)", main_js)
+
+    async def test_21_briefing_card_record_select_modal_integration(self):
+        """TC-821: Ensure briefing card record selection modal loads dynamically and updates active record."""
+        res_bc = self.client.get("/briefing-card")
+        self.assertEqual(res_bc.status_code, 200)
+        bc_html = res_bc.text
+
+        # 1. UI Elements Contract
+        self.assertIn("id=\"btnOpenRecordSelectModal\"", bc_html)
+        self.assertIn("id=\"recordSelectModal\"", bc_html)
+        self.assertIn("id=\"recordSelectListContainer\"", bc_html)
+        self.assertIn("기록 변경", bc_html)
+
+        # 2. Logic & Event Handler Contract
+        self.assertIn("openRecordSelectModal", bc_html)
+        self.assertIn("selectActiveRecord", bc_html)
+        self.assertIn("STORAGE_ACTIVE_RECORD_ID_KEY", bc_html)
+        self.assertIn("record-select-item", bc_html)
+        self.assertIn("저장된 문진 기록이 없습니다", bc_html)
+
+    def test_22_briefing_card_modal_active_visibility_and_symptom_briefing_box(self):
+        """TC-822: 브리핑 카드 '기록 변경' 모달 active 클래스 표출 및 주요 증상 상세 인계 브리핑 박스 계약 검증"""
+        with open("frontend/templates/briefing_card.html", "r", encoding="utf-8") as f:
+            bc_html = f.read()
+
+        # 1. '기록 변경' 버튼 인라인 onclick 및 모달 열림 active 클래스 보장
+        self.assertIn("id=\"btnOpenRecordSelectModal\"", bc_html)
+        self.assertIn("onclick=\"openRecordSelectModal()\"", bc_html)
+        self.assertIn("recordSelectModal.classList.add('active')", bc_html)
+        self.assertIn("recordSelectModal.classList.remove('active')", bc_html)
+        self.assertIn(".modal-overlay.active", bc_html)
+        self.assertIn("window.openRecordSelectModal = openRecordSelectModal", bc_html)
+        self.assertIn("window.selectActiveRecord = selectActiveRecord", bc_html)
+
+        # 2. 주요 증상 구급대원·의료진 인계 브리핑 박스 마크업 계약 (통합 간소화 구조)
+        self.assertIn("id=\"briefingSymptomSummaryBox\"", bc_html)
+        self.assertIn("id=\"txtBriefingSummaryHeaderTitle\"", bc_html)
+        self.assertIn("id=\"txtBriefingSummaryHeadline\"", bc_html)
+        self.assertIn("id=\"txtBriefingSummaryClinicalNote\"", bc_html)
+        self.assertIn("class=\"briefing-symptom-summary-box", bc_html)
+        self.assertIn("class=\"briefing-symptom-summary-top\"", bc_html)
+        self.assertIn("id=\"briefingSymptomTagBox\"", bc_html)
+        self.assertIn("🚨 긴급 구급 인계", bc_html)
+
+        # 3. 임상 주증상 상세/간단 요약 생성기 계약
+        self.assertIn("buildSymptomBriefingSummary", bc_html)
+        self.assertIn("절단", bc_html)
+        self.assertIn("신체 부위 중증 외상·손상으로 15분 이내 전문 접합 및 응급 지혈 처치가 시급합니다", bc_html)
+        self.assertIn("경련", bc_html)
+        self.assertIn("호흡", bc_html)
+
+        # 4. 전체화면 모드 고대비 인계 브리핑 동기화 계약 (통합 일체형)
+        self.assertIn("id=\"fsSymptomHeadline\"", bc_html)
+        self.assertIn("id=\"fsSymptomClinicalNote\"", bc_html)
+        self.assertIn("id=\"fsSymptomUrgencyBadge\"", bc_html)
+
+    def test_23_paramedic_special_notes_included_in_patient_profile(self):
+        """TC-823: Validates that Paramedic Special Notes are embedded inside Patient Profile card."""
+        res = self.client.get("/briefing-card")
+        self.assertEqual(res.status_code, 200)
+        html = res.text
+
+        # 1. 환아 인적사항(cardPatientProfile) 안에 구급대원 필독사항(cardSpecialNotes)이 포함되어 있는지 검증
+        patient_profile_start = html.find('id="cardPatientProfile"')
+        self.assertNotEqual(patient_profile_start, -1)
+
+        # 다음 메인 섹션인 cardMedicalRecord 시작 위치
+        medical_record_start = html.find('id="cardMedicalRecord"')
+        self.assertNotEqual(medical_record_start, -1)
+
+        # cardPatientProfile 블록 추출
+        patient_profile_html = html[patient_profile_start:medical_record_start]
+
+        # cardSpecialNotes 및 핵심 요소가 patient_profile_html 내부에 존재하는지 검증
+        self.assertIn('id="cardSpecialNotes"', patient_profile_html)
+        self.assertIn('class="patient-special-notes-box"', patient_profile_html)
+        self.assertIn('구급대원 필독 특이사항', patient_profile_html)
+        self.assertIn('id="btnEditDirectives"', patient_profile_html)
+        self.assertIn('id="boxTransfusionDirective"', patient_profile_html)
+        self.assertIn('id="boxDoctorContact"', patient_profile_html)
+        self.assertIn('id="badgeTransfusionStatus"', patient_profile_html)
+        self.assertIn('id="txtDoctorHospital"', patient_profile_html)
+
+        # 2. 독립된 별개 섹션으로서의 <section class="briefing-card" id="cardSpecialNotes">는 없어야 함
+        self.assertNotIn('<section class="briefing-card" id="cardSpecialNotes"', html)
+
+        # 3. 인라인 폼 내 details 특이사항 연동
+        self.assertIn('id="detailsSpecialDirectives"', html)
+        self.assertIn('+ 구급대원 필독사항 추가 입력', html)
+
 
 if __name__ == "__main__":
     unittest.main()
+
+
 
 
 

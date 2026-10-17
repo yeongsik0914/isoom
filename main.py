@@ -153,6 +153,7 @@ async def root(request: Request):
             "aisum_settings": "/settings",
             "aisum_terms": "/terms",
             "aisum_history": "/history",
+            "aisum_briefing_card": "/briefing-card",
             "aisum_qr": "/qr",
             "aisum_licenses": "/licenses",
             "aisum_guidebook": "/guidebook",
@@ -281,14 +282,18 @@ async def get_aisum_emergency_alert():
     return JSONResponse(status_code=404, content={"detail": "Emergency alert page not found"})
 
 
+@app.get("/briefing-card", tags=["Frontend"], response_class=FileResponse)
+@app.get("/briefing_card.html", tags=["Frontend"], response_class=FileResponse)
+@app.get("/briefing", tags=["Frontend"], response_class=FileResponse)
 @app.get("/guide", tags=["Frontend"], response_class=FileResponse)
 @app.get("/guide/emergency", tags=["Frontend"], response_class=FileResponse)
+@app.get("/emergency_guide.html", tags=["Frontend"], response_class=FileResponse)
 async def get_guide_unified():
-    """Serves the unified Aisum Emergency Guide with horizontal swipe photo carousel."""
-    path = find_frontend_html("emergency", "emergency_guide.html")
+    """Serves the Aisum Paramedic Emergency Briefing Card page."""
+    path = find_frontend_html("emergency", "briefing_card.html") or find_frontend_html("emergency", "emergency_guide.html")
     if path:
         return FileResponse(path, media_type="text/html")
-    return JSONResponse(status_code=404, content={"detail": "Emergency guide not found"})
+    return JSONResponse(status_code=404, content={"detail": "Briefing card not found"})
 
 
 @app.get("/guide/symptoms", tags=["Frontend"], response_class=FileResponse)

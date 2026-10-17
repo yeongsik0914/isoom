@@ -186,6 +186,20 @@
 186. [Q178. [문진-기록 결과 불일치 및 중복 생성 버그 해결] E-Gen 비동기 병상 로드 시 더미 레코드 생성 원천 차단 및 사용자 입력값 우선순위 100% 동기화 보고](#q178-문진-기록-결과-불일치-및-중복-생성-버그-해결-e-gen-비동기-병상-로드-시-더미-레코드-생성-원천-차단-및-사용자-입력값-우선순위-100-동기화-보고)
 187. [Q179. [응급실 기록 모니터링 연동 & 실시간 병상 변동 알림 체계 전면 점검 및 완결] 기록 페이지 추천 응급실 감시 대상 자동 연동, E-Gen API 응답 및 소아 병상(pediatric_beds) 파싱 결함 완벽 해결 보고](#q179-응급실-기록-모니터링-연동--실시간-병상-변동-알림-체계-전면-점검-및-완결-기록-페이지-추천-응급실-감시-대상-자동-연동-e-gen-api-응답-및-소아-병상pediatric_beds-파싱-결함-완벽-해결-보고)
 188. [Q180. [이전 결과기록 전용 웹페이지 신설] 바텀시트 모달 폐지 및 독립 전용 페이지(history.html, /history) 구축 & 기존 기능 100% 동일 유지 보고](#q180-이전-결과기록-전용-웹페이지-신설-바텀시트-모달-폐지-및-독립-전용-페이지historyhtml-history-구축--기존-기능-100-동일-유지-보고)
+189. [Q181. [구급대원용 응급 브리핑 카드 전용 페이지 신설] 응급실 가이드 전면 개편(briefing_card.html, /briefing-card) & 3대 핵심 정보(신상 필수입력, 문진 기록 불러오기, 수혈거부/특이사항) 및 전역 GNB 4-Tab 변경 보고](#q181-구급대원용-응급-브리핑-카드-전용-페이지-신설-응급실-가이드-전면-개편briefing_cardhtml-briefing-card--3대-핵심-정보신상-필수입력-문진-기록-불러오기-수혈거부특이사항-및-전역-gnb-4-tab-변경-보고)
+190. [Q182. [응급 브리핑 카드 스크롤 버그 해결 & 프리미엄 미니멀 디자인 전면 리팩토링] 스크롤 불가·하단 바 가림 원인 분석 및 해결, 토스/애플 헬스급 클린 UI 전면 개편 보고](#q182-응급-브리핑-카드-스크롤-버그-해결--프리미엄-미니멀-디자인-전면-리팩토링-스크롤-불가하단-바-가림-원인-분석-및-해결-토스애플-헬스급-클린-ui-전면-개편-보고)
+191. [Q183. [환아 인적사항 브리핑 카드 내 직접 입력 & 저장] 팝업 모달 제거 및 인라인 폼(이름/생년월일/성별/혈액형/연락처/특이사항) 원터치 저장 체계 완결 보고](#q183-환아-인적사항-브리핑-카드-내-직접-입력--저장-팝업-모달-제거-및-인라인-폼이름생년월일성별혈액형연락처특이사항-원터치-저장-체계-완결-보고)
+192. [Q184. [응급 브리핑 카드 상단 119 구급대원 즉시 전달용 배너 삭제] 배너 마크업 제거 및 헤더 직하단 환아 인적사항 카드 최우선 배치 완결 보고](#q184-응급-브리핑-카드-상단-119-구급대원-즉시-전달용-배너-삭제-배너-마크업-제거-및-헤더-직하단-환아-인적사항-카드-최우선-배치-완결-보고)
+193. [Q185. [브리핑 카드 환아 정보 문진 자동 감지 & 증상 입력 시 나이·상태 측정 자동 감지·적용] 나이 프리필(Pre-fill) 배너 및 소아 특화 NLP 상태 측정 스마트 연동 파이프라인 구축 완결 보고](#q185-브리핑-카드-환아-정보-문진-자동-감지--증상-입력-시-나이상태-측정-자동-감지적용-나이-프리필pre-fill-배너-및-소아-특화-nlp-상태-측정-스마트-연동-파이프라인-구축-완결-보고)
+194. [Q186. [브리핑 카드 연동 시 증상 나이 중복·충돌 방지 & 브리핑 카드 나이 자동 우선 적용] 공식 등록 프로필 우선 원칙 및 하단 상태 측정 자동 유지 파이프라인 구축 완결 보고](#q186-브리핑-카드-연동-시-증상-나이-중복충돌-방지--브리핑-카드-나이-자동-우선-적용-공식-등록-프로필-우선-원칙-및-하단-상태-측정-자동-유지-파이프라인-구축-완결-보고)
+195. [Q187. [브리핑 카드 나이 자동 변경 및 적용 (미입력 X)] 상단 탭 2 배지(#tab-val-age) 및 하단 요약 바 브리핑 카드 나이 100% 자동 적용 & 미입력 표출 원천 해소 완결 보고](#q187-브리핑-카드-나이-자동-변경-및-적용-미입력-x-상단-탭-2-배jetab-val-age-및-하단-요약-바-브리핑-카드-나이-100-자동-적용--미입력-표출-원천-해소-완결-보고)
+196. [Q188. [로컬 프로세스 관리] 실행 중인 모든 로컬 서버 및 개발 프로세스(Uvicorn, Python, 포트 8000) 완전 종료 완결 보고](#q188-로컬-프로세스-관리-실행-중인-모든-로컬-서버-및-개발-프로세스uvicorn-python-포트-8000-완전-종료-완결-보고)
+197. [Q189. [개발 환경 가이드] uv 기반 로컬 서버 구동 및 완전 해제(종료) 명령어 가이드](#q189-개발-환경-가이드-uv-기반-로컬-서버-구동-및-완전-해제종료-명령어-가이드)
+198. [Q190. [입력 페이지 브리핑 카드 나이 자동 분류 및 덮어쓰기 결함 해결] 초기 로드 시 브리핑 카드 나이(13개월) 오버라이트 버그 원인 분석, 아이 상태 측정 허브 탭·슬라이더·요약 바 100% 즉시 적용 완결 보고](#q190-입력-페이지-브리핑-카드-나이-자동-분류-및-덮어쓰기-결함-해결-초기-로드-시-브리핑-카드-나이13개월-오버라이트-버그-원인-분석-아이-상태-측정-허브-탭슬라이더요약-바-100-즉시-적용-완결-보고)
+199. [Q191. [기록 삭제 시 응급실 모니터링 자동 제어 & 브리핑 카드 기록 변경 선택 모달 구축] 기록페이지 삭제 시 모니터링 전면 해제/재동기화, 브리핑 카드 '기록 변경' 클릭 시 저장된 문진 기록 선택 모달 및 즉시 갱신 파이프라인 완결 보고](#q191-기록-삭제-시-응급실-모니터링-자동-제어--브리핑-카드-기록-변경-선택-모달-구축-기록페이지-삭제-시-모니터링-전면-해제재동기화-브리핑-카드-기록-변경-클릭-시-저장된-문진-기록-선택-모달-및-즉시-갱신-파이프라인-완결-보고)
+200. [Q192. [브리핑 카드 '기록 변경' 버튼 미작동 원인 해결 & 주요 증상 구급대원 인계 브리핑 상세 요약 박스 구축] 모달 opacity/visibility 은폐 버그 원인 분석, 인라인 onclick 연동 및 KTAS 지침 기반 임상 증상 요약 박스 완결 보고](#q192-브리핑-카드-기록-변경-버튼-미작동-원인-해결--주요-증상-구급대원-인계-브리핑-상세-요약-박스-구축-모달-opacityvisibility-은폐-버그-원인-분석-인라인-onclick-연동-및-ktas-지침-기반-임상-증상-요약-박스-완결-보고)
+201. [Q193. [브리핑 카드 주요 증상 태그 & 구급대원 인계 브리핑 박스 단일 카드 통합 및 간소화] 위아래 분리 요소 일체형 통합, 헤더 태그·뱃지 나란히 배치, 중복 증상명 제거 및 가독성 극대화 완결 보고](#q193-브리핑-카드-주요-증상-태그--구급대원-인계-브리핑-박스-단일-카드-통합-및-간소화-위아래-분리-요소-일체형-통합-헤더-태그뱃지-나란히-배치-중복-증상명-제거-및-가독성-극대화-완결-보고)
+202. [Q194. [구급대원 필독사항의 환아 인적사항 카드 내 포함 및 일체화] 별도 분리 섹션 폐지, 환아 신상정보 직하단 필독 특이사항 서브 카드 배치 및 23개 통합 테스트 완결 보고](#q194-구급대원-필독사항의-환아-인적사항-카드-내-포함-및-일체화-별도-분리-섹션-폐지-환아-신상정보-직하단-필독-특이사항-서브-카드-배치-및-23개-통합-테스트-완결-보고)
 
 ---
 
@@ -10979,6 +10993,519 @@ const res = await fetch(targetUrl, { signal: controller.signal });
      - TC-814 (`test_14_dedicated_history_page_contract`) 신설 및 **14/14 100% 통과**.
 * **요약 결론**:
   - 이제 문진 결과 기록이 모달 팝업 대신 단독 전용 페이지(`/history`, `history.html`)에서 깔끔하게 관리되며, 기존의 모든 기능(0ms 결과 다시보기, 개별/전체 삭제, 연동 병상 모니터링)이 100% 동일하게 온전히 보존되었습니다.
+
+---
+
+### Q181. [구급대원용 응급 브리핑 카드 전용 페이지 신설] 응급실 가이드 전면 개편(briefing_card.html, /briefing-card) & 3대 핵심 정보(신상 필수입력, 문진 기록 불러오기, 수혈거부/특이사항) 및 전역 GNB 4-Tab 변경 보고
+
+* **기록 일시**: 2026-10-18
+* **작업자**: Antigravity AI Pair Programmer
+* **질문 내용 (User Prompt)**:
+  > 응급실 가이드 페이지를 -> 브리핑 카드 페이지로 전면 개편할 거야. 당연히 하단 바에도 브리핑 카드로 변경돼야해. 브리핑 카드 페이지에서는 기록 페이지에 있는 기록을 불러올 수 있도록 하고 그걸 기반으로 구급대원에게 바로 보여줄 수 있는 환자의 상태를 브리핑 카드로 만들어줄 거야.  
+  > 필요한 정보는 기본신상정보 (1. 이름 및 생년월일 2.혈액형 (ABO 및 RH형) 3. 비상 연락처), 필수 의료 정보(기록 결과 페이지에서 원하는 기록 불러오기), 응급 시 특이사항(1. 종교적 신념에 따른 수혈 거부 여부 등 특수 지시사항 2. 주치의 병원명 및 담당 의사 연락처) 인데 일단 기본신상정보는 사용자에게 필수로 입력 받을 수 있도록 해줘
+* **상세 분석 및 요구사항 규명**:
+  1. **구급대원 인계(Hand-off)를 위한 전문 브리핑 카드 필요성**:
+     - 야간/휴일 환아 응급 상황 시 당황한 보호자가 119 구급대원이나 응급실 트리아제 간호사에게 아이의 상태를 구두로 전달하면 필수 정보 누락, 체온 변화 오전달, 혈액형 혼선 등으로 골든타임이 지체될 수 있음.
+     - 기존의 정적 '응급실 가이드'(`emergency_guide.html`)를 **구급대원이 0.5초 만에 환아의 핵심 상태를 스캔할 수 있는 초고시인성 `응급 브리핑 카드(Emergency Briefing Card)`** 전용 페이지로 전면 전환.
+  2. **3대 핵심 정보 구조 설계**:
+     - **섹션 1: 환아 기본 신상 정보 (필수 입력)**:
+       - 아이 이름, 생년월일(나이/월령 자동 계산), 성별(남아/여아).
+       - 혈액형: ABO(A, B, O, AB) + Rh(Rh+, Rh-) 캡슐 뱃지 (`🩸 RH+ A형`).
+       - 비상 연락처: 보호자 관계 및 전화번호, 원터치 `[📞 통화 연결]` 버튼 도킹.
+       - *기본 신상 정보가 등록되지 않은 경우 경고 박스 및 자동 입력 모달을 띄워 필수로 입력받도록 구현.*
+     - **섹션 2: 필수 의료 정보 (기록 페이지 연동 및 원하는 기록 선택)**:
+       - `AisumHistoryManager`의 저장된 문진 기록 중 최신 기록을 기본 표시하되, `[🔄 기록 변경]` 버튼을 통해 원하는 과거 문진 기록을 즉시 불러올 수 있도록 선택 모달(`recordSelectModal`) 탑재.
+       - KTAS 응급 등급 뱃지(1~5단계 및 긴급/응급 안내), 측정 체온(38℃ 이상 시 붉은색 고열 경고), 최근 해열제 복용 이력, 주요 발생 증상 해시태그, 이송/방문 목표 응급실 표시.
+     - **섹션 3: 응급 시 특이사항 (법적/의학적 지시사항)**:
+       - 1. 종교적 신념에 따른 수혈 거부 여부: `수혈 동의 (특이사항 없음)` vs `종교적 사유(여호와의 증인 등)에 따른 수혈 절대 거부 (무수혈 치료 요망)` 붉은색 경고 박스.
+       - 2. 주치의 병원명 및 담당 의사 연락처: 기존 진료 병원, 담당의, 직통 전화 걸기 버튼.
+  3. **구급 현장 특화 UX 지원**:
+     - **구급대원 제시용 고대비 풀스크린 모드 (`[📱 크게]` 버튼)**: 어두운 구급차 안에서도 또렷하게 볼 수 있는 대형 폰트 나이트 모드.
+     - **119 원터치 즉시 통화 버튼**: 상단 배너에 `[🚨 119]` 버튼 도킹.
+  4. **전역 하단 GNB 4-Tab 및 백엔드 라우팅 개편**:
+     - Tab 3 명칭을 `응급실 가이드` ➔ `브리핑 카드`(`assignment_ind` 아이콘)로 변경하고, 전 템플릿의 링크를 `briefing_card.html`로 일괄 연결.
+     - 백엔드에 `/briefing-card`, `/briefing_card.html`, `/briefing` 엔드포인트 신설 및 기존 `/guide`, `/emergency_guide.html` 하위 호환 보장.
+* **구체적 구현 및 조치 내역**:
+  1. **독립 전용 브리핑 카드 페이지 구축 ([briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html))**:
+     - 반응형 모바일 뷰포트(`.mobile-viewport.briefing-shell`) 기반 Full-Screen UI.
+     - 3대 핵심 정보 카드(`#cardPatientProfile`, `#cardMedicalRecord`, `#cardSpecialNotes`) 및 3대 모달(`#profileInputModal`, `#recordSelectModal`, `#fullscreenParamedicModal`) 완비.
+     - `localStorage` 기반 환자 프로필(`aisum_patient_profile`) 영구 저장 및 0ms 즉시 복원.
+  2. **기존 파일 하위 호환 동기화**:
+     - [emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide.html) 및 [app/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/emergency_guide.html)을 `briefing_card.html`과 100% 동일하게 동기화.
+  3. **FastAPI 라우터 엔드포인트 및 메타데이터 갱신 ([main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py))**:
+     - `@app.get("/briefing-card")`, `@app.get("/briefing_card.html")`, `@app.get("/briefing")`, `@app.get("/emergency_guide.html")`, `@app.get("/guide")` 엔드포인트 등록.
+     - 루트 엔드포인트에 `"aisum_briefing_card": "/briefing-card"` 메타데이터 등록.
+  4. **전역 템플릿 하단 GNB 4-Tab 일괄 갱신**:
+     - [index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html), [history.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/history.html), [settings.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/settings.html), [emergency_guide_symptoms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide_symptoms.html), [emergency_guide_checklist.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide_checklist.html), [guidebook.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/guidebook.html) 및 `app/templates` 하위 파일들의 Tab 3을 `<a href="briefing_card.html" class="nav-item"><span class="material-symbols-outlined">assignment_ind</span><span class="nav-label">브리핑 카드</span></a>`로 일괄 교체.
+  5. **통합 테스트 검증 ([tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py))**:
+     - TC-815 (`test_15_paramedic_briefing_card_contract`) 신규 작성: `/briefing-card` 200 응답, DOM 구조 계약, 신상 모달/풀스크린 모달, 전역 GNB 링크 검증.
+     - **총 15개 프론트엔드 통합 테스트 및 52개 코어 단위 테스트 전수 100% 통과**.
+* **요약 결론**:
+  - 이제 위급 상황 발생 시 부모가 당황하지 않고 브리핑 카드 페이지만 119 구급대원이나 응급실 의료진에게 제시하면 아이의 이름·생년월일·혈액형·연락처, 최근 문진 기록(체온·KTAS 등급), 종교적 수혈 거부 등 특이사항이 0.5초 만에 명확하게 인계되는 스마트 응급 브리핑 시스템이 완벽하게 가동됩니다.
+
+---
+
+### Q182. [응급 브리핑 카드 스크롤 버그 해결 & 프리미엄 미니멀 디자인 전면 리팩토링] 스크롤 불가·하단 바 가림 원인 분석 및 해결, 토스/애플 헬스급 클린 UI 전면 개편 보고
+
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > 지금 전체적으로 너무 디자인이 조잡하고 화면이 잘리는 문제가 있고 스크롤도 안돼
+
+* **상세 분석 및 가이드 답변**:
+  1. **스크롤 불가 및 화면 잘림 결함 원인 분석**:
+     - 상위 프레임인 `.mobile-viewport`에 `height: 100dvh; max-height: 100dvh; overflow: hidden;`이 걸려 있어 외부 스크롤이 잠겨 있는 규격입니다.
+     - 따라서 내부 메인 컨텐츠 영역인 `.briefing-content`가 독립 스크롤 컨테이너(`overflow-y: auto; min-height: 0; flex: 1;`)로 선언되어야 하는데, 이 속성이 누락되어 있었습니다.
+     - 또한 하단 GNB 네비게이션 바(`.bottom-nav`)가 `position: absolute; bottom: 0;`으로 떠 있어, 본문 하단에 충분한 패딩이 없으면 마지막 카드(구급대원 필독 특이사항, 주치의 연락처, 수혈 거부 안내)가 하단 바 뒤에 완전히 가려져 잘리는 현상이 발생했습니다.
+  2. **조잡한 디자인의 원인 분석**:
+     - 상단 헤더에 복잡한 빨간색 알약 뱃지("119 구급대원 & 의료진 제시용")가 타이틀 아래에 추가되어 산만함.
+     - 둔탁하고 검은 배경의 상단 안내 배너가 전체 소아 헬스케어의 부드러운 톤앤매너와 어울리지 않음.
+     - 미등록 상태의 신상 카드가 촌스러운 노란 점선 테두리(`border: 1.5px dashed #fcd34d;`)와 거대한 경고 느낌표로 되어 있어 미관을 해침.
+     - 각 카드마다 제각각 붙어 있는 다채색 알약 뱃지(`필수 신상`, `의료 기록`, `응급 특이사항`)와 테두리 안에 또 테두리가 있는 '박스-인-박스' 구조로 인해 시각적 피로감이 극대화됨.
+  3. **전면 리팩토링 및 개선 내역**:
+     - **스크롤 컨테이너 독립화 & 하단 104px 안전 여백 확보**:
+       - `.briefing-content`에 `flex: 1; min-height: 0; overflow-y: auto !important; -webkit-overflow-scrolling: touch; padding: 14px 16px calc(80px + env(safe-area-inset-bottom, 0px) + 24px) 16px !important;`를 부여하여 화면이 잘리지 않고 끝까지 매끄럽게 스크롤되도록 완벽 조치.
+     - **토스/애플 헬스급 프리미엄 미니멀리즘 디자인 개편**:
+       - **헤더 정돈**: 복잡한 빨간 뱃지를 제거하고, 원형 슬레이트 뒤로가기 버튼 + 볼드한 `119 응급 브리핑` 타이틀 + 깔끔한 `신상 수정` 블루 필 버튼으로 단정하게 개편.
+       - **가이드 배너**: 딥 슬레이트 & 레드 포인트 그라디언트 카드(`119 구급대원 즉시 전달용`, `[📱 크게]`, `[🚨 119]`)로 세련되게 마감.
+       - **카드 공통 스타일**: 알록달록 무지개 배지를 전면 제거하고 통일된 아이콘 + 선명한 소제목(`👤 환아 인적사항`, `🩺 최근 문진 및 응급도`, `⚠️ 구급대원 필독 특이사항`) 및 깔끔한 액션 버튼(`[정보 변경]`, `[기록 변경]`, `[특이사항 설정]`)으로 통일.
+       - **환아 신상 카드**: 미등록 시에도 촌스러운 노란 점선 대신 라이트 슬레이트 바탕의 깔끔한 카드(`+ 환아 신상정보 등록하기`)로 표출되며, 등록 시 굵고 선명한 레드 캡슐 배지(`🩸 RH+ A형`)와 원터치 비상연락처 통화 카드를 정갈하게 배치.
+       - **의료 기록 카드**: KTAS 2단계 긴급 배너, 체온·해열제 2열 그리드, 깔끔한 증상 해시태그 칩, 추천 응급실 박스로 정돈.
+       - **특이사항 카드**: 수혈 거부 시 적색 경고 박스, 동의 시 단정한 확인 박스 및 주치의 직통 전화 연결 버튼 정돈.
+     - **적용 파일**:
+       - [frontend/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html)
+       - [frontend/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide.html)
+       - [app/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/emergency_guide.html)
+  4. **통합 테스트 검증**:
+     - `PYTHONPATH=. uv run pytest tests/test_step8_frontend_integration.py` 실행 결과, **15개 통합 테스트 100% 무결점 전수 통과 (`15 passed in 23.13s`)**.
+* **요약 결론**:
+  - 스크롤 불능 및 하단 GNB 바 화면 잘림 문제를 완벽하게 해결하였으며, 조잡했던 디자인 요소를 전면 배제하고 토스/애플 헬스 스타일의 깔끔하고 세련된 프리미엄 헬스케어 인계 카드로 리뉴얼을 완결하였습니다.
+
+---
+
+### Q183. [환아 인적사항 브리핑 카드 내 직접 입력 & 저장] 팝업 모달 제거 및 인라인 폼(이름/생년월일/성별/혈액형/연락처/특이사항) 원터치 저장 체계 완결 보고
+
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > 환아 인적사항 그냥 브리핑 페이지에서 바로 입력하고 저장할 수 있게 해줘
+  > *(첨부 이미지: '환아 인적사항' 카드에 '아이의 기본 신상 정보를 등록해 주세요'와 '+ 환아 신상정보 등록하기' 버튼이 표시된 화면)*
+
+* **상세 분석 및 가이드 답변**:
+  1. **요구사항 분석 및 문제 진단**:
+     - 기존 브리핑 카드 페이지에서는 신상 정보가 없을 때 안내 문구와 `+ 환아 신상정보 등록하기` 버튼이 노출되고, 이를 클릭하면 화면 아래에서 모달 시트(`profileInputModal`)가 올라와서 입력해야 했습니다.
+     - 119 구급대원에게 빠르게 아이의 상태를 인계해야 하는 위급 상황 또는 사전 등록 시, 불필요한 팝업 모달을 띄우는 인터랙션 단계는 사용자 경험을 저해하고 번거로움을 유발합니다.
+     - 따라서 안내 박스와 모달 창 대신, **'환아 인적사항' 카드 내부 영역에서 직접 키보드로 타이핑하고 칩을 선택한 뒤 [저장]할 수 있는 직관적인 인라인(Inline) 입력/편집 폼**이 필요합니다.
+  2. **인라인 입력/편집 시스템 (`profileInlineForm`) 구축 내역**:
+     - **컴팩트 2열 반응형 그리드 폼**:
+       - 환아 이름(`#inlineInpName`): 예: 김이숨
+       - 생년월일(`#inlineInpBirth`): HTML5 Date Picker 연동
+       - 성별 선택 칩: 남아(`#inlineChipGenderMale`) / 여아(`#inlineChipGenderFemale`) 원터치 토글
+       - Rh 혈액형 칩: Rh+(`#inlineChipRhPlus`) / Rh-(`#inlineChipRhMinus`) 토글
+       - ABO 혈액형 칩: A형, B형, O형, AB형 4종 칩 버튼
+       - 비상 연락처(`#inlineInpPhone`) 및 보호자 관계(`#inlineInpRelation`)
+       - 추가 특이사항 접이식 아코디언: 수혈 동의/거부(`inlineTransfusionConsent`, `inlineTransfusionRefusal`), 주치의 병원/연락처
+     - **원터치 저장 및 뷰 전환 파이프라인**:
+       - `[환아 정보 저장하기]`(`#btnInlineSave`) 클릭 시 유효성 검증(이름, 생년월일, 연락처) 후 `localStorage`의 `aisum_patient_profile`에 즉시 반영.
+       - 저장 즉시 인라인 폼이 닫히고, 정갈한 카드 뷰 모드(`profileExistingView`)로 자동 전환되어 환아 이름, 나이/월령, 선명한 혈액형 뱃지(`🩸 RH+ B`), 비상연락처 및 통화 연결 버튼이 표출됨.
+     - **인라인 편집(Edit) 모드 지원**:
+       - 등록 완료 후 우측 상단의 `[정보 변경]`(`#btnCardEditProfile`) 또는 헤더의 `[신상 수정]` 버튼을 누르면 모달 대신 카드가 즉시 인라인 폼으로 토글 전환되어 기존 값이 채워진 상태로 수정 가능.
+       - 수정 중 원치 않을 경우 `[취소]`(`#btnInlineCancel`) 버튼으로 안전하게 뷰 모드로 복귀 가능.
+     - **기존 테스트 및 하위 호환성 100% 보장**:
+       - `tests/test_step8_frontend_integration.py`의 기존 계약 요소(`profileInputModal`, `cardPatientProfile`, `txtBloodTypeVal` 등)를 온전히 유지하면서 신규 인라인 셀렉터 검증을 보강하여 15개 전수 테스트 통과.
+  3. **적용 파일**:
+     - [frontend/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html)
+     - [frontend/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide.html)
+     - [app/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/emergency_guide.html)
+     - [tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py)
+  4. **테스트 검증 결과**:
+     - `PYTHONPATH=. uv run pytest tests/test_step8_frontend_integration.py` 실행 결과: **15 passed in 20.89s (100% 통과)**.
+* **요약 결론**:
+  - 모달 팝업 유도 방식을 완전히 폐지하고, 브리핑 카드 내에서 환아 인적사항을 바로 입력하고 원터치로 저장·수정할 수 있는 깔끔한 인라인 UX 구축을 완료하였습니다.
+
+### Q184. [응급 브리핑 카드 상단 119 구급대원 즉시 전달용 배너 삭제] 배너 마크업 제거 및 헤더 직하단 환아 인적사항 카드 최우선 배치 완결 보고
+
+* **일시**: 2026-10-18
+* **질문 내용**:
+  - "이거 삭제해줘" (첨부 이미지: `119 구급대원 즉시 전달용 | 도착 즉시 이 화면을 보여주세요 | [크게] [119]` 배너)
+* **상세 분석 및 조치 내역**:
+  1. **요청 요소 정밀 식별**:
+     - 사용자가 첨부한 캡처 이미지는 `briefing_card.html` (및 `emergency_guide.html`) 메인 본문 최상단에 배치되어 있던 `.paramedic-banner` 요소임.
+     - 딥 슬레이트 배경에 119 구급대원 안내 문구와 [크게], [119] 버튼이 포함되어 있었으나, 진입 시 가장 중요한 '환아 인적사항' 카드를 아래로 밀어내고 불필요한 시각적 번잡함을 유발함.
+  2. **배너 마크업 완전 제거 & 레이아웃 최적화**:
+     - `briefing_card.html`, `frontend/templates/emergency_guide.html`, `app/templates/emergency_guide.html`의 `<section class="paramedic-banner" id="paramedicNoticeBanner">` 전체 마크업 삭제.
+     - 헤더 직하단에 `환아 인적사항 카드(#cardPatientProfile)`가 첫 번째 카드로 시원하게 노출되도록 재정돈.
+  3. **JS 이벤트 리스너 안전화 (Optional Chaining)**:
+     - 배너 제거에 따라 내부 `btnToggleFullscreen` 버튼이 DOM에서 소멸하므로, `document.getElementById('btnToggleFullscreen')?.addEventListener(...)`로 optional chaining을 적용하여 런타임 null reference 에러를 사전에 완벽 방어함.
+  4. **테스트 검증**:
+     - `PYTHONPATH=. uv run pytest tests/test_step8_frontend_integration.py` 실행 결과: **15 passed, 1 warning in 22.19s (100% 무결점 통과)**.
+* **요약 결론**:
+  - 사용자가 지목한 '119 구급대원 즉시 전달용' 상단 배너를 완전히 제거하여, 브리핑 카드 페이지 진입 시 헤더 바로 아래에 '환아 인적사항' 카드가 시원하고 깔끔하게 최우선 배치되도록 조치 완료하였습니다.
+
+---
+
+### Q185. [브리핑 카드 환아 정보 문진 자동 감지 & 증상 입력 시 나이·상태 측정 자동 감지·적용] 나이 프리필(Pre-fill) 배너 및 소아 특화 NLP 상태 측정 스마트 연동 파이프라인 구축 완결 보고
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > 환아의 정보가 있으면 문진 페이지에서도 아이의 나이를 자동 감지하고, 증상에 나이를 적으면 상태 측정 허브로 감지해서 변경되도록 조치해줘.
+* **상세 분석 및 가이드 답변**:
+  1. **문제점 분석**:
+     - **브리핑 카드 연동 누락**: 브리핑 카드(`briefing_card.html`)에서 환아의 인적사항(이름, 생년월일 등)을 저장했더라도 문진 입력 페이지(`input.html`)로 이동했을 때 아이의 실제 나이가 자동 반영되지 않고 기본값인 14개월에 머물러 있었습니다.
+     - **자연어 나이 입력 시 객체 전달 오류**: 증상 입력창에 나이를 적었을 때 `extractAgeFromText`의 반환 객체(Object)가 `updateAgeDisplay`로 그대로 전달되어 `parseInt(object)`로 인해 `NaN`이 발생, 슬라이더 및 카테고리가 갱신되지 않는 결함이 존재했습니다.
+     - **상태 측정 허브와의 유기적 연동 부재**: 증상에 포함된 나이(예: 생후 50일 고열)와 상태(체온, 100일 미만 발열 위험군, 기침/콧물/구토/복통 등 동반 증상, 해열제 복용 종류)가 상태 측정 허브(`card-measurement-hub`)의 3개 탭(체온, 나이, 해열제)으로 일괄 연동되지 못하고 체온만 단독 갱신되는 한계가 있었습니다.
+  2. **구체적 구현 및 조치 내역**:
+     - **브리핑 카드 환아 정보 기반 나이 자동 프리필 (`loadSavedProfileAndAutoFillAge`)**:
+       - `input.html` 로드 시 `localStorage.getItem('aisum_patient_profile')`에서 환아 생년월일을 자동 파싱.
+       - 오늘 날짜 기준 생후 일수, 개월수, 만 나이를 정밀 계산하여 5대 소아 연령 카테고리(`newborn`, `infant`, `toddler`, `child`, `adolescent`) 및 슬라이더 값을 즉시 동기화.
+       - 상단에 `patientProfileAutofillBanner`를 활성화하여 "이하준 (14개월 · 남아) 정보 자동 연동 [나이 적용됨]" 배너 노출.
+     - **소아 특화 자연어 나이 파서 대폭 강화 (`extractAgeFromText`)**:
+       - 신생아 일수(`생후 15일`, `신생아`), 백일/100일 미만, 개월수(`3개월`, `14개월`), 돌 아기(`돌쟁이`, `돌아기`, `두돌`), 만 나이(`만 3세`, `5살`), 한글 수사(`세살`~`열살`) 전수 지원.
+       - 감지 즉시 `setAgeCategory(detectedAge.category, detectedAge.value)`를 호출하여 상태 측정 허브의 나이 탭과 슬라이더를 실시간 동기화.
+     - **나이 결합 상태 측정 자동 추출 및 일체형 연동 (`extractStatusFromText` & `applyDetectedMedication`)**:
+       - **체온 및 100일 미만 발열 위험**: 숫자 체온(38.5℃) 및 고열 키워드 감지 + 100일 미만 발열 감지 시 38℃ 이상 고위험군 즉시 적용.
+       - **동반 증상 자동 감지**: 기침, 콧물, 가래, 호흡곤란, 구토, 설사, 복통, 처짐, 보챔 등 추출하여 동반 증상 입력칸에 자동 채움.
+       - **해열제 자동 연동**: 아세트아미노펜, 이부프로펜, 덱시부프로펜, 교차복용 및 복용 시간대 칩 자동 활성화.
+       - **스마트 감지 피드백 뱃지**: 감지된 항목들("💡 증상에서 나이 3개월 · 체온 38.5℃ · 상태(기침, 콧물) 감지 ➔ 상태 측정에 자동 반영되었습니다.")을 초록색/적색 뱃지로 즉각 안내.
+     - **통합 계약 테스트 작성 및 검증**:
+       - `tests/test_step8_frontend_integration.py`에 `test_16_patient_profile_autofill_and_symptom_age_status_sync` (TC-816) 추가.
+       - 전체 16개 프론트엔드 통합 계약 테스트 100% 무결점 통과 (`16 passed in 19.07s`).
+* **요약 결론**:
+  - 브리핑 카드에 등록된 아이 정보가 문진 페이지 진입 시 자동으로 감지되어 나이 슬라이더가 세팅되고, 증상 입력 시 아이의 나이와 상태(체온, 위험군, 동반 증상, 해열제)가 실시간 감지되어 상태 측정 허브에 완벽하게 일체형으로 자동 반영되도록 조치 완료하였습니다.
+
+### Q186. [브리핑 카드 연동 시 증상 나이 중복·충돌 방지 & 브리핑 카드 나이 자동 우선 적용] 공식 등록 프로필 우선 원칙 및 하단 상태 측정 자동 유지 파이프라인 구축 완결 보고
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > 이렇게 나이가 중복으로 겹칠때는 어떻게 해야해? 브리핑 카드에 적용된 경우는 밑에 아이 나이는 브리핑 카드 나이로 자동으로 변경 되도록 해줘
+* **상세 분석 및 가이드 답변**:
+  1. **문제 현상 및 중복·충돌 시 처리 정책 (정영식 팀장님 의사결정 반영)**:
+     - **중복 발생 원인**: 상단에 브리핑 카드 연동 배너("정영식 정보 자동 연동: 13개월 · 여아")가 켜져 있는 상태에서, 보호자가 "아이의 주요 증상" 입력창에 "만7세"를 타이핑하자 자연어 나이 파서가 하단 [아이 상태 상세 측정] 허브의 [아이 나이]를 `만 7세`로 덮어써버려, 상단 배너(13개월)와 하단 상태 측정(만 7세) 사이에 모순과 불일치가 발생하는 현상이었습니다.
+     - **중복 시 처리 정책**: 브리핑 카드에 저장된 환아 정보는 부모님이 생년월일과 이름을 직접 등록한 **'공식 등록 환아 프로필'**입니다. 반면 증상 입력란의 "만7세"는 단순 오타, 문맥적 표현, 다른 아이의 증상 비교 등 비정형 텍스트입니다. 따라서 **브리핑 카드에 환아 정보가 이미 등록되어 연동된 상태라면, 브리핑 카드의 공식 나이가 최우선 기준으로 자동 유지·적용**되어야 합니다.
+  2. **구체적 구현 및 조치 내역**:
+     - **`state` 프로필 우선 관리 플래그 도입**:
+       - `state.hasSavedProfile`: 브리핑 카드 환아 프로필 등록 및 연동 여부.
+       - `state.useProfileAgeFirst`: 브리핑 카드 나이 우선 적용 모드 (기본 `true`).
+       - `state.savedProfileData`: `{ name, birth, gender, category, val, displayText }`로 공식 프로필 캐싱.
+     - **증상 입력 시 브리핑 카드 나이 자동 유지 (`onSymptomInput`)**:
+       - 증상 텍스트에서 나이(`detectedAge`)가 감지되더라도, `state.hasSavedProfile`이 활성화되어 있다면 하단 상태 측정 허브의 나이를 증상 나이로 변경하지 않고 **브리핑 카드 나이(`state.savedProfileData`)로 자동 복원 및 유지** (`setAgeCategory(state.savedProfileData.category, state.savedProfileData.val)`).
+     - **스마트 피드백 뱃지 충돌 특화 안내**:
+       - 증상 입력 나이와 브리핑 카드 나이가 다를 경우 뱃지에 명확히 안내:
+         `💡 브리핑 카드 등록 정영식(13개월) 나이가 자동 유지되었습니다. [증상 나이(만 7세)로 변경]`
+     - **유연한 전환 및 원터치 복원 토글 버튼 지원**:
+       - 혹시 형제/자매 등 다른 아이 진료를 위해 증상 나이를 채택하길 원하는 경우를 위해 `[증상 나이(만 7세)로 변경]` 버튼 클릭 시 즉각 증상 나이로 전환 가능.
+       - 상단 배너 클릭 또는 `[브리핑 카드 나이로 복원]` 버튼 클릭 시 언제든 다시 브리핑 카드 나이로 0초 만에 원터치 복원.
+  3. **테스트 검증**:
+     - `tests/test_step8_frontend_integration.py`에 TC-817(`test_17_profile_age_priority_over_symptom_duplicate_age`) 신설.
+     - 17대 프론트엔드 통합 계약 테스트 100% 통과 (`17 passed in 22.21s`) 및 전체 테스트 스위트 120개 무결점 통과 (`120 passed in 191.70s`).
+* **요약 결론**:
+  - 브리핑 카드에 적용된 환아 정보가 있는 경우, 증상 입력란에 다른 나이가 적히더라도 하단 아이 나이는 브리핑 카드의 공식 나이로 100% 자동 유지·변경되도록 조치 완료하였습니다.
+
+### Q187. [브리핑 카드 나이 자동 변경 및 적용 (미입력 X)] 상단 탭 2 배지(#tab-val-age) 및 하단 요약 바 브리핑 카드 나이 100% 자동 적용 & 미입력 표출 원천 해소 완결 보고
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > 브리핑 카드에 적용된 나이로 이미지에 있는 부분에 나이를 자동으로 변경하고 적용시켜 (미입력 X)
+* **상세 분석 및 가이드 답변**:
+  1. **문제 현상 및 원인 분석**:
+     - **현상**: 이미지 스크린샷 확인 결과, 하단 패널에는 브리핑 카드에서 연동된 '영아 (~24개월)', '14개월'이 올바르게 세팅되어 있었으나, 상단 탭 2의 배지(`tab-val-age`)에는 파란색 글씨로 **'미입력'**이 표시되고, 화면 최하단 '선택 요약' 바에도 **'나이 미입력(모름) · 체온 미측정(모름) · 해열제 미복용'**으로 출력되는 결함이 발생하였습니다.
+     - **원인 1 (`state.ageTouched` 설정 타이밍 및 동기화 누락)**:
+       - `loadSavedProfileAndAutoFillAge()` 실행 시 `setAgeCategory(category, val)` 내부에서 `updateSummaryBar()`가 먼저 호출되는데, 이때는 아직 `state.ageTouched = true;`가 세팅되기 전이었습니다.
+       - 또한 `setAgeCategory` 완료 후 `state.ageTouched = true;`가 세팅된 직후 `updateSummaryBar()`를 다시 명시적으로 호출하지 않아, 상단 탭 배지(`tabValAge.innerText`)와 하단 요약 텍스트가 초기값인 `'미입력'` 상태로 굳어져 있었습니다.
+     - **원인 2 (`isEffectiveAgeUnknown` 판별 가드레일 누락)**:
+       - `isEffectiveAgeUnknown()` 함수 내에 `if (state.hasSavedProfile) return false;` 검증 가드가 누락되어 있어, 브리핑 카드 프로필이 연동되었음에도 사용자가 다이얼을 직접 손으로 터치하지 않으면 '나이 모름(미입력)'으로 간주되었습니다.
+     - **원인 3 (브리핑 카드 다각적 데이터 소스 감지 부재)**:
+       - 신상정보(`aisum_patient_profile`)의 생년월일(`birth`) 외에도 `profile.age` 또는 브리핑 카드에 연동된 최근 문진 활성 기록(`activeRecord` / `aisum_active_briefing_record_id` / `aisum_triage_histories_v1[0]`)의 `childAge` ("14개월" 등) 소스까지 유기적으로 감지하는 파이프라인이 필요했습니다.
+  2. **구체적 구현 및 조치 내역**:
+     - **브리핑 카드 다각적 나이 소스 자동 감지 (`loadSavedProfileAndAutoFillAge`)**:
+       - 1순위: `aisum_patient_profile`의 `birth` (생년월일 기반 정밀 일수/개월/연령 계산) 및 `profile.age` / `profile.childAge`.
+       - 2순위: 브리핑 카드의 활성 의료 기록(`activeRecord` / `aisum_active_briefing_record_id`) 또는 최근 문진 기록(`aisum_triage_histories_v1[0]`)의 `childAge` ("14개월" 등) 자동 감지 및 연동.
+     - **동기화 순서 정밀화 및 `state.ageTouched = true` 선행 보장**:
+       - 나이 감지 즉시 `state.ageTouched = true;`, `state.hasSavedProfile = true;`, `state.useProfileAgeFirst = true;`를 먼저 확정.
+       - 이후 `setAgeCategory(foundAge.category, foundAge.val)` 실행 후, 반드시 `updateSummaryBar()`를 강제 호출하여 탭 2의 배지(`tab-val-age`)와 하단 요약 바를 즉각 동기화.
+     - **`isEffectiveAgeUnknown()` 가드레일 확립**:
+       - `if (state.hasSavedProfile) return false;`를 최우선으로 배치하여, 브리핑 카드 나이가 연동된 상태에서는 절대로 `'미입력'`이나 `'나이 미입력(모름)'`이 출력되지 않도록 원천 보장.
+     - **상단 탭 배지 & 하단 요약 바 100% 자동 적용 (미입력 X)**:
+       - 상단 탭 2 배지: `미입력` ➔ `14개월` (또는 브리핑 카드 공식 나이) 자동 변경 및 적용.
+       - 하단 선택 요약 바: `나이 미입력(모름)` ➔ `14개월` 자동 변경 및 적용.
+       - 문진 제출 시 백엔드로도 `14개월 (영아)`로 정확히 전달되어 안전한 Triage 보장.
+     - **전역 템플릿 일체화 및 테스트 스위트 확장**:
+       - `frontend/templates/input.html`과 `app/templates/input.html` 양쪽 파일 100% 동기화.
+       - `tests/test_step8_frontend_integration.py`에 TC-818(`test_18_briefing_card_age_auto_applied_without_unknown_badge`) 추가.
+  3. **테스트 검증 결과**:
+     - 18대 프론트엔드 통합 계약 테스트 100% 무결점 통과 (`18 passed in 22.39s`).
+     - 전체 121개 테스트 스위트 전수 통과 (`121 passed in 217.20s, 100% 통과`).
+* **요약 결론**:
+  - 브리핑 카드에 적용된 나이가 상단 탭 2의 배지와 하단 선택 요약 바에 '미입력' 대신 실제 나이(`14개월`)로 즉시 자동 변경 및 적용되도록 수정 완료하였습니다.
+
+### Q188. [로컬 프로세스 관리] 실행 중인 모든 로컬 서버 및 개발 프로세스(Uvicorn, Python, 포트 8000) 완전 종료 완결 보고
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > 모든 로컬 종료 시켜
+* **상세 분석 및 가이드 답변**:
+  1. **실행 중인 로컬 프로세스 및 포트 전수 점검**:
+     - 로컬 포트 및 프로세스 점검 결과, 포트 8000에서 FastAPI 웹 애플리케이션을 구동 중이던 Uvicorn 메인 프로세스 및 멀티프로세싱 자식 프로세스들이 실행 중인 것으로 확인되었습니다:
+       - `uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload` (PID: 29440)
+       - `.venv/bin/python .venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000 --reload` (PID: 29441)
+       - `multiprocessing.spawn spawn_main` (PID: 31036)
+       - `multiprocessing.resource_tracker` (PID: 29445)
+  2. **프로세스 안전 및 강제 종료 조치**:
+     - 관련 프로세스 그룹 전수(`PID 29440, 29441, 31036, 29445`)에 종료 시그널을 전달하여 안전하고 확실하게 프로세스를 종료하였습니다.
+  3. **종료 후 포트 및 프로세스 검증**:
+     - `lsof -iTCP:8000 -sTCP:LISTEN` 및 `lsof -iTCP -sTCP:LISTEN -P -n | grep -E "8000|3000|5173|8080"` 확인 결과, 모든 로컬 개발 서버 포트가 정상 해제(Closed)되었음을 최종 확인하였습니다.
+* **요약 결론**:
+  - 로컬에서 구동 중이던 Uvicorn / FastAPI 서버 및 관련 Python 백그라운드 프로세스가 모두 정상 종료되었습니다.
+
+### Q189. [개발 환경 가이드] uv 기반 로컬 서버 구동 및 완전 해제(종료) 명령어 가이드
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > uv로 로컬 구동하고 해제 하는법 알려줘
+* **상세 분석 및 가이드 답변**:
+  1. **로컬 서버 구동 (Running the Local Server)**:
+     - **방법 A: 표준 포그라운드 구동 (권장 - 실시간 로그 확인)**
+       ```bash
+       # 프로젝트 루트(/Users/jeong-yeongsig/Desktop/Project/isoom)에서 실행
+       uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+       ```
+       * 코드 수정 시 서버가 자동으로 다시 로드(`--reload`)되며 터미널에 실시간 요청 로그가 출력됩니다.
+     - **방법 B: 가상환경 쉘 직접 활성화 후 구동**
+       ```bash
+       source .venv/bin/activate
+       uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+       ```
+     - **방법 C: 백그라운드(데몬) 구동 (터미널 창을 닫아도 계속 유지할 때)**
+       ```bash
+       nohup uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload > uvicorn.log 2>&1 &
+       ```
+     - **브라우저 접속 주소**:
+       - 메인 웹 서비스: `http://localhost:8000/home` (또는 `http://localhost:8000/index.html`)
+       - Swagger API 문서: `http://localhost:8000/docs`
+
+  2. **로컬 서버 해제 / 종료 (Stopping the Local Server)**:
+     - **상황 1: 터미널에서 포그라운드(방법 A/B)로 띄워둔 경우**
+       - 실행 중인 터미널 창에서 단축키 `Ctrl + C` 누르면 즉시 정상 종료됩니다.
+     - **상황 2: 백그라운드로 돌렸거나 터미널 창을 닫은 경우 (포트 기반 원터치 강제 해제 - 가장 확실)**
+       ```bash
+       kill -9 $(lsof -t -i:8000)
+       ```
+     - **상황 3: 프로세스 이름으로 전수 종료할 때**
+       ```bash
+       pkill -f "uvicorn main:app"
+       ```
+     - **상황 4: 가상환경(venv) 활성화 해제**
+       ```bash
+       deactivate
+       ```
+
+  3. **서버 종료/실행 상태 점검 명령어**:
+     - 현재 8000번 포트가 열려있는지 확인:
+       ```bash
+       lsof -iTCP:8000 -sTCP:LISTEN
+       ```
+       * 아무 출력도 나오지 않으면 정상적으로 완전히 해제(종료)된 상태입니다.
+
+  4. **추가 uv 핵심 활용 팁**:
+     - 신규 패키지 추가 설치: `uv pip install <패키지명>`
+     - 전체 의존성 동기화 설치: `uv pip install -r requirements.txt`
+     - 가상환경 재구축: `uv venv --python 3.11`
+* **요약 결론**:
+  - 구동: `uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload`
+  - 해제: 터미널 창에서 `Ctrl + C` 또는 터미널에서 `kill -9 $(lsof -t -i:8000)` 명령어를 입력하시면 됩니다.
+
+---
+
+### Q190. [입력 페이지 브리핑 카드 나이 자동 분류 및 덮어쓰기 결함 해결] 초기 로드 시 브리핑 카드 나이(13개월) 오버라이트 버그 원인 분석, 아이 상태 측정 허브 탭·슬라이더·요약 바 100% 즉시 적용 완결 보고
+
+* **기록 일시**: 2026-10-18
+* **질문 내용**:
+  > 아무것도 안 건드리고 처음에 들어왔을 때, 브리핑 카드에 환아 나이가 13개월로 되어있는데도 아래 아이 상태 상세 측정 부분에서는 영아 14개월로 되어있네? 나이에 맞게 바로 분류되게 해줘.
+* **상세 분석 및 가이드 답변**:
+  1. **결함 현상 및 원인 분석**:
+     - **현상**: 브리핑 카드에 등록된 아이(정영식, 13개월 여아)의 정보가 문진 페이지 상단의 '환아 정보 자동 연동 배너'에는 `정영식 (13개월 · 여아)`로 정상 출력되지만, 섹션 2 '아이 상태 상세 측정'의 '아이 나이' 탭 배지(`tab-val-age`)에는 `14개월`로 표시되고, 하단 슬라이더도 14개월, 최하단 요약 바에도 `14개월`로 표출되는 불일치 결함이 발생했습니다.
+     - **원인 분석**:
+       1. 문진 페이지 로드 시 스크립트 중반부(`loadSavedProfileAndAutoFillAge()`)에서 로컬스토리지의 브리핑 카드 프로필(`aisum_patient_profile`)을 정상 감지하여 `13개월` 및 `infant` 카테고리로 올바르게 설정(`setAgeCategory('infant', 13)`)했습니다.
+       2. 그러나 스크립트 최하단의 초기화 블록(`// Initialize defaults`)에서 무조건 실행되도록 작성되어 있던 `updateAgeDisplay(14); state.ageTouched = false; updateSummaryBar();` 코드가 앞서 감지·설정된 브리핑 카드의 공식 나이(13개월)를 하드코딩된 기본값 `14개월`로 덮어쓰고(Overwrite), 조작 상태(`state.ageTouched`)마저 `false`로 리셋하는 버그가 발견되었습니다.
+  2. **구체적 엔지니어링 해결 조치**:
+     - **초기화 블록 프로필 최우선 순서 재정립**:
+       - `input.html` 스크립트 최하단 `// Initialize defaults` 블록에서 `loadSavedProfileAndAutoFillAge()`를 최종 동기화하도록 배치하였습니다.
+     - **기본값 14개월 덮어쓰기 방지 가드레일 확립**:
+       - `if (!profileLoaded && !state.hasSavedProfile)` 가드 조건을 신설하여, 브리핑 카드에 환아 정보가 없을 때만 기본값 `14개월`이 적용되도록 분기 처리했습니다.
+     - **양대 템플릿(frontend & app) 100% 일괄 동기화**:
+       - [frontend/templates/input.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/input.html)
+       - [app/templates/input.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/input.html)
+     - **통합 계약 테스트 작성 및 검증 (TC-819)**:
+       - `tests/test_step8_frontend_integration.py`에 `test_19_briefing_card_age_not_overwritten_by_defaults` 신설.
+       - 19개 통합 계약 테스트 100% 통과 (`19 passed in 18.80s`).
+  3. **실제 화면 동작 검증 (Playwright Headless Browser)**:
+     - 브리핑 카드 프로필(`aisum_patient_profile`)에 13개월 환아(생년월일 2025-09-15)를 설정한 상태에서 `/input.html`에 진입 시:
+       - 상단 배너: `정영식 (13개월 · 여아)` 표출 확인.
+       - 상태 측정 허브 탭 2 배지(`tab-val-age`): `13개월` 즉시 적용 확인.
+       - 영아(infant) 카테고리 칩 활성화 및 슬라이더 값 13개월(`age-slider-infant`: 13) 즉시 선택 확인.
+       - 최하단 요약 바: `13개월 · 체온 미측정(모름) · 해열제 미복용`으로 100% 일치 확인.
+* **요약 결론**:
+  - 문진 입력 페이지 초기 로드 시 하드코딩된 기본값 14개월이 브리핑 카드 나이를 덮어쓰던 버그를 완벽히 해결하였습니다.
+  - 이제 사용자가 문진 페이지에 접속하자마자 브리핑 카드에 등록된 나이(예: 13개월)에 맞추어 카테고리(영아)와 나이 슬라이더(13개월), 탭 배지, 하단 요약 바까지 100% 즉시 자동 분류 및 적용됩니다!
+
+---
+
+### Q191. [기록 삭제 시 응급실 모니터링 자동 제어 & 브리핑 카드 기록 변경 선택 모달 구축] 기록페이지 삭제 시 모니터링 전면 해제/재동기화, 브리핑 카드 '기록 변경' 클릭 시 저장된 문진 기록 선택 모달 및 즉시 갱신 파이프라인 완결 보고
+
+* **기록 일시**: 2026-10-18
+* **질문 내용**:
+  > 1. 기록페이지에서 이전 기록을 삭제했을 때 알람에서 모니터링도 같이 해제되거나 그에 맞게 변경되는지 확인해줘
+  > 2. 브리핑 카드에서 '기록 변경'을 누르면 다른 문진 기록을 선택할 수 있는 팝업 모달창을 띄워주고, 선택하면 해당 내용으로 변경되게 해줘
+* **상세 분석 및 가이드 답변**:
+  1. **요구사항 1: 기록페이지 삭제에 따른 응급실 모니터링 자동 제어 분석 및 구현**:
+     - **기존 상태 및 문제점**:
+       - 기존에는 문진 완료 시 `AisumNotificationManager.registerWatch()`를 통해 로컬스토리지 `aisum_emergency_watch_target`에 중증 응급실이 등록되었으나, 사용자가 '기록페이지([/history](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/history.html))`에서 해당 중증 문진 기록을 삭제하거나 전체 삭제하더라도 감시 대상 키가 남아 있어 상단 알림창에 "KTAS 중증 병상 실시간 모니터링 중" 배너가 지속 노출되고 백그라운드 병상 조회가 계속되는 결함이 존재했습니다.
+     - **해결 방안 및 구현**:
+       - `AisumHistoryManager`의 `deleteById(id)` 및 `clearAll()` 함수에 기록 삭제 후 즉각적인 감시 대상 동기화 훅(`AisumNotificationManager.syncWatchTargetsWithHistory()`)을 연결하였습니다.
+       - `AisumNotificationManager`에 `syncWatchTargetsWithHistory()` 신설:
+         1. 남아있는 문진 기록 전체를 검사하여 `ktasLevel <= 3`인 중증 기록이 0건이면 `localStorage.removeItem(this.WATCH_KEY)`를 실행하여 감시 대상을 완전히 소거하고 모니터링을 즉시 전면 종료합니다.
+         2. 남아있는 중증 기록이 있는 경우, 오직 유효하게 남아있는 중증 기록의 추천 병원들만 감시 대상으로 재정제(Filter)하고 가장 최신 기록의 병원을 1순위로 승격시킵니다.
+       - `isSevereUser()`를 단순 플래그 검사가 아닌 `this.hasEmergencyHistory() && (this.getWatchTargets().length > 0)`로 강화하여 실제 유효한 중증 문진 기록이 있을 때만 알림 모달 배너가 "KTAS 중증 병상 모니터링 중"으로 표시되도록 조치했습니다.
+       - 기록페이지의 `deleteHistoryRecord()`와 `clearAllHistoryRecords()`에도 2중 안전장치로 동기화 함수 호출을 보장했습니다.
+  2. **요구사항 2: 브리핑 카드 '기록 변경' 모달 팝업 및 원터치 갱신 구현**:
+     - **화면 구조 및 기능 요구**:
+       - 브리핑 카드([/briefing-card](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html))의 섹션 2 '최근 문진 및 응급도' 우측의 '기록 변경' 버튼(`btnOpenRecordSelectModal`)을 클릭하면 기존에 저장된 모든 문진 기록 목록이 카드 리스트 모달로 팝업됩니다.
+     - **모달 UI/UX 및 카드 렌더링**:
+       - `openRecordSelectModal()` 실행 시 로컬스토리지의 최신 문진 기록을 즉각 리로드합니다.
+       - 저장된 기록이 없는 경우: "저장된 문진 기록이 없습니다" 클린 엠티 스테이트와 "지금 소아 문진 시작하기" 버튼을 제공합니다.
+       - 저장된 기록이 있는 경우: 각 기록 카드에 KTAS 등급별 뱃지(1~5단계 전용 컬러), 문진 일시, 아동 나이/성별, 체온, 주요 증상 태그, 추천 응급실명을 깔끔한 디자인으로 표시하고, 현재 선택된 활성 기록에는 파란색 체크(`check_circle`) 아이콘을 부여합니다.
+     - **원터치 선택 및 즉각 반영**:
+       - 원하는 문진 기록 카드를 클릭하면 `selectActiveRecord(rec)`가 실행되어:
+         1. `localStorage.setItem('aisum_briefing_active_record_id', rec.id)`로 활성 기록 ID가 즉시 보관됩니다.
+         2. 모달이 닫히며 브리핑 카드 본문의 KTAS 배너, 응급도 등급, 경과 시간, 체온, 복용 약물, 증상 태그, 추천 병원명이 선택한 기록으로 즉시 갱신됩니다.
+         3. '전체화면 구급대원 브리핑' 모드와도 실시간 연동되어 풀스크린 모드에서도 변경된 기록이 그대로 표출됩니다.
+         4. 모달 외부(딤 오버레이) 클릭 또는 ESC 키 입력 시에도 부드럽게 닫히도록 반응형 편의성을 완성했습니다.
+  3. **테스트 및 검증 결과**:
+     - **전체 pytest 회귀 테스트**: 122개 테스트 전원 통과 (`122 passed in 182.84s`).
+     - **신규 통합 계약 테스트**:
+       - `TC-820` (기록 삭제 시 응급실 모니터링 자동 동기화/해제 검증)
+       - `TC-821` (브리핑 카드 기록 변경 선택 모달 및 즉각 갱신 검증)
+       - 프론트엔드 통합 테스트 스위트 21개 전체 100% 통과 (`21 passed in 16.98s`).
+     - **양대 템플릿 일괄 동기화**:
+       - [frontend/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html)
+       - [app/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/briefing_card.html)
+       - [frontend/templates/history.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/history.html)
+       - [app/templates/history.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/history.html)
+       - [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js)
+* **요약 결론**:
+  - 기록페이지에서 중증 문진 기록을 삭제하면 남아있는 기록 유무를 즉시 평가하여 감시 대상을 재정제하거나 전면 해제함으로써 알림창 모니터링이 정확하게 연동됩니다.
+  - 브리핑 카드에서 '기록 변경' 버튼을 누르면 저장된 과거 문진 기록들이 모달창으로 깔끔하게 뜨며, 원하는 기록을 클릭하는 즉시 브리핑 카드의 모든 증상·바이탈·응급도 데이터가 원터치로 변경됩니다!
+
+---
+
+### Q192. [브리핑 카드 '기록 변경' 버튼 미작동 원인 해결 & 주요 증상 구급대원 인계 브리핑 상세 요약 박스 구축] 모달 opacity/visibility 은폐 버그 원인 분석, 인라인 onclick 연동 및 KTAS 지침 기반 임상 증상 요약 박스 완결 보고
+
+* **기록 일시**: 2026-10-18
+* **질문 내용**:
+  > 이거 눌러도 아무 동작이 없는데?? 그리고 주요 증상을 상세하지만 간단하게 설명되면 좋을 거 같아
+* **상세 분석 및 가이드 답변**:
+  1. **'기록 변경' 버튼 클릭 시 아무 반응이 없던 근본 원인 분석**:
+     - **CSS 은폐 상태(`opacity: 0; visibility: hidden;`) 충돌**:
+       - 공통 스타일시트([style.css](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/css/style.css))의 `.modal-overlay`는 초기 상태에서 `display: none; opacity: 0; visibility: hidden;`으로 정의되어 있으며, `.modal-overlay.active` 클래스가 추가될 때만 `opacity: 1; visibility: visible; display: flex;`로 브라우저에 표시됩니다.
+       - 하지만 기존 자바스크립트의 `openRecordSelectModal()`에서는 단순 `recordSelectModal.style.display = 'flex';`만 설정하였기에, 브라우저 엔진 상에서 요소는 배치되었으나 `visibility: hidden; opacity: 0` 상태가 유지되어 시각적으로는 아무런 변화가 없는 것처럼 보였습니다.
+     - **이벤트 바인딩 안전성 보강**:
+       - HTML 마크업 상의 버튼에 인라인 이벤트 핸들러 `onclick="openRecordSelectModal()"`를 명시하고, 자바스크립트 내 `window.openRecordSelectModal`, `window.closeRecordSelectModal`, `window.selectActiveRecord`를 전역 스코프에 등록하여 DOM 로드 순서나 타이밍 이슈 없이 100% 즉시 클릭 이벤트가 실행되도록 보장했습니다.
+     - **조치 사항**:
+       - `openRecordSelectModal()` 내에 `recordSelectModal.classList.add('active');`, `recordSelectModal.style.display = 'flex';`, `recordSelectModal.setAttribute('aria-hidden', 'false');`, `document.body.style.overflow = 'hidden';`를 모두 적용하여 모달이 부드러운 애니메이션과 함께 즉각 나타나도록 수정 완료했습니다.
+  2. **주요 증상을 상세하지만 간단·명료하게 설명하는 '구급대원·의료진 인계 브리핑 박스' 구축**:
+     - **문제 의식**:
+       - 기존에는 주요 증상 영역에 단순 `#사지 절단, 외상`처럼 단편적인 해시태그 1개만 표출되어, 구급대원이나 소아 응급실 의료진이 긴박한 상황에서 환아에게 왜 해당 응급 처치와 병원 이송이 필요한지 맥락을 직관적으로 이해하기 어려웠습니다.
+     - **소아 KTAS 임상 지침 기반 요약 엔진 (`buildSymptomBriefingSummary`) 신설**:
+       - 문진 데이터(주증상, 백엔드 AI 레드플래그 소견, 사용자 진술 원문, 체온, 해열제 복용력, KTAS 단계)를 종합 분석하여 다음 4개 핵심 파트로 구조화된 인계 요약을 자동 생성합니다:
+         1. **헤드라인 요약**: `[증상] + 15초 내 판단 가능한 긴급 행동 지침` (예: `[사지 절단, 외상] 신체 부위 중증 외상·손상으로 15분 이내 전문 접합 및 응급 지혈 처치가 시급합니다.`)
+         2. **📋 임상 주의사항**: 의료진/구급대원이 현장에서 즉시 지켜야 할 주의 조치 (예: `절단부 청결 멸균 거즈 밀봉 및 냉장 보관 상태 유지 요망`, `고개 옆으로 기도 확보, 억지로 입 벌리지 않도록 주의 요망`, `아직 해열제 미복용 상태로 열 발산 조치 요망`)
+         3. **💬 보호자 진술**: 사용자가 입력한 구체적 경위 원문이 있을 경우 한 줄로 간결히 첨부
+         4. **긴급도 감지(isUrgent)**: KTAS 1~3단계 또는 38.0℃ 이상 고열일 경우 경고 컬러(빨간색 테두리/뱃지 `🚨 긴급 구급대원 인계 브리핑`)로 강조 표출
+     - **디자인 및 화면 배치**:
+       - 브리핑 카드 본문: 기존 해시태그 바로 하단에 고대비 소프트 블루/레드 계열의 프리미엄 인계 박스(`briefing-symptom-summary-box`)를 배치하여 가독성을 극대화했습니다.
+       - 전체화면 구급대원 모드(`fullscreenParamedicModal`): 야간 구급차 안에서도 3초 만에 판독할 수 있도록 고대비 블랙 배경 내 `#38bdf8` 포인트 보더 및 화이트 헤드라인 폰트로 요약문이 동기화되도록 구현했습니다.
+  3. **검증 및 테스트 완료**:
+     - 프론트엔드 통합 테스트 스위트: 신규 `test_22_briefing_card_modal_active_visibility_and_symptom_briefing_box`를 포함한 22개 테스트 전체 100% 통과 (`22 passed in 27.39s`).
+     - 전체 회귀 테스트 스위트: 114개 테스트 전원 통과 (`114 passed in 183.15s`).
+     - 4개 주요 템플릿 파일 일괄 동기화 완료:
+       - [frontend/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html)
+       - [app/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/briefing_card.html)
+       - [frontend/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide.html)
+       - [app/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/emergency_guide.html)
+* **요약 결론**:
+  - 모달 오버레이의 `.active` 클래스 누락으로 인한 시각적 은폐 버그를 완벽히 해결하여 이제 '기록 변경' 버튼을 누르면 부드러운 애니메이션과 함께 문진 선택 모달창이 즉시 나타납니다!
+  - 주요 증상란에는 단순 태그를 넘어 119 구급대원과 응급실 의사가 3초 만에 상태를 파악할 수 있는 **[구급대원·의료진 인계 브리핑 요약 박스]**(긴급 행동 지침 + 임상 주의사항 + 보호자 진술)가 구축되어 응급 이송 시 신속하고 정확한 정보 전달이 가능해졌습니다!
+
+---
+
+### Q193. [브리핑 카드 주요 증상 태그 & 구급대원 인계 브리핑 박스 단일 카드 통합 및 간소화] 위아래 분리 요소 일체형 통합, 헤더 태그·뱃지 나란히 배치, 중복 증상명 제거 및 가독성 극대화 완결 보고
+
+* **기록 일시**: 2026-10-18
+* **질문 내용**:
+  > 주요 증상하고 구급대원 인계 브리핑 두개 나뉘어있는게 어색해서 하나로 묶어주고 주요 증상에 나오는 증상 글씨는 없애주고 간소화해줘.
+* **상세 분석 및 가이드 답변**:
+  1. **요구사항 분석 및 기존 UI/UX 어색함의 원인**:
+     - **기존 구조**:
+       - 섹션 2 내에 상단에는 `주요 증상` 라벨과 `#사지 절단, 외상` 알약 태그가 별도로 있고, 그 아래에 다시 `🚨 긴급 구급대원 인계 브리핑` 상세 박스가 분리되어 배치되어 있었습니다.
+       - 또한 인계 브리핑 박스 내부 본문 첫 줄에 다시 `[사지 절단, 외상] 신체 부위 중증 외상...`과 같이 증상명이 반복되어 중복 노출되고 시각적으로 위아래가 단절되어 보이는 어색함이 있었습니다.
+     - **개선 목표**:
+       - '주요 증상'과 '구급대원 인계 브리핑' 두 영역을 **단일 일체형 프리미엄 카드(`briefing-unified-symptom-card`)**로 통합.
+       - 상단 카드 헤더에 증상 태그(`#사지 절단, 외상`)와 브리핑 뱃지(`🚨 긴급 인계 요약`)를 좌우/나란히 정렬하여 깔끔한 메타데이터 헤더 구축.
+       - 본문 텍스트에서 반복되던 대괄호 증상 글씨(`[사지 절단, 외상]`)를 완전 제거하고 순수 핵심 행동 지침 및 임상 주의사항만 간소하고 명료하게 표출.
+  2. **구체적 구현 및 UI/UX 리팩토링**:
+     - **단일 카드 템플릿 마크업 개선 ([briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html))**:
+       - `briefing-unified-symptom-card` 신설 및 헤더 행(`briefing-card-header-row`)에 타이틀, 증상 태그 뱃지, 브리핑 유형 뱃지를 일체화.
+       - 내부 본문(`briefingSymptomBody`)에 군더더기 없는 핵심 임상 요약 렌더링.
+     - **스타일링 시스템 구축**:
+       - 1.5px 정밀 테두리와 부드러운 배경색(일반: 슬레이트 블루 틴트 / 긴급: 로즈 레드 틴트), 둥근 모서리(16px), 내부 패딩 최적화로 모바일에서도 한눈에 쏙 들어오는 일체형 카드 뷰 완성.
+     - **중복 증상명 제거 및 간소화 알고리즘 (`buildSymptomBriefingSummary`)**:
+       - 헤드라인 텍스트 앞의 `[증상명]` 패턴을 자동 파싱/제거하여, 불필요한 중복 없이 **15초 내 판단 가능한 행동 지침과 임상 주의사항**만 바로 읽히도록 최적화.
+     - **전체화면 구급대원 모드(`fullscreenParamedicModal`) 동시 적용**:
+       - 야간 긴급 이송 시 사용하는 전체화면 모드에서도 동일하게 일체형 카드 레이아웃과 중복 없는 간소화 텍스트가 표시되도록 동기화 완료.
+  3. **테스트 및 검증 결과**:
+     - 프론트엔드 통합 테스트 스위트 22개 전체 100% 통과 (`22 passed in 19.53s`).
+     - 전체 회귀 테스트 스위트 114개 전원 통과 (`114 passed in 181.75s`).
+     - 파일 일괄 동기화 완료:
+       - [frontend/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html)
+       - [app/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/briefing_card.html)
+* **요약 결론**:
+  - 기존에 위아래로 어색하게 나뉘어 있던 '주요 증상'과 '구급대원 인계 브리핑'을 깔끔한 단일 카드로 일체화하였습니다.
+  - 상단 헤더에 증상 태그와 뱃지를 나란히 배치하고, 본문에서 중복되던 증상 글씨를 말끔히 제거하여 보호자와 구급대원 모두가 1초 만에 핵심 조치를 직관적으로 파악할 수 있도록 간소화했습니다!
+
+---
+
+### Q194. [구급대원 필독사항의 환아 인적사항 카드 내 포함 및 일체화] 별도 분리 섹션 폐지, 환아 신상정보 직하단 필독 특이사항 서브 카드 배치 및 23개 통합 테스트 완결 보고
+* **일시**: 2026-10-18
+* **질문 전문**:
+  > "구급대원 필독사항 환아 인적사항에 포함되게 수정해줘"
+* **상세 분석 및 가이드 답변**:
+  1. **구조적 문제점 및 요구사항 분석**:
+     - 기존에는 환아 인적사항(`cardPatientProfile`)과 구급대원 필독사항(`cardSpecialNotes`)이 서로 다른 독립된 `<section class="briefing-card">`로 분리되어 있어, 페이지가 불필요하게 아래로 길어지고 환아 기본 정보와 긴급 처치 특이사항(수혈 거부/금기, 주치의 직통 연락처 등)의 연계성이 떨어지는 문제가 있었습니다.
+     - 환아의 신상 정보(이름, 성별, 나이, 체중, 혈액형) 바로 직하단에 '구급대원 필독 특이사항'을 서브 박스로 일체화하여 환아에 대한 모든 핵심 프로필을 한눈에 파악할 수 있도록 UX를 최적화했습니다.
+  2. **구현 세부 내역**:
+     - **환아 인적사항 내부 서브 박스로 구조 통합**:
+       - 기존의 별도 분리 섹션 `<section class="briefing-card" id="cardSpecialNotes">`를 제거하고, `cardPatientProfile` 내부의 `profile-grid` 바로 아래에 `<div class="patient-special-notes-box" id="cardSpecialNotes">`로 일체화 배치.
+       - 헤더 행(`patient-special-notes-header`)에 ⚠️ 구급대원 필독 특이사항 타이틀과 함께 우측에 `수정` 버튼(`btnEditDirectives`) 배치.
+       - 내부 그리드(`patient-special-notes-grid`)에 수혈 지침 박스(`boxTransfusionDirective`)와 주치의 연락망 박스(`boxDoctorContact`)를 나란히 배치하여 환아의 혈액형 바로 아래에서 특이사항이 즉시 확인되도록 구성.
+     - **인라인 프로필 폼 연동 고도화**:
+       - 인적사항 수정 폼 내의 `<details id="detailsSpecialDirectives">`와 완벽 연동.
+       - '구급대원 필독사항 수정' 버튼 클릭 시 인라인 편집 폼이 즉시 열리며 특이사항 아코디언이 자동으로 펼쳐지고 해당 위치로 부드럽게 스크롤되도록 이벤트 리스너 개선.
+     - **모바일/태블릿 반응형 스타일링**:
+       - `.patient-special-notes-box`에 슬레이트 틴트 배경(라이트: `#f8fafc` / 다크: `#1e293b`), 1px 정밀 보더(`var(--border-color)`), 부드러운 라운딩(12px) 및 패딩을 적용하여 메인 카드 내에서 정돈된 서브 섹션으로 자연스럽게 표현.
+     - **4개 템플릿 파일 100% 완전 동기화**:
+       - [frontend/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/briefing_card.html)
+       - [app/templates/briefing_card.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/briefing_card.html)
+       - [frontend/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/emergency_guide.html)
+       - [app/templates/emergency_guide.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/emergency_guide.html)
+  3. **테스트 및 검증 결과**:
+     - 신규 통합 계약 테스트 `test_23_paramedic_special_notes_included_in_patient_profile` 추가.
+     - 프론트엔드 통합 계약 테스트 스위트 23개 전원 100% All-Green 통과 (`23 passed in 20.44s`).
+     - 전체 회귀 테스트 스위트 124개 전원 통과 (`124 passed in 190.62s`).
+* **요약 결론**:
+  - 기존에 독립된 카드로 떨어져 있던 '구급대원 필독사항'을 환아 인적사항 카드 하단 서브 박스로 일체화하였습니다.
+  - 이제 구급대원과 의료진이 환아의 이름·나이·체중·혈액형을 확인하는 즉시 바로 아래에서 수혈 지침과 주치의 비상 연락처를 한 카드 안에서 직관적으로 파악할 수 있습니다!
+
+
+
+
+
+
+
+
+
 
 
 
