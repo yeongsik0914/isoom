@@ -1188,7 +1188,7 @@ window.updateLocationDisplay = function(dongName, lat, lon, customFullAddr) {
   }
   const barEl = document.getElementById('modal-current-address-bar');
   if (barEl) {
-    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong id="modal-current-address-val" style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;">현재 설정된 주소: <strong id="modal-current-address-val" class="current-address-val">${escapeSearchHtml(fullAddr)}</strong></span>`;
   }
 };
 
@@ -1437,7 +1437,7 @@ window.refreshUserCurrentLocation = function() {
     // 모달 상단 주소 바 엘리먼트 즉시 시각 갱신
     const barEl = document.getElementById('modal-current-address-bar');
     if (barEl) {
-      barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
+      barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;">현재 설정된 주소: <strong id="modal-current-address-val" class="current-address-val">${escapeSearchHtml(fullAddr)}</strong></span>`;
     }
 
     if (typeof window.initLiveFacilities === 'function') {
@@ -2019,7 +2019,7 @@ window.openLocationModal = function() {
       const matched = (window.AISUM_LOCATIONS_DB || []).find((item) => item.name === currentDong);
       fullAddr = (matched && matched.fullAddr) ? matched.fullAddr : (currentDong !== '현재 위치' ? `대한민국 ${currentDong}` : '현재 위치');
     }
-    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:16px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong style="color:#0f172a;">${escapeSearchHtml(fullAddr)}</strong></span>`;
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:16px;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;">현재 설정된 주소: <strong id="modal-current-address-val" class="current-address-val">${escapeSearchHtml(fullAddr)}</strong></span>`;
   }
 
   // Render quick locations grid based on user's actual search history (max 15, no hardcoded entries)

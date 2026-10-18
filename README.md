@@ -28,6 +28,14 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.22-location-address-dark-fix] 2026-10-18: 위치 설정 모달 현재 설정된 주소 다크모드 가독성 결함 완결 (정영식 팀장 총괄)
+* **📍 JS 동적 innerHTML 인라인 하드코딩(#0f172a, #334155) 전수 소독 (`main.js`)**:
+  - `updateLocationDisplay`, `setUserCustomLocation`, `openLocationSelectModal` 함수에서 `barEl.innerHTML` 주입 시 하드코딩되어 있던 인라인 스타일 색상을 완전히 제거하고, 정규 시맨틱 클래스로 교체.
+* **✨ 고대비 순백(#f9fafb) 텍스트 전역 연동 (`style.css`, `index.html`)**:
+  - `html[data-theme="dark"] .current-address-bar strong`, `#modal-current-address-val`, `.current-address-val`을 완벽한 순백(`#f9fafb`)으로 고정하여 어두운 배경 위에서 주소가 선명하게 읽히도록 개선.
+* **🧪 25대 프론트엔드 통합 계약 테스트 전수 통과 & Cloud Run 프로덕션 배포 완료**:
+  - `tests/test_step8_frontend_integration.py` All-Green 확인 및 프로덕션 실서버에 최신 리비전 100% 무중단 반영.
+
 ### 🌟 [v2.9.21-ultra-refined-dark-sync] 2026-10-18: 세부 5대 핵심 화면 잔존 라이트 & 글씨 가독성 완결 (정영식 팀장 총괄)
 * **💊 심야약국 상세 정보 전면 다크화 & 타이틀 가독성 복원 (`pharmacy_detail.html`)**:
   - 실제 마크업 클래스 매핑 교정, 섹션 타이틀(`#f9fafb`) 순백 복원, 상주 약사 프로필 박스 `#2c2c34` 인셋 다크화, 하단 고정 바 `rgba(23, 23, 28, 0.96)` 및 전화 버튼 `#2c2c34` 다크화 완결.

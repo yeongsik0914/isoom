@@ -220,6 +220,7 @@
 220. [Q212. [3대 핵심 페이지(입력·결과·메인) 및 전역 다크모드 완전 무결점화 완결] 해열제 옵션 카드·체온 미측정/다음 버튼·결과 탭/병원명 가독성/통화대본·이용약관 운영팀 푸터·메인 위치/알림 바텀시트 전면 토스 TDS 다크 이식 및 Cloud Run 배포 보고](#q212-3대-핵심-페이지입력결과메인-및-전역-다크모드-완전-무결점화-완결-해열제-옵션-카드체온-미측정다음-버튼결과-탭병원명-가독성통화대본이용약관-운영팀-푸터메인-위치알림-바텀시트-전면-토스-tds-다크-이식-및-cloud-run-배포-보고)
 221. [Q213. [다크 테마 조화형 버튼 컬러 & 잔존 라이트 5종 전면 개편 완결] 메인 홈 히어로 CTA(화이트➔토스블루)·알림시트 헤더/카드/버튼·문진 3대 탭바 컨테이너·결과 병원카드 버튼/태그·가이드북 플로팅바 완결 및 Cloud Run 배포 보고](#q213-다크-테마-조화형-버튼-컬러--잔존-라이트-5종-전면-개편-완결-메인-홈-히어로-cta화이트토스블루알림시트-헤더카드버튼문진-3대-탭바-컨테이너결과-병원카드-버튼태그가이드북-플로팅바-완결-및-cloud-run-배포-보고)
 222. [Q214. [세부 5대 핵심 화면 잔존 라이트 & 글씨 가독성 완결] 심야약국·병원상세(타이틀 가독성/하단전화바)·QR앱열기 전체뷰포트·위치시트 칩/헤더·KTAS 1단계 긴급배너 전면 토스 TDS 다크 이식 및 Cloud Run 배포 보고](#q214-세부-5대-핵심-화면-잔존-라이트--글씨-가독성-완결-심야약국병원상세타이틀-가독성하단전화바qr앱열기-전체뷰포트위치시트-칩헤더ktas-1단계-긴급배너-전면-토스-tds-다크-이식-및-cloud-run-배포-보고)
+223. [Q215. [위치 설정 모달 현재 설정된 주소 다크모드 가독성 결함 완결] JS 동적 innerHTML 인라인 하드코딩(#0f172a, #334155) 소독 및 순백(#f9fafb) 복원, Cloud Run 배포 보고](#q215-위치-설정-모달-현재-설정된-주소-다크모드-가독성-결함-완결-js-동적-innerhtml-인라인-하드코딩0f172a-334155-소독-및-순백f9fafb-복원-cloud-run-배포-보고)
 
 ---
 
@@ -12512,6 +12513,72 @@ const res = await fetch(targetUrl, { signal: controller.signal });
 
 #### 📌 요약 결론
 약국/병원 상세 페이지의 글씨 안 보이던 결함과 새하얗게 뜨던 하단 전화 바, 위치 모달 칩, QR 전체 뷰포트, 결과 긴급 배너까지 **단 하나의 예외도 없이 토스 TDS 다크 시스템으로 완벽 통일**하였습니다!
+
+---
+
+### Q215. [위치 설정 모달 현재 설정된 주소 다크모드 가독성 결함 완결] JS 동적 innerHTML 인라인 하드코딩(#0f172a, #334155) 소독 및 순백(#f9fafb) 복원, Cloud Run 배포 보고
+
+* **기록 일시**: 2026-10-18
+* **질문 내용**:
+  > 주소가 다크모드인데 검은색으로 나와서 안보이네 (위치 설정 모달 상단 주소 바 캡처 첨부)
+
+---
+
+#### 💡 원인 분석 및 완결 조치 보고
+
+팀장님께서 첨부해주신 위치 설정 모달 캡처를 분석한 결과, `현재 설정된 주소: 서울특별시 송파구 마천로51가길 21 (마천동)` 영역에서 **주소 텍스트가 짙은 검은색/네이비(`#0f172a`)로 렌더링되어 다크 서피스(`#2c2c34`) 배경 위에서 거의 보이지 않는 결함**의 원인을 완벽하게 규명하고 해결하였습니다!
+
+---
+
+#### 1. 🔍 결함 원인 분석
+* **JS 동적 인라인 스타일 하드코딩 주입**:
+  * `frontend/js/main.js`의 3군데 위치(함수 `updateLocationDisplay`, `setUserCustomLocation`, `openLocationSelectModal`)에서:
+    ```javascript
+    barEl.innerHTML = `<span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span><span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong id="modal-current-address-val" style="color:#0f172a;">${fullAddr}</strong></span>`;
+    ```
+    이와 같이 `innerHTML`에 `style="color:#0f172a;"` 및 `style="color:#334155;"`가 **인라인 스타일로 직접 주입**되고 있었습니다.
+  * 브라우저에서 인라인 스타일이 최우선 적용되면서, 다크모드 상태임에도 불구하고 주소 텍스트가 강제로 검은색(`#0f172a`)으로 칠해져 가독성이 파괴되었습니다.
+
+---
+
+#### 2. 🛠️ 완결 조치 내역
+1. **`main.js` 동적 인라인 하드코딩 소독**:
+   * 3개 위치 전수에서 인라인 색상 스타일을 제거하고, 정규 시맨틱 클래스(`<strong id="modal-current-address-val" class="current-address-val">`)로 교체.
+2. **`index.html` 초기 마크업 소독**:
+   * 초기 렌더링 HTML에서도 인라인 색상 제거 및 클래스 동기화.
+3. **`style.css` 고대비 다크모드 규칙 전역 고정**:
+   ```css
+   html[data-theme="dark"] .current-address-bar {
+     background: #2c2c34 !important;
+     border: 1px solid rgba(255, 255, 255, 0.08) !important;
+     color: #d1d6db !important;
+   }
+   html[data-theme="dark"] .current-address-bar .current-bar-icon {
+     color: #3182f6 !important;
+   }
+   html[data-theme="dark"] .current-address-bar .current-bar-text {
+     color: #8b95a1 !important;
+   }
+   html[data-theme="dark"] .current-address-bar strong,
+   html[data-theme="dark"] .current-address-bar #modal-current-address-val,
+   html[data-theme="dark"] .current-address-bar .current-address-val,
+   html[data-theme="dark"] #modal-current-address-val {
+     color: #f9fafb !important;
+   }
+   ```
+4. **`app/` 양대 디렉터리 동기화 및 25개 통합 계약 테스트 100% 통과 확인**.
+
+---
+
+#### 3. 🧪 검증 및 Cloud Run 배포
+* `tests/test_step8_frontend_integration.py` 25개 전수 통과 (`25 passed`).
+* Google Cloud Run 최신 리비전 무중단 배포 완료.
+
+---
+
+#### 📌 요약 결론
+JS 동적 인라인 스타일로 박혀 있던 검은색 하드코딩을 완전히 소독하여, **다크모드에서 주소 텍스트가 선명하고 눈이 편안한 순백(#f9fafb)으로 즉시 복원**되었습니다!
+
 
 
 

@@ -53,9 +53,18 @@
     }
     html[data-theme="dark"] .current-address-bar {
       background: #2c2c34 !important;
-      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
       color: #d1d6db !important;
     }
+    html[data-theme="dark"] .current-address-bar .current-bar-icon {
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .current-address-bar .current-bar-text {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .current-address-bar strong,
+    html[data-theme="dark"] .current-address-bar #modal-current-address-val,
+    html[data-theme="dark"] .current-address-bar .current-address-val,
     html[data-theme="dark"] #modal-current-address-val {
       color: #f9fafb !important;
     }
@@ -445,9 +454,9 @@
       <!-- Current Active Address Display Bar -->
       <div class="current-address-bar" id="modal-current-address-bar"
         style="display:flex;align-items:center;gap:8px;border-radius:12px;padding:9px 12px;margin-bottom:12px;">
-        <span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span>
+        <span class="material-symbols-outlined current-bar-icon" style="font-size:18px;">home_pin</span>
         <span class="current-bar-text" style="font-size:12.5px;">현재 설정된 주소: <strong
-            id="modal-current-address-val">위치 확인 중...</strong></span>
+            id="modal-current-address-val" class="current-address-val">위치 확인 중...</strong></span>
       </div>
 
       <!-- Search Mode Segmented Tabs (주소 검색 vs 키워드 검색) -->

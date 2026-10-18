@@ -215,6 +215,7 @@
 | **[ISSUE-206]** | 입력 페이지 해열제/체온 버튼, 결과 페이지 탭/병원명 명도/통화대본, 이용약관 푸터, 메인 홈 위치/알림 시트 잔존 라이트 결함 완치 | input 해열제 5종 카드 및 체온 미측정 버튼 다크화, result 탭/병원명 순백 복원/통화대본/법적안내 다크화, terms 운영팀 푸터 다크화, index 위치 및 알림 바텀 시트 토스 TDS 다크화 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-207]** | 다크모드 부조화 버튼 컬러(메인 CTA·결과 전화/길찾기) 및 잔존 라이트(알림시트·문진탭바·가이드북바) 전면 개편 완결 | 메인 홈 최상단 CTA 토스 블루(#3182f6) 개편, 결과 전화/길찾기 버튼 다크 서피스(#2c2c34)/토스블루 조화, 알림 시트 헤더/카드/버튼 다크화, 문진 3대 탭바(#17171c), 가이드북 플로팅바 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-208]** | 약국/병원 상세 타이틀 글씨 가독성 및 하단바, QR 전체 뷰포트, 위치 시트 칩, KTAS 1단계 배너 잔존 라이트 완치 | 약국/병원 상세 선택자 정밀 교정 및 타이틀 순백 복원, 하단 전화바 다크화, qr.html 전체 뷰포트 다크화, 위치 시트 칩(#2c2c34)/현재주소 복원, 결과 KTAS 1단계 다크코랄 및 새로고침 다크화 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-209]** | 위치 설정 바텀 시트 주소 텍스트 JS 동적 인라인 하드코딩(#0f172a)에 의한 다크모드 검은색 노출 결함 해결 | main.js 동적 갱신 시 주입되던 인라인 색상 스타일 전수 소독, style.css 고대비 다크모드 규칙 전역 고정 및 순백(#f9fafb) 복원 | **해결 완료 (Resolved)** | 2026-10-18 |
 
 
 
@@ -7221,6 +7222,32 @@
   * `app/` 양대 디렉터리 일체
 * **조치 결과**:
   * 글씨 가독성 파괴 및 뷰포트/하단바/배너 잔존 라이트 결함 100% 완치.
+
+---
+
+### [ISSUE-209] 위치 설정 바텀 시트 주소 텍스트 JS 동적 인라인 하드코딩(#0f172a)에 의한 다크모드 검은색 노출 결함 해결
+* **발생 일자**: 2026-10-18
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **영역**: 프론트엔드 자바스크립트 엔진 (`main.js`), 메인 템플릿 (`index.html`), CSS 디자인 시스템 (`style.css`)
+* **문제 현상 및 원인 분석**:
+  * 위치 설정 바텀 시트 상단 바에서 `현재 설정된 주소: 서울특별시 송파구 마천로51가길 21 (마천동)` 영역의 주소 텍스트가 다크 배경(`#2c2c34`) 위에서 검은색(`#0f172a`)으로 렌더링되어 거의 보이지 않는 결함 발생.
+  * **원인**: `frontend/js/main.js`의 3군데 위치(`updateLocationDisplay`, `setUserCustomLocation`, `openLocationSelectModal`)에서 `barEl.innerHTML`을 동적으로 갱신할 때 `style="color:#0f172a;"` 및 `style="color:#334155;"`를 인라인 스타일로 직접 주입하고 있었음. 이로 인해 브라우저 스타일 우선순위에 의해 CSS 다크 규칙이 무력화됨.
+* **구체적 해결 방안**:
+  1. **`main.js` 동적 인라인 하드코딩 전수 소독**:
+     - 3개 위치에서 인라인 색상 스타일을 전면 제거하고, 시맨틱 클래스 `<strong id="modal-current-address-val" class="current-address-val">`로 교체.
+  2. **`index.html` 초기 마크업 소독**:
+     - 초기 렌더링 HTML의 `current-bar-icon` 인라인 색상 제거 및 클래스 동기화.
+  3. **`style.css` 고대비 다크모드 규칙 전역 고정**:
+     - `html[data-theme="dark"] .current-address-bar strong`, `#modal-current-address-val`, `.current-address-val`을 순백(`#f9fafb`)으로 고정하고, `current-bar-icon`을 토스 블루(`#3182f6`)로 연동.
+  4. `app/` 양대 디렉터리 동기화 및 25개 통합 계약 테스트 100% 통과 확인.
+* **적용 파일**:
+  * [frontend/js/main.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/js/main.js)
+  * [frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html)
+  * [frontend/css/style.css](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/css/style.css)
+  * `app/` 양대 디렉터리 일체
+* **조치 결과**:
+  * 위치 설정 모달 상단 주소 바 텍스트가 선명하고 눈이 편안한 순백(#f9fafb)으로 즉각 복원됨.
+
 
 
 

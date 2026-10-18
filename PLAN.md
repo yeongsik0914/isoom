@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v3.31 (세부 5대 핵심 화면 잔존 라이트 & 글씨 가독성 완결, v2.9.21)
+> **문서 버전**: v3.32 (위치 설정 모달 현재 설정된 주소 다크모드 가독성 결함 완결, v2.9.22)
 > **최종 갱신 일자**: 2026-10-18
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
 
@@ -670,6 +670,14 @@ graph TD
       - `KTAS 1단계 · 소생` 긴급 배너 다크 코랄 틴트(`rgba(239, 68, 68, 0.14)`) 반전, 핵심 메시지 `#f9fafb` 복원, `응급처치 가이드` 및 `새로고침` 버튼 `#2c2c34` 다크 서피스 개편.
     - **Google Cloud Run 프로덕션 재배포 완결**:
       - 최신 리비전 `isoom-service-00022-4qw` 100% 트래픽 전환 및 실서버 라이브 검증 완료.
+50. **[완료] 위치 설정 모달 현재 설정된 주소 다크모드 가독성 결함 완결 (Phase 3-AN)**:
+    - **JS 동적 innerHTML 인라인 하드코딩(#0f172a, #334155) 전수 소독 (`main.js`)**:
+      - `updateLocationDisplay`, `setUserCustomLocation`, `openLocationSelectModal` 함수에서 `barEl.innerHTML` 주입 시 하드코딩되어 있던 인라인 스타일 색상을 완전히 제거하고, 정규 시맨틱 클래스로 교체.
+    - **고대비 순백(#f9fafb) 텍스트 전역 연동 (`style.css`, `index.html`)**:
+      - `html[data-theme="dark"] .current-address-bar strong`, `#modal-current-address-val`, `.current-address-val`을 완벽한 순백(`#f9fafb`)으로 고정하여 어두운 배경 위에서 주소가 선명하게 읽히도록 개선.
+    - **Google Cloud Run 프로덕션 재배포 완결**:
+      - 최신 리비전 `isoom-service-00023-4kx` 100% 트래픽 전환 및 실서버 라이브 검증 완료.
+
 
 
 

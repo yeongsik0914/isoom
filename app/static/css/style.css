@@ -4691,7 +4691,9 @@ html[data-theme="dark"] .current-address-bar {
   color: #f9fafb !important;
 }
 html[data-theme="dark"] .current-bar-text,
-html[data-theme="dark"] #modal-current-address-val {
+html[data-theme="dark"] .current-bar-text strong,
+html[data-theme="dark"] #modal-current-address-val,
+html[data-theme="dark"] .current-address-val {
   color: #f9fafb !important;
 }
 html[data-theme="dark"] .loc-chip-btn {
@@ -5193,9 +5195,18 @@ html[data-theme="dark"] .location-bottom-sheet {
 }
 html[data-theme="dark"] .current-address-bar {
   background: #2c2c34 !important;
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   color: #d1d6db !important;
 }
+html[data-theme="dark"] .current-address-bar .current-bar-icon {
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .current-address-bar .current-bar-text {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .current-address-bar strong,
+html[data-theme="dark"] .current-address-bar #modal-current-address-val,
+html[data-theme="dark"] .current-address-bar .current-address-val,
 html[data-theme="dark"] #modal-current-address-val {
   color: #f9fafb !important;
 }
