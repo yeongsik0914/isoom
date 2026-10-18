@@ -657,6 +657,32 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
         self.assertIn('id="detailsSpecialDirectives"', html)
         self.assertIn('+ 구급대원 필독사항 추가 입력', html)
 
+    def test_23_root_serves_splash_as_first_priority_and_session_guard(self):
+        """TC-823: Root GET / serves splash.html as 1st priority for browser clients with session guard."""
+        # 1. Browser client requesting root / receives splash.html
+        res_browser = self.client.get("/", headers={"accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"})
+        self.assertEqual(res_browser.status_code, 200)
+        self.assertIn("text/html", res_browser.headers.get("content-type", ""))
+        self.assertIn("splashScreen", res_browser.text)
+        self.assertIn("아이숨", res_browser.text)
+        self.assertIn("aisum_splash_shown", res_browser.text)
+
+        # 2. Direct /splash endpoint also works reliably
+        res_splash = self.client.get("/splash")
+        self.assertEqual(res_splash.status_code, 200)
+        self.assertIn("splashScreen", res_splash.text)
+
+        # 3. Main home index.html contains session splash guard
+        res_home = self.client.get("/home")
+        self.assertEqual(res_home.status_code, 200)
+        self.assertIn("aisum_splash_shown", res_home.text)
+        self.assertIn("window.location.replace('/splash')", res_home.text)
+
+        # 4. API client requesting root / receives JSON metadata
+        res_api = self.client.get("/", headers={"accept": "application/json"})
+        self.assertEqual(res_api.status_code, 200)
+        self.assertEqual(res_api.json()["service"], "MoonlightCare API")
+
 
 if __name__ == "__main__":
     unittest.main()

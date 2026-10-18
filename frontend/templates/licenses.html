@@ -457,6 +457,14 @@
             <span class="material-symbols-outlined" style="font-size: 13px;">database</span>
             Firestore · NMC 공공데이터
           </span>
+          <span class="summary-chip">
+            <span class="material-symbols-outlined" style="font-size: 13px;">schedule</span>
+            APScheduler · Pytest
+          </span>
+          <span class="summary-chip">
+            <span class="material-symbols-outlined" style="font-size: 13px;">clinical_notes</span>
+            소아 KTAS 임상지침
+          </span>
         </div>
       </section>
 
@@ -486,7 +494,7 @@
           <span class="material-symbols-outlined" style="font-size: 18px; color: #0066ff;">menu_book</span>
           라이선스 및 저작권 명세
         </span>
-        <span class="section-count" id="filtered-count">전체 14개 고지</span>
+        <span class="section-count" id="filtered-count">전체 17개 고지</span>
       </div>
 
       <!-- 3. Licenses List -->
@@ -783,6 +791,71 @@ This license is copied below, and is also available with a FAQ at: http://script
           <details class="license-details">
             <summary>Kakao Open API 이용 약관 고지</summary>
             <div class="license-text-box">본 서비스는 Kakao Developers Open API 이용약관을 준수하며, 카카오에서 제공하는 정적 지도 및 좌표 역지오코딩 API를 활용하고 있습니다.</div>
+          </details>
+        </article>
+
+        <!-- Card 15: APScheduler (Advanced Python Scheduler) -->
+        <article class="license-card" data-category="backend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              APScheduler
+              <span class="software-version">v3.10+</span>
+            </h3>
+            <span class="license-badge badge-mit">MIT License</span>
+          </div>
+          <p class="software-author">Copyright (c) Alex Grönholm</p>
+          <p class="software-desc">
+            5분 주기 비동기 백그라운드 크론 데몬을 통해 국립중앙의료원(NMC) E-Gen 실시간 병상 정보의 In-Memory Hash Diffing 델타 동기화 및 24시간 실시간 배치를 수행합니다.
+          </p>
+          <details class="license-details">
+            <summary>MIT License 전문 보기</summary>
+            <div class="license-text-box">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</div>
+          </details>
+        </article>
+
+        <!-- Card 16: Pytest & Pytest-Asyncio -->
+        <article class="license-card" data-category="backend">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              Pytest & Pytest-Asyncio
+              <span class="software-version">v8.0+</span>
+            </h3>
+            <span class="license-badge badge-mit">MIT License</span>
+          </div>
+          <p class="software-author">Copyright (c) Holger Krekel and pytest-dev contributors</p>
+          <p class="software-desc">
+            아이숨의 127대 비동기 엔드투엔드/단위/통합 테스트 스위트, 0단계 세션 스플래시 가드, 5대 연령 분류 및 병상 알림 로직의 결함 없는 서비스 안정성을 자동 검증합니다.
+          </p>
+          <details class="license-details">
+            <summary>MIT License 전문 보기</summary>
+            <div class="license-text-box">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</div>
+          </details>
+        </article>
+
+        <!-- Card 17: 대한소아응급의학회 2021 소아 KTAS 지침 -->
+        <article class="license-card" data-category="data">
+          <div class="card-top-row">
+            <h3 class="software-name">
+              대한소아응급의학회 소아 KTAS 임상지침
+              <span class="software-version">2021 Pediatric Guideline</span>
+            </h3>
+            <span class="license-badge badge-apache">KOGL 제1유형</span>
+          </div>
+          <p class="software-author">Copyright (c) 대한소아응급의학회 · 보건복지부 · 국립중앙의료원</p>
+          <p class="software-desc">
+            168개 소아 주증상 분류 및 1~5단계 응급도 판정 알고리즘의 원천 임상 지침으로, 아이숨의 5대 연령별(신생아~청소년) 생체 징후 감별 및 2-트랙 안전망 체계의 의학적 표준 근거를 제공합니다.
+          </p>
+          <details class="license-details">
+            <summary>공공누리(KOGL) 제1유형 출처표시 고지</summary>
+            <div class="license-text-box">본 저작물은 '대한소아응급의학회' 및 '보건복지부'에서 공공누리 제1유형(출처표시)으로 개방한 '한국형 소아 응급환자 분류도구(Pediatric KTAS)' 지침을 기반으로 참조·적용하였으며, 응급환자 분류 기준의 최신 의학적 가이드라인을 엄격히 준수합니다.</div>
           </details>
         </article>
 

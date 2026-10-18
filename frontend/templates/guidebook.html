@@ -569,9 +569,11 @@
       </p>
       <div class="hero-tags">
         <span class="hero-tag-chip">⚡ 0ms AI 안심 문진</span>
+        <span class="hero-tag-chip">👶 0세~만18세 5대 연령 분류</span>
         <span class="hero-tag-chip">🚨 실시간 소아병상 연동</span>
+        <span class="hero-tag-chip">📋 구급대원 응급 브리핑 카드</span>
+        <span class="hero-tag-chip">📁 0ms 이전 문진 기록함</span>
         <span class="hero-tag-chip">🌙 달빛어린이병원 매칭</span>
-        <span class="hero-tag-chip">📋 1초 안심 통화 대본</span>
       </div>
     </section>
 
@@ -590,9 +592,15 @@
         <span class="material-symbols-outlined" style="font-size: 16px;">notifications_active</span>병상 알림
       </button>
       <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch4')">
-        <span class="material-symbols-outlined" style="font-size: 16px;">call</span>통화 & 준비물
+        <span class="material-symbols-outlined" style="font-size: 16px;">assignment_ind</span>브리핑 카드
       </button>
       <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch5')">
+        <span class="material-symbols-outlined" style="font-size: 16px;">history</span>문진 기록
+      </button>
+      <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch6')">
+        <span class="material-symbols-outlined" style="font-size: 16px;">call</span>통화 &amp; 준비물
+      </button>
+      <button type="button" class="chapter-tab-btn" onclick="filterChapter('ch7')">
         <span class="material-symbols-outlined" style="font-size: 16px;">help</span>자주 묻는 질문
       </button>
     </div>
@@ -608,7 +616,7 @@
           </div>
           <div class="guide-card-title-group">
             <div class="guide-card-step-badge">STEP 1. 스마트 증상 분류</div>
-            <h3 class="guide-card-title">0ms AI 안심 문진</h3>
+            <h3 class="guide-card-title">0ms AI 안심 문진 &amp; 5대 연령 체계</h3>
           </div>
         </div>
         <p class="guide-card-desc">
@@ -618,11 +626,20 @@
         <div class="feature-box-grid">
           <div class="feature-box highlight">
             <div class="feature-box-top">
-              <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">touch_app</span>
-              <h4 class="feature-box-title">터치 3번으로 끝나는 초간편 문진</h4>
+              <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">child_care</span>
+              <h4 class="feature-box-title">0세~만18세 5대 소아 연령 분류 체계</h4>
             </div>
             <p class="feature-box-desc">
-              ① 출생연도(개월수) 선택 ➔ ② 체온 선택 ➔ ③ 주요 증상(발열, 호흡곤란, 경련, 구토 등) 터치만으로 10초 만에 완료됩니다.
+              신생아(0~27일), 영아(1~23개월), 유아(만 2~5세), 어린이(만 6~11세), 청소년(만 12~18세) 5대 연령 카테고리를 3+2 반응형 그리드로 직관 선택하며, 연령별 맞춤 임상 룰이 자동 바인딩됩니다.
+            </p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #059669; font-size: 18px;">tune</span>
+              <h4 class="feature-box-title">체온·나이·해열제 3대 측정 허브</h4>
+            </div>
+            <p class="feature-box-desc">
+              단일 통합 카드 내 3대 세그먼트 탭으로 체온(35.0~42.0℃), 나이, 해열제 교차복용 여부를 한 칸에서 원터치로 빠르게 조작할 수 있습니다.
             </p>
           </div>
           <div class="feature-box">
@@ -631,7 +648,16 @@
               <h4 class="feature-box-title">초응급 0ms 세이프티 가드레일</h4>
             </div>
             <p class="feature-box-desc">
-              의식 저하, 무호흡, 청색증 등 생명과 직결된 초응급 신호 감지 시, 대기 시간 없이 즉시 119 구급대 연계 및 응급처치 수칙을 화면 상단에 띄웁니다.
+              의식 저하, 무호흡, 청색증, 100일 미만 38.0℃ 고열 등 12대 Red Flag 감지 시, 26µs 내에 숏서킷을 발동하여 즉시 119 구급대 연계 및 소아전문응급의료센터로 직행하도록 전환합니다.
+            </p>
+          </div>
+          <div class="feature-box highlight">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #7c3aed; font-size: 18px;">sync_alt</span>
+              <h4 class="feature-box-title">브리핑 카드 환아 나이 자동 연동</h4>
+            </div>
+            <p class="feature-box-desc">
+              응급 브리핑 카드에 등록된 자녀의 생년월일을 문진 시 자동 감지(Pre-fill)하여 중복 입력을 없애고, 증상란에 다른 나이가 유입되어도 공식 등록 나이를 최우선 유지합니다.
             </p>
           </div>
         </div>
@@ -675,7 +701,7 @@
             <ul>
               <li><strong>대상</strong>: 단순 감기/미열, 가벼운 구토/설사, 두드러기, 가벼운 찰과상</li>
               <li><strong>장점</strong>: 응급실 대비 1/3 수준의 진료비, 소아청소년과 전문의 진료, 빠른 진료 시작</li>
-              <li><strong>연계 약국</strong>: 늦은 밤에도 문을 여는 지정 달빛약국 원스톱 자동 매칭</li>
+              <li><strong>연계 약국</strong>: 늦은 밤에도 문을 여는 지정 달빛약국(+30분 안전마진) 원스톱 자동 매칭</li>
             </ul>
           </div>
         </div>
@@ -689,43 +715,135 @@
           </div>
           <div class="guide-card-title-group">
             <div class="guide-card-step-badge">STEP 3. 실시간 모니터링</div>
-            <h3 class="guide-card-title">소아 응급실 실시간 병상 변동 알림</h3>
+            <h3 class="guide-card-title">소아 응급실 실시간 병상 변동 알림 센터</h3>
           </div>
         </div>
         <p class="guide-card-desc">
-          국립중앙의료원(NMC) 중앙응급의료센터 E-Gen 공공데이터를 <strong>3분 주기로 실시간 연동</strong>하여 소아 응급실 병상 정보를 스마트폰으로 브리핑합니다.
+          국립중앙의료원(NMC) 중앙응급의료센터 E-Gen 공공데이터와 Firebase Cloud Firestore를 <strong>5분 주기로 실시간 연동(In-Memory Hash Diffing)</strong>하여 거점 소아 응급실 병상 정보를 스마트폰으로 브리핑합니다.
         </p>
 
         <div class="feature-box-grid">
           <div class="feature-box">
             <div class="feature-box-top">
               <span class="material-symbols-outlined" style="color: #059669; font-size: 18px;">sync</span>
-              <h4 class="feature-box-title">병상 증감 및 만실 자동 감지</h4>
+              <h4 class="feature-box-title">소아 병상(pediatric_beds) 증감 감지</h4>
             </div>
             <p class="feature-box-desc">
-              중증 환아 판정 시, 인근 거점 소아응급센터의 병상이 확보(+N석)되거나 급감(-N석), 만실(0석)될 때 실시간 인앱 알림 및 푸시를 발송합니다.
+              기록된 중증 환아를 대상으로 추천 소아응급센터의 병상이 추가 확보(+N석)되거나 급감(-N석), 만실(0석)될 때 실시간 인앱 알림 바텀시트 및 푸시를 발송합니다.
             </p>
           </div>
           <div class="feature-box highlight">
             <div class="feature-box-top">
               <span class="material-symbols-outlined" style="color: #0066ff; font-size: 18px;">tune</span>
-              <h4 class="feature-box-title">설정 페이지 '앱 알림' 완벽 연동</h4>
+              <h4 class="feature-box-title">설정 페이지 '앱 알림' 온/오프 제어</h4>
             </div>
             <p class="feature-box-desc">
-              [설정 &gt; 앱 알림] 토글 스위치를 통해 원치 않을 때 언제든 알림 및 상단 붉은 뱃지를 끌 수 있으며, 켜면 즉시 병상 감시가 재개됩니다.
+              [설정 &gt; 앱 알림] 토글 스위치를 통해 원치 않을 때 알림 및 상단 붉은 뱃지를 끌 수 있으며, 켜면 즉시 병상 감시가 실시간 재개됩니다.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- CHAPTER 4: 통화 스크립트 & 필수 준비물 -->
+      <!-- CHAPTER 4: 구급대원용 응급 브리핑 카드 -->
       <section class="guide-card chapter-section" id="section-ch4" data-chapter="ch4">
+        <div class="guide-card-header">
+          <div class="guide-card-icon icon-purple">
+            <span class="material-symbols-outlined">assignment_ind</span>
+          </div>
+          <div class="guide-card-title-group">
+            <div class="guide-card-step-badge">STEP 4. 119 인계 필수</div>
+            <h3 class="guide-card-title">구급대원용 응급 브리핑 카드</h3>
+          </div>
+        </div>
+        <p class="guide-card-desc">
+          119 구급대원이 도착하거나 응급실 의료진을 만났을 때, 당황해서 말이 나오지 않아도 화면을 보여주기만 하면 환아의 생명 정보를 1초 만에 인계할 수 있는 전용 카드입니다.
+        </p>
+
+        <div class="feature-box-grid">
+          <div class="feature-box highlight">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #7c3aed; font-size: 18px;">badge</span>
+              <h4 class="feature-box-title">환아 기본 인적사항 인라인 저장</h4>
+            </div>
+            <p class="feature-box-desc">
+              이름, 생년월일, 성별, ABO/Rh 혈액형, 체중, 비상연락처를 카드 내에서 직접 원터치로 등록하고 언제든 수정할 수 있습니다.
+            </p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #dc2626; font-size: 18px;">priority_high</span>
+              <h4 class="feature-box-title">🚨 구급대원 필독사항 일체화 수납</h4>
+            </div>
+            <p class="feature-box-desc">
+              약물/식품 알레르기, 기저질환, 상시 복용약물, 종교적 수혈 거부 특이사항, 담당 주치의 병원/연락처가 환아 인적사항 바로 아래에 일체형으로 배치되어 의료사고를 미연에 방지합니다.
+            </p>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #0284c7; font-size: 18px;">description</span>
+              <h4 class="feature-box-title">KTAS 기반 임상 인계 요약 박스</h4>
+            </div>
+            <p class="feature-box-desc">
+              주요 증상 태그와 함께 [🚨 긴급 행동 지침], [📋 임상 주의사항], [💬 보호자 진술] 3단 브리핑 박스가 생성되어 구급대원이 이송 중 처치 방향을 즉시 결정할 수 있습니다.
+            </p>
+          </div>
+          <div class="feature-box highlight">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #059669; font-size: 18px;">swap_horiz</span>
+              <h4 class="feature-box-title">'기록 변경' 모달 연동</h4>
+            </div>
+            <p class="feature-box-desc">
+              여러 번 진행한 문진 기록 중 원하는 기록을 '기록 변경' 팝업에서 터치 한 번으로 교체하여 브리핑 카드에 즉시 반영할 수 있습니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 5: 이전 문진 결과 기록함 -->
+      <section class="guide-card chapter-section" id="section-ch5" data-chapter="ch5">
+        <div class="guide-card-header">
+          <div class="guide-card-icon icon-amber">
+            <span class="material-symbols-outlined">history</span>
+          </div>
+          <div class="guide-card-title-group">
+            <div class="guide-card-step-badge">STEP 5. 0ms 스마트 보관함</div>
+            <h3 class="guide-card-title">이전 문진 결과 기록함 (/history)</h3>
+          </div>
+        </div>
+        <p class="guide-card-desc">
+          하단 GNB의 <strong>[기록]</strong> 탭을 누르면 독립된 전용 페이지(`/history`)에서 과거 진행했던 문진 결과를 안전하게 보관하고 필요할 때 언제든 다시 확인할 수 있습니다.
+        </p>
+
+        <div class="feature-box-grid">
+          <div class="feature-box">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #d97706; font-size: 18px;">visibility</span>
+              <h4 class="feature-box-title">당시 결과 0ms 무손실 다시보기</h4>
+            </div>
+            <p class="feature-box-desc">
+              기록 카드를 클릭하면 재문진 없이 당시 판정받은 KTAS 등급, 체온, 나이, 임상 감별 소견, 추천 병원 목록을 그대로 0ms 만에 다시 열람할 수 있습니다.
+            </p>
+          </div>
+          <div class="feature-box highlight">
+            <div class="feature-box-top">
+              <span class="material-symbols-outlined" style="color: #059669; font-size: 18px;">auto_delete</span>
+              <h4 class="feature-box-title">개별/전체 삭제 &amp; 감시 자동 정제</h4>
+            </div>
+            <p class="feature-box-desc">
+              원치 않는 기록은 개별 삭제하거나 전체 삭제할 수 있으며, 중증 기록 삭제 시 연동되어 있던 응급실 병상 변동 감시 대상도 자동으로 안전하게 해제됩니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 6: 통화 스크립트 & 필수 준비물 -->
+      <section class="guide-card chapter-section" id="section-ch6" data-chapter="ch6">
         <div class="guide-card-header">
           <div class="guide-card-icon icon-purple">
             <span class="material-symbols-outlined">call</span>
           </div>
           <div class="guide-card-title-group">
-            <div class="guide-card-step-badge">STEP 4. 출발 전 안심 준비</div>
+            <div class="guide-card-step-badge">STEP 6. 출발 전 안심 준비</div>
             <h3 class="guide-card-title">1초 안심 통화 대본 &amp; 필수 준비물</h3>
           </div>
         </div>
@@ -751,7 +869,7 @@
           </div>
           <div class="checklist-row">
             <span class="material-symbols-outlined checklist-icon">check_circle</span>
-            <span>보호자(부모) 신분증</span>
+            <span>보호자(부모) 신분증 (2024년 5월 본인확인 의무화)</span>
           </div>
           <div class="checklist-row">
             <span class="material-symbols-outlined checklist-icon">check_circle</span>
@@ -768,8 +886,8 @@
         </div>
       </section>
 
-      <!-- CHAPTER 5: 자주 묻는 질문 (FAQ) -->
-      <section class="guide-card chapter-section" id="section-ch5" data-chapter="ch5">
+      <!-- CHAPTER 7: 자주 묻는 질문 (FAQ) -->
+      <section class="guide-card chapter-section" id="section-ch7" data-chapter="ch7">
         <div class="guide-card-header">
           <div class="guide-card-icon icon-amber">
             <span class="material-symbols-outlined">quiz</span>
@@ -788,30 +906,37 @@
         </details>
 
         <details class="faq-accordion">
-          <summary class="faq-summary">Q2. 실시간 병상 정보는 얼마나 정확한가요?</summary>
+          <summary class="faq-summary">Q2. 몇 살까지 아이숨 문진 서비스를 이용할 수 있나요?</summary>
           <div class="faq-body">
-            아이숨의 응급실 병상 데이터는 국립중앙의료원(NMC) 중앙응급의료센터 E-Gen 시스템과 3분 주기로 실시간 동기화됩니다. 다만 병원 현장의 응급 환자 이송 상황에 따라 수시로 변동될 수 있으므로, 출발 전 '사전 통화 스크립트'를 통해 유선 확인하시는 것을 권장합니다.
+            아이숨은 생후 0일의 <strong>신생아부터 만 18세 청소년까지</strong> 전 소아청소년 연령대를 완벽 지원합니다. 입력 화면에서 신생아(0~27일), 영아(1~23개월), 유아(만 2~5세), 어린이(만 6~11세), 청소년(만 12~18세) 5대 분류 버튼 중 해당하는 항목을 선택하시면 연령별 맞춤 임상 지침이 적용됩니다.
           </div>
         </details>
 
         <details class="faq-accordion">
-          <summary class="faq-summary">Q3. 아이숨 서비스 이용 요금이 있나요?</summary>
+          <summary class="faq-summary">Q3. 브리핑 카드에 입력한 환아 정보는 안전한가요? 서버에 저장되나요?</summary>
+          <div class="faq-body">
+            안심하셔도 좋습니다. 브리핑 카드에 입력하신 환아의 신상 정보(이름, 생년월일, 혈액형, 알레르기, 기저질환, 종교적 수혈 거부 특이사항 등)는 <strong>외부 서버 데이터베이스로 일절 전송되지 않으며</strong>, 오직 보호자님의 스마트폰 브라우저 로컬 저장소(LocalStorage)에만 안전하게 영구 보관됩니다.
+          </div>
+        </details>
+
+        <details class="faq-accordion">
+          <summary class="faq-summary">Q4. 실시간 병상 정보는 얼마나 정확한가요?</summary>
+          <div class="faq-body">
+            아이숨의 응급실 병상 데이터는 국립중앙의료원(NMC) 중앙응급의료센터 E-Gen 시스템 및 Firebase Cloud Firestore와 5분 주기로 실시간 동기화됩니다. 다만 병원 현장의 응급 환자 이송 상황에 따라 수시로 변동될 수 있으므로, 출발 전 '사전 통화 스크립트'를 통해 유선 확인하시는 것을 권장합니다.
+          </div>
+        </details>
+
+        <details class="faq-accordion">
+          <summary class="faq-summary">Q5. 스마트폰 홈 화면에 앱처럼 설치해서 쓸 수 있나요?</summary>
+          <div class="faq-body">
+            네! 아이숨은 PWA(Progressive Web App)를 완벽 지원합니다. 스마트폰 Safari나 Chrome 브라우저에서 [공유/메뉴] ➔ <strong>'홈 화면에 추가'</strong>를 누르시거나, 설정 메뉴의 '모바일 기기 연결(QR코드)'을 통해 접속하시면 앱스토어 설치 없이 네이티브 앱처럼 즉시 이용하실 수 있습니다. 오프라인 상태에서도 12대 응급처치 수칙이 안전하게 캐싱됩니다.
+          </div>
+        </details>
+
+        <details class="faq-accordion">
+          <summary class="faq-summary">Q6. 아이숨 서비스 이용 요금이 있나요?</summary>
           <div class="faq-body">
             아닙니다. 아이숨은 대한민국 모든 영유아 및 어린이의 야간 의료 공백을 해소하기 위한 <strong>100% 무료 공공 복지 서비스</strong>입니다. 회원가입 없이도 누구나 즉시 안심하고 이용하실 수 있습니다.
-          </div>
-        </details>
-
-        <details class="faq-accordion">
-          <summary class="faq-summary">Q4. 이전 문진 결과는 어디서 다시 볼 수 있나요?</summary>
-          <div class="faq-body">
-            하단 메뉴의 <strong>[기록]</strong> 탭을 누르시면, 독립된 기록 페이지에서 이전에 진행했던 문진 내용과 판정 결과, 추천받은 병원 목록을 0ms 만에 그대로 다시 확인하실 수 있습니다.
-          </div>
-        </details>
-
-        <details class="faq-accordion">
-          <summary class="faq-summary">Q5. 119 구급대원이나 의료진에게 상태를 빠르게 알리려면 어떻게 하나요?</summary>
-          <div class="faq-body">
-            하단 메뉴의 <strong>[브리핑 카드]</strong> 탭에서 119 구급대원 및 응급실 의료진에게 즉시 보여줄 수 있는 환아의 기본 신상(이름·생년월일·혈액형·비상연락처), 최근 KTAS 문진 기록 및 바이탈, 종교적 신념에 따른 수혈 거부 등 특수 지시사항이 정리된 초고시인성 응급 브리핑 카드를 제공합니다.
           </div>
         </details>
       </section>

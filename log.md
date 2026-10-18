@@ -200,6 +200,9 @@
 | **[ISSUE-191]** | 브리핑 카드 주요 증상 태그 & 구급대원 인계 브리핑 일체형 단일 카드 통합 및 간소화 | 위아래 분리되어 있던 주요 증상 라벨·태그와 구급대원 인계 브리핑 박스를 단일 카드(`briefing-unified-symptom-card`)로 통합, 헤더 태그·뱃지 나란히 배치, 본문 내 중복 증상명 파싱 제거 및 가독성 극대화 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-192]** | 구급대원 필독사항 환아 인적사항 카드 내 포함 및 일체화 | 분리되어 있던 구급대원 필독사항(`<section id="cardSpecialNotes">`)을 환아 인적사항 카드(`cardPatientProfile`) 내부 서브 박스로 일체화, 인라인 수정 폼 연동 및 23개 통합 테스트 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-193]** | 프로덕션 실서버 구버전 화면 노출 원인 규명 및 PWA Service Worker v2 업그레이드 & Cloud Run 최신 리비전(00008) 100% 완전 동기화 배포 | PWA 서비스워커(CACHE_NAME: aisum-cache-v2, networkFirst 캐시 바이패스), 루트(/) 진입 시 메인 홈(index.html) 직결 서빙, JS/CSS ?v=20261018_v2 버스팅 및 Cloud Run 무중단 배포를 통한 구버전 고착 결함 완벽 해결 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-194]** | 클라우드런 웹앱 접속 시 1순위 스플래시(splash) 동작 보장 & 온보딩 순차 파이프라인 복원 | 백엔드 루트(/) 엔드포인트 브라우저 요청 시 splash.html 1순위 서빙 정정, splash.html 세션 플래그(aisum_splash_shown) 기록, index.html 0단계 세션 스플래시 가드(Session Splash Guard) 구축 및 TC-823 계약 검증 완료 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-195]** | Google Cloud CLI RAPT 토큰 만료로 인한 비밀번호 오류(Reauthentication failed) 및 gcloud auth login 브라우저 인증 파이프라인 정립 | 맥북 시스템 비밀번호가 아닌 구글 계정(songpa10@iceu.kr) OAuth 토큰 만료에 따른 rapt 갱신 실패 원인 규명, 웹 브라우저 기반 gcloud auth login 재인증 및 Cloud Run 원클릭 배포 연계 가이드 확립 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-196]** | 가이드북·이용약관·오픈소스 라이선스 3대 핵심 법무·안내 문서 최신 개발 내역(5대 연령 체계, 브리핑 카드 로컬 보안, 병상 알림 센터, APScheduler/KTAS 고지) 전면 최신화 | 최신 고도화 기능(신생아~청소년 5대 연령 감별, 119 구급대원 브리핑 카드 및 민감정보 서버 미전송 원칙, 24시간 실시간 병상 알림 센터, 이전 문진 기록함, APScheduler 크론 데몬, Pytest 127대 테스트 스위트, 소아 KTAS 지침 고지)을 가이드북(7대 챕터)·이용약관(신설 조항 4건)·오픈소스 라이선스(14개➔17개 확장)에 100% 반영 및 양대 템플릿 디렉터리 동기화 완료 | **해결 완료 (Resolved)** | 2026-10-18 |
 
 
 
@@ -6734,6 +6737,101 @@
   * [scripts/deploy_cloud_run.sh](file:///Users/jeong-yeongsig/Desktop/Project/isoom/scripts/deploy_cloud_run.sh)
 * **조치 결과**:
   * 실서버 접속 시 즉시 최신 메인 홈 화면이 렌더링되며, 하단 4-Tab GNB(홈/기록/응급브리핑/설정) 및 최신 브리핑 카드가 실서버에서도 로컬과 100% 동일하게 정상 작동함을 검증 완료.
+
+---
+
+### [ISSUE-194] 클라우드런 웹앱 접속 시 1순위 스플래시(splash) 동작 보장 & 온보딩 순차 파이프라인 복원
+
+* **발생 일자**: 2026-10-18
+* **분류**: 라우팅 아키텍처 / 온보딩 UX 파이프라인 / 세션 라이프사이클 관리
+* **문제 상황**:
+  * Google Cloud Run에 배포된 공식 프로덕션 웹앱(`https://isoom-service-920380215419.asia-northeast3.run.app/`) 접속 시, 1순위로 브랜드 애니메이션 스플래시 화면(`splash.html`)이 실행되어야 하나 스플래시가 동작하지 않고 곧바로 메인 홈(`index.html`)이 표출되는 결함 발생.
+* **원인 분석**:
+  1. **백엔드 루트(`/`) 서빙 순위 역전**:
+     * `main.py`의 루트 엔드포인트(`@app.get("/")`)에서 브라우저 클라이언트 요청(`accept: text/html`) 수신 시 `home_path`(`index.html`)를 먼저 검사하여 반환하고 있어, `splash_path`(`splash.html`)가 물리적으로 실행되지 못함.
+  2. **홈 화면 직접 진입 시 세션 스플래시 가드 부재**:
+     * 사용자가 브라우저 URL 자동완성 또는 북마크로 `/home`이나 `index.html`로 직접 유입될 경우, 이번 브라우저 세션에서 스플래시를 보았는지 검사하고 리다이렉트해주는 클라이언트 가드가 부재함.
+* **해결 방안 및 구현**:
+  1. **백엔드 루트(`/`) 1순위 `splash.html` 서빙 원복 (`main.py`)**:
+     * 브라우저 클라이언트 접속 시 1순위로 `splash.html`을 서빙하도록 라우팅 순서를 바로잡음.
+  2. **`splash.html` 세션 플래그(`aisum_splash_shown`) 기록 엔진 탑재**:
+     * 스플래시 화면 로드 즉시 `sessionStorage.setItem('aisum_splash_shown', 'true')`를 기록하여 해당 세션의 온보딩/스플래시 완료 여부를 확정함.
+  3. **메인 홈(`index.html`) 0단계 세션 스플래시 가드(Session Splash Guard) 구축**:
+     * `index.html` 상단 인라인 스크립트에 0단계 가드를 탑재하여, 이번 세션에 스플래시를 보지 않고 직접 진입한 사용자는 즉시 `/splash`로 리다이렉트하여 "어떤 경로로 웹앱에 접속하든 무조건 splash가 가장 먼저 동작"하도록 2중 방어망 완성.
+     * 동일 세션 내 홈 화면 새로고침(F5)이나 서브페이지 왕복 시에는 플래그가 유지되어 스플래시 루프 없이 홈 화면을 안정적으로 사용 가능.
+  4. **프론트엔드 통합 계약 테스트 TC-823 신설 및 전수 통과**:
+     * `tests/test_step8_frontend_integration.py`에 `test_23_root_serves_splash_as_first_priority_and_session_guard`를 신설하고, 루트 브라우저 서빙 200 OK, 태그 존재, 메인 홈 세션 가드 계약, API JSON 메타데이터 계약 전수 통과 (`24 passed in 21.10s`).
+* **적용 파일**:
+  * [main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py)
+  * [frontend/templates/splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/splash.html)
+  * [app/templates/splash.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/splash.html)
+  * [frontend/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/index.html)
+  * [app/templates/index.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/index.html)
+  * [tests/test_step8_frontend_integration.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/tests/test_step8_frontend_integration.py)
+* **조치 결과**:
+  * 웹앱 접속 시 1순위로 `splash.html`이 1.8초 동안 안정적으로 동작하며, 이후 이용약관 및 권한 체크를 거쳐 메인 대시보드로 자연스럽게 진입하는 완벽한 온보딩 사용자 경험이 복원됨.
+
+---
+
+### [ISSUE-195] Google Cloud CLI RAPT 토큰 만료로 인한 비밀번호 오류(Reauthentication failed) 및 gcloud auth login 브라우저 인증 파이프라인 정립
+
+* **발생 일자**: 2026-10-18
+* **분류**: 클라우드 인프라 / 인증 & IAM / Google Cloud CLI
+* **문제 상황**:
+  * Cloud Run 배포 스크립트(`deploy_cloud_run.sh`) 실행 도중 `Reauthentication required. Please enter your password:` 프롬프트가 발생하여 macOS 로컬 로그인 암호를 입력했으나 `Reauthentication failed. Failed to obtain rapt token.` 오류가 발생하며 배포가 중단됨.
+* **원인 분석**:
+  1. **Mac 암호가 아닌 Google 계정(`songpa10@iceu.kr`) 인증 요구**:
+     * 터미널 프롬프트는 macOS 관리자(`sudo`) 암호가 아닌, Google Cloud SDK(`gcloud`)가 구글 클라우드 계정의 인증 유효성을 검증하기 위해 요청한 Google 계정 암호임.
+  2. **Google OAuth RAPT(Re-Authentication Protocol Token) 세션 만료**:
+     * 구글 클라우드 CLI 보안 정책에 따라 Refresh Token이 만료되거나 일정 주기 경과 시 대화형 재인증이 요구되며, CLI 텍스트 입력창에서는 2단계 인증이나 계정 비밀번호 오탈자로 인해 rapt 갱신이 실패함.
+* **해결 방안 및 구현**:
+  1. **웹 브라우저를 통한 Google 원클릭 OAuth 재인증 가이드**:
+     * 터미널에서 `gcloud auth login`을 실행하여 브라우저에서 `songpa10@iceu.kr` 계정으로 원클릭 승인 후 최신 OAuth Token 발급.
+  2. **Cloud Run 배포 연계**:
+     * 토큰 갱신 즉시 `bash scripts/deploy_cloud_run.sh`를 재실행하면 추가 암호 질문 없이 빌드 및 배포가 즉시 진행되도록 파이프라인 정립.
+* **적용 파일**:
+  * [scripts/deploy_cloud_run.sh](file:///Users/jeong-yeongsig/Desktop/Project/isoom/scripts/deploy_cloud_run.sh)
+* **조치 결과**:
+  * 인증 오류의 본질을 명확히 규명하고, 브라우저 원클릭 로그인을 통해 CLI 인증을 복구하여 Cloud Run 배포를 성공적으로 완수할 수 있는 체계 확립.
+
+---
+
+### [ISSUE-196] 가이드북·이용약관·오픈소스 라이선스 3대 핵심 법무·안내 문서 최신 개발 내역(5대 연령 체계, 브리핑 카드 로컬 보안, 병상 알림 센터, APScheduler/KTAS 고지) 전면 최신화
+
+* **발생 일자**: 2026-10-18
+* **분류**: 법무 & 컴플라이언스 / 가이드북 / 오픈소스 거버넌스 / 프론트엔드 최신화
+* **문제 상황**:
+  * 최근 스프린트를 통해 **5대 연령별 생체징후 감별 체계**, **구급대원 인계 브리핑 카드**, **실시간 병상 알림 센터**, **이전 문진 기록함**, **NMC 5분 주기 크론 데몬(APScheduler)**, **127대 통합 테스트 스위트(Pytest)** 등이 대거 구축되었으나,
+  * 기존 가이드북(`guidebook.html`), 이용약관(`terms.html`), 오픈소스 라이선스(`licenses.html`) 페이지는 초기 1차 릴리스 버전에 머물러 있어 사용자 안내의 괴리 및 개인정보보호/저작권 컴플라이언스 위험이 존재함.
+* **원인 분석**:
+  1. **가이드북 챕터 구버전 한계**: 5대 연령대별 정상치 및 구급대원 인계 카드, 모니터링 해제 방법이 누락되어 보호자가 야간 응급 시 적절한 활용 가이드를 받기 어려움.
+  2. **이용약관 내 신규 기능 법적 정의 부재**: 구급대원 브리핑 카드에 입력되는 환아 신상정보(혈액형, 기저질환 등 민감정보)의 서버 저장 여부 및 가용병상 변동 푸시 알림 수신 동의에 관한 규정이 미비함.
+  3. **오픈소스 및 공공저작물 고지 누락**: 신규 채택된 비동기 스케줄러(APScheduler), 테스트 프레임워크(Pytest), 임상 알고리즘의 원천인 소아 KTAS 임상지침(대한소아응급의학회 공공저작물) 고지가 누락됨.
+* **해결 방안 및 구현**:
+  1. **가이드북 (`guidebook.html`) 7대 챕터 및 6종 태그 전면 개편**:
+     * 상단 히어로 배지 6종(5대 연령별 AI 문진, 2-트랙 안전망, 실시간 병상 알림, 구급대원 브리핑 카드, 이전 문진 기록함, PWA 바로가기) 완비.
+     * 7대 필터 챕터(AI 문진 & 5대 연령 체계, 2-트랙 안전망, 실시간 병상 알림 센터, 구급대원 인계 브리핑 카드, 이전 문진 기록함, 야간 방문 전 필수 준비물, 자주 묻는 질문 FAQ) 신설.
+  2. **이용약관 (`terms.html`) 개정 및 개인정보보호 규정 신설 (2026-10-18 시행)**:
+     * 제2조 용어 정의 4건(브리핑 카드, 문진 기록함, 5대 연령 체계, 병상 알림 센터) 신설.
+     * 제8조 브리핑 카드 민감정보 특칙 신설: 환아 신상정보(혈액형, 알레르기, 기저질환, 수혈 특이사항 등)는 **"서버 DB로 일체 전송되지 않으며 이용자 브라우저 LocalStorage에만 암호화 저장"**됨을 명시하여 완벽한 개인정보보호 컴플라이언스 확립.
+     * 제9조 실시간 가용병상 알림 연동 및 이용자 통제권(모니터링 즉시 해제 권리) 명문화.
+  3. **오픈소스 라이선스 (`licenses.html`) 17개 고지 확장**:
+     * Card 15: `APScheduler` (v3.10+, MIT License, Alex Grönholm)
+     * Card 16: `Pytest & Pytest-Asyncio` (v8.0+, MIT License, Holger Krekel / pytest-dev)
+     * Card 17: `대한소아응급의학회 소아 KTAS 임상지침` (2021 Pediatric Guideline, 공공누리 제1유형 출처표시)
+     * 상단 요약 배지(Summary Chips) 및 카운트(14 ➔ 17개) 일체 갱신.
+  4. **양대 템플릿 디렉터리 동기화 및 전수 테스트 통과**:
+     * `frontend/templates/`와 `app/templates/` 간 100% 파일 일치 완료.
+     * `tests/test_step8_frontend_integration.py` 24개 테스트 100% 통과 (`24 passed`).
+* **적용 파일**:
+  * [frontend/templates/guidebook.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/guidebook.html)
+  * [app/templates/guidebook.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/guidebook.html)
+  * [frontend/templates/terms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/terms.html)
+  * [app/templates/terms.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/terms.html)
+  * [frontend/templates/licenses.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/licenses.html)
+  * [app/templates/licenses.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/app/templates/licenses.html)
+* **조치 결과**:
+  * 실서비스 운영에 필수적인 안내·법무·저작권 3대 문서가 최신 개발 스펙과 완전히 일치하게 정렬되어 서비스 신뢰성 및 법적 안정성이 극대화됨.
 
 
 

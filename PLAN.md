@@ -1,6 +1,6 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v3.18 (PWA Service Worker v2 업그레이드 & Cloud Run 최신 리비전 100% 동기화 배포, v2.9.7)
+> **문서 버전**: v3.19 (가이드북·이용약관·오픈소스 라이선스 3대 핵심 법무/안내 문서 전면 최신화, v2.9.9)
 > **최종 갱신 일자**: 2026-10-18
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
 
@@ -243,7 +243,7 @@ graph TD
   - `test_step5_api.py`: FastAPI 엔드포인트, 전국 415개소 LBS 랭킹 (11건)
   - `test_step6_e2e.py`: 풀스택 40대 임상 시나리오 E2E 통합 (8건)
   - `test_step7_circuit_breaker.py`: 서킷 브레이커 & 3-Tier Multi-Storage Fallback (8건)
-  - `test_step8_frontend_integration.py`: `force_matching` 1턴 완결, Red Flag 오버라이드, KTAS 듀얼 트랙 DOM 계약, API 라우팅 매트릭스, 알림 연동, 전용 기록 페이지(`/history`) 계약 및 구급대원 브리핑 카드(`/briefing-card`) 계약 (15건)
+  - `test_step8_frontend_integration.py`: `force_matching` 1턴 완결, Red Flag 오버라이드, KTAS 듀얼 트랙 DOM 계약, API 라우팅 매트릭스, 알림 연동, 전용 기록 페이지(`/history`) 계약, 구급대원 브리핑 카드(`/briefing-card`) 계약 및 루트 1순위 스플래시·세션 가드 계약 (24건)
   - `test_facility_db_and_detail_api.py`: data/ 폴더 상세 JSON 2종, JS 번들 2종 무결성 및 <0.05ms In-Memory 인덱스 조회 검증 (9건)
   - `test_location_api.py`: 카카오 주소/키워드 검색 및 2-Tier 역지오코딩 (12건)
   - `test_national_dataset_sync.py`: 24시간 In-Memory Hash Diffing 델타 동기화 (7건)
@@ -504,6 +504,27 @@ graph TD
       - 루트 진입 시 `index.html`로 정확히 서빙하고 주요 CSS/JS에 `?v=20261018_v2` 캐시 버스팅 파라미터 적용.
     - **Google Cloud Run 무중단 배포 및 트래픽 100% 전환**:
       - 최신 리비전 `aisum-service-00008-msb` 배포 및 실서버(`https://aisum-service-489063687989.asia-northeast3.run.app`) 정상 서빙 검증 완료.
+36. **[완료] 웹앱 접속 시 1순위 스플래시(splash.html) 동작 보장 & 0단계 세션 스플래시 가드 구축 (Phase 3-Z)**:
+    - **루트(`/`) 라우팅 1순위 `splash.html` 서빙 원복 (`main.py`)**:
+      - 브라우저 클라이언트 요청(`accept: text/html`) 시 최우선 순위로 `splash.html`을 서빙하여, 사용자가 서비스 URL 진입 시 무조건 1.8초 브랜드 애니메이션 스플래시가 가장 먼저 실행되도록 보장.
+    - **스플래시 화면 세션 플래그(`aisum_splash_shown`) 기록 엔진 탑재 (`splash.html`)**:
+      - `splash.html` 진입 즉시 세션 플래그를 등록하여 세션 온보딩 완료 여부 확정.
+    - **메인 홈(`index.html`) 0단계 세션 스플래시 가드(Session Splash Guard) 구축**:
+      - `/home` 또는 `index.html`로 직접 접속한 미수료 세션 사용자를 즉시 `/splash`로 리다이렉트하는 2중 안전망 구축. 홈 화면 새로고침(F5) 시에는 세션 플래그를 유지하여 스플래시 무한 루프 완벽 방지.
+    - **프론트엔드 통합 계약 테스트 TC-823 신설 & 전체 127개 테스트 100% 통과**:
+      - `tests/test_step8_frontend_integration.py`에 `test_23_root_serves_splash_as_first_priority_and_session_guard`를 추가하여 총 24개 프론트엔드 통합 테스트 및 127개 전수 테스트 무결점 통과.
+37. **[완료] 가이드북·이용약관·오픈소스 라이선스 3대 핵심 법무/안내 문서 전면 최신화 (Phase 3-AA)**:
+    - **가이드북 7대 핵심 챕터 및 6종 하이라이트 배지 전면 개편 (`guidebook.html`)**:
+      - 상단 히어로 태그 6종(5대 연령별 AI 문진, 2-트랙 안전망, 실시간 병상 알림, 구급대원 브리핑 카드, 이전 문진 기록함, PWA 홈화면 바로가기) 완비.
+      - 7대 필터 챕터(AI 문진 & 5대 연령 체계, 2-트랙 안전망, 실시간 병상 알림 센터, 구급대원 인계 브리핑 카드, 이전 문진 기록함, 야간 방문 전 필수 준비물, FAQ) 체계화.
+    - **이용약관 개정 및 개인정보보호 민감정보 보호 특칙 신설 (`terms.html`)**:
+      - 제2조 용어 정의 4건(브리핑 카드, 문진 기록함, 5대 연령 체계, 병상 알림 센터) 신설.
+      - 제8조 신설: 환아 신상정보(혈액형, 알레르기, 기저질환, 수혈 특이사항 등)는 **"서버 DB로 전송·수집되지 않고 이용자 브라우저 LocalStorage에만 암호화 보관"**됨을 명시하여 데이터 유출 위험 원천 차단.
+      - 제9조: 실시간 가용병상 알림 및 이용자의 즉각적인 모니터링 해제 권리 보장.
+    - **오픈소스 라이선스 및 공공데이터 명세 17개 고지 확장 (`licenses.html`)**:
+      - Card 15(APScheduler v3.10+ MIT), Card 16(Pytest & Pytest-Asyncio v8.0+ MIT), Card 17(대한소아응급의학회 2021 소아 KTAS 지침 공공누리 제1유형) 신설 및 카운터(17개 고지) 동기화.
+    - **양대 템플릿 디렉터리(`frontend/templates/` & `app/templates/`) 100% 일치 동기화 및 전수 테스트 통과**:
+      - `tests/test_step8_frontend_integration.py` 24개 항목 All-Green 검증 완료.
 
 
 

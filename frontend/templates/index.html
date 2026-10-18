@@ -52,6 +52,16 @@
         <script>
           (function () {
             try {
+              // 🛡️ 0단계: 이번 세션에서 스플래시 화면을 거치지 않고 직접 홈으로 접속한 경우 splash로 우선 안내
+              var isSplashShown = sessionStorage.getItem('aisum_splash_shown') === 'true';
+              var urlParams = new URLSearchParams(window.location.search);
+              var skipSplash = urlParams.get('skip_splash') === 'true';
+              if (!isSplashShown && !skipSplash) {
+                sessionStorage.setItem('aisum_splash_shown', 'true');
+                window.location.replace('/splash');
+                return;
+              }
+
               // 🛡️ 1단계: 이용약관 미동의 시 메인 홈 접근 차단 및 terms.html 강제 이동
               var isTermsAgreed = localStorage.getItem('aisum_terms_agreed') === 'true' ||
                 sessionStorage.getItem('aisum_terms_agreed') === 'true';

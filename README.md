@@ -8,7 +8,7 @@
 [![Package Manager](https://img.shields.io/badge/uv-Fast%20Packaging-DE5FE9.svg)](https://github.com/astral-sh/uv)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.8_Flash-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Cloud_Firestore-FFCA28.svg?logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Tests](https://img.shields.io/badge/Tests-126%20Passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/Tests-127%20Passed-brightgreen.svg)]()
 [![Evals](https://img.shields.io/badge/Evals-40%2F40%20(100%25)-blue.svg)]()
 
 ---
@@ -27,6 +27,29 @@
 ---
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
+
+### 🌟 [v2.9.9-legal-and-guide-doc-full-sync] 2026-10-18: 가이드북·이용약관·오픈소스 라이선스 3대 핵심 법무/안내 문서 최신화 릴리스 (정영식 팀장 총괄)
+* **📖 아이숨 가이드북 (`guidebook.html`) 7대 챕터 & 6종 태그 전면 개편**:
+  - 상단 히어로 배지 6종(5대 연령별 AI 문진, 2-트랙 안전망, 실시간 병상 알림, 구급대원 브리핑 카드, 이전 문진 기록함, PWA 홈화면 바로가기) 완비.
+  - 7대 필터 챕터(AI 문진 & 5대 연령 체계, 2-트랙 안전망, 실시간 병상 알림 센터, 구급대원 인계 브리핑 카드, 이전 문진 기록함, 야간 방문 전 필수 준비물, FAQ) 완비로 보호자의 야간 응급 대처 역량 강화.
+* **⚖️ 아이숨 이용약관 (`terms.html`) 개정 및 민감정보 보호 특칙 신설 (2026-10-18 시행)**:
+  - 제2조 용어 정의 4건(브리핑 카드, 문진 기록함, 5대 연령 체계, 병상 알림 센터) 신설.
+  - 제8조 브리핑 카드 민감정보 특칙 신설: 환아 신상정보(혈액형, 알레르기, 기저질환, 수혈 특이사항 등)는 **"서버 DB로 전송/수집되지 않고 브라우저 LocalStorage에만 암호화 보관"**됨을 명시하여 개인정보보호 컴플라이언스 완결.
+  - 제9조 실시간 가용병상 알림 및 이용자 즉시 모니터링 해제 권리 명문화.
+* **📜 오픈소스 및 공공데이터 라이선스 (`licenses.html`) 17개 고지 확장**:
+  - Card 15(APScheduler v3.10+ MIT), Card 16(Pytest & Pytest-Asyncio v8.0+ MIT), Card 17(대한소아응급의학회 소아 KTAS 지침 공공누리 제1유형) 신설 및 카운터(17개 고지) 동기화.
+* **🧪 24대 프론트엔드 통합 계약 테스트 & 127개 전체 테스트 100% 무결점 통과**:
+  - `tests/test_step8_frontend_integration.py` 24개 테스트 All-Green 통과 (`24 passed in 35.12s`).
+  - `frontend/templates/` 및 `app/templates/` 양대 디렉터리 100% 동기화 완료.
+
+### 🌟 [v2.9.8-splash-first-priority-guarantee] 2026-10-18: 웹앱 접속 시 1순위 스플래시(splash.html) 동작 보장 & 0단계 세션 스플래시 가드 구축 릴리스 (정영식 팀장 총괄)
+* **📱 루트(`/`) 엔드포인트 브라우저 접속 시 1순위 `splash.html` 서빙 원복 (`main.py`)**:
+  - FastAPI 루트 핸들러(`@app.get("/")`)에서 브라우저 클라이언트 요청(`accept: text/html`) 수신 시 `splash.html`을 최우선으로 서빙하도록 복원하여, 사용자가 서비스 URL 접속 시 무조건 1.8초 브랜드 애니메이션 스플래시가 가장 먼저 실행되도록 완결.
+* **🛡️ 메인 홈(`index.html`) 0단계 세션 스플래시 가드(Session Splash Guard) 구축**:
+  - `splash.html` 로드 시 `sessionStorage.setItem('aisum_splash_shown', 'true')` 플래그를 등록하고, 메인 홈 상단 가드에서 이번 세션에 스플래시를 보지 않은 직접 유입 사용자를 즉시 `/splash`로 리다이렉트하는 2중 안전망 구축.
+  - 동일 세션 내 홈 화면 새로고침(F5)이나 서브페이지(기록, 브리핑 카드, 설정 등) 탐색 시에는 플래그가 유지되어 스플래시 중복 노출 없이 쾌적하게 홈 화면을 사용하도록 보장.
+* **🧪 프론트엔드 통합 계약 테스트 TC-823 신설 & 전체 127개 테스트 100% All-Green 통과**:
+  - `tests/test_step8_frontend_integration.py`에 `test_23_root_serves_splash_as_first_priority_and_session_guard`를 추가하여 총 24개 프론트엔드 통합 테스트 및 127개 전수 단위/통합 테스트 무결점 통과 검증 완료.
 
 ### 🌟 [v2.9.7-pwa-cache-v2-cloudrun-sync] 2026-10-18: PWA Service Worker v2 업그레이드 & Cloud Run 최신 리비전(00008) 100% 완전 동기화 배포 (정영식 팀장 총괄)
 * **🌐 Cloud Run 실서버 구버전 화면 노출 원천 차단 및 PWA Service Worker v2 개편**:

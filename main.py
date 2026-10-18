@@ -125,14 +125,14 @@ if os.path.exists("data"):
 async def root(request: Request):
     """Root metadata and API service information, or mobile web app for browser clients."""
     accept = request.headers.get("accept", "")
-    # Serve mobile web main home page as 1st priority for browser clients
+    # Serve mobile web splash onboarding screen as 1st priority for browser clients
     if "text/html" in accept and "application/json" not in accept:
-        home_path = find_frontend_html("home", "index.html")
-        if home_path and os.path.exists(home_path):
-            return serve_html(home_path)
         splash_path = find_frontend_html("onboarding", "splash.html")
         if splash_path and os.path.exists(splash_path):
             return serve_html(splash_path)
+        home_path = find_frontend_html("home", "index.html")
+        if home_path and os.path.exists(home_path):
+            return serve_html(home_path)
 
     return {
         "service": "MoonlightCare API",

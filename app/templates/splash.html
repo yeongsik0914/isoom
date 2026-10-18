@@ -216,9 +216,17 @@
     // Auto-redirect after 1.8 seconds (or click immediately)
     let redirected = false;
 
+    // 접속 즉시 이번 브라우저 세션의 스플래시 진입 플래그 기록
+    try {
+      sessionStorage.setItem('aisum_splash_shown', 'true');
+    } catch (e) {}
+
     function proceedToNextStep() {
       if (redirected) return;
       redirected = true;
+      try {
+        sessionStorage.setItem('aisum_splash_shown', 'true');
+      } catch (e) {}
       const screen = document.getElementById('splashScreen');
       if (screen) {
         screen.classList.add('fade-out');
