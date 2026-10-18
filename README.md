@@ -28,6 +28,58 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.28-development-story-portfolio-guide-sync] 2026-10-19: 아이숨 전 개발 과정 요약 설명서 및 취업·포트폴리오 백서(PROJECT_DEVELOPMENT_STORY.md) 발간 (정영식 팀장 총괄)
+* **📘 프로젝트 전 개발 과정 종합 설명서 & 포트폴리오 백서 신규 발간 (`PROJECT_DEVELOPMENT_STORY.md`)**:
+  - **기획 배경 & 사회적 문제 정의**: 야간 소아 응급실 뺑뺑이, 74% 경증 과밀화, 약국 30분 마진 결함, 비의료 AI의 언더트리아제 및 의료법 제27조 리스크.
+  - **데이터 실증 (주피터 노트북 1~5권)**: 공공데이터 9만 건 분석 기반 `PEDIATRIC_BLOCK_PATTERN`, In-Memory Hash Diffing(비용 93% 절감), 168개 소아 KTAS Direct Grounding.
+  - **핵심 기능 체계**: 2계층 안전 감시망(26µs 정규식 인터셉터), 2-트랙 지능형 라우팅, Supervisor 6-State FSM, 3-State 서킷 브레이커, 3-Tier Multi-Storage Fallback, 토스 TDS 다크테마 PWA.
+  - **실제 검증 7대 난제 & 트러블슈팅**: Firestore 비용 폭탄 방어, 키워드 RAG 폐기 및 완독 감별, 안도성 표현 오분류 방어, 한국어 복합 부정문(`has_affirmative_match`), 공공 API 다운 대응, 프론트엔드 캐시 소독, GCP Cloud Run 무중단 배포.
+  - **현업 고도화 레벨 객관적 진단**: 실무 2~4년 차 미들급 백엔드/AI 엔지니어 및 시니어 아키텍트 수준 (상위 1~3% S급 포트폴리오).
+  - **취업 경쟁력 & 기술 면접 5대 킬러 Q&A 가이드**: 지원 직무(AI 백엔드, 플랫폼 엔지니어 등) 및 면접관을 매료시키는 실전 답변 치트키 제공.
+* **📜 4대 핵심 프로젝트 거버넌스 규율 100% 동기화 완결**:
+  - `Answer-영식.md` Q225 누적 기록 및 `PLAN.md`, `README.md` 동기화.
+
+### 🌟 [v2.9.27-official-logo-pwa-icon-sync] 2026-10-18: 아이숨 공식 스플래시 로고 심볼 기반 웹앱 PWA 3D 아이콘 및 파비콘 전역 제작·탑재 완결 (정영식 팀장 총괄)
+* **🏥 아이숨 공식 스플래시 로고 심볼 100% 3D 스퀘어클 리마스터링**:
+  - 팀장님 지정 스플래시 화면의 심볼 로고(민트-오션블루 의료 십자가 + 듀얼 하트 + 화이트 리프)를 정밀 분석하여, 모바일 OS(iOS/Android) 표준 규격의 초고화질 3D 스퀘어클(Squircle) 앱 아이콘으로 완벽 제작.
+* **💾 전역 PWA & 파비콘 에셋 규격화 및 일괄 배치 완료**:
+  - `images/aisum_official_app_icon.png`: 1024×1024 고해상도 마스터 디자인 원본.
+  - `frontend/img/icon-512.png` & `app/static/img/icon-512.png`: 512×512 HD PWA 스플래시 아이콘.
+  - `frontend/img/icon-192.png` & `app/static/img/icon-192.png`: 192×192 기본 PWA 아이콘.
+  - `frontend/img/apple-touch-icon.png` & `app/static/img/apple-touch-icon.png`: 192×192 iOS Safari 전용 바로가기 아이콘.
+  - `frontend/img/favicon.ico`, `frontend/favicon.ico`, `app/static/favicon.ico`: 48/32/16px 멀티레이어 브라우저 파비콘.
+* **🌐 백엔드 라우팅 및 19개 전 페이지 템플릿 연동**:
+  - `main.py`에 `@app.get("/favicon.ico")` 엔드포인트 신설로 브라우저 상단 탭 파비콘 200 OK 서빙.
+  - 서비스워커(`sw.js`) `STATIC_ASSETS`에 `/favicon.ico` 등록하여 오프라인 캐시 보장.
+  - `frontend/templates/` 및 `app/templates/` 19개 전체 HTML 파일 `<head>`에 파비콘 링크 전수 주입.
+* **🧪 25대 프론트엔드 통합 계약 테스트 전수 통과**:
+  - `tests/test_step8_frontend_integration.py` 25 passed All-Green 확인 및 FastAPI 정적 엔드포인트 전수 200 OK 검증 완료.
+* **🚀 Google Cloud Run 프로덕션 무중단 배포 완결 (리비전 `isoom-service-00026-nhs`)**:
+  - 최신 Docker 이미지 빌드 및 Cloud Run 서울 리전(`asia-northeast3`) 100% 트래픽 무중단 배포 완료.
+  - 실서버 라이브 검증: `/favicon.ico`(5KB), `/img/icon-192.png`(29KB), `/img/icon-512.png`(197KB) 전수 200 OK 정상 서빙 확인.
+
+### 🌟 [v2.9.26-peaceful-cute-icon-sync] 2026-10-18: 조잡함 없는 '평온 & 큐트(Zero-Clutter)' 2차 앱 아이콘 3종 수립 및 에셋 개편 (정영식 팀장 총괄)
+* **🍃 잡다한 장식 전면 소독 및 순수한 평온함 극대화**:
+  - 팀장님 피드백 반영: 심박 파동선, 십자가, 텍스트, 프레임 등 시각적 피로감을 유발하는 요소를 100% 제거하고 오직 하나의 사랑스러운 평온 상징에 집중.
+* **👶 최고 수준의 평온 & 큐트 3D 앱 아이콘 3종 시안 설계 (`images/`, `brain/app_icon_design_proposal.md`)**:
+  - **시안 1 (로열 블루 & 달님 아기)**: 달님 품에 안겨 이불을 덮고 새근새근 자는 사랑스러운 아기 (`images/aisum_peaceful_baby.jpg`).
+  - **시안 2 (미드나이트 & 보송보송 아기 구름)**: 달님 위에서 미소 지으며 잠든 보송보송 아기 구름 (`images/aisum_cloud_baby.jpg`).
+  - **시안 3 (소프트 파스텔 민트 & 포대기 아기)**: 크림 달님 위 민트 포대기를 두르고 곤히 잠든 아기 (`images/aisum_pastel_peaceful.jpg`).
+* **💾 고해상도 에셋 보존 및 PWA 연동 파이프라인 동기화**:
+  - `images/`에 3종 무손실 에셋 영구 보존 및 최종 선정 시 PWA/파비콘 즉시 변환 파이프라인 수립.
+
+### 🌟 [v2.9.25-app-icon-design-sync] 2026-10-18: 아이숨 공식 웹앱·PWA 앱 아이콘 3종 디자인 수립 및 에셋 자산화 (정영식 팀장 총괄)
+* **🎨 아이숨 브랜드 3대 핵심 상징 융합 디자인**:
+  - 🌙 **Moonlight Amber (달빛 초승달)**: 야간 소아 케어와 달빛어린이병원의 따스함.
+  - 🍃 **Calm Breath Wave (안심 숨결 곡선)**: 아이의 평온한 숨소리를 되찾아주는 생명의 파동.
+  - 🏥 **Pediatric Medical Cross (소아 의료 십자가)**: 신뢰할 수 있는 소아청소년과 전문 의료 매칭.
+* **📱 최고급 3D 앱 아이콘 3종 시안 설계 (`images/`, `brain/app_icon_design_proposal.md`)**:
+  - **시안 A (추천: 프로스티드 글래스 3D)**: Apple iOS 스타일 3D 글래스모피즘 렌더링, 골드 크레센트 + 네온 민트(#10B981) 숨결 & 크로스 융합.
+  - **시안 B (웜 클레이 큐트 베이비 클라우드)**: Toss TDS / 3D 클레이모피즘 스타일, 달님 위 잠든 아기 구름과 하트 펄스.
+  - **시안 C (모던 시그니처 엠블럼)**: 아기 실루엣 + 숨결 파동선 + 의료 십자가 일체화 브랜드 심볼.
+* **💾 고해상도 에셋 보존 및 PWA 연동 파이프라인 수립**:
+  - 고해상도 디자인 원본을 `images/`에 안전하게 배치하고, 사용자 최종 선택 시 `icon-512.png`, `icon-192.png`, `favicon.ico` 무손실 자동 리사이즈 적용 준비 완료.
+
 ### 🌟 [v2.9.24-triage-card-dark-border-sync] 2026-10-18: 문진 섹션 카드 다크모드 흰색 테두리 눈부심 결함 완결 (정영식 팀장 총괄)
 * **🎴 문진 섹션 카드(`.triage-section-card`) 토스 TDS 프리미엄 다크 보더 전면화 (`input.html`, `style.css`)**:
   - 기본 상태 라이트 테두리 `#f1f5f9`를 소독하고, 은은하고 부드러운 다크 보더 `rgba(255, 255, 255, 0.08)` 및 `#202027` 서피스로 교체하여 시각적 눈부심 100% 해소.

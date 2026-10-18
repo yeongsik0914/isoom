@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PWA_PLAN.md",
+                "file": "PROJECT_DEVELOPMENT_STORY.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PWA_PLAN"
+              "title": "PROJECT_DEVELOPMENT_STORY"
             }
           }
         ]
@@ -190,6 +190,7 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "PWA_PLAN.md",
     "app/static/js/public_night_pharmacies.js",
     "app/static/js/pharmacy_details_data.js",
     "app/static/js/nationwide_pairings.js",
@@ -200,13 +201,11 @@
     "app/templates/history.html",
     "app/templates/briefing_card.html",
     "scratch_update_briefing.py",
-    "frontend/templates/briefing_card.html",
     "app/static/img/icon-512.png",
     "frontend/img/icon-512.png",
     "app/static/img/icon-192.png",
     "frontend/img/icon-192.png",
     "PROJECT_COMPLETION_REPORT.md",
-    "PWA_PLAN.md",
     "q_a.md",
     "docs/KTAS_TRIAGE_VERIFICATION_REPORT.md",
     "data/README.md",

@@ -440,6 +440,16 @@ async def get_pwa_image(filename: str):
     return JSONResponse(status_code=404, content={"detail": f"Image {filename} not found"})
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def get_favicon():
+    """Serves official Aisum favicon."""
+    for root in ["frontend/img", "app/static/img", "frontend", "app/static"]:
+        p = os.path.join(root, "favicon.ico")
+        if os.path.exists(p):
+            return FileResponse(p, media_type="image/x-icon")
+    return JSONResponse(status_code=404, content={"detail": "Favicon not found"})
+
+
 @app.get("/{subpath:path}/{filename}.html", include_in_schema=False)
 async def fallback_subpath_html(subpath: str, filename: str):
     """Smart fallback router: intercepts requests like /home/input.html and serves from templates/."""

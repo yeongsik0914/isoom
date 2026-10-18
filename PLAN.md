@@ -1,10 +1,10 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v3.34 (문진 섹션 카드 다크모드 흰색 테두리 눈부심 결함 완결, v2.9.24)
-> **최종 갱신 일자**: 2026-10-18
+> **문서 버전**: v3.35 (개발 전 과정 종합 설명서 & 취업·포트폴리오 백서 발간, PROJECT_DEVELOPMENT_STORY.md 동기화)
+> **최종 갱신 일자**: 2026-10-19
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
 
-> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 전용 기록 페이지(history.html), AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, 119 구급대원 인계용 응급 브리핑 카드(briefing_card.html), 문진 페이지 환아 프로필 자동 프리필 및 증상 기반 나이·상태 측정 스마트 감지 허브(input.html), [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md).
+> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 전용 기록 페이지(history.html), AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, 119 구급대원 인계용 응급 브리핑 카드(briefing_card.html), 문진 페이지 환아 프로필 자동 프리필 및 증상 기반 나이·상태 측정 스마트 감지 허브(input.html), [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md), [PROJECT_DEVELOPMENT_STORY.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_DEVELOPMENT_STORY.md).
 
 ---
 
@@ -363,6 +363,7 @@ graph TD
     - 5분 주기 E-Gen API 기반 권역별 소아 병상(`hv28`), 소아 중환자실(`hv30`), 장비 가용 현황 실시간 모니터링 대시보드 구축.
 20. **[완료] PWA (Progressive Web App) 도입, 설정 QR코드 연동 & Cloud Run 배포 아키텍처 완비 (Phase 6 - [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md))**:
     - **PWA 핵심 자산 구축 및 서빙**: `frontend/manifest.json` (`display: standalone`, `theme_color: #10b981`), `frontend/sw.js` (Service Worker Stale-While-Revalidate 및 12대 응급처치 가이드 오프라인 캐싱), 고해상도 앱 아이콘(`icon-192.png`, `icon-512.png`), `main.py` 라우팅 결합.
+      - **아이숨 공식 3D 앱 아이콘 및 파비콘 전역 탑재 완료 (`images/aisum_official_app_icon.png`, `frontend/img/`, `app/static/img/`)**: 팀장님 지정 공식 스플래시 로고 심볼(민트-오션블루 의료 십자가 + 듀얼 하트 + 화이트 리프)을 3D 스퀘어클(Squircle)로 정밀 리마스터링하여 PWA 512×512 HD, 192×192 기본, iOS `apple-touch-icon.png`, 멀티레이어 브라우저 파비콘(`favicon.ico`)으로 생성·배치 완료. `main.py`에 `@app.get("/favicon.ico")` 라우터 신설, `sw.js` 오프라인 프리캐시 목록 추가, 19개 전체 HTML 템플릿 `<head>` 파비콘 링크 주입 및 25대 프론트엔드 통합 계약 테스트 All-Green 검증 완결.
     - **설정페이지(`settings.html`) '모바일 기기 연결'**: '스마트폰으로 앱 열기' 클릭 시 현재 접속 도메인(`window.location.origin`)을 실시간 반영하는 QR코드 팝업 모달(`openQrModal()`), 원터치 주소 복사, iOS(홈 화면에 추가) 및 Android(앱 설치) 가이드, `beforeinstallprompt` 기반 PWA 원클릭 설치 버튼 지원.
     - **Google Cloud Run 배포 & .env 다중 API Key 완전 연동**:
       - `main.py` 포트 바인딩 최적화: `port=int(os.getenv("PORT", 8000))` 수신.
@@ -546,7 +547,7 @@ graph TD
       - `tests/test_step8_frontend_integration.py`에 TC-824(`test_24_theme_setting_feature_contract`) 추가 및 25개 테스트 100% All-Green 통과 (`25 passed in 22.88s`).
       - `frontend/templates/`와 `app/templates/` 양대 디렉터리 100% 동기화 완료.
     - **Google Cloud Run 무중단 프로덕션 재배포 완결**:
-      - 최신 리비전 `isoom-service-00011-4gk` 100% 트래픽 서빙 및 실서버(`https://isoom-service-920380215419.asia-northeast3.run.app`) 라이브 헬스체크 검증 완료.
+      - 최신 리비전 `isoom-service-00026-nhs` 100% 트래픽 서빙 및 실서버(`https://isoom-service-920380215419.asia-northeast3.run.app`) 라이브 헬스체크 검증 완료. 공식 3D 앱 아이콘(icon-192: 29KB, icon-512: 197KB) 및 파비콘(favicon.ico: 5KB) 프로덕션 정상 서빙 확인.
 39. **[완료] 다크 모드 전면 리팩토링 및 비주얼 완성도 극대화 완결 (Phase 3-AC)**:
     - **브리핑 카드 (`briefing_card.html`) White-on-White 글씨 가림 결함 원천 해결**:
       - 내부 하드코딩된 `#ffffff` 배경을 `#1e293b` 및 `#0f172a`로 전면 교체하고, 환아 인적사항 텍스트 및 상세 수치 폰트 색상을 `#f8fafc`로 복원하여 100% 선명도 회복.

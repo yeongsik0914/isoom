@@ -7,7 +7,7 @@
  *   3) 음영지역 오프라인 대응
  */
 
-const CACHE_NAME = 'aisum-pwa-cache-v2';
+const CACHE_NAME = 'aisum-pwa-cache-v3';
 
 const STATIC_ASSETS = [
   '/',
@@ -27,7 +27,8 @@ const STATIC_ASSETS = [
   '/js/main.js',
   '/manifest.json',
   '/img/icon-192.png',
-  '/img/icon-512.png'
+  '/img/icon-512.png',
+  '/favicon.ico'
 ];
 
 // 1. Install Event: 정적 리소스 프리캐싱 및 대기 없이 즉시 활성화

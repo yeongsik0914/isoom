@@ -218,6 +218,10 @@
 | **[ISSUE-209]** | 위치 설정 바텀 시트 주소 텍스트 JS 동적 인라인 하드코딩(#0f172a)에 의한 다크모드 검은색 노출 결함 해결 | main.js 동적 갱신 시 주입되던 인라인 색상 스타일 전수 소독, style.css 고대비 다크모드 규칙 전역 고정 및 순백(#f9fafb) 복원 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-210]** | 문진 입력 페이지 환아 프로필 자동 연동 배너 다크모드 미지원에 따른 눈부심 및 요소 색상 부조화 결함 해결 | 배너 컨테이너 토스 TDS 다크 서피스(#202027) 전환, 아이콘 박스·버튼 다크화, 순백(#f9fafb) 타이틀 및 토스블루(#3182f6) 뱃지 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-211]** | 문진 입력 섹션 카드 테두리 라이트 하드코딩(#f1f5f9, #bfdbfe)에 따른 다크모드 시각적 눈부심 결함 해결 | .triage-section-card 토스 TDS 다크 보더(rgba(255, 255, 255, 0.08)) 및 액티브 림(rgba(49, 130, 246, 0.4)) 전면 개편, 번호 뱃지/점선 다크화 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-212]** | 아이숨(Aisum) 소아 야간응급 매칭 공식 웹앱(PWA) 아이콘 디자인 3종 수립 및 고해상도 에셋 자산화 | Calm Harbor & Toss TDS 디자인 시스템 기반 달빛 초승달·안심 숨결 웨이브·소아 의료 십자가 결합 최고급 3D 글래스모피즘(시안 A), 큐트 베이비 클라우드(시안 B), 모던 시그니처(시안 C) 3종 시안 수립 및 images/ 영구 보존 완료 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-213]** | 조잡함 없는 '평온 & 큐트(Zero-Clutter)' 2차 앱 아이콘 3종 수립 및 에셋 개편 | 십자가·심박선·문자·이중 프레임 전면 소독, 달님 위에서 새근새근 잠든 아기 및 보송보송 아기 구름 모티프 초미니멀 3D 디자인 수립 및 images/ 보존 완료 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-214]** | 아이숨 공식 스플래시 로고 심볼 기반 웹앱 PWA 3D 아이콘 및 파비콘 전역 제작·탑재 완결 | 첨부된 공식 로고(민트-블루 크로스+듀얼 하트+화이트 리프) 3D 스퀘어클 리마스터링, PWA 512/192 에셋 생성, 19개 템플릿 파비콘 주입, FastAPI /favicon.ico 서빙 및 25개 테스트 전수 통과 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-215]** | 공식 3D 앱 아이콘·파비콘 탑재 버전 Cloud Run 프로덕션 무중단 배포 및 실서버 라이브 검증 완료 | 최신 리비전(isoom-service-00026-nhs) 100% 트래픽 활성화, /favicon.ico(5KB), /img/icon-192.png(29KB), /img/icon-512.png(197KB) 전수 200 OK 실서버 라이브 검증 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 
 
 
@@ -7306,6 +7310,129 @@
   * `app/` 양대 디렉터리 일체
 * **조치 결과**:
   * 섹션 카드를 둘러싸고 있던 번쩍이는 흰색 테두리가 은은하고 고급스러운 토스 프리미엄 다크 보더로 완벽 소독됨.
+
+---
+
+### [ISSUE-212] 아이숨(Aisum) 소아 야간응급 매칭 공식 웹앱(PWA) 아이콘 디자인 3종 수립 및 고해상도 에셋 자산화
+
+* **발생 일자**: 2026-10-18
+* **분류**: PWA 에셋 / UI·UX 브랜딩 / 디자인 시스템 고도화
+* **문제 상황**:
+  * 기존 웹앱의 PWA 및 파비콘 아이콘이 단순 기본 도형 기반의 임시 에셋(`frontend/img/icon-192.png`, `icon-512.png`)으로 구성되어 있어, 모바일 홈 화면 설치 시 아이숨(Aisum)의 독창적인 브랜드 아이덴티티와 고품질 헬스케어 서비스의 신뢰도를 온전히 전달하지 못함.
+* **원인 분석**:
+  * 소아 야간응급·달빛어린이병원 매칭이라는 서비스 특성(달빛, 숨결, 소아 의료 십자가)과 Calm Harbor & Toss TDS 다크 테마에 조화되는 전용 브랜드 심볼 및 고해상도 앱 아이콘 디자인 체계의 부재.
+* **구체적 해결 방안**:
+  1. **아이숨 3대 핵심 상징 융합**:
+     - 🌙 Moonlight Amber (달빛어린이병원 심야 수호)
+     - 🍃 Calm Breath Wave (아이의 평온한 숨소리)
+     - 🏥 Pediatric Medical Care Cross (소아청소년과 전문 의료 케어)
+  2. **고화질 3D 앱 아이콘 3종 시안 설계 및 생성**:
+     - **시안 A (추천)**: Apple iOS 스타일 프로스티드 글래스모피즘 3D 엠블럼 (`images/aisum_icon_option_a.jpg`)
+     - **시안 B**: Toss / 3D 클레이모피즘 큐트 베이비 클라우드 힐링 테마 (`images/aisum_icon_option_b.jpg`)
+     - **시안 C**: 모던 미니멀 시그니처 로고타입 엠블럼 (`images/aisum_icon_option_c.jpg`)
+  3. **프로젝트 에셋 영구 보존 및 PWA 연동 파이프라인 수립**:
+     - `images/` 폴더 내 무손실 저장 완료.
+     - 향후 사용자 최종 선택 시 512×512, 192×192, 48×48(파비콘) 자동 리사이즈 파이프라인 준비.
+* **적용 파일**:
+  * [images/aisum_icon_option_a.jpg](file:///Users/jeong-yeongsig/Desktop/Project/isoom/images/aisum_icon_option_a.jpg)
+  * [images/aisum_icon_option_b.jpg](file:///Users/jeong-yeongsig/Desktop/Project/isoom/images/aisum_icon_option_b.jpg)
+  * [images/aisum_icon_option_c.jpg](file:///Users/jeong-yeongsig/Desktop/Project/isoom/images/aisum_icon_option_c.jpg)
+  * [app_icon_design_proposal.md](file:///Users/jeong-yeongsig/.gemini/antigravity-ide/brain/a92a0d6d-8c32-42db-ad08-95421765c414/app_icon_design_proposal.md)
+* **조치 결과**:
+  * 소아 야간 의료 케어 전문 브랜드로서의 고급스러운 시각 경험 확립 및 모바일 PWA 배포 준비 완료.
+
+---
+
+### [ISSUE-213] 조잡함 없는 '평온 & 큐트(Zero-Clutter)' 2차 앱 아이콘 3종 수립 및 에셋 개편
+
+* **발생 일자**: 2026-10-18
+* **분류**: PWA 에셋 / UI·UX 브랜딩 / 디자인 시스템 고도화
+* **문제 상황**:
+  * 1차 시안의 의료적 장식(심박 파동선, 십자가, 텍스트, 이중 글래스 림 등)이 다소 요소가 많고 조잡하게 느껴질 수 있어, "평온하고 귀여우며 군더더기 없는" 직관적인 앱 아이콘으로의 대전환이 요구됨.
+* **원인 분석**:
+  * 기능적 상징(의료, 심박, 텍스트)을 모두 아이콘에 담으려다 보니 시각적 복잡도가 증가하고, 본연의 감성적 가치인 '아이의 평온한 숙면과 부모의 안도감'이 분산됨.
+* **구체적 해결 방안**:
+  1. **조잡한 장식 100% 소독 (Zero Clutter)**:
+     - 심박선, 의료 십자가, 텍스트, 프레임 일절 배제.
+  2. **단 하나의 순수한 평온 상징 집중**:
+     - **시안 1 (로열 블루 & 달님 아기 - `images/aisum_peaceful_baby.jpg`)**: 달님 품에 안겨 이불을 덮고 새근새근 자는 사랑스러운 아기 (선명한 로열 블루 스퀘어클).
+     - **시안 2 (미드나이트 & 보송보송 아기 구름 - `images/aisum_cloud_baby.jpg`)**: 달님 위에서 미소 지으며 잠든 보송보송 아기 구름 (미니멀 큐트).
+     - **시안 3 (소프트 파스텔 민트 & 포대기 아기 - `images/aisum_pastel_peaceful.jpg`)**: 크림 달님 위 민트 포대기 아기 (힐링 파스텔).
+  3. **프로젝트 에셋 동기화**:
+     - `images/` 폴더 내 무손실 저장 및 아티팩트 v2.0.0 개정.
+* **적용 파일**:
+  * [images/aisum_peaceful_baby.jpg](file:///Users/jeong-yeongsig/Desktop/Project/isoom/images/aisum_peaceful_baby.jpg)
+  * [images/aisum_cloud_baby.jpg](file:///Users/jeong-yeongsig/Desktop/Project/isoom/images/aisum_cloud_baby.jpg)
+  * [images/aisum_pastel_peaceful.jpg](file:///Users/jeong-yeongsig/Desktop/Project/isoom/images/aisum_pastel_peaceful.jpg)
+  * [app_icon_design_proposal.md](file:///Users/jeong-yeongsig/.gemini/antigravity-ide/brain/a92a0d6d-8c32-42db-ad08-95421765c414/app_icon_design_proposal.md)
+* **조치 결과**:
+  * 불필요한 장식을 완전히 걷어내고, 스마트폰 홈 화면에서 부모의 마음을 포근하게 감싸주는 최고 수준의 직관적이고 사랑스러운 평온 앱 아이콘 구축 완료.
+
+---
+
+### [ISSUE-214] 아이숨 공식 스플래시 로고 심볼 기반 웹앱 PWA 3D 아이콘 및 파비콘 전역 제작·탑재 완결
+
+* **발생 일자**: 2026-10-18
+* **분류**: PWA 에셋 / UI·UX 브랜딩 / 풀스택 엔지니어링
+* **문제 상황**:
+  * 팀장님께서 첨부해주신 아이숨(i-Soom) 공식 스플래시 화면의 심볼 로고(민트-블루 의료 십자가 + 듀얼 하트 + 화이트 리프)를 웹앱용 모바일 PWA 앱 아이콘과 파비콘으로 표준화하여 전역 시스템에 일괄 반영할 필요 발생.
+* **원인 분석**:
+  * 기존 웹앱에 임시로 탑재되어 있던 원/도형 기반의 저해상도 임시 아이콘(`icon-192.png`, `icon-512.png`)을 프로젝트의 공식 브랜드 심볼과 100% 일치시키고, 브라우저 탭 파비콘 및 iOS Safari 홈 화면 바로가기까지 통합 규격화할 체계가 필요했음.
+* **구체적 해결 방안**:
+  1. **첨부 이미지 심볼 픽셀 분석 및 3D 스퀘어클 리마스터링**:
+     - 상쾌한 민트 에메랄드(`#10B981`)에서 오션 코발트 블루(`#3B82F6`)로 이어지는 3D 둥근 의료 십자가.
+     - 십자가 좌측 상단/측면의 입체 듀얼 하트(소아 케어 & 부모 사랑).
+     - 십자가 중심부의 유려한 화이트 리프(맑은 호흡 & 숨결).
+     - 군더더기 없는 순백색 스퀘어클 배지 및 은은한 그림자.
+  2. **다중 해상도 무손실 에셋 자동 생성 및 이관**:
+     - `images/aisum_official_app_icon.png` (1024×1024 마스터 원본)
+     - `frontend/img/icon-512.png` & `app/static/img/icon-512.png` (512×512 HD)
+     - `frontend/img/icon-192.png` & `app/static/img/icon-192.png` (192×192 기본)
+     - `frontend/img/apple-touch-icon.png` & `app/static/img/apple-touch-icon.png` (192×192 iOS)
+     - `frontend/img/favicon.ico`, `frontend/favicon.ico`, `app/static/favicon.ico` (48/32/16px)
+  3. **백엔드 라우팅 및 전역 템플릿 연동**:
+     - `main.py`에 `@app.get("/favicon.ico")` 전용 라우터 신설 (200 OK).
+     - `sw.js` (서비스워커) `STATIC_ASSETS`에 `/favicon.ico` 등록 및 오프라인 프리캐싱 보장.
+     - 19개 전체 HTML 템플릿 `<head>`에 `<link rel="icon" type="image/x-icon" href="/favicon.ico" />` 전수 주입.
+  4. **무결점 검증**:
+     - `tests/test_step8_frontend_integration.py` 25대 통합 계약 테스트 전수 통과 (`25 passed`).
+     - TestClient 엔드포인트(/favicon.ico, /img/icon-192.png, /img/icon-512.png) 200 OK 검증 완료.
+* **적용 파일**:
+  * [images/aisum_official_app_icon.png](file:///Users/jeong-yeongsig/Desktop/Project/isoom/images/aisum_official_app_icon.png)
+  * [frontend/img/icon-512.png](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/img/icon-512.png)
+  * [frontend/img/icon-192.png](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/img/icon-192.png)
+  * [frontend/img/apple-touch-icon.png](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/img/apple-touch-icon.png)
+  * [frontend/img/favicon.ico](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/img/favicon.ico)
+  * [main.py](file:///Users/jeong-yeongsig/Desktop/Project/isoom/main.py)
+  * [frontend/sw.js](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/sw.js)
+  * `frontend/templates/*.html` & `app/templates/*.html` (19개 전 파일)
+* **조치 결과**:
+  * 사용자가 지정한 공식 스플래시 로고 심볼이 모바일 웹앱 PWA 홈 화면, iOS 바로가기, 브라우저 탭 파비콘 전반에 완전 무결하게 정식 탑재됨.
+
+---
+
+### [ISSUE-215] 공식 3D 앱 아이콘·파비콘 탑재 버전 Cloud Run 프로덕션 무중단 배포 및 실서버 라이브 검증 완료
+
+* **발생 일자**: 2026-10-18
+* **분류**: Cloud Run CI/CD / 프로덕션 릴리스 / 모바일 PWA 배포
+* **문제 상황**:
+  * 로컬 워크스페이스에 탑재된 공식 3D 앱 아이콘 및 파비콘 에셋이 Google Cloud Run 프로덕션 실서버에는 아직 배포되지 않아, 실서버 접속 시 과거의 저용량 임시 아이콘(1.4KB)이 계속 노출되는 상태 해소 필요.
+* **원인 분석**:
+  * 로컬 코드 변경 후 Docker 이미지 빌드 및 Cloud Run 서비스 신규 리비전 배포 파이프라인(`scripts/deploy_cloud_run.sh`) 수행 전 단계였음.
+* **구체적 해결 방안**:
+  1. **Google Cloud Run 원클릭 배포 파이프라인 가동**:
+     - `scripts/deploy_cloud_run.sh` 실행 ➔ Google Cloud Build 기반 컨테이너 패키징 및 Cloud Run 배포 완수.
+     - 서비스: `isoom-service`, 리비전: `isoom-service-00026-nhs`, 트래픽 100% 할당 완료.
+  2. **실서버 라이브 엔드포인트 전수 검증**:
+     - `GET https://isoom-service-920380215419.asia-northeast3.run.app/favicon.ico` ➔ 200 OK (5,069 bytes)
+     - `GET https://isoom-service-920380215419.asia-northeast3.run.app/img/icon-192.png` ➔ 200 OK (29,474 bytes)
+     - `GET https://isoom-service-920380215419.asia-northeast3.run.app/img/icon-512.png` ➔ 200 OK (197,810 bytes)
+     - `GET https://isoom-service-920380215419.asia-northeast3.run.app/health` ➔ 200 OK (healthy)
+* **적용 파일**:
+  * `scripts/deploy_cloud_run.sh`
+  * Cloud Run 서비스: `isoom-service` (리비전 `00026-nhs`)
+* **조치 결과**:
+  * 스마트폰이나 웹 브라우저로 실서버(`https://isoom-service-920380215419.asia-northeast3.run.app`)에 접속하여 '홈 화면에 추가' 시, 팀장님께서 지정해주신 공식 3D 앱 아이콘이 실시간으로 완벽하게 표출됨.
 
 
 
