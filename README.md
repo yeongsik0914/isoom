@@ -28,6 +28,25 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.24-triage-card-dark-border-sync] 2026-10-18: 문진 섹션 카드 다크모드 흰색 테두리 눈부심 결함 완결 (정영식 팀장 총괄)
+* **🎴 문진 섹션 카드(`.triage-section-card`) 토스 TDS 프리미엄 다크 보더 전면화 (`input.html`, `style.css`)**:
+  - 기본 상태 라이트 테두리 `#f1f5f9`를 소독하고, 은은하고 부드러운 다크 보더 `rgba(255, 255, 255, 0.08)` 및 `#202027` 서피스로 교체하여 시각적 눈부심 100% 해소.
+  - 포커스 및 활성 상태(`.active-card`)의 밝은 하늘색 `#bfdbfe`를 토스 블루 다크 림 `rgba(49, 130, 246, 0.4)` 및 미세 앰비언트 글로우로 정돈.
+* **🔢 단계 번호 원형 뱃지 및 서브 요소 일체 다크화 (`input.html`, `style.css`)**:
+  - 1번, 2번 단계 번호(`.section-step-num`)를 토스 블루 다크 틴트(`rgba(49, 130, 246, 0.16)`) 배경 + `#3182f6` 텍스트로 조율.
+  - 증상 밑줄 필드, 패널 하단 점선 구분선, 나이 카테고리 카드, 체온 다이얼 SVG 배경 트랙 다크화 완결.
+* **🧪 25대 프론트엔드 통합 계약 테스트 전수 통과 & Cloud Run 프로덕션 배포 완료**:
+  - `tests/test_step8_frontend_integration.py` All-Green 확인 및 프로덕션 실서버에 최신 리비전 100% 무중단 반영.
+
+### 🌟 [v2.9.23-patient-autofill-banner-dark-sync] 2026-10-18: 문진 입력 환아 정보 자동 연동 배너 다크모드 완결 (정영식 팀장 총괄)
+* **👶 환아 프로필 자동 연동 배너 토스 TDS 다크 서피스 개편 (`input.html`, `style.css`)**:
+  - 새하얀 라이트 블루(`#eff6ff`) 배경을 다크 서피스 `#202027`로 전환하고 은은한 블루 보더(`rgba(49, 130, 246, 0.3)`)를 부여하여 눈부심 100% 해소.
+  - 아이콘 박스 및 확인 버튼을 `#2c2c34` 다크 서피스로 개편, 환아 타이틀 순백(`#f9fafb`) 복원, `나이 적용됨` 뱃지를 토스 다크 틴트 + `#3182f6` 텍스트로 조화.
+* **⚠️ 증상 입력 경고 팁 다크 코랄 틴트 조율 (`input.html`)**:
+  - `.symptom-invalid-tip`을 핑크색에서 차분한 다크 코랄 틴트(`rgba(239, 68, 68, 0.12)`)로 동시 조율.
+* **🧪 25대 프론트엔드 통합 계약 테스트 전수 통과 & Cloud Run 프로덕션 배포 완료**:
+  - `tests/test_step8_frontend_integration.py` All-Green 확인 및 프로덕션 실서버에 최신 리비전 100% 무중단 반영.
+
 ### 🌟 [v2.9.22-location-address-dark-fix] 2026-10-18: 위치 설정 모달 현재 설정된 주소 다크모드 가독성 결함 완결 (정영식 팀장 총괄)
 * **📍 JS 동적 innerHTML 인라인 하드코딩(#0f172a, #334155) 전수 소독 (`main.js`)**:
   - `updateLocationDisplay`, `setUserCustomLocation`, `openLocationSelectModal` 함수에서 `barEl.innerHTML` 주입 시 하드코딩되어 있던 인라인 스타일 색상을 완전히 제거하고, 정규 시맨틱 클래스로 교체.

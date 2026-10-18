@@ -216,6 +216,10 @@
 | **[ISSUE-207]** | 다크모드 부조화 버튼 컬러(메인 CTA·결과 전화/길찾기) 및 잔존 라이트(알림시트·문진탭바·가이드북바) 전면 개편 완결 | 메인 홈 최상단 CTA 토스 블루(#3182f6) 개편, 결과 전화/길찾기 버튼 다크 서피스(#2c2c34)/토스블루 조화, 알림 시트 헤더/카드/버튼 다크화, 문진 3대 탭바(#17171c), 가이드북 플로팅바 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-208]** | 약국/병원 상세 타이틀 글씨 가독성 및 하단바, QR 전체 뷰포트, 위치 시트 칩, KTAS 1단계 배너 잔존 라이트 완치 | 약국/병원 상세 선택자 정밀 교정 및 타이틀 순백 복원, 하단 전화바 다크화, qr.html 전체 뷰포트 다크화, 위치 시트 칩(#2c2c34)/현재주소 복원, 결과 KTAS 1단계 다크코랄 및 새로고침 다크화 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-209]** | 위치 설정 바텀 시트 주소 텍스트 JS 동적 인라인 하드코딩(#0f172a)에 의한 다크모드 검은색 노출 결함 해결 | main.js 동적 갱신 시 주입되던 인라인 색상 스타일 전수 소독, style.css 고대비 다크모드 규칙 전역 고정 및 순백(#f9fafb) 복원 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-210]** | 문진 입력 페이지 환아 프로필 자동 연동 배너 다크모드 미지원에 따른 눈부심 및 요소 색상 부조화 결함 해결 | 배너 컨테이너 토스 TDS 다크 서피스(#202027) 전환, 아이콘 박스·버튼 다크화, 순백(#f9fafb) 타이틀 및 토스블루(#3182f6) 뱃지 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-211]** | 문진 입력 섹션 카드 테두리 라이트 하드코딩(#f1f5f9, #bfdbfe)에 따른 다크모드 시각적 눈부심 결함 해결 | .triage-section-card 토스 TDS 다크 보더(rgba(255, 255, 255, 0.08)) 및 액티브 림(rgba(49, 130, 246, 0.4)) 전면 개편, 번호 뱃지/점선 다크화 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
+
+
 
 
 
@@ -7247,6 +7251,63 @@
   * `app/` 양대 디렉터리 일체
 * **조치 결과**:
   * 위치 설정 모달 상단 주소 바 텍스트가 선명하고 눈이 편안한 순백(#f9fafb)으로 즉각 복원됨.
+
+---
+
+### [ISSUE-210] 문진 입력 페이지 환아 프로필 자동 연동 배너 다크모드 미지원에 따른 눈부심 및 요소 색상 부조화 결함 해결
+* **발생 일자**: 2026-10-18
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **영역**: 문진 입력 템플릿 (`input.html`), CSS 디자인 시스템 (`style.css`)
+* **문제 현상 및 원인 분석**:
+  * 브리핑 카드에 환아 정보가 등록된 상태로 문진 입력 페이지에 진입 시 표시되는 상단 연동 배너(`.patient-profile-autofill-banner`)가 다크모드 환경에서도 새하얀 라이트 블루(`#eff6ff`) 배경으로 렌더링되어 눈부심 유발.
+  * 배너 내부의 자식 요소(아이콘 박스, 태그, 확인 버튼)는 `var(--app-bg, #ffffff)`를 참조하여 `--app-bg: #17171c`로 인해 검은색 사각형으로 변해, 밝은 배경 위에 검은 사각형이 얹혀 극심한 시각적 부조화 발생.
+* **구체적 해결 방안**:
+  1. **배너 컨테이너 다크 서피스 개편**:
+     - `html[data-theme="dark"] .patient-profile-autofill-banner`에 `#202027` 다크 서피스, 은은한 블루 보더(`rgba(49, 130, 246, 0.3)`), 부드러운 섀도우를 부여하여 눈부심 100% 해소.
+  2. **내부 컴포넌트 일체 토스 다크 테마 동기화**:
+     - 아이콘 박스 및 확인 버튼을 `#2c2c34` 다크 서피스로 개편.
+     - 환아 정보 타이틀 순백(`#f9fafb`) 고대비 복원.
+     - `나이 적용됨` 뱃지를 토스 다크 틴트(`rgba(49, 130, 246, 0.16)`) 배경 + `#3182f6` 텍스트로 전환.
+     - 서브텍스트를 눈이 편안한 `#8b95a1`로 변경.
+  3. **증상 입력 경고 팁 (`.symptom-invalid-tip`) 다크화 동시 적용**:
+     - 기존 핑크색 경고창을 차분한 다크 코랄 틴트(`rgba(239, 68, 68, 0.12)`)로 동시 조율.
+  4. `frontend/templates/input.html` 및 `frontend/css/style.css` (Section 22)에 동시 반영 후 `app/` 양대 디렉터리 동기화 및 25개 통합 계약 테스트 100% 통과 확인.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/input.html)
+  * [frontend/css/style.css](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/css/style.css)
+  * `app/` 양대 디렉터리 일체
+* **조치 결과**:
+  * 다크모드에서 환아 정보 자동 연동 배너가 차분하고 미려한 토스 프리미엄 다크 서피스로 일체감 있게 렌더링됨.
+
+---
+
+### [ISSUE-211] 문진 입력 섹션 카드 테두리 라이트 하드코딩(#f1f5f9, #bfdbfe)에 따른 다크모드 시각적 눈부심 결함 해결
+* **발생 일자**: 2026-10-18
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **영역**: 문진 입력 템플릿 (`input.html`), 디자인 시스템 (`style.css`)
+* **문제 현상 및 원인 분석**:
+  * 문진 입력 페이지의 핵심 섹션 카드(`.triage-section-card`)에 다크 테마 오버라이드가 누락되어, 기본 라이트 모드 스타일인 `border: 1.5px solid #f1f5f9`가 다크모드에서도 그대로 적용됨.
+  * 어두운 배경 위에서 비활성 섹션 카드(`2. 아이 상태 상세 측정`)는 새하얀 실선 테두리로 눈부심을 유발하고, 활성 섹션 카드(`1. 아이의 주요 증상`)는 밝은 하늘색(`#bfdbfe`) 테두리로 이질감 발생.
+  * 1번, 2번 단계 번호 원형 뱃지(`.section-step-num`) 역시 `#eff6ff` 밝은 배경으로 번쩍이며, 체온 퀵 이동 바의 점선 구분선 및 체온 다이얼 SVG 트랙도 밝은 회색으로 잔존.
+* **구체적 해결 방안**:
+  1. **`.triage-section-card` 토스 TDS 다크 보더 및 서피스 전면화**:
+     - `html[data-theme="dark"] .triage-section-card`: `border: 1px solid rgba(255, 255, 255, 0.08) !important; background: #202027 !important;` 적용으로 은은하고 부드러운 다크 경계선 완성.
+     - `html[data-theme="dark"] .triage-section-card:focus-within`, `.active-card`: `border: 1.5px solid rgba(49, 130, 246, 0.4) !important;` 및 소프트 앰비언트 글로우 연동.
+  2. **서브 컴포넌트 일체 토스 다크 테마 동기화**:
+     - 단계 번호 원형 뱃지(`.section-step-num`): 토스 다크 블루 틴트(`rgba(49, 130, 246, 0.16)`) 배경 + `#3182f6` 텍스트로 정돈.
+     - 증상 입력 필드 밑줄(`.symptom-underline-field`): `border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;`
+     - 패널 하단 점선(`.panel-quick-nav-row`): `border-top: 1px dashed rgba(255, 255, 255, 0.1) !important;`
+     - 나이 카테고리 카드(`.age-category-card`): `#202027` 서피스 및 `rgba(255, 255, 255, 0.08)` 보더 적용.
+     - 체온 SVG 배경 트랙: `stroke: rgba(255, 255, 255, 0.08) !important;`
+  3. `frontend/templates/input.html` 및 `frontend/css/style.css` (Section 23)에 동시 반영 후 `app/` 양대 디렉터리 동기화 및 25개 통합 계약 테스트 100% 통과 확인.
+* **적용 파일**:
+  * [frontend/templates/input.html](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/templates/input.html)
+  * [frontend/css/style.css](file:///Users/jeong-yeongsig/Desktop/Project/isoom/frontend/css/style.css)
+  * `app/` 양대 디렉터리 일체
+* **조치 결과**:
+  * 섹션 카드를 둘러싸고 있던 번쩍이는 흰색 테두리가 은은하고 고급스러운 토스 프리미엄 다크 보더로 완벽 소독됨.
+
+
 
 
 

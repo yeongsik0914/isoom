@@ -505,6 +505,41 @@
       border-color: #93c5fd;
     }
 
+    html[data-theme="dark"] .patient-profile-autofill-banner {
+      background: #202027 !important;
+      border: 1px solid rgba(49, 130, 246, 0.3) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+    }
+    html[data-theme="dark"] .autofill-banner-icon-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: none !important;
+    }
+    html[data-theme="dark"] .autofill-banner-icon-box span {
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .autofill-banner-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .autofill-tag {
+      background: rgba(49, 130, 246, 0.16) !important;
+      border: 1px solid rgba(49, 130, 246, 0.35) !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .autofill-banner-sub {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .autofill-banner-btn {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .autofill-banner-btn:hover {
+      background: #363640 !important;
+      border-color: #3182f6 !important;
+      color: #ffffff !important;
+    }
+
     .symptom-invalid-tip {
       display: none;
       align-items: center;
@@ -518,6 +553,11 @@
       padding: 8px 12px;
       margin-top: 8px;
       animation: fadeIn 0.2s ease;
+    }
+    html[data-theme="dark"] .symptom-invalid-tip {
+      background: rgba(239, 68, 68, 0.12) !important;
+      border: 1px solid rgba(239, 68, 68, 0.25) !important;
+      color: #f87171 !important;
     }
 
     /* --------------------------------------------------------------------------
@@ -1481,7 +1521,43 @@
       border-color: #3182f6 !important;
     }
 
-  
+    /* Section 19-B Triage Section Cards Dark Border & Ambient Glow */
+    html[data-theme="dark"] .triage-section-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+    }
+    html[data-theme="dark"] .triage-section-card:focus-within,
+    html[data-theme="dark"] .triage-section-card.active-card {
+      border: 1.5px solid rgba(49, 130, 246, 0.4) !important;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(49, 130, 246, 0.15) !important;
+    }
+    html[data-theme="dark"] .section-step-num {
+      background: rgba(49, 130, 246, 0.16) !important;
+      color: #3182f6 !important;
+      border: 1px solid rgba(49, 130, 246, 0.3) !important;
+    }
+    html[data-theme="dark"] .symptom-underline-field {
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .symptom-underline-field:focus {
+      border-bottom-color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .symptom-underline-field::placeholder {
+      color: #64748b !important;
+    }
+    html[data-theme="dark"] .panel-quick-nav-row {
+      border-top: 1px dashed rgba(255, 255, 255, 0.1) !important;
+    }
+    html[data-theme="dark"] .age-category-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .gauge-svg path[stroke="#f1f5f9"] {
+      stroke: rgba(255, 255, 255, 0.08) !important;
+    }
+
     /* Section 20 Input Tab Bar Dark */
     html[data-theme="dark"] .measure-tab-bar {
       background: #17171c !important;
