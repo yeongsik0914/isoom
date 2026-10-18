@@ -78,6 +78,63 @@ html {
   text-size-adjust: 100%;
 }
 
+/* ==========================================================================
+   🌙 아이숨 (Aisum) - 전역 다크 모드: Toss TDS Dark Theme (토스 다크 시스템)
+   Toss Deep Obsidian (#101012), Toss Canvas (#17171c), Toss Card Surface (#202027),
+   Toss Inset (#2c2c34), Toss Signature Blue (#3182f6), Toss Green (#04b05c), Toss Red (#f04452)
+   ========================================================================== */
+html[data-theme="dark"] {
+  /* Layout & Elevations (Toss TDS Dark Palette) */
+  --canvas-bg: #101012;        /* 데스크톱 최외곽 캔버스 (Toss Deep Obsidian) */
+  --app-bg: #17171c;           /* 모바일 뷰포트 메인 셸 (Toss Canvas Background) */
+  --card-bg: #202027;          /* 메인 카드 서피스 (Toss Layered Card Grey) */
+  --card-bg-subtle: #2c2c34;   /* 내부 서브 박스/인셋 웰 (Toss Sub Box) */
+  --card-bg-hover: #26262e;    /* 호버/인터랙션 서피스 */
+  --card-btn-bg: #2c2c34;      /* 카드 액션 버튼 서피스 (Toss Pill Button) */
+  --card-btn-border: rgba(255, 255, 255, 0.06); /* 토스 미세 보더 */
+  --white: #202027;            /* 다크 모드 서피스 대체 */
+
+  /* Neutral Typography (Toss TDS Text Hierarchy) */
+  --slate-900: #f9fafb;        /* 1순위 헤드라인, 핵심 수치, 타이틀 (Toss Pure White) */
+  --slate-800: #e5e8eb;        /* 2순위 섹션 타이틀, 레이블 */
+  --slate-700: #d1d6db;        /* 3순위 본문 텍스트 */
+  --slate-600: #b0b8c1;        /* 보조 설명문구, 주소 (Toss Cool Gray) */
+  --slate-500: #8b95a1;        /* 캡션, 비활성 텍스트 */
+  --slate-400: #6b7684;        /* 메타 태그, 힌트 */
+  --slate-300: #4e5968;        /* 비활성 보더 */
+  --slate-200: #26262e;        /* 기본 카드 1px 테두리 */
+  --slate-100: #202027;        /* 서브 칩 배경 */
+  --slate-50: #17171c;         /* 최하위 웰 배경 */
+
+  /* Primary Accent & Surfaces (Toss Signature Blue #3182F6) */
+  --primary: #3182f6;          /* Toss Blue */
+  --primary-hover: #1b64da;
+  --primary-active: #1550b0;
+  --primary-light: #4593fc;    /* Secondary Soft Blue */
+  --primary-surface: rgba(49, 130, 246, 0.12);
+  --primary-border: rgba(49, 130, 246, 0.28);
+
+  /* Tertiary Accents in Dark (Toss Green & Toss Red) */
+  --emerald-live: #04b05c;     /* Toss Vivid Green */
+  --emerald-surface: rgba(4, 176, 92, 0.12);
+  --emerald-border: rgba(4, 176, 92, 0.28);
+  --emerald-text: #04b05c;
+
+  --amber-surface: rgba(245, 158, 11, 0.14);
+  --amber-border: rgba(245, 158, 11, 0.32);
+  --amber-text: #fbbf24;
+
+  --coral-red: #f04452;        /* Toss Vivid Red */
+  --coral-surface: rgba(240, 68, 82, 0.12);
+  --coral-border: rgba(240, 68, 82, 0.28);
+  --coral-text: #f04452;
+
+  /* Shadows & Outlines (Toss Soft Depth) */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-phone: 0 25px 60px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
 body {
   font-family: var(--font-family);
   background-color: var(--canvas-bg);
@@ -993,7 +1050,7 @@ body.app-shell-body {
   left: 0;
   right: 0;
   width: 100%;
-  max-width: 440px;
+  max-width: 100%;
   margin: 0 auto;
   height: 68px;
   background: rgba(255, 255, 255, 0.95);
@@ -1011,8 +1068,8 @@ body.app-shell-body {
 
 @media (min-width: 640px) {
   .bottom-nav {
-    border-bottom-left-radius: 28px;
-    border-bottom-right-radius: 28px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 
@@ -4018,4 +4075,1951 @@ body.font-size-large .location-pill {
   color: var(--primary);
   border-radius: 16px;
 }
-
+
+/* ==========================================================================
+   🌙 다크모드 컴포넌트 전면 오버라이드 (Toss TDS Dark Theme System)
+   Canvas: #101012, Shell: #17171c, Card: #202027, Inset: #2c2c34,
+   Primary: #3182f6, Green: #04b05c, Red: #f04452, Text: #f9fafb / #b0b8c1
+   ========================================================================== */
+
+/* 1. Global Viewport & Shells */
+html[data-theme="dark"] body {
+  background-color: #101012 !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .mobile-viewport,
+html[data-theme="dark"] .mobile-frame,
+html[data-theme="dark"] .app-shell-viewport,
+html[data-theme="dark"] .main-home-shell,
+html[data-theme="dark"] .triage-shell,
+html[data-theme="dark"] .result-shell,
+html[data-theme="dark"] .history-shell,
+html[data-theme="dark"] .briefing-shell,
+html[data-theme="dark"] .app-viewport {
+  background-color: #17171c !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.75) !important;
+}
+
+/* 2. Top Header Bars */
+html[data-theme="dark"] .app-header,
+html[data-theme="dark"] .settings-header,
+html[data-theme="dark"] .history-header,
+html[data-theme="dark"] .briefing-header,
+html[data-theme="dark"] .triage-header,
+html[data-theme="dark"] .result-header,
+html[data-theme="dark"] .detail-header,
+html[data-theme="dark"] .guidebook-header,
+html[data-theme="dark"] .terms-header,
+html[data-theme="dark"] .licenses-header {
+  background: rgba(23, 23, 28, 0.94) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+html[data-theme="dark"] .app-header .app-title,
+html[data-theme="dark"] .settings-header-title,
+html[data-theme="dark"] .history-header-title,
+html[data-theme="dark"] .header-main-title,
+html[data-theme="dark"] .triage-header-title,
+html[data-theme="dark"] .detail-header-title {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .back-link-btn,
+html[data-theme="dark"] .history-back-btn,
+html[data-theme="dark"] .header-left-btn,
+html[data-theme="dark"] .triage-back-btn {
+  color: #b0b8c1 !important;
+}
+
+html[data-theme="dark"] .back-link-btn:active,
+html[data-theme="dark"] .history-back-btn:active,
+html[data-theme="dark"] .header-left-btn:active,
+html[data-theme="dark"] .triage-back-btn:active {
+  background-color: #202027 !important;
+  color: #f9fafb !important;
+}
+
+/* 3. Bottom Navigation Bar (GNB) */
+html[data-theme="dark"] .bottom-nav {
+  background: rgba(23, 23, 28, 0.96) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+html[data-theme="dark"] .nav-item {
+  color: #8b95a1 !important;
+}
+
+html[data-theme="dark"] .nav-item.active {
+  background-color: rgba(49, 130, 246, 0.12) !important;
+  color: #3182f6 !important;
+  border-radius: 16px !important;
+}
+
+/* 4. Main Home Components */
+html[data-theme="dark"] .hero-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 22px !important;
+}
+
+html[data-theme="dark"] .hero-title {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .hero-desc {
+  color: #b0b8c1 !important;
+}
+
+html[data-theme="dark"] .live-sync-banner {
+  background: rgba(4, 176, 92, 0.12) !important;
+  color: #04b05c !important;
+  border: 1px solid rgba(4, 176, 92, 0.25) !important;
+  border-radius: 9999px !important;
+}
+
+html[data-theme="dark"] .section-title {
+  color: #f9fafb !important;
+}
+
+/* Toss Style Dark CTA Button: Rich Toss Blue with Pure White Text */
+html[data-theme="dark"] .primary-cta-btn {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 20px rgba(49, 130, 246, 0.35) !important;
+  border: none !important;
+  border-radius: 16px !important;
+}
+
+html[data-theme="dark"] .primary-cta-btn span,
+html[data-theme="dark"] .primary-cta-btn .cta-arrow {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+html[data-theme="dark"] .primary-cta-btn:hover,
+html[data-theme="dark"] .primary-cta-btn:active {
+  background: #1b64da !important;
+  transform: scale(0.99);
+}
+
+/* Facility Cards (Toss Rounded Card) */
+html[data-theme="dark"] .facility-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 20px !important;
+}
+
+html[data-theme="dark"] .facility-card:hover {
+  border-color: #3182f6 !important;
+}
+
+html[data-theme="dark"] .facility-name {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .facility-desc {
+  color: #b0b8c1 !important;
+}
+
+/* Card Action Buttons (Toss Inset Pill) */
+html[data-theme="dark"] .call-btn,
+html[data-theme="dark"] .card-action-btn,
+html[data-theme="dark"] .btn-action {
+  background-color: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  color: #f9fafb !important;
+  border-radius: 14px !important;
+}
+
+html[data-theme="dark"] .call-btn:hover,
+html[data-theme="dark"] .call-btn:active,
+html[data-theme="dark"] .card-action-btn:hover,
+html[data-theme="dark"] .card-action-btn:active {
+  background-color: #363640 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .closing-time-tag {
+  background-color: #2c2c34 !important;
+  color: #d1d6db !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+html[data-theme="dark"] .filter-tab {
+  background: #202027 !important;
+  color: #b0b8c1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 9999px !important;
+}
+
+html[data-theme="dark"] .filter-tab.active {
+  background: #2c2c34 !important;
+  color: #ffffff !important;
+  border-color: #3182f6 !important;
+}
+
+html[data-theme="dark"] .facility-card.is-closed {
+  background: #1c1c22 !important;
+  border-color: rgba(255, 255, 255, 0.04) !important;
+  opacity: 0.7 !important;
+}
+
+/* Notice Card */
+html[data-theme="dark"] .notice-card,
+html[data-theme="dark"] .legal-notice-box {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+}
+
+/* 5. Triage Input Page (input.html) */
+html[data-theme="dark"] .triage-body {
+  background-color: #17171c !important;
+}
+
+html[data-theme="dark"] .triage-step-card,
+html[data-theme="dark"] .triage-box,
+html[data-theme="dark"] .input-section-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .symptom-chip,
+html[data-theme="dark"] .age-card,
+html[data-theme="dark"] .measurement-tab,
+html[data-theme="dark"] .age-category-card {
+  background: #2c2c34 !important;
+  color: #b0b8c1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 14px !important;
+}
+
+html[data-theme="dark"] .symptom-chip:hover,
+html[data-theme="dark"] .age-card:hover {
+  background: #363640 !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .symptom-chip.selected,
+html[data-theme="dark"] .age-card.active,
+html[data-theme="dark"] .measurement-tab.active,
+html[data-theme="dark"] .age-category-card.selected {
+  background: rgba(49, 130, 246, 0.15) !important;
+  border-color: #3182f6 !important;
+  color: #3182f6 !important;
+}
+
+html[data-theme="dark"] .temp-input-field,
+html[data-theme="dark"] .triage-input,
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="number"],
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background-color: #2c2c34 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+}
+
+html[data-theme="dark"] .submit-triage-btn,
+html[data-theme="dark"] .btn-triage-next {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 16px !important;
+}
+
+/* 6. Result Page (result.html) */
+html[data-theme="dark"] .result-body {
+  background-color: #17171c !important;
+}
+
+html[data-theme="dark"] .summary-card,
+html[data-theme="dark"] .triage-result-card,
+html[data-theme="dark"] .recommend-hospital-card,
+html[data-theme="dark"] .hospital-card,
+html[data-theme="dark"] .pharmacy-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .route-summary-box,
+html[data-theme="dark"] .recommend-reason-box,
+html[data-theme="dark"] .result-sub-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-radius: 14px !important;
+}
+
+html[data-theme="dark"] .call-button,
+html[data-theme="dark"] .direction-button {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 12px !important;
+}
+
+/* 7. Hospital & Pharmacy Detail Pages */
+html[data-theme="dark"] .hospital-info-card,
+html[data-theme="dark"] .detail-section-card,
+html[data-theme="dark"] .bed-realtime-card,
+html[data-theme="dark"] .timetable-card,
+html[data-theme="dark"] .info-item-box {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .bed-badge-box,
+html[data-theme="dark"] .detail-sub-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-radius: 14px !important;
+}
+
+html[data-theme="dark"] .cta-direct-call {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+}
+
+/* 8. Emergency Alert Page (emergency_alert.html) */
+html[data-theme="dark"] .alert-card,
+html[data-theme="dark"] .action-guide-box {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+}
+
+html[data-theme="dark"] .emergency-top-badge {
+  background: rgba(240, 68, 82, 0.12) !important;
+  border-color: #f04452 !important;
+  color: #f04452 !important;
+}
+
+html[data-theme="dark"] .btn-119-call {
+  background: #f04452 !important;
+  color: #ffffff !important;
+}
+
+/* 9. Paramedic Briefing Card (briefing_card.html) */
+html[data-theme="dark"] .briefing-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  border-radius: 22px !important;
+}
+
+html[data-theme="dark"] .card-header-bar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+html[data-theme="dark"] .card-title-text {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .patient-name-large {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .patient-sub-age {
+  color: #b0b8c1 !important;
+}
+
+html[data-theme="dark"] .emergency-contact-box,
+html[data-theme="dark"] .directive-item-box,
+html[data-theme="dark"] .vital-item-box,
+html[data-theme="dark"] .target-hospital-box,
+html[data-theme="dark"] .briefing-symptom-summary-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-radius: 14px !important;
+}
+
+html[data-theme="dark"] .directive-value,
+html[data-theme="dark"] .vital-value,
+html[data-theme="dark"] .contact-phone-number {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .directive-label,
+html[data-theme="dark"] .vital-label,
+html[data-theme="dark"] .contact-relation-label {
+  color: #8b95a1 !important;
+}
+
+html[data-theme="dark"] .symptom-tag {
+  background: #2c2c34 !important;
+  color: #3182f6 !important;
+  border: 1px solid rgba(49, 130, 246, 0.25) !important;
+  border-radius: 8px !important;
+}
+
+/* 10. History Page (history.html) */
+html[data-theme="dark"] .history-summary-bar {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 18px !important;
+}
+
+html[data-theme="dark"] .history-summary-count {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .history-summary-desc {
+  color: #b0b8c1 !important;
+}
+
+html[data-theme="dark"] .history-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+}
+
+html[data-theme="dark"] .history-card-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+html[data-theme="dark"] .history-hospital-info {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-radius: 14px !important;
+}
+
+html[data-theme="dark"] .history-hospital-info strong {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .history-empty-container {
+  background: #202027 !important;
+  border: 1px dashed rgba(255, 255, 255, 0.08) !important;
+  border-radius: 20px !important;
+}
+
+/* 11. Settings Page (settings.html) */
+html[data-theme="dark"] .settings-body {
+  background-color: #17171c !important;
+}
+
+html[data-theme="dark"] .settings-group {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+}
+
+html[data-theme="dark"] .settings-group-title {
+  color: #8b95a1 !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="dark"] .settings-item-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .settings-item-row:hover,
+html[data-theme="dark"] .settings-item-row:active {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+html[data-theme="dark"] .settings-item-label {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .settings-item-value {
+  color: #b0b8c1 !important;
+}
+
+html[data-theme="dark"] .settings-item-value.accent {
+  color: #3182f6 !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="dark"] .settings-item-chevron {
+  color: #6b7684 !important;
+}
+
+html[data-theme="dark"] .settings-select-wrapper {
+  background-color: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 12px !important;
+}
+
+html[data-theme="dark"] .settings-select-box {
+  background-color: transparent !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .settings-select-box option {
+  background-color: #202027 !important;
+  color: #f9fafb !important;
+}
+
+/* 12. Modals & Theme Option Cards */
+html[data-theme="dark"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+html[data-theme="dark"] .modal-dialog-card {
+  background: #202027 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8) !important;
+}
+
+html[data-theme="dark"] .modal-title {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .modal-close-btn {
+  color: #b0b8c1 !important;
+}
+
+html[data-theme="dark"] .modal-close-btn:hover {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .theme-option-card {
+  background: #2c2c34 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+  border-radius: 16px !important;
+}
+
+html[data-theme="dark"] .theme-option-card:hover {
+  background: rgba(49, 130, 246, 0.1) !important;
+  border-color: #3182f6 !important;
+}
+
+html[data-theme="dark"] .theme-option-card.active {
+  background: rgba(49, 130, 246, 0.16) !important;
+  border-color: #3182f6 !important;
+  box-shadow: 0 0 0 1px #3182f6 !important;
+}
+
+html[data-theme="dark"] .theme-opt-title {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .theme-opt-desc {
+  color: #b0b8c1 !important;
+}
+
+html[data-theme="dark"] .record-select-item {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+  border-radius: 14px !important;
+}
+
+html[data-theme="dark"] .record-select-item:hover,
+html[data-theme="dark"] .record-select-item.selected {
+  background: rgba(49, 130, 246, 0.14) !important;
+  border-color: #3182f6 !important;
+}
+
+/* 13. Legal & Guide Content Cards (guidebook, terms, licenses) */
+html[data-theme="dark"] .guide-card,
+html[data-theme="dark"] .terms-article,
+html[data-theme="dark"] .license-card,
+html[data-theme="dark"] .briefing-card-item,
+html[data-theme="dark"] .chapter-body,
+html[data-theme="dark"] .info-accordion-item {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .guide-card h2,
+html[data-theme="dark"] .guide-card h3,
+html[data-theme="dark"] .terms-article h3,
+html[data-theme="dark"] .license-card h3 {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .guide-card p,
+html[data-theme="dark"] .terms-article p,
+html[data-theme="dark"] .license-card p,
+html[data-theme="dark"] .terms-article li {
+  color: #d1d6db !important;
+}
+
+
+/* 15. Detailed Card Insets & Specific Fixes (Toss Dark Polish) */
+
+/* 16. Exhaustive Full-Spectrum Dark Theme Polish
+
+/* 17. Deep Triage & Result & Hospital Detail Full Dark Overrides */
+
+/* 18. Granular Sub-components Full Dark Overrides
+
+/* 19. Comprehensive Full-Spectrum Dark Theme Perfection
+
+
+/* 21. Ultra-Refined Dark Theme (Pharmacy Detail, Hospital Detail, QR Page, Location Sheet Chips, KTAS-1 Banner) */
+
+/* (1) Location Sheet: Close Button, Current Address Text & Quick Location Chips (Image 3) */
+html[data-theme="dark"] .sheet-close-btn {
+  background: #2c2c34 !important;
+  color: #d1d6db !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .sheet-close-btn:hover {
+  background: #363640 !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .current-address-bar {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .current-bar-text,
+html[data-theme="dark"] #modal-current-address-val {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .loc-chip-btn {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .loc-chip-btn:hover {
+  background: #363640 !important;
+}
+html[data-theme="dark"] .loc-chip-btn .chip-name {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .loc-chip-btn .chip-gu {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .loc-chip-btn.active {
+  background: #3182f6 !important;
+  border-color: #3182f6 !important;
+  box-shadow: 0 4px 12px rgba(49, 130, 246, 0.35) !important;
+}
+html[data-theme="dark"] .loc-chip-btn.active .chip-name,
+html[data-theme="dark"] .loc-chip-btn.active .chip-gu {
+  color: #ffffff !important;
+}
+
+/* (2) Pharmacy Detail Page (Image 1) */
+html[data-theme="dark"] .pharmacy-hero-card {
+  background: #202027 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .pharmacy-main-name,
+html[data-theme="dark"] #detail-pharmacy-name {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .pharmacy-subtitle,
+html[data-theme="dark"] #detail-pharmacy-sub {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .section-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .section-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .pharmacist-profile-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .pharmacist-name-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .pharmacist-avatar-circle {
+  background: #202027 !important;
+  border-color: #363640 !important;
+}
+html[data-theme="dark"] .detail-bottom-fixed {
+  background: rgba(23, 23, 28, 0.96) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .btn-bottom-call {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .btn-bottom-call:hover {
+  background: #363640 !important;
+}
+html[data-theme="dark"] .h-action-btn {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .today-time-box,
+html[data-theme="dark"] .time-table-row {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+}
+
+/* (3) Hospital Detail Page (Image 2) */
+html[data-theme="dark"] .hospital-hero-card {
+  background: #202027 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .doctor-profile-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .doctor-name-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .doctor-avatar-circle {
+  background: #202027 !important;
+  border-color: #363640 !important;
+}
+html[data-theme="dark"] .notice-box,
+html[data-theme="dark"] .warning-notice-box {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border: 1px solid rgba(245, 158, 11, 0.25) !important;
+  color: #fbbf24 !important;
+}
+html[data-theme="dark"] .notice-box strong,
+html[data-theme="dark"] .warning-notice-box strong {
+  color: #fef3c7 !important;
+}
+html[data-theme="dark"] .notice-box p,
+html[data-theme="dark"] .warning-notice-box p {
+  color: #d1d6db !important;
+}
+
+/* (4) QR Page (Image 4) */
+html[data-theme="dark"] .qr-viewport {
+  background-color: #17171c !important;
+  box-shadow: none !important;
+}
+html[data-theme="dark"] .qr-header {
+  background: #17171c !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .qr-header-title,
+html[data-theme="dark"] .qr-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .qr-subtitle {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .qr-back-btn {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .qr-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+}
+html[data-theme="dark"] .qr-image-wrapper {
+  background: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+html[data-theme="dark"] .qr-url-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .qr-url-text {
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] .qr-share-btn {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* (5) Result Page: KTAS-1 Banner, Refresh Button & Emergency Guide (Image 5) */
+html[data-theme="dark"] #ktas-emergency-call-banner {
+  background: rgba(239, 68, 68, 0.14) !important;
+  border: 1.5px solid rgba(239, 68, 68, 0.35) !important;
+}
+html[data-theme="dark"] #ktas-emergency-call-msg {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] #btn-view-emergency-guide {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] #btn-view-emergency-guide:hover {
+  background: #363640 !important;
+}
+html[data-theme="dark"] #btn-refresh-er-beds {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #4593fc !important;
+}
+html[data-theme="dark"] #btn-refresh-er-beds:hover {
+  background: #363640 !important;
+}
+
+/* 20. Harmonious Dark Theme Overrides: Buttons, Notification Sheet, Input Tab Bar & Guidebook CTA */
+
+/* (1) Input Page: 3-Item Measure Tab Bar & Badges (Screenshot 1) */
+html[data-theme="dark"] .measure-tab-bar {
+  background: #17171c !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .measure-tab-btn {
+  background: transparent !important;
+}
+html[data-theme="dark"] .measure-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+html[data-theme="dark"] .measure-tab-btn.active {
+  background: #2c2c34 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35) !important;
+}
+html[data-theme="dark"] .measure-tab-title {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .measure-tab-btn.active .measure-tab-title {
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .measure-tab-val-badge {
+  background: #202027 !important;
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .measure-tab-btn.active .measure-tab-val-badge {
+  background: rgba(49, 130, 246, 0.16) !important;
+  color: #4593fc !important;
+}
+html[data-theme="dark"] .section-tag-badge,
+html[data-theme="dark"] .section-badge {
+  background: #2c2c34 !important;
+  color: #8b95a1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .section-badge.highlight {
+  background: rgba(49, 130, 246, 0.16) !important;
+  color: #4593fc !important;
+  border-color: rgba(49, 130, 246, 0.3) !important;
+}
+html[data-theme="dark"] #temp-stage-badge {
+  background: #2c2c34 !important;
+  color: #d1d6db !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* (2) Main Home: Notification Sheet Header, Body, Cards & Call Button (Screenshot 2) */
+html[data-theme="dark"] .sheet-header {
+  background: #202027 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .sheet-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .close-icon-btn {
+  background: #2c2c34 !important;
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] .close-icon-btn:hover {
+  background: #363640 !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .sheet-body {
+  background: #17171c !important;
+}
+html[data-theme="dark"] .notif-card-wrapper {
+  background: rgba(239, 68, 68, 0.15) !important;
+}
+html[data-theme="dark"] .notif-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+}
+html[data-theme="dark"] .notif-card.unread {
+  background: #24242d !important;
+  border-color: rgba(49, 130, 246, 0.4) !important;
+}
+html[data-theme="dark"] .notif-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .notif-message {
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] .btn-notif-call {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .btn-notif-call:hover {
+  background: #363640 !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .history-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .history-child-info {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .history-hospital-info {
+  color: #d1d6db !important;
+}
+
+/* (3) Result Page: Harmonious Action Buttons, Rank Badge & Tags (Screenshot 3) */
+html[data-theme="dark"] .slim-btn-call {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f9fafb !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+}
+html[data-theme="dark"] .slim-btn-call:hover {
+  background: #363640 !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .slim-btn-call.er-call {
+  background: rgba(239, 68, 68, 0.16) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #f87171 !important;
+}
+html[data-theme="dark"] .slim-btn-call.er-call:hover {
+  background: rgba(239, 68, 68, 0.25) !important;
+}
+html[data-theme="dark"] .slim-btn-map {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(49, 130, 246, 0.3) !important;
+}
+html[data-theme="dark"] .slim-btn-map:hover {
+  background: #1b64da !important;
+}
+html[data-theme="dark"] .slim-rank-badge {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .slim-distance-tag {
+  background: #2c2c34 !important;
+  color: #d1d6db !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .slim-sub-row .time-tag {
+  background: rgba(16, 185, 129, 0.14) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.2) !important;
+}
+html[data-theme="dark"] .slim-sub-row .pharm-tag {
+  background: rgba(14, 165, 233, 0.14) !important;
+  color: #38bdf8 !important;
+  border: 1px solid rgba(14, 165, 233, 0.2) !important;
+}
+
+/* (4) Guidebook Page: Floating CTA Bar & Action Buttons (Screenshot 4) */
+html[data-theme="dark"] .guidebook-cta-bar {
+  background: rgba(23, 23, 28, 0.94) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+html[data-theme="dark"] .btn-cta-triage {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(49, 130, 246, 0.35) !important;
+}
+html[data-theme="dark"] .btn-cta-triage:active {
+  background: #1b64da !important;
+}
+html[data-theme="dark"] .btn-cta-guide {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .btn-cta-guide:hover {
+  background: #363640 !important;
+}
+ (Input Meds/Temp, Result Tabs/Names/Script/Legal, Terms Footer, Location/Notif Sheets) */
+
+/* (1) Terms Footer Meta Card */
+html[data-theme="dark"] .terms-footer-meta {
+  background-color: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .terms-footer-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .terms-footer-item {
+  color: #8b95a1 !important;
+}
+
+/* (2) Input Page: Medication Cards, Time Subcards, Temp Unknown & Quick Nav Buttons */
+html[data-theme="dark"] .med-type-card {
+  background: #202027 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .med-type-card:hover {
+  background: #2c2c34 !important;
+}
+html[data-theme="dark"] .med-type-card.selected {
+  background: rgba(49, 130, 246, 0.16) !important;
+  border-color: #3182f6 !important;
+}
+html[data-theme="dark"] .med-type-name {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .med-type-desc {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .med-type-radio-circle {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+html[data-theme="dark"] .med-time-subcard {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .med-time-label {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .med-time-chip {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .med-time-chip.active {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+  border-color: #3182f6 !important;
+}
+html[data-theme="dark"] .temp-unknown-toggle-btn {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .temp-unknown-toggle-btn:hover {
+  background: #363640 !important;
+}
+html[data-theme="dark"] .temp-unknown-toggle-btn.active {
+  background: rgba(49, 130, 246, 0.16) !important;
+  border-color: #3182f6 !important;
+  color: #4593fc !important;
+}
+html[data-theme="dark"] .panel-nav-btn {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .panel-nav-btn:hover {
+  background: #363640 !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .panel-nav-btn.primary {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+  border-color: #3182f6 !important;
+}
+
+/* (3) Result Page: Track Tabs, Hospital Names, Call Script, Checklist, Legal Disclaimer & Bottom Buttons */
+html[data-theme="dark"] .track-tabs-container {
+  background: #17171c !important;
+}
+html[data-theme="dark"] .track-tab-btn {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .track-tab-btn.active {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+  box-shadow: none !important;
+}
+html[data-theme="dark"] .slim-hospital-name,
+html[data-theme="dark"] .facility-name {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .script-text-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .btn-copy-script {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .btn-copy-script:hover {
+  background: #2c2c34 !important;
+}
+html[data-theme="dark"] .checklist-item {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .checklist-item.checked {
+  background: rgba(4, 176, 92, 0.16) !important;
+  border-color: #04b05c !important;
+  color: #86efac !important;
+}
+html[data-theme="dark"] .legal-disclaimer-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .legal-disclaimer-card > div {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .btn-retry-input {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .btn-bottom-home {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+}
+
+/* (4) Main Home Page: Location Bottom Sheet, Address Bar, GPS Button & Notification Sheet */
+html[data-theme="dark"] .location-bottom-sheet {
+  background: #202027 !important;
+  color: #f9fafb !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .current-address-bar {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] #modal-current-address-val {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .loc-mode-tab {
+  background: #2c2c34 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .loc-mode-tab.active {
+  background: rgba(49, 130, 246, 0.16) !important;
+  border-color: #3182f6 !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .location-search-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .location-search-input {
+  color: #f9fafb !important;
+  background: transparent !important;
+}
+html[data-theme="dark"] .btn-gps-refresh {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .sheet-dialog-card {
+  background: #202027 !important;
+  color: #f9fafb !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .watch-status-banner {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+ (FAQ, Briefing Script/Checklist, Legal Footer, Age Selector) */
+
+/* (1) Guidebook FAQ Accordions & Script & Checklist */
+html[data-theme="dark"] .faq-accordion {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .faq-accordion[open] {
+  background: #202027 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+html[data-theme="dark"] .faq-summary {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .faq-body {
+  color: #d1d6db !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .checklist-row {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .checklist-icon {
+  color: #3182f6 !important;
+}
+
+/* (2) Licenses Legal Footer */
+html[data-theme="dark"] .licenses-footer {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .licenses-footer > div {
+  color: #f9fafb !important;
+}
+
+/* (3) Paramedic Briefing Special Notes Subform */
+html[data-theme="dark"] #detailsSpecialDirectives {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] #detailsSpecialDirectives summary {
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] #detailsSpecialDirectives > div {
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] #inlineTransfusionConsent {
+  background: rgba(49, 130, 246, 0.16) !important;
+  border-color: #3182f6 !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] #inlineTransfusionRefusal {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(240, 68, 82, 0.3) !important;
+  color: #fca5a5 !important;
+}
+
+/* (4) Triage Input Age Tab 5 Categories, Display Box, and Quick Chips */
+html[data-theme="dark"] .age-cat-btn {
+  background: #202027 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .age-cat-btn:hover {
+  background: #2c2c34 !important;
+}
+html[data-theme="dark"] .age-cat-btn-name {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .age-cat-btn-sub {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .age-cat-btn.active {
+  background: #3182f6 !important;
+  border-color: #3182f6 !important;
+}
+html[data-theme="dark"] .age-cat-btn.active .age-cat-btn-name {
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .age-cat-btn.active .age-cat-btn-sub {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+html[data-theme="dark"] .age-display-box {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .age-label-sub {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .age-preset-pill-btn {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .age-preset-pill-btn:hover {
+  background: #363640 !important;
+}
+html[data-theme="dark"] .age-preset-pill-btn.active {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+  border-color: #3182f6 !important;
+}
+
+
+/* (1) Triage Consent Modal in Main Home */
+html[data-theme="dark"] .modal-dialog-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .modal-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .highlight-navy {
+  color: #4593fc !important;
+}
+html[data-theme="dark"] .modal-notice-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] .modal-notice-list li {
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] .highlight-blue {
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .modal-action-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .modal-action-btn.btn-cancel {
+  background: #202027 !important;
+  color: #8b95a1 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .modal-action-btn.btn-confirm {
+  background: #202027 !important;
+  color: #3182f6 !important;
+}
+
+/* (2) AI Analyzing Loading Screen */
+html[data-theme="dark"] .analyzing-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+}
+html[data-theme="dark"] .analyzing-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .analyzing-step-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #4593fc !important;
+}
+html[data-theme="dark"] .analyzing-subtext {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .analyzing-progress-bar {
+  background: #2c2c34 !important;
+}
+
+/* (3) Triage Input Header & Dial */
+html[data-theme="dark"] .triage-header {
+  background: #17171c !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .header-page-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .header-page-sub {
+  color: #4593fc !important;
+}
+html[data-theme="dark"] .header-back-btn {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .triage-progress-bar-wrap {
+  background: #202027 !important;
+}
+html[data-theme="dark"] .triage-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .triage-card-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .triage-summary-footer {
+  background: rgba(23, 23, 28, 0.96) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* (4) Result Page Overrides */
+html[data-theme="dark"] .result-shell {
+  background-color: #17171c !important;
+}
+html[data-theme="dark"] .result-header {
+  background: rgba(23, 23, 28, 0.94) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .result-header-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .result-back-btn,
+html[data-theme="dark"] .result-home-btn {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .triage-summary-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .result-category-box {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .result-category-nav {
+  background: #17171c !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .category-nav-btn {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .category-nav-btn.active {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .slim-pairing-card,
+html[data-theme="dark"] .slim-er-card,
+html[data-theme="dark"] .emergency-room-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .triage-desc-text.ktas-tier-1 {
+  background: rgba(240, 68, 82, 0.15) !important;
+  border-left-color: #f04452 !important;
+  color: #fca5a5 !important;
+}
+html[data-theme="dark"] .triage-desc-text.ktas-tier-2 {
+  background: rgba(249, 115, 22, 0.15) !important;
+  border-left-color: #f97316 !important;
+  color: #fdba74 !important;
+}
+html[data-theme="dark"] .triage-desc-text.ktas-tier-3 {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border-left-color: #f59e0b !important;
+  color: #fde68a !important;
+}
+html[data-theme="dark"] .triage-desc-text.ktas-tier-4 {
+  background: rgba(4, 176, 92, 0.15) !important;
+  border-left-color: #04b05c !important;
+  color: #86efac !important;
+}
+html[data-theme="dark"] .triage-desc-text.ktas-tier-5 {
+  background: #2c2c34 !important;
+  border-left-color: #3182f6 !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .result-bottom-bar,
+html[data-theme="dark"] .result-fixed-cta {
+  background: rgba(23, 23, 28, 0.96) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .legal-disclaimer-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .result-btn-home {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .result-btn-retry {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+
+/* (5) Hospital Detail & Pharmacy Detail Overrides */
+html[data-theme="dark"] .app-viewport {
+  background-color: #17171c !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .detail-nav-header {
+  background: rgba(23, 23, 28, 0.94) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .nav-title,
+html[data-theme="dark"] .hospital-main-name {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .nav-btn {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .hospital-hero-card {
+  background: #202027 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .metrics-bar-grid {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .metric-val {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .metric-label {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .detail-section-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .doctor-team-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .warning-notice-box {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border: 1px solid rgba(245, 158, 11, 0.25) !important;
+  color: #fde68a !important;
+}
+html[data-theme="dark"] .today-schedule-banner {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .safe-pharmacy-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .fixed-cta-bar {
+  background: rgba(23, 23, 28, 0.96) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .btn-call-hospital {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #3182f6 !important;
+}
+ (Briefing Form, Guidebook, Terms, Licenses, Scrollbars) */
+
+/* (1) Main Home Facility Scrollbar Fix */
+html[data-theme="dark"] .facility-card-stack::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+html[data-theme="dark"] .facility-card-stack::-webkit-scrollbar-thumb {
+  background: #26262e !important;
+}
+html[data-theme="dark"] .facility-card-stack::-webkit-scrollbar-thumb:hover {
+  background: #3182f6 !important;
+}
+
+/* (2) Paramedic Briefing Card Inline Edit Form */
+html[data-theme="dark"] .profile-inline-form {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .inline-form-notice {
+  background: rgba(49, 130, 246, 0.12) !important;
+  border: 1px solid rgba(49, 130, 246, 0.25) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .inline-form-label {
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .inline-form-input {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .inline-chip {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .inline-chip:hover {
+  background: #363640 !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .inline-chip.active {
+  background: rgba(49, 130, 246, 0.16) !important;
+  border-color: #3182f6 !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .inline-accordion-btn {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .inline-btn-cancel {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .inline-btn-save {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+}
+
+/* (3) Guidebook Full Dark Sync */
+html[data-theme="dark"] .guidebook-viewport {
+  background-color: #17171c !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .guidebook-header {
+  background: rgba(23, 23, 28, 0.94) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .guidebook-header-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .guidebook-back-btn,
+html[data-theme="dark"] .guidebook-home-btn {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .chapter-tab-btn {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .chapter-tab-btn.active {
+  background: rgba(49, 130, 246, 0.16) !important;
+  border-color: #3182f6 !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .guide-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: none !important;
+}
+html[data-theme="dark"] .guide-card-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .guide-card-desc {
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] .feature-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+html[data-theme="dark"] .feature-box.highlight {
+  background: rgba(49, 130, 246, 0.12) !important;
+  border-color: rgba(49, 130, 246, 0.25) !important;
+}
+html[data-theme="dark"] .feature-box-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .feature-box-desc {
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .guidebook-bottom-cta {
+  background: rgba(23, 23, 28, 0.96) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* (4) Terms Full Dark Sync */
+html[data-theme="dark"] .terms-viewport {
+  background-color: #17171c !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .terms-header {
+  background-color: rgba(23, 23, 28, 0.94) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .terms-header-title,
+html[data-theme="dark"] .terms-main-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .terms-back-btn {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .terms-version-badge {
+  background-color: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .terms-intro-desc {
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .terms-intro-box {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .terms-chip {
+  background-color: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #b0b8c1 !important;
+}
+html[data-theme="dark"] .terms-chip:hover,
+html[data-theme="dark"] .terms-chip:active {
+  background-color: #2c2c34 !important;
+  color: #3182f6 !important;
+}
+html[data-theme="dark"] .terms-chip.highlight {
+  background-color: rgba(240, 68, 82, 0.14) !important;
+  border-color: rgba(240, 68, 82, 0.3) !important;
+  color: #fca5a5 !important;
+}
+html[data-theme="dark"] .terms-article {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 18px !important;
+  padding: 18px !important;
+  margin-bottom: 20px !important;
+}
+html[data-theme="dark"] .terms-article h2,
+html[data-theme="dark"] .terms-article h3 {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .terms-article p,
+html[data-theme="dark"] .terms-article li {
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] .terms-bottom-bar {
+  background: rgba(23, 23, 28, 0.96) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* (5) Licenses Full Dark Sync */
+html[data-theme="dark"] .licenses-viewport {
+  background-color: #17171c !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .licenses-header {
+  background: rgba(23, 23, 28, 0.94) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .licenses-header-title {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .licenses-back-btn,
+html[data-theme="dark"] .licenses-home-btn {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .filter-tabs-container {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .filter-tab-btn {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .filter-tab-btn.active {
+  background: #2c2c34 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="dark"] .filtered-count {
+  color: #8b95a1 !important;
+}
+html[data-theme="dark"] .license-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+html[data-theme="dark"] .license-card-name {
+  color: #f9fafb !important;
+}
+html[data-theme="dark"] .license-card-desc {
+  color: #d1d6db !important;
+}
+html[data-theme="dark"] .license-badge {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #04b05c !important;
+}
+
+html[data-theme="dark"] .settings-section-divider {
+  height: 12px !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+html[data-theme="dark"] .doctor-contact-box {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+html[data-theme="dark"] .doctor-name-hospital {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .doctor-label,
+html[data-theme="dark"] .doctor-phone-sub {
+  color: #8b95a1 !important;
+}
+
+html[data-theme="dark"] .ktas-tier-1-bg,
+html[data-theme="dark"] .ktas-tier-2-bg {
+  background: rgba(240, 68, 82, 0.15) !important;
+  border: 1px solid rgba(240, 68, 82, 0.3) !important;
+  color: #fca5a5 !important;
+}
+
+html[data-theme="dark"] .ktas-tier-3-bg {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  color: #fde68a !important;
+}
+
+html[data-theme="dark"] .ktas-tier-4-bg {
+  background: rgba(4, 176, 92, 0.15) !important;
+  border: 1px solid rgba(4, 176, 92, 0.3) !important;
+  color: #86efac !important;
+}
+
+html[data-theme="dark"] .ktas-tier-5-bg {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .ktas-urgency-chip {
+  color: #b0b8c1 !important;
+}
+
+html[data-theme="dark"] .briefing-symptom-summary-text,
+html[data-theme="dark"] .txt-briefing-summary-headline {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .history-btn-clear-all {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(240, 68, 82, 0.25) !important;
+  color: #f04452 !important;
+}
+
+html[data-theme="dark"] .history-btn-clear-all:active {
+  background: rgba(240, 68, 82, 0.2) !important;
+}
+
+html[data-theme="dark"] .history-child-info {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .history-child-info span {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .history-child-info span[style*="color: #ef4444"],
+html[data-theme="dark"] .history-child-info span[style*="color: rgb(239, 68, 68)"] {
+  color: #f04452 !important;
+  opacity: 0.95 !important;
+}
+
+html[data-theme="dark"] .history-symptom-tag {
+  background: #2c2c34 !important;
+  color: #4593fc !important;
+  border: 1px solid rgba(49, 130, 246, 0.25) !important;
+}
+
+html[data-theme="dark"] .btn-replay-result {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+  border-radius: 14px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(49, 130, 246, 0.3) !important;
+}
+
+html[data-theme="dark"] .header-left-btn,
+html[data-theme="dark"] .history-back-btn {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+
+/* 14. Toast & Emergency Floating Alerts */
+html[data-theme="dark"] .aisum-toast {
+  background: #202027 !important;
+  color: #f9fafb !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 16px !important;
+}
+
+/* ==========================================================================
+   🎨 테마 선택 모달 전용 스타일 (Theme Option Cards)
+   ========================================================================== */
+.theme-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.theme-option-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1.5px solid var(--slate-200);
+  background: var(--card-bg);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.theme-option-card:hover {
+  border-color: var(--primary);
+  background: var(--primary-surface);
+  transform: translateY(-1px);
+}
+
+.theme-option-card.active {
+  border-color: var(--primary);
+  background: var(--primary-surface);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.theme-opt-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-opt-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.theme-option-card:hover .theme-opt-icon-box {
+  transform: scale(1.05);
+}
+
+.theme-opt-icon-box.light-icon {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.theme-opt-icon-box.dark-icon {
+  background: #0f172a;
+  color: #38bdf8;
+  border: 1px solid #334155;
+}
+
+.theme-opt-icon-box.system-icon {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+html[data-theme="dark"] .theme-opt-icon-box.system-icon {
+  background: #334155;
+  color: #94a3b8;
+}
+
+.theme-opt-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.theme-opt-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--slate-900);
+}
+
+.theme-opt-sub {
+  font-size: 12px;
+  color: var(--slate-500);
+}
+
+.theme-opt-check {
+  font-size: 22px;
+  color: var(--primary);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: scale(0.8);
+}
+
+.theme-option-card.active .theme-opt-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+

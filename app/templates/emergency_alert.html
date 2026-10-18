@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>🚨 초응급 119 긴급 안내 - 아이숨(i-Soom)</title>
@@ -321,6 +335,8 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
   </style>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 

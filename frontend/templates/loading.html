@@ -2,6 +2,20 @@
 <html lang="ko">
 
 <head>
+  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>소아 증상 분석 중 - 아이숨 (Aisum)</title>
@@ -54,6 +68,31 @@
       box-sizing: border-box;
       position: relative;
     }
+  
+    /* Dark Theme Overrides */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+    }
+    html[data-theme="dark"] .analyzing-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: none !important;
+    }
+    html[data-theme="dark"] .analyzing-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .analyzing-step-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #4593fc !important;
+    }
+    html[data-theme="dark"] .analyzing-subtext {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .analyzing-progress-bar {
+      background: #2c2c34 !important;
+    }
+
   </style>
 </head>
 

@@ -23,7 +23,21 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#0066ff" />
+
+  <!-- 0ms FOUC Prevention Theme Script -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
 
   <!-- Global Stylesheet -->
   <link rel="stylesheet" href="../css/style.css?v=1.8.9" />
@@ -841,7 +855,7 @@
     .target-hosp-label {
       font-size: 10px;
       font-weight: 600;
-      color: #3b82f6;
+      color: #3182f6;
     }
 
     .target-hosp-name {
@@ -1404,6 +1418,323 @@
       border-color: #2563eb;
       background: #eff6ff;
     }
+
+    /* ==========================================================================
+       🌙 Paramedic Briefing Card Dark Mode Overrides (Deep Slate / Midnight)
+       ========================================================================== */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .mobile-viewport.briefing-shell {
+      background-color: #17171c !important;
+      border-color: rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 0 32px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    html[data-theme="dark"] .briefing-header {
+      background: rgba(23, 23, 28, 0.94) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .header-main-title {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .header-left-btn {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .header-right-action-btn {
+      background: rgba(59, 130, 246, 0.14) !important;
+      color: #3182f6 !important;
+      border-color: rgba(59, 130, 246, 0.3) !important;
+    }
+
+    /* Cards */
+    html[data-theme="dark"] .briefing-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    html[data-theme="dark"] .card-header-bar {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .card-title-text {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .card-title-icon {
+      color: #3182f6 !important;
+    }
+
+    html[data-theme="dark"] .btn-card-action {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .btn-card-action:active {
+      background: rgba(255, 255, 255, 0.05) !important;
+      color: #ffffff !important;
+    }
+
+    /* Patient Profile Info */
+    html[data-theme="dark"] .patient-name-large {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .patient-sub-age {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .patient-birth-date {
+      color: #cbd5e1 !important;
+    }
+
+    /* Emergency Contact Box */
+    html[data-theme="dark"] .emergency-contact-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .contact-relation-label {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .contact-phone-number {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .contact-icon-bubble {
+      background: rgba(59, 130, 246, 0.14) !important;
+      color: #3182f6 !important;
+    }
+
+    /* Directives & Special Notes */
+    html[data-theme="dark"] .patient-special-notes-box {
+      border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .directive-item-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .directive-label {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .directive-value {
+      color: #ffffff !important;
+    }
+
+    /* Vitals */
+    html[data-theme="dark"] .vital-item-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .vital-label {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .vital-value {
+      color: #ffffff !important;
+    }
+
+    /* Target Hospital Box */
+    html[data-theme="dark"] .target-hospital-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .target-hosp-name {
+      color: #3182f6 !important;
+    }
+
+    html[data-theme="dark"] .target-hosp-label {
+      color: #9ca3af !important;
+    }
+
+    /* Symptom Tags */
+    html[data-theme="dark"] .symptom-tag {
+      background: #2c2c34 !important;
+      color: #3182f6 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* Symptom Briefing Summary Box */
+    html[data-theme="dark"] .briefing-symptom-summary-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .briefing-symptom-summary-top {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .txt-briefing-summary-headline {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .txt-briefing-summary-clinical-note {
+      color: #cbd5e1 !important;
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* Bottom Nav */
+    html[data-theme="dark"] .bottom-nav {
+      background: rgba(23, 23, 28, 0.96) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    /* Modals */
+    html[data-theme="dark"] .modal-dialog-card {
+      background: #202027 !important;
+      color: #ffffff !important;
+      border: 1px solid #283042 !important;
+    }
+
+    html[data-theme="dark"] .record-select-item {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .record-select-item:hover,
+    html[data-theme="dark"] .record-select-item.selected {
+      background: rgba(59, 130, 246, 0.14) !important;
+      border-color: #3182f6 !important;
+    }
+
+    /* Toss Dark Polish Overrides */
+    html[data-theme="dark"] .header-left-btn {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .doctor-contact-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    html[data-theme="dark"] .doctor-name-hospital {
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .doctor-label,
+    html[data-theme="dark"] .doctor-phone-sub {
+      color: #8b95a1 !important;
+    }
+
+    html[data-theme="dark"] .ktas-tier-1-bg,
+    html[data-theme="dark"] .ktas-tier-2-bg {
+      background: rgba(240, 68, 82, 0.15) !important;
+      border: 1px solid rgba(240, 68, 82, 0.3) !important;
+      color: #fca5a5 !important;
+    }
+
+    html[data-theme="dark"] .ktas-tier-3-bg {
+      background: rgba(245, 158, 11, 0.15) !important;
+      border: 1px solid rgba(245, 158, 11, 0.3) !important;
+      color: #fde68a !important;
+    }
+
+    html[data-theme="dark"] .ktas-tier-4-bg {
+      background: rgba(4, 176, 92, 0.15) !important;
+      border: 1px solid rgba(4, 176, 92, 0.3) !important;
+      color: #86efac !important;
+    }
+
+    html[data-theme="dark"] .ktas-tier-5-bg {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .ktas-urgency-chip {
+      color: #b0b8c1 !important;
+    }
+
+    html[data-theme="dark"] .briefing-symptom-summary-text,
+    html[data-theme="dark"] #txtBriefingSummaryHeadline {
+      color: #f9fafb !important;
+    }
+  
+    /* Inline Profile Edit Form Dark Fix */
+    html[data-theme="dark"] .profile-inline-form {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .inline-form-notice {
+      background: rgba(49, 130, 246, 0.12) !important;
+      border: 1px solid rgba(49, 130, 246, 0.25) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .inline-form-label {
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .inline-form-input {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .inline-chip {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .inline-chip:hover {
+      background: #363640 !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .inline-chip.active {
+      background: rgba(49, 130, 246, 0.16) !important;
+      border-color: #3182f6 !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .inline-accordion-btn {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .inline-btn-cancel {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .inline-btn-save {
+      background: #3182f6 !important;
+      color: #ffffff !important;
+    }
+
+  
+    /* Paramedic Directives Dark */
+    html[data-theme="dark"] #detailsSpecialDirectives {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] #detailsSpecialDirectives summary {
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] #detailsSpecialDirectives > div {
+      border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] #inlineTransfusionConsent {
+      background: rgba(49, 130, 246, 0.16) !important;
+      border-color: #3182f6 !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] #inlineTransfusionRefusal {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(240, 68, 82, 0.3) !important;
+      color: #fca5a5 !important;
+    }
+
   </style>
 </head>
 
@@ -2000,7 +2331,10 @@
   </div>
 
   <!-- Scripts -->
+  <script src="../js/theme.js"></script>
+  <script src="/js/theme.js"></script>
   <script src="../js/main.js?v=1.8.9"></script>
+  <script src="/js/main.js?v=1.8.9"></script>
 
   <script>
     /* =============================================================

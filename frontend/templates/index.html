@@ -28,8 +28,160 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#10b981" />
+  <meta name="theme-color" content="#0066ff" />
   <link rel="apple-touch-icon" href="/img/icon-192.png" />
+
+  <!-- 0ms FOUC Prevention Theme Script -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
+  <style>
+    /* Location Sheet & Notification Sheet Dark Overrides */
+    html[data-theme="dark"] .location-bottom-sheet {
+      background: #202027 !important;
+      color: #f9fafb !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .current-address-bar {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #d1d6db !important;
+    }
+    html[data-theme="dark"] #modal-current-address-val {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .loc-mode-tab {
+      background: #2c2c34 !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .loc-mode-tab.active {
+      background: rgba(49, 130, 246, 0.16) !important;
+      border-color: #3182f6 !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .location-search-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .location-search-input {
+      color: #f9fafb !important;
+      background: transparent !important;
+    }
+    html[data-theme="dark"] .btn-gps-refresh {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .sheet-dialog-card {
+      background: #202027 !important;
+      color: #f9fafb !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .watch-status-banner {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #f9fafb !important;
+    }
+  
+    /* Section 20 Index Notif Sheet Dark */
+    html[data-theme="dark"] .sheet-header {
+      background: #202027 !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .sheet-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .close-icon-btn {
+      background: #2c2c34 !important;
+      color: #d1d6db !important;
+    }
+    html[data-theme="dark"] .close-icon-btn:hover {
+      background: #363640 !important;
+      color: #ffffff !important;
+    }
+    html[data-theme="dark"] .sheet-body {
+      background: #17171c !important;
+    }
+    html[data-theme="dark"] .notif-card-wrapper {
+      background: rgba(239, 68, 68, 0.15) !important;
+    }
+    html[data-theme="dark"] .notif-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+    }
+    html[data-theme="dark"] .notif-card.unread {
+      background: #24242d !important;
+      border-color: rgba(49, 130, 246, 0.4) !important;
+    }
+    html[data-theme="dark"] .notif-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .notif-message {
+      color: #d1d6db !important;
+    }
+    html[data-theme="dark"] .btn-notif-call {
+      background: #2c2c34 !important;
+      color: #f9fafb !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .btn-notif-call:hover {
+      background: #363640 !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .primary-cta-btn {
+      background: #3182f6 !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 20px rgba(49, 130, 246, 0.35) !important;
+    }
+    html[data-theme="dark"] .primary-cta-btn span,
+    html[data-theme="dark"] .primary-cta-btn .cta-arrow {
+      color: #ffffff !important;
+    }
+
+  
+    /* Location Sheet Chips & Header Dark */
+    html[data-theme="dark"] .sheet-close-btn {
+      background: #2c2c34 !important;
+      color: #d1d6db !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .current-bar-text,
+    html[data-theme="dark"] #modal-current-address-val {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .loc-chip-btn {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .loc-chip-btn .chip-name {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .loc-chip-btn .chip-gu {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .loc-chip-btn.active {
+      background: #3182f6 !important;
+      border-color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .loc-chip-btn.active .chip-name,
+    html[data-theme="dark"] .loc-chip-btn.active .chip-gu {
+      color: #ffffff !important;
+    }
+
+  </style>
 </head>
 
 <body class="main-home-body">
@@ -292,23 +444,23 @@
 
       <!-- Current Active Address Display Bar -->
       <div class="current-address-bar" id="modal-current-address-bar"
-        style="display:flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:9px 12px;margin-bottom:12px;">
+        style="display:flex;align-items:center;gap:8px;border-radius:12px;padding:9px 12px;margin-bottom:12px;">
         <span class="material-symbols-outlined current-bar-icon" style="font-size:18px;color:#0066ff;">home_pin</span>
-        <span class="current-bar-text" style="font-size:12.5px;color:#334155;">현재 설정된 주소: <strong
-            id="modal-current-address-val" style="color:#0f172a;">위치 확인 중...</strong></span>
+        <span class="current-bar-text" style="font-size:12.5px;">현재 설정된 주소: <strong
+            id="modal-current-address-val">위치 확인 중...</strong></span>
       </div>
 
       <!-- Search Mode Segmented Tabs (주소 검색 vs 키워드 검색) -->
       <div class="location-mode-tabs" role="tablist" style="display:flex;gap:8px;margin-bottom:12px;">
         <button type="button" class="loc-mode-tab active" id="tab-mode-address" role="tab" aria-selected="true"
           onclick="window.switchLocationSearchMode('address')"
-          style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:700;border:1.5px solid #0066ff;background:#f0f7ff;color:#0066ff;cursor:pointer;transition:all 0.15s ease;">
+          style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s ease;">
           <span class="material-symbols-outlined" style="font-size:17px;">signpost</span>
           <span>주소 검색 (지번/도로명)</span>
         </button>
         <button type="button" class="loc-mode-tab" id="tab-mode-keyword" role="tab" aria-selected="false"
           onclick="window.switchLocationSearchMode('keyword')"
-          style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:600;border:1.5px solid #e2e8f0;background:#ffffff;color:#64748b;cursor:pointer;transition:all 0.15s ease;">
+          style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s ease;">
           <span class="material-symbols-outlined" style="font-size:17px;">apartment</span>
           <span>키워드 검색 (건물/지역)</span>
         </button>
@@ -392,7 +544,10 @@
   <script src="../js/nationwide_pairings.js"></script>
   <script src="../js/public_night_pharmacies.js"></script>
   <script src="../js/national_emergency_hospitals.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="/js/theme.js"></script>
   <script src="../js/main.js?v=1.8.9"></script>
+  <script src="/js/main.js?v=1.8.9"></script>
   <script>
     // 🔔 알림 센터 및 📋 이전 결과 기록 모달 인터랙션 컨트롤러
     function openNotificationSheet() {

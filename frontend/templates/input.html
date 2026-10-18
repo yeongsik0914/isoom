@@ -24,8 +24,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#0066ff" />
   <link rel="apple-touch-icon" href="/img/icon-192.png" />
+
+  <!-- 0ms FOUC Prevention Theme Script -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
@@ -47,7 +61,7 @@
     }
 
     body {
-      background-color: #ffffff !important;
+      background-color: var(--app-bg, #ffffff) !important;
       margin: 0 !important;
       padding: 0 !important;
       width: 100%;
@@ -67,7 +81,7 @@
       height: 100dvh;
       min-height: 100dvh;
       max-height: 100dvh;
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       position: relative;
       display: flex;
       flex-direction: column;
@@ -106,7 +120,7 @@
     .triage-header {
       flex-shrink: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.96);
+      background: var(--card-bg, #ffffff);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid #f1f5f9;
@@ -196,7 +210,7 @@
 
     /* Section Card */
     .triage-section-card {
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       border-radius: 18px;
       border: 1.5px solid #f1f5f9;
       padding: 18px 18px 20px;
@@ -427,7 +441,7 @@
       width: 34px;
       height: 34px;
       border-radius: 9px;
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       border: 1px solid #dbeafe;
       display: flex;
       align-items: center;
@@ -456,7 +470,7 @@
       font-size: 10px;
       font-weight: 700;
       color: #0066ff;
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       padding: 1px 6px;
       border-radius: 4px;
       border: 1px solid #93c5fd;
@@ -477,7 +491,7 @@
       font-size: 11px;
       font-weight: 700;
       color: #0066ff;
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       border: 1px solid #bfdbfe;
       padding: 5px 9px;
       border-radius: 6px;
@@ -630,7 +644,7 @@
        통합 측정 탭 허브 (한 칸에서 체온, 나이, 해열제 모두 조작)
        -------------------------------------------------------------------------- */
     .integrated-measure-card {
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       border-radius: 18px;
       border: 1.5px solid #e2e8f0;
       padding: 16px 14px 18px;
@@ -671,7 +685,7 @@
     }
 
     .measure-tab-btn.active {
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
     }
 
@@ -779,7 +793,7 @@
        3. Section 3: 소아 5대 연령 카테고리 버튼 & 맞춤형 동적 조절 칸 (0세 ~ 만 18세)
        -------------------------------------------------------------------------- */
     .age-category-card {
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       border: 1.5px solid #e2e8f0;
       border-radius: 16px;
       padding: 12px;
@@ -1153,7 +1167,7 @@
       content: '';
       width: 6px;
       height: 6px;
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       border-radius: 50%;
       display: none;
     }
@@ -1190,7 +1204,7 @@
     .med-time-chip {
       flex: 1;
       padding: 8px 4px;
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
       border: 1px solid #bfdbfe;
       border-radius: 8px;
       font-size: 12px;
@@ -1231,7 +1245,7 @@
 
     .companion-simple-field:focus {
       border-color: #0066ff;
-      background: #ffffff;
+      background: var(--app-bg, #ffffff);
     }
 
     .companion-simple-field::placeholder {
@@ -1248,7 +1262,7 @@
       left: 0;
       right: 0;
       width: 100%;
-      background: rgba(255, 255, 255, 0.96);
+      background: var(--card-bg, #ffffff);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid #f1f5f9;
@@ -1335,6 +1349,185 @@
         transform: translateY(0);
       }
     }
+  
+    /* Input Header Dark Overrides */
+    html[data-theme="dark"] .triage-header {
+      background: #17171c !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .header-page-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .header-page-sub {
+      color: #4593fc !important;
+    }
+    html[data-theme="dark"] .header-back-btn {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .triage-progress-bar-wrap {
+      background: #202027 !important;
+    }
+
+  
+    /* Triage Input Age Tab Dark Overrides */
+    html[data-theme="dark"] .age-cat-btn {
+      background: #202027 !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .age-cat-btn:hover {
+      background: #2c2c34 !important;
+    }
+    html[data-theme="dark"] .age-cat-btn-name {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .age-cat-btn-sub {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .age-cat-btn.active {
+      background: #3182f6 !important;
+      border-color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .age-cat-btn.active .age-cat-btn-name {
+      color: #ffffff !important;
+    }
+    html[data-theme="dark"] .age-cat-btn.active .age-cat-btn-sub {
+      color: rgba(255, 255, 255, 0.88) !important;
+    }
+    html[data-theme="dark"] .age-display-box {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .age-label-sub {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .age-preset-pill-btn {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .age-preset-pill-btn:hover {
+      background: #363640 !important;
+    }
+    html[data-theme="dark"] .age-preset-pill-btn.active {
+      background: #3182f6 !important;
+      color: #ffffff !important;
+      border-color: #3182f6 !important;
+    }
+
+  
+    /* Input Meds & Temp Buttons Dark */
+    html[data-theme="dark"] .med-type-card {
+      background: #202027 !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .med-type-card:hover {
+      background: #2c2c34 !important;
+    }
+    html[data-theme="dark"] .med-type-card.selected {
+      background: rgba(49, 130, 246, 0.16) !important;
+      border-color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .med-type-name {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .med-type-desc {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .med-type-radio-circle {
+      border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+    html[data-theme="dark"] .med-time-subcard {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .med-time-label {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .med-time-chip {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .med-time-chip.active {
+      background: #3182f6 !important;
+      color: #ffffff !important;
+      border-color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .temp-unknown-toggle-btn {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .temp-unknown-toggle-btn:hover {
+      background: #363640 !important;
+    }
+    html[data-theme="dark"] .temp-unknown-toggle-btn.active {
+      background: rgba(49, 130, 246, 0.16) !important;
+      border-color: #3182f6 !important;
+      color: #4593fc !important;
+    }
+    html[data-theme="dark"] .panel-nav-btn {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .panel-nav-btn:hover {
+      background: #363640 !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .panel-nav-btn.primary {
+      background: #3182f6 !important;
+      color: #ffffff !important;
+      border-color: #3182f6 !important;
+    }
+
+  
+    /* Section 20 Input Tab Bar Dark */
+    html[data-theme="dark"] .measure-tab-bar {
+      background: #17171c !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .measure-tab-btn {
+      background: transparent !important;
+    }
+    html[data-theme="dark"] .measure-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+    html[data-theme="dark"] .measure-tab-btn.active {
+      background: #2c2c34 !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35) !important;
+    }
+    html[data-theme="dark"] .measure-tab-title {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .measure-tab-btn.active .measure-tab-title {
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .measure-tab-val-badge {
+      background: #202027 !important;
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .measure-tab-btn.active .measure-tab-val-badge {
+      background: rgba(49, 130, 246, 0.16) !important;
+      color: #4593fc !important;
+    }
+    html[data-theme="dark"] .section-tag-badge,
+    html[data-theme="dark"] .section-badge {
+      background: #2c2c34 !important;
+      color: #8b95a1 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .section-badge.highlight {
+      background: rgba(49, 130, 246, 0.16) !important;
+      color: #4593fc !important;
+      border-color: rgba(49, 130, 246, 0.3) !important;
+    }
+    html[data-theme="dark"] #temp-stage-badge {
+      background: #2c2c34 !important;
+      color: #d1d6db !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
   </style>
 </head>
 
@@ -3466,7 +3659,10 @@
     });
   </script>
 
+  <script src="../js/theme.js"></script>
+  <script src="/js/theme.js"></script>
   <script src="../js/main.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 
 </html>

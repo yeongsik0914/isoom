@@ -23,7 +23,21 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#0066ff" />
+
+  <!-- 0ms FOUC Prevention Theme Script -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
@@ -407,6 +421,72 @@
       color: #64748b;
       text-align: center;
     }
+  
+    /* Licenses Dark Theme Overrides */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .licenses-viewport {
+      background-color: #17171c !important;
+      color: #f9fafb !important;
+      box-shadow: none !important;
+    }
+    html[data-theme="dark"] .licenses-header {
+      background: rgba(23, 23, 28, 0.94) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .licenses-header-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .licenses-back-btn,
+    html[data-theme="dark"] .licenses-home-btn {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .filter-tabs-container {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .filter-tab-btn {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .filter-tab-btn.active {
+      background: #2c2c34 !important;
+      color: #f9fafb !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .filtered-count {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .license-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    html[data-theme="dark"] .license-card-name {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .license-card-desc {
+      color: #d1d6db !important;
+    }
+    html[data-theme="dark"] .license-badge {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #04b05c !important;
+    }
+
+  
+    /* Licenses Legal Footer Dark */
+    html[data-theme="dark"] .licenses-footer {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .licenses-footer > div {
+      color: #f9fafb !important;
+    }
+
   </style>
 </head>
 
@@ -874,6 +954,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
   </div>
 
+  <script src="../js/theme.js"></script>
+  <script src="/js/theme.js"></script>
   <script>
     // 1. 뒤로가기 핸들러 (히스토리가 없으면 설정 페이지로 이동)
     function handleGoBack() {

@@ -2,6 +2,20 @@
 <html lang="ko">
 
 <head>
+  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>스마트폰으로 앱 열기 (QR) - 아이숨 (Aisum)</title>
@@ -369,6 +383,52 @@
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
+  
+    /* Dark Theme Support */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .qr-viewport {
+      background-color: #17171c !important;
+      box-shadow: none !important;
+    }
+    html[data-theme="dark"] .qr-header {
+      background: #17171c !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .qr-header-title,
+    html[data-theme="dark"] .qr-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .qr-subtitle {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .qr-back-btn {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .qr-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    }
+    html[data-theme="dark"] .qr-image-wrapper {
+      background: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+    html[data-theme="dark"] .qr-url-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .qr-url-text {
+      color: #d1d6db !important;
+    }
+    html[data-theme="dark"] .qr-share-btn {
+      background: #2c2c34 !important;
+      color: #f9fafb !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
   </style>
 </head>
 

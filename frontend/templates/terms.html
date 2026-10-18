@@ -23,7 +23,21 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#0066ff" />
+
+  <!-- 0ms FOUC Prevention Theme Script -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
@@ -530,6 +544,89 @@
     body.is-view-mode #btn-terms-back {
       display: flex !important;
     }
+  
+    /* Terms Dark Theme Overrides */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .terms-viewport {
+      background-color: #17171c !important;
+      color: #f9fafb !important;
+      box-shadow: none !important;
+    }
+    html[data-theme="dark"] .terms-header {
+      background-color: rgba(23, 23, 28, 0.94) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .terms-header-title,
+    html[data-theme="dark"] .terms-main-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .terms-back-btn {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .terms-version-badge {
+      background-color: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .terms-intro-desc {
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .terms-intro-box {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .terms-chip {
+      background-color: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .terms-chip:hover,
+    html[data-theme="dark"] .terms-chip:active {
+      background-color: #2c2c34 !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .terms-chip.highlight {
+      background-color: rgba(240, 68, 82, 0.14) !important;
+      border-color: rgba(240, 68, 82, 0.3) !important;
+      color: #fca5a5 !important;
+    }
+    html[data-theme="dark"] .terms-article {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      border-radius: 18px !important;
+      padding: 18px !important;
+      margin-bottom: 20px !important;
+    }
+    html[data-theme="dark"] .terms-article h2,
+    html[data-theme="dark"] .terms-article h3 {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .terms-article p,
+    html[data-theme="dark"] .terms-article li {
+      color: #d1d6db !important;
+    }
+    html[data-theme="dark"] .terms-bottom-bar {
+      background: rgba(23, 23, 28, 0.96) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+  
+    /* Terms Footer Meta Dark */
+    html[data-theme="dark"] .terms-footer-meta {
+      background-color: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .terms-footer-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .terms-footer-item {
+      color: #8b95a1 !important;
+    }
+
   </style>
 
   <script>
@@ -879,7 +976,10 @@
   </div>
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
+  <script src="../js/theme.js"></script>
+  <script src="/js/theme.js"></script>
   <script src="../js/main.js"></script>
+  <script src="/js/main.js"></script>
 
   <script>
     // URL 모드 확인 (?mode=view: 설정에서 열람 모드)

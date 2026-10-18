@@ -23,7 +23,21 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#0066ff" />
+
+  <!-- 0ms FOUC Prevention Theme Script -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="../css/style.css" />
@@ -537,6 +551,134 @@
       background: #e2e8f0;
       transform: scale(0.98);
     }
+  
+    /* Guidebook Dark Theme Overrides */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .guidebook-viewport {
+      background-color: #17171c !important;
+      color: #f9fafb !important;
+      box-shadow: none !important;
+    }
+    html[data-theme="dark"] .guidebook-header {
+      background: rgba(23, 23, 28, 0.94) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .guidebook-header-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .guidebook-back-btn,
+    html[data-theme="dark"] .guidebook-home-btn {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .chapter-tab-btn {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .chapter-tab-btn.active {
+      background: rgba(49, 130, 246, 0.16) !important;
+      border-color: #3182f6 !important;
+      color: #3182f6 !important;
+    }
+    html[data-theme="dark"] .guide-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      box-shadow: none !important;
+    }
+    html[data-theme="dark"] .guide-card-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .guide-card-desc {
+      color: #d1d6db !important;
+    }
+    html[data-theme="dark"] .feature-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    html[data-theme="dark"] .feature-box.highlight {
+      background: rgba(49, 130, 246, 0.12) !important;
+      border-color: rgba(49, 130, 246, 0.25) !important;
+    }
+    html[data-theme="dark"] .feature-box-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .feature-box-desc {
+      color: #b0b8c1 !important;
+    }
+    html[data-theme="dark"] .guidebook-bottom-cta {
+      background: rgba(23, 23, 28, 0.96) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+  
+    /* Standard Script Box */
+    .standard-script-box {
+      font-family: monospace;
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd6fe;
+      color: #4338ca;
+    }
+    html[data-theme="dark"] .standard-script-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .faq-accordion {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .faq-accordion[open] {
+      background: #202027 !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    html[data-theme="dark"] .faq-summary {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .faq-body {
+      color: #d1d6db !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .checklist-row {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .checklist-icon {
+      color: #3182f6 !important;
+    }
+
+  
+    /* Section 20 Guidebook CTA Bar Dark */
+    html[data-theme="dark"] .guidebook-cta-bar {
+      background: rgba(23, 23, 28, 0.94) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+    }
+    html[data-theme="dark"] .btn-cta-triage {
+      background: #3182f6 !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 16px rgba(49, 130, 246, 0.35) !important;
+    }
+    html[data-theme="dark"] .btn-cta-triage:active {
+      background: #1b64da !important;
+    }
+    html[data-theme="dark"] .btn-cta-guide {
+      background: #2c2c34 !important;
+      color: #f9fafb !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .btn-cta-guide:hover {
+      background: #363640 !important;
+    }
+
   </style>
 </head>
 
@@ -856,7 +998,7 @@
             <span class="material-symbols-outlined" style="color: #7c3aed; font-size: 18px;">record_voice_over</span>
             <h4 class="feature-box-title">표준 사전 통화 브리핑 대본</h4>
           </div>
-          <p class="feature-box-desc" style="font-family: monospace; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #ddd6fe; color: #4338ca;">
+          <p class="feature-box-desc standard-script-box">
             "여보세요, 24개월 환아 보호자입니다. 현재 체온 39.2도이며 열성 경련 증세가 있어 이동하려 합니다. 현재 소아과 전문의 진료 및 입원 병상 배정이 가능한가요?"
           </p>
         </div>
@@ -957,6 +1099,8 @@
 
   </div>
 
+  <script src="../js/theme.js"></script>
+  <script src="/js/theme.js"></script>
   <script>
     // 뒤로가기 스마트 핸들러
     function handleGoBack() {

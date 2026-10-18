@@ -2,6 +2,20 @@
 <html lang="ko">
 
 <head>
+  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -870,6 +884,144 @@
       pointer-events: none;
       opacity: 0.9;
     }
+  
+    /* Hospital Detail Dark Overrides */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+    }
+    html[data-theme="dark"] .app-viewport {
+      background-color: #17171c !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .detail-nav-header {
+      background: rgba(23, 23, 28, 0.94) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .nav-title,
+    html[data-theme="dark"] .hospital-main-name {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .nav-btn {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .hospital-hero-card {
+      background: #202027 !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .metrics-bar-grid {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .metric-val {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .metric-label {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .detail-section-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .doctor-team-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .warning-notice-box {
+      background: rgba(245, 158, 11, 0.12) !important;
+      border: 1px solid rgba(245, 158, 11, 0.25) !important;
+      color: #fde68a !important;
+    }
+    html[data-theme="dark"] .today-schedule-banner {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .safe-pharmacy-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .fixed-cta-bar {
+      background: rgba(23, 23, 28, 0.96) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+    html[data-theme="dark"] .btn-call-hospital {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #3182f6 !important;
+    }
+
+  
+    /* Fixed Correct Class Dark Theme */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .app-viewport {
+      background-color: #17171c !important;
+    }
+    html[data-theme="dark"] .detail-nav-header {
+      background: #17171c !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .nav-title,
+    html[data-theme="dark"] .pharmacy-main-name {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .pharmacy-subtitle {
+      color: #8b95a1 !important;
+    }
+    html[data-theme="dark"] .nav-btn {
+      background: #2c2c34 !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .pharmacy-hero-card {
+      background: #202027 !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .section-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .section-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .pharmacist-profile-box {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .pharmacist-name-title {
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .pharmacist-avatar-circle {
+      background: #202027 !important;
+      border-color: #363640 !important;
+    }
+    html[data-theme="dark"] .detail-bottom-fixed {
+      background: rgba(23, 23, 28, 0.96) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    html[data-theme="dark"] .btn-bottom-call {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .btn-bottom-call:hover {
+      background: #363640 !important;
+    }
+    html[data-theme="dark"] .h-action-btn {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+    html[data-theme="dark"] .today-time-box,
+    html[data-theme="dark"] .time-table-row {
+      background: #2c2c34 !important;
+      color: #f9fafb !important;
+    }
+
   </style>
 </head>
 

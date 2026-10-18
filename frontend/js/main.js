@@ -2678,6 +2678,69 @@ window.openFontSizeModal = function() {
 // ============================================================================
 // 👶 Global Child Information Management System (자녀 기본 정보 관리 & BFCache 동기화)
 // ============================================================================
+// 🌙 아이숨 (Aisum) 화면 테마 설정 전역 핸들러
+// ============================================================================
+window.openThemeModal = function() {
+  const modal = document.getElementById('theme-setting-modal');
+  if (!modal) return;
+  const currentTheme = (window.AisumThemeManager && window.AisumThemeManager.getTheme) ?
+    window.AisumThemeManager.getTheme() : (localStorage.getItem('aisum_theme') || 'light');
+  window.updateThemeModalOptions(currentTheme);
+  modal.style.display = 'flex';
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeThemeModal = function() {
+  const modal = document.getElementById('theme-setting-modal');
+  if (!modal) return;
+  modal.style.display = 'none';
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+window.selectTheme = function(themeName) {
+  if (window.AisumThemeManager && typeof window.AisumThemeManager.setTheme === 'function') {
+    window.AisumThemeManager.setTheme(themeName);
+  } else {
+    localStorage.setItem('aisum_theme', themeName);
+    const effective = (themeName === 'system') ?
+      ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light') : themeName;
+    document.documentElement.setAttribute('data-theme', effective);
+  }
+  window.updateThemeModalOptions(themeName);
+  window.updateThemeDisplay(themeName);
+  const label = themeName === 'dark' ? '다크 모드' : (themeName === 'system' ? '시스템 설정 동기화' : '화이트 모드');
+  if (typeof window.showSettingsToast === 'function') {
+    window.showSettingsToast(`${label}(으)로 테마가 변경되었습니다.`);
+  } else if (typeof window.showAisumToast === 'function') {
+    window.showAisumToast(`${label}(으)로 테마가 변경되었습니다.`);
+  }
+};
+
+window.updateThemeModalOptions = function(activeTheme) {
+  ['light', 'dark', 'system'].forEach(t => {
+    const card = document.getElementById(`theme-opt-${t}`);
+    if (card) {
+      if (t === activeTheme) card.classList.add('active');
+      else card.classList.remove('active');
+    }
+  });
+};
+
+window.updateThemeDisplay = function(theme) {
+  const displayEl = document.getElementById('theme-setting-display');
+  if (!displayEl) return;
+  if (theme === 'dark') displayEl.textContent = '다크 모드';
+  else if (theme === 'system') displayEl.textContent = '시스템 설정';
+  else displayEl.textContent = '화이트 모드';
+};
+
+// ============================================================================
+// [기존 호환] 자녀 기본 정보 모달 핸들러
+// ============================================================================
 window.updateChildInfoDisplay = function() {
   try {
     const displayEl = document.getElementById('child-info-display');
@@ -2809,6 +2872,13 @@ if (!window.__AISUM_INITIALIZED__) {
 
   document.addEventListener('DOMContentLoaded', () => {
     console.log('👶 아이숨 (Aisum) 모바일 웹 화면이 Safari/Chrome 호환 모드로 로드되었습니다.');
+
+    // Initialize theme display on settings page
+    if (typeof window.updateThemeDisplay === 'function') {
+      const curTheme = (window.AisumThemeManager && window.AisumThemeManager.getTheme) ?
+        window.AisumThemeManager.getTheme() : (localStorage.getItem('aisum_theme') || 'light');
+      window.updateThemeDisplay(curTheme);
+    }
 
     // Initialize font size select on settings page
     const selectEl = document.getElementById('font-size-select');

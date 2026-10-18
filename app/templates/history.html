@@ -28,8 +28,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#0066ff" />
   <link rel="apple-touch-icon" href="/img/icon-192.png" />
+
+  <!-- 0ms FOUC Prevention Theme Script -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aisum_theme') || 'light';
+        var eff = t;
+        if (t === 'system') {
+          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', eff);
+      } catch(e) {}
+    })();
+  </script>
 
   <style>
     /* ==========================================================================
@@ -38,7 +52,7 @@
     body {
       padding: 0 !important;
       margin: 0 !important;
-      background-color: #f8faff !important;
+      background-color: var(--canvas-bg) !important;
       overflow-x: hidden;
       width: 100%;
       height: 100vh;
@@ -479,6 +493,159 @@
       color: #1d4ed8;
       border: 1px solid #bfdbfe;
     }
+
+    /* ==========================================================================
+       🌙 History Page Dark Mode Overrides (Deep Slate / Midnight Theme)
+       ========================================================================== */
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .mobile-viewport.history-shell {
+      background-color: #17171c !important;
+      border-color: rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 0 32px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    html[data-theme="dark"] .history-header {
+      background: rgba(23, 23, 28, 0.94) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .history-header-title {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .history-back-btn {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .history-back-btn:active {
+      background-color: #202027 !important;
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .history-summary-bar {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    html[data-theme="dark"] .history-summary-count {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .history-summary-desc {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .history-summary-icon {
+      background: rgba(59, 130, 246, 0.14) !important;
+      color: #3182f6 !important;
+    }
+
+    html[data-theme="dark"] .history-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    html[data-theme="dark"] .history-card-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .history-card-date {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .history-card-date span {
+      color: #e5e7eb !important;
+    }
+
+    html[data-theme="dark"] .history-symptom-tag {
+      background: #2c2c34 !important;
+      color: #3182f6 !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    html[data-theme="dark"] .history-hospital-info {
+      background: #2c2c34 !important;
+      color: #cbd5e1 !important;
+      border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    html[data-theme="dark"] .history-hospital-info strong {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .history-empty-container {
+      background: #202027 !important;
+      border: 1px dashed rgba(255, 255, 255, 0.05) !important;
+    }
+
+    html[data-theme="dark"] .history-empty-title {
+      color: #ffffff !important;
+    }
+
+    html[data-theme="dark"] .history-empty-desc {
+      color: #9ca3af !important;
+    }
+
+    html[data-theme="dark"] .history-empty-icon-wrap {
+      background: #2c2c34 !important;
+      color: #6b7280 !important;
+    }
+
+    html[data-theme="dark"] .bottom-nav {
+      background: rgba(23, 23, 28, 0.96) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+    }
+
+    /* Toss Dark Polish Overrides */
+    html[data-theme="dark"] .history-back-btn {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .history-btn-clear-all {
+      background: #2c2c34 !important;
+      border: 1px solid rgba(240, 68, 82, 0.25) !important;
+      color: #f04452 !important;
+    }
+
+    html[data-theme="dark"] .history-btn-clear-all:active {
+      background: rgba(240, 68, 82, 0.2) !important;
+    }
+
+    html[data-theme="dark"] .history-child-info {
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .history-child-info span {
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .history-child-info span[style*="color: #ef4444"],
+    html[data-theme="dark"] .history-child-info span[style*="color: rgb(239, 68, 68)"] {
+      color: #f04452 !important;
+      opacity: 0.95 !important;
+    }
+
+    html[data-theme="dark"] .history-symptom-tag {
+      background: #2c2c34 !important;
+      color: #4593fc !important;
+      border: 1px solid rgba(49, 130, 246, 0.25) !important;
+    }
+
+    html[data-theme="dark"] .btn-replay-result {
+      background: #3182f6 !important;
+      color: #ffffff !important;
+      border-radius: 14px !important;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 14px rgba(49, 130, 246, 0.3) !important;
+    }
   </style>
 </head>
 
@@ -560,7 +727,10 @@
   </div>
 
   <!-- Single Source JavaScript Modules -->
+  <script src="../js/theme.js"></script>
+  <script src="/js/theme.js"></script>
   <script src="../js/main.js?v=1.8.9"></script>
+  <script src="/js/main.js?v=1.8.9"></script>
 
   <script>
     // 📋 이전 문진 결과 기록 페이지 렌더러 및 컨트롤러

@@ -683,6 +683,41 @@ class TestFrontendIntegrationStep1(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(res_api.status_code, 200)
         self.assertEqual(res_api.json()["service"], "MoonlightCare API")
 
+    def test_24_theme_setting_feature_contract(self):
+        """TC-824: Ensure theme setting (dark/light/system) UI, modal, tokens and manager contract."""
+        # 1. settings.html contains theme row button, display, and theme modal
+        res_settings = self.client.get("/settings.html")
+        self.assertEqual(res_settings.status_code, 200)
+        settings_html = res_settings.text
+
+        self.assertIn("id=\"theme-setting-row-btn\"", settings_html)
+        self.assertIn("화면 테마 변경", settings_html)
+        self.assertIn("id=\"theme-setting-display\"", settings_html)
+        self.assertIn("id=\"theme-setting-modal\"", settings_html)
+        self.assertIn("id=\"theme-opt-light\"", settings_html)
+        self.assertIn("id=\"theme-opt-dark\"", settings_html)
+        self.assertIn("id=\"theme-opt-system\"", settings_html)
+        self.assertIn("openThemeModal()", settings_html)
+        self.assertIn("closeThemeModal()", settings_html)
+        self.assertIn("selectTheme", settings_html)
+        self.assertNotIn("id=\"child-info-row-btn\"", settings_html)
+
+        # 2. theme.js module exists and contains AisumThemeManager
+        with open("frontend/js/theme.js", "r", encoding="utf-8") as f:
+            theme_js = f.read()
+        self.assertIn("AisumThemeManager", theme_js)
+        self.assertIn("aisum_theme", theme_js)
+        self.assertIn("getTheme", theme_js)
+        self.assertIn("setTheme", theme_js)
+        self.assertIn("applyTheme", theme_js)
+
+        # 3. style.css contains html[data-theme="dark"] tokens & theme-option-card
+        with open("frontend/css/style.css", "r", encoding="utf-8") as f:
+            css = f.read()
+        self.assertIn("html[data-theme=\"dark\"]", css)
+        self.assertIn(".theme-option-card", css)
+        self.assertIn(".theme-options-list", css)
+
 
 if __name__ == "__main__":
     unittest.main()
