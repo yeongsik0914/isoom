@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PROJECT_DEVELOPMENT_STORY.md",
+                "file": "q_a.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PROJECT_DEVELOPMENT_STORY"
+              "title": "q_a"
             }
           }
         ]
@@ -190,21 +190,29 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "scratch/check_html.py",
+    "frontend/img/firstaid_fracture.jpg",
+    "frontend/img/firstaid_poisoning.jpg",
+    "frontend/img/firstaid_head_trauma.jpg",
+    "frontend/img/firstaid_bleeding.jpg",
+    "frontend/img/firstaid_respiratory.jpg",
+    "frontend/img/firstaid_anaphylaxis.jpg",
+    "app/services/__pycache__/facility_db_service.cpython-312.pyc",
+    "frontend/templates/first_aid_guide.html",
+    "frontend/templates/first_aid_guide.html.html",
+    "frontend/templates/first_aid_guide_back.html",
+    "scratch/test_images.py",
+    "frontend/img/firstaid_burn.jpg",
+    "frontend/img/firstaid_seizure.jpg",
+    "frontend/img/firstaid_choking.jpg",
+    "frontend/img/firstaid_cpr.jpg",
+    "PROJECT_DEVELOPMENT_STORY.md",
     "PWA_PLAN.md",
     "app/static/js/public_night_pharmacies.js",
     "app/static/js/pharmacy_details_data.js",
     "app/static/js/nationwide_pairings.js",
     "app/static/js/national_night_pharmacies_2028.js",
     "app/static/js/national_moonlight_hospitals_156.js",
-    "app/static/js/national_emergency_hospitals.js",
-    "app/static/js/hospital_details_data.js",
-    "app/templates/history.html",
-    "app/templates/briefing_card.html",
-    "scratch_update_briefing.py",
-    "app/static/img/icon-512.png",
-    "frontend/img/icon-512.png",
-    "app/static/img/icon-192.png",
-    "frontend/img/icon-192.png",
     "PROJECT_COMPLETION_REPORT.md",
     "q_a.md",
     "docs/KTAS_TRIAGE_VERIFICATION_REPORT.md",
@@ -216,12 +224,6 @@
     "FRONTEND_BACKEND_INTEGRATION_SPEC.md",
     "docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md",
     "AISUM_STITCH_DESIGN_REPORT.md",
-    "app/static/assets/images/guide_ktas_step7.png",
-    "app/static/assets/images/guide_ktas_step5.png",
-    "app/static/assets/images/guide_ktas_step6.png",
-    "app/static/assets/images/guide_ktas_step4.png",
-    "app/static/assets/images/guide_ktas_step3.png",
-    "app/static/assets/images/guide_ktas_step2.png",
     "frontend/README.md",
     "frontend/assets/README.md",
     "docs/FRONTEND_UI_UX_SPECIFICATION.md",
@@ -233,7 +235,6 @@
     "tests/README.md",
     "notebooks/README.md",
     "app/README.md",
-    "app/schemas/README.md",
-    "app/api/README.md"
+    "app/schemas/README.md"
   ]
 }
