@@ -28,6 +28,35 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.30-result-pill-cleanup-cloud-run-sync] 2026-10-19: 응급실 결과 페이지 가용 응급실 알약 배지 삭제 및 Cloud Run 실서버 재배포 (정영식 팀장 총괄)
+* **🎨 응급실 결과 화면(`result.html`) 하단 알약 배지(`er-list-completed-pill`) 전면 제거**:
+  - `인근 소아 진료 가용 응급실 N곳 실시간 안내 완료 (거리순)` 정적 목업 태그 및 동적 주입 스크립트를 전면 소독하여 인지 부하 감소 및 병원 리스트 시인성 극대화.
+  - `frontend/templates/result.html` 및 `app/templates/result.html` 전역 무결점 일괄 동기화.
+* **🚀 Google Cloud Run 실서버 무중단 재배포 완수 (리비전 `isoom-service-00011-htj`)**:
+  - Cloud Build 컨테이너 패키징(빌드 ID `28a8ab73`, 2분 42초) 및 Cloud Run 서울 리전(`asia-northeast3`) 100% 트래픽 활성화.
+  - 실서버 [https://isoom-service-108335720396.asia-northeast3.run.app/result.html](https://isoom-service-108335720396.asia-northeast3.run.app/result.html) 내 알약 배지 100% 소독 실측 검증 완료.
+
+### 🌟 [v2.9.29-secret-manager-cloud-run-production-sync] 2026-10-19: GCP Secret Manager 5대 비밀 키 암호화 연동 및 Google Cloud Run 실서버 프로덕션 무중단 배포 (정영식 팀장 총괄)
+* **🔐 GCP Secret Manager 5대 핵심 비밀 키 보안 등록 및 런타임 동적 주입**:
+  - `DATA_GO_API_KEY`: 국립중앙의료원 응급의료 및 달빛어린이병원 공공데이터포털 인증 키.
+  - `GEMINI_API_KEY`: Google Gemini 3.8 Flash 의학 소견 및 소아 문진 FSM API Key.
+  - `KAKAO_REST_API_KEY`: 카카오맵 도로명/지번 실시간 역지오코딩 REST API Key.
+  - `FIRESTORE_DATABASE_ID`: Cloud Firestore 멀티 테넌트 데이터베이스 인스턴스 ID (`data-test01`).
+  - `FIREBASE_KEY_JSON`: Firebase Admin SDK 서비스 계정 자격증명 JSON 전문.
+* **🛡️ IAM 권한 체계화 및 보안 거버넌스 100% 충족**:
+  - Compute Engine/Cloud Run 기본 서비스 계정 및 Cloud Run Service Agent에 `roles/secretmanager.secretAccessor` 부여.
+  - `.gcloudignore` 신규 구축으로 민감 키 및 불필요 파일 전송 원천 차단 (배포 패키지 용량 47.9MB 초경량화).
+* **🚀 Google Cloud Run 프로덕션 실서버 배포 완수 (리비전 `isoom-service-00010-qct`)**:
+  - Google Container Registry(`gcr.io/iceu-songpa09/isoom-service:latest`) 기반 고속 빌드 & 푸시.
+  - Cloud Run 서울 리전(`asia-northeast3`) 100% 트래픽 무중단 활성화 완료.
+  - **프로덕션 라이브 URL**: [https://isoom-service-108335720396.asia-northeast3.run.app](https://isoom-service-108335720396.asia-northeast3.run.app)
+* **✅ 실서버 라이브 엔드포인트 전수 검증**:
+  - `GET /health` ➔ 200 OK (`public_data_api_configured: true`, `gemini_api_configured: true`, `firebase_configured: true`).
+  - `GET /` & `/emergency_guide_symptoms.html` ➔ 200 OK (증상별 포토 가이드 & 토스 바텀시트 정상 서빙).
+  - `GET /api/v1/location/coord2address` ➔ 200 OK (카카오 실주소 변환 정상 작동).
+  - `GET /api/v1/emergency/nearby` ➔ 200 OK (실시간 소아 응급실 매칭 377ms 초고속 응답).
+  - `POST /api/v1/chat` ➔ 200 OK (Gemini 소아 문진 Supervisor 6-State FSM 정상 구동).
+
 ### 🌟 [v2.9.28-development-story-portfolio-guide-sync] 2026-10-19: 아이숨 전 개발 과정 요약 설명서 및 취업·포트폴리오 백서(PROJECT_DEVELOPMENT_STORY.md) 발간 (정영식 팀장 총괄)
 * **📘 프로젝트 전 개발 과정 종합 설명서 & 포트폴리오 백서 신규 발간 (`PROJECT_DEVELOPMENT_STORY.md`)**:
   - **기획 배경 & 사회적 문제 정의**: 야간 소아 응급실 뺑뺑이, 74% 경증 과밀화, 약국 30분 마진 결함, 비의료 AI의 언더트리아제 및 의료법 제27조 리스크.

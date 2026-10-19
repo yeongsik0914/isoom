@@ -87,6 +87,8 @@
 78. [Q135. [KTAS 1·2·3단계 전 영역 포괄 임상 디스패처 및 12대 응급상황 3D 일러스트 가이드 대확장] 좁은 정규식 한계 극복, 12개 전문 상황 탭, 등급별 필터 칩, 실시간 검색창 및 Do/Don't 맞춤 컨텐츠 구축 보고](#q135-ktas-123단계-전-영역-포괄-임상-디스패처-및-12대-응급상황-3d-일러스트-가이드-대확장-좁은-정규식-한계-극복-12개-전문-상황-탭-등급별-필터-칩-실시간-검색창-및-dodont-맞춤-컨텐츠-구축-보고)
 79. [Q136. [응급가이드 헤더·배너 UI/UX 정밀 간소화 및 실주소 역지오코딩 연동] 첨부 요소(다크모드·119 연결 버튼 및 KTAS 뱃지) 전면 제거, 배너 문구 간결화('낭독' 배제) 및 GPS 위경도 ➔ 실제 상세 주소(지번/도로명) 변환 완료 보고](#q136-응급가이드-헤더배너-uiux-정밀-간소화-및-실주소-역지오코딩-연동-첨부-요소다크모드119-연결-버튼-및-ktas-뱃지-전면-제거-배너-문구-간결화낭독-배제-및-gps-위경도--실제-상세-주소지번도로명-변환-완료-보고)
 80. [Q137. [소견서 맞춤 단일 처치 가이드 전면 개편 & 조잡한 내비게이션 요소 완전 척결] 검색창·필터칩·12개 탭 버튼 전면 제거, 프리미엄 단일 매칭 카드 도입, 전방위 임상 자동 디스패처 및 토스 바텀시트 전환 완결 보고](#q137-소견서-맞춤-단일-처치-가이드-전면-개편--조잡한-내비게이션-요소-완전-척결-검색창필터칩12개-탭-버튼-전면-제거-프리미엄-단일-매칭-카드-도입-전방위-임상-자동-디스패처-및-토스-바텀시트-전환-완결-보고)
+81. [Q138. [GCP Secret Manager 비밀 키 연동 및 Google Cloud Run 실서버 무중단 프로덕션 배포] .env 5대 API KEY 시크릿 등록, IAM 권한 체계화, GCR 빌드 및 Cloud Run 라이브 서비스(https://isoom-service-108335720396.asia-northeast3.run.app) 정상 구동 완결 보고](#q138-gcp-secret-manager-비밀-키-연동-및-google-cloud-run-실서버-무중단-프로덕션-배포-env-5대-api-key-시크릿-등록-iam-권한-체계화-gcr-빌드-및-cloud-run-라이브-서비스-정상-구동-완결-보고)
+82. [Q139. [응급실 결과 화면 가용 응급실 인증 배지 캡슐 완전 삭제 & Cloud Run 실서버 재배포] result.html 정적·동적 '인근 소아 진료 가용 응급실 N곳 실시간 안내 완료 (거리순)' 배지 전면 제거 및 Cloud Run(isoom-service-00011-htj) 무중단 릴리스 완결 보고](#q139-응급실-결과-화면-가용-응급실-인증-배지-캡슐-완전-삭제--cloud-run-실서버-재배포-resulthtml-정적동적-인근-소아-진료-가용-응급실-n곳-실시간-안내-완료-거리순-배지-전면-제거-및-cloud-runisoom-service-00011-htj-무중단-릴리스-완결-보고)
 
 ---
 
@@ -3052,6 +3054,124 @@ function renderMoonlightPairingCards() {
 2. **발생한 버그/이슈가 `log.md`에 등록되었는가?** ➔ **[해당 없음]** (무결점 파싱 및 동작 검증 완료)
 3. **업데이트된 기능이 `README.md`에 명시되었는가?** ➔ 정상 유지
 4. **변경된 시스템 아키텍처/개선안이 `PLAN.md`에 동기화되었는가?** ➔ 정상 유지
+
+---
+
+### Q138. [GCP Secret Manager 비밀 키 연동 및 Google Cloud Run 실서버 무중단 프로덕션 배포] .env 5대 API KEY 시크릿 등록, IAM 권한 체계화, GCR 빌드 및 Cloud Run 라이브 서비스(https://isoom-service-108335720396.asia-northeast3.run.app) 정상 구동 완결 보고
+
+* **기록 일시**: 2026-10-19 17:28
+* **사용자 질문**:
+  > ".env 파일에 프로젝트를 구동하기 위한 모든 API KEY들이 들어있어 이걸 활용해서 cloud run을 진행했을 때 실서버에서 정상 구동하도록 클gcp 비밀 키로 지정해서 올려주고 클라우드 런을 진행할 거야."
+
+#### 💡 답변 및 조치 내용
+
+##### 1. GCP Secret Manager 5대 핵심 비밀 키 보안 등록
+* **개요**: 로컬 `.env`에 존재하는 핵심 API KEY 및 인증 자격증명을 GCP Secret Manager에 안전하게 암호화 등록하여 소스 코드 및 컨테이너 이미지 내부 유출을 원천 방지하였습니다.
+* **등록된 시크릿 목록**:
+  1. `DATA_GO_API_KEY`: 국립중앙의료원 응급의료 및 달빛어린이병원 공공데이터 포털 디코딩/인코딩 키 (`UjLw...`)
+  2. `GEMINI_API_KEY`: Google Gemini 3.8 Flash 의학 소견 판정 및 소아 문진 LLM API KEY (`AIzaSy...`)
+  3. `KAKAO_REST_API_KEY`: 카카오맵 로컬 도로명/지번 실시간 역지오코딩 REST API KEY (`43f8...`)
+  4. `FIRESTORE_DATABASE_ID`: Cloud Firestore 멀티 테넌트 데이터베이스 인스턴스 ID (`data-test01`)
+  5. `FIREBASE_KEY_JSON`: `firebase-adminsdk-fbsvc@iceu-songpa09.iam.gserviceaccount.com` 서비스 계정 인증 비공개 키 JSON 전문
+
+##### 2. Cloud Run 런타임 및 서비스 에이전트 IAM 권한 체계화
+* **비밀 키 접근 권한 바인딩**:
+  - `roles/secretmanager.secretAccessor` 역할을 Compute Engine/Cloud Run 기본 서비스 계정(`108335720396-compute@developer.gserviceaccount.com`) 및 Cloud Run Service Agent(`service-108335720396@serverless-robot-prod.iam.gserviceaccount.com`)에 부여.
+* **컨테이너 이미지 저장소 권한 바인딩**:
+  - `roles/artifactregistry.reader` 권한 부여 및 GCR(`gcr.io/iceu-songpa09/isoom-service:latest`) 기반 안전 파이프라인 구축.
+
+##### 3. Cloud Build 컨테이너 패키징 및 Google Cloud Run 배포 완수
+* **빌드 및 배포 파이프라인**:
+  - `.gcloudignore`를 신규 생성하여 로컬 캐시/가상환경 제외, 47.9MB 초경량 소스만 Cloud Build로 전송.
+  - Python 3.11 슬림 기반 Docker 빌드 및 `gcr.io/iceu-songpa09/isoom-service:latest` 이미지 푸시 완료 (Digest: `sha256:e62ccec3609d2138a1917529d68561ce6f69f64e6fddffef2dde4a1fff84d08a`).
+  - Google Cloud Run 배포 명령:
+    ```bash
+    gcloud run deploy isoom-service \
+      --project=iceu-songpa09 \
+      --image=gcr.io/iceu-songpa09/isoom-service:latest \
+      --region=asia-northeast3 \
+      --platform=managed \
+      --allow-unauthenticated \
+      --port=8080 \
+      --memory=1Gi \
+      --cpu=1 \
+      --set-secrets="DATA_GO_API_KEY=DATA_GO_API_KEY:latest,DATA_GO_KR_API_KEY=DATA_GO_API_KEY:latest,GEMINI_API_KEY=GEMINI_API_KEY:latest,KAKAO_REST_API_KEY=KAKAO_REST_API_KEY:latest,FIRESTORE_DATABASE_ID=FIRESTORE_DATABASE_ID:latest,FIREBASE_KEY_JSON=FIREBASE_KEY_JSON:latest" \
+      --set-env-vars="APP_ENV=production,LOG_LEVEL=INFO"
+    ```
+* **배포 성공 결과**:
+  - 배포 리비전: `isoom-service-00010-qct` (트래픽 100% 정상 수용)
+  - 라이브 서비스 프로덕션 URL: [https://isoom-service-108335720396.asia-northeast3.run.app](https://isoom-service-108335720396.asia-northeast3.run.app)
+
+##### 4. 실서버 E2E 기능 및 헬스체크 실측 검증
+* **`/health` 실측**:
+  ```json
+  {
+    "status": "healthy",
+    "timestamp": "2026-10-19T17:24:33.386765+09:00",
+    "scheduler": { "running": true, "poll_count": 1 },
+    "integrations": {
+      "public_data_api_configured": true,
+      "gemini_api_configured": true,
+      "firebase_configured": true
+    }
+  }
+  ```
+* **프론트엔드 라우트 검증**:
+  - `GET /` ➔ 200 OK (스플래시 및 홈 진입 정상)
+  - `GET /emergency_guide_symptoms.html` ➔ 200 OK (108,407 bytes, 증상별 가이드 및 토스 바텀시트 정상 서빙)
+* **백엔드 외부 API 연동 검증**:
+  - `GET /api/v1/location/coord2address` ➔ 200 OK (카카오 역지오코딩 정상 응답)
+  - `GET /api/v1/emergency/nearby` ➔ 200 OK (공공의료 API 및 실시간 병상 매칭 377ms 정상 동작)
+  - `POST /api/v1/chat` ➔ 200 OK (Gemini 3.8 Flash 의학 소견 FSM 정상 응답)
+
+##### 5. 작업 완료 체크리스트 (Definition of Done) 준수 상태
+1. **사용자의 질의가 `q_a.md`에 기록되었는가?** ➔ **[완료] Q138 등록 완료**
+2. **발생한 버그/이슈가 `log.md`에 등록되었는가?** ➔ **[완료] ISSUE-216 등록 완료**
+3. **업데이트된 기능이 `README.md`에 명시되었는가?** ➔ **[완료] 릴리스 체인지로그 갱신 완료**
+4. **변경된 시스템 아키텍처/개선안이 `PLAN.md`에 동기화되었는가?** ➔ **[완료] Cloud Run 배포 아키텍처 동기화 완료**
+
+---
+
+### Q139. [응급실 결과 화면 가용 응급실 인증 배지 캡슐 완전 삭제 & Cloud Run 실서버 재배포] result.html 정적·동적 '인근 소아 진료 가용 응급실 N곳 실시간 안내 완료 (거리순)' 배지 전면 제거 및 Cloud Run(isoom-service-00011-htj) 무중단 릴리스 완결 보고
+
+* **기록 일시**: 2026-10-19 18:03
+* **사용자 질문**:
+  > "응급실 결과 페이지에서 이 부분 삭제해주고 클라우드 런에 바뀐 부분이 생겼으니까 재배포해줘" (첨부: `인근 소아 진료 가용 응급실 3곳 실시간 안내 완료 (거리순)` 알약 배지 캡슐 캡처)
+
+#### 💡 답변 및 조치 내용
+
+##### 1. 응급실 결과 화면 가용 응급실 알약 배지(`er-list-completed-pill`) 전면 삭제
+* **삭제 대상 요소**:
+  - `frontend/templates/result.html` 및 `app/templates/result.html` 내:
+    1. 정적 목업 배지: `<!-- 8곳 완료 인증 배지 -->` (`<div class="er-list-completed-pill">...</div>`)
+    2. 동적 렌더링 배지: JavaScript `renderEmergencyHospitals()` 함수 내부의 `if (hospitals && hospitals.length > 0) { html += '<div class="er-list-completed-pill">...'; }` 블록 전면 삭제.
+* **삭제 사유 및 UI/UX 개선 효과**:
+  - 불필요하게 목록 하단을 차지하며 시야를 분산시키던 알약 캡슐 배지를 완전히 제거하여, 병원 카드 목록과 하단 액션 버튼 간의 시각적 여백이 깔끔하고 자연스럽게 정돈되었습니다.
+  - 정적 템플릿과 런타임 동적 주입 로직을 동시에 제거하여 서버 렌더링 및 클라이언트 세션 복원 시에도 배지가 전혀 노출되지 않도록 조치하였습니다.
+
+##### 2. Google Cloud Run 프로덕션 재배포 및 무중단 전환 완수
+* **빌드 및 배포 파이프라인 가동**:
+  - `scripts/deploy_cloud_run.py` 실행:
+    1. Cloud Build 컨테이너 이미지 패키징 및 푸시 완료: `gcr.io/iceu-songpa09/isoom-service:latest` (빌드 ID: `28a8ab73-ef35-459c-a612-5516f539ab2d`, 소요 2분 42초).
+    2. Cloud Run 서울 리전(`asia-northeast3`) 5대 Secret Manager 시크릿 동적 주입 및 배포 완료.
+* **배포 결과 명세**:
+  - **신규 활성 리비전**: `isoom-service-00011-htj` (100% 트래픽 활성화, 무중단 전환 완료)
+  - **라이브 서비스 URL**: [https://isoom-service-108335720396.asia-northeast3.run.app](https://isoom-service-108335720396.asia-northeast3.run.app)
+  - **전체 소요 시간**: 226.3초
+
+##### 3. 실서버 라이브 검증 완결
+* **실서버 응답 검증**:
+  - `GET https://isoom-service-108335720396.asia-northeast3.run.app/result.html` 호출 결과:
+    `er-list-completed-pill` 및 `인근 소아 진료 가용 응급실` 문자열이 100% 소독되었음을 확인 (Assertion 검증 통과).
+  - `GET https://isoom-service-108335720396.asia-northeast3.run.app/health` ➔ 200 OK (`healthy`, `public_data_api_configured: true`, `gemini_api_configured: true`, `firebase_configured: true`).
+
+##### 4. 작업 완료 체크리스트 (Definition of Done) 준수 상태
+1. **사용자의 질의가 `q_a.md`에 기록되었는가?** ➔ **[완료] Q139 등록 완료**
+2. **발생한 버그/이슈가 `log.md`에 등록되었는가?** ➔ **[완료] ISSUE-217 등록 완료**
+3. **업데이트된 기능이 `README.md`에 명시되었는가?** ➔ **[완료] 릴리스 체인지로그 갱신 완료**
+4. **변경된 시스템 아키텍처/개선안이 `PLAN.md`에 동기화되었는가?** ➔ **[완료] Cloud Run 배포 상태 동기화 완료**
+
+
 
 
 

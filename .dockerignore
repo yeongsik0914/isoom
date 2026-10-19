@@ -26,3 +26,13 @@ htmlcov/
 .system_generated/
 scratch/
 tmp/
+
+# Environment Secrets (Must NOT be baked into Docker Image)
+.env
+.env.*
+!*.example
+*serviceAccountKey*.json
+
+# Bulky Presentation / Docs
+*.pptx
+*.pdf

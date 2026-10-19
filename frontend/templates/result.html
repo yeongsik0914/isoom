@@ -1809,13 +1809,6 @@
                   </div>
                 </div>
               </article>
-
-              <!-- 8곳 완료 인증 배지 -->
-              <div class="er-list-completed-pill"
-                style="display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 14px; margin-top:8px; margin-bottom:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:9999px; font-size:11.5px; color:#475569; font-weight:700;">
-                <span class="material-symbols-outlined" style="font-size:16px; color:#10b981;">verified</span>
-                <span>인근 소아 진료 가용 응급실 8곳 실시간 안내 완료 (거리순)</span>
-              </div>
             </div>
 
           </section>
@@ -3026,14 +3019,6 @@
               </div>
             </article>`;
         });
-
-        if (hospitals && hospitals.length > 0) {
-          html += `
-            <div class="er-list-completed-pill" style="display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 14px; margin-top:8px; margin-bottom:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:9999px; font-size:11.5px; color:#475569; font-weight:700;">
-              <span class="material-symbols-outlined" style="font-size:16px; color:#10b981;">verified</span>
-              <span>인근 소아 진료 가용 응급실 ${hospitals.length}곳 실시간 안내 완료 (거리순)</span>
-            </div>`;
-        }
 
         window._activeEmergencyHospitals = hospitals;
         if (window.currentKtasLevel <= 3 && hospitals && hospitals.length > 0 && typeof window._updateCallScript === 'function') {

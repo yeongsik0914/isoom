@@ -1,10 +1,11 @@
 # 🌙 MoonlightCare 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v3.35 (개발 전 과정 종합 설명서 & 취업·포트폴리오 백서 발간, PROJECT_DEVELOPMENT_STORY.md 동기화)
+> **문서 버전**: v3.37 (응급실 결과 화면 가용 응급실 알약 배지 삭제 & Cloud Run 실서버 재배포)
 > **최종 갱신 일자**: 2026-10-19
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
+> **프로덕션 라이브 URL**: [https://isoom-service-108335720396.asia-northeast3.run.app](https://isoom-service-108335720396.asia-northeast3.run.app)
 
-> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 전용 기록 페이지(history.html), AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, 119 구급대원 인계용 응급 브리핑 카드(briefing_card.html), 문진 페이지 환아 프로필 자동 프리필 및 증상 기반 나이·상태 측정 스마트 감지 허브(input.html), [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md), [PROJECT_DEVELOPMENT_STORY.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_DEVELOPMENT_STORY.md).
+> **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시 & 역지오코딩), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 전용 기록 페이지(history.html), AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, 119 구급대원 인계용 응급 브리핑 카드(briefing_card.html), 문진 페이지 환아 프로필 자동 프리필 및 증상 기반 나이·상태 측정 스마트 감지 허브(input.html), GCP Secret Manager 보안 암호화 주입 & Cloud Run 완전 관리형 서버리스 인프라, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md), [PROJECT_DEVELOPMENT_STORY.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_DEVELOPMENT_STORY.md).
 
 ---
 

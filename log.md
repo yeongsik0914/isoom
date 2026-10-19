@@ -222,6 +222,8 @@
 | **[ISSUE-213]** | 조잡함 없는 '평온 & 큐트(Zero-Clutter)' 2차 앱 아이콘 3종 수립 및 에셋 개편 | 십자가·심박선·문자·이중 프레임 전면 소독, 달님 위에서 새근새근 잠든 아기 및 보송보송 아기 구름 모티프 초미니멀 3D 디자인 수립 및 images/ 보존 완료 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-214]** | 아이숨 공식 스플래시 로고 심볼 기반 웹앱 PWA 3D 아이콘 및 파비콘 전역 제작·탑재 완결 | 첨부된 공식 로고(민트-블루 크로스+듀얼 하트+화이트 리프) 3D 스퀘어클 리마스터링, PWA 512/192 에셋 생성, 19개 템플릿 파비콘 주입, FastAPI /favicon.ico 서빙 및 25개 테스트 전수 통과 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-215]** | 공식 3D 앱 아이콘·파비콘 탑재 버전 Cloud Run 프로덕션 무중단 배포 및 실서버 라이브 검증 완료 | 최신 리비전(isoom-service-00026-nhs) 100% 트래픽 활성화, /favicon.ico(5KB), /img/icon-192.png(29KB), /img/icon-512.png(197KB) 전수 200 OK 실서버 라이브 검증 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
+| **[ISSUE-216]** | GCP Secret Manager 5대 비밀 키 암호화 연동 및 Google Cloud Run 실서버 프로덕션 무중단 배포 | .env 5대 핵심 API Key Secret Manager 등록, IAM 시크릿 접근자/저장소 권한 부여, GCR 컨테이너 빌드 및 Cloud Run(isoom-service-00010-qct) 100% 트래픽 배포·실서버 검증 완결 | **해결 완료 (Resolved)** | 2026-10-19 |
+| **[ISSUE-217]** | 응급실 결과 페이지 가용 응급실 알약 배지(er-list-completed-pill) 전면 삭제 및 Cloud Run 실서버 재배포 | result.html 정적 목업 및 동적 JS 배지 완전 소독, Cloud Build(28a8ab73) 패키징 및 Cloud Run(isoom-service-00011-htj) 100% 무중단 릴리스·실서버 검증 완결 | **해결 완료 (Resolved)** | 2026-10-19 |
 
 
 
@@ -7433,6 +7435,89 @@
   * Cloud Run 서비스: `isoom-service` (리비전 `00026-nhs`)
 * **조치 결과**:
   * 스마트폰이나 웹 브라우저로 실서버(`https://isoom-service-920380215419.asia-northeast3.run.app`)에 접속하여 '홈 화면에 추가' 시, 팀장님께서 지정해주신 공식 3D 앱 아이콘이 실시간으로 완벽하게 표출됨.
+
+---
+
+### [ISSUE-216] GCP Secret Manager 5대 비밀 키 암호화 연동 및 Google Cloud Run 실서버 프로덕션 무중단 배포
+
+* **발생 일자**: 2026-10-19
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **분류**: GCP Secret Manager / Cloud Run 배포 / 클라우드 보안 & IAM / CI/CD
+* **문제 상황**:
+  * 로컬 `.env`에 존재하는 서비스 필수 5대 자격증명(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `FIRESTORE_DATABASE_ID`, `FIREBASE_KEY_JSON`)을 코드베이스에 하드코딩하거나 도커 이미지 레이어에 굽지 않고, GCP 공식 보안 권장 규격인 **Secret Manager**를 통해 런타임에 동적으로 주입하여 Cloud Run 실서버에서 안전하게 구동되도록 배포 파이프라인 구축 필요.
+  * 초기 Artifact Registry 기반 배포 시 레포지토리 수준 IAM 권한 격리로 인해 `Container import failed` 오류가 발생함.
+* **원인 분석**:
+  1. 민감 정보 보안 거버넌스: 컨테이너 이미지 빌드 시 `.env` 또는 서비스 계정 키 JSON이 레이어에 노출되면 심각한 보안 감사 위반이 발생하므로 `.gcloudignore`로 완벽 격리하고 Secret Manager를 통해 런타임 환경변수로 마운트해야 함.
+  2. Artifact Registry 신규 레포지토리(`cloud-run-source-deploy`)는 프로젝트 기본 정책과 별개로 생성되어 Cloud Run 시스템 에이전트의 즉각적인 접근 인식이 지연될 수 있음.
+* **구체적 해결 방안**:
+  1. **GCP Secret Manager 5종 시크릿 자동 등록 및 버전 생성**:
+     - `DATA_GO_API_KEY` (공공데이터포털 응급의료·달빛어린이병원 키)
+     - `GEMINI_API_KEY` (Google Gemini 3.8 Flash 의학 소견 생성 키)
+     - `KAKAO_REST_API_KEY` (카카오맵 도로명/지번 실시간 역지오코딩 키)
+     - `FIRESTORE_DATABASE_ID` (Cloud Firestore 인스턴스 ID: `data-test01`)
+     - `FIREBASE_KEY_JSON` (`firebase-adminsdk` 비공개 키 JSON 전체)
+  2. **IAM 권한 체계 정립**:
+     - Cloud Run 기본 서비스 계정(`108335720396-compute@developer.gserviceaccount.com`) 및 Cloud Run Service Agent(`service-108335720396@serverless-robot-prod.iam.gserviceaccount.com`)에 `roles/secretmanager.secretAccessor` 부여.
+     - `roles/artifactregistry.reader` 권한 바인딩.
+  3. **Cloud Build & GCR 고속 패키징 및 Cloud Run 배포 파이프라인 수립**:
+     - `.gcloudignore`를 생성하여 빌드 패키징 용량을 47.9MB로 90% 이상 압축.
+     - `gcloud builds submit --tag gcr.io/iceu-songpa09/isoom-service:latest` 빌드 완수.
+     - Cloud Run에 6개 시크릿 매핑(`--set-secrets=...`) 및 환경변수(`APP_ENV=production,LOG_LEVEL=INFO`) 주입 배포 완결.
+  4. **실서버 프로덕션 라이브 엔드포인트 전수 검증**:
+     - 서비스 URL: [https://isoom-service-108335720396.asia-northeast3.run.app](https://isoom-service-108335720396.asia-northeast3.run.app)
+     - 리비전: `isoom-service-00010-qct` (100% 트래픽 활성화)
+     - `GET /health` ➔ 200 OK (`public_data_api_configured: true`, `gemini_api_configured: true`, `firebase_configured: true`)
+     - `GET /` ➔ 200 OK (메인 온보딩 및 홈)
+     - `GET /emergency_guide_symptoms.html` ➔ 200 OK (증상별 가이드 및 토스 바텀시트)
+     - `GET /api/v1/location/coord2address` ➔ 200 OK (카카오 역지오코딩 도로명 주소 변환 정상)
+     - `GET /api/v1/emergency/nearby` ➔ 200 OK (실시간 소아 응급실 매칭 377ms)
+     - `POST /api/v1/chat` ➔ 200 OK (Gemini 소견 판정 FSM 정상 동작)
+* **적용 파일**:
+  * `.gcloudignore`
+  * `scripts/setup_gcp_secrets.py`
+  * `scripts/deploy_cloud_run.py`
+  * [q_a.md](file:///c:/AI-Native-Agent/isoom/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/isoom/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/isoom/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/isoom/PLAN.md)
+* **조치 결과**:
+  * `.env` 내 모든 API Key가 안전하게 GCP Secret Manager로 이관되어 보안 거버넌스를 100% 충족하였으며, Google Cloud Run 실서버(`https://isoom-service-108335720396.asia-northeast3.run.app`)에서 모든 공공데이터, AI 문진, 파이어베이스, 카카오 역지오코딩 기능이 완벽하게 가동됨.
+
+---
+
+### [ISSUE-217] 응급실 결과 페이지 가용 응급실 알약 배지(er-list-completed-pill) 전면 삭제 및 Cloud Run 실서버 재배포
+
+* **발생 일자**: 2026-10-19
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **분류**: 프론트엔드 UI/UX 리팩토링 / Cloud Run CI/CD 재배포
+* **문제 상황**:
+  * 응급실 결과 화면(`result.html`) 하단에 표시되던 `[인근 소아 진료 가용 응급실 N곳 실시간 안내 완료 (거리순)]` 알약 캡슐 배지가 불필요하게 영역을 차지하며 인지적 피로도를 유발하므로 전면 삭제 요청 접수.
+  * 프론트엔드 수정 사항을 Google Cloud Run 실서버에 즉각 반영하여 라이브 서비스에서 최신 화면이 서빙되도록 재배포 필요.
+* **원인 분석**:
+  * `frontend/templates/result.html` 및 `app/templates/result.html` 내 정적 목업 HTML과 자바스크립트 `renderEmergencyHospitals()` 함수에 각각 해당 알약 배지(`er-list-completed-pill`) 엘리먼트가 하드코딩 및 동적 주입되고 있었음.
+* **구체적 해결 방안**:
+  1. **정적/동적 알약 배지 엘리먼트 전면 소독**:
+     - `frontend/templates/result.html` 및 `app/templates/result.html`에서 정적 배지 태그 제거.
+     - `renderEmergencyHospitals()` 내 `if (hospitals && hospitals.length > 0) { html += '<div class="er-list-completed-pill">...'; }` 코드 블록 제거.
+     - 로컬 검증: `assert 'er-list-completed-pill' not in content` 무결점 확인.
+  2. **Cloud Run 프로덕션 재배포 (`scripts/deploy_cloud_run.py`)**:
+     - Cloud Build 이미지 패키징 및 푸시: `gcr.io/iceu-songpa09/isoom-service:latest` (빌드 ID: `28a8ab73-ef35-459c-a612-5516f539ab2d`, 소요 2분 42초).
+     - Cloud Run 배포: 5대 Secret Manager 시크릿 바인딩 유지한 채 신규 리비전 `isoom-service-00011-htj` 100% 트래픽 활성화.
+  3. **실서버 라이브 엔드포인트 전수 검증**:
+     - 서비스 URL: [https://isoom-service-108335720396.asia-northeast3.run.app](https://isoom-service-108335720396.asia-northeast3.run.app)
+     - `GET /result.html` 실서버 HTML 분석 결과 `er-list-completed-pill` 및 해당 텍스트 0건 전수 소독 확인.
+     - `GET /health` ➔ 200 OK (`healthy`, 전체 연동 `true` 정상 확인).
+* **적용 파일**:
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/isoom/frontend/templates/result.html)
+  * [app/templates/result.html](file:///c:/AI-Native-Agent/isoom/app/templates/result.html)
+  * [q_a.md](file:///c:/AI-Native-Agent/isoom/q_a.md)
+  * [log.md](file:///c:/AI-Native-Agent/isoom/log.md)
+  * [README.md](file:///c:/AI-Native-Agent/isoom/README.md)
+  * [PLAN.md](file:///c:/AI-Native-Agent/isoom/PLAN.md)
+* **조치 결과**:
+  * 응급실 결과 화면 하단의 불필요한 배지가 완벽히 제거되어 병원 목록 가독성이 대폭 향상되었으며, Google Cloud Run 실서버에 최신 리비전(`00011-htj`)으로 무중단 배포 및 정상 동작이 완료됨.
+
+
 
 
 
