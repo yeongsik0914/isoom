@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "q_a.md",
+                "file": "PROJECT_DEVELOPMENT_STORY.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "q_a"
+              "title": "PROJECT_DEVELOPMENT_STORY"
             }
           }
         ]
@@ -190,6 +190,7 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "q_a.md",
     "아이숨(ISOOM) 중간프로젝트 발표.pptx",
     "~$아이숨(ISOOM) 중간프로젝트 발표.pptx",
     "scripts/check_cloud_run_error.py",
@@ -206,7 +207,6 @@
     "frontend/templates/first_aid_guide.html",
     "frontend/templates/first_aid_guide.html.html",
     "frontend/templates/first_aid_guide_back.html",
-    "scratch/test_images.py",
     "frontend/img/firstaid_burn.jpg",
     "frontend/img/firstaid_seizure.jpg",
     "frontend/img/firstaid_choking.jpg",
@@ -214,7 +214,6 @@
     "PROJECT_DEVELOPMENT_STORY.md",
     "PWA_PLAN.md",
     "PROJECT_COMPLETION_REPORT.md",
-    "q_a.md",
     "docs/KTAS_TRIAGE_VERIFICATION_REPORT.md",
     "data/README.md",
     "Answer-영식.md",

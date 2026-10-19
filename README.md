@@ -35,6 +35,8 @@
 * **🚀 Google Cloud Run 실서버 무중단 재배포 완수 (리비전 `isoom-service-00011-htj`)**:
   - Cloud Build 컨테이너 패키징(빌드 ID `28a8ab73`, 2분 42초) 및 Cloud Run 서울 리전(`asia-northeast3`) 100% 트래픽 활성화.
   - 실서버 [https://isoom-service-108335720396.asia-northeast3.run.app/result.html](https://isoom-service-108335720396.asia-northeast3.run.app/result.html) 내 알약 배지 100% 소독 실측 검증 완료.
+* **📘 종합 개발 백서 및 취업·포트폴리오 가이드(`PROJECT_DEVELOPMENT_STORY.md`) v1.1.0 최신 증보**:
+  - 12대 응급처치 포토 가이드, 문진 소견 기반 자동 디스패처, 토스 바텀시트 모달, 카카오 역지오코딩 실주소 변환, GCP Secret Manager 암호화 주입, Cloud Run 실서버 배포 및 기술 면접 7대 킬러 Q&A(Q6, Q7) 전면 증보 반영.
 
 ### 🌟 [v2.9.29-secret-manager-cloud-run-production-sync] 2026-10-19: GCP Secret Manager 5대 비밀 키 암호화 연동 및 Google Cloud Run 실서버 프로덕션 무중단 배포 (정영식 팀장 총괄)
 * **🔐 GCP Secret Manager 5대 핵심 비밀 키 보안 등록 및 런타임 동적 주입**:
