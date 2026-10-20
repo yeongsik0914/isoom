@@ -230,6 +230,7 @@
 | **[ISSUE-221]** | 시설 상세 라우팅 & 다중 지점 인덱싱 | 동일 상호명(프랜차이즈) 병원 클릭 시 지점 오분류(광진구 자양동 ➔ 양천구 목동 24시열린의원 및 매일여는약국) 결함 해결 | **해결 완료 (Resolved)** | 2026-10-20 |
 | **[ISSUE-222]** | 브라우저 캐싱 & 이중 디렉터리 동기화 | PWA SW v4 업그레이드, HTML 캐시버스팅(?v=20261020_v4), app/static 이중 정적 경로 동기화 및 로컬 서버 가동 | **해결 완료 (Resolved)** | 2026-10-20 |
 | **[ISSUE-223]** | 프레젠테이션 & 시스템 시각화 | 중간프로젝트 발표 PPT 15단계 개발 로드맵 미반영 및 백엔드 로직 시각화 부재, 슬라이드 텍스트 정렬 결함 고도화 | **해결 완료 (Resolved)** | 2026-10-20 |
+| **[ISSUE-224]** | Git 형상 관리 & 원격 동기화 | 원격 저장소 브랜치 다이버전스(Diverged) 및 5개 핵심 파일 병합 충돌(Merge Conflict) 해결 | **해결 완료 (Resolved)** | 2026-10-20 |
 ---
 
 ## 🛠️ 세부 이슈 및 해결 내역
@@ -7718,4 +7719,31 @@
   * `아이숨(ISOOM) 중간프로젝트 발표.pptx` (총 13장 전면 개편)
   * `images/backend_logic_architecture.png` (300 DPI 시스템 로직 아키텍처 다이어그램)
   * `아이숨(ISOOM) 중간프로젝트 발표_backup.pptx` (원본 백업)
+
+---
+
+### [ISSUE-224] 원격 저장소 브랜치 다이버전스(Diverged) 및 5개 핵심 파일 병합 충돌(Merge Conflict) 해결
+
+* **발생 일자**: 2026-10-20
+* **작업자**: 김동준 (팀원), 정영식 (팀장)
+* **분류**: Git 형상 관리 & 원격 브랜치 동기화
+* **문제 상황**:
+  * 사용자가 `git push` 실행 시 원격 브랜치(`origin/main`)와 로컬 브랜치(`main`)가 다이버전스(Diverged)되어 push가 거부되고, `git pull` 과정에서 5개 핵심 파일(`emergency_guide_symptoms.html`, `PLAN.md`, `README.md`, `log.md`, `Answer-영식.md`)에 머지 충돌(Merge Conflict)이 발생하여 스테이지에 정체됨.
+* **원인 분석**:
+  * 원격 저장소에 Cloud Run 배포 파이프라인 관련 커밋 3건이 먼저 push된 상태에서, 로컬에서 병원 상세 및 발표 PPT 고도화 작업이 진행되어 공통 조상(`bcf824c`) 이후 동일 라인 수정 충돌 발생.
+* **구체적 해결 방안**:
+  1. `app/templates/emergency_guide_symptoms.html`: 로컬 캐시버스팅 태그와 원격 12대 응급증상 디스패처 스크립트를 통합 보존.
+  2. `docs/project-core/PLAN.md`: Cloud Run 배포 파이프라인과 PPT 고도화 백로그를 동시 수록.
+  3. `docs/project-core/README.md`: 릴리스 노트를 `v2.9.34`, `v2.9.33`, `v2.9.32`로 체계화.
+  4. `docs/project-core/log.md`: 중복 이슈 번호를 219~224로 재정렬.
+  5. `docs/qa-logs/Answer-영식.md`: 질의응답 번호를 Q227~Q230으로 순차 정렬.
+  6. 머지 커밋(`f676523`) 생성 후 `git push origin main`으로 GitHub 원격 저장소에 무충돌 전송 완료.
+* **적용 파일**:
+  * [app/templates/emergency_guide_symptoms.html](file:///c:/AI-Native-Agent/isoom/app/templates/emergency_guide_symptoms.html)
+  * [docs/project-core/PLAN.md](file:///c:/AI-Native-Agent/isoom/docs/project-core/PLAN.md)
+  * [docs/project-core/README.md](file:///c:/AI-Native-Agent/isoom/docs/project-core/README.md)
+  * [docs/project-core/log.md](file:///c:/AI-Native-Agent/isoom/docs/project-core/log.md)
+  * [docs/qa-logs/Answer-영식.md](file:///c:/AI-Native-Agent/isoom/docs/qa-logs/Answer-영식.md)
+* **조치 결과**:
+  * 로컬과 원격이 완벽하게 동기화되었으며(`up to date with origin/main`), 작업 트리가 깨끗한 상태로 복원됨.
 

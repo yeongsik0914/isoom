@@ -235,6 +235,7 @@
 235. [Q227. [Google Cloud Run 프로덕션 배포 파이프라인 수립 및 .env 보안 키 연동 가이드] gcloud CLI 환경 진단, PowerShell 보안 정책 우회(gcloud.cmd), 원클릭 자동 배포 파이프라인 구축 및 계정 인증 안내](#q227-google-cloud-run-프로덕션-배포-파이프라인-수립-및-env-보안-키-연동-가이드-gcloud-cli-환경-진단-powershell-보안-정책-우회gcloudcmd-원클릭-자동-배포-파이프라인-구축-및-계정-인증-안내)
 236. [Q228. [Google Cloud Run 프로덕션 배포 완결 및 실서버 라이브 검증 보고] 최적화 컨테이너 빌드(isoom-repo), 리비전 isoom-service-00004-sbq 100% 서빙, 3대 핵심 API 연동 및 백그라운드 데몬 실시간 가동 완결](#q228-google-cloud-run-프로덕션-배포-완결-및-실서버-라이브-검증-보고-최적화-컨테이너-빌드isoom-repo-리비전-isoom-service-00004-sbq-100-서빙-3대-핵심-api-연동-및-백그라운드-데몬-실시간-가동-완결)
 237. [Q229. [아이숨 중간프로젝트 발표 PPT 전면 고도화 & 15단계 엔지니어링 로드맵 및 백엔드 로직 시각화 수립] 15대 핵심 개발 로드맵 완벽 반영, 백엔드 오케스트레이션 고해상도 아키텍처 다이어그램 삽입, 토스 디자인 시스템(TDS) 기반 16:9 슬라이드 정렬 및 레이아웃 완결 보고](#q229-아이숨-중간프로젝트-발표-ppt-전면-고도화--15단계-엔지니어링-로드맵-및-백엔드-로직-시각화-수립-15대-핵심-개발-로드맵-완벽-반영-백엔드-오케스트레이션-고해상도-아키텍처-다이어그램-삽입-토스-디자인-시스템tds-기반-169-슬라이드-정렬-및-레이아웃-완결-보고)
+238. [Q230. [원격 저장소 브랜치 다이버전스 및 5개 핵심 파일 충돌(Merge Conflict) 원인 분석과 무충돌 Push 완결 보고] Git Diverged 구조 진단, 스테이징 파일의 의미 해석, 5개 파일 충돌 수기 병합 및 GitHub 원격 push 완결](#q230-원격-저장소-브랜치-다이버전스-및-5개-핵심-파일-충돌merge-conflict-원인-분석과-무충돌-push-완결-보고-git-diverged-구조-진단-스테이징-파일의-의미-해석-5개-파일-충돌-수기-병합-및-github-원격-push-완결)
 
 
 
@@ -13429,4 +13430,68 @@ Google Cloud SDK는 이미 준비되어 있으며, `.env` 및 Firebase 서비스
 
 #### 4. 🚀 결론 및 성과
 발표자가 청중 및 심사위원 앞에서 **"단순 아이디어성 챗봇이 아닌, 실측 공공데이터 분석부터 FSM 멀티 에이전트, 3-Tier 인프라 방어선, 실서버 클라우드 런 배포까지 E2E로 완성된 엔지니어링 프로젝트"**임을 압도적인 시각 자료와 정갈한 타이포그래피로 명확하게 전달할 수 있도록 완성되었습니다.
+
+---
+
+### Q230. [원격 저장소 브랜치 다이버전스 및 5개 핵심 파일 충돌(Merge Conflict) 원인 분석과 무충돌 Push 완결 보고] Git Diverged 구조 진단, 스테이징 파일의 의미 해석, 5개 파일 충돌 수기 병합 및 GitHub 원격 push 완결
+
+* **기록 일시**: 2026-10-20 19:24
+* **질문 내용**:
+  > git push를 했는데 뭐가 잘 못 됐는지 확인해봐 충돌이 난건지 현재 스테이지에 남아있는게 어떤걸 의미하는지 모르겠어 충돌안나게 git을 올려줘
+
+---
+
+#### 💡 원인 분석 및 엔지니어링 조치 결과 보고
+
+팀장님께서 겪으신 상황을 정밀 진단한 결과, **원격 저장소(`origin/main`)에 새로운 커밋 3개가 반영된 상태에서 로컬(`main`)에도 1개의 커밋이 생성되어 브랜치가 갈라진 상태(Diverged)**에서 `git pull`이 실행되어 **5개 파일에 대한 병합 충돌(Merge Conflict)**이 발생해 스테이징 영역에 멈춰 있던 상황이었습니다.
+
+어떤 코드나 문서의 유실도 없이 5개 충돌을 완벽하게 양방향 통합(Merge)하여 **원격 저장소([yeongsik0914/isoom](https://github.com/yeongsik0914/isoom))에 충돌 없이 최종 push를 완결**하였습니다.
+
+---
+
+#### 1. 🔍 당시 발생했던 상황 및 스테이지에 남아있던 파일의 의미
+
+1. **상황 원인 (Why Diverged?)**:
+   - 원격(`origin/main`): Cloud Run 실서버 배포 파이프라인 및 응급처치 자산 커밋 3건(`7f9dd2e`, `e7bc0d6`, `0e03fea`)이 푸시됨.
+   - 로컬(`main`): 병원 상세 템플릿 및 발표 자료 고도화 커밋 1건(`96ba48b`)이 생성됨.
+   - 두 브랜치가 동일한 파일들을 수정하여 `git pull` 실행 시 자동 병합이 중단되고 수동 해결 대기 상태가 됨.
+
+2. **스테이지에 남아있던 파일들의 의미**:
+   * **`Changes to be committed` (녹색/스테이징 완료)**:
+     - 원격과 로컬의 변경 사항이 겹치지 않아 Git이 자동으로 안전하게 병합을 완료한 파일들 (예: `.gitignore`, `Dockerfile`, 응급처치 이미지 10종 `firstaid_*.jpg`, `scripts/deploy_cloud_run.py` 등).
+   * **`Unmerged paths` (충돌 발생 5개 파일)**:
+     - 양쪽 브랜치 모두에서 같은 라인을 수정하여 사용자의 중재가 필요했던 파일들:
+       1. `app/templates/emergency_guide_symptoms.html`: 응급처치 12대 탭 자바스크립트 스크립트 블록
+       2. `docs/project-core/PLAN.md`: 백로그 14번 및 Cloud Run 배포 파이프라인 항목
+       3. `docs/project-core/README.md`: 릴리스 노트 버전 번호(`v2.9.32`, `v2.9.33`, `v2.9.34`)
+       4. `docs/project-core/log.md`: 트러블슈팅 이슈 번호(ISSUE-219, ISSUE-220 중복)
+       5. `docs/qa-logs/Answer-영식.md`: 질의응답 번호(Q227 중복)
+
+---
+
+#### 2. 🛠️ 5대 충돌 파일 정밀 해결 내역
+
+* **1) `app/templates/emergency_guide_symptoms.html`**:
+  - 로컬의 캐시 버스팅 스크립트 태그(`main.js?v=20261020_v4`)와 원격의 12대 응급 증상 자동 매칭(`autoMatchSymptom`, `SYMPTOM_META`) 인라인 스크립트를 둘 다 보존하여 결합.
+* **2) `docs/project-core/PLAN.md`**:
+  - 원격의 Cloud Run 배포 파이프라인(Phase 3-AR)과 로컬의 발표 PPT 15단계 로드맵 및 백엔드 시각화(Phase 13)를 모두 백로그에 통합 수록.
+* **3) `docs/project-core/README.md`**:
+  - 버전 번호를 순차 정렬하여 `v2.9.34`(PPT 고도화), `v2.9.33`(Cloud Run 실서버 배포 완결), `v2.9.32`(Cloud Run 파이프라인 수립) 3개 릴리스를 시간 역순으로 전량 반영.
+* **4) `docs/project-core/log.md`**:
+  - 중복되었던 이슈 번호를 연속적으로 재부여:
+    - `[ISSUE-219]`: Cloud Run 배포 파이프라인 수립
+    - `[ISSUE-220]`: Cloud Run ContainerImageImportFailed 해결 및 실서버 서빙
+    - `[ISSUE-221]`: 자양동 다중 지점 오분류 결함 해결
+    - `[ISSUE-222]`: PWA SW v4 캐시 및 로컬 서버 가동
+    - `[ISSUE-223]`: 발표 PPT 15단계 로드맵 및 백엔드 시각화 수립
+    - `[ISSUE-224]`: 브랜치 다이버전스 및 5개 파일 머지 충돌 완벽 해결
+* **5) `docs/qa-logs/Answer-영식.md`**:
+  - 중복되었던 Q227을 분리하여 `Q227`(Cloud Run 배포 가이드), `Q228`(Cloud Run 실서버 검증 보고), `Q229`(발표 PPT 고도화 보고), `Q230`(Git 머지 충돌 해결 보고)로 완벽 체계화.
+
+---
+
+#### 3. 🚀 Git 커밋 및 Push 결과
+* **병합 커밋 생성**: `[main f676523] Merge branch 'origin/main': sync Cloud Run deployment pipeline, emergency guide, presentation elevation, and governance logs`
+* **원격 전송 완료**: `To https://github.com/yeongsik0914/isoom.git (0e03fea..f676523 main -> main)`
+* **현재 상태**: `On branch main. Your branch is up to date with 'origin/main'. nothing to commit, working tree clean`
 
