@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PROJECT_DEVELOPMENT_STORY.md",
+                "file": "docs/qa-logs/Answer-영식.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PROJECT_DEVELOPMENT_STORY"
+              "title": "Answer-영식"
             }
           }
         ]
@@ -190,6 +190,7 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "docs/architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md",
     "q_a.md",
     "아이숨(ISOOM) 중간프로젝트 발표.pptx",
     "~$아이숨(ISOOM) 중간프로젝트 발표.pptx",

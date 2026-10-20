@@ -1,0 +1,447 @@
+Slide count: 12
+Slide dimensions: 12192000 x 6858000 (EMU)
+
+
+==================== SLIDE 1 ====================
+--- Shape 0 (Picture 1, type=PICTURE (13)): pos=(0.00cm, 0.00cm), size=(33.87cm x 19.05cm) ---
+--- Shape 1 (Rounded Rectangle 2, type=AUTO_SHAPE (1)): pos=(27.01cm, 1.27cm), size=(5.16cm x 1.16cm) ---
+--- Shape 2 (Rectangle 3, type=AUTO_SHAPE (1)): pos=(1.69cm, 11.65cm), size=(19.58cm x 0.05cm) ---
+--- Shape 3 (Picture 5, type=PICTURE (13)): pos=(26.35cm, 6.96cm), size=(5.82cm x 5.82cm) ---
+--- Shape 4 (TextBox 9, type=TEXT_BOX (17)): pos=(28.07cm, 1.57cm), size=(3.94cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): ISOOM 아이숨
+--- Shape 5 (TextBox 10, type=TEXT_BOX (17)): pos=(1.69cm, 6.81cm), size=(8.38cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 소아병동을 지키는 의료 AI AGENTS
+--- Shape 6 (TextBox 11, type=TEXT_BOX (17)): pos=(1.69cm, 7.90cm), size=(23.06cm x 4.53cm) ---
+  [P0] (size=inherit, bold=None): KTAS 응급 분류도 기반
+  [P1] (size=inherit, bold=None): 소아 환자 분류 서비스
+--- Shape 7 (TextBox 12, type=TEXT_BOX (17)): pos=(1.69cm, 12.24cm), size=(12.73cm x 0.61cm) ---
+  [P0] (size=inherit, bold=None): 정영식 팀장 · 김동준 팀원 | AI-Native Healthcare Project
+
+==================== SLIDE 2 ====================
+--- Shape 0 (Rounded Rectangle 1, type=AUTO_SHAPE (1)): pos=(1.69cm, 7.14cm), size=(7.22cm x 5.95cm) ---
+--- Shape 1 (Rounded Rectangle 2, type=AUTO_SHAPE (1)): pos=(9.45cm, 7.14cm), size=(7.22cm x 5.95cm) ---
+--- Shape 2 (Rounded Rectangle 3, type=AUTO_SHAPE (1)): pos=(17.20cm, 7.14cm), size=(7.22cm x 5.95cm) ---
+--- Shape 3 (Rounded Rectangle 4, type=AUTO_SHAPE (1)): pos=(24.95cm, 7.14cm), size=(7.22cm x 5.95cm) ---
+--- Shape 4 (Rectangle 5, type=AUTO_SHAPE (1)): pos=(2.33cm, 10.53cm), size=(0.95cm x 0.08cm) ---
+--- Shape 5 (Rectangle 6, type=AUTO_SHAPE (1)): pos=(10.08cm, 10.53cm), size=(0.95cm x 0.08cm) ---
+--- Shape 6 (Rectangle 7, type=AUTO_SHAPE (1)): pos=(17.83cm, 10.53cm), size=(0.95cm x 0.08cm) ---
+--- Shape 7 (Rectangle 8, type=AUTO_SHAPE (1)): pos=(25.59cm, 10.53cm), size=(0.95cm x 0.08cm) ---
+--- Shape 8 (Picture 9, type=PICTURE (13)): pos=(31.43cm, 17.04cm), size=(0.74cm x 0.74cm) ---
+--- Shape 9 (TextBox 10, type=TEXT_BOX (17)): pos=(1.69cm, 1.27cm), size=(32.17cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 아이숨 핵심 프로젝트 발표 목차
+--- Shape 10 (TextBox 11, type=TEXT_BOX (17)): pos=(1.69cm, 1.98cm), size=(32.17cm x 1.22cm) ---
+  [P0] (size=inherit, bold=None): 발표 목차 안내
+--- Shape 11 (TextBox 12, type=TEXT_BOX (17)): pos=(2.33cm, 7.99cm), size=(2.12cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): 01.
+--- Shape 12 (TextBox 13, type=TEXT_BOX (17)): pos=(2.33cm, 9.42cm), size=(3.45cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 개발 목적
+--- Shape 13 (TextBox 14, type=TEXT_BOX (17)): pos=(2.33cm, 10.98cm), size=(6.22cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): 소아 의료 3대 구조적 모순 해소
+--- Shape 14 (TextBox 15, type=TEXT_BOX (17)): pos=(10.08cm, 7.99cm), size=(2.12cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): 02.
+--- Shape 15 (TextBox 16, type=TEXT_BOX (17)): pos=(10.08cm, 9.42cm), size=(5.56cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 서비스 프로세스
+--- Shape 16 (TextBox 17, type=TEXT_BOX (17)): pos=(10.08cm, 10.98cm), size=(6.22cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): 0ms 가드레일 2-트랙 라우팅
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(17.83cm, 7.99cm), size=(2.12cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): 03.
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(17.83cm, 9.42cm), size=(5.56cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 데이터분석 통계
+--- Shape 19 (TextBox 20, type=TEXT_BOX (17)): pos=(17.83cm, 10.98cm), size=(6.22cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): 9.4만 건 공공데이터 실증 성과
+--- Shape 20 (TextBox 21, type=TEXT_BOX (17)): pos=(25.59cm, 7.99cm), size=(2.12cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): 04.
+--- Shape 21 (TextBox 22, type=TEXT_BOX (17)): pos=(25.59cm, 9.42cm), size=(4.06cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 고도화 방안
+--- Shape 22 (TextBox 23, type=TEXT_BOX (17)): pos=(25.59cm, 10.98cm), size=(6.22cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): 전후 비교 분석 4단계 로드맵
+
+==================== SLIDE 3 ====================
+--- Shape 0 (Rectangle 1, type=AUTO_SHAPE (1)): pos=(1.69cm, 10.89cm), size=(6.35cm x 0.05cm) ---
+--- Shape 1 (Rounded Rectangle 2, type=AUTO_SHAPE (1)): pos=(11.17cm, 4.60cm), size=(21.01cm x 2.96cm) ---
+--- Shape 2 (Rounded Rectangle 3, type=AUTO_SHAPE (1)): pos=(11.17cm, 8.04cm), size=(21.01cm x 2.96cm) ---
+--- Shape 3 (Rounded Rectangle 4, type=AUTO_SHAPE (1)): pos=(11.17cm, 11.48cm), size=(21.01cm x 2.96cm) ---
+--- Shape 4 (Picture 5, type=PICTURE (13)): pos=(11.91cm, 5.24cm), size=(1.69cm x 1.69cm) ---
+--- Shape 5 (Picture 6, type=PICTURE (13)): pos=(11.91cm, 8.68cm), size=(1.69cm x 1.69cm) ---
+--- Shape 6 (Picture 7, type=PICTURE (13)): pos=(11.91cm, 12.12cm), size=(1.69cm x 1.69cm) ---
+--- Shape 7 (Picture 8, type=PICTURE (13)): pos=(12.49cm, 5.74cm), size=(0.54cm x 0.69cm) ---
+--- Shape 8 (Picture 9, type=PICTURE (13)): pos=(12.49cm, 9.18cm), size=(0.54cm x 0.69cm) ---
+--- Shape 9 (Picture 10, type=PICTURE (13)): pos=(12.49cm, 12.62cm), size=(0.54cm x 0.69cm) ---
+--- Shape 10 (TextBox 11, type=TEXT_BOX (17)): pos=(1.69cm, 6.36cm), size=(10.25cm x 1.19cm) ---
+  [P0] (size=inherit, bold=None): 01.
+--- Shape 11 (TextBox 12, type=TEXT_BOX (17)): pos=(1.69cm, 7.77cm), size=(8.89cm x 2.59cm) ---
+  [P0] (size=inherit, bold=None): 개발 목적 및
+ 추진 배경
+--- Shape 12 (TextBox 13, type=TEXT_BOX (17)): pos=(1.69cm, 11.42cm), size=(8.47cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): 야간 소아 응급의료 현장의 3대 구조적 모순과 골든타임 사수 기획 배경
+--- Shape 13 (TextBox 14, type=TEXT_BOX (17)): pos=(14.23cm, 5.32cm), size=(9.43cm x 0.67cm) ---
+  [P0] (size=inherit, bold=None): 야간 소아응급실 뺑뺑이 (골든타임 실종)
+--- Shape 14 (TextBox 15, type=TEXT_BOX (17)): pos=(14.23cm, 6.22cm), size=(15.07cm x 0.58cm) ---
+  [P0] (size=inherit, bold=None): 소아청소년과 당직의 부재로 인한 진료 제한 공지 및 야간 중증 환아 표류 발생
+--- Shape 15 (TextBox 16, type=TEXT_BOX (17)): pos=(14.23cm, 8.76cm), size=(19.22cm x 0.74cm) ---
+  [P0] (size=inherit, bold=None): 대형 응급실 경증 환자 과밀화 (74%)
+--- Shape 16 (TextBox 17, type=TEXT_BOX (17)): pos=(14.23cm, 9.66cm), size=(18.31cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 야간 경증 환아 응급실 쏠림으로 대기 3~5시간 폭증 및 중증 진료 지연
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(14.23cm, 12.20cm), size=(19.63cm x 0.74cm) ---
+  [P0] (size=inherit, bold=None): 심야 처방약 조제 불가 사고 (조제 단절)
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(14.23cm, 13.10cm), size=(18.75cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 달빛어린이병원 반경 1km 약국 42.6% 조기 마감에 따른 조제 단절 해소
+
+==================== SLIDE 4 ====================
+--- Shape 0 (Rectangle 1, type=AUTO_SHAPE (1)): pos=(1.69cm, 10.89cm), size=(6.35cm x 0.05cm) ---
+--- Shape 1 (Picture 2, type=PICTURE (13)): pos=(12.56cm, 4.26cm), size=(3.07cm x 3.07cm) ---
+--- Shape 2 (Picture 3, type=PICTURE (13)): pos=(19.90cm, 4.26cm), size=(3.07cm x 3.07cm) ---
+--- Shape 3 (Picture 4, type=PICTURE (13)): pos=(27.23cm, 4.26cm), size=(3.07cm x 3.07cm) ---
+--- Shape 4 (Picture 5, type=PICTURE (13)): pos=(15.82cm, 9.95cm), size=(3.07cm x 3.07cm) ---
+--- Shape 5 (Picture 6, type=PICTURE (13)): pos=(23.97cm, 9.95cm), size=(3.07cm x 3.07cm) ---
+--- Shape 6 (Picture 7, type=PICTURE (13)): pos=(13.64cm, 5.21cm), size=(0.91cm x 1.16cm) ---
+--- Shape 7 (Picture 8, type=PICTURE (13)): pos=(20.98cm, 5.21cm), size=(0.91cm x 1.16cm) ---
+--- Shape 8 (Picture 9, type=PICTURE (13)): pos=(28.32cm, 5.21cm), size=(0.91cm x 1.16cm) ---
+--- Shape 9 (Picture 10, type=PICTURE (13)): pos=(16.90cm, 10.90cm), size=(0.91cm x 1.16cm) ---
+--- Shape 10 (Picture 11, type=PICTURE (13)): pos=(25.05cm, 10.90cm), size=(0.91cm x 1.16cm) ---
+--- Shape 11 (TextBox 12, type=TEXT_BOX (17)): pos=(1.69cm, 6.36cm), size=(9.92cm x 1.19cm) ---
+  [P0] (size=inherit, bold=None): 02.
+--- Shape 12 (TextBox 13, type=TEXT_BOX (17)): pos=(1.69cm, 7.77cm), size=(8.61cm x 2.59cm) ---
+  [P0] (size=inherit, bold=None): 서비스에
+ 필요한 핵심 요소
+--- Shape 13 (TextBox 14, type=TEXT_BOX (17)): pos=(1.69cm, 11.42cm), size=(8.20cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): 소아 야간 응급의료 안전망 구축을 위한 5대 핵심 엔지니어링 기술 기둥
+--- Shape 14 (TextBox 15, type=TEXT_BOX (17)): pos=(10.24cm, 7.70cm), size=(7.70cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): ☑ 0ms 2계층 안전 감시망
+--- Shape 15 (TextBox 16, type=TEXT_BOX (17)): pos=(10.91cm, 8.55cm), size=(6.36cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 26µs 정규식 인터셉터 탑재
+--- Shape 16 (TextBox 17, type=TEXT_BOX (17)): pos=(17.14cm, 7.70cm), size=(8.58cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): ☑ 2-트랙 지능형 임상 라우팅
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(17.96cm, 8.55cm), size=(6.94cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 응급실 병상 vs 달빛병원 분기
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(24.87cm, 7.70cm), size=(7.79cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): ☑ +30분 마진 약국 페어링
+--- Shape 19 (TextBox 20, type=TEXT_BOX (17)): pos=(25.80cm, 8.55cm), size=(5.94cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 안심약국 1:1 실시간 매칭
+--- Shape 20 (TextBox 21, type=TEXT_BOX (17)): pos=(13.23cm, 13.39cm), size=(8.25cm x 0.58cm) ---
+  [P0] (size=inherit, bold=None): ☑ In-Memory Hash Diffing
+--- Shape 21 (TextBox 22, type=TEXT_BOX (17)): pos=(13.23cm, 14.13cm), size=(8.26cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 클라우드 DB 쓰기 비용 93.9% 절감
+--- Shape 22 (TextBox 23, type=TEXT_BOX (17)): pos=(21.31cm, 13.39cm), size=(8.40cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): ☑ 119 구급대원 브리핑 카드
+--- Shape 23 (TextBox 24, type=TEXT_BOX (17)): pos=(21.67cm, 14.23cm), size=(7.67cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 본인확인 서류 및 30초 통화 대본
+
+==================== SLIDE 5 ====================
+--- Shape 0 (Rectangle 1, type=AUTO_SHAPE (1)): pos=(1.69cm, 10.57cm), size=(6.35cm x 0.05cm) ---
+--- Shape 1 (Rectangle 2, type=AUTO_SHAPE (1)): pos=(12.59cm, 4.66cm), size=(19.58cm x 1.48cm) ---
+--- Shape 2 (Rectangle 3, type=AUTO_SHAPE (1)): pos=(12.59cm, 7.41cm), size=(19.58cm x 1.48cm) ---
+--- Shape 3 (Rectangle 4, type=AUTO_SHAPE (1)): pos=(12.59cm, 10.16cm), size=(19.58cm x 1.48cm) ---
+--- Shape 4 (Rectangle 5, type=AUTO_SHAPE (1)): pos=(12.59cm, 12.91cm), size=(19.58cm x 1.48cm) ---
+--- Shape 5 (Picture 6, type=PICTURE (13)): pos=(21.28cm, 6.51cm), size=(0.41cm x 0.53cm) ---
+--- Shape 6 (Picture 7, type=PICTURE (13)): pos=(21.28cm, 9.26cm), size=(0.41cm x 0.53cm) ---
+--- Shape 7 (Picture 8, type=PICTURE (13)): pos=(21.28cm, 12.01cm), size=(0.41cm x 0.53cm) ---
+--- Shape 8 (Picture 9, type=PICTURE (13)): pos=(10.79cm, 4.50cm), size=(1.80cm x 1.80cm) ---
+--- Shape 9 (Picture 10, type=PICTURE (13)): pos=(10.79cm, 7.25cm), size=(1.80cm x 1.80cm) ---
+--- Shape 10 (Picture 11, type=PICTURE (13)): pos=(10.79cm, 10.00cm), size=(1.80cm x 1.80cm) ---
+--- Shape 11 (Picture 12, type=PICTURE (13)): pos=(10.79cm, 12.75cm), size=(1.80cm x 1.80cm) ---
+--- Shape 12 (Picture 13, type=PICTURE (13)): pos=(11.43cm, 5.05cm), size=(0.54cm x 0.69cm) ---
+--- Shape 13 (Picture 14, type=PICTURE (13)): pos=(11.43cm, 7.81cm), size=(0.54cm x 0.69cm) ---
+--- Shape 14 (Picture 15, type=PICTURE (13)): pos=(11.43cm, 10.56cm), size=(0.54cm x 0.69cm) ---
+--- Shape 15 (Picture 16, type=PICTURE (13)): pos=(11.43cm, 13.31cm), size=(0.54cm x 0.69cm) ---
+--- Shape 16 (TextBox 17, type=TEXT_BOX (17)): pos=(1.69cm, 6.05cm), size=(9.92cm x 1.19cm) ---
+  [P0] (size=inherit, bold=None): 03.
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(1.69cm, 7.45cm), size=(8.61cm x 2.59cm) ---
+  [P0] (size=inherit, bold=None): 서비스 절차는
+ 이렇게 진행돼요
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(1.69cm, 11.10cm), size=(8.20cm x 1.91cm) ---
+  [P0] (size=inherit, bold=None): 원스톱 문진 입력부터 실시간 병상 매칭 및 구급대원 인계까지 4단계 파이프라인
+--- Shape 19 (TextBox 20, type=TEXT_BOX (17)): pos=(13.23cm, 5.08cm), size=(15.15cm x 0.58cm) ---
+  [P0] (size=inherit, bold=None): 1단계 : 스마트 원스톱 문진 (5대 연령 분류 · 다이얼 체온계 · STT 음성 입력)
+--- Shape 20 (TextBox 21, type=TEXT_BOX (17)): pos=(13.23cm, 7.83cm), size=(20.64cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 2단계 : 0ms 안전 가드레일 & Gemini 3.8 Flash 소아 KTAS 168개 지침 트리아제
+--- Shape 21 (TextBox 22, type=TEXT_BOX (17)): pos=(13.23cm, 10.58cm), size=(20.64cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 3단계 : 2-트랙 맞춤 가이드 (중증: 소아응급실+119 / 경증: 달빛병원+30분안심약국)
+--- Shape 22 (TextBox 23, type=TEXT_BOX (17)): pos=(13.23cm, 13.34cm), size=(20.64cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 4단계 : 119 구급대원 응급 브리핑 카드 인계 및 24시간 실시간 병상 변동 알림
+
+==================== SLIDE 6 ====================
+--- Shape 0 (Picture 1, type=PICTURE (13)): pos=(5.59cm, 5.21cm), size=(2.01cm x 2.01cm) ---
+--- Shape 1 (Picture 2, type=PICTURE (13)): pos=(15.93cm, 5.21cm), size=(2.01cm x 2.01cm) ---
+--- Shape 2 (Picture 3, type=PICTURE (13)): pos=(26.26cm, 5.53cm), size=(2.01cm x 2.01cm) ---
+--- Shape 3 (Picture 4, type=PICTURE (13)): pos=(6.29cm, 5.82cm), size=(0.62cm x 0.79cm) ---
+--- Shape 4 (Picture 5, type=PICTURE (13)): pos=(4.32cm, 7.54cm), size=(2.01cm x 2.01cm) ---
+--- Shape 5 (Picture 6, type=PICTURE (13)): pos=(6.86cm, 7.54cm), size=(2.01cm x 2.01cm) ---
+--- Shape 6 (Picture 7, type=PICTURE (13)): pos=(16.62cm, 5.82cm), size=(0.62cm x 0.79cm) ---
+--- Shape 7 (Picture 8, type=PICTURE (13)): pos=(14.66cm, 7.54cm), size=(2.01cm x 2.01cm) ---
+--- Shape 8 (Picture 9, type=PICTURE (13)): pos=(17.20cm, 7.54cm), size=(2.01cm x 2.01cm) ---
+--- Shape 9 (Picture 10, type=PICTURE (13)): pos=(26.96cm, 6.14cm), size=(0.62cm x 0.79cm) ---
+--- Shape 10 (Picture 11, type=PICTURE (13)): pos=(24.99cm, 7.86cm), size=(2.01cm x 2.01cm) ---
+--- Shape 11 (Picture 12, type=PICTURE (13)): pos=(27.53cm, 7.86cm), size=(2.01cm x 2.01cm) ---
+--- Shape 12 (Picture 13, type=PICTURE (13)): pos=(5.04cm, 8.18cm), size=(0.58cm x 0.74cm) ---
+--- Shape 13 (Picture 14, type=PICTURE (13)): pos=(7.58cm, 8.18cm), size=(0.58cm x 0.74cm) ---
+--- Shape 14 (Picture 15, type=PICTURE (13)): pos=(15.38cm, 8.18cm), size=(0.58cm x 0.74cm) ---
+--- Shape 15 (Picture 16, type=PICTURE (13)): pos=(17.92cm, 8.18cm), size=(0.58cm x 0.74cm) ---
+--- Shape 16 (Picture 17, type=PICTURE (13)): pos=(25.71cm, 8.49cm), size=(0.58cm x 0.74cm) ---
+--- Shape 17 (Picture 18, type=PICTURE (13)): pos=(28.25cm, 8.49cm), size=(0.58cm x 0.74cm) ---
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(1.91cm, 1.48cm), size=(31.96cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): 04.
+--- Shape 19 (TextBox 20, type=TEXT_BOX (17)): pos=(1.91cm, 2.70cm), size=(31.96cm x 1.30cm) ---
+  [P0] (size=inherit, bold=None): 핵심 기능 3대 분류 체계
+--- Shape 20 (TextBox 21, type=TEXT_BOX (17)): pos=(0.44cm, 10.45cm), size=(12.32cm x 1.38cm) ---
+  [P0] (size=inherit, bold=None): 01. [Track A] 초응급 대응 (KTAS 1~3)
+--- Shape 21 (TextBox 22, type=TEXT_BOX (17)): pos=(10.78cm, 10.45cm), size=(12.32cm x 1.38cm) ---
+  [P0] (size=inherit, bold=None): 02. [Track B] 경증 환자분류 (KTAS 4~5)
+--- Shape 22 (TextBox 23, type=TEXT_BOX (17)): pos=(21.24cm, 10.40cm), size=(12.32cm x 0.74cm) ---
+  [P0] (size=inherit, bold=None): 03. [Core Engine] 고가용성 인프라
+--- Shape 23 (TextBox 24, type=TEXT_BOX (17)): pos=(2.67cm, 12.46cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 실시간 병상: E-Gen 소아 가용병상 LBS 랭킹
+--- Shape 24 (TextBox 25, type=TEXT_BOX (17)): pos=(2.67cm, 14.10cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 초동 대처: 119 직행 및 맞춤 응급처치 가이드
+--- Shape 25 (TextBox 26, type=TEXT_BOX (17)): pos=(2.67cm, 15.74cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 현장 인계: 구급대원용 응급 브리핑 카드
+--- Shape 26 (TextBox 27, type=TEXT_BOX (17)): pos=(12.76cm, 12.41cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 안심 페어링: 156개 달빛병원 + 30분 마진 약국
+--- Shape 27 (TextBox 28, type=TEXT_BOX (17)): pos=(12.76cm, 14.05cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 사전 확인: 당직의 30초 유선 확인 통화 대본
+--- Shape 28 (TextBox 29, type=TEXT_BOX (17)): pos=(12.76cm, 15.69cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 방문 준비: 본인확인 의무화 서류 체크리스트
+--- Shape 29 (TextBox 30, type=TEXT_BOX (17)): pos=(23.87cm, 12.40cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 안전 감시망: 26µs 정규식 + 복합 부정문 감별
+--- Shape 30 (TextBox 31, type=TEXT_BOX (17)): pos=(23.87cm, 14.04cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 법규 준수: 의료법 제27조 사후 소독 게이트웨이
+--- Shape 31 (TextBox 32, type=TEXT_BOX (17)): pos=(23.87cm, 15.68cm), size=(8.38cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): • 무중단 폴백: 3-State 서킷 브레이커 아키텍처
+
+==================== SLIDE 7 ====================
+--- Shape 0 (Rounded Rectangle 1, type=AUTO_SHAPE (1)): pos=(1.69cm, 4.42cm), size=(9.81cm x 2.80cm) ---
+--- Shape 1 (Rounded Rectangle 2, type=AUTO_SHAPE (1)): pos=(12.03cm, 4.42cm), size=(9.81cm x 2.80cm) ---
+--- Shape 2 (Rounded Rectangle 3, type=AUTO_SHAPE (1)): pos=(22.37cm, 4.42cm), size=(9.81cm x 2.80cm) ---
+--- Shape 3 (Picture 4, type=PICTURE (13)): pos=(0.00cm, 0.00cm), size=(33.87cm x 19.05cm) ---
+--- Shape 4 (Picture 5, type=PICTURE (13)): pos=(9.54cm, 5.13cm), size=(1.38cm x 1.38cm) ---
+--- Shape 5 (Picture 6, type=PICTURE (13)): pos=(19.88cm, 5.13cm), size=(1.38cm x 1.38cm) ---
+--- Shape 6 (Picture 7, type=PICTURE (13)): pos=(30.22cm, 5.13cm), size=(1.38cm x 1.38cm) ---
+--- Shape 7 (Picture 8, type=PICTURE (13)): pos=(9.98cm, 5.50cm), size=(0.49cm x 0.64cm) ---
+--- Shape 8 (Picture 9, type=PICTURE (13)): pos=(20.32cm, 5.50cm), size=(0.49cm x 0.64cm) ---
+--- Shape 9 (Picture 10, type=PICTURE (13)): pos=(30.66cm, 5.50cm), size=(0.49cm x 0.64cm) ---
+--- Shape 10 (TextBox 11, type=TEXT_BOX (17)): pos=(23.15cm, 2.78cm), size=(10.71cm x 0.50cm) ---
+  [P0] (size=inherit, bold=None): 전국 94,000건 공공의료 마스터 데이터셋 실측 분석
+--- Shape 11 (TextBox 12, type=TEXT_BOX (17)): pos=(1.69cm, 1.16cm), size=(13.58cm x 0.90cm) ---
+  [P0] (size=inherit, bold=None): 05.
+--- Shape 12 (TextBox 13, type=TEXT_BOX (17)): pos=(1.69cm, 2.12cm), size=(14.26cm x 1.16cm) ---
+  [P0] (size=inherit, bold=None): 데이터분석 핵심 통계 시각화
+--- Shape 13 (TextBox 14, type=TEXT_BOX (17)): pos=(2.28cm, 4.93cm), size=(6.41cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 응급실 소아 단순 경증 비율
+--- Shape 14 (TextBox 15, type=TEXT_BOX (17)): pos=(2.28cm, 5.60cm), size=(6.41cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): 74.0%
+--- Shape 15 (TextBox 16, type=TEXT_BOX (17)): pos=(12.61cm, 4.84cm), size=(5.97cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 공공의료 정제 마스터 DB
+--- Shape 16 (TextBox 17, type=TEXT_BOX (17)): pos=(12.61cm, 5.50cm), size=(5.97cm x 1.30cm) ---
+  [P0] (size=inherit, bold=None): 94,000건
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(22.95cm, 4.93cm), size=(6.06cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): Hash Diffing 비용 절감률
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(22.95cm, 5.60cm), size=(6.06cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): -93.9%
+
+==================== SLIDE 8 ====================
+--- Shape 0 (Rectangle 1, type=AUTO_SHAPE (1)): pos=(1.69cm, 8.97cm), size=(4.76cm x 0.05cm) ---
+--- Shape 1 (Rounded Rectangle 2, type=AUTO_SHAPE (1)): pos=(1.69cm, 11.35cm), size=(6.61cm x 3.15cm) ---
+--- Shape 2 (Rounded Rectangle 3, type=AUTO_SHAPE (1)): pos=(10.70cm, 14.18cm), size=(20.04cm x 1.03cm) ---
+--- Shape 3 (Rectangle 4, type=AUTO_SHAPE (1)): pos=(15.65cm, 3.84cm), size=(0.03cm x 1.35cm) ---
+--- Shape 4 (Rectangle 5, type=AUTO_SHAPE (1)): pos=(23.90cm, 3.84cm), size=(0.03cm x 1.35cm) ---
+--- Shape 5 (Rounded Rectangle 6, type=AUTO_SHAPE (1)): pos=(16.05cm, 6.27cm), size=(7.51cm x 0.21cm) ---
+--- Shape 6 (Rounded Rectangle 7, type=AUTO_SHAPE (1)): pos=(16.05cm, 7.96cm), size=(7.51cm x 0.21cm) ---
+--- Shape 7 (Rounded Rectangle 8, type=AUTO_SHAPE (1)): pos=(16.05cm, 9.66cm), size=(7.51cm x 0.21cm) ---
+--- Shape 8 (Rounded Rectangle 9, type=AUTO_SHAPE (1)): pos=(16.05cm, 11.35cm), size=(7.51cm x 0.21cm) ---
+--- Shape 9 (Rounded Rectangle 10, type=AUTO_SHAPE (1)): pos=(16.05cm, 13.04cm), size=(7.51cm x 0.21cm) ---
+--- Shape 10 (Rectangle 11, type=AUTO_SHAPE (1)): pos=(16.05cm, 6.27cm), size=(6.31cm x 0.21cm) ---
+--- Shape 11 (Rectangle 12, type=AUTO_SHAPE (1)): pos=(16.05cm, 7.96cm), size=(3.20cm x 0.21cm) ---
+--- Shape 12 (Rectangle 13, type=AUTO_SHAPE (1)): pos=(16.05cm, 9.66cm), size=(7.05cm x 0.21cm) ---
+--- Shape 13 (Rectangle 14, type=AUTO_SHAPE (1)): pos=(16.05cm, 11.35cm), size=(7.51cm x 0.21cm) ---
+--- Shape 14 (Rectangle 15, type=AUTO_SHAPE (1)): pos=(16.05cm, 13.04cm), size=(7.51cm x 0.21cm) ---
+--- Shape 15 (Picture 16, type=PICTURE (13)): pos=(11.44cm, 14.49cm), size=(0.33cm x 0.42cm) ---
+--- Shape 16 (Table 17, type=TABLE (19)): pos=(9.26cm, 3.84cm), size=(22.91cm x 9.87cm) ---
+  [TABLE] rows=6, cols=3
+    분석 항목 | 측정 수치 및 시각 지표 | 비고 및 분석 요약
+    [응급실 병목] 20~24시 내원 | 4.2배 폭증 (피크 280명) | 야간 쏠림으로 평균 대기 3.5시간
+    [조제 단절] 1km 약국 마감 | 42.6% 조기 마감 | 병원보다 일찍 닫아 조제 불가
+    [FinOps] 일일 DB 쓰기 절감 | 144,000회 ➔ 8,640회 (-93.9%) | Hash Diffing 도입 비용 절감
+    [임상 안전성] Red Flag 감지 | 민감도 100% / 오분류 0% | 26µs 정규식 중증 누락 완전 차단
+    [부정문 감별] 복합 문맥 분석 | 부정문 오경보율 0.0% (정확도 100%) | 형태소 엔진으로 가짜 경보 차단
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(1.69cm, 4.55cm), size=(8.27cm x 1.19cm) ---
+  [P0] (size=inherit, bold=None): 06.
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(1.69cm, 5.95cm), size=(7.22cm x 2.59cm) ---
+  [P0] (size=inherit, bold=None): 데이터분석
+세부 통계표
+--- Shape 19 (TextBox 20, type=TEXT_BOX (17)): pos=(1.69cm, 9.45cm), size=(6.88cm x 1.27cm) ---
+  [P0] (size=inherit, bold=None): 소아 야간 의료 현장 문제 증명 및 시스템 성능 5대 지표
+--- Shape 20 (TextBox 21, type=TEXT_BOX (17)): pos=(2.12cm, 11.77cm), size=(7.21cm x 0.50cm) ---
+  [P0] (size=inherit, bold=None): 실증 데이터 규모
+--- Shape 21 (TextBox 22, type=TEXT_BOX (17)): pos=(2.12cm, 12.44cm), size=(7.21cm x 1.01cm) ---
+  [P0] (size=inherit, bold=None): 94,000+ 건
+--- Shape 22 (TextBox 23, type=TEXT_BOX (17)): pos=(2.12cm, 13.60cm), size=(7.21cm x 0.48cm) ---
+  [P0] (size=inherit, bold=None): 병의원 7만 · 약국 2.4만
+--- Shape 23 (TextBox 24, type=TEXT_BOX (17)): pos=(12.03cm, 14.45cm), size=(21.84cm x 0.50cm) ---
+  [P0] (size=inherit, bold=None): 출처: 국립중앙의료원(NMC) E-Gen API, HIRA 전국 병의원·약국 DB, 소아 KTAS 50대 골든케이스 실측
+
+==================== SLIDE 9 ====================
+--- Shape 0 (Rounded Rectangle 1, type=AUTO_SHAPE (1)): pos=(10.16cm, 5.20cm), size=(22.01cm x 8.65cm) ---
+--- Shape 1 (Rectangle 2, type=AUTO_SHAPE (1)): pos=(1.69cm, 10.54cm), size=(5.29cm x 0.05cm) ---
+--- Shape 2 (Rounded Rectangle 3, type=AUTO_SHAPE (1)): pos=(28.45cm, 5.91cm), size=(2.91cm x 0.87cm) ---
+--- Shape 3 (Rounded Rectangle 4, type=AUTO_SHAPE (1)): pos=(28.45cm, 7.50cm), size=(2.91cm x 0.87cm) ---
+--- Shape 4 (Rounded Rectangle 5, type=AUTO_SHAPE (1)): pos=(28.31cm, 9.09cm), size=(3.05cm x 0.87cm) ---
+--- Shape 5 (Rounded Rectangle 6, type=AUTO_SHAPE (1)): pos=(28.52cm, 10.68cm), size=(2.83cm x 0.87cm) ---
+--- Shape 6 (Rounded Rectangle 7, type=AUTO_SHAPE (1)): pos=(28.27cm, 12.26cm), size=(3.08cm x 0.87cm) ---
+--- Shape 7 (Rounded Rectangle 8, type=AUTO_SHAPE (1)): pos=(10.98cm, 5.95cm), size=(0.79cm x 0.79cm) ---
+--- Shape 8 (Rounded Rectangle 9, type=AUTO_SHAPE (1)): pos=(10.98cm, 7.54cm), size=(0.79cm x 0.79cm) ---
+--- Shape 9 (Rounded Rectangle 10, type=AUTO_SHAPE (1)): pos=(10.98cm, 9.13cm), size=(0.79cm x 0.79cm) ---
+--- Shape 10 (Rounded Rectangle 11, type=AUTO_SHAPE (1)): pos=(10.98cm, 10.72cm), size=(0.79cm x 0.79cm) ---
+--- Shape 11 (Rounded Rectangle 12, type=AUTO_SHAPE (1)): pos=(10.98cm, 12.30cm), size=(0.79cm x 0.79cm) ---
+--- Shape 12 (TextBox 13, type=TEXT_BOX (17)): pos=(1.69cm, 6.07cm), size=(9.26cm x 1.19cm) ---
+  [P0] (size=inherit, bold=None): 07.
+--- Shape 13 (TextBox 14, type=TEXT_BOX (17)): pos=(1.69cm, 7.47cm), size=(8.06cm x 2.59cm) ---
+  [P0] (size=inherit, bold=None): 데이터 분석
+핵심 시사점
+--- Shape 14 (TextBox 15, type=TEXT_BOX (17)): pos=(1.69cm, 11.07cm), size=(7.67cm x 1.91cm) ---
+  [P0] (size=inherit, bold=None): 9만 건의 공공데이터 실측 분석을 통해 도출된 5대 핵심 엔지니어링 인사이트
+--- Shape 15 (TextBox 16, type=TEXT_BOX (17)): pos=(10.58cm, 5.95cm), size=(1.59cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 1
+--- Shape 16 (TextBox 17, type=TEXT_BOX (17)): pos=(12.14cm, 6.03cm), size=(16.40cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 응급실 과밀화 단순 경증: 달빛병원 분산 유도로 골든타임 사수
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(28.82cm, 6.07cm), size=(2.96cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 경증 74.0%
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(10.58cm, 7.54cm), size=(1.59cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 2
+--- Shape 19 (TextBox 20, type=TEXT_BOX (17)): pos=(12.14cm, 7.62cm), size=(16.82cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 인근 약국 조기 마감 결함: +30분 마진 안심약국 1:1 페어링 필수
+--- Shape 20 (TextBox 21, type=TEXT_BOX (17)): pos=(28.82cm, 7.66cm), size=(2.96cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 마감 42.6%
+--- Shape 21 (TextBox 22, type=TEXT_BOX (17)): pos=(10.58cm, 9.13cm), size=(1.59cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 3
+--- Shape 22 (TextBox 23, type=TEXT_BOX (17)): pos=(12.14cm, 9.21cm), size=(17.13cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 5분당 병상 변동률 5.8%: In-Memory Hash Diffing DB 비용 절감
+--- Shape 23 (TextBox 24, type=TEXT_BOX (17)): pos=(28.68cm, 9.25cm), size=(3.10cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 절감 -93.9%
+--- Shape 24 (TextBox 25, type=TEXT_BOX (17)): pos=(10.58cm, 10.72cm), size=(1.59cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 4
+--- Shape 25 (TextBox 26, type=TEXT_BOX (17)): pos=(12.14cm, 10.79cm), size=(17.13cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 키워드 RAG 검색 한계 극복: Gemini 3.8 Direct Grounding 채택
+--- Shape 26 (TextBox 27, type=TEXT_BOX (17)): pos=(28.89cm, 10.83cm), size=(2.89cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 168개 지침
+--- Shape 27 (TextBox 28, type=TEXT_BOX (17)): pos=(10.58cm, 12.30cm), size=(1.59cm x 0.79cm) ---
+  [P0] (size=inherit, bold=None): 5
+--- Shape 28 (TextBox 29, type=TEXT_BOX (17)): pos=(12.14cm, 12.38cm), size=(16.31cm x 0.64cm) ---
+  [P0] (size=inherit, bold=None): 비의료 AI 2대 리스크 차단: 언더트리아제 방어 및 의료법 준수
+--- Shape 29 (TextBox 30, type=TEXT_BOX (17)): pos=(28.64cm, 12.42cm), size=(3.13cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 26µs 감시망
+
+==================== SLIDE 10 ====================
+--- Shape 0 (Rectangle 1, type=AUTO_SHAPE (1)): pos=(1.69cm, 10.57cm), size=(5.29cm x 0.05cm) ---
+--- Shape 1 (Rounded Rectangle 2, type=AUTO_SHAPE (1)): pos=(12.20cm, 5.60cm), size=(5.66cm x 1.22cm) ---
+--- Shape 2 (Rounded Rectangle 3, type=AUTO_SHAPE (1)): pos=(9.53cm, 7.18cm), size=(11.01cm x 6.27cm) ---
+--- Shape 3 (Rounded Rectangle 4, type=AUTO_SHAPE (1)): pos=(23.43cm, 4.76cm), size=(6.48cm x 1.22cm) ---
+--- Shape 4 (Rounded Rectangle 5, type=AUTO_SHAPE (1)): pos=(21.17cm, 6.35cm), size=(11.01cm x 7.94cm) ---
+--- Shape 5 (Rounded Rectangle 6, type=AUTO_SHAPE (1)): pos=(15.30cm, 5.86cm), size=(1.87cm x 0.69cm) ---
+--- Shape 6 (Rounded Rectangle 7, type=AUTO_SHAPE (1)): pos=(27.03cm, 5.03cm), size=(2.19cm x 0.69cm) ---
+--- Shape 7 (Rounded Rectangle 8, type=AUTO_SHAPE (1)): pos=(10.11cm, 7.87cm), size=(0.69cm x 0.69cm) ---
+--- Shape 8 (Rounded Rectangle 9, type=AUTO_SHAPE (1)): pos=(10.11cm, 9.27cm), size=(0.69cm x 0.69cm) ---
+--- Shape 9 (Rounded Rectangle 10, type=AUTO_SHAPE (1)): pos=(10.11cm, 10.68cm), size=(0.69cm x 0.69cm) ---
+--- Shape 10 (Rounded Rectangle 11, type=AUTO_SHAPE (1)): pos=(10.11cm, 12.08cm), size=(0.69cm x 0.69cm) ---
+--- Shape 11 (Rounded Rectangle 12, type=AUTO_SHAPE (1)): pos=(21.78cm, 7.28cm), size=(0.69cm x 0.69cm) ---
+--- Shape 12 (Rounded Rectangle 13, type=AUTO_SHAPE (1)): pos=(21.78cm, 9.06cm), size=(0.69cm x 0.69cm) ---
+--- Shape 13 (Rounded Rectangle 14, type=AUTO_SHAPE (1)): pos=(21.78cm, 10.85cm), size=(0.69cm x 0.69cm) ---
+--- Shape 14 (Rounded Rectangle 15, type=AUTO_SHAPE (1)): pos=(21.78cm, 12.67cm), size=(0.69cm x 0.69cm) ---
+--- Shape 15 (TextBox 16, type=TEXT_BOX (17)): pos=(1.69cm, 6.10cm), size=(8.60cm x 1.19cm) ---
+  [P0] (size=inherit, bold=None): 08.
+--- Shape 16 (TextBox 17, type=TEXT_BOX (17)): pos=(1.69cm, 7.50cm), size=(7.50cm x 2.59cm) ---
+  [P0] (size=inherit, bold=None): 고도화 방안
+ 비교 분석
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(1.69cm, 11.05cm), size=(7.14cm x 1.91cm) ---
+  [P0] (size=inherit, bold=None): 기존 의료 서비스 한계점(AS-IS)과 아이숨의 엔지니어링 개선 방향(TO-BE) 비교
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(12.89cm, 5.86cm), size=(2.94cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 기존 현황
+--- Shape 19 (TextBox 20, type=TEXT_BOX (17)): pos=(15.67cm, 5.97cm), size=(1.39cm x 0.48cm) ---
+  [P0] (size=inherit, bold=None): AS-IS
+--- Shape 20 (TextBox 21, type=TEXT_BOX (17)): pos=(24.12cm, 5.03cm), size=(3.45cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 고도화 개선
+--- Shape 21 (TextBox 22, type=TEXT_BOX (17)): pos=(27.40cm, 5.13cm), size=(1.71cm x 0.48cm) ---
+  [P0] (size=inherit, bold=None): TO-BE!
+--- Shape 22 (TextBox 23, type=TEXT_BOX (17)): pos=(9.71cm, 7.87cm), size=(1.48cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 1
+--- Shape 23 (TextBox 24, type=TEXT_BOX (17)): pos=(11.11cm, 7.94cm), size=(10.38cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 단순 지도 검색 (야간 소청과 당직 확인 불가)
+--- Shape 24 (TextBox 25, type=TEXT_BOX (17)): pos=(9.71cm, 9.27cm), size=(1.48cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 2
+--- Shape 25 (TextBox 26, type=TEXT_BOX (17)): pos=(11.11cm, 9.34cm), size=(10.64cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 키워드 RAG 챗봇 환각 및 일상어 임상 오분류
+--- Shape 26 (TextBox 27, type=TEXT_BOX (17)): pos=(9.71cm, 10.68cm), size=(1.48cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 3
+--- Shape 27 (TextBox 28, type=TEXT_BOX (17)): pos=(11.11cm, 10.74cm), size=(10.03cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 공공 API 장애 시 전체 서비스 중단 (SPOF)
+--- Shape 28 (TextBox 29, type=TEXT_BOX (17)): pos=(9.71cm, 12.08cm), size=(1.48cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 4
+--- Shape 29 (TextBox 30, type=TEXT_BOX (17)): pos=(11.11cm, 12.14cm), size=(10.55cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 인근 약국 조기 마감으로 심야 조제 단절 발생
+--- Shape 30 (TextBox 31, type=TEXT_BOX (17)): pos=(21.38cm, 7.28cm), size=(1.48cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 1
+--- Shape 31 (TextBox 32, type=TEXT_BOX (17)): pos=(22.78cm, 7.06cm), size=(9.05cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): E-Gen 실시간 병상 연동 소아응급실 자동 라우팅
+--- Shape 32 (TextBox 33, type=TEXT_BOX (17)): pos=(21.38cm, 9.06cm), size=(1.48cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 2
+--- Shape 33 (TextBox 34, type=TEXT_BOX (17)): pos=(22.78cm, 8.89cm), size=(9.05cm x 1.03cm) ---
+  [P0] (size=inherit, bold=None): KTAS 168개 지침 Grounding & 언더트리아제 0%
+--- Shape 34 (TextBox 35, type=TEXT_BOX (17)): pos=(21.38cm, 10.85cm), size=(1.48cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 3
+--- Shape 35 (TextBox 36, type=TEXT_BOX (17)): pos=(22.78cm, 10.64cm), size=(9.05cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): 3-State 서킷 브레이커 & 3-Tier 0ms 무중단 폴백
+--- Shape 36 (TextBox 37, type=TEXT_BOX (17)): pos=(21.38cm, 12.67cm), size=(1.48cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 4
+--- Shape 37 (TextBox 38, type=TEXT_BOX (17)): pos=(22.78cm, 12.46cm), size=(9.05cm x 1.11cm) ---
+  [P0] (size=inherit, bold=None): 156개 달빛병원 + 30분 마진 안심약국 1:1 매칭
+
+==================== SLIDE 11 ====================
+--- Shape 0 (Rounded Rectangle 1, type=AUTO_SHAPE (1)): pos=(4.66cm, 16.70cm), size=(24.55cm x 1.08cm) ---
+--- Shape 1 (Picture 2, type=PICTURE (13)): pos=(8.60cm, 8.81cm), size=(0.74cm x 0.95cm) ---
+--- Shape 2 (Picture 3, type=PICTURE (13)): pos=(16.56cm, 8.81cm), size=(0.74cm x 0.95cm) ---
+--- Shape 3 (Picture 4, type=PICTURE (13)): pos=(24.53cm, 8.81cm), size=(0.74cm x 0.95cm) ---
+--- Shape 4 (Picture 5, type=PICTURE (13)): pos=(2.76cm, 6.69cm), size=(4.45cm x 4.45cm) ---
+--- Shape 5 (Picture 6, type=PICTURE (13)): pos=(10.73cm, 6.72cm), size=(4.45cm x 4.45cm) ---
+--- Shape 6 (Picture 7, type=PICTURE (13)): pos=(18.69cm, 6.69cm), size=(4.45cm x 4.45cm) ---
+--- Shape 7 (Picture 8, type=PICTURE (13)): pos=(26.66cm, 6.69cm), size=(4.45cm x 4.45cm) ---
+--- Shape 8 (Picture 9, type=PICTURE (13)): pos=(5.61cm, 17.00cm), size=(0.37cm x 0.48cm) ---
+--- Shape 9 (Picture 10, type=PICTURE (13)): pos=(4.45cm, 8.23cm), size=(1.07cm x 1.38cm) ---
+--- Shape 10 (Picture 11, type=PICTURE (13)): pos=(12.42cm, 8.26cm), size=(1.07cm x 1.38cm) ---
+--- Shape 11 (Picture 12, type=PICTURE (13)): pos=(20.38cm, 8.23cm), size=(1.07cm x 1.38cm) ---
+--- Shape 12 (Picture 13, type=PICTURE (13)): pos=(28.34cm, 8.23cm), size=(1.07cm x 1.38cm) ---
+--- Shape 13 (TextBox 14, type=TEXT_BOX (17)): pos=(1.69cm, 1.27cm), size=(32.17cm x 0.98cm) ---
+  [P0] (size=inherit, bold=None): 09.
+--- Shape 14 (TextBox 15, type=TEXT_BOX (17)): pos=(1.69cm, 2.35cm), size=(32.17cm x 1.22cm) ---
+  [P0] (size=inherit, bold=None): 고도화 추진 로드맵
+--- Shape 15 (TextBox 16, type=TEXT_BOX (17)): pos=(1.47cm, 11.51cm), size=(7.04cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 1단계 : 기반 구축 (완료)
+--- Shape 16 (TextBox 17, type=TEXT_BOX (17)): pos=(1.81cm, 12.57cm), size=(6.36cm x 1.01cm) ---
+  [P0] (size=inherit, bold=None): 9.4만 건 공공데이터 정제
+ Hash Diffing & 0ms 가드레일
+--- Shape 17 (TextBox 18, type=TEXT_BOX (17)): pos=(9.10cm, 11.54cm), size=(7.70cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 2단계 : AI 에이전트 (완료)
+--- Shape 18 (TextBox 19, type=TEXT_BOX (17)): pos=(9.99cm, 12.59cm), size=(5.92cm x 0.95cm) ---
+  [P0] (size=inherit, bold=None): Supervisor 6-State FSM
+ Gemini 3.8 KTAS 트리아제
+--- Shape 19 (TextBox 20, type=TEXT_BOX (17)): pos=(17.07cm, 11.51cm), size=(7.70cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 3단계 : 풀스택 서빙 (완료)
+--- Shape 20 (TextBox 21, type=TEXT_BOX (17)): pos=(17.76cm, 12.57cm), size=(6.30cm x 1.01cm) ---
+  [P0] (size=inherit, bold=None): FastAPI & 토스 TDS 웹앱
+ GCP Cloud Run 무중단 배포
+--- Shape 21 (TextBox 22, type=TEXT_BOX (17)): pos=(25.36cm, 11.51cm), size=(7.04cm x 0.69cm) ---
+  [P0] (size=inherit, bold=None): 4단계 : 전국 확장 (차기)
+--- Shape 22 (TextBox 23, type=TEXT_BOX (17)): pos=(25.89cm, 12.57cm), size=(5.98cm x 1.01cm) ---
+  [P0] (size=inherit, bold=None): 호흡음 Multimodal Audio AI
+ 전국 17개 시도 관제 연계
+--- Shape 23 (TextBox 24, type=TEXT_BOX (17)): pos=(6.25cm, 16.96cm), size=(27.51cm x 0.56cm) ---
+  [P0] (size=inherit, bold=None): 상용 SaaS 프로덕트 레벨 완성: 128개 pytest 단위/통합 테스트 100% 통과 & GCP Cloud Run 실서버 24시간 가동 중
+
+==================== SLIDE 12 ====================
+--- Shape 0 (Picture 1, type=PICTURE (13)): pos=(0.00cm, 0.07cm), size=(33.87cm x 19.05cm) ---
+--- Shape 1 (Rounded Rectangle 2, type=AUTO_SHAPE (1)): pos=(13.38cm, 5.97cm), size=(7.11cm x 1.80cm) ---
+--- Shape 2 (Picture 3, type=PICTURE (13)): pos=(14.12cm, 6.34cm), size=(1.06cm x 1.06cm) ---
+--- Shape 3 (TextBox 4, type=TEXT_BOX (17)): pos=(0.54cm, 8.84cm), size=(32.78cm x 7.61cm) ---
+  [P0] (size=inherit, bold=None): 아이들이 숨쉬는 공간 ISOOM 
+ 경청해 주셔서 감사합니다
+  [P3] (size=inherit, bold=None): ISOOM(아이숨)
+--- Shape 4 (TextBox 6, type=TEXT_BOX (17)): pos=(15.02cm, 6.44cm), size=(5.25cm x 0.85cm) ---
+  [P0] (size=inherit, bold=None): ISOOM 아이숨

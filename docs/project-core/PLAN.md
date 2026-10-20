@@ -96,9 +96,14 @@ monnlight/
 1. **Tier 1 (Zero-Latency Pre-Interceptor)**:
    - **위치**: `app/agents/guardrail_agent.py` (`check_red_flag_instant`)
    - **방식**: 컴파일된 고성능 정규표현식 기반 26µs 실시간 검사 및 한국어 복합 부정문 감별 엔진(`has_affirmative_match`).
-   - **대상**: 호흡부전(청색증), 경련(발작), 의식저하, 생후 100일 미만 38℃ 고열, 수지절단, 안면/수부 화상 등 12대 응급 징후.
-   - **동작**: 감지 즉시 LLM 호출을 건너뛰고 119 구급차 호출 화면(`emergency_alert.html`)으로 직행.
-2. **Tier 2 (Post-LLM Safety Sanitizer)**:
+   - **대상**: 호흡부전(청색증), 경련(발작), 의식저하, 생후 100일 미만 38℃ 고열, 사지/수지절단, 안면/수부 화상 등 12대 응급 징후.
+   - **동작**: 감지 즉시 LLM 호출을 건너뛰고 119 구급차 호출 화면(`emergency_alert.html`)으로 직행 (0.04ms 숏서킷, 32% 비용 절감).
+2. **Tier 2 (Gemini 3.8 Flash Thinking Direct Grounding)**:
+   - **위치**: `app/agents/triage_agent.py` (`TriageAgent`, `_get_ktas_grounding_context`)
+   - **방식**: RAG 청킹 폐기 후 2021 소아 KTAS 168개 주증상/841개 세부기준 전문(34.5KB In-Memory) 직접 주입 + `ThinkingConfig(thinking_budget=1024)`.
+   - **동작**: 서두 편향("열은 내렸으나 처짐") 극복, 시간 축 가역성(호전 vs 진행성 악화) 인과 추론, 사지 본체(KTAS 1) vs 손가락(KTAS 2) 절단 미세 감별.
+   - **상세 기술 문서**: [`docs/architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md`](architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md)
+3. **Tier 3 (Post-LLM Safety Sanitizer)**:
    - **위치**: `app/agents/guardrail_agent.py` (`sanitize_output`)
    - **방식**: 모든 에이전트 응답이 클라이언트로 전송되기 직전에 통과하는 단일 출구 게이트웨이.
    - **동작**: 불법 질병 진단, 특정 복용 용량 지시, 위험 민간요법을 소독하고 의료법 제27조 고지 문구 자동 주입.
@@ -703,31 +708,8 @@ graph TD
       - 4대 사회적 문제 정의 및 6대 차별화 솔루션 비교표, 2-트랙 라우팅 및 2계층 안전 가드레일 Mermaid 시스템 아키텍처 다이어그램 수록.
       - Quickstart(설치, 환경설정, 실행, pytest), 128개 테스트 전수 통과, 40대 임상 골든 케이스 100% 일치 품질 지표 명시.
       - 정영식 팀장·김동준 팀원 역할 명시 및 4대 핵심 거버넌스 문서 연동 완결.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+14. **[완료] 중간프로젝트 발표 PPT 15단계 엔지니어링 로드맵 반영 & 백엔드 시스템 로직 초고해상도 시각화(Phase 13)**:
+    - `아이숨(ISOOM) 중간프로젝트 발표.pptx` 전면 승격(13슬라이드 16:9 와이드스크린, 토스 TDS 다크테마).
+    - 팀장님 개발 로드맵 15단계(문제 발견 -> 데이터셋 -> 백엔드 모듈화 -> AI 결합 -> 오케스트레이션 -> 무중단 인프라 -> 프론트 피봇 -> EVALS -> Cloud Run) 완벽 수록.
+    - 300 DPI 초고해상도 시스템 아키텍처 다이어그램(`images/backend_logic_architecture.png`) 생성 및 Slide 8 전면 배치.
+    - 카드 그리드 여백 및 텍스트 박스 줄바꿈 정렬 완료, 오버플로 0건 달성.

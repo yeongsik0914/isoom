@@ -225,11 +225,9 @@
 | **[ISSUE-216]** | GCP Secret Manager 5대 비밀 키 암호화 연동 및 Google Cloud Run 실서버 프로덕션 무중단 배포 | .env 5대 핵심 API Key Secret Manager 등록, IAM 시크릿 접근자/저장소 권한 부여, GCR 컨테이너 빌드 및 Cloud Run(isoom-service-00010-qct) 100% 트래픽 배포·실서버 검증 완결 | **해결 완료 (Resolved)** | 2026-10-19 |
 | **[ISSUE-217]** | 응급실 결과 페이지 가용 응급실 알약 배지(er-list-completed-pill) 전면 삭제 및 Cloud Run 실서버 재배포 | result.html 정적 목업 및 동적 JS 배지 완전 소독, Cloud Build(28a8ab73) 패키징 및 Cloud Run(isoom-service-00011-htj) 100% 무중단 릴리스·실서버 검증 완결 | **해결 완료 (Resolved)** | 2026-10-19 |
 | **[ISSUE-218]** | 리포지토리 공식 브랜딩 & GitHub 랜딩 페이지 구축 | 깃허브 공식 랜딩 README.md 신규 구축 및 클린 & 프리미엄 디자인 시스템 수립 | **해결 완료 (Resolved)** | 2026-10-20 |
-
-
-
-
-
+| **[ISSUE-219]** | 시설 상세 라우팅 & 다중 지점 인덱싱 | 동일 상호명(프랜차이즈) 병원 클릭 시 지점 오분류(광진구 자양동 ➔ 양천구 목동 24시열린의원 및 매일여는약국) 결함 해결 | **해결 완료 (Resolved)** | 2026-10-20 |
+| **[ISSUE-220]** | 브라우저 캐싱 & 이중 디렉터리 동기화 | PWA SW v4 업그레이드, HTML 캐시버스팅(?v=20261020_v4), app/static 이중 정적 경로 동기화 및 로컬 서버 가동 | **해결 완료 (Resolved)** | 2026-10-20 |
+| **[ISSUE-221]** | 프레젠테이션 & 시스템 시각화 | 중간프로젝트 발표 PPT 15단계 개발 로드맵 미반영 및 백엔드 로직 시각화 부재, 슬라이드 텍스트 정렬 결함 고도화 | **해결 완료 (Resolved)** | 2026-10-20 |
 
 ---
 
@@ -7552,67 +7550,92 @@
 * **조치 결과**:
   * 깃허브 저장소 방문 시 누구나 프로젝트의 가치와 엔지니어링 수준을 한눈에 확인할 수 있는 깔끔하고 아름다운 공식 랜딩 페이지가 구축되었으며, 4대 프로젝트 거버넌스 규율에 따른 동기화가 완결됨.
 
+---
 
+### [ISSUE-219] 동일 상호명(프랜차이즈) 병원 클릭 시 지점 오분류(광진구 자양동 ➔ 양천구 목동 24시열린의원 및 매일여는약국) 결함 해결
 
+* **발생 일자**: 2026-10-20
+* **작업자**: 김동준 (팀원), 정영식 (팀장)
+* **분류**: 공간 라우팅 & 다중 지점 인메모리 인덱싱 결함
+* **문제 상황**:
+  * 메인 홈(`index.html`)에서 위치를 '광진구 자양동'으로 선택했을 때 목록 1순위로 '24시열린의원 (광진구 능동로 90, 0.8km)'이 정상 노출되었으나, 카드를 클릭하여 상세 페이지(`hospital_detail.html`)로 이동하면 엉뚱하게 **양천구 목동의 '24시열린의원'**과 그 연계 약국인 **'매일여는약국 (양천구 목동동로 233-1)'**이 렌더링되는 치명적 위치 왜곡 현상 발생.
+* **원인 분석**:
+  1. **동일 상호명(프랜차이즈) 다수 지점 존재**: '24시열린의원'은 서울에만 광진구(A1105874), 마포구(A1119959), 송파구(A1117613), 양천구(A1116912) 4개 지점이 존재함.
+  2. **메인 홈 네비게이션 파라미터 결함**: `frontend/js/main.js`의 `selectLiveFacilityCard(facility.name, facility.type)` 호출 시 고유 식별자(`id`)를 누락하고 상호명(`name=24시열린의원`)만 URL 쿼리로 전달함.
+  3. **백엔드 인메모리 딕셔너리 덮어쓰기**: `app/services/facility_db_service.py`에서 156개 병원을 캐싱할 때 `new_h_name[h_name] = h` 단일 키 덮어쓰기를 수행하여, 루프 마지막 지점인 **양천구 목동점**만 딕셔너리에 잔존함. 이로 인해 이름으로 조회 시 무조건 양천구 목동점 및 그 연계 약국인 매일여는약국(양천구)이 반환됨.
+* **구체적 해결 방안**:
+  1. **백엔드 다중 지점 리스트 인덱싱 & 최근접 거리 동적 분기**:
+     - `app/services/facility_db_service.py`의 `_hospitals_by_name`과 `_pharmacies_by_name`을 `Dict[str, List[Dict[str, Any]]]` 구조로 개편하여 모든 지점을 보존.
+     - 이름으로 검색하더라도 `user_lat, user_lon`이 주어지면 Haversine 거리 계산을 통해 **사용자 위치에서 가장 가까운 지점을 자동 선별(`_pick_best`)**하도록 알고리즘 고도화.
+  2. **프론트엔드 고유 ID 기반 라우팅 동기화**:
+     - `frontend/js/main.js`의 `selectLiveFacilityCard` 함수에 `facility.id` 매개변수를 추가하고 URL에 `&id=${facility.id}`를 명시적으로 전달.
+     - `sessionStorage` 캐싱 시에도 `id` 일치 여부를 최우선 검사하도록 수정.
+  3. **상세 페이지(`hospital_detail.html`, `pharmacy_detail.html`, `result.html`) 폴백 강화**:
+     - 로컬 데이터셋 탐색 시 `qId` 일치 우선 탐색 및 동일 이름 복수 지점 존재 시 사용자 좌표 최근접 지점 자동 선택 로직 탑재.
+* **적용 파일**:
+  * [app/services/facility_db_service.py](file:///c:/AI-Native-Agent/isoom/app/services/facility_db_service.py)
+  * [frontend/js/main.js](file:///c:/AI-Native-Agent/isoom/frontend/js/main.js)
+  * [frontend/templates/hospital_detail.html](file:///c:/AI-Native-Agent/isoom/frontend/templates/hospital_detail.html)
+  * [frontend/templates/pharmacy_detail.html](file:///c:/AI-Native-Agent/isoom/frontend/templates/pharmacy_detail.html)
+  * [frontend/templates/result.html](file:///c:/AI-Native-Agent/isoom/frontend/templates/result.html)
+* **조치 결과**:
+  * 서울 4개 지점(자양동 ➔ 광진구점/더클래식약국, 잠실 ➔ 송파구점/매일여는온누리약국, 목동 ➔ 양천구점/매일여는약국, 상암 ➔ 마포구점/매일여는약국) 좌표별 전수 검증 결과 **100% PASS** 달성. 자양동 선택 시 광진구 자양동의 24시열린의원과 더클래식약국이 정확하게 렌더링됨.
 
+---
 
+### [ISSUE-220] 수정 후에도 구버전 데이터(양천구 목동) 노출 결함 및 4대 원인(PWA 캐시, 템플릿 쿼리, 이중 정적 경로, 로컬 서버 미가동) 해결
 
+* **발생 일자**: 2026-10-20
+* **작업자**: 김동준 (팀원), 정영식 (팀장)
+* **분류**: PWA 캐시 전략 & 멀티 디렉터리 동기화 및 로컬 서빙
+* **문제 상황**:
+  * `[ISSUE-219]`로 자양동 다중 지점 충돌 버그를 수정하였음에도, 실제 사용자가 화면에서 확인 시 여전히 양천구 목동점과 매일여는약국이 출력되는 현상 보고.
+* **원인 분석**:
+  1. **Cloud Run 실서버 미배포**: Cloud Run 운영 서버는 전일 배포 리비전(`00011-htj`)으로 구동 중이라 수정 전 코드가 응답함.
+  2. **PWA Service Worker 캐시 고착 (`aisum-pwa-cache-v3`)**: `sw.js`가 브라우저에 구버전 `main.js`를 캐싱하여 클라이언트에서 새 JS를 다운로드하지 않고 구버전 코드를 계속 실행함.
+  3. **이중 정적 경로(`frontend/` vs `app/static/`) 동기화 누락**: `frontend/`만 수정되고 `app/static/js/main.js` 및 `app/templates/`는 수정 전 코드가 보존되어 있었음.
+  4. **로컬 백엔드 서버 미기동**: 로컬 포트 8000 프로세스가 중지되어 있어 `/api/v1/emergency/facility-detail` API 호출이 실패하고 있었음.
+* **구체적 해결 방안**:
+  1. **PWA SW 캐시 버전 승격**: `frontend/sw.js` 및 `app/static/sw.js`의 `CACHE_NAME`을 `aisum-pwa-cache-v4`로 승격하여 기존 캐시 전면 자동 파기.
+  2. **22개 전 템플릿 캐시 버스팅 파라미터 적용**: `index.html`, `hospital_detail.html` 등의 JS 로더에 `?v=20261020_v4` 적용.
+  3. **이중 디렉터리 100% 동기화**: `frontend/`의 모든 JS, CSS, 템플릿을 `app/static/` 및 `app/templates/`에 덮어쓰기 복사.
+  4. **FastAPI 로컬 백엔드 데몬 가동**: 포트 8000에 uvicorn 서버 백그라운드 기동 및 API 실동작(자양동 ➔ 광진구점 & 더클래식약국) 200 OK 검증 완료.
+* **적용 파일**:
+  * [frontend/sw.js](file:///c:/AI-Native-Agent/isoom/frontend/sw.js)
+  * [app/static/sw.js](file:///c:/AI-Native-Agent/isoom/app/static/sw.js)
+  * [app/static/js/main.js](file:///c:/AI-Native-Agent/isoom/app/static/js/main.js)
+  * [app/templates/hospital_detail.html](file:///c:/AI-Native-Agent/isoom/app/templates/hospital_detail.html)
+  * [frontend/templates/index.html](file:///c:/AI-Native-Agent/isoom/frontend/templates/index.html)
+  * [docs/qa-logs/q_a.md](file:///c:/AI-Native-Agent/isoom/docs/qa-logs/q_a.md)
+  * [docs/project-core/log.md](file:///c:/AI-Native-Agent/isoom/docs/project-core/log.md)
+* **조치 결과**:
+  * 브라우저 캐시 및 이중 정적 파일 불일치가 완전히 해소되었으며, 로컬 서버(`http://localhost:8000/home`) 및 API 엔드포인트에서 광진구 자양동의 24시열린의원과 더클래식약국이 정확하게 렌더링됨을 검증 완료함.
 
+---
 
+### [ISSUE-221] 중간프로젝트 발표 PPT 전면 고도화 & 15단계 E2E 엔지니어링 로드맵 및 백엔드 로직 시각화 수립
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* **발생 일자**: 2026-10-20
+* **작업자**: 김동준 (팀원), 정영식 (팀장)
+* **분류**: 프레젠테이션 고도화 & 시스템 아키텍처 시각화 및 그리드 레이아웃 표준화
+* **문제 상황**:
+  * 기존 `아이숨(ISOOM) 중간프로젝트 발표.pptx`가 12슬라이드 구성에 머물러 있어, 실제 프로젝트 폴더에서 개발된 핵심 과정(15단계 E2E 엔지니어링 로드맵, 소아 KTAS 데이터셋 구축, 주피터 모듈화, 3-Tier Multi-Storage Fallback, Stitch 폐기 및 Toss TDS PWA 피봇, AI EVALS 50대 골든 테스트, Cloud Run 배포)이 상당수 누락되어 있었음.
+  * 백엔드 시스템의 내부 오케스트레이션 로직(Pass 1 Pre-Interceptor -> Supervisor 6-State FSM -> Pass 2 Guardrail -> 3-Tier Fallback)을 직관적으로 조망할 수 있는 시각화 다이어그램이 부재함.
+  * 슬라이드 간 카드 좌표, 마진, 폰트 크기 및 텍스트 박스 줄바꿈이 불균일하여 시각적 완성도 저해.
+* **원인 분석**:
+  1. **초기 기획과 실제 구현 간 간극**: 초기 발표 자료 작성 이후 무중단 인프라, 서킷 브레이커, 프론트엔드 피봇 등 수많은 엔지니어링 고도화가 진행되었으나 PPT에 동기화되지 않음.
+  2. **아키텍처 시각화 부재**: 복잡한 비동기 멀티 에이전트 및 데이터 폴백 파이프라인을 텍스트로만 설명하기에 한계가 있음.
+* **해결 및 조치 내용**:
+  1. **원본 PPT 백업**: 기존 발표 자료를 `아이숨(ISOOM) 중간프로젝트 발표_backup.pptx`로 안전하게 백업.
+  2. **15단계 엔지니어링 로드맵 전면 반영**:
+     - Slide 6 (Part 1, Steps 1~8): 사회적 이슈 발견 -> 공공데이터 분석 -> 원인 규명 -> 2-트랙 분리 -> 목표/검증 -> 거버넌스 수립 -> 데이터셋 구축 -> 백엔드 모듈화.
+     - Slide 7 (Part 2, Steps 9~15): AI 결합 -> FSM 오케스트레이션 -> 무중단 인프라 -> 프론트 피봇 -> 화면단 E2E 연동 -> AI EVALS 검증 -> Cloud Run 배포.
+  3. **300 DPI 초고해상도 백엔드 시스템 로직 다이어그램 제작 및 Slide 8 중앙 전면 배치**:
+     - `images/backend_logic_architecture.png`를 렌더링하여 클라이언트 -> 세이프티 가드레일 -> 6-State FSM 멀티 에이전트 -> 3-Tier 스토리지 폴백 -> 2-트랙 라우팅의 전 과정을 한눈에 조망하도록 시각화.
+  4. **16:9 와이드스크린(33.87cm x 19.05cm) 정밀 그리드 정렬**:
+     - 카드 마진(좌측 1.69cm, 간격 0.6cm), 폰트 위계(22pt 헤더, 12~14pt 카드 타이틀, 9.5~10pt 본문), 내부 패딩(0.6~0.9cm)을 일괄 적용하여 텍스트 오버플로 0건 달성.
+* **적용 파일**:
+  * `아이숨(ISOOM) 중간프로젝트 발표.pptx` (총 13장 전면 개편)
+  * `images/backend_logic_architecture.png` (300 DPI 시스템 로직 아키텍처 다이어그램)
+  * `아이숨(ISOOM) 중간프로젝트 발표_backup.pptx` (원본 백업)
 

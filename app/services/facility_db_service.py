@@ -89,24 +89,24 @@ def _ensure_data_loaded(force: bool = False) -> None:
 
     # 2. Build In-Memory Index Maps
     new_h_id: Dict[str, Dict[str, Any]] = {}
-    new_h_name: Dict[str, Dict[str, Any]] = {}
+    new_h_name: Dict[str, List[Dict[str, Any]]] = {}
     for h in hosp_list:
         h_id = str(h.get("id") or h.get("기관코드") or "").strip()
         h_name = str(h.get("name") or h.get("병원명") or "").strip()
         if h_id:
             new_h_id[h_id] = h
         if h_name:
-            new_h_name[h_name] = h
+            new_h_name.setdefault(h_name, []).append(h)
 
     new_p_id: Dict[str, Dict[str, Any]] = {}
-    new_p_name: Dict[str, Dict[str, Any]] = {}
+    new_p_name: Dict[str, List[Dict[str, Any]]] = {}
     for p in pharm_list:
         p_id = str(p.get("id") or p.get("기관코드") or "").strip()
         p_name = str(p.get("name") or p.get("약국명") or "").strip()
         if p_id:
             new_p_id[p_id] = p
         if p_name:
-            new_p_name[p_name] = p
+            new_p_name.setdefault(p_name, []).append(p)
 
     _hospitals_by_id = new_h_id
     _hospitals_by_name = new_h_name
@@ -161,32 +161,49 @@ def get_facility_detail(
     identifier_str = str(identifier).strip()
     matched_raw: Optional[Dict[str, Any]] = None
 
+    def _pick_best(candidates: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+        if not candidates:
+            return None
+        if len(candidates) == 1 or not (user_lat and user_lon):
+            return candidates[0]
+        # Pick branch with minimum Haversine distance to user
+        return min(
+            candidates,
+            key=lambda c: calculate_haversine_distance(
+                user_lat, user_lon,
+                float(c.get("lat") or 0.0),
+                float(c.get("lon") or 0.0)
+            )
+        )
+
     if facility_type == "hospital":
         # 1. Exact ID
         matched_raw = _hospitals_by_id.get(identifier_str)
         # 2. Exact Name
         if not matched_raw:
-            matched_raw = _hospitals_by_name.get(identifier_str)
+            matched_raw = _pick_best(_hospitals_by_name.get(identifier_str, []))
         # 3. Substring Name Match
         if not matched_raw:
             clean_ident = identifier_str.replace(" (달빛어린이병원)", "").strip()
-            for h_name, h_obj in _hospitals_by_name.items():
+            sub_candidates: List[Dict[str, Any]] = []
+            for h_name, h_objs in _hospitals_by_name.items():
                 if clean_ident in h_name or h_name in clean_ident:
-                    matched_raw = h_obj
-                    break
+                    sub_candidates.extend(h_objs)
+            matched_raw = _pick_best(sub_candidates)
     else:
         # 1. Exact ID
         matched_raw = _pharmacies_by_id.get(identifier_str)
         # 2. Exact Name
         if not matched_raw:
-            matched_raw = _pharmacies_by_name.get(identifier_str)
+            matched_raw = _pick_best(_pharmacies_by_name.get(identifier_str, []))
         # 3. Substring Name Match
         if not matched_raw:
             clean_ident = identifier_str.replace(" (연계 안심약국)", "").strip()
-            for p_name, p_obj in _pharmacies_by_name.items():
+            sub_candidates_p: List[Dict[str, Any]] = []
+            for p_name, p_objs in _pharmacies_by_name.items():
                 if clean_ident in p_name or p_name in clean_ident:
-                    matched_raw = p_obj
-                    break
+                    sub_candidates_p.extend(p_objs)
+            matched_raw = _pick_best(sub_candidates_p)
 
     if not matched_raw:
         return None

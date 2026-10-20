@@ -284,6 +284,7 @@ isoom/
 프로젝트의 상세 설계 내역과 개발 히스토리는 아래 문서에서 열람하실 수 있습니다.
 
 - [📚 기술 문서고 인덱스 (`docs/README.md`)](docs/README.md): 카테고리별 기술 문서 전체 색인
+- [🏛️ KTAS 로직 진화 보고서 (`docs/architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md`)](docs/architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md): 1세대 룰/RAG 한계 vs 2세대 2-Tier Direct Grounding 혁신
 - [📘 종합 기획안 & 개발 백서 (`docs/project-core/PLAN.md`)](docs/project-core/PLAN.md): 6단계 로드맵 및 상세 아키텍처 명세
 - [🛠️ 트러블슈팅 & 엔지니어링 로그 (`docs/project-core/log.md`)](docs/project-core/log.md): 프로젝트 진행 중 해결된 218건의 기술 이슈 기록
 - [💬 질의응답 아카이브 (`docs/qa-logs/Answer-영식.md`)](docs/qa-logs/Answer-영식.md): 정영식 팀장의 226건 질의응답 기록 보관소

@@ -1,0 +1,52 @@
+Total mermaid diagrams: 1
+
+==================== MERMAID 1 ====================
+flowchart TB
+    subgraph Client["사용자 단말 (PWA Mobile Web)"]
+        UI["반응형 앱 셸 (TDS Dark/Light Theme)"]
+        SW["서비스 워커 (Service Worker v2)"]
+    end
+
+    subgraph Gateway["API & 인프라 게이트웨이"]
+        CloudRun["Google Cloud Run (Serverless Container)"]
+        FastAPI["FastAPI App (RESTful API & SSE)"]
+        SecretMgr["GCP Secret Manager (보안 키 동적 주입)"]
+    end
+
+    subgraph Guardrail["안전 가드레일 계층"]
+        T1["Tier 1: 26µs 정규식 인터셉터\n+ 한국어 복합 부정문 감별"]
+        T2["Tier 2: 의료법 제27조 사후 소독 게이트웨이"]
+    end
+
+    subgraph Brain["지능형 오케스트레이션"]
+        Supervisor["Supervisor FSM (6-State Machine)"]
+        TriageAgent["소아 KTAS Direct Grounding (Gemini 3.8 Flash)"]
+        MatchingAgent["2-트랙 LBS 매칭 엔진 (Haversine 5µs)"]
+        LogisticsAgent["통화 스크립트 & 서류 체크리스트 생성"]
+    end
+
+    subgraph DataInfra["고가용성 데이터 & 캐싱 계층"]
+        CB["3-State 비동기 서킷 브레이커"]
+        L1["L1: In-Memory Cache (0ms)"]
+        L2["L2: Cloud Firestore (Hash Diffing 93% 절감)"]
+        L3["L3: Canonical JSON Masterset"]
+        PublicAPI["공공데이터포털 NMC E-Gen / KASI 특일 / 카카오 REST API"]
+    end
+
+    UI --> CloudRun
+    CloudRun --> FastAPI
+    SecretMgr -.-> FastAPI
+    FastAPI --> T1
+    T1 -- 초응급 Red Flag --> UI
+    T1 -- 일반 문진 --> Supervisor
+    Supervisor --> TriageAgent
+    Supervisor --> MatchingAgent
+    Supervisor --> LogisticsAgent
+    MatchingAgent --> CB
+    CB --> L1
+    L1 --> L2
+    L2 --> L3
+    CB -. 외부 호출 .-> PublicAPI
+    Supervisor --> T2
+    T2 --> FastAPI
+    FastAPI --> UI

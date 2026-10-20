@@ -1,4 +1,4 @@
-﻿# 📚 기술 기획 및 아키텍처 문서 허브 (`docs`)
+# 📚 기술 기획 및 아키텍처 문서 허브 (`docs`)
 
 > **위치**: `docs/`  
 > **역할**: ISOOM(아이숨) 프로젝트의 모든 마크다운 문서가 카테고리별로 체계적으로 관리되는 **공식 기술 문서고**입니다.
@@ -60,9 +60,10 @@ docs/
 
 | 문서 | 핵심 내용 |
 | :--- | :--- |
-| [ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md](file:///e:/isoom/docs/architecture/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md) | 주소 및 키워드 기반 위치 검색 아키텍처 |
-| [DATABASE_DESIGN.md](file:///e:/isoom/docs/architecture/DATABASE_DESIGN.md) | Cloud Firestore 컬렉션 구조, 인덱싱 전략, FinOps |
-| [KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md](file:///e:/isoom/docs/architecture/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md) | Gemini + KTAS 소아 Direct Triage 엔진 설계 |
+| [ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md](architecture/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md) | 주소 및 키워드 기반 위치 검색 아키텍처 |
+| [DATABASE_DESIGN.md](architecture/DATABASE_DESIGN.md) | Cloud Firestore 컬렉션 구조, 인덱싱 전략, FinOps |
+| [KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md](architecture/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md) | Gemini + KTAS 소아 Direct Triage 엔진 설계 |
+| [KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md](architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md) | KTAS 분류 로직 진화 보고서 (1세대 룰·RAG 한계 vs 2세대 2-Tier 하이브리드) |
 
 ### 📊 `data-references/` — 데이터 고찰 & 참고 자료
 

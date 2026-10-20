@@ -1332,13 +1332,27 @@
         // 2. Local JS Dataset Fallback (window.PHARMACY_DETAILS_DATA from 24h sync)
         if (!fetchedData && window.PHARMACY_DETAILS_DATA && window.PHARMACY_DETAILS_DATA.length) {
           const cleanQ = (qName || '').replace(' (연계 안심약국)', '').trim();
-          const found = window.PHARMACY_DETAILS_DATA.find(item =>
-            (qId && item.id === qId) ||
-            (cleanQ && item.name && (item.name === cleanQ || item.name.includes(cleanQ) || cleanQ.includes(item.name)))
-          );
+          let found = null;
+          if (qId) {
+            found = window.PHARMACY_DETAILS_DATA.find(item => item.id === qId);
+          }
+          if (!found && cleanQ) {
+            const matches = window.PHARMACY_DETAILS_DATA.filter(item =>
+              item.name && (item.name === cleanQ || item.name.includes(cleanQ) || cleanQ.includes(item.name))
+            );
+            if (matches.length === 1 || !(userLat && userLon)) {
+              found = matches[0];
+            } else if (matches.length > 1) {
+              found = matches.slice().sort((a, b) => {
+                const distA = Math.hypot((a.lat || 0) - userLat, (a.lon || 0) - userLon);
+                const distB = Math.hypot((b.lat || 0) - userLat, (b.lon || 0) - userLon);
+                return distA - distB;
+              })[0];
+            }
+          }
           if (found) {
             fetchedData = Object.assign({}, found);
-            console.info('[PharmacyDetail] Successfully resolved from window.PHARMACY_DETAILS_DATA:', found.name);
+            console.info('[PharmacyDetail] Successfully resolved from window.PHARMACY_DETAILS_DATA:', found.name, found.address);
           }
         }
 
@@ -1571,9 +1585,9 @@
   <!-- Leaflet Interactive Map Engine JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
-  <script src="../js/pharmacy_details_data.js"></script>
+  <script src="../js/pharmacy_details_data.js?v=20261020_v4"></script>
   <script src="../js/nationwide_pairings.js"></script>
-  <script src="../js/main.js"></script>
+  <script src="../js/main.js?v=20261020_v4"></script>
 </body>
 
 </html>

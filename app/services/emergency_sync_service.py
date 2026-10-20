@@ -692,6 +692,7 @@ def fetch_emergency_beds(
     if not default_egen_circuit_breaker.is_available():
         logger.warning("[EmergencySyncService] Circuit is OPEN! Bypassing public API and engaging Multi-Tier Fallback.")
         fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage_key, reason="CIRCUIT_OPEN")
+        set_cached_emergency_beds(stage_key, fallback_beds)
         if return_meta:
             return fallback_beds, meta
         return fallback_beds
@@ -744,6 +745,7 @@ def fetch_emergency_beds(
         if res.status_code != 200:
             default_egen_circuit_breaker.record_failure(f"HTTP_{res.status_code}")
             fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage_key, reason=f"HTTP_{res.status_code}")
+            set_cached_emergency_beds(stage_key, fallback_beds)
             if return_meta:
                 return fallback_beds, meta
             return fallback_beds
@@ -822,7 +824,8 @@ def fetch_emergency_beds(
     except Exception as e:
         default_egen_circuit_breaker.record_failure(e)
 
-        fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage1, reason=str(e))
+        fallback_beds, meta = resolve_fallback_hierarchy(stage1=stage_key, reason=str(e))
+        set_cached_emergency_beds(stage_key, fallback_beds)
         if return_meta:
             return fallback_beds, meta
         return fallback_beds

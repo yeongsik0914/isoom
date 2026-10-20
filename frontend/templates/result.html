@@ -54,7 +54,7 @@
   <script src="../js/nationwide_pairings.js"></script>
   <script src="../js/national_emergency_hospitals.js"></script>
   <script src="../js/public_night_pharmacies.js"></script>
-  <script src="../js/main.js"></script>
+  <script src="../js/main.js?v=20261020_v4"></script>
 
   <style>
     /* ==========================================================================
@@ -3243,7 +3243,9 @@
       } catch (e) { }
       const targetPage = (isHtml || isFile) ? 'hospital_detail.html' : '/hospital_detail';
       const fromParam = encodeURIComponent(returnUrl);
-      window.location.href = `${targetPage}?name=${encodeURIComponent(selected.name)}&from=${fromParam}`;
+      const hospId = selected.id || selected.기관코드 || '';
+      const idParam = hospId ? `&id=${encodeURIComponent(hospId)}` : '';
+      window.location.href = `${targetPage}?name=${encodeURIComponent(selected.name)}${idParam}&from=${fromParam}`;
     }
 
     function selectPharmacyCard(idx) {
@@ -3260,7 +3262,9 @@
       } catch (e) { }
       const targetPage = (isHtml || isFile) ? 'pharmacy_detail.html' : '/pharmacy_detail';
       const fromParam = encodeURIComponent(returnUrl);
-      window.location.href = `${targetPage}?name=${encodeURIComponent(pharmName)}&from=${fromParam}`;
+      const pharmId = pharm.id || pharm.기관코드 || '';
+      const idParam = pharmId ? `&id=${encodeURIComponent(pharmId)}` : '';
+      window.location.href = `${targetPage}?name=${encodeURIComponent(pharmName)}${idParam}&from=${fromParam}`;
     }
   </script>
 
@@ -3268,7 +3272,7 @@
   <script src="../js/nationwide_pairings.js"></script>
   <script src="../js/national_emergency_hospitals.js"></script>
   <script src="../js/public_night_pharmacies.js"></script>
-  <script src="../js/main.js"></script>
+  <script src="../js/main.js?v=20261020_v4"></script>
 </body>
 
 </html>
