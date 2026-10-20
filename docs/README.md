@@ -1,33 +1,143 @@
 # 📚 기술 기획 및 아키텍처 문서 허브 (`docs`)
 
 > **위치**: `docs/`  
-> **역할**: MoonlightCare 프로젝트의 프로덕트 요구사항(PRD), 데이터베이스 설계서, 소아 KTAS Direct Triage 아키텍처, 타 서비스 비교 분석서, 공공데이터 특성 고찰 보고서 등 **10대 핵심 기술 기획 및 고가용성 아키텍처 설계 문서가 집대성된 공식 기술 문서고**입니다.
+> **역할**: MoonlightCare(아이숨) 프로젝트의 모든 마크다운 문서가 카테고리별로 체계적으로 관리되는 **공식 기술 문서고**입니다.
 
 ---
 
-## 📑 목차 및 문서 맵 (Index of Documents)
+## 📁 폴더 구조 (Directory Structure)
 
-| 문서 파일명 | 문서 성격 | 핵심 내용 요약 |
-| :--- | :---: | :--- |
-| [**`PROJECT_PLAN.md`**](file:///e:/monnlight/docs/PROJECT_PLAN.md) | **종합 기획서 (PRD)** | • 프로젝트 기획 배경, 사회적 문제 정의 (야간 소아 응급실 뺑뺑이)<br/>• 사용자 페르소나 및 핵심 유저 여정 (User Journey)<br/>• 법적 규제 검토 (의료법 제27조, 국민건강보험법 본인확인 의무화)<br/>• 3+1 멀티 에이전트 아키텍처 및 단계별 로드맵 |
-| [**`KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md`**](file:///e:/monnlight/docs/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md) | **AI Triage 설계서** | • Gemini 3.8 Flash + `ktas_pediatric_dataset.json`(168개 주증상/841개 세부기준) 직접 대조 엔진<br/>• 키워드 정규식 추출 결함(절단/의식저하 4단계 오분류) 극복 원리<br/>• 사지 vs 손가락 절단 감별, Pydantic 스키마, 9대 임상 시나리오 실증 및 2계층 안전 가드레일 |
-| [**`DATABASE_DESIGN.md`**](file:///e:/monnlight/docs/DATABASE_DESIGN.md) | **DB 설계서** | • Cloud Firestore 컬렉션 구조 (`emergency_beds`, `emergency_summary`)<br/>• 문서 스키마, 인덱싱 전략 및 읽기/쓰기 쿼터 예산 관리(FinOps)<br/>• 심평원 요양기호(`ykiho`)와 E-Gen 기관코드(`hpid`) 엔티티 연계 |
-| [**`DATA_CONSIDERATIONS.md`**](file:///e:/monnlight/docs/DATA_CONSIDERATIONS.md) | **데이터 기술 고찰** | • 공공데이터포털 NMC 및 HIRA API 데이터 품질 이상치 고찰<br/>• 위경도 좌표 결측치 보정 및 자정 넘김(`Overnight`) 진료시간 처리<br/>• KASI 특일 API와 요일별 시간표(`dutyTime1~8`) 매핑 원칙 |
-| [**`EMERGENCY_DDK_COMPARISON_AND_IMPROVEMENT.md`**](file:///e:/monnlight/docs/EMERGENCY_DDK_COMPARISON_AND_IMPROVEMENT.md) | **경쟁 서비스 벤치마킹** | • 기존 대표 상용 서비스(똑닥 응급실 찾기 등) 한계점 분석<br/>• MoonlightCare의 3대 차별점: ① 0ms Red Flag 가드레일, ② 달빛병원-약국 30분 마진 페어링, ③ 비정형 공지 NLP 필터링 |
-| [**`NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md`**](file:///e:/monnlight/docs/NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md) | **도메인 기획서** | • 야간 및 공휴일 소아 외래 진료 공백 현황 분석<br/>• 달빛어린이병원 지정 제도 및 공식 당번약국 운영 실태<br/>• 야간 처방전 조제 사각지대 해소를 위한 +30분 안전 마진 규칙 설계 |
-| [**`BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md`**](file:///e:/monnlight/docs/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md) | **엔지니어링 로드맵** | • 백엔드 모듈화부터 에이전트 결합, REST API 서빙까지의 기술 사양서<br/>• 레이턴시 목표, 캐싱 전략 및 에이전트 투입 타이밍 정의 |
-| [**`REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md`**](file:///e:/monnlight/docs/REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md) | **Red Flag v2 고도화 설계서** | • `gemini_ktas_v2.ipynb` 기반 기존 레드 플래그 모듈 고도화 방안<br/>• 0ms 룰 엔진(Pass 1) + Direct Grounded Thinking Gemini(Pass 2) 2계층 감시망<br/>• 코드 변경 명세(`guardrail_agent`, `triage_agent`, `supervisor`, `state`) 및 롤아웃 로드맵 |
-| [**`PUBLIC_API_CIRCUIT_BREAKER_AND_FALLBACK_SPECIFICATION.md`**](file:///e:/monnlight/docs/PUBLIC_API_CIRCUIT_BREAKER_AND_FALLBACK_SPECIFICATION.md) | **공공 API 고가용성(HA) 설계서** | • 공공데이터포털(E-Gen) 503 에러 및 야간 트래픽 폭주 시 무중단 서빙 체계<br/>• CLOSED ➔ OPEN ➔ HALF-OPEN 3-State 비동기 서킷 브레이커<br/>• L1 메모리(Stale) ➔ L2 Firestore ➔ L3 로컬 불변 JSON 3단계 Fallback & 신선도 배지 |
-| [**`VIBE_CODING_ROADMAP.md`**](file:///e:/monnlight/docs/VIBE_CODING_ROADMAP.md) | **개발 실행 가이드** | • AI 페어 프로그래밍을 위한 모듈별 개발 단계 및 프롬프트 가이드<br/>• 단계별 단위 테스트 수립 기준 및 리팩토링 체크리스트 |
+```
+docs/
+├── architecture/          # 시스템 아키텍처 & DB 설계
+│   ├── ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md
+│   ├── DATABASE_DESIGN.md
+│   └── KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md
+│
+├── data-references/       # 데이터 고찰 & 참고 자료
+│   ├── DATA_CONSIDERATIONS.md
+│   └── 전국_달빛어린이병원_및_야간심야약국_현황.md
+│
+├── planning/              # 기획안 & 개발 로드맵
+│   ├── BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md
+│   ├── NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md
+│   ├── PROJECT_PLAN.md
+│   ├── PWA_PLAN.md
+│   ├── VIBE_CODING_ROADMAP.md
+│   └── 아이숨_프로젝트_기획안.md
+│
+├── project-core/          # 프로젝트 핵심 문서 (README, PLAN, 로그)
+│   ├── log.md
+│   ├── PLAN.md
+│   ├── README.md
+│   └── Reamme.md
+│
+├── qa-logs/               # Q&A 아카이브 & 질의응답 기록
+│   ├── Answer-영식.md
+│   └── q_a.md
+│
+├── reports/               # 분석 보고서 & 검증 리포트
+│   ├── AISUM_STITCH_DESIGN_REPORT.md
+│   ├── EMERGENCY_DDK_COMPARISON_AND_IMPROVEMENT.md
+│   ├── KTAS_TRIAGE_VERIFICATION_REPORT.md
+│   └── PROJECT_COMPLETION_REPORT.md
+│
+├── specs/                 # 기술 스펙 & 연동 사양서
+│   ├── CONNECTIVITY_MAP.md
+│   ├── FRONTEND_BACKEND_INTEGRATION_SPEC.md
+│   ├── FRONTEND_UI_UX_SPECIFICATION.md
+│   ├── PUBLIC_API_CIRCUIT_BREAKER_AND_FALLBACK_SPECIFICATION.md
+│   └── REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md
+│
+└── README.md              # 이 파일 (문서 허브 인덱스)
+```
 
 ---
 
-## 🧭 프로젝트 전체 마스터 문서들과의 연계
+## 📑 카테고리별 문서 목록 (Document Index)
 
-MoonlightCare 프로젝트의 문서 체계는 다음과 같이 위계적으로 연계되어 관리됩니다:
+### 🏗️ `architecture/` — 시스템 아키텍처 & DB 설계
 
-* **[README.md](file:///e:/monnlight/README.md)**: 레포지토리 최상단 공식 소개, 빠른 시작(Quickstart), 뱃지 및 기술 스택.
-* **[PLAN.md](file:///e:/monnlight/PLAN.md)**: 전체 6단계 개발 로드맵 진행 현황 및 누적 테스트 결과 공식 백서.
-* **[CONNECTIVITY_MAP.md](file:///e:/monnlight/CONNECTIVITY_MAP.md)**: 모듈 및 에이전트 상호 연결 매트릭스 및 데이터 파이프라인 흐름도.
-* **[Answer.md](file:///e:/monnlight/Answer.md)**: 개발 중 나눈 모든 질문과 심층 분석 가이드 누적 Q&A 아카이브 (Q1~Q27).
-* **[docs/](file:///e:/monnlight/docs/)**: 개별 도메인 및 데이터베이스, 경쟁사 분석에 대한 심층 기획 원천 문서고.
+| 문서 | 핵심 내용 |
+| :--- | :--- |
+| [ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md](file:///e:/isoom/docs/architecture/ADDRESS_AND_KEYWORD_LOCATION_ARCHITECTURE.md) | 주소 및 키워드 기반 위치 검색 아키텍처 |
+| [DATABASE_DESIGN.md](file:///e:/isoom/docs/architecture/DATABASE_DESIGN.md) | Cloud Firestore 컬렉션 구조, 인덱싱 전략, FinOps |
+| [KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md](file:///e:/isoom/docs/architecture/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md) | Gemini + KTAS 소아 Direct Triage 엔진 설계 |
+
+### 📊 `data-references/` — 데이터 고찰 & 참고 자료
+
+| 문서 | 핵심 내용 |
+| :--- | :--- |
+| [DATA_CONSIDERATIONS.md](file:///e:/isoom/docs/data-references/DATA_CONSIDERATIONS.md) | 공공데이터 품질 이상치 고찰, 위경도 보정, 진료시간 처리 |
+| [전국_달빛어린이병원_및_야간심야약국_현황.md](file:///e:/isoom/docs/data-references/전국_달빛어린이병원_및_야간심야약국_현황.md) | 전국 달빛어린이병원 및 야간/심야 약국 데이터 현황 |
+
+### 📋 `planning/` — 기획안 & 개발 로드맵
+
+| 문서 | 핵심 내용 |
+| :--- | :--- |
+| [BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md](file:///e:/isoom/docs/planning/BACKEND_AND_AGENT_IMPLEMENTATION_ROADMAP.md) | 백엔드 모듈화 → 에이전트 결합 → API 서빙 로드맵 |
+| [NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md](file:///e:/isoom/docs/planning/NIGHT_HOLIDAY_HOSPITAL_PHARMACY_PLAN.md) | 야간/공휴일 소아 진료 공백 분석 & 달빛병원-약국 페어링 |
+| [PROJECT_PLAN.md](file:///e:/isoom/docs/planning/PROJECT_PLAN.md) | 종합 기획서 (PRD): 배경, 페르소나, 법적 검토, 로드맵 |
+| [PWA_PLAN.md](file:///e:/isoom/docs/planning/PWA_PLAN.md) | PWA(Progressive Web App) 전환 계획 |
+| [VIBE_CODING_ROADMAP.md](file:///e:/isoom/docs/planning/VIBE_CODING_ROADMAP.md) | AI 페어 프로그래밍 모듈별 개발 가이드 |
+| [아이숨_프로젝트_기획안.md](file:///e:/isoom/docs/planning/아이숨_프로젝트_기획안.md) | 아이숨 프로젝트 종합 기획안 |
+
+### 📌 `project-core/` — 프로젝트 핵심 문서
+
+| 문서 | 핵심 내용 |
+| :--- | :--- |
+| [PLAN.md](file:///e:/isoom/docs/project-core/PLAN.md) | 6단계 개발 로드맵 진행 현황 & 누적 테스트 결과 백서 |
+| [README.md](file:///e:/isoom/docs/project-core/README.md) | 레포지토리 공식 소개, Quickstart, 뱃지, 기술 스택 |
+| [log.md](file:///e:/isoom/docs/project-core/log.md) | 트러블슈팅 & 엔지니어링 이슈 로그 |
+| [Reamme.md](file:///e:/isoom/docs/project-core/Reamme.md) | 보조 README (초기 버전) |
+
+### 💬 `qa-logs/` — Q&A 아카이브
+
+| 문서 | 핵심 내용 |
+| :--- | :--- |
+| [Answer-영식.md](file:///e:/isoom/docs/qa-logs/Answer-영식.md) | 정영식 팀장 질의응답 누적 아카이브 |
+| [q_a.md](file:///e:/isoom/docs/qa-logs/q_a.md) | 일반 질의응답 기록 |
+
+### 📝 `reports/` — 분석 보고서 & 검증 리포트
+
+| 문서 | 핵심 내용 |
+| :--- | :--- |
+| [AISUM_STITCH_DESIGN_REPORT.md](file:///e:/isoom/docs/reports/AISUM_STITCH_DESIGN_REPORT.md) | AISUM Stitch 디자인 리포트 |
+| [EMERGENCY_DDK_COMPARISON_AND_IMPROVEMENT.md](file:///e:/isoom/docs/reports/EMERGENCY_DDK_COMPARISON_AND_IMPROVEMENT.md) | 경쟁 서비스(똑닥 등) 벤치마킹 & 차별화 분석 |
+| [KTAS_TRIAGE_VERIFICATION_REPORT.md](file:///e:/isoom/docs/reports/KTAS_TRIAGE_VERIFICATION_REPORT.md) | KTAS Triage 검증 리포트 |
+| [PROJECT_COMPLETION_REPORT.md](file:///e:/isoom/docs/reports/PROJECT_COMPLETION_REPORT.md) | 프로젝트 완료 보고서 |
+
+### ⚙️ `specs/` — 기술 스펙 & 연동 사양서
+
+| 문서 | 핵심 내용 |
+| :--- | :--- |
+| [CONNECTIVITY_MAP.md](file:///e:/isoom/docs/specs/CONNECTIVITY_MAP.md) | 모듈 & 에이전트 상호 연결 매트릭스, 데이터 파이프라인 |
+| [FRONTEND_BACKEND_INTEGRATION_SPEC.md](file:///e:/isoom/docs/specs/FRONTEND_BACKEND_INTEGRATION_SPEC.md) | 프론트엔드-백엔드 연동 사양서 |
+| [FRONTEND_UI_UX_SPECIFICATION.md](file:///e:/isoom/docs/specs/FRONTEND_UI_UX_SPECIFICATION.md) | 프론트엔드 UI/UX 설계 명세 |
+| [PUBLIC_API_CIRCUIT_BREAKER_AND_FALLBACK_SPECIFICATION.md](file:///e:/isoom/docs/specs/PUBLIC_API_CIRCUIT_BREAKER_AND_FALLBACK_SPECIFICATION.md) | 공공 API 서킷 브레이커 & 3단계 Fallback 고가용성 설계 |
+| [REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md](file:///e:/isoom/docs/specs/REDFLAG_MODULE_V2_UPGRADE_SPECIFICATION.md) | Red Flag v2 모듈 고도화 설계서 |
+
+---
+
+## 🧭 루트 유지 문서 (Root Level)
+
+아래 문서들은 프로젝트 루트(`E:\isoom\`)에 그대로 유지됩니다:
+
+| 문서 | 역할 |
+| :--- | :--- |
+| `AGENTS.md` | AI 에이전트 거버넌스 규칙 (루트 필수) |
+| `GEMINI.md` | AI 에이전트 설정 규칙 (루트 필수) |
+
+---
+
+## 🔗 하위 모듈 README (유지됨)
+
+각 소스 폴더의 `README.md`는 해당 모듈의 가이드로서 원래 위치에 유지됩니다:
+
+- `app/README.md`, `app/agents/README.md`, `app/api/README.md`, `app/orchestrator/README.md`, `app/schemas/README.md`, `app/services/README.md`
+- `data/README.md`
+- `frontend/README.md`, `frontend/assets/README.md`
+- `notebooks/README.md`
+- `tests/README.md`
+- `references/medical_law/*.md` (법률 참고 문서)
+- `tests/evals/eval_report.md`
