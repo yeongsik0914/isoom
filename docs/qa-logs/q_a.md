@@ -3749,3 +3749,55 @@ function renderMoonlightPairingCards() {
   4. `하이엔소아청소년과의원` (`A1125930`): 송파구 위례북로1길 22 ➔ **4.5 km (차 10분)** ➔ 연계: **매일여는달빛온누리약국** (동일 건물 1층)
   5. `24시열린의원 (잠실점)` (`A1117613`): 송파구 백제고분로 187 ➔ **4.9 km (차 11분)** ➔ 연계: **매일여는온누리약국** (동일 건물 1층)
   6. `24시열린의원 (자양점)` (`A1105874`): 광진구 능동로 90 ➔ **5.9 km (차 14분)** ➔ 연계: **더클래식약국** (동일 건물 1층 더클래식500)
+
+### Q153. [Google Cloud Run 프로덕션 실서버 배포 상태 및 GitHub git push 최종 동기화 실측 검증 보고] 신규 리비전(isoom-service-00006-pmd) 100% 라이브 서빙 및 main 브랜치 커밋(bc43ede) 원격 푸시 상태 전수 확인
+
+* **기록 일시**: 2026-10-20 20:40
+* **질문 내용**:
+  > cloud run 실서버 배포, git push 했는지 확인해봐
+
+---
+
+#### 💡 답변 및 엔지니어링 리포트
+
+팀장님의 확인 지시에 따라, **Google Cloud Run 실서버 배포 현황**과 **GitHub 원격 저장소(`yeongsik0914/isoom.git`)의 git push 상태**를 전수 점검하고 직접 통신 실측한 결과를 보고드립니다.
+
+---
+
+#### 1. 🌐 Google Cloud Run 실서버 배포 상태 실측 검증 (100% 정상)
+
+* **서비스 이름**: `isoom-service`
+* **배포 리전**: `asia-northeast3` (Seoul)
+* **최신 활성 리비전 ID**: `isoom-service-00006-pmd` (배포 완료 일시: 2026-10-20 20:31:52 KST)
+* **트래픽 라우팅 비율**: **100%** (모든 실서버 트래픽이 신규 리비전 `00006-pmd`로 무중단 서빙 중)
+* **실서버 라이브 URL**: [https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app)
+* **엔드포인트 실시간 통신 검증 (HTTP 200 OK)**:
+  1. `GET /health` ➔ **200 OK**:
+     - `status: healthy`
+     - `scheduler.running: true` (5분 주기 인메모리 해시 디핑 폴러 정상 동작 중)
+     - `public_data_api_configured: true` (NMC 응급의료 연동)
+     - `gemini_api_configured: true` (Gemini 3.8 Flash 연동)
+     - `firebase_configured: true` (Cloud Firestore DB 연동)
+  2. `GET /home` ➔ **200 OK** (PWA 메인 화면 40,500 bytes 정상 서빙)
+  3. `GET /hospital_detail.html` ➔ **200 OK** (하버사인 실시간 계산 엔진 탑재 상세 페이지 68,354 bytes 정상 서빙)
+  4. `GET /api/v1/emergency/facility-detail?id=A1126157&lat=37.527&lon=127.136` (올림픽파크365의원) ➔ **200 OK**:
+     - `name`: 올림픽파크365의원, `dist_km`: **0.4 km**, `drive_min`: **2분**, `paired_pharmacy`: **둔촌365약국** (1.8km 기본값 완벽 탈피)
+  5. `GET /api/v1/emergency/facility-detail?id=A1105874&lat=37.527&lon=127.136` (24시열린의원 자양점) ➔ **200 OK**:
+     - `name`: 24시열린의원, `address`: 광진구 능동로 90 (더클래식500), `dist_km`: **5.9 km**, `paired_pharmacy`: **더클래식약국** (잠실점 오분류 역전 완벽 해소)
+
+---
+
+#### 2. 🐙 GitHub git push 및 저장소 동기화 상태 실측 검증 (100% 정상)
+
+* **원격 저장소 URL**: `https://github.com/yeongsik0914/isoom.git`
+* **기준 브랜치**: `main`
+* **로컬/원격 브랜치 동기화 상태**:
+  ```text
+  On branch main
+  Your branch is up to date with 'origin/main'.
+  nothing to commit, working tree clean
+  ```
+* **최근 푸시된 3대 핵심 커밋 이력**:
+  1. `bc43ede` (HEAD -> main, origin/main) - `docs: sync Q232 in Answer-영식.md, Q152 in q_a.md, ISSUE-226 in log.md, v2.9.36 in README.md, v3.40 in PLAN.md`
+  2. `47c7faf` - `fix(detail): resolve hospital_detail & pharmacy_detail multi-cause defects and deploy Cloud Run revision 00006-pmd`
+  3. `1bb556b` - `feat(deploy): update Cloud Run pipeline with auto build and record Q231, ISSUE-225, v2.9.35`
