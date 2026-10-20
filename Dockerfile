@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# 파이썬 의존성 복사 및 캐시 최소화 설치
+# 파이썬 의존성 복사 및 설치
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
@@ -29,9 +29,5 @@ COPY . .
 # Cloud Run 기본 포트 8080 오픈
 EXPOSE 8080
 
-# Cloud Run 헬스체크 (내부 핑)
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:${PORT:-8080}/health || exit 1
-
-# Uvicorn 실행 (Cloud Run 주입 PORT 환경변수 동적 바인딩)
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1"]
+# Python 애플리케이션 실행 (Cloud Run PORT 환경변수 동적 바인딩)
+CMD ["python", "main.py"]

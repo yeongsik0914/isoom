@@ -1,12 +1,12 @@
 <div align="center">
-  <a href="https://isoom-service-108335720396.asia-northeast3.run.app/">
+  <a href="https://isoom-service-920380215419.asia-northeast3.run.app/">
   <img src="images/aisum_official_app_icon.png" width="100" height="100" alt="아이숨 로고" style="border-radius: 20px;" /></a>
   <h1>아이숨 (i-Soom)</h1>
   <p><strong>야간·공휴일 소아 의료 공백 해소를 위한 지능형 사전 문진(KTAS) 및 의료기관 매칭 시스템</strong></p>
   <p><em>Intelligent Pediatric Triage & Emergency Healthcare Matching System</em></p>
 
   <p>
-    <a href="https://isoom-service-108335720396.asia-northeast3.run.app"><img src="https://img.shields.io/badge/Google_Cloud_Run-Live_Service-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Live Service" /></a>
+    <a href="https://isoom-service-920380215419.asia-northeast3.run.app/"><img src="https://img.shields.io/badge/Google_Cloud_Run-Live_Service-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Live Service" /></a>
     <img src="https://img.shields.io/badge/Tests-128_Passed-10B981?style=flat-square&logo=pytest&logoColor=white" alt="Tests 128 Passed" />
     <img src="https://img.shields.io/badge/KTAS_Evals-40%2F40_(100%25)-6366F1?style=flat-square" alt="KTAS Evals 100%" />
     <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.11+" />
@@ -16,7 +16,7 @@
   </p>
 
   <p>
-    <a href="https://isoom-service-108335720396.asia-northeast3.run.app"><strong>프로덕션 라이브 데모</strong></a> &nbsp;|&nbsp;
+    <a href="https://isoom-service-920380215419.asia-northeast3.run.app/"><strong>프로덕션 라이브 데모</strong></a> &nbsp;|&nbsp;
     <a href="docs/README.md"><strong>기술 문서고</strong></a> &nbsp;|&nbsp;
     <a href="docs/project-core/PLAN.md"><strong>개발 백서 (PLAN)</strong></a> &nbsp;|&nbsp;
     <a href="docs/project-core/log.md"><strong>엔지니어링 로그</strong></a> &nbsp;|&nbsp;
@@ -255,6 +255,13 @@ isoom/
    pytest tests/
    ```
 
+7. **Google Cloud Run 원클릭 프로덕션 배포**
+   ```bash
+   # Google Cloud 인증 후 원클릭 배포
+   gcloud.cmd auth login
+   python scripts/deploy_cloud_run.py
+   ```
+
 ---
 
 ## 8. 품질 검증 및 임상 안전성 벤치마크
@@ -286,8 +293,8 @@ isoom/
 - [📚 기술 문서고 인덱스 (`docs/README.md`)](docs/README.md): 카테고리별 기술 문서 전체 색인
 - [🏛️ KTAS 로직 진화 보고서 (`docs/architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md`)](docs/architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md): 1세대 룰/RAG 한계 vs 2세대 2-Tier Direct Grounding 혁신
 - [📘 종합 기획안 & 개발 백서 (`docs/project-core/PLAN.md`)](docs/project-core/PLAN.md): 6단계 로드맵 및 상세 아키텍처 명세
-- [🛠️ 트러블슈팅 & 엔지니어링 로그 (`docs/project-core/log.md`)](docs/project-core/log.md): 프로젝트 진행 중 해결된 218건의 기술 이슈 기록
-- [💬 질의응답 아카이브 (`docs/qa-logs/Answer-영식.md`)](docs/qa-logs/Answer-영식.md): 정영식 팀장의 226건 질의응답 기록 보관소
+- [🛠️ 트러블슈팅 & 엔지니어링 로그 (`docs/project-core/log.md`)](docs/project-core/log.md): 프로젝트 진행 중 해결된 219건의 기술 이슈 기록
+- [💬 질의응답 아카이브 (`docs/qa-logs/Answer-영식.md`)](docs/qa-logs/Answer-영식.md): 정영식 팀장의 227건 질의응답 기록 보관소
 - [📊 프로젝트 종합 완성률 보고서 (`docs/reports/PROJECT_COMPLETION_REPORT.md`)](docs/reports/PROJECT_COMPLETION_REPORT.md): 기획 대비 구현율 분석 리포트
 
 ---

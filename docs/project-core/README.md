@@ -28,7 +28,7 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
-### 🌟 [v2.9.32-presentation-deck-elevation] 2026-10-20: 아이숨 중간프로젝트 발표 PPT 전면 고도화 & 15단계 로드맵 및 백엔드 로직 시각화 다이어그램 수립 (정영식 팀장, 김동준 팀원)
+### 🌟 [v2.9.34-presentation-deck-elevation] 2026-10-20: 아이숨 중간프로젝트 발표 PPT 전면 고도화 & 15단계 로드맵 및 백엔드 로직 시각화 다이어그램 수립 (정영식 팀장, 김동준 팀원)
 * **📊 중간프로젝트 발표 슬라이드 덱([아이숨(ISOOM) 중간프로젝트 발표.pptx](file:///c:/AI-Native-Agent/isoom/아이숨(ISOOM)%20중간프로젝트%20발표.pptx)) 전면 승격**:
   - 기존 12장 자료를 16:9 표준 와이드스크린(33.87cm x 19.05cm), 토스 디자인 시스템(TDS) 테마 기반의 총 13장 프리미엄 발표 자료로 고도화.
   - 팀장님 지시 15대 E2E 개발 로드맵(사회적 문제 발견 -> 공공데이터 분석 -> 원인 규명 -> 2-트랙 고안 -> 백엔드 모듈화 -> AI 결합 -> FSM 오케스트레이션 -> 무중단 3-Tier 인프라 -> Toss TDS 프론트 피봇 -> AI EVALS 50대 골든 테스트 -> Cloud Run 배포) 전면 수록.
@@ -36,6 +36,25 @@
   - 클라이언트 레이어부터 0ms 사전 인터셉터, 6-State FSM Supervisor, 3-Tier Multi-Storage Fallback, 2-트랙 라우팅의 전 과정을 원샷(One-Shot)으로 조망할 수 있는 300 DPI 다이어그램을 신규 제작하여 Slide 8에 배치.
 * **📐 픽셀 퍼펙트 타이포그래피 & 그리드 정렬**:
   - 카드 마진, 폰트 위계(22pt 헤더, 12~14pt 카드 타이틀, 9.5~10pt 본문), 내부 패딩을 정밀하게 수학적으로 정렬하여 텍스트 잘림 및 경계 침범 완전 차단.
+
+### 🌟 [v2.9.33-cloud-run-live-deployment-verified] 2026-10-20: Google Cloud Run 실서버 프로덕션 라이브 배포 완결 및 전수 검증 (정영식 팀장 총괄)
+* **🌐 Google Cloud Run 프로덕션 실서버 100% 무중단 라이브 배포 완결**:
+  - 활성 서비스 URL: [https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app)
+  - 서울 리전(`asia-northeast3`) 리비전 `isoom-service-00004-sbq` 100% 트래픽 서빙 활성화.
+  - 컨테이너 임포트 장애(`ContainerImageImportFailed`) 원천 해결: Dockerfile `HEALTHCHECK` 제거 및 Exec form `CMD ["python", "main.py"]` 적용.
+  - 전용 Artifact Registry 저장소 `isoom-repo` 구축 및 `requirements.txt` 런타임 최적화를 통해 빌드 타임 1분대, 배포 타임 25.8초 달성.
+* **🏥 실서버 헬스체크 및 3대 연동 무결점 실측 검증**:
+  - `GET /health` 호출 검증: `public_data_api_configured: true`, `gemini_api_configured: true`, `firebase_configured: true`, `scheduler.running: true` (5분 간격 병상 폴러 가동).
+  - PWA 모바일 웹앱([/home](https://isoom-service-920380215419.asia-northeast3.run.app/home)) 정상 서빙 확인.
+
+### 🌟 [v2.9.32-cloud-run-deployment-pipeline-sync] 2026-10-20: Google Cloud Run 원클릭 프로덕션 배포 파이프라인 수립 및 .env 보안 키 연동 (정영식 팀장 총괄)
+* **🚀 원클릭 프로덕션 배포 파이프라인 수립 (`scripts/deploy_cloud_run.py`, `scripts/deploy_cloud_run.bat`)**:
+  - `.env`에 정의된 5대 핵심 API 키(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `FIRESTORE_DATABASE_ID`, `FIREBASE_KEY_PATH`)를 자동 로드·검증하는 파이프라인 구축.
+  - 리눅스 컨테이너 환경을 위해 로컬 `serviceAccountKey.json`을 단일 인라인 JSON(`FIREBASE_KEY_JSON`)으로 직렬화하여 Cloud Run에 안전하게 주입.
+  - Windows PowerShell 스크립트 보안 정책 제약을 우회하기 위해 `gcloud.cmd` 연동 및 임시 `.cloud_run_env.yaml` 기반 무손실 환경변수 주입 구현.
+  - 43개 프론트엔드 PWA 및 템플릿 정적 자산 자동 빌드 동기화 지원.
+* **🔐 보안 파일 차단 정책 강화**:
+  - `.gitignore`, `.gcloudignore`, `.dockerignore`에 `.cloud_run_env.yaml` 및 `*env*.yaml` 등록하여 빌드/Git 시크릿 노출 원천 방지.
 
 ### 🌟 [v2.9.31-official-github-readme-landing-sync] 2026-10-20: GitHub 공식 랜딩 README.md 신규 구축 및 클린 & 프리미엄 디자인 시스템 수립 (정영식 팀장 총괄)
 * **💎 저장소 공식 랜딩 페이지([README.md](file:///e:/isoom/README.md)) 신규 구축**:

@@ -225,10 +225,11 @@
 | **[ISSUE-216]** | GCP Secret Manager 5대 비밀 키 암호화 연동 및 Google Cloud Run 실서버 프로덕션 무중단 배포 | .env 5대 핵심 API Key Secret Manager 등록, IAM 시크릿 접근자/저장소 권한 부여, GCR 컨테이너 빌드 및 Cloud Run(isoom-service-00010-qct) 100% 트래픽 배포·실서버 검증 완결 | **해결 완료 (Resolved)** | 2026-10-19 |
 | **[ISSUE-217]** | 응급실 결과 페이지 가용 응급실 알약 배지(er-list-completed-pill) 전면 삭제 및 Cloud Run 실서버 재배포 | result.html 정적 목업 및 동적 JS 배지 완전 소독, Cloud Build(28a8ab73) 패키징 및 Cloud Run(isoom-service-00011-htj) 100% 무중단 릴리스·실서버 검증 완결 | **해결 완료 (Resolved)** | 2026-10-19 |
 | **[ISSUE-218]** | 리포지토리 공식 브랜딩 & GitHub 랜딩 페이지 구축 | 깃허브 공식 랜딩 README.md 신규 구축 및 클린 & 프리미엄 디자인 시스템 수립 | **해결 완료 (Resolved)** | 2026-10-20 |
-| **[ISSUE-219]** | 시설 상세 라우팅 & 다중 지점 인덱싱 | 동일 상호명(프랜차이즈) 병원 클릭 시 지점 오분류(광진구 자양동 ➔ 양천구 목동 24시열린의원 및 매일여는약국) 결함 해결 | **해결 완료 (Resolved)** | 2026-10-20 |
-| **[ISSUE-220]** | 브라우저 캐싱 & 이중 디렉터리 동기화 | PWA SW v4 업그레이드, HTML 캐시버스팅(?v=20261020_v4), app/static 이중 정적 경로 동기화 및 로컬 서버 가동 | **해결 완료 (Resolved)** | 2026-10-20 |
-| **[ISSUE-221]** | 프레젠테이션 & 시스템 시각화 | 중간프로젝트 발표 PPT 15단계 개발 로드맵 미반영 및 백엔드 로직 시각화 부재, 슬라이드 텍스트 정렬 결함 고도화 | **해결 완료 (Resolved)** | 2026-10-20 |
-
+| **[ISSUE-219]** | Google Cloud Run 인프라 & 배포 자동화 | .env API 키 연동, gcloud CLI 인증 진단 및 원클릭 Cloud Run 배포 파이프라인 구축 | **해결 완료 (Resolved)** | 2026-10-20 |
+| **[ISSUE-220]** | Google Cloud Run 실서버 배포 완결 | ContainerImageImportFailed 해결, isoom-repo 구축 및 Cloud Run 실서버(isoom-service-00004-sbq) 100% 무중단 라이브 서빙 | **해결 완료 (Resolved)** | 2026-10-20 |
+| **[ISSUE-221]** | 시설 상세 라우팅 & 다중 지점 인덱싱 | 동일 상호명(프랜차이즈) 병원 클릭 시 지점 오분류(광진구 자양동 ➔ 양천구 목동 24시열린의원 및 매일여는약국) 결함 해결 | **해결 완료 (Resolved)** | 2026-10-20 |
+| **[ISSUE-222]** | 브라우저 캐싱 & 이중 디렉터리 동기화 | PWA SW v4 업그레이드, HTML 캐시버스팅(?v=20261020_v4), app/static 이중 정적 경로 동기화 및 로컬 서버 가동 | **해결 완료 (Resolved)** | 2026-10-20 |
+| **[ISSUE-223]** | 프레젠테이션 & 시스템 시각화 | 중간프로젝트 발표 PPT 15단계 개발 로드맵 미반영 및 백엔드 로직 시각화 부재, 슬라이드 텍스트 정렬 결함 고도화 | **해결 완료 (Resolved)** | 2026-10-20 |
 ---
 
 ## 🛠️ 세부 이슈 및 해결 내역
@@ -7550,9 +7551,88 @@
 * **조치 결과**:
   * 깃허브 저장소 방문 시 누구나 프로젝트의 가치와 엔지니어링 수준을 한눈에 확인할 수 있는 깔끔하고 아름다운 공식 랜딩 페이지가 구축되었으며, 4대 프로젝트 거버넌스 규율에 따른 동기화가 완결됨.
 
+
+
 ---
 
-### [ISSUE-219] 동일 상호명(프랜차이즈) 병원 클릭 시 지점 오분류(광진구 자양동 ➔ 양천구 목동 24시열린의원 및 매일여는약국) 결함 해결
+### [ISSUE-219] .env API 키 연동, gcloud CLI 인증 진단 및 원클릭 Cloud Run 배포 파이프라인 구축
+
+* **발생 일자**: 2026-10-20
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **분류**: Google Cloud Run 인프라 & 배포 자동화
+* **문제 상황**:
+  * 팀장님께서 `.env` 파일에 보관된 핵심 API 키(DATA_GO_API_KEY, GEMINI_API_KEY, KAKAO_REST_API_KEY, FIRESTORE_DATABASE_ID, FIREBASE_KEY_PATH)를 활용하여 Google Cloud Run에 실서버 배포 요청.
+  * Windows PowerShell 환경에서 `gcloud` 호출 시 ExecutionPolicy 보안 정책(`Restricted`)으로 인해 `gcloud.ps1` 스크립트 실행이 차단되는 `PSSecurityException UnauthorizedAccess` 발생.
+  * 기존 gcloud 계정(`songpa10@iceu.kr`)의 OAuth 인증 토큰 만료로 인해 비대화형 gcloud 명령 실행 시 `Reauthentication failed. cannot prompt during non-interactive execution` 오류 발생.
+  * Cloud Run 리눅스 컨테이너 내부에서는 로컬 윈도우 파일 시스템(`E:\FIREBASE_API_KEY\serviceAccountKey.json`) 경로가 무효하므로, 컨테이너 환경에서 Firebase Admin SDK 초기화 실패 위험 존재.
+* **원인 분석**:
+  * Windows PowerShell 기본 보안 정책이 로컬 `.ps1` 스크립트 로드를 방지함.
+  * 장시간 미사용으로 GCP 사용자 인증 세션이 갱신(Refresh)되지 않아 웹 OAuth 재인증(`gcloud auth login`) 필수.
+  * 환경변수 파일 경로(`FIREBASE_KEY_PATH`)가 로컬 절대 경로이므로 컨테이너 주입 시 인라인 직렬화(`FIREBASE_KEY_JSON`)가 필요함.
+* **구체적 해결 방안**:
+  1. **gcloud 실행 호환성 확보**:
+     - `gcloud.cmd` 배치 파일을 통해 PowerShell 보안 정책 제약 없이 Windows cmd/PowerShell 전역에서 안정적 실행 지원.
+     - PowerShell 사용자용 1회성 정책 해제 안내(`Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force`) 및 `gcloud.cmd auth login` 브라우저 인증 가이드 작성.
+  2. **원클릭 배포 파이프라인(`scripts/deploy_cloud_run.py`) 고도화**:
+     - 43개 프론트엔드 PWA 및 템플릿 정적 자산 자동 동기화 (`frontend/` -> `app/static/`, `app/templates/`).
+     - `.env` 및 `serviceAccountKey.json` 파싱 후 단일 인라인 JSON(`FIREBASE_KEY_JSON`) 자동 생성.
+     - 윈도우 셸 특수문자 탈출 문제를 원천 방지하기 위해 임시 `.cloud_run_env.yaml`을 생성하여 `--env-vars-file` 플래그로 Cloud Run에 안전하게 주입 후 파일 즉시 삭제 소독.
+     - 활성 GCP 프로젝트(`iceu-songpa10`) 자동 감지 및 서울 리전(`asia-northeast3`) 타겟팅.
+  3. **보안 파일 차단 강화**:
+     - `.gitignore`, `.gcloudignore`, `.dockerignore`에 `.cloud_run_env.yaml` 및 `*env*.yaml` 등록하여 시크릿 유출 방지.
+  4. **윈도우 간편 런처 추가**:
+     - 더블 클릭으로 실행 가능한 `scripts/deploy_cloud_run.bat` 배치 스크립트 제공.
+* **적용 파일**:
+  * [scripts/deploy_cloud_run.py](file:///e:/isoom/scripts/deploy_cloud_run.py)
+  * [scripts/setup_gcp_secrets.py](file:///e:/isoom/scripts/setup_gcp_secrets.py)
+  * [scripts/deploy_cloud_run.bat](file:///e:/isoom/scripts/deploy_cloud_run.bat)
+  * [.gitignore](file:///e:/isoom/.gitignore)
+  * [.gcloudignore](file:///e:/isoom/.gcloudignore)
+  * [.dockerignore](file:///e:/isoom/.dockerignore)
+  * [docs/project-core/log.md](file:///e:/isoom/docs/project-core/log.md)
+  * [docs/qa-logs/Answer-영식.md](file:///e:/isoom/docs/qa-logs/Answer-영식.md)
+* **조치 결과**:
+  * 로컬 gcloud SDK 환경과 API 키 검증이 완료되었으며, 팀장님의 `gcloud.cmd auth login` 1회 수행 후 `python scripts/deploy_cloud_run.py` 실행만으로 서울 리전 Cloud Run에 완벽한 무중단 실서버 배포가 가능하도록 준비 완료됨.
+
+### [ISSUE-220] Cloud Run 프로덕션 실서버 배포 완결 및 ContainerImageImportFailed 해결
+
+* **발생 일자**: 2026-10-20
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **분류**: Google Cloud Run 실서버 배포 완결
+* **문제 상황**:
+  * 팀장님의 `gcloud.cmd auth login` 승인 후 `gcloud run deploy --source .`를 실행하였으나, 컨테이너 빌드 후 리비전 생성 단계에서 `ERROR: (gcloud.run.deploy) Container import failed (reason: ContainerImageImportFailed)` 발생.
+  * 신규 리비전 생성이 중단되고 서비스 배포가 실패함.
+* **원인 분석**:
+  1. `Dockerfile` 내부에 선언된 `HEALTHCHECK` 명령어가 Knative / Cloud Run의 컨테이너 샌드박스 규격과 비호환되어 컨테이너 임포트 검증기에서 인제스천이 거부됨.
+  2. `CMD ["sh", "-c", "uvicorn ..."]` 셸 래퍼 형식으로 인해 Cloud Run 인프라의 OS 시그널 및 PORT 바인딩 핸들링이 불필요하게 셸 프로세스를 경유함.
+  3. `requirements.txt`에 주피터 노트북용 데이터 분석 패키지(matplotlib, seaborn, scikit-learn, scipy, ipykernel, jupyter)가 포함되어 컨테이너 빌드가 2분 이상 소요되고 이미지 크기가 비대해짐.
+* **구체적 해결 방안**:
+  1. **`Dockerfile` 최적화**:
+     - Cloud Run과 비호환되는 `HEALTHCHECK` 명령어 완전 제거 (Cloud Run 인프라 네이티브 프로브 위임).
+     - `CMD ["python", "main.py"]` 직접 실행(Exec form)으로 단순화하여 `os.getenv("PORT", 8080)` 동적 바인딩 및 시그널 안정성 확보.
+  2. **의존성 분리 및 빌드 슬림화**:
+     - `requirements.txt`를 런타임 필수 패키지(FastAPI, Uvicorn, Firebase-Admin, google-genai, apscheduler, requests, xmltodict, pydantic)로 슬림화.
+     - 노트북용 패키지는 `requirements-dev.txt`로 안전 분리.
+  3. **전용 Artifact Registry 저장소 구축 (`isoom-repo`)**:
+     - 서울 리전(`asia-northeast3`)에 `isoom-repo` Docker 저장소를 신규 생성하고 1.1분 만에 초경량 빌드/푸시 성공.
+  4. **Cloud Run 실서버 배포 완결 (`isoom-service-00004-sbq`)**:
+     - `scripts/deploy_cloud_run.py`를 통해 서울 리전에 25.8초 만에 무중단 배포 완료.
+     - 배포 직후 `/health` 엔드포인트 호출을 통해 공공데이터포털, Gemini 3.8 Flash, Firebase Firestore 3대 연동 및 APScheduler 백그라운드 병상 폴러 가동을 100% 실측 검증.
+* **적용 파일**:
+  * [Dockerfile](file:///e:/isoom/Dockerfile)
+  * [requirements.txt](file:///e:/isoom/requirements.txt)
+  * [requirements-dev.txt](file:///e:/isoom/requirements-dev.txt)
+  * [scripts/deploy_cloud_run.py](file:///e:/isoom/scripts/deploy_cloud_run.py)
+  * [README.md](file:///e:/isoom/README.md)
+  * [docs/project-core/PLAN.md](file:///e:/isoom/docs/project-core/PLAN.md)
+  * [docs/project-core/log.md](file:///e:/isoom/docs/project-core/log.md)
+  * [docs/qa-logs/Answer-영식.md](file:///e:/isoom/docs/qa-logs/Answer-영식.md)
+* **조치 결과**:
+  * 리비전 `isoom-service-00004-sbq`가 100% 트래픽을 서빙하며, 라이브 URL([https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app))에서 PWA 및 API가 정상 작동함을 확인 완료.
+
+---
+
+### [ISSUE-221] 동일 상호명(프랜차이즈) 병원 클릭 시 지점 오분류(광진구 자양동 ➔ 양천구 목동 24시열린의원 및 매일여는약국) 결함 해결
 
 * **발생 일자**: 2026-10-20
 * **작업자**: 김동준 (팀원), 정영식 (팀장)
@@ -7583,7 +7663,7 @@
 
 ---
 
-### [ISSUE-220] 수정 후에도 구버전 데이터(양천구 목동) 노출 결함 및 4대 원인(PWA 캐시, 템플릿 쿼리, 이중 정적 경로, 로컬 서버 미가동) 해결
+### [ISSUE-222] 수정 후에도 구버전 데이터(양천구 목동) 노출 결함 및 4대 원인(PWA 캐시, 템플릿 쿼리, 이중 정적 경로, 로컬 서버 미가동) 해결
 
 * **발생 일자**: 2026-10-20
 * **작업자**: 김동준 (팀원), 정영식 (팀장)
@@ -7613,7 +7693,7 @@
 
 ---
 
-### [ISSUE-221] 중간프로젝트 발표 PPT 전면 고도화 & 15단계 E2E 엔지니어링 로드맵 및 백엔드 로직 시각화 수립
+### [ISSUE-223] 중간프로젝트 발표 PPT 전면 고도화 & 15단계 E2E 엔지니어링 로드맵 및 백엔드 로직 시각화 수립
 
 * **발생 일자**: 2026-10-20
 * **작업자**: 김동준 (팀원), 정영식 (팀장)

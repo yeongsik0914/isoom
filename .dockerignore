@@ -32,6 +32,8 @@ tmp/
 .env.*
 !*.example
 *serviceAccountKey*.json
+.cloud_run_env.yaml
+*env*.yaml
 
 # Bulky Presentation / Docs
 *.pptx

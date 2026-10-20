@@ -28,6 +28,8 @@ tmp/
 .env.*
 !*.example
 *serviceAccountKey*.json
+.cloud_run_env.yaml
+*env*.yaml
 
 *.pptx
 *.pdf
