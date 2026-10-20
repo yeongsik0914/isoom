@@ -1,9 +1,9 @@
 # 🌙 ISOOM 종합 기획안 & 개발 백서 (PLAN.md)
 
-> **문서 버전**: v3.38 (GitHub 공식 랜딩 README.md 신규 구축 및 클린 & 프리미엄 디자인 시스템 수립)
+> **문서 버전**: v3.39 (Google Cloud Run 원클릭 프로덕션 배포 파이프라인 수립 및 .env 보안 키 연동)
 > **최종 갱신 일자**: 2026-10-20
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*
-> **프로덕션 라이브 URL**: [https://isoom-service-108335720396.asia-northeast3.run.app](https://isoom-service-108335720396.asia-northeast3.run.app)
+> **프로덕션 라이브 URL**: [https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app)
 
 > **기반 원천**: 주피터 노트북 5권 실증 데이터, 국립중앙의료원(NMC)·한국천문연구원(KASI) 공공데이터, 카카오맵 REST API(Static Map 프록시 & 역지오코딩), Firebase Cloud Firestore, Gemini 3.8 Flash (Thinking High) / 3.5 Lite, 2021 소아 KTAS 지침(168개 주증상), AsyncCircuitBreaker(3-State FSM), In-Memory Hash Diffing 델타 동기화, data/ 폴더 캐노니컬 JSON 상세 데이터셋, 5-Layer Smart Back Navigation & < 0.05ms 초고속 인메모리 인덱스, AisumPermissionManager 세션-로컬 양방향 동기화, cleanLegacyMunjeongData 캐시 자동 소독 엔진, formatCompactAddress 주소 정제 엔진, evaluateOperatingStatus KST 실시간 운영 판정 엔진, 4단계 순차 온보딩 게이트웨이 & 이용약관-설정 모드 완전 분리, AisumHistoryManager 0ms 무손실 결과 복원 & 전용 기록 페이지(history.html), AisumNotificationManager KTAS 중증 실시간 병상 변동 감지 및 알림 센터, 119 구급대원 인계용 응급 브리핑 카드(briefing_card.html), 문진 페이지 환아 프로필 자동 프리필 및 증상 기반 나이·상태 측정 스마트 감지 허브(input.html), GCP Secret Manager 보안 암호화 주입 & Cloud Run 완전 관리형 서버리스 인프라, [PROJECT_COMPLETION_REPORT.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_COMPLETION_REPORT.md), [PWA_PLAN.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PWA_PLAN.md), [PROJECT_DEVELOPMENT_STORY.md](file:///Users/jeong-yeongsig/Desktop/Project/isoom/PROJECT_DEVELOPMENT_STORY.md).
 
@@ -703,6 +703,14 @@ graph TD
       - 4대 사회적 문제 정의 및 6대 차별화 솔루션 비교표, 2-트랙 라우팅 및 2계층 안전 가드레일 Mermaid 시스템 아키텍처 다이어그램 수록.
       - Quickstart(설치, 환경설정, 실행, pytest), 128개 테스트 전수 통과, 40대 임상 골든 케이스 100% 일치 품질 지표 명시.
       - 정영식 팀장·김동준 팀원 역할 명시 및 4대 핵심 거버넌스 문서 연동 완결.
+  * **Google Cloud Run 원클릭 프로덕션 배포 파이프라인 수립 및 .env 보안 키 연동 (Phase 3-AR)**:
+    - **원클릭 배포 파이프라인 엔진 고도화 (`scripts/deploy_cloud_run.py`, `scripts/deploy_cloud_run.bat`)**:
+      - `.env`에 정의된 5대 핵심 API 키 자동 로드 및 리눅스 컨테이너 호환 `FIREBASE_KEY_JSON` 인라인 직렬화.
+      - 윈도우 PowerShell 실행 보안 정책(ExecutionPolicy) 우회 및 `gcloud.cmd` 연동.
+      - 윈도우 셸 특수문자 탈출 문제를 원천 방어하는 임시 `.cloud_run_env.yaml` 기반 환경변수 안전 주입 및 즉시 소독.
+      - 43개 프론트엔드 웹/PWA 정적 자산 자동 빌드 동기화 (`frontend/` -> `app/static/`, `app/templates/`).
+      - GCP Secret Manager 연동 모듈(`scripts/setup_gcp_secrets.py`) 동시 지원.
+      - `.gitignore`, `.gcloudignore`, `.dockerignore` 시크릿 파일 차단 정책 강화.
 
 
 

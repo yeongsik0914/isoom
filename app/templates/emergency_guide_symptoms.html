@@ -2,9 +2,9 @@
 <html lang="ko">
 
 <head>
-  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
+  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Theme) -->
   <script>
-    (function() {
+    (function () {
       try {
         var t = localStorage.getItem('aisum_theme') || 'light';
         var eff = t;
@@ -12,313 +12,2700 @@
           eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
         }
         document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
+      } catch (e) { }
     })();
   </script>
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>아이숨 (Aisum) - 응급실 가이드 (증상별 시각 포토 응급처치)</title>
-  <meta name="description" content="소아 야간 위급 증상별 시각 포토 응급처치 및 119 다이렉트 핫라인 가이드" />
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>소아 맞춤 응급처치 가이드 - 아이숨(i-Soom)</title>
 
-  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans KR -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- PWA & Mobile Web Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="아이숨 응급처치">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#dc2626">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
-    rel="stylesheet" />
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-  <!-- Material Symbols Outlined -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet" />
-
-  <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
-  <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
+  <!-- Pure Vanilla CSS Stylesheet & Theme System -->
+  <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="/css/style.css" />
-  <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <script src="../js/theme.js"></script>
+  <script src="/js/theme.js"></script>
+
+  <style>
+    /* ==========================================================================
+       🌙 아이숨 (Aisum) 소아 응급처치 가이드 - Toss TDS (토스 디자인 시스템)
+       Light / Dark 완벽 동기화 (Toss Deep Obsidian #101012, Toss Canvas #17171c,
+       Toss Card #202027, Toss Inset #2c2c34, Toss Vivid Red #f04452, Toss Green #04b05c)
+       ========================================================================== */
+    :root {
+      /* Toss TDS Light Theme */
+      --canvas-bg: #f2f4f6;
+      --bg-base: #f8faff;
+      --card-bg: #ffffff;
+      --card-sub: #f2f4f6;
+      --card-hover: #e5e8eb;
+      --border-color: #e5e8eb;
+      --border-subtle: #f2f4f6;
+      --text-primary: #191f28;
+      --text-secondary: #4e5968;
+      --text-muted: #8b95a1;
+      --text-caption: #b0b8c1;
+
+      --red-primary: #f04452;
+      --red-light: #fff0f1;
+      --red-border: #ffd2d5;
+      --blue-primary: #3182f6;
+      --blue-light: #e8f3ff;
+      --blue-border: #b8d7ff;
+      --green-primary: #04b05c;
+      --green-light: #e6f8ef;
+      --green-border: #b3ebcf;
+      --amber-primary: #f59e0b;
+      --amber-light: #fff8eb;
+      --amber-border: #fde68a;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 26px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.09);
+      --app-max-width: 500px;
+    }
+
+    /* 🌙 Toss TDS Dark Theme (다른 페이지들과 100% 동일한 토스 다크 규격) */
+    html[data-theme="dark"] {
+      --canvas-bg: #101012;
+      /* 데스크톱 최외곽 캔버스 */
+      --bg-base: #17171c;
+      /* 모바일 뷰포트 메인 셸 */
+      --card-bg: #202027;
+      /* 메인 카드 서피스 */
+      --card-sub: #2c2c34;
+      /* 내부 서브 박스/인셋 */
+      --card-hover: #26262e;
+      /* 호버 서피스 */
+      --border-color: rgba(255, 255, 255, 0.06);
+      --border-subtle: rgba(255, 255, 255, 0.04);
+      --text-primary: #f9fafb;
+      /* 1순위 헤드라인 (Toss Pure White) */
+      --text-secondary: #d1d6db;
+      /* 2순위 서브 텍스트 */
+      --text-muted: #8b95a1;
+      /* 3순위 캡션/힌트 */
+      --text-caption: #6b7684;
+
+      --red-primary: #f04452;
+      /* Toss Vivid Red */
+      --red-light: rgba(240, 68, 82, 0.14);
+      --red-border: rgba(240, 68, 82, 0.28);
+      --blue-primary: #3182f6;
+      /* Toss Signature Blue */
+      --blue-light: rgba(49, 130, 246, 0.14);
+      --blue-border: rgba(49, 130, 246, 0.28);
+      --green-primary: #04b05c;
+      /* Toss Vivid Green */
+      --green-light: rgba(4, 176, 92, 0.14);
+      --green-border: rgba(4, 176, 92, 0.28);
+      --amber-primary: #fbbf24;
+      --amber-light: rgba(245, 158, 11, 0.14);
+      --amber-border: rgba(245, 158, 11, 0.28);
+
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      --shadow-lg: 0 25px 60px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    }
+
+    body {
+      background-color: var(--canvas-bg);
+      color: var(--text-primary);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      transition: background-color 0.2s ease;
+    }
+
+    html[data-theme="dark"] body {
+      background-color: #101012 !important;
+    }
+
+    .app-viewport {
+      width: 100%;
+      max-width: var(--app-max-width);
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-color: var(--bg-base);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 32px rgba(0, 0, 0, 0.08);
+      padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+      transition: background-color 0.2s ease;
+    }
+
+    html[data-theme="dark"] .app-viewport {
+      background-color: #17171c !important;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    /* Top Header */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px 16px;
+      gap: 12px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    html[data-theme="dark"] .top-header {
+      background: rgba(23, 23, 28, 0.94) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .btn-back {
+      background: #f2f4f6;
+      border: 1px solid transparent;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background-color: var(--card-hover);
+    }
+
+    html[data-theme="dark"] .btn-back {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .btn-back:hover {
+      background: #2c2c34 !important;
+    }
+
+    .header-title-wrap {
+      flex: 1;
+      text-align: center;
+    }
+
+    .header-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: var(--red-light);
+      color: var(--red-primary);
+      margin-bottom: 2px;
+      letter-spacing: -0.2px;
+      border: 1px solid var(--red-border);
+      transition: all 0.2s ease;
+    }
+
+    html[data-theme="dark"] .header-badge {
+      background: rgba(240, 68, 82, 0.16) !important;
+      color: #f04452 !important;
+      border: 1px solid rgba(240, 68, 82, 0.28) !important;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .header-title {
+      color: #f9fafb !important;
+    }
+
+    .btn-quick-119 {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: linear-gradient(135deg, #f04452, #dc2626);
+      color: #ffffff;
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 3px 10px rgba(240, 68, 82, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-quick-119:active {
+      transform: scale(0.96);
+    }
+
+    html[data-theme="dark"] .btn-quick-119 {
+      box-shadow: 0 4px 14px rgba(240, 68, 82, 0.4) !important;
+    }
+
+    /* Emergency Address Banner (Toss Vivid Banner) */
+    .emergency-banner {
+      background: linear-gradient(135deg, #f04452 0%, #dc2626 100%);
+      color: #ffffff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    html[data-theme="dark"] .emergency-banner {
+      background: linear-gradient(135deg, rgba(240, 68, 82, 0.94) 0%, rgba(185, 28, 28, 0.98) 100%) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45) !important;
+    }
+
+    .banner-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .banner-icon {
+      font-size: 24px;
+      animation: pulse-ring 1.8s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse-ring {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    .banner-text-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .banner-text-sub {
+      font-size: 11.5px;
+      opacity: 0.92;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-copy-address {
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      backdrop-filter: blur(4px);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+
+    .btn-copy-address:active {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    html[data-theme="dark"] .btn-copy-address {
+      background: rgba(0, 0, 0, 0.3) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    }
+
+    html[data-theme="dark"] .btn-copy-address:active {
+      background: rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Clean Minimal Toss-Style Matched Triage Card */
+    .matched-single-card {
+      margin: 14px 16px 4px 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    html[data-theme="dark"] .matched-single-card {
+      background: #1e1e24 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .matched-single-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .matched-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .matched-pill {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: -0.2px;
+      background: rgba(240, 68, 82, 0.12);
+      color: var(--red-primary);
+    }
+
+    .matched-pill.tier-1 {
+      background: rgba(240, 68, 82, 0.12);
+      color: #f04452;
+    }
+
+    .matched-pill.tier-2 {
+      background: rgba(255, 149, 0, 0.12);
+      color: #ff9500;
+    }
+
+    .matched-pill.tier-3 {
+      background: rgba(4, 176, 92, 0.12);
+      color: #04b05c;
+    }
+
+    html[data-theme="dark"] .matched-pill.tier-1 {
+      background: rgba(240, 68, 82, 0.22) !important;
+      color: #ff6b77 !important;
+    }
+
+    html[data-theme="dark"] .matched-pill.tier-2 {
+      background: rgba(255, 149, 0, 0.22) !important;
+      color: #ffaa33 !important;
+    }
+
+    html[data-theme="dark"] .matched-pill.tier-3 {
+      background: rgba(4, 176, 92, 0.22) !important;
+      color: #2ed573 !important;
+    }
+
+    .matched-sub-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    html[data-theme="dark"] .matched-sub-label {
+      color: #8b95a1 !important;
+    }
+
+    .btn-change-situation {
+      background: var(--card-sub);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-change-situation:hover {
+      background: var(--card-hover);
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .btn-change-situation {
+      background: #282832 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #b0b8c1 !important;
+    }
+
+    html[data-theme="dark"] .btn-change-situation:hover {
+      background: #32323e !important;
+      color: #f9fafb !important;
+    }
+
+    .matched-single-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.4px;
+      margin-top: 2px;
+    }
+
+    html[data-theme="dark"] .matched-single-title {
+      color: #f9fafb !important;
+    }
+
+    .matched-single-desc {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    html[data-theme="dark"] .matched-single-desc {
+      color: #a0a8b2 !important;
+    }
+
+    /* Toss Bottom Sheet Modal */
+    .symptom-sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .symptom-sheet-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .symptom-sheet-content {
+      background: var(--card-bg);
+      border-radius: 24px 24px 0 0;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .symptom-sheet-backdrop.open .symptom-sheet-content {
+      transform: translateY(0);
+    }
+
+    html[data-theme="dark"] .symptom-sheet-content {
+      background: #1c1c22 !important;
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .sheet-drag-handle {
+      width: 40px;
+      height: 4px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.15);
+      margin: 10px auto 4px auto;
+    }
+
+    html[data-theme="dark"] .sheet-drag-handle {
+      background: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px 14px 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    html[data-theme="dark"] .sheet-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .sheet-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .sheet-title {
+      color: #f9fafb !important;
+    }
+
+    .btn-sheet-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 50%;
+    }
+
+    .sheet-symptom-list {
+      padding: 12px 16px 30px 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sheet-item {
+      background: var(--card-sub);
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s ease;
+      width: 100%;
+    }
+
+    .sheet-item:hover, .sheet-item:active {
+      background: var(--card-hover);
+      border-color: var(--border-color);
+    }
+
+    .sheet-item.selected {
+      background: rgba(240, 68, 82, 0.08);
+      border-color: var(--red-border);
+    }
+
+    html[data-theme="dark"] .sheet-item {
+      background: #24242d !important;
+    }
+
+    html[data-theme="dark"] .sheet-item:hover, html[data-theme="dark"] .sheet-item:active {
+      background: #2d2d38 !important;
+    }
+
+    html[data-theme="dark"] .sheet-item.selected {
+      background: rgba(240, 68, 82, 0.18) !important;
+      border-color: rgba(240, 68, 82, 0.35) !important;
+    }
+
+    .sheet-item-icon {
+      font-size: 22px;
+      color: var(--red-primary);
+      flex-shrink: 0;
+    }
+
+    .sheet-item-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sheet-item-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    html[data-theme="dark"] .sheet-item-title {
+      color: #f9fafb !important;
+    }
+
+    .sheet-item-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    html[data-theme="dark"] .sheet-item-sub {
+      color: #8b95a1 !important;
+    }
+
+    .sheet-item-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Level Badges in Tab Buttons */
+    .tab-ktas-badge {
+      font-size: 10px;
+      font-weight: 900;
+      padding: 1px 5px;
+      border-radius: 6px;
+      margin-left: 2px;
+    }
+
+    .badge-ktas-1 {
+      background: rgba(240, 68, 82, 0.18);
+      color: #f04452;
+    }
+
+    .badge-ktas-2 {
+      background: rgba(245, 158, 11, 0.18);
+      color: #f59e0b;
+    }
+
+    .badge-ktas-3 {
+      background: rgba(4, 176, 92, 0.18);
+      color: #04b05c;
+    }
+
+    .tab-btn-symptom.active .tab-ktas-badge {
+      background: rgba(255, 255, 255, 0.3) !important;
+      color: #ffffff !important;
+    }
+
+    /* Main Container */
+    .content-area {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .symptom-pane {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .symptom-pane.active {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Visual Hero Card with Floating Fact Badges (Toss Layered Surface) */
+    .guide-hero-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    html[data-theme="dark"] .guide-hero-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45) !important;
+    }
+
+    .hero-media-box {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      background: #f1f5f9;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    html[data-theme="dark"] .hero-media-box {
+      background: #17171c !important;
+    }
+
+    .hero-media-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .floating-badges-wrap {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .fact-badge-pill {
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffffff;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 800;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .fact-badge-pill.red {
+      background: rgba(240, 68, 82, 0.9);
+      border-color: rgba(254, 202, 202, 0.5);
+    }
+
+    .fact-badge-pill.blue {
+      background: rgba(49, 130, 246, 0.9);
+      border-color: rgba(186, 230, 253, 0.5);
+    }
+
+    html[data-theme="dark"] .fact-badge-pill {
+      background: rgba(16, 16, 18, 0.88) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .fact-badge-pill.red {
+      background: rgba(240, 68, 82, 0.92) !important;
+      border-color: rgba(254, 202, 202, 0.4) !important;
+    }
+
+    html[data-theme="dark"] .fact-badge-pill.blue {
+      background: rgba(49, 130, 246, 0.92) !important;
+      border-color: rgba(186, 230, 253, 0.4) !important;
+    }
+
+    /* ========================================================
+       ⭐ 사용자 요청 핵심: [Do / Don't 카테고리 분할 세그먼트 버튼]
+       Toss Inset Segmented Bar (#2c2c34 & #17171c)
+       ======================================================== */
+    .action-category-segmented-bar {
+      display: flex;
+      background: var(--card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      gap: 6px;
+      margin: 14px 16px 0 16px;
+      transition: all 0.2s ease;
+    }
+
+    html[data-theme="dark"] .action-category-segmented-bar {
+      background: #17171c !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .btn-action-category {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action-category.active-do {
+      background: var(--green-primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(4, 176, 92, 0.3);
+    }
+
+    .btn-action-category.active-dont {
+      background: var(--red-primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(240, 68, 82, 0.3);
+    }
+
+    html[data-theme="dark"] .btn-action-category {
+      color: #8b95a1 !important;
+    }
+
+    html[data-theme="dark"] .btn-action-category.active-do {
+      background: #04b05c !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 10px rgba(4, 176, 92, 0.35) !important;
+    }
+
+    html[data-theme="dark"] .btn-action-category.active-dont {
+      background: #f04452 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 10px rgba(240, 68, 82, 0.35) !important;
+    }
+
+    /* Panels for Do / Don't */
+    .action-sub-pane {
+      padding: 14px 16px 16px 16px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .action-sub-pane.active {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    /* Do Step Cards (1, 2, 3) - Toss TDS Card */
+    .do-step-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      background: var(--card-sub);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .do-step-card.key-step {
+      background: var(--green-light);
+      border-color: var(--green-border);
+    }
+
+    html[data-theme="dark"] .do-step-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    html[data-theme="dark"] .do-step-card.key-step {
+      background: rgba(4, 176, 92, 0.12) !important;
+      border: 1px solid rgba(4, 176, 92, 0.28) !important;
+    }
+
+    .do-num-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--green-primary);
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13.5px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    html[data-theme="dark"] .do-num-badge {
+      background: #04b05c !important;
+      color: #ffffff !important;
+    }
+
+    .do-text-body {
+      flex: 1;
+    }
+
+    .do-text-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
+      line-height: 1.35;
+      margin-bottom: 3px;
+    }
+
+    html[data-theme="dark"] .do-text-title {
+      color: #f9fafb !important;
+    }
+
+    .do-text-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .do-text-desc strong {
+      color: var(--green-primary);
+      font-weight: 800;
+    }
+
+    html[data-theme="dark"] .do-text-desc {
+      color: #d1d6db !important;
+    }
+
+    html[data-theme="dark"] .do-text-desc strong {
+      color: #34d399 !important;
+    }
+
+    /* Don't Warning Cards (금기 사항) - Toss Red Warning */
+    .dont-warning-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      background: var(--red-light);
+      border: 1px solid var(--red-border);
+      transition: all 0.2s ease;
+    }
+
+    html[data-theme="dark"] .dont-warning-card {
+      background: rgba(240, 68, 82, 0.12) !important;
+      border: 1px solid rgba(240, 68, 82, 0.28) !important;
+    }
+
+    .dont-icon {
+      color: var(--red-primary);
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    html[data-theme="dark"] .dont-icon {
+      color: #f04452 !important;
+    }
+
+    .dont-text-body {
+      flex: 1;
+    }
+
+    .dont-text-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--red-primary);
+      margin-bottom: 2px;
+      letter-spacing: -0.3px;
+    }
+
+    html[data-theme="dark"] .dont-text-title {
+      color: #f04452 !important;
+    }
+
+    .dont-text-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    html[data-theme="dark"] .dont-text-desc {
+      color: #e5e8eb !important;
+    }
+
+    html[data-theme="dark"] .dont-text-desc strong {
+      color: #ff8591 !important;
+    }
+
+    /* Bottom Floating Action Bar (Toss Bottom Floating CTA) */
+    .bottom-floating-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: var(--app-max-width);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border-color);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+      padding: 12px 16px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    html[data-theme="dark"] .bottom-floating-bar {
+      background: rgba(23, 23, 28, 0.94) !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+      box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .btn-action-beds {
+      flex: 1;
+      background: var(--card-sub);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 800;
+      padding: 13px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-action-beds:active {
+      background: var(--border-color);
+    }
+
+    html[data-theme="dark"] .btn-action-beds {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      color: #f9fafb !important;
+    }
+
+    html[data-theme="dark"] .btn-action-beds:hover,
+    html[data-theme="dark"] .btn-action-beds:active {
+      background: #2c2c34 !important;
+    }
+
+    .btn-action-119 {
+      flex: 1.3;
+      background: linear-gradient(135deg, #f04452 0%, #dc2626 100%);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 900;
+      padding: 13px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(240, 68, 82, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-action-119:active {
+      transform: scale(0.97);
+    }
+
+    html[data-theme="dark"] .btn-action-119 {
+      box-shadow: 0 4px 18px rgba(240, 68, 82, 0.45) !important;
+    }
+
+    /* Danger Signs & SBAR Briefing Panels */
+    .danger-alert-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: var(--card-sub);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    html[data-theme="dark"] .danger-alert-card {
+      background: #202027 !important;
+      border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .danger-alert-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+      letter-spacing: -0.3px;
+    }
+
+    html[data-theme="dark"] .danger-alert-title {
+      color: #f9fafb !important;
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(15, 23, 42, 0.92);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toast-popup.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    html[data-theme="dark"] .toast-popup {
+      background: rgba(32, 32, 39, 0.95) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+
+      .btn-theme-toggle {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        background: var(--card-sub);
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+      }
+
+      .btn-theme-toggle:hover {
+        background: var(--card-hover);
+        color: var(--text-primary);
+      }
+
+      html[data-theme="dark"] .btn-theme-toggle {
+        background: #202027 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #f9fafb !important;
+      }
+
+      html[data-theme="dark"] .btn-theme-toggle:hover {
+        background: #2c2c34 !important;
+      }
+  </style>
 </head>
 
-<body class="app-shell-body">
+<body>
+  <div class="app-viewport">
 
-  <!-- Mobile Viewport Canvas -->
-  <div class="mobile-viewport app-shell-viewport" id="app">
-
-    <!-- 1. Top Emergency Header Bar -->
-    <header class="guide-header">
-      <div class="guide-header-left">
-        <a href="index.html" class="back-link-btn" aria-label="메인 홈으로 이동">
-          <span class="material-symbols-outlined">arrow_back</span>
-        </a>
-        <h1 class="guide-header-title">응급실 가이드</h1>
-        <span class="guide-header-sub">시각 대처</span>
+    <!-- Top Header -->
+    <header class="top-header">
+      <button class="btn-back" onclick="handleGoBack()" aria-label="결과 화면으로 이동">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <div class="header-title-wrap">
+        <h1 class="header-title">소아 맞춤 응급처치 가이드</h1>
       </div>
-
-      <!-- Quick Dial 119 Hotline -->
-      <a href="tel:119" class="btn-119-quick" aria-label="119 즉시 전화 연결">
-        <span class="material-symbols-outlined">emergency</span>
-        <span>119 연결</span>
-      </a>
+      <div style="width: 38px;"></div>
     </header>
 
-    <!-- 2. Dual Recommendation Switcher (추천 1 vs 추천 2 탭) -->
-    <nav class="recommendation-switcher" aria-label="응급실 가이드 추천 화면 전환">
-      <a href="emergency_guide_symptoms.html" class="switcher-tab active" aria-current="page">
-        <span class="material-symbols-outlined">photo_library</span>
-        <span>추천 1. 증상별 포토 가이드</span>
-      </a>
-      <a href="emergency_guide_checklist.html" class="switcher-tab">
-        <span class="material-symbols-outlined">checklist</span>
-        <span>추천 2. 출발 전 체크리스트</span>
-      </a>
-    </nav>
-
-    <!-- 3. Red-Flag Urgent Callout Banner -->
-    <aside class="redflag-banner" role="alert" aria-live="assertive">
-      <div class="redflag-content">
-        <div class="redflag-icon-wrap" aria-hidden="true">
-          <span class="material-symbols-outlined">warning</span>
-        </div>
+    <!-- Emergency Address Banner -->
+    <div class="emergency-banner">
+      <div class="banner-content">
+        <span class="material-symbols-outlined banner-icon">emergency</span>
         <div>
-          <div class="redflag-title">경련 5분 지속 or 의식 저하 시</div>
-          <div class="redflag-desc">지체 없이 119를 호출하세요. 이동 중 구급대원의 지시를 따르세요.</div>
+          <div class="banner-text-title">119에 현재 주소를 먼저 알려주세요</div>
+          <div class="banner-text-sub" id="current-location-text">현재 위치: 위치 확인 중...</div>
         </div>
       </div>
-      <a href="tel:119" class="redflag-action-btn">
-        <span class="material-symbols-outlined">call</span>
-        <span>119</span>
-      </a>
-    </aside>
+      <button class="btn-copy-address" onclick="copyCurrentAddress()">
+        <span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span>
+        주소 복사
+      </button>
+    </div>
 
-    <!-- 4. Main Photo Guides Section -->
-    <main class="guide-section">
-
-      <!-- Section Intro Heading -->
-      <div class="guide-section-intro">
-        <h2 class="guide-main-heading">증상별 시각 응급처치</h2>
-        <p class="guide-main-desc">당황하지 말고 사진을 보며 침착하게 대처하세요. 대한소아응급의학회 권장 표준 프로토콜입니다.</p>
+    <!-- Clean Minimal Toss-Style Matched Triage Card (단일 소견 맞춤 처치 안내) -->
+    <div class="matched-single-card" id="matchedSingleCard">
+      <div class="matched-single-top">
+        <div class="matched-badge-group">
+          <span class="matched-pill tier-2" id="matchedKtasPill">KTAS 2단계 긴급</span>
+          <span class="matched-sub-label">문진 소견 맞춤 처치</span>
+        </div>
+        <button class="btn-change-situation" onclick="openSymptomSheet()" aria-label="다른 응급처치 상황 변경">
+          <span>다른 상황 선택</span>
+          <span class="material-symbols-outlined" style="font-size: 16px;">keyboard_arrow_down</span>
+        </button>
       </div>
+      <div class="matched-single-title" id="matchedMainTitle">화상 & 쿨링 응급처치</div>
+      <div class="matched-single-desc" id="matchedMainDesc">환아 문진 소견을 바탕으로 가장 시급한 응급처치법을 자동 안내합니다.</div>
+    </div>
 
-      <!-- Horizontal Symptom Category Filter Pills -->
-      <div class="guide-chips-scroll" role="tablist" aria-label="증상 필터">
-        <a href="#all" class="guide-chip active">전체 가이드 4</a>
-        <a href="#fever-seizure" class="guide-chip">🔥 열성경련</a>
-        <a href="#cooling" class="guide-chip">💧 미온수 마사지</a>
-        <a href="#choking" class="guide-chip">⚠️ 영아 하임리히</a>
-        <a href="#breathing" class="guide-chip">🫁 호흡곤란 관찰</a>
-      </div>
+    <!-- Main Content Area -->
+    <main class="content-area">
 
-      <!-- ================= Photo Card 1: Febrile Seizure ================= -->
-      <article class="photo-guide-card" id="fever-seizure">
-        <!-- 16:9 Medical Photography Container -->
-        <div class="photo-container">
-          <img src="../assets/images/guide_seizure_care.jpg" alt="소아 열성경련 시 기도를 확보하고 옆으로 눕힌 올바른 회복 자세 사진" class="guide-photo" />
-          <div class="photo-badge-top-left">
-            <span class="material-symbols-outlined" style="font-size:14px;color:#38bdf8;">verified</span>
-            <span>소아응급의학회 권장 자세</span>
-          </div>
-          <div class="photo-badge-top-right photo-badge-coral">
-            <span>위급도: 상 (경련 시)</span>
-          </div>
-        </div>
-
-        <!-- Card Body -->
-        <div class="photo-card-body">
-          <div class="photo-card-header">
-            <h3 class="photo-card-title">열성경련 시 올바른 회복 자세 (기도 확보)</h3>
-            <span class="tag-urgent-status">핵심 응급처치</span>
-          </div>
-
-          <div class="action-steps-list">
-            <div class="step-item">
-              <span class="step-num">1</span>
-              <p class="step-text"><strong>옷과 기저귀를 느슨하게 풀기:</strong> 목과 가슴을 조이는 옷을 풀고, 주변의 부딪힐 수 있는 위험한 물건을 즉시 치워 안전한 바닥에 눕힙니다.</p>
-            </div>
-            <div class="step-item">
-              <span class="step-num">2</span>
-              <p class="step-text"><strong>고개를 옆으로 돌려 눕히기:</strong> 사진처럼 아이를 옆으로 눕혀 침이나 토사물이 기도를 막지 않고 밖으로 자연스럽게 흘러나오도록 합니다.</p>
-            </div>
-            <div class="step-item">
-              <span class="step-num">3</span>
-              <p class="step-text"><strong>경련 시간 스마트폰으로 계측:</strong> 경련이 시작된 시각을 확인하고 스마트폰으로 동영상을 촬영하면 응급실 의사 진단 시 결정적인 단서가 됩니다.</p>
+      <!-- ==================== PANE 1: FEBRILE SEIZURE (열성경련) ==================== -->
+      <section id="pane-seizure" class="symptom-pane active">
+        <article class="guide-hero-card">
+          <!-- 3D Medical Illustration -->
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_seizure.jpg" alt="소아 열성경련 옆으로 눕히는 회복 자세 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">hotel</span>
+                옆으로 눕히기 (회복자세)
+              </span>
+              <span class="fact-badge-pill">목 단추 풀기</span>
+              <span class="fact-badge-pill blue">5분 지속 시 119</span>
             </div>
           </div>
 
-          <!-- Strict Prohibition Alert Box -->
-          <div class="prohibition-box">
-            <span class="material-symbols-outlined">block</span>
-            <p class="prohibition-text">
-              <strong>절대 금지:</strong> 억지로 입을 벌려 손가락이나 숟가락을 넣지 마세요 (치아 손상 및 기도 폐쇄 유발). 물이나 해열제를 억지로 먹이지 마세요!
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <!-- ================= Photo Card 2: Cooling Sponge ================= -->
-      <article class="photo-guide-card" id="cooling">
-        <!-- 16:9 Medical Photography Container -->
-        <div class="photo-container">
-          <img src="../assets/images/guide_cooling_sponge.jpg" alt="38.5도 이상 고열 시 30도 미온수 수건으로 목과 겨드랑이를 부드럽게 닦아주는 사진" class="guide-photo" />
-          <div class="photo-badge-top-left">
-            <span class="material-symbols-outlined" style="font-size:14px;color:#38bdf8;">thermostat</span>
-            <span>체온 38.5°C 이상 권장</span>
-          </div>
-          <div class="photo-badge-top-right">
-            <span>열 발산 쿨링 케어</span>
-          </div>
-        </div>
-
-        <!-- Card Body -->
-        <div class="photo-card-body">
-          <div class="photo-card-header">
-            <h3 class="photo-card-title">38.5°C 이상 고열 시 올바른 미온수 마사지 부위</h3>
-            <span class="tag-urgent-status" style="background:#ecfdf5;color:#059669;">가정 대처</span>
+          <!-- ⭐ Do / Don't Category Split Segmented Buttons -->
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-seizure-do"
+              onclick="switchActionCategory('seizure', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-seizure-dont" onclick="switchActionCategory('seizure', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
           </div>
 
-          <div class="action-steps-list">
-            <div class="step-item">
-              <span class="step-num">1</span>
-              <p class="step-text"><strong>30~33°C 미온수 준비:</strong> 만졌을 때 미지근하거나 약간 따뜻한 물을 준비하고, 해열제 복용 후 30분~1시간이 지나도 열이 떨어지지 않을 때 시작합니다.</p>
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-seizure-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">아이를 옆으로 돌려 눕히세요 (기도 확보)</div>
+                <div class="do-text-desc">구토물이나 침이 기도를 막지 않도록 <strong>고개를 옆으로 돌려 눕힙니다</strong>. 머리 아래에 부드러운 수건을 받쳐줍니다.
+                </div>
+              </div>
             </div>
-            <div class="step-item">
-              <span class="step-num">2</span>
-              <p class="step-text"><strong>혈관이 모인 주요 부위 닦기:</strong> 사진처럼 목, 겨드랑이, 사타구니 위주로 살살 문지르며 닦아 물방울이 증발하면서 체열을 빼앗아가도록 유도합니다.</p>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">옷의 단추를 풀고 시원하게 환기하세요</div>
+                <div class="do-text-desc">목을 조이는 옷을 풀고 실내를 환기합니다. 찬물 마사지는 심한 오한을 일으키므로 피합니다.</div>
+              </div>
             </div>
-            <div class="step-item">
-              <span class="step-num">3</span>
-              <p class="step-text"><strong>오한 발생 시 즉시 중단:</strong> 아이가 몸을 덜덜 떨거나 입술이 파래지면 혈관이 수축하여 오히려 체온이 상승하므로 마사지를 즉시 멈추고 얇은 이불을 덮어줍니다.</p>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">경련 시간을 확인하고 스마트폰으로 촬영하세요</div>
+                <div class="do-text-desc">경련 시작 시각을 체크하세요. <strong>스마트폰 동영상 촬영</strong>은 응급실 소아과 의사의 진단에 결정적인 도움이 됩니다.
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Strict Prohibition Alert Box -->
-          <div class="prohibition-box">
-            <span class="material-symbols-outlined">block</span>
-            <p class="prohibition-text">
-              <strong>절대 금지:</strong> 찬물이나 알코올 마사지는 절대 금물입니다! 급격한 혈관 수축으로 경련을 유발하거나 알코올 성분이 피부로 흡수되어 중독 위험이 있습니다.
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <!-- ================= Photo Card 3: Infant Choking ================= -->
-      <article class="photo-guide-card" id="choking">
-        <!-- 16:9 Medical Photography Container -->
-        <div class="photo-container">
-          <img src="../assets/images/guide_infant_choking.jpg" alt="1세 미만 영아 기도 폐쇄 시 허벅지에 엎드려 눕히고 손바닥 밑동으로 등 두드리기 사진" class="guide-photo" />
-          <div class="photo-badge-top-left">
-            <span class="material-symbols-outlined" style="font-size:14px;color:#f87171;">warning</span>
-            <span>골든타임 4분 응급처치</span>
-          </div>
-          <div class="photo-badge-top-right photo-badge-coral">
-            <span>1세 미만 영아 전용</span>
-          </div>
-        </div>
-
-        <!-- Card Body -->
-        <div class="photo-card-body">
-          <div class="photo-card-header">
-            <h3 class="photo-card-title">영아(1세 미만) 기도 폐쇄 시 하임리히법</h3>
-            <span class="tag-urgent-status">생명 직결</span>
-          </div>
-
-          <div class="action-steps-list">
-            <div class="step-item">
-              <span class="step-num">1</span>
-              <p class="step-text"><strong>턱을 받치고 머리를 낮추기:</strong> 보호자의 팔 위에 아이의 얼굴을 받치고 엎드리게 한 뒤, 머리가 몸통보다 낮게 위치하도록 허벅지에 안전하게 지지합니다.</p>
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-seizure-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">입안에 손가락, 수저, 거즈를 넣지 마세요</div>
+                <div class="dont-text-desc">치아가 부러지거나 기도를 더 막아 질식할 수 있습니다. 억지로 입을 벌리지 마세요.</div>
+              </div>
             </div>
-            <div class="step-item">
-              <span class="step-num">2</span>
-              <p class="step-text"><strong>손바닥 밑동으로 등 두드리기 5회:</strong> 양쪽 날개뼈(견갑골) 사이를 손바닥 밑동으로 강하고 빠르게 5회 두드립니다.</p>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">떨리는 팔다리를 강제로 꽉 잡거나 꺾지 마세요</div>
+                <div class="dont-text-desc">근육 손상이나 탈구, 골절을 유발합니다. 주변의 딱딱한 위험 물건만 치워주세요.</div>
+              </div>
             </div>
-            <div class="step-item">
-              <span class="step-num">3</span>
-              <p class="step-text"><strong>돌려 눕혀 가슴 압박 5회 교대 시행:</strong> 아이를 바로 눕혀 양쪽 젖꼭지 사이의 흉골 아래를 두 손가락으로 5회 빠르고 깊게 압박하며 이물질이 나올 때까지 반복합니다.</p>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">경련 중에 물이나 해열제를 먹이지 마세요</div>
+                <div class="dont-text-desc">의식이 없는 상태에서 약을 먹이면 기도로 넘어가 <strong>치명적인 흡인성 폐렴이나 질식</strong>을 일으킵니다.</div>
+              </div>
             </div>
           </div>
+        </article>
+      </section>
 
-          <div class="prohibition-box">
-            <span class="material-symbols-outlined">block</span>
-            <p class="prohibition-text">
-              <strong>절대 금지:</strong> 1세 미만 영아에게 성인용 복부 밀쳐올리기(하임리히)를 시행하면 간이나 내장 파열 위험이 있으므로 반드시 등 두드리기와 흉부 압박만 시행하세요!
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <!-- ================= Photo Card 4: ER Document & Breathing Retraction ================= -->
-      <article class="photo-guide-card" id="breathing">
-        <div class="photo-container">
-          <img src="../assets/images/guide_er_documents.jpg" alt="소아 응급실 진료 준비물 및 체온 기록 안내 사진" class="guide-photo" />
-          <div class="photo-badge-top-left">
-            <span class="material-symbols-outlined" style="font-size:14px;color:#38bdf8;">medical_services</span>
-            <span>응급실 지참 준비물</span>
-          </div>
-          <div class="photo-badge-top-right">
-            <span>필수 지참 체크</span>
-          </div>
-        </div>
-
-        <div class="photo-card-body">
-          <div class="photo-card-header">
-            <h3 class="photo-card-title">응급실 출발 전 필수 준비물 &amp; 체온계 지참</h3>
-            <span class="tag-urgent-status" style="background:#eff6ff;color:#0066ff;">출발 전</span>
-          </div>
-
-          <div class="action-steps-list">
-            <div class="step-item">
-              <span class="step-num">1</span>
-              <p class="step-text"><strong>주민등록등본 or 가족관계증명서:</strong> 2024년 5월 본인확인 의무화법에 따라 미성년자 환자 확인을 위해 등본이나 스마트폰 모바일 건강보험증이 필수입니다.</p>
-            </div>
-            <div class="step-item">
-              <span class="step-num">2</span>
-              <p class="step-text"><strong>복용 중인 약봉지 &amp; 체온 기록:</strong> 최근 몇 시에 어떤 해열제를 몇 ml 먹였는지 약봉지나 병을 지참하면 중복 투약 사고를 예방합니다.</p>
+      <!-- ==================== PANE 2: CHOKING (기도폐쇄) ==================== -->
+      <section id="pane-choking" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_choking.jpg" alt="영아 기도폐쇄 등 두드리기 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">pan_tool</span>
+                등 5회 두드리기
+              </span>
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">touch_app</span>
+                가슴 5회 압박
+              </span>
+              <span class="fact-badge-pill">머리를 낮게 지지</span>
             </div>
           </div>
-        </div>
-      </article>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-choking-do"
+              onclick="switchActionCategory('choking', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-choking-dont" onclick="switchActionCategory('choking', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-choking-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">머리를 낮추고 엎드려 턱을 받치세요</div>
+                <div class="do-text-desc">허벅지 위에 아기를 엎드려 <strong>머리를 몸통보다 낮게</strong> 위치시키고 손가락으로 턱을 지지합니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">손바닥 밑동으로 등(날개뼈 사이) 5회 두드리기</div>
+                <div class="do-text-desc">손바닥 밑동으로 <strong>양쪽 견갑골 사이를 강하고 빠르게 5회</strong> 탕! 탕! 칩니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">돌려 눕혀 두 손가락으로 가슴 압박 5회</div>
+                <div class="do-text-desc">아기를 바로 눕혀 흉골 중앙을 <strong>4cm 깊이로 5회</strong> 압박합니다. 이물질이 나올 때까지 교대 반복합니다.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-choking-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">보이지 않는 입안을 맹목적으로 손가락으로 쑤시지 마세요</div>
+                <div class="dont-text-desc">눈에 이물이 명확히 보이지 않는데 손가락을 넣으면 이물질이 기도로 더 깊이 밀려들어가 <strong>완전 질식</strong>을
+                  유발합니다.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">1세 미만 영아에게 성인식 복부 압박을 하지 마세요</div>
+                <div class="dont-text-desc">영아에게 복부 밀쳐올리기를 시행하면 간이나 내장 파열 위험이 있습니다. 반드시 <strong>등 두드리기 + 흉부 압박</strong>만
+                  시행하세요.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 3: CPR (심폐소생술) ==================== -->
+      <section id="pane-cpr" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_cpr.jpg" alt="영아 심폐소생술 두 손가락 흉부 압박 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">touch_app</span>
+                두 손가락 압박
+              </span>
+              <span class="fact-badge-pill red">깊이 4cm</span>
+              <span class="fact-badge-pill blue">1초에 2회 속도</span>
+            </div>
+          </div>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-cpr-do" onclick="switchActionCategory('cpr', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-cpr-dont" onclick="switchActionCategory('cpr', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-cpr-do">
+            <div class="do-step-card">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">발바닥을 톡톡 치며 의식을 확인하세요</div>
+                <div class="do-text-desc">숨을 쉬지 않거나 헐떡이면 즉시 심정지로 판단합니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">119에 전화하고 스피커폰을 바닥에 두세요</div>
+                <div class="do-text-desc">통화를 끄지 말고 <strong>스피커폰을 켠 상태로</strong> 즉시 가슴 압박을 시작합니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">가슴 중앙을 두 손가락으로 4cm 깊이 압박 (30회)</div>
+                <div class="do-text-desc">양 젖꼭지 사이 바로 아래를 <strong>1초에 2회(분당 110회) 속도로 강하고 빠르게 30회</strong> 누릅니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-cpr-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">푹신한 침대나 소파 위에서 실시하지 마세요</div>
+                <div class="dont-text-desc">압박 깊이가 전달되지 않아 효과가 없습니다. <strong>단단하고 평평한 바닥</strong>에서 실시하세요.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">가슴 압박을 10초 이상 중단하지 마세요</div>
+                <div class="dont-text-desc">119 구급대원이 현장에 도착하여 인계받을 때까지 중단 없이 압박을 지속해야 합니다.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 4: BURN & TRAUMA (화상 & 외상) ==================== -->
+      <section id="pane-burn" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_burn.jpg" alt="소아 화상 흐르는 물 쿨링 응급처치 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill blue">
+                <span class="material-symbols-outlined" style="font-size: 13px;">water_drop</span>
+                흐르는 물 15~20분
+              </span>
+              <span class="fact-badge-pill red">얼음 직접 접촉 금지</span>
+              <span class="fact-badge-pill">물집 보존</span>
+            </div>
+          </div>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-burn-do" onclick="switchActionCategory('burn', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-burn-dont" onclick="switchActionCategory('burn', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-burn-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">흐르는 수돗물에 15~20분간 환부를 식히세요</div>
+                <div class="do-text-desc">수압이 세지 않은 시원한 수돗물로 피부 깊은 열기를 즉시 가라앉힙니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">달라붙은 의복은 가위로 잘라내세요</div>
+                <div class="do-text-desc">옷을 무리하게 벗기면 피부 표피가 뜯겨 나갑니다. 가위로 환부 주변 옷을 잘라냅니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">깨끗한 거즈나 랩으로 느슨히 감싸세요</div>
+                <div class="do-text-desc">물집은 천연 무균 보호막입니다. 터뜨리지 말고 멸균 거즈로 보호하여 이송합니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-burn-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">얼음을 직접 환부에 대지 마세요</div>
+                <div class="dont-text-desc">혈관이 급격히 수축하여 동상 및 조직 괴사를 일으키고 흉터가 악화됩니다.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">된장, 치약, 연고 등 민간요법을 바르지 마세요</div>
+                <div class="dont-text-desc">심각한 2차 세균 감염을 유발하며, 병원에서 세척 시 극심한 통증과 피부 손상을 부릅니다.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 5: ANAPHYLAXIS (아나필락시스 & 에피펜) ==================== -->
+      <section id="pane-anaphylaxis" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_anaphylaxis.jpg" alt="소아 아나필락시스 허벅지 에피펜 자가주사 응급처치 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">medication</span>
+                허벅지 바깥쪽 90도 주사
+              </span>
+              <span class="fact-badge-pill red">10초간 꾹 유지</span>
+              <span class="fact-badge-pill blue">다리 30cm 올리기</span>
+            </div>
+          </div>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-anaphylaxis-do" onclick="switchActionCategory('anaphylaxis', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-anaphylaxis-dont" onclick="switchActionCategory('anaphylaxis', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-anaphylaxis-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">허벅지 외측 중간에 '딸깍' 소리 날 때까지 90도로 찌르세요</div>
+                <div class="do-text-desc">안전캡을 벗긴 후 <strong>허벅지 바깥쪽 중간 부위</strong>에 주사기 끝을 수직으로 강하게 눌러 딸깍 소리를 냅니다. 옷 위로 주사해도 무방합니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">약물이 완전히 주입되도록 10초간 누른 채 유지하세요</div>
+                <div class="do-text-desc">바늘이 들어간 상태로 <strong>마음속으로 10초를 센 뒤</strong> 천천히 주사기를 빼고, 주사 부위를 10초간 가볍게 문질러줍니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">평평하게 눕히고 다리를 심장보다 30cm 높게 올리세요</div>
+                <div class="do-text-desc">급격한 혈압 저하(쇼크)를 막기 위해 다리를 올려 뇌와 심장으로 피가 공급되도록 돕습니다. 단, 호흡곤란이 심하면 상체를 약간 세웁니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-anaphylaxis-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">엉덩이, 팔, 혈관이나 손발가락에 주사하지 마세요</div>
+                <div class="dont-text-desc">에피네프린이 혈관을 급격히 수축시켜 손가락이나 발가락의 <strong>혈류가 차단되어 심각한 조직 괴사</strong>가 발생할 수 있습니다.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">증상이 나아졌다고 병원에 가지 않고 쉬게 하지 마세요</div>
+                <div class="dont-text-desc">에피펜 투약 후 증상이 호전되어도 1~4시간 뒤 <strong>치명적인 2차 지연 반응(리바운드 쇼크)</strong>이 올 수 있으므로 반드시 119로 응급실에 가야 합니다.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">호흡곤란을 호소하는데 강제로 똑바로 눕히지 마세요</div>
+                <div class="dont-text-desc">기도 부종으로 숨이 찬 아이를 억지로 눕히면 기도가 닫힐 수 있습니다. 아이가 숨쉬기 가장 편해하는 자세를 존중해 안아주세요.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 6: RESPIRATORY (급성 호흡곤란 & 크룹) ==================== -->
+      <section id="pane-respiratory" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_respiratory.jpg" alt="소아 호흡곤란 상체 세우기 및 신선한 공기 환기 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">airline_seat_recline_extra</span>
+                상체 45도 세워 앉히기
+              </span>
+              <span class="fact-badge-pill blue">찬 공기/가습기 수증기</span>
+              <span class="fact-badge-pill">흡입기(벤토린) 보조</span>
+            </div>
+          </div>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-respiratory-do" onclick="switchActionCategory('respiratory', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-respiratory-dont" onclick="switchActionCategory('respiratory', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-respiratory-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">아이를 안아 상체를 45도 이상 꼿꼿이 세워 앉히세요</div>
+                <div class="do-text-desc">상체를 세우면 중력에 의해 횡격막이 내려가고 <strong>기도가 넓어져 숨쉬기가 훨씬 수월</strong>해집니다. 아이 등을 부드럽게 토닥여 진정시킵니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">창문을 열어 서늘한 밤공기를 쐬거나 욕실 온수 수증기를 흡입시키세요</div>
+                <div class="do-text-desc">크룹(후두염)의 컹컹거리는 기침은 <strong>서늘한 공기나 따뜻한 습기</strong>에 기도 부종이 즉각 가라앉는 효과가 있습니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">천식 진단 아동은 처방된 속효성 흡입제(벤토린)를 투여하세요</div>
+                <div class="do-text-desc">스페이서(흡입보조기구)를 입과 코에 밀착하고 <strong>1회 분무 후 아이가 5~6회 정상 호흡</strong>하게 합니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-respiratory-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">숨을 헐떡이는 상태에서 물이나 해열제를 억지로 먹이지 마세요</div>
+                <div class="dont-text-desc">호흡수가 빠를 때 액체를 삼키면 <strong>액체가 기도로 넘어가 급성 질식이나 흡인성 폐렴</strong>을 유발합니다.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">아이를 심하게 다그치거나 울리지 마세요</div>
+                <div class="dont-text-desc">아이가 흥분해 울면 성대와 후두가 더욱 심하게 수축되어 기도가 완전히 막힐 수 있습니다. 침착하고 조용한 환경을 만들어주세요.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 7: BLEEDING (대량 출혈 & 외상 지혈) ==================== -->
+      <section id="pane-bleeding" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_bleeding.jpg" alt="소아 대량 출혈 직접 압박 및 심장보다 거상 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">compress</span>
+                두 손 직접 압박 10분
+              </span>
+              <span class="fact-badge-pill blue">심장보다 높이 거상</span>
+              <span class="fact-badge-pill">거즈 들춰보지 말기</span>
+            </div>
+          </div>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-bleeding-do" onclick="switchActionCategory('bleeding', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-bleeding-dont" onclick="switchActionCategory('bleeding', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-bleeding-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">깨끗한 거즈를 대고 두 손 체중으로 10분간 꾹 누르세요</div>
+                <div class="do-text-desc">상처 바로 위에 멸균 거즈나 깨끗한 수건을 두껍게 대고 <strong>손바닥 밑동으로 10분 이상 중단 없이 직접 압박</strong>합니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">출혈 부위를 아이의 심장보다 높이 들어 올리세요</div>
+                <div class="do-text-desc">팔이나 다리를 심장보다 높게 유지하면 혈관의 수압이 낮아져 <strong>출혈량이 획기적으로 감소</strong>합니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">피가 배어나오면 거즈를 떼지 말고 위에 덧대세요</div>
+                <div class="do-text-desc">거즈를 떼면 형성되던 혈소판 피딱지가 떨어져 피가 다시 솟구칩니다. 기존 거즈 위에 새 거즈를 겹쳐 계속 압박하세요.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-bleeding-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">지혈 중간에 피가 멈췄는지 거즈를 자꾸 들춰보지 마세요</div>
+                <div class="dont-text-desc">압박 5분도 안 되어 확인하려고 들추면 지혈 과정이 처음부터 리셋됩니다. 최소 10분간 연속 압박을 유지하세요.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">상처에 지혈제 가루나 민간요법 가루를 뿌리지 마세요</div>
+                <div class="dont-text-desc">병원 봉합 수술 시 이물질을 긁어내느라 상처가 커지고 극심한 세균 감염의 원인이 됩니다. 깨끗한 압박만 시행하세요.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 8: HEAD TRAUMA (두부 외상 & 뇌진탕) ==================== -->
+      <section id="pane-head" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_head_trauma.jpg" alt="소아 두부 외상 낙상 머리 안정 및 냉찜질 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">healing</span>
+                머리·목 흔들지 않고 고정
+              </span>
+              <span class="fact-badge-pill blue">얼음팩 수건 감싸기</span>
+              <span class="fact-badge-pill">24시간 분수토 관찰</span>
+            </div>
+          </div>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-head-do" onclick="switchActionCategory('head', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-head-dont" onclick="switchActionCategory('head', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-head-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">아이를 눕히고 머리와 목을 똑바로 고정하세요</div>
+                <div class="do-text-desc">낙상이나 추락 후에는 <strong>경추(목뼈) 손상 가능성</strong>이 있습니다. 고개를 좌우로 돌리거나 꺾지 않도록 양손으로 가볍게 잡아줍니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">혹(혈종) 부위에 수건 싼 얼음팩을 15분간 대어주세요</div>
+                <div class="do-text-desc">두피의 모세혈관 수축을 유도하여 <strong>혈종이 커지는 것을 막고 통증을 경감</strong>시킵니다. 얼음이 피부에 직접 닿지 않게 수건을 감쌉니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">4대 뇌출혈 위험징후를 24시간 동안 확인하세요</div>
+                <div class="do-text-desc"><strong>① 3회 이상 분수토, ② 의식 처짐(안 깨어남), ③ 경련, ④ 코/귀에서 맑은 액체 배출</strong> 시 1분도 지체 없이 응급실 CT 검사가 필요합니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-head-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">아이를 마구 흔들어 깨우거나 일으켜 세우지 마세요</div>
+                <div class="dont-text-desc">경추 골절이나 뇌진탕이 있을 때 몸을 흔들면 <strong>영구적인 척수 신경 손상</strong>을 초래할 수 있습니다.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">혹을 달걀이나 손으로 꾹꾹 누르며 문지르지 마세요</div>
+                <div class="dont-text-desc">터진 혈관에서 피가 더 흘러나와 두피 혈종이 훨씬 커지고 염증이 악화됩니다.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 9: POISONING (약물/화학물 중독 & 삼킴) ==================== -->
+      <section id="pane-poisoning" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_poisoning.jpg" alt="소아 약물 중독 억지 구토 금지 및 원인 물질 지참 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">no_meals</span>
+                억지로 토하게 하지 말기
+              </span>
+              <span class="fact-badge-pill blue">원인 약품·세제 지참</span>
+              <span class="fact-badge-pill red">건전지 삼킴 초응급</span>
+            </div>
+          </div>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-poisoning-do" onclick="switchActionCategory('poisoning', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-poisoning-dont" onclick="switchActionCategory('poisoning', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-poisoning-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">아이가 삼킨 약통이나 세제 용기를 비닐백에 담아 챙기세요</div>
+                <div class="do-text-desc"><strong>약품 성분명, 복용 가능 수량, 섭취 시간</strong>은 응급실에서 정확한 위세척 및 특이 해독제(Antidote)를 투여하는 데 결정적인 열쇠입니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">단추형 배터리나 강력 자석 삼킴은 즉시 119로 이동하세요</div>
+                <div class="do-text-desc">동전형 리튬 건전지는 <strong>2시간 만에 식도 점막을 천공</strong>시킵니다. 아무것도 먹이지 말고 즉시 소아응급 내시경이 가능한 병원으로 가야 합니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">입안에 남아있는 약 가루나 이물질만 손가락으로 닦아내세요</div>
+                <div class="do-text-desc">목구멍을 건드리지 말고, 입술과 뺨 안쪽에 묻어 있는 가루만 젖은 거즈로 가볍게 닦아냅니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-poisoning-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">억지로 손가락을 넣어 토하게 하지 마세요</div>
+                <div class="dont-text-desc">강산(빙초산), 락스, 세제는 토할 때 <strong>식도와 인두를 2차 화학 화상</strong> 입히며, 구토물이 기도로 흡인되면 치명적인 화학성 폐렴을 부릅니다.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">우유나 날계란, 소금물을 임의로 먹이지 마세요</div>
+                <div class="dont-text-desc">중화열이 발생해 위장 손상을 가중시키고, 혈중 나트륨 급상승으로 발작을 일으킬 수 있습니다.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 10: FRACTURE (골절 & 탈구 / 부목 고정) ==================== -->
+      <section id="pane-fracture" class="symptom-pane">
+        <article class="guide-hero-card">
+          <div class="hero-media-box">
+            <img src="/frontend/img/firstaid_fracture.jpg" alt="소아 골절 탈구 부목 관절 고정 및 냉찜질 일러스트">
+            <div class="floating-badges-wrap">
+              <span class="fact-badge-pill red">
+                <span class="material-symbols-outlined" style="font-size: 13px;">medical_services</span>
+                위아래 관절 함께 부목 고정
+              </span>
+              <span class="fact-badge-pill blue">냉찜질 부종 완화</span>
+              <span class="fact-badge-pill">뼈 맞추려 하지 말기</span>
+            </div>
+          </div>
+
+          <div class="action-category-segmented-bar">
+            <button class="btn-action-category active-do" id="btn-fracture-do" onclick="switchActionCategory('fracture', 'do')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">check_circle</span>
+              지금 해야 할 일 (Do)
+            </button>
+            <button class="btn-action-category" id="btn-fracture-dont" onclick="switchActionCategory('fracture', 'dont')">
+              <span class="material-symbols-outlined" style="font-size: 17px;">cancel</span>
+              절대 하지 마세요 (Don't)
+            </button>
+          </div>
+
+          <!-- Do Sub-Pane -->
+          <div class="action-sub-pane active" id="pane-fracture-do">
+            <div class="do-step-card key-step">
+              <div class="do-num-badge">1</div>
+              <div class="do-text-body">
+                <div class="do-text-title">두꺼운 판지나 잡지로 다친 부위 위아래 관절을 고정하세요</div>
+                <div class="do-text-desc">골절된 부위가 흔들리지 않도록 <strong>다친 뼈의 윗 관절과 아랫 관절까지 닿는 부목</strong>을 대고 수건이나 손수건으로 느슨하게 묶어줍니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">2</div>
+              <div class="do-text-body">
+                <div class="do-text-title">수건에 감싼 냉찜질 팩을 15분간 대어주세요</div>
+                <div class="do-text-desc">모세혈관 출혈과 부종을 막아 <strong>골절 부위의 심한 욱신거림과 통증을 완화</strong>합니다.</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge">3</div>
+              <div class="do-text-body">
+                <div class="do-text-title">다친 팔다리를 베개 위에 올려 심장보다 높게 받치세요</div>
+                <div class="do-text-desc">골절 부위에 피가 몰려 부어오르면 신경이 압박받을 수 있으므로 거상 자세를 유지합니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Don't Sub-Pane -->
+          <div class="action-sub-pane" id="pane-fracture-dont">
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">변형된 뼈를 원래대로 맞추려고 억지로 잡아당기지 마세요</div>
+                <div class="dont-text-desc">뼈 파편이 주변 <strong>주요 신경과 동맥 혈관을 찢어 영구적인 마비나 대량 출혈</strong>을 일으킬 수 있습니다. 현재 상태 그대로 고정해야 합니다.</div>
+              </div>
+            </div>
+
+            <div class="dont-warning-card">
+              <span class="material-symbols-outlined dont-icon">block</span>
+              <div class="dont-text-body">
+                <div class="dont-text-title">골절 부위에 핫팩이나 온찜질을 하지 마세요</div>
+                <div class="dont-text-desc">열감으로 인해 혈액 순환이 급증하여 내부 출혈과 부종이 급격히 심해집니다. 반드시 냉찜질만 시행하세요.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 5: DANGER SIGNS (신생아 위험신호) ==================== -->
+      <section id="pane-danger" class="symptom-pane">
+        <article class="guide-hero-card" style="padding: 16px;">
+          <div
+            style="font-size: 16px; font-weight: 800; color: var(--red-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+            <span class="material-symbols-outlined">warning</span>
+            즉시 소아응급실로 직행해야 하는 4대 징후
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="danger-alert-card">
+              <span class="material-symbols-outlined"
+                style="color: var(--red-primary); font-size: 24px; flex-shrink: 0; margin-top: 2px;">error</span>
+              <div class="dont-text-body">
+                <div class="danger-alert-title">생후 100일 미만 38.0℃ 이상 고열</div>
+                <div class="dont-text-desc">면역계 미숙으로 패혈증·뇌수막염 전조 증상입니다. 해열제 임의 투약 전 응급실 혈액 검사가 필수입니다.</div>
+              </div>
+            </div>
+
+            <div class="danger-alert-card">
+              <span class="material-symbols-outlined"
+                style="color: var(--red-primary); font-size: 24px; flex-shrink: 0; margin-top: 2px;">error</span>
+              <div class="dont-text-body">
+                <div class="danger-alert-title">장중첩증 의심 (15분 주기 울음 + 딸기잼변)</div>
+                <div class="dont-text-desc">주기적으로 자지러지게 울다 멈추기를 반복하며 다리를 웅크립니다. 즉시 금식(물/수유 금지) 후 이동하세요.</div>
+              </div>
+            </div>
+
+            <div class="danger-alert-card">
+              <span class="material-symbols-outlined"
+                style="color: var(--red-primary); font-size: 24px; flex-shrink: 0; margin-top: 2px;">error</span>
+              <div class="dont-text-body">
+                <div class="danger-alert-title">급성 후두염 (컹컹 개 짖는 듯한 기침)</div>
+                <div class="dont-text-desc">쌕쌕거리는 쇳소리 협착음과 함께 쇄골 윗부분이 쑥쑥 들어가는 호흡곤란은 기도 폐쇄 응급입니다.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ==================== PANE 6: SBAR BRIEFING (119 인계 브리핑) ==================== -->
+      <section id="pane-briefing" class="symptom-pane">
+        <article class="guide-hero-card" style="padding: 16px;">
+          <div
+            style="font-size: 16px; font-weight: 800; color: var(--blue-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+            <span class="material-symbols-outlined">assignment</span>
+            119 구급대원 도착 시 30초 브리핑 공식 (SBAR)
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="do-step-card">
+              <div class="do-num-badge" style="background: var(--blue-primary);">S</div>
+              <div class="do-text-body">
+                <div class="do-text-title">S (현재 상황)</div>
+                <div class="do-text-desc">"생후 [개월수] 아이가 [몇]분 전부터 [경련/호흡곤란] 증상을 보이고 있습니다."</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge" style="background: var(--blue-primary);">B</div>
+              <div class="do-text-body">
+                <div class="do-text-title">B (배경 및 병력)</div>
+                <div class="do-text-desc">"기저질환 [열성경련/천식 등], [몇]시간 전에 [해열제 이름 및 용량]을 복용했습니다."</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge" style="background: var(--blue-primary);">A</div>
+              <div class="do-text-body">
+                <div class="do-text-title">A (측정 수치)</div>
+                <div class="do-text-desc">"마지막 측정 체온은 [체온]℃였으며, 증상 지속 시간은 약 [몇]분이었습니다."</div>
+              </div>
+            </div>
+
+            <div class="do-step-card">
+              <div class="do-num-badge" style="background: var(--blue-primary);">R</div>
+              <div class="do-text-body">
+                <div class="do-text-title">R (요청 사항)</div>
+                <div class="do-text-desc">"소아 전문 병상과 전문의 진료가 가능한 권역응급의료센터로 이송을 희망합니다."</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
 
     </main>
 
-    <!-- 5. Floating Action Button (Sticky above Bottom Nav) -->
-    <div class="guide-sticky-cta">
-      <a href="emergency_guide_checklist.html" class="guide-cta-btn">
-        <span class="material-symbols-outlined">near_me</span>
-        <span>실시간 소아응급센터 병상 확인하기 (3곳)</span>
+    <!-- Bottom Floating Action Bar -->
+    <div class="bottom-floating-bar">
+      <a href="result.html" class="btn-action-beds" id="btnGoBeds">
+        <span class="material-symbols-outlined"
+          style="font-size: 18px; color: var(--blue-primary);">local_hospital</span>
+        소아응급실 병상 목록
+      </a>
+      <a href="tel:119" class="btn-action-119">
+        <span class="material-symbols-outlined" style="font-size: 20px;">call</span>
+        119 구급차 즉시 통화
       </a>
     </div>
 
-    <!-- 6. Fixed Bottom Navigation Bar (GNB) -->
-    <nav class="bottom-nav" aria-label="주요 메뉴">
-      <!-- Tab 1: 홈 -->
-      <a href="index.html" class="nav-item">
-        <span class="material-symbols-outlined">home</span>
-        <span class="nav-label">홈</span>
-      </a>
+    <!-- Toss-Style Bottom Sheet Modal (다른 응급처치 상황 선택) -->
+    <div class="symptom-sheet-backdrop" id="symptomSheetBackdrop" onclick="closeSymptomSheet()">
+      <div class="symptom-sheet-content" onclick="event.stopPropagation()">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <div class="sheet-title">응급처치 상황 선택</div>
+          <button class="btn-sheet-close" onclick="closeSymptomSheet()" aria-label="닫기">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="sheet-symptom-list" id="sheetSymptomList">
+          <button class="sheet-item" data-key="seizure" onclick="switchSituationFromSheet('seizure')">
+            <span class="material-symbols-outlined sheet-item-icon">bolt</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">열성경련 & 발작</div>
+              <div class="sheet-item-sub">눈돌아감, 사지떨림, 몸 굳음</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-2">KTAS 2</span>
+          </button>
+          <button class="sheet-item" data-key="choking" onclick="switchSituationFromSheet('choking')">
+            <span class="material-symbols-outlined sheet-item-icon">air</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">기도폐쇄 & 질식 (하임리히)</div>
+              <div class="sheet-item-sub">사탕/이물 삼킴, 숨막힘, 컥컥</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-1">KTAS 1</span>
+          </button>
+          <button class="sheet-item" data-key="cpr" onclick="switchSituationFromSheet('cpr')">
+            <span class="material-symbols-outlined sheet-item-icon">favorite</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">심폐소생술 (영아·소아 CPR)</div>
+              <div class="sheet-item-sub">숨안쉼, 맥박없음, 의식불명</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-1">KTAS 1</span>
+          </button>
+          <button class="sheet-item" data-key="anaphylaxis" onclick="switchSituationFromSheet('anaphylaxis')">
+            <span class="material-symbols-outlined sheet-item-icon">medication</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">아나필락시스 쇼크 (에피펜)</div>
+              <div class="sheet-item-sub">알레르기, 입술부음, 호흡곤란</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-1">KTAS 1</span>
+          </button>
+          <button class="sheet-item" data-key="respiratory" onclick="switchSituationFromSheet('respiratory')">
+            <span class="material-symbols-outlined sheet-item-icon">pulmonology</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">급성 호흡곤란 & 크룹</div>
+              <div class="sheet-item-sub">쌕쌕거림, 쇳소리, 가슴함몰, 천식</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-2">KTAS 2</span>
+          </button>
+          <button class="sheet-item" data-key="bleeding" onclick="switchSituationFromSheet('bleeding')">
+            <span class="material-symbols-outlined sheet-item-icon">bloodtype</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">대량 출혈 & 직접 지혈</div>
+              <div class="sheet-item-sub">피솟구침, 열상, 절단, 자상</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-1">KTAS 1</span>
+          </button>
+          <button class="sheet-item" data-key="head" onclick="switchSituationFromSheet('head')">
+            <span class="material-symbols-outlined sheet-item-icon">psychology</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">두부 외상 & 뇌진탕 (낙상)</div>
+              <div class="sheet-item-sub">침대 떨어짐, 혹, 분수토, 기절</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-2">KTAS 2</span>
+          </button>
+          <button class="sheet-item" data-key="burn" onclick="switchSituationFromSheet('burn')">
+            <span class="material-symbols-outlined sheet-item-icon">water_drop</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">화상 & 쿨링</div>
+              <div class="sheet-item-sub">뜨거운물, 국물, 다리미, 물집</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-2">KTAS 2</span>
+          </button>
+          <button class="sheet-item" data-key="poisoning" onclick="switchSituationFromSheet('poisoning')">
+            <span class="material-symbols-outlined sheet-item-icon">warning_amber</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">약물/화학물 중독 & 삼킴</div>
+              <div class="sheet-item-sub">세제, 건전지, 약과다, 억지구토금지</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-3">KTAS 3</span>
+          </button>
+          <button class="sheet-item" data-key="fracture" onclick="switchSituationFromSheet('fracture')">
+            <span class="material-symbols-outlined sheet-item-icon">personal_injury</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">골절 & 탈구 (부목 고정)</div>
+              <div class="sheet-item-sub">팔빠짐, 뼈소리, 접질림, 못움직임</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-3">KTAS 3</span>
+          </button>
+          <button class="sheet-item" data-key="danger" onclick="switchSituationFromSheet('danger')">
+            <span class="material-symbols-outlined sheet-item-icon">health_and_safety</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">신생아 4대 위험신호</div>
+              <div class="sheet-item-sub">100일 이하 38도 고열, 장중첩증(딸기잼변)</div>
+            </div>
+            <span class="sheet-item-badge badge-ktas-3">KTAS 3</span>
+          </button>
+          <button class="sheet-item" data-key="briefing" onclick="switchSituationFromSheet('briefing')">
+            <span class="material-symbols-outlined sheet-item-icon">assignment</span>
+            <div class="sheet-item-text">
+              <div class="sheet-item-title">119 구급대 도착 인계 브리핑</div>
+              <div class="sheet-item-sub">SBAR 인계 공식, 핵심 바이탈 전달</div>
+            </div>
+            <span class="sheet-item-badge" style="background: rgba(49, 130, 246, 0.18); color: #3182f6;">SBAR</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-      <!-- Tab 2: 기록 (신규 페이지로 이동) -->
-      <a href="history.html" class="nav-item" aria-label="이전 결과 기록">
-        <span class="material-symbols-outlined">receipt_long</span>
-        <span class="nav-label">기록</span>
-      </a>
-
-      <!-- Tab 3: 브리핑 카드 -->
-      <a href="briefing_card.html" class="nav-item" aria-label="구급대원용 응급 브리핑 카드">
-        <span class="material-symbols-outlined">assignment_ind</span>
-        <span class="nav-label">브리핑 카드</span>
-      </a>
-
-      <!-- Tab 4: 설정 -->
-      <a href="settings.html" class="nav-item">
-        <span class="material-symbols-outlined">settings</span>
-        <span class="nav-label">설정</span>
-      </a>
-    </nav>
+    <!-- Toast Notification -->
+    <div id="toastPopup" class="toast-popup">
+      <span class="material-symbols-outlined" style="font-size: 16px; color: #38bdf8;">check_circle</span>
+      <span id="toastMsg">클립보드에 복사되었습니다.</span>
+    </div>
 
   </div>
 
-  <script src="../js/main.js"></script>
+  <script>
+    // 1. Symptom Metadata Map (12대 응급상황 메타정보)
+    const SYMPTOM_META = {
+      seizure: {
+        title: "열성경련 & 발작 응급처치",
+        tier: 2,
+        tierText: "KTAS 2단계 긴급",
+        desc: "아이를 옆으로 눕혀 기도를 확보하고, 발작 시작 시간을 정확히 측정하세요."
+      },
+      choking: {
+        title: "기도폐쇄 & 질식 (하임리히)",
+        tier: 1,
+        tierText: "KTAS 1단계 소생",
+        desc: "사탕/이물 삼킴으로 숨을 쉬지 못할 때 등 두드리기와 흉부 압박을 교대 시행하세요."
+      },
+      cpr: {
+        title: "심폐소생술 (영아·소아 CPR)",
+        tier: 1,
+        tierText: "KTAS 1단계 소생",
+        desc: "호흡과 맥박이 없거나 의식을 잃었을 때 즉시 흉부 압박(1분에 100~120회)을 시행하세요."
+      },
+      anaphylaxis: {
+        title: "아나필락시스 쇼크 (에피펜)",
+        tier: 1,
+        tierText: "KTAS 1단계 소생",
+        desc: "급성 전신 알레르기 증상 시 즉시 에피펜을 허벅지 외측에 90도로 주사하세요."
+      },
+      respiratory: {
+        title: "급성 호흡곤란 & 크룹 응급처치",
+        tier: 2,
+        tierText: "KTAS 2단계 긴급",
+        desc: "상체를 45도 세워 안정을 취하게 하고, 창문을 열어 시원한 공기로 환기하세요."
+      },
+      bleeding: {
+        title: "대량 출혈 & 직접 지혈",
+        tier: 1,
+        tierText: "KTAS 1단계 소생",
+        desc: "깨끗한 거즈로 피나는 부위를 직접 강하게 압박하고 심장보다 높이 올리세요."
+      },
+      head: {
+        title: "두부 외상 & 뇌진탕 (낙상)",
+        tier: 2,
+        tierText: "KTAS 2단계 긴급",
+        desc: "머리와 목을 흔들지 말고 수건에 싼 냉찜질로 안정시키며 의식 변화를 관찰하세요."
+      },
+      burn: {
+        title: "화상 & 쿨링 응급처치",
+        tier: 2,
+        tierText: "KTAS 2단계 긴급",
+        desc: "흐르는 미온수에 15~20분간 충분히 식히고, 물집을 절대 터뜨리지 마세요."
+      },
+      poisoning: {
+        title: "약물/화학물 중독 & 삼킴",
+        tier: 3,
+        tierText: "KTAS 3단계 응급",
+        desc: "억지로 토하게 하지 마세요. 삼킨 약품·세제의 용기를 지참하여 즉시 이송하세요."
+      },
+      fracture: {
+        title: "골절 & 탈구 (부목 고정)",
+        tier: 3,
+        tierText: "KTAS 3단계 응급",
+        desc: "다친 팔다리를 억지로 맞추지 말고 신문지나 부목으로 고정 후 냉찜질하세요."
+      },
+      danger: {
+        title: "신생아 4대 위험신호 대처",
+        tier: 3,
+        tierText: "KTAS 3단계 응급",
+        desc: "생후 100일 이하 38도 고열, 주기적 복통(장중첩증 딸기잼변), 탈수 증상을 즉시 진료받으세요."
+      },
+      briefing: {
+        title: "119 구급대 도착 인계 브리핑",
+        tier: 2,
+        tierText: "SBAR 인계",
+        desc: "119 구급대원 도착 즉시 SBAR 공식에 맞춰 환아의 상황과 바이탈을 신속 인계하세요."
+      }
+    };
+
+    // 2. Single Matched Situation Switcher
+    function selectSymptomTab(symptomKey) {
+      const meta = SYMPTOM_META[symptomKey] || SYMPTOM_META['seizure'];
+
+      // Update Single Card Header
+      const pill = document.getElementById('matchedKtasPill');
+      const title = document.getElementById('matchedMainTitle');
+      const desc = document.getElementById('matchedMainDesc');
+
+      if (pill) {
+        pill.textContent = meta.tierText;
+        pill.className = 'matched-pill tier-' + meta.tier;
+      }
+      if (title) title.textContent = meta.title;
+      if (desc) desc.textContent = meta.desc;
+
+      // Switch Main Content Panes
+      document.querySelectorAll('.symptom-pane').forEach(pane => pane.classList.remove('active'));
+      const targetPane = document.getElementById('pane-' + symptomKey);
+      if (targetPane) targetPane.classList.add('active');
+
+      // Update Sheet Item selection
+      document.querySelectorAll('.sheet-item').forEach(item => {
+        if (item.getAttribute('data-key') === symptomKey) {
+          item.classList.add('selected');
+        } else {
+          item.classList.remove('selected');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 3. Bottom Sheet Modal Controls
+    function openSymptomSheet() {
+      const sheet = document.getElementById('symptomSheetBackdrop');
+      if (sheet) sheet.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSymptomSheet() {
+      const sheet = document.getElementById('symptomSheetBackdrop');
+      if (sheet) sheet.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function switchSituationFromSheet(key) {
+      selectSymptomTab(key);
+      closeSymptomSheet();
+    }
+
+    // 4. ⭐ Do / Don't Category Split Switcher
+    function switchActionCategory(symptomKey, actionType) {
+      const btnDo = document.getElementById(`btn-${symptomKey}-do`);
+      const btnDont = document.getElementById(`btn-${symptomKey}-dont`);
+      const paneDo = document.getElementById(`pane-${symptomKey}-do`);
+      const paneDont = document.getElementById(`pane-${symptomKey}-dont`);
+
+      if (!btnDo || !btnDont || !paneDo || !paneDont) return;
+
+      if (actionType === 'do') {
+        btnDo.className = 'btn-action-category active-do';
+        btnDont.className = 'btn-action-category';
+        paneDo.classList.add('active');
+        paneDont.classList.remove('active');
+      } else {
+        btnDo.className = 'btn-action-category';
+        btnDont.className = 'btn-action-category active-dont';
+        paneDo.classList.remove('active');
+        paneDont.classList.add('active');
+      }
+    }
+
+    // 5. Navigation Back
+    function handleGoBack() {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = 'result.html';
+      }
+    }
+
+    // 6. Geolocation & Reverse Geocoding (좌표 ➔ 실제 상세 주소 변환)
+    let currentResolvedAddress = "위치 확인 중...";
+    function resolveUserLocation() {
+      // 1) 기존 캐시 주소 확인 (localStorage / sessionStorage)
+      let initialAddr = localStorage.getItem('aisum_user_address') || 
+                        localStorage.getItem('user_address') || 
+                        sessionStorage.getItem('aisum_user_address') || 
+                        sessionStorage.getItem('user_address');
+
+      if (!initialAddr) {
+        const cachedDong = localStorage.getItem('aisum_user_dong') || localStorage.getItem('user_dong');
+        if (cachedDong) {
+          initialAddr = (cachedDong.startsWith('서울') || cachedDong.startsWith('경기'))
+            ? cachedDong
+            : `서울특별시 송파구 ${cachedDong}`;
+        }
+      }
+
+      if (initialAddr) {
+        currentResolvedAddress = initialAddr;
+        updateLocationBanner(currentResolvedAddress);
+      } else {
+        updateLocationBanner("위치 확인 중...");
+      }
+
+      // 2) 브라우저 GPS 수신 및 백엔드 역지오코딩 API(/api/v1/location/coord2address) 호출
+      if (!navigator.geolocation) {
+        if (!initialAddr) {
+          currentResolvedAddress = "서울특별시 송파구 문정동 부근";
+          updateLocationBanner(currentResolvedAddress);
+        }
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          try {
+            const resp = await fetch(`/api/v1/location/coord2address?lat=${lat}&lon=${lon}`);
+            if (resp.ok) {
+              const data = await resp.json();
+              const realAddr = data.full_address || data.road_address || data.jibun_address;
+              if (realAddr) {
+                currentResolvedAddress = realAddr;
+                try {
+                  localStorage.setItem('aisum_user_address', realAddr);
+                  if (data.dong) localStorage.setItem('aisum_user_dong', data.dong);
+                } catch (e) { }
+                updateLocationBanner(currentResolvedAddress);
+                return;
+              }
+            }
+          } catch (fetchErr) {
+            console.warn("역지오코딩 조회 실패:", fetchErr);
+          }
+
+          if (!initialAddr) {
+            currentResolvedAddress = "서울특별시 송파구 문정동 부근";
+            updateLocationBanner(currentResolvedAddress);
+          }
+        },
+        (err) => {
+          console.warn("GPS 위치 수신 실패:", err);
+          if (!initialAddr) {
+            currentResolvedAddress = "서울특별시 송파구 문정동 부근";
+            updateLocationBanner(currentResolvedAddress);
+          }
+        },
+        { enableHighAccuracy: true, timeout: 6000 }
+      );
+    }
+
+    function updateLocationBanner(text) {
+      const el = document.getElementById('current-location-text');
+      if (el) el.textContent = "현재 위치: " + text;
+    }
+
+    // 7. Copy Address
+    function copyCurrentAddress() {
+      const textToCopy = currentResolvedAddress;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          showToast("현재 주소가 복사되었습니다.");
+        }).catch(() => {
+          fallbackCopyText(textToCopy);
+        });
+      } else {
+        fallbackCopyText(textToCopy);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      const dummy = document.createElement("textarea");
+      dummy.value = text;
+      document.body.appendChild(dummy);
+      dummy.select();
+      try {
+        document.execCommand("copy");
+        showToast("현재 주소가 복사되었습니다.");
+      } catch (e) {
+        showToast("주소 복사에 실패했습니다.");
+      }
+      document.body.removeChild(dummy);
+    }
+
+    // 8. Toast Notification
+    function showToast(msg) {
+      const toast = document.getElementById('toastPopup');
+      const text = document.getElementById('toastMsg');
+      if (toast && text) {
+        text.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2200);
+      }
+    }
+
+    // 9. 🧠 초강력 임상 디스패처: 어떤 응급 상황이든 다양하고 정밀하게 자동 분류
+    function autoMatchSymptom() {
+      let matchedKey = 'seizure';
+      let ktasTier = 2;
+      let reasonText = '';
+      let ageMonths = 24;
+
+      // 1. Gather all triage context from SessionStorage & URL
+      try {
+        const rawTriage = sessionStorage.getItem('aisum_triage_result') || sessionStorage.getItem('triage_result');
+        if (rawTriage) {
+          const parsed = JSON.parse(rawTriage);
+          ktasTier = parseInt(parsed.ktas_level || parsed.triage_level || parsed.level || 2, 10);
+          reasonText += ' ' + (parsed.clinical_rationale || '') + ' ' + (parsed.primary_symptom || '') + ' ' + (parsed.chief_complaint || '');
+          if (parsed.age_months) ageMonths = parseInt(parsed.age_months, 10);
+        }
+        reasonText += ' ' + (sessionStorage.getItem('user_symptom') || '');
+        reasonText += ' ' + (sessionStorage.getItem('red_flag_reason') || '');
+        const storedAge = sessionStorage.getItem('user_age_months');
+        if (storedAge) ageMonths = parseInt(storedAge, 10);
+      } catch (e) {}
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryTab = urlParams.get('tab') || urlParams.get('symptom');
+      if (queryTab && SYMPTOM_META[queryTab]) {
+        selectSymptomTab(queryTab);
+        return;
+      }
+
+      // 2. Comprehensive Clinical Dispatch Scoring Rules (12대 全 응급상황 포괄)
+      const clinicalDispatchRules = [
+        {
+          key: 'cpr',
+          tier: 1,
+          regex: /심정지|무호흡|숨안쉼|호흡정지|맥박|심장마비|의식없음|기절|실신|축늘어짐|반응없음|cpr|소생술|심장멎음|숨을안쉬|호흡없음|혼수|의식불명|심장정지|동공/i,
+          priority: 100
+        },
+        {
+          key: 'choking',
+          tier: 1,
+          regex: /기도|기도폐쇄|하임리히|청색증|컥컥|사레|목에걸림|숨막힘|사탕|떡|포도|이물질|질식|목막힘|장난감|흡인|목을잡|숨못쉼/i,
+          priority: 95
+        },
+        {
+          key: 'anaphylaxis',
+          tier: 1,
+          regex: /아나필락시스|에피펜|알레르기|알러지|땅콩|우유|계란|갑각류|새우|벌|쏘임|두드러기|입술부음|목부음|목쉼|전신발진|혈관부종|쇼크|전신두드러기|호흡곤란동반/i,
+          priority: 90
+        },
+        {
+          key: 'bleeding',
+          tier: 1,
+          regex: /대량출혈|출혈|피남|피뿜음|지혈|찢어짐|열상|자상|절단|손가락절단|동맥|선혈|피가안멈|상처출혈|피가철철|피솟구|칼에베|유리파편|과다출혈/i,
+          priority: 85
+        },
+        {
+          key: 'seizure',
+          tier: 2,
+          regex: /경련|열성경련|발작|눈돌아감|떨림|몸이뻣뻣|경기|뇌전증|거품|의식소실|눈치켜|사지강직|온몸을떪|입에거품|열나면서떪|경련발작/i,
+          priority: 80
+        },
+        {
+          key: 'respiratory',
+          tier: 2,
+          regex: /호흡곤란|숨가쁨|헐떡임|크룹|후두염|컹컹|개짖는소리|쇳소리|쌕쌕|천식|벤토린|쇄골함몰|가슴쑥쑥|비익호흡|천명음|숨소리|가쁜숨|가슴함몰/i,
+          priority: 78
+        },
+        {
+          key: 'head',
+          tier: 2,
+          regex: /두부외상|뇌진탕|낙상|떨어짐|침대|소파|식탁|머리부딪|머리다침|뇌출혈|혹|혈종|분수토|비틀거림|머리쿵|의식저하|어지럼증/i,
+          priority: 75
+        },
+        {
+          key: 'burn',
+          tier: 2,
+          regex: /화상|뜨거운|데임|끓는물|국물|라면|다리미|고데기|전기화상|물집|표피박리|냄비|밥솥증기|뜨거운물|데였/i,
+          priority: 70
+        },
+        {
+          key: 'poisoning',
+          tier: 3,
+          regex: /약물중독|중독|삼킴|먹음|건전지|리튬|단추배터리|코인배터리|자석|락스|세제|퐁퐁|빙초산|살충제|영양제과다|과다복용|독극물|화학물|수면제|오인복용/i,
+          priority: 65
+        },
+        {
+          key: 'fracture',
+          tier: 3,
+          regex: /골절|탈구|뼈부러짐|삐임|접질림|발목삠|팔빠짐|팔을못씀|다리를못딤|관절변형|뼈소리|부목|깁스|뚝소리|부어오름|팔못올림/i,
+          priority: 60
+        },
+        {
+          key: 'danger',
+          tier: 3,
+          regex: /신생아|100일|50일|30일|장중첩증|딸기잼변|혈변|주기적울음|15분|다리웅크림|쳐짐|탈수|소변안봄|기저귀안적|패혈증|모유안먹|축늘어/i,
+          priority: ageMonths <= 3 ? 92 : 55 // 생후 100일 미만 영아는 신생아 위험신호 가중치 최상위 부여
+        },
+        {
+          key: 'briefing',
+          tier: 2,
+          regex: /119인계|구급대|구급차|도착|이송|브리핑|sbar/i,
+          priority: 50
+        }
+      ];
+
+      // 3. Find highest priority matched clinical rule
+      let bestRule = null;
+      for (const rule of clinicalDispatchRules) {
+        if (rule.regex.test(reasonText)) {
+          if (!bestRule || rule.priority > bestRule.priority) {
+            bestRule = rule;
+          }
+        }
+      }
+
+      // 4. Default Fallback based on KTAS Tier if no exact keyword found
+      if (bestRule) {
+        matchedKey = bestRule.key;
+      } else {
+        if (ktasTier === 1) {
+          matchedKey = 'cpr';
+        } else if (ktasTier === 2) {
+          matchedKey = (reasonText.includes('열') || reasonText.includes('체온')) ? 'seizure' : 'respiratory';
+        } else {
+          matchedKey = (ageMonths <= 3) ? 'danger' : 'poisoning';
+        }
+      }
+
+      // 5. Activate Single Matched Guide Page
+      selectSymptomTab(matchedKey);
+    }
+
+    // 10. Theme Switcher (Toss TDS Dark / Light)
+    function updateThemeIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const icon = document.getElementById('themeIcon');
+      if (icon) {
+        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+      }
+    }
+
+    function toggleThemeMode() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const nextTheme = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      try {
+        localStorage.setItem('aisum_theme', nextTheme);
+      } catch (e) { }
+      updateThemeIcon();
+      showToast(nextTheme === 'dark' ? '토스 다크모드가 적용되었습니다.' : '라이트모드가 적용되었습니다.');
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+      updateThemeIcon();
+      resolveUserLocation();
+      autoMatchSymptom();
+    });
+  </script>
 </body>
 
 </html>

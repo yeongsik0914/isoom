@@ -28,6 +28,15 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.32-cloud-run-deployment-pipeline-sync] 2026-10-20: Google Cloud Run 원클릭 프로덕션 배포 파이프라인 수립 및 .env 보안 키 연동 (정영식 팀장 총괄)
+* **🚀 원클릭 프로덕션 배포 파이프라인 수립 (`scripts/deploy_cloud_run.py`, `scripts/deploy_cloud_run.bat`)**:
+  - `.env`에 정의된 5대 핵심 API 키(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `FIRESTORE_DATABASE_ID`, `FIREBASE_KEY_PATH`)를 자동 로드·검증하는 파이프라인 구축.
+  - 리눅스 컨테이너 환경을 위해 로컬 `serviceAccountKey.json`을 단일 인라인 JSON(`FIREBASE_KEY_JSON`)으로 직렬화하여 Cloud Run에 안전하게 주입.
+  - Windows PowerShell 스크립트 보안 정책 제약을 우회하기 위해 `gcloud.cmd` 연동 및 임시 `.cloud_run_env.yaml` 기반 무손실 환경변수 주입 구현.
+  - 43개 프론트엔드 PWA 및 템플릿 정적 자산 자동 빌드 동기화 지원.
+* **🔐 보안 파일 차단 정책 강화**:
+  - `.gitignore`, `.gcloudignore`, `.dockerignore`에 `.cloud_run_env.yaml` 및 `*env*.yaml` 등록하여 빌드/Git 시크릿 노출 원천 방지.
+
 ### 🌟 [v2.9.31-official-github-readme-landing-sync] 2026-10-20: GitHub 공식 랜딩 README.md 신규 구축 및 클린 & 프리미엄 디자인 시스템 수립 (정영식 팀장 총괄)
 * **💎 저장소 공식 랜딩 페이지([README.md](file:///e:/isoom/README.md)) 신규 구축**:
   - GitHub 최상위 루트에 오픈소스/프로덕션 표준 규격의 클린 & 프리미엄 랜딩 `README.md` 신규 수립.
