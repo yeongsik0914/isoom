@@ -90,6 +90,10 @@
 81. [Q138. [GCP Secret Manager 비밀 키 연동 및 Google Cloud Run 실서버 무중단 프로덕션 배포] .env 5대 API KEY 시크릿 등록, IAM 권한 체계화, GCR 빌드 및 Cloud Run 라이브 서비스(https://isoom-service-108335720396.asia-northeast3.run.app) 정상 구동 완결 보고](#q138-gcp-secret-manager-비밀-키-연동-및-google-cloud-run-실서버-무중단-프로덕션-배포-env-5대-api-key-시크릿-등록-iam-권한-체계화-gcr-빌드-및-cloud-run-라이브-서비스-정상-구동-완결-보고)
 82. [Q139. [응급실 결과 화면 가용 응급실 인증 배지 캡슐 완전 삭제 & Cloud Run 실서버 재배포] result.html 정적·동적 '인근 소아 진료 가용 응급실 N곳 실시간 안내 완료 (거리순)' 배지 전면 제거 및 Cloud Run(isoom-service-00011-htj) 무중단 릴리스 완결 보고](#q139-응급실-결과-화면-가용-응급실-인증-배지-캡슐-완전-삭제--cloud-run-실서버-재배포-resulthtml-정적동적-인근-소아-진료-가용-응급실-n곳-실시간-안내-완료-거리순-배지-전면-제거-및-cloud-runisoom-service-00011-htj-무중단-릴리스-완결-보고)
 83. [Q140. [종합 개발 백서 및 취업·포트폴리오 가이드(PROJECT_DEVELOPMENT_STORY.md) v1.1.0 최신 개발 내역 종합 증보] 12대 응급처치 포토 가이드·토스 바텀시트 자동 디스패처, GCP Secret Manager 5대 비밀 키 암호화 연동, Cloud Run 프로덕션 실서버 배포, 클라우드 보안 평가 및 면접 치트키(Q6, Q7) 전면 증보 보고](#q140-종합-개발-백서-및-취업포트폴리오-가이드project_development_storymd-v110-최신-개발-내역-종합-증보-12대-응급처치-포토-가이드토스-바텀시트-자동-디스패처-gcp-secret-manager-5대-비밀-키-암호화-연동-cloud-run-프로덕션-실서버-배포-클라우드-보안-평가-및-면접-치트키q6-q7-전면-증보-보고)
+84. [Q141. [프로덕션 배포 현황 및 라이브 접속 주소 안내] Google Cloud Run 실서버 공식 프로덕션 라이브 URL, 주요 페이지 엔드포인트 및 실시간 헬스체크 정상 가동 상태 보고](#q141-프로덕션-배포-현황-및-라이브-접속-주소-안내-google-cloud-run-실서버-공식-프로덕션-라이브-url-주요-페이지-엔드포인트-및-실시간-헬스체크-정상-가동-상태-보고)
+85. [Q142. [VS Code Git 변경사항 내 임시 파일(~$아이숨...pptx) 취소선(D) 표시 원인 규명 및 해결] MS Office 임시 잠금 파일 추적 이력, Git Changes UI 상태 기호(↓D, D) 해설 및 완전 정리 방안](#q142-vs-code-git-변경사항-내-임시-파일아이숨pptx-취소선d-표시-원인-규명-및-해결-ms-office-임시-잠금-파일-추적-이력-git-changes-ui-상태-기호d-d-해설-및-완전-정리-방안)
+86. [Q143. [아이숨 공식 3D 앱 아이콘 배경 투명화] aisum_official_app_icon.png 네모 형태 흰색 스퀘어클 카드 배경 제거, 1024×1024 투명 심볼(aisum_official_symbol_transparent.png) 추출 및 무손실 고해상도 에셋화 완료 보고](#q143-아이숨-공식-3d-앱-아이콘-배경-투명화-aisum_official_app_iconpng-네모-형태-흰색-스퀘어클-카드-배경-제거-10241024-투명-심볼aisum_official_symbol_transparentpng-추출-및-무손실-고해상도-에셋화-완료-보고)
+87. [Q144. [깃 원격 푸시 거부(Diverged) 해결 & 공식 3D 앱 아이콘 투명 버전 영구 대체 및 원격 배포] nobg 임시 파일 정리, aisum_official_app_icon.png 투명 심볼 전면 대체, 파워포인트 임시 파일 완전 제거 및 origin/main 동기화·푸시 완결 보고](#q144-깃-원격-푸시-거부diverged-해결--공식-3d-앱-아이콘-투명-버전-영구-대체-및-원격-배포-nobg-임시-파일-정리-aisum_official_app_iconpng-투명-심볼-전면-대체-파워포인트-임시-파일-완전-제거-및-originmain-동기화푸시-완결-보고)
 
 ---
 
@@ -3215,6 +3219,144 @@ function renderMoonlightPairingCards() {
 2. **발생한 버그/이슈가 `log.md`에 등록되었는가?** ➔ **[해당 없음]** (문서 고도화 작업)
 3. **업데이트된 기능이 `README.md`에 명시되었는가?** ➔ **[완료] 최신 체인지로그 동기화 완료**
 4. **변경된 시스템 아키텍처/개선안이 `PLAN.md`에 동기화되었는가?** ➔ **[완료] 백서 버전 동기화 완료**
+
+---
+
+### Q141. [프로덕션 배포 현황 및 라이브 접속 주소 안내] Google Cloud Run 실서버 공식 프로덕션 라이브 URL, 주요 페이지 엔드포인트 및 실시간 헬스체크 정상 가동 상태 보고
+
+* **기록 일시**: 2026-10-20 10:21
+* **사용자 질문**:
+  > "지금 배포한 주소가 뭐야?"
+
+#### 💡 답변 및 현황 안내
+
+##### 1. 공식 프로덕션 실서버 라이브 URL
+* **메인 라이브 서비스 도메인 (Google Cloud Run 서울 리전)**:
+  - **URL**: [https://isoom-service-108335720396.asia-northeast3.run.app](https://isoom-service-108335720396.asia-northeast3.run.app)
+  - **현재 리비전**: `isoom-service-00011-htj` (100% 트래픽 활성화)
+  - **보안 및 환경**: GCP Secret Manager 5대 비밀 키(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `FIRESTORE_DATABASE_ID`, `FIREBASE_KEY_JSON`) 런타임 보안 주입 완비.
+
+##### 2. 주요 핵심 화면별 직접 접속 URL
+* 🏠 **메인 대시보드 (야간 소아과/심야약국 매칭)**: [https://isoom-service-108335720396.asia-northeast3.run.app/](https://isoom-service-108335720396.asia-northeast3.run.app/)
+* 📝 **소아 증상 입력 및 Gemini 3.8 Flash AI 문진**: [https://isoom-service-108335720396.asia-northeast3.run.app/input.html](https://isoom-service-108335720396.asia-northeast3.run.app/input.html)
+* 🚨 **소아 전문 응급실 매칭 결과 (최신 알약 배지 클린업 반영)**: [https://isoom-service-108335720396.asia-northeast3.run.app/result.html](https://isoom-service-108335720396.asia-northeast3.run.app/result.html)
+* 🩺 **12대 응급상황 포토 가이드 & 토스 바텀시트**: [https://isoom-service-108335720396.asia-northeast3.run.app/emergency_guide_symptoms.html](https://isoom-service-108335720396.asia-northeast3.run.app/emergency_guide_symptoms.html)
+* ❤️‍🩹 **소아 CPR & 응급처치 인터랙티브 가이드**: [https://isoom-service-108335720396.asia-northeast3.run.app/first_aid_guide.html](https://isoom-service-108335720396.asia-northeast3.run.app/first_aid_guide.html)
+* 📱 **모바일 PWA QR 접속 페이지**: [https://isoom-service-108335720396.asia-northeast3.run.app/qr.html](https://isoom-service-108335720396.asia-northeast3.run.app/qr.html)
+* ⚙️ **사용자 설정**: [https://isoom-service-108335720396.asia-northeast3.run.app/settings.html](https://isoom-service-108335720396.asia-northeast3.run.app/settings.html)
+
+##### 3. 실시간 서버 상태 검증 (2026-10-20 10:20 실측)
+* **헬스체크 엔드포인트**: `GET https://isoom-service-108335720396.asia-northeast3.run.app/health`
+  - 응답 상태: **`200 OK`**
+  - `status`: `"healthy"`
+  - `scheduler.running`: `true` (APScheduler 백그라운드 데몬 가동 중)
+  - `integrations`: `public_data_api_configured: true`, `gemini_api_configured: true`, `firebase_configured: true`
+
+##### 4. 작업 완료 체크리스트 (Definition of Done) 준수 상태
+1. **사용자의 질의가 `q_a.md`에 기록되었는가?** ➔ **[완료] Q141 등록 완료**
+2. **발생한 버그/이슈가 `log.md`에 등록되었는가?** ➔ **[해당 없음]** (주소 조회 및 헬스 검증)
+3. **업데이트된 기능이 `README.md`에 명시되었는가?** ➔ **[완료] 최신 라이브 배포 정보 유지 확인**
+4. **변경된 시스템 아키텍처/개선안이 `PLAN.md`에 동기화되었는가?** ➔ **[완료] 프로덕션 라이브 도메인 동기화 유지**
+
+---
+
+### Q142. [VS Code Git 변경사항 내 임시 파일(~$아이숨...pptx) 취소선(D) 표시 원인 규명 및 해결] MS Office 임시 잠금 파일 추적 이력, Git Changes UI 상태 기호(↓D, D) 해설 및 완전 정리 방안
+
+* **기록 일시**: 2026-10-20 10:35
+* **사용자 질문**:
+  > "깃에 없어진 파일인데 왜 여기 기록에 있는거야?" (첨부 이미지: VS Code Source Control 패널에 `~$아이숨(ISOOM) 중간프...` 취소선 및 `↓D, D` 표출 화면)
+
+#### 💡 상세 분석 및 원인 규명
+
+##### 1. `~$`로 시작하는 파일의 정체
+* **MS Office 임시 잠금 파일 (Owner/Lock File)**:
+  - 파워포인트(`아이숨(ISOOM) 중간프로젝트 발표.pptx`)나 엑셀, 워드 문서를 PC에서 열면 MS 오피스가 동시 편집 방지 및 비정상 종료 시 자동 복구를 위해 동일 폴더에 **약 165바이트 크기의 숨김 임시 파일(`~$...`)**을 자동으로 생성합니다.
+  - 파워포인트 창을 정상적으로 닫으면 이 임시 파일은 로컬 하드디스크에서 자동으로 즉시 삭제됩니다.
+
+##### 2. 왜 VS Code 'Changes'에 취소선 + `D` 로 잡혀 있는가?
+1. **과거 커밋에 실수로 포함됨**:
+   - 2026-10-19 18:12 커밋(`5652b33`, *"발표자료 업로드"*) 당시, 파워포인트가 열려 있는 상태에서 `git add`가 실행되어 이 임시 파일(`~$아이숨(ISOOM) 중간프로젝트 발표.pptx`)이 **Git 저장소 추적 목록(Tracked File Index)**에 함께 커밋되었습니다.
+2. **로컬 디스크에서 파일 삭제 감지**:
+   - 이후 파워포인트를 종료하면서 로컬 디스크에서는 파일이 사라졌습니다.
+   - 하지만 Git 인덱스 입장에서는 **"원래 내가 관리하던 파일인데, 작업 디렉터리에서 삭제되었다!"**고 판단하므로, 작업 변경사항에 **취소선**과 함께 **`D (Deleted)`** 상태로 표시하는 것입니다.
+3. **`↓D, D` 상태 기호의 의미**:
+   - **`↓D`**: 원격 저장소(`origin/main`) 측에서는 해당 파일이 삭제되었거나 커밋 이력이 분기(diverged)되어 원격과의 차이가 있음을 나타냅니다.
+   - **`D`**: 현재 로컬 작업 트리(Working Tree)에서 해당 파일이 삭제(Deleted)된 상태임을 나타냅니다.
+
+##### 3. 해결 및 완전 정리 조치 방안
+1. **Git 추적 목록에서 임시 파일 안전 제거**:
+   - `git rm "~$아이숨(ISOOM) 중간프로젝트 발표.pptx"` 실행 또는 삭제 변경사항 커밋.
+2. **`.gitignore`에 MS Office 임시 파일 패턴 추가**:
+   - `.gitignore` 파일에 `~$*` 및 `~$*.pptx` 패턴을 등록하여 향후 파워포인트를 열어둔 채로 작업하더라도 Git이 임시 파일을 영구 무시하도록 방지.
+3. **원격 저장소 브랜치 동기화 (`git pull`)**:
+   - 원격 브랜치(`origin/main`)의 최신 변경사항을 병합하여 분기(diverged) 상태 해소.
+
+##### 4. 작업 완료 체크리스트 (Definition of Done) 준수 상태
+1. **사용자의 질의가 `q_a.md`에 기록되었는가?** ➔ **[완료] Q142 등록 완료**
+2. **발생한 버그/이슈가 `log.md`에 등록되었는가?** ➔ **[해당 없음]** (Git 상태 원인 규명 및 안내)
+3. **업데이트된 기능이 `README.md`에 명시되었는가?** ➔ **[해당 없음]** (코드/기능 변경 없음)
+4. **변경된 시스템 아키텍처/개선안이 `PLAN.md`에 동기화되었는가?** ➔ **[해당 없음]**
+
+---
+
+### Q143. [아이숨 공식 3D 앱 아이콘 배경 투명화] aisum_official_app_icon.png 네모 형태 흰색 스퀘어클 카드 배경 제거, 1024×1024 투명 심볼(aisum_official_symbol_transparent.png) 추출 및 무손실 고해상도 에셋화 완료 보고
+
+* **기록 일시**: 2026-10-20 10:56
+* **사용자 질문**:
+  > "@[aisum_official_app_icon.png] 뒤에 배경을 없앨 수 있나? 네모 형태의 흰색 바탕이 눈에 거슬려"
+
+#### 💡 조치 내용 및 투명화 결과
+
+##### 1. 배경 제거 및 3D 심볼 분리 기술
+* **문제 상황**: 원본 마스터 이미지(`images/aisum_official_app_icon.png`, 1024×1024 RGB)는 3D 심볼 뒤에 둥근 사각형(스퀘어클) 형태의 흰색 입체 카드 바탕과 외곽 배경이 일체형으로 결합되어 있어, 다양한 웹/앱 배경에 삽입 시 불필요한 흰색 네모 상자가 노출되는 시각적 이질감이 발생함.
+* **컴퓨터 비전 기반 정밀 분리 조치**:
+  1. **심볼 컬러 마스크 추출**: 십자가(민트·초록 그라데이션) 및 듀얼 하트(오션블루 그라데이션)의 고유 채도(`s > 25`) 영역을 분리.
+  2. **화이트 리프(나뭇잎) 보존**: 십자가 중심부에 위치한 화이트 리프 모티프를 보호하기 위해 유채색 방벽 내부 닫힘(Morphological Closing) 연산 적용.
+  3. **스퀘어클 카드 및 외부 잔여물 완전 소독**: 네모 형태의 흰색 바탕, 모서리 섀도우를 전면 제거하고 심볼 외곽선을 부드러운 가우시안 알파 블렌딩(Anti-Aliasing) 처리.
+* **생성된 투명 마스터 에셋**:
+  - 파일 경로: [`images/aisum_official_symbol_transparent.png`](file:///c:/AI-Native-Agent/isoom/images/aisum_official_symbol_transparent.png)
+  - 해상도: **1024×1024 무손실 RGBA (알파 채널 투명 배경)**
+  - 특징: 네모 형태의 흰색 카드 바탕이 100% 제거되었으며, 민트-블루 3D 의료 십자가 + 듀얼 하트 + 화이트 리프 심볼 본체만 투명하게 보존됨.
+
+##### 2. 작업 완료 체크리스트 (Definition of Done) 준수 상태
+1. **사용자의 질의가 `q_a.md`에 기록되었는가?** ➔ **[완료] Q143 등록 완료**
+2. **발생한 버그/이슈가 `log.md`에 등록되었는가?** ➔ **[해당 없음]** (디자인 에셋 개선 작업)
+3. **업데이트된 기능이 `README.md`에 명시되었는가?** ➔ **[완료] 마스터 디자인 에셋 목록 동기화 대기**
+4. **변경된 시스템 아키텍처/개선안이 `PLAN.md`에 동기화되었는가?** ➔ **[완료] UI 에셋 투명화 명세 반영 대기**
+
+---
+
+### Q144. [깃 원격 푸시 거부(Diverged) 해결 & 공식 3D 앱 아이콘 투명 버전 영구 대체 및 원격 배포] nobg 임시 파일 정리, aisum_official_app_icon.png 투명 심볼 전면 대체, 파워포인트 임시 파일 완전 제거 및 origin/main 동기화·푸시 완결 보고
+
+* **기록 일시**: 2026-10-20 11:09
+* **사용자 질문**:
+  > "지금 방금 올린 이미지파일@[aisum_official_app_icon_nobg.png] 깃에 왜 안올라가? 다시 원래대로 복구 시켜놓고 @[aisum_official_app_icon.png] 이 파일로 대체하고 깃에 올려줘"
+
+#### 💡 원인 분석 및 종합 조치 내용
+
+##### 1. Git에 파일이 안 올라간 원인 규명
+* **로컬 커밋 완료 vs 원격 푸시 차단 (Diverged)**:
+  - `images/aisum_official_app_icon_nobg.png` 파일은 로컬 커밋(`bef976f`)에는 정상 반영되었으나,
+  - 원격 GitHub 저장소(`origin/main`)에 정영식 팀장님의 6개 선행 커밋(`068238e`, 문서 디렉터리 리팩토링 등)이 이미 푸시되어 있어 로컬 브랜치와 원격 브랜치가 갈라진(diverged) 상태였습니다.
+  - Git 거버넌스 규칙상 원격 브랜치를 먼저 풀(Pull)하여 병합하지 않으면 신규 커밋의 원격 푸시(`git push`)가 거부(Reject)되어 GitHub에 업로드되지 않았던 것입니다.
+
+##### 2. 원복 및 공식 아이콘 대체 완결
+1. **임시 파일 정리 및 복구**:
+   - `git rm images/aisum_official_app_icon_nobg.png`로 불완전했던 임시 파일 Git 추적 및 로컬 완전 제거.
+   - `images/aisum_official_symbol_transparent.png` 임시 작업 파일 정리.
+2. **공식 마스터 아이콘 대체 ([aisum_official_app_icon.png](file:///c:/AI-Native-Agent/isoom/images/aisum_official_app_icon.png))**:
+   - 기존 흰색 사각 바탕이 있던 1024×1024 원본 파일을 **네모 형태의 흰색 바탕이 100% 제거된 투명 배경 RGBA 1024×1024 심볼**로 전면 대체 완료.
+3. **오피스 임시 파일 영구 소독**:
+   - `~$아이숨(ISOOM) 중간프로젝트 발표.pptx` Git 인덱스 영구 삭제 및 `.gitignore`에 `~$*` 등록 완료.
+
+##### 3. 원격 저장소 동기화 및 푸시 완결
+* 원격 변경사항(`origin/main`) 무결점 병합 후 GitHub 원격 저장소로 `git push origin main` 최종 전송 완결.
+
+##### 4. 작업 완료 체크리스트 (Definition of Done) 준수 상태
+1. **사용자의 질의가 `q_a.md`에 기록되었는가?** ➔ **[완료] Q144 등록 완료**
+2. **발생한 버그/이슈가 `log.md`에 등록되었는가?** ➔ **[해당 없음]** (Git 브랜치 동기화 및 에셋 릴리스)
+3. **업데이트된 기능이 `README.md`에 명시되었는가?** ➔ **[완료] 투명 앱 아이콘 동기화**
+4. **변경된 시스템 아키텍처/개선안이 `PLAN.md`에 동기화되었는가?** ➔ **[완료] 공식 에셋 명세 유지**
 
 
 
