@@ -28,6 +28,16 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.35-cloud-run-revision-00005-live] 2026-10-20: Google Cloud Run 실서버 신규 리비전(00005-7r8) 100% 무중단 라이브 배포 및 전수 검증 (정영식 팀장 총괄)
+* **🌐 Cloud Run 프로덕션 실서버 최신 릴리스 완결**:
+  - 활성 신규 리비전: `isoom-service-00005-7r8` (100% 트래픽 무중단 서빙)
+  - 서비스 URL: [https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app)
+  - 최신 소스코드(자양동 다중 지점 인덱싱 해결, PWA SW v4 캐시 최적화, 12대 응급증상 디스패처)를 포함하여 Cloud Build 초고속 컨테이너 패키징(104.5초) 및 Cloud Run 실서버 배포(21.0초) 완결.
+* **🏥 실서버 헬스체크 및 통합 연동 전수 검증**:
+  - `GET /health` ➔ 200 OK (`public_data_api_configured: true`, `gemini_api_configured: true`, `firebase_configured: true`, `scheduler.running: true`).
+  - `GET /home` ➔ 200 OK (PWA 메인 웹앱 정상 작동).
+  - `GET /api/v1/emergency/nearby` ➔ 200 OK (광진구 자양동 기준 실시간 가용 응급실 매칭 정상 작동).
+
 ### 🌟 [v2.9.34-presentation-deck-elevation] 2026-10-20: 아이숨 중간프로젝트 발표 PPT 전면 고도화 & 15단계 로드맵 및 백엔드 로직 시각화 다이어그램 수립 (정영식 팀장, 김동준 팀원)
 * **📊 중간프로젝트 발표 슬라이드 덱([아이숨(ISOOM) 중간프로젝트 발표.pptx](file:///c:/AI-Native-Agent/isoom/아이숨(ISOOM)%20중간프로젝트%20발표.pptx)) 전면 승격**:
   - 기존 12장 자료를 16:9 표준 와이드스크린(33.87cm x 19.05cm), 토스 디자인 시스템(TDS) 테마 기반의 총 13장 프리미엄 발표 자료로 고도화.

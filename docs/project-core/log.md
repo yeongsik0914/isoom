@@ -231,6 +231,7 @@
 | **[ISSUE-222]** | 브라우저 캐싱 & 이중 디렉터리 동기화 | PWA SW v4 업그레이드, HTML 캐시버스팅(?v=20261020_v4), app/static 이중 정적 경로 동기화 및 로컬 서버 가동 | **해결 완료 (Resolved)** | 2026-10-20 |
 | **[ISSUE-223]** | 프레젠테이션 & 시스템 시각화 | 중간프로젝트 발표 PPT 15단계 개발 로드맵 미반영 및 백엔드 로직 시각화 부재, 슬라이드 텍스트 정렬 결함 고도화 | **해결 완료 (Resolved)** | 2026-10-20 |
 | **[ISSUE-224]** | Git 형상 관리 & 원격 동기화 | 원격 저장소 브랜치 다이버전스(Diverged) 및 5개 핵심 파일 병합 충돌(Merge Conflict) 해결 | **해결 완료 (Resolved)** | 2026-10-20 |
+| **[ISSUE-225]** | Cloud Run 프로덕션 재배포 | 최신 코드 반영 Cloud Build 컨테이너 자동 패키징 및 신규 리비전(isoom-service-00005-7r8) 100% 라이브 서빙 | **해결 완료 (Resolved)** | 2026-10-20 |
 ---
 
 ## 🛠️ 세부 이슈 및 해결 내역
@@ -7746,4 +7747,31 @@
   * [docs/qa-logs/Answer-영식.md](file:///c:/AI-Native-Agent/isoom/docs/qa-logs/Answer-영식.md)
 * **조치 결과**:
   * 로컬과 원격이 완벽하게 동기화되었으며(`up to date with origin/main`), 작업 트리가 깨끗한 상태로 복원됨.
+
+---
+
+### [ISSUE-225] 최신 코드 반영 Cloud Build 컨테이너 자동 패키징 및 Cloud Run 신규 리비전(isoom-service-00005-7r8) 100% 라이브 서빙
+
+* **발생 일자**: 2026-10-20
+* **작업자**: 김동준 (팀원), 정영식 (팀장)
+* **분류**: Google Cloud Run 프로덕션 재배포 & CI/CD 파이프라인
+* **문제 상황**:
+  * 팀장님의 Cloud Run 실서버 배포 요청 시, 기존 `scripts/deploy_cloud_run.py`가 이전 이미지 태그만을 재배포하여 최신 코드 변경점(자양동 병원 다중지점 오분류 해결, PWA SW v4 캐시버스팅, 응급증상 12대 스크립트 통합 등)이 실서버에 반영되지 않을 위험이 있었음.
+* **원인 분석**:
+  * `deploy_to_cloud_run()` 내에 소스코드 빌드 단계가 빠져 있어 최신 컨테이너 이미지가 Artifact Registry에 푸시되지 않고 이전 이미지로 배포됨.
+* **구체적 해결 방안**:
+  1. **배포 파이프라인에 `build_container_image()` 통합**:
+     - `scripts/deploy_cloud_run.py`에 Cloud Build 자동 트리거 단계를 내장하여, 배포 시 항상 최신 소스코드를 서울 리전 `isoom-repo`에 즉각 빌드/푸시하도록 개선 (소요 시간 104.5초).
+  2. **Cloud Run 신규 리비전 배포**:
+     - 리비전 `isoom-service-00005-7r8`을 서울 리전(`asia-northeast3`)에 21.0초 만에 100% 트래픽 활성화 배포 완료.
+  3. **실서버 3대 핵심 기능 전수 검증**:
+     - `/health` 200 OK (3대 핵심 API 연동 및 스케줄러 true 확인).
+     - `/home` 200 OK (PWA 메인 앱 정상 서빙).
+     - `/api/v1/emergency/nearby` 200 OK (실시간 응급실 10곳 정상 반환).
+* **적용 파일**:
+  * [scripts/deploy_cloud_run.py](file:///c:/AI-Native-Agent/isoom/scripts/deploy_cloud_run.py)
+  * [docs/project-core/log.md](file:///c:/AI-Native-Agent/isoom/docs/project-core/log.md)
+  * [docs/qa-logs/Answer-영식.md](file:///c:/AI-Native-Agent/isoom/docs/qa-logs/Answer-영식.md)
+* **조치 결과**:
+  * 라이브 서비스 URL([https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app))에 최신 기능이 100% 무중단으로 반영됨.
 

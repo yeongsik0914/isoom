@@ -213,9 +213,55 @@ def check_gcloud_auth():
     return True, project_id
 
 
+def build_container_image(project_id):
+    """Builds container image via Cloud Build and pushes to Artifact Registry."""
+    image_tag = f"asia-northeast3-docker.pkg.dev/{project_id}/isoom-repo/{SERVICE_NAME}:latest"
+    print(f"\n📦 [3.5/4] Cloud Build 컨테이너 이미지 패키징 및 푸시 시작...")
+    print(f"  • 대상 이미지: {image_tag}")
+    print("-" * 75)
+
+    build_cmd = [
+        GCLOUD_CMD, "builds", "submit",
+        f"--tag={image_tag}",
+        f"--project={project_id}",
+    ]
+
+    start_time = time.time()
+    proc = subprocess.Popen(
+        build_cmd,
+        cwd=str(PROJECT_ROOT),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+
+    for line in iter(proc.stdout.readline, ""):
+        print(line, end="", flush=True)
+
+    proc.stdout.close()
+    proc.wait()
+    elapsed = time.time() - start_time
+
+    if proc.returncode != 0:
+        print(f"\n❌ [ERROR] Cloud Build 실패 (Exit Code: {proc.returncode})")
+        sys.exit(proc.returncode)
+
+    print(f"\n  ✅ Cloud Build 성공! ({elapsed:.1f}초 소요)")
+    return image_tag
+
+
 def deploy_to_cloud_run(project_id, deploy_env, region=DEFAULT_REGION):
     """Deploys application to Cloud Run using --env-vars-file to avoid CLI quoting issues."""
-    print(f"\n🚀 [4/4] Cloud Run 빌드 & 프로덕션 배포 시작 ({SERVICE_NAME}, {region})...")
+    skip_build = "--skip-build" in sys.argv
+    if not skip_build:
+        image_tag = build_container_image(project_id)
+    else:
+        image_tag = f"asia-northeast3-docker.pkg.dev/{project_id}/isoom-repo/{SERVICE_NAME}:latest"
+        print(f"\n⏩ [3.5/4] --skip-build 옵션으로 기존 컨테이너 이미지({image_tag})를 사용합니다.")
+
+    print(f"\n🚀 [4/4] Cloud Run 프로덕션 배포 시작 ({SERVICE_NAME}, {region})...")
 
     # Generate a temporary YAML file for environment variables
     temp_env_yaml = PROJECT_ROOT / ".cloud_run_env.yaml"
@@ -228,8 +274,6 @@ def deploy_to_cloud_run(project_id, deploy_env, region=DEFAULT_REGION):
 
         with open(temp_env_yaml, "w", encoding="utf-8") as f:
             f.write("\n".join(yaml_lines) + "\n")
-
-        image_tag = f"asia-northeast3-docker.pkg.dev/{project_id}/isoom-repo/{SERVICE_NAME}:latest"
 
         # Check if we should build or if image already exists
         print(f"  • 대상 컨테이너 이미지: {image_tag}")
@@ -250,7 +294,7 @@ def deploy_to_cloud_run(project_id, deploy_env, region=DEFAULT_REGION):
             f"--env-vars-file={temp_env_yaml}",
             "--quiet",
         ]
-        print(f"  • 배포 명령어 실행 중... (보통 2~3분 소요)")
+        print(f"  • 배포 명령어 실행 중... (보통 20~30초 소요)")
         print("-" * 75)
 
         start_time = time.time()

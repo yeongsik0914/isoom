@@ -236,6 +236,7 @@
 236. [Q228. [Google Cloud Run 프로덕션 배포 완결 및 실서버 라이브 검증 보고] 최적화 컨테이너 빌드(isoom-repo), 리비전 isoom-service-00004-sbq 100% 서빙, 3대 핵심 API 연동 및 백그라운드 데몬 실시간 가동 완결](#q228-google-cloud-run-프로덕션-배포-완결-및-실서버-라이브-검증-보고-최적화-컨테이너-빌드isoom-repo-리비전-isoom-service-00004-sbq-100-서빙-3대-핵심-api-연동-및-백그라운드-데몬-실시간-가동-완결)
 237. [Q229. [아이숨 중간프로젝트 발표 PPT 전면 고도화 & 15단계 엔지니어링 로드맵 및 백엔드 로직 시각화 수립] 15대 핵심 개발 로드맵 완벽 반영, 백엔드 오케스트레이션 고해상도 아키텍처 다이어그램 삽입, 토스 디자인 시스템(TDS) 기반 16:9 슬라이드 정렬 및 레이아웃 완결 보고](#q229-아이숨-중간프로젝트-발표-ppt-전면-고도화--15단계-엔지니어링-로드맵-및-백엔드-로직-시각화-수립-15대-핵심-개발-로드맵-완벽-반영-백엔드-오케스트레이션-고해상도-아키텍처-다이어그램-삽입-토스-디자인-시스템tds-기반-169-슬라이드-정렬-및-레이아웃-완결-보고)
 238. [Q230. [원격 저장소 브랜치 다이버전스 및 5개 핵심 파일 충돌(Merge Conflict) 원인 분석과 무충돌 Push 완결 보고] Git Diverged 구조 진단, 스테이징 파일의 의미 해석, 5개 파일 충돌 수기 병합 및 GitHub 원격 push 완결](#q230-원격-저장소-브랜치-다이버전스-및-5개-핵심-파일-충돌merge-conflict-원인-분석과-무충돌-push-완결-보고-git-diverged-구조-진단-스테이징-파일의-의미-해석-5개-파일-충돌-수기-병합-및-github-원격-push-완결)
+239. [Q231. [Google Cloud Run 프로덕션 실서버 신규 리비전(isoom-service-00005-7r8) 100% 무중단 라이브 배포 및 전수 검증 보고] Cloud Build 컨테이너 자동 패키징, 5대 보안 키 인라인 주입, 실서버 /health, /home, /emergency API 200 OK 실측 완결 보고](#q231-google-cloud-run-프로덕션-실서버-신규-리비전isoom-service-00005-7r8-100-무중단-라이브-배포-및-전수-검증-보고-cloud-build-컨테이너-자동-패키징-5대-보안-키-인라인-주입-실서버-health-home-emergency-api-200-ok-실측-완결-보고)
 
 
 
@@ -13494,4 +13495,47 @@ Google Cloud SDK는 이미 준비되어 있으며, `.env` 및 Firebase 서비스
 * **병합 커밋 생성**: `[main f676523] Merge branch 'origin/main': sync Cloud Run deployment pipeline, emergency guide, presentation elevation, and governance logs`
 * **원격 전송 완료**: `To https://github.com/yeongsik0914/isoom.git (0e03fea..f676523 main -> main)`
 * **현재 상태**: `On branch main. Your branch is up to date with 'origin/main'. nothing to commit, working tree clean`
+
+---
+
+### Q231. [Google Cloud Run 프로덕션 실서버 신규 리비전(isoom-service-00005-7r8) 100% 무중단 라이브 배포 및 전수 검증 보고] Cloud Build 컨테이너 자동 패키징, 5대 보안 키 인라인 주입, 실서버 /health, /home, /emergency API 200 OK 실측 완결 보고
+
+* **기록 일시**: 2026-10-20 19:35
+* **질문 내용**:
+  > Cloud Run 실서버 배포해줘
+
+---
+
+#### 💡 답변 및 엔지니어링 리포트
+
+팀장님의 지시에 따라, 최신 코드베이스(자양동 다중 지점 오분류 해결, PWA SW v4 캐시 최적화, 응급 증상 12대 가이드 스크립트 통합, 발표 PPT 고도화 및 15단계 엔지니어링 로드맵 반영)를 모두 포함하여 **Google Cloud Run 실서버 신규 프로덕션 리비전(`isoom-service-00005-7r8`)으로 100% 무중단 라이브 배포를 완벽하게 성공**시켰음을 보고드립니다.
+
+---
+
+#### 1. 🌐 프로덕션 실서버 가동 명세
+* **공식 프로덕션 서비스 URL**: [https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app)
+* **모바일 PWA 메인 웹앱**: [https://isoom-service-920380215419.asia-northeast3.run.app/home](https://isoom-service-920380215419.asia-northeast3.run.app/home)
+* **실시간 시스템 헬스체크**: [https://isoom-service-920380215419.asia-northeast3.run.app/health](https://isoom-service-920380215419.asia-northeast3.run.app/health)
+* **활성 신규 리비전 ID**: `isoom-service-00005-7r8` (100% 트래픽 실시간 서빙)
+* **배포 리전**: `asia-northeast3` (대한민국 서울)
+* **인프라 스펙**: vCPU 1, Memory 1Gi, Min Instances 0, Max Instances 10
+
+---
+
+#### 2. 🏥 실서버 3대 핵심 엔드포인트 전수 실측 검증 결과
+1. **`GET /health` ➔ 200 OK**:
+   - `public_data_api_configured: true`: 국립중앙의료원(NMC) E-Gen 실시간 응급의료 데이터 정상 연동
+   - `gemini_api_configured: true`: Google Gemini 3.8 Flash 의학 소견 생성 정상 연동
+   - `firebase_configured: true`: Cloud Firestore `isoom` DB 정상 인증 가동
+   - `scheduler.running: true`: 5분 주기 인메모리 해시 디핑 실시간 병상 폴러 가동 중
+2. **`GET /home` ➔ 200 OK**:
+   - PWA 토스 디자인 시스템(TDS) 테마 및 모바일 온보딩 화면 실시간 서빙 확인
+3. **`GET /api/v1/emergency/nearby?latitude=37.535&longitude=127.085` ➔ 200 OK**:
+   - 광진구 자양동 기준 10개 실시간 가용 응급실 매칭 완료 (서울아산병원 1.64km 등 실시간 병상수 및 수용 상태 완벽 반환)
+
+---
+
+#### 3. 🛠️ 배포 파이프라인 고도화 조치
+* **Cloud Build 컨테이너 패키징 자동화**: `scripts/deploy_cloud_run.py` 실행 시 자동으로 Cloud Build를 호출하여 소스코드 수정본이 즉시 도커 이미지(`isoom-repo:latest`)로 빌드 및 푸시되도록 파이프라인 승격 (빌드 소요: 104.5초).
+* **무손실 환경변수 주입**: `.cloud_run_env.yaml`을 통해 5대 핵심 API Key와 `serviceAccountKey.json` 인라인 직렬화 문자열을 Cloud Run 런타임에 안전하게 주입 후 파일 즉시 소독.
 
