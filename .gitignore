@@ -36,3 +36,7 @@ DS/
 Thumbs.db
 .DS_Store
 ._*
+
+# MS Office Temporary Lock Files
+~$*
+
