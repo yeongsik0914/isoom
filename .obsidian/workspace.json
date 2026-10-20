@@ -190,6 +190,9 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
+    "README.md",
+    "docs/reports/9README.md",
+    "docs/reports/README.md",
     "scratch/check_other_dom.py",
     "scratch/check_dom.py",
     "scratch/check_discrepancy.py",
@@ -203,7 +206,6 @@
     "scripts/check_cloud_run_error.py",
     "scripts/deploy_cloud_run.py",
     "scripts/setup_gcp_secrets.py",
-    "scratch/check_html.py",
     "frontend/img/firstaid_fracture.jpg",
     "frontend/img/firstaid_poisoning.jpg",
     "frontend/img/firstaid_head_trauma.jpg",
@@ -233,8 +235,6 @@
     "Answer.md",
     "tests/evals/eval_report.md",
     "CONNECTIVITY_MAP.md",
-    "docs/README.md",
-    "tests/README.md",
-    "notebooks/README.md"
+    "docs/README.md"
   ]
 }
