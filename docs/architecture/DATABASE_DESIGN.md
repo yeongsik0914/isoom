@@ -1,7 +1,7 @@
-# [DB 설계 기획서] MoonlightCare 데이터베이스 아키텍처 및 상세 모델링 명세서
+﻿# [DB 설계 기획서] ISOOM 데이터베이스 아키텍처 및 상세 모델링 명세서
 
 > **참조 가이드**: [코딩추월차선: 데이터베이스 설계 순서와 방법 (백엔드 개발자를 위한 필수 지식)](https://www.developerfastlane.com/blog/database-design-sequence-for-backend-developers)  
-> **기반 기획안**: [MoonlightCare 종합 기획안 (docs/PROJECT_PLAN.md)](file:///e:/monnlight/docs/PROJECT_PLAN.md)  
+> **기반 기획안**: [ISOOM 종합 기획안 (docs/PROJECT_PLAN.md)](file:///e:/monnlight/docs/PROJECT_PLAN.md)  
 > **작성 일자**: 2026-10-01 | **버전**: v1.0.0
 
 ---
@@ -12,7 +12,7 @@
 
 ### 1.1 어떤 데이터베이스를 사용하는 것이 최적인가?
 
-MoonlightCare는 **"야간·휴일 소아청소년과 5ms 초고속 공간 매칭"**과 **"의료법 컴플라이언스 및 에이전트 무단 조작 차단(Zero-Trust Security)"**을 동시에 만족해야 합니다. 이를 위해 단일 DB 대신 **PostgreSQL (PostGIS 확장) + Redis 하이브리드 아키텍처**를 최종 채택합니다.
+ISOOM는 **"야간·휴일 소아청소년과 5ms 초고속 공간 매칭"**과 **"의료법 컴플라이언스 및 에이전트 무단 조작 차단(Zero-Trust Security)"**을 동시에 만족해야 합니다. 이를 위해 단일 DB 대신 **PostgreSQL (PostGIS 확장) + Redis 하이브리드 아키텍처**를 최종 채택합니다.
 
 ```mermaid
 flowchart LR

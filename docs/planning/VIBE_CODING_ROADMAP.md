@@ -1,4 +1,4 @@
-# [바이브코딩 실전 가이드] MoonlightCare 개발 허들 분석 및 단계별 바이브코딩 로드맵
+﻿# [바이브코딩 실전 가이드] ISOOM 개발 허들 분석 및 단계별 바이브코딩 로드맵
 
 > **기반 기획 문서**:
 > * [종합 기획안 (docs/PROJECT_PLAN.md)](file:///e:/monnlight/docs/PROJECT_PLAN.md)
@@ -11,7 +11,7 @@
 
 ## 1. 현실적 개발 허들(Bottlenecks) 및 기술적 방어 전략
 
-MoonlightCare는 고성능 지리공간 쿼리, 의료법 규제 가드레일, 멀티 에이전트 오케스트레이션, 공공데이터 결함이 결합된 고난도 엔터프라이즈 프로젝트입니다. 구현 과정에서 반드시 직면하게 되는 5대 핵심 허들과 그에 대한 실무 해결책입니다.
+ISOOM는 고성능 지리공간 쿼리, 의료법 규제 가드레일, 멀티 에이전트 오케스트레이션, 공공데이터 결함이 결합된 고난도 엔터프라이즈 프로젝트입니다. 구현 과정에서 반드시 직면하게 되는 5대 핵심 허들과 그에 대한 실무 해결책입니다.
 
 ```mermaid
 flowchart TD
@@ -141,7 +141,7 @@ flowchart TD
   * `app/config.py`
 * **바이브코딩 프롬프트 템플릿**:
   ```text
-  "MoonlightCare 프로젝트의 app/config.py 모듈을 작성해줘.
+  "ISOOM 프로젝트의 app/config.py 모듈을 작성해줘.
   pydantic-settings의 BaseSettings를 상속받아 DATA_GO_KR_API_KEY, GEMINI_API_KEY, 
   POSTGRES_URL, REDIS_URL, ENVIRONMENT 환경변수를 로드해야 해.
   특히 공공데이터 일반 인증키가 혹시라도 URL 인코딩된 상태로 들어올 경우를 대비해

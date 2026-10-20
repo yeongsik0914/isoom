@@ -1,4 +1,4 @@
-# [기획안] MoonlightCare: 야간·휴일 소아청소년과 매칭 하네스 멀티 에이전트 시스템
+﻿# [기획안] ISOOM: 야간·휴일 소아청소년과 매칭 하네스 멀티 에이전트 시스템
 
 ## 1. 프로젝트 개요 (Executive Summary)
 
@@ -179,7 +179,7 @@ flowchart TB
 
 ### 3.3 GCP Vertex AI 제미나이(Gemini) 모델 전수 검토 및 역할별 최적화 배치 전략
 
-MoonlightCare는 2026년 기준 Google의 최신 생성형 AI 모델 라인업(Gemini 3.8 / 3.x / 4)을 전수 검토하여, **"LLM이 꼭 필요한 고난도 자연어·추론 영역"**과 **"절대 LLM을 쓰지 않고 0ms 결정론적(DB/규칙)으로 처리해야 하는 영역"**을 엄격히 분리하여 배치합니다.
+ISOOM는 2026년 기준 Google의 최신 생성형 AI 모델 라인업(Gemini 3.8 / 3.x / 4)을 전수 검토하여, **"LLM이 꼭 필요한 고난도 자연어·추론 영역"**과 **"절대 LLM을 쓰지 않고 0ms 결정론적(DB/규칙)으로 처리해야 하는 영역"**을 엄격히 분리하여 배치합니다.
 
 #### 1) 2026년 최신 Google Gemini 모델 라인업 전수 검토
 
@@ -345,7 +345,7 @@ LLM은 '자연어 인터페이스 및 유연한 소통'에만 집중시키고, *
 
 ### 5.1 오픈 API 연동 명세 및 신청·승인 현황 매트릭스 (API Inventory & Approval Status)
 
-MoonlightCare 시스템의 최적화 가동 및 에이전트 하네스 구축을 위한 **공공데이터포털(data.go.kr) 오픈 API 연동 현황 분석, 불필요 API 배제, 추가 승인 로드맵**입니다.
+ISOOM 시스템의 최적화 가동 및 에이전트 하네스 구축을 위한 **공공데이터포털(data.go.kr) 오픈 API 연동 현황 분석, 불필요 API 배제, 추가 승인 로드맵**입니다.
 
 ```mermaid
 flowchart TD
@@ -491,7 +491,7 @@ gcloud run deploy moonlight-api \
 
 ### 5.4 DBMS 선정 근거 및 Firebase 서버리스 실시간 아키텍처 (Cloud Firestore + Cloud Functions)
 
-MoonlightCare는 **"야간·휴일 소아청소년과 30ms 초고속 매칭"**, **"실시간 병상 변동 자동 푸시"**, **"서버 유지비 0원의 고가용성 서버리스 환경"**을 달성하기 위해 **Firebase (Cloud Firestore + Cloud Functions v2 + Cloud Scheduler)**를 전격 채택합니다.
+ISOOM는 **"야간·휴일 소아청소년과 30ms 초고속 매칭"**, **"실시간 병상 변동 자동 푸시"**, **"서버 유지비 0원의 고가용성 서버리스 환경"**을 달성하기 위해 **Firebase (Cloud Firestore + Cloud Functions v2 + Cloud Scheduler)**를 전격 채택합니다.
 
 ```mermaid
 flowchart TD
@@ -882,7 +882,7 @@ export const syncEmergencyBeds = onSchedule({
 
 ### 5.10 공공 API 호출 및 Firebase 비용·사용량 최적화 동기화 아키텍처 (Smart Sync Architecture)
 
-MoonlightCare는 **"공공 API의 치명적 쿼터/지연 한계 극복"**과 **"Firebase Firestore의 읽기/쓰기 비용 극소화(무료 티어 내 운영)"**를 동시에 달성하기 위해 정교한 스마트 동기화 아키텍처를 가동합니다.
+ISOOM는 **"공공 API의 치명적 쿼터/지연 한계 극복"**과 **"Firebase Firestore의 읽기/쓰기 비용 극소화(무료 티어 내 운영)"**를 동시에 달성하기 위해 정교한 스마트 동기화 아키텍처를 가동합니다.
 
 ```mermaid
 flowchart TD
@@ -983,7 +983,7 @@ flowchart TD
 
 ### 5.12 데이터베이스 접근 통제 및 관리 감독 에이전트 거버넌스 (Zero-Trust Security & Sentinel Governance)
 
-MoonlightCare는 LLM 에이전트가 데이터베이스에 접근할 때 **"검색 및 읽기(SELECT)는 완전 자율 허용, 수정 및 삭제(UPDATE/DELETE/INSERT)는 100% 관리자 보고 및 사전 승인 강제"**라는 무관용 보안 원칙(Zero-Trust Security)을 적용합니다.
+ISOOM는 LLM 에이전트가 데이터베이스에 접근할 때 **"검색 및 읽기(SELECT)는 완전 자율 허용, 수정 및 삭제(UPDATE/DELETE/INSERT)는 100% 관리자 보고 및 사전 승인 강제"**라는 무관용 보안 원칙(Zero-Trust Security)을 적용합니다.
 
 ```mermaid
 flowchart TD
@@ -1056,7 +1056,7 @@ Cloud Firestore의 네이티브 백업 및 엔터프라이즈 재해 복구 기�
 
 ## 6. Jupyter Notebook (데이터 분석 및 실증 검증) 체계
 
-MoonlightCare는 공공데이터포털 실시간 오픈API 2종(`HsptlAsembySearchService`, `ErmctInsttInfoInqireService`) 승인 데이터와 국립중앙의료원(NMC) E-Gen 실시간 응급실 가용병상 데이터를 기반으로, **전국 17개 시·도 인프라 연계** 및 **소아 진료 취약 시간대 정량 모델링**을 2권의 주피터 노트북([notebooks/moonlight_hospital_night_pharmacy_linkage.ipynb](file:///e:/monnlight/notebooks/moonlight_hospital_night_pharmacy_linkage.ipynb), [notebooks/egen_pediatric_emergency_analysis.ipynb](file:///e:/monnlight/notebooks/egen_pediatric_emergency_analysis.ipynb))을 통해 완벽히 분석·검증하여 서비스 코어 엔진에 탑재하였습니다.
+ISOOM는 공공데이터포털 실시간 오픈API 2종(`HsptlAsembySearchService`, `ErmctInsttInfoInqireService`) 승인 데이터와 국립중앙의료원(NMC) E-Gen 실시간 응급실 가용병상 데이터를 기반으로, **전국 17개 시·도 인프라 연계** 및 **소아 진료 취약 시간대 정량 모델링**을 2권의 주피터 노트북([notebooks/moonlight_hospital_night_pharmacy_linkage.ipynb](file:///e:/monnlight/notebooks/moonlight_hospital_night_pharmacy_linkage.ipynb), [notebooks/egen_pediatric_emergency_analysis.ipynb](file:///e:/monnlight/notebooks/egen_pediatric_emergency_analysis.ipynb))을 통해 완벽히 분석·검증하여 서비스 코어 엔진에 탑재하였습니다.
 
 ### 6.1 [노트북 1] `moonlight_hospital_night_pharmacy_linkage.ipynb` (전국 17개 시·도 병원-약국 연계)
 
@@ -1297,7 +1297,7 @@ pie title 골든 테스트 케이스 40선 카테고리 분포
 
 ## 10. 최신 파이썬 웹앱 시스템 아키텍처 및 폴더 구조 (Project Architecture & Directory Layout)
 
-MoonlightCare는 **파이썬(Python) 기반의 고성능 비동기 백엔드(FastAPI)**와 **모던 인터랙티브 웹 프론트엔드(Vanilla HTML/CSS/JS SPA)**가 유기적으로 결합된 **웹앱(Web Application) 서비스**입니다.
+ISOOM는 **파이썬(Python) 기반의 고성능 비동기 백엔드(FastAPI)**와 **모던 인터랙티브 웹 프론트엔드(Vanilla HTML/CSS/JS SPA)**가 유기적으로 결합된 **웹앱(Web Application) 서비스**입니다.
 
 ### 10.1 웹앱 서비스 기술 스택 명세
 
@@ -1647,5 +1647,5 @@ gantt
 
 ### 12.1 AI 페어 프로그래밍(바이브코딩) 실전 가이드 연계
 
-MoonlightCare의 고난도 아키텍처를 AI 도구(LLM)와 함께 실패 없이 단계별로 구현하기 위한 **5대 기술 허들 분석 및 8단계 바이브코딩 프롬프트 실행 가이드**는 독립 문서인 **[VIBE_CODING_ROADMAP.md](file:///e:/monnlight/docs/VIBE_CODING_ROADMAP.md)**를 참조합니다.
+ISOOM의 고난도 아키텍처를 AI 도구(LLM)와 함께 실패 없이 단계별로 구현하기 위한 **5대 기술 허들 분석 및 8단계 바이브코딩 프롬프트 실행 가이드**는 독립 문서인 **[VIBE_CODING_ROADMAP.md](file:///e:/monnlight/docs/VIBE_CODING_ROADMAP.md)**를 참조합니다.
 

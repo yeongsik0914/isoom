@@ -1,4 +1,4 @@
-# 🗺️ MoonlightCare 모듈 & 에이전트 상호 연결도 (CONNECTIVITY_MAP.md)
+﻿# 🗺️ ISOOM 모듈 & 에이전트 상호 연결도 (CONNECTIVITY_MAP.md)
 
 > **문서 버전**: `v2.1.0` (공공 API 서킷 브레이커 & 3단계 Fallback 고가용성 통합)  
 > **최종 갱신 일자**: 2026-10-14  

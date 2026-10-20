@@ -1,4 +1,4 @@
-# 🌙 MoonlightCare 프로젝트 불변 거버넌스 & 협업 규율 (Project Rules)
+﻿# 🌙 ISOOM 프로젝트 불변 거버넌스 & 협업 규율 (Project Rules)
 
 > **중요 공지 (Critical Instruction)**  
 > 본 프로젝트는 **정영식 팀장**과 **김동준 팀원**이 함께 개발을 수행하는 협업 공간입니다.  

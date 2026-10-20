@@ -1,7 +1,7 @@
-# 📦 Pydantic 데이터 스키마 & DTO 레이어 (`app/schemas`)
+﻿# 📦 Pydantic 데이터 스키마 & DTO 레이어 (`app/schemas`)
 
 > **위치**: `app/schemas/`  
-> **역할**: MoonlightCare 시스템 전체에서 주고받는 모든 데이터의 유효성을 검증(Validation)하고, 에이전트 간 공유 메모리 및 클라이언트 통신 인터페이스를 정의하는 **Pydantic v2 표준 데이터 모델(DTO) 패키지**입니다.
+> **역할**: ISOOM 시스템 전체에서 주고받는 모든 데이터의 유효성을 검증(Validation)하고, 에이전트 간 공유 메모리 및 클라이언트 통신 인터페이스를 정의하는 **Pydantic v2 표준 데이터 모델(DTO) 패키지**입니다.
 
 ---
 
@@ -19,7 +19,7 @@
 
 ## 1. 스키마 레이어 개요
 
-MoonlightCare는 런타임 데이터 오염과 타입 불일치 버그를 0%로 만들기 위해, 시스템 내부의 모든 객체를 **Pydantic v2 `BaseModel`**로 엄격히 통제합니다.  
+ISOOM는 런타임 데이터 오염과 타입 불일치 버그를 0%로 만들기 위해, 시스템 내부의 모든 객체를 **Pydantic v2 `BaseModel`**로 엄격히 통제합니다.  
 공공 API의 원천 XML/JSON부터 Firestore 문서, AI 에이전트 간 공유 메모리, 최종 프론트엔드 반환값까지 모두 명확한 스키마 정의를 따릅니다.
 
 ---

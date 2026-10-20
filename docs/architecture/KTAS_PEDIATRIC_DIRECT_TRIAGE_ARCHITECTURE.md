@@ -1,4 +1,4 @@
-# 🏥 Gemini 3.8 Flash & KTAS 소아 데이터셋 직접 비교·분석 Triage 엔진 아키텍처
+﻿# 🏥 Gemini 3.8 Flash & KTAS 소아 데이터셋 직접 비교·분석 Triage 엔진 아키텍처
 
 > **기준 노트북**: [`notebooks/gemini_ktas_pediatric_redflag_pipeline.ipynb`](file:///e:/monnlight/notebooks/gemini_ktas_pediatric_redflag_pipeline.ipynb)  
 > **기반 데이터셋**: [`data/ktas_pediatric_dataset.json`](file:///e:/monnlight/data/ktas_pediatric_dataset.json) (2021 소아 KTAS 지침 기반 168개 주증상, 841개 세부 고려사항, 17대 분류군)  
@@ -60,7 +60,7 @@ flowchart TD
     
     subgraph Context [임상 지식 컨텍스트 (In-Memory 34.5 KB)]
         C1[(소아 1차 고려사항\n기도·호흡·의식·쇼크)]
-        C2[(MoonlightCare 7대 Red Flag)]
+        C2[(ISOOM 7대 Red Flag)]
         C3[(168개 소아 주증상 & 841개 L1~L5 세부기준)]
         C4[(연령별 정상 활력징후 표)]
     end
@@ -111,7 +111,7 @@ flowchart TD
    - 신생아(0~3개월), 영아(3~12개월), 유아(1~3세), 학령전기(3~6세), 학령기(6~12세), 청소년(12세 이상)의 심박수, 호흡수, 혈압 정상 범주.
 3. **소아 168개 주증상 및 2차 고려사항 (`symptoms`)**:
    - 각 증상별 NACRS 코드, 주증상명, 카테고리, L1~L5 세부 criteria 리스트.
-4. **MoonlightCare 소아 7대 Red Flag 룰셋 (`moonlightcare_7_red_flags`)**:
+4. **ISOOM 소아 7대 Red Flag 룰셋 (`ISOOM_7_red_flags`)**:
    - `RULE-1`: 생후 100일 미만 영아 체온 38.0℃ 이상 (KTAS 2단계 강제)
    - `RULE-2`: 급성 호흡곤란 및 청색증 동반 (KTAS 1~2단계)
    - `RULE-3`: 5분 이상 지속되는 경련 발작 (KTAS 1단계)
@@ -252,7 +252,7 @@ class KTASClassificationResult(BaseModel):
 
 ## 8. 프로덕션 탑재를 위한 2계층 안전 가드레일 (2-Tier Safety Guardrail)
 
-노트북에서 검증된 기술을 MoonlightCare 실시간 백엔드 서비스([`app/services/pediatric_triage_service.py`](file:///e:/monnlight/app/services/pediatric_triage_service.py))에 정식 적용할 때 권고되는 **2계층 세이프티 가드레일(2-Tier Safety Guardrail)** 구조입니다:
+노트북에서 검증된 기술을 ISOOM 실시간 백엔드 서비스([`app/services/pediatric_triage_service.py`](file:///e:/monnlight/app/services/pediatric_triage_service.py))에 정식 적용할 때 권고되는 **2계층 세이프티 가드레일(2-Tier Safety Guardrail)** 구조입니다:
 
 ```mermaid
 flowchart LR
@@ -291,7 +291,7 @@ flowchart LR
 | **실증 주피터 노트북** | [`notebooks/gemini_ktas_pediatric_redflag_pipeline.ipynb`](file:///e:/monnlight/notebooks/gemini_ktas_pediatric_redflag_pipeline.ipynb) | Gemini 3.8 Flash + KTAS 데이터셋 1:1 대조 엔진 및 9대 시나리오 실증 |
 | **노트북 빌더 스크립트** | [`notebooks/create_notebook.py`](file:///e:/monnlight/notebooks/create_notebook.py) | 주피터 노트북 생성, 셀 구성 및 자동 실행(nbclient) 파이프라인 |
 | **소아 KTAS 데이터셋** | [`data/ktas_pediatric_dataset.json`](file:///e:/monnlight/data/ktas_pediatric_dataset.json) | 2021 가이드라인 기반 168개 주증상, 841개 기준, 7대 Red Flag |
-| **노트북 전체 색인** | [`notebooks/README.md`](file:///e:/monnlight/notebooks/README.md) | MoonlightCare 프로젝트의 4대 핵심 분석 노트북 안내 및 코드 매핑 |
+| **노트북 전체 색인** | [`notebooks/README.md`](file:///e:/monnlight/notebooks/README.md) | ISOOM 프로젝트의 4대 핵심 분석 노트북 안내 및 코드 매핑 |
 | **아키텍처 기술 문서** | [`docs/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md`](file:///e:/monnlight/docs/KTAS_PEDIATRIC_DIRECT_TRIAGE_ARCHITECTURE.md) | 본 문서 (시스템 동작 원리, 임상 감별 기전, 안전 가드레일 상세) |
 
 ---
