@@ -217,35 +217,64 @@ async def get_facility_detail_endpoint(
     """Fetches full facility profile from data/ JSON dataset memory index."""
     from app.services.facility_db_service import get_facility_detail, init_facility_db
 
-    identifier = id or name
-    if not identifier:
+    data = None
+    req_id = (id or "").strip()
+    req_name = (name or "").strip()
+
+    if not req_id and not req_name:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="id 또는 name 파라미터 중 최소 1개는 반드시 제공되어야 합니다.",
         )
 
-    # Auto-init DB if not already initialized
-    data = get_facility_detail(
-        facility_type=type,
-        identifier=identifier,
-        user_lat=lat,
-        user_lon=lon,
-    )
-
-    if not data:
-        # Try initializing DB once if empty
-        init_facility_db(force=False)
+    # 1. Try ID first if it looks like a valid alphanumeric facility code (e.g., A1126157)
+    if req_id and not req_id.isdigit():
         data = get_facility_detail(
             facility_type=type,
-            identifier=identifier,
+            identifier=req_id,
             user_lat=lat,
             user_lon=lon,
         )
 
+    # 2. If not found by ID or ID was invalid/numeric index (e.g., '0', '1'), fallback to name
+    if not data and req_name:
+        clean_name = (
+            req_name.replace("(달빛어린이병원)", "")
+            .replace("(연계 안심약국)", "")
+            .replace("(달빛약국)", "")
+            .strip()
+        )
+        data = get_facility_detail(
+            facility_type=type,
+            identifier=clean_name,
+            user_lat=lat,
+            user_lon=lon,
+        )
+
+    # 3. If still not found and raw id was provided, try raw id as final attempt
+    if not data and req_id:
+        data = get_facility_detail(
+            facility_type=type,
+            identifier=req_id,
+            user_lat=lat,
+            user_lon=lon,
+        )
+
+    # 4. If DB was uninitialized, force init once and re-attempt
+    if not data:
+        init_facility_db(force=False)
+        if req_id and not req_id.isdigit():
+            data = get_facility_detail(facility_type=type, identifier=req_id, user_lat=lat, user_lon=lon)
+        if not data and req_name:
+            clean_name = req_name.replace("(달빛어린이병원)", "").replace("(연계 안심약국)", "").strip()
+            data = get_facility_detail(facility_type=type, identifier=clean_name, user_lat=lat, user_lon=lon)
+        if not data and req_id:
+            data = get_facility_detail(facility_type=type, identifier=req_id, user_lat=lat, user_lon=lon)
+
     if not data:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"해당 {type} 시설('{identifier}') 정보를 DB에서 찾을 수 없습니다.",
+            detail=f"해당 {type} 시설('{req_id or req_name}') 정보를 DB에서 찾을 수 없습니다.",
         )
 
     return {

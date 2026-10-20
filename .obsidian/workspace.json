@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/qa-logs/Answer-영식.md",
+                "file": "docs/qa-logs/q_a.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Answer-영식"
+              "title": "q_a"
             }
           }
         ]
@@ -190,10 +190,16 @@
   },
   "active": "fde2671d1ab7827e",
   "lastOpenFiles": [
-    "docs/architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md",
-    "q_a.md",
+    "scratch/check_other_dom.py",
+    "scratch/check_dom.py",
+    "scratch/check_discrepancy.py",
+    "scratch/test_dunchon.py",
+    "scratch/append_q231.py",
     "아이숨(ISOOM) 중간프로젝트 발표.pptx",
     "~$아이숨(ISOOM) 중간프로젝트 발표.pptx",
+    "docs/qa-logs/Answer-영식.md",
+    "docs/architecture/KTAS_CLASSIFICATION_LOGIC_EVOLUTION.md",
+    "q_a.md",
     "scripts/check_cloud_run_error.py",
     "scripts/deploy_cloud_run.py",
     "scripts/setup_gcp_secrets.py",
@@ -204,10 +210,6 @@
     "frontend/img/firstaid_bleeding.jpg",
     "frontend/img/firstaid_respiratory.jpg",
     "frontend/img/firstaid_anaphylaxis.jpg",
-    "app/services/__pycache__/facility_db_service.cpython-312.pyc",
-    "frontend/templates/first_aid_guide.html",
-    "frontend/templates/first_aid_guide.html.html",
-    "frontend/templates/first_aid_guide_back.html",
     "frontend/img/firstaid_burn.jpg",
     "frontend/img/firstaid_seizure.jpg",
     "frontend/img/firstaid_choking.jpg",
@@ -233,8 +235,6 @@
     "CONNECTIVITY_MAP.md",
     "docs/README.md",
     "tests/README.md",
-    "notebooks/README.md",
-    "app/README.md",
-    "app/schemas/README.md"
+    "notebooks/README.md"
   ]
 }

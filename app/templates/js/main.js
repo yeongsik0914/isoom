@@ -2515,7 +2515,7 @@ window.renderLiveFacilities = function(filter) {
     const closedCardClass = facility.isOpen ? '' : 'is-closed';
 
     cardsHTML += `
-      <article class="facility-card live-card ${closedCardClass}" data-type="${facility.type}" style="cursor: pointer;" onclick="window.selectLiveFacilityCard('${escapeSearchHtml(facility.name)}', '${facility.type}')" title="클릭하여 상세 정보 및 실시간 접수 보기">
+      <article class="facility-card live-card ${closedCardClass}" data-type="${facility.type}" style="cursor: pointer;" onclick="window.selectLiveFacilityCard('${facility.id || ''}', '${escapeSearchHtml(facility.name)}', '${facility.type}')" title="클릭하여 상세 정보 및 실시간 접수 보기">
         <div class="card-top">
           <div class="facility-main">
             <div class="facility-icon-wrap ${iconClass}" aria-hidden="true">
@@ -2558,8 +2558,23 @@ window.renderLiveFacilities = function(filter) {
 // ============================================================================
 // 🏥 Facility Card Navigation & Data Bridge (병원/약국 카드 클릭 시 2-트랙 상세 페이지 라우팅)
 // ============================================================================
-window.selectLiveFacilityCard = function(facilityName, facilityType) {
+window.selectLiveFacilityCard = function(facilityIdOrName, facilityNameOrType, facilityTypeOpt) {
   try {
+    let facilityId = '';
+    let facilityName = '';
+    let facilityType = 'hospital';
+
+    if (facilityTypeOpt !== undefined) {
+      // Called with 3 arguments: (id, name, type)
+      facilityId = facilityIdOrName || '';
+      facilityName = facilityNameOrType || '';
+      facilityType = facilityTypeOpt || 'hospital';
+    } else {
+      // Called with 2 arguments (backward compatible): (name, type)
+      facilityName = facilityIdOrName || '';
+      facilityType = facilityNameOrType || 'hospital';
+    }
+
     const isHospital = (facilityType === 'hospital');
     const path = window.location.pathname;
     const isFileProtocol = (window.location.protocol === 'file:');
@@ -2572,7 +2587,11 @@ window.selectLiveFacilityCard = function(facilityName, facilityType) {
 
     const returnUrl = (isFileProtocol || path.endsWith('.html')) ? 'index.html' : (window.location.pathname + window.location.search || '/home');
     const fromParam = encodeURIComponent(returnUrl);
-    const targetUrl = `${targetPage}?name=${encodeURIComponent(facilityName)}&type=${facilityType}&from=${fromParam}`;
+    const idParam = facilityId ? `&id=${encodeURIComponent(facilityId)}` : '';
+    const userLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '';
+    const userLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '';
+    const coordParam = (userLat && userLon) ? `&lat=${encodeURIComponent(userLat)}&lon=${encodeURIComponent(userLon)}` : '';
+    const targetUrl = `${targetPage}?name=${encodeURIComponent(facilityName)}&type=${facilityType}${idParam}${coordParam}&from=${fromParam}`;
 
     // 2. Cache minimal state to sessionStorage for instantaneous fallback
     try {
@@ -2582,14 +2601,14 @@ window.selectLiveFacilityCard = function(facilityName, facilityType) {
     const master = window.__LIVE_FACILITIES_MASTER__;
     if (master) {
       if (isHospital) {
-        const hosp = (master.hospital && master.hospital.find(h => h.name === facilityName))
-          || (master.rawHospitals && master.rawHospitals.find(h => h.name === facilityName));
+        const hosp = (master.hospital && master.hospital.find(h => (facilityId ? (h.id === facilityId || h.기관코드 === facilityId) : h.name === facilityName)))
+          || (master.rawHospitals && master.rawHospitals.find(h => (facilityId ? (h.id === facilityId || h.기관코드 === facilityId) : h.name === facilityName)));
         if (hosp) {
           sessionStorage.setItem('selected_hospital', JSON.stringify(hosp));
         }
       } else {
-        const pharm = (master.pharmacy && master.pharmacy.find(p => p.name === facilityName))
-          || (master.rawPharmacies && master.rawPharmacies.find(p => p.name === facilityName));
+        const pharm = (master.pharmacy && master.pharmacy.find(p => (facilityId ? (p.id === facilityId || p.기관코드 === facilityId) : p.name === facilityName)))
+          || (master.rawPharmacies && master.rawPharmacies.find(p => (facilityId ? (p.id === facilityId || p.기관코드 === facilityId) : p.name === facilityName)));
         if (pharm) {
           sessionStorage.setItem('selected_pharmacy', JSON.stringify(pharm));
         }

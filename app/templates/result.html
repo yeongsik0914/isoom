@@ -2555,8 +2555,11 @@
               ? (p.약국_평일마감.includes(':') ? p.약국_평일마감 : `${p.약국_평일마감} 마감`)
               : (p.약국_평일운영 || '23:00');
 
+            const hospId = p.기관코드 || p.id || p.hpid || '';
+
             return {
-              id: idx,
+              id: hospId || idx,
+              hpid: hospId,
               name: p.병원명,
               dist: distKm,
               drive_min: carTime,
@@ -2607,8 +2610,11 @@
                   ? (p.약국_평일마감.includes(':') ? p.약국_평일마감 : `${p.약국_평일마감} 마감`)
                   : (p.약국_평일운영 || '23:00');
 
+                const hospId = p.기관코드 || p.id || p.hpid || '';
+
                 return {
-                  id: idx,
+                  id: hospId || idx,
+                  hpid: hospId,
                   name: p.병원명,
                   dist: distKm,
                   drive_min: carTime,
@@ -2652,8 +2658,10 @@
                   const hLon = parseFloat(p.병원경도 || p.경도) || userLon;
                   const d = calcDist(userLat, userLon, hLat, hLon);
                   const distKm = Number(d.toFixed(1));
+                  const hospId = p.기관코드 || p.id || p.hpid || '';
                   return {
-                    id: idx,
+                    id: hospId || idx,
+                    hpid: hospId,
                     name: p.병원명,
                     dist: distKm,
                     drive_min: Math.max(2, Math.round(d * 2.3)),
@@ -3234,7 +3242,8 @@
     function selectHospitalCard(idx) {
       const hospList = window._activeHospitals || [];
       const selected = hospList[idx] || (hospList[0] || { name: "달빛어린이병원" });
-      sessionStorage.setItem('selected_hospital', JSON.stringify(selected.raw || selected));
+      const storedPayload = Object.assign({}, selected.raw || {}, selected);
+      sessionStorage.setItem('selected_hospital', JSON.stringify(storedPayload));
       const isFile = (window.location.protocol === 'file:');
       const isHtml = window.location.pathname.endsWith('.html');
       const returnUrl = (isFile || isHtml) ? 'result.html' : (window.location.pathname + window.location.search || '/result');
@@ -3243,9 +3252,13 @@
       } catch (e) { }
       const targetPage = (isHtml || isFile) ? 'hospital_detail.html' : '/hospital_detail';
       const fromParam = encodeURIComponent(returnUrl);
-      const hospId = selected.id || selected.기관코드 || '';
+      const cleanHospName = (selected.name || '').replace(/\s*\((?:달빛어린이병원|달빛어린이|달빛)\)/gi, '').trim();
+      const hospId = selected.hpid || selected.기관코드 || (typeof selected.id === 'string' && selected.id.startsWith('A') ? selected.id : '');
       const idParam = hospId ? `&id=${encodeURIComponent(hospId)}` : '';
-      window.location.href = `${targetPage}?name=${encodeURIComponent(selected.name)}${idParam}&from=${fromParam}`;
+      const userLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '';
+      const userLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '';
+      const coordParam = (userLat && userLon) ? `&lat=${encodeURIComponent(userLat)}&lon=${encodeURIComponent(userLon)}` : '';
+      window.location.href = `${targetPage}?name=${encodeURIComponent(cleanHospName)}${idParam}${coordParam}&from=${fromParam}`;
     }
 
     function selectPharmacyCard(idx) {
@@ -3262,9 +3275,13 @@
       } catch (e) { }
       const targetPage = (isHtml || isFile) ? 'pharmacy_detail.html' : '/pharmacy_detail';
       const fromParam = encodeURIComponent(returnUrl);
-      const pharmId = pharm.id || pharm.기관코드 || '';
+      const cleanPharmName = (pharm.name || '연계 안심약국').replace(/\s*\((?:연계\s*안심약국|연계안심약국|연계약국|안심약국|달빛약국)\)/gi, '').trim();
+      const pharmId = pharm.id || pharm.기관코드 || (selected.raw && (selected.raw.약국코드 || selected.raw.약국기관코드)) || '';
       const idParam = pharmId ? `&id=${encodeURIComponent(pharmId)}` : '';
-      window.location.href = `${targetPage}?name=${encodeURIComponent(pharmName)}${idParam}&from=${fromParam}`;
+      const userLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '';
+      const userLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '';
+      const coordParam = (userLat && userLon) ? `&lat=${encodeURIComponent(userLat)}&lon=${encodeURIComponent(userLon)}` : '';
+      window.location.href = `${targetPage}?name=${encodeURIComponent(cleanPharmName)}${idParam}${coordParam}&from=${fromParam}`;
     }
   </script>
 

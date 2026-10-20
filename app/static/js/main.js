@@ -2588,7 +2588,10 @@ window.selectLiveFacilityCard = function(facilityIdOrName, facilityNameOrType, f
     const returnUrl = (isFileProtocol || path.endsWith('.html')) ? 'index.html' : (window.location.pathname + window.location.search || '/home');
     const fromParam = encodeURIComponent(returnUrl);
     const idParam = facilityId ? `&id=${encodeURIComponent(facilityId)}` : '';
-    const targetUrl = `${targetPage}?name=${encodeURIComponent(facilityName)}&type=${facilityType}${idParam}&from=${fromParam}`;
+    const userLat = localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('user_lat') || '';
+    const userLon = localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('user_lon') || '';
+    const coordParam = (userLat && userLon) ? `&lat=${encodeURIComponent(userLat)}&lon=${encodeURIComponent(userLon)}` : '';
+    const targetUrl = `${targetPage}?name=${encodeURIComponent(facilityName)}&type=${facilityType}${idParam}${coordParam}&from=${fromParam}`;
 
     // 2. Cache minimal state to sessionStorage for instantaneous fallback
     try {

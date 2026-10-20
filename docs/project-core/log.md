@@ -7775,3 +7775,31 @@
 * **조치 결과**:
   * 라이브 서비스 URL([https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app))에 최신 기능이 100% 무중단으로 반영됨.
 
+
+### [ISSUE-226] hospital_detail.html & pharmacy_detail.html 상세 페이지 3대 결함(식별자 매핑, API 다지점 우선순위, 하드코딩 폴백 기본값) 전수 해소 및 실시간 하버사인 연산 엔진 동기화
+
+* **발생 일자**: 2026-10-20
+* **작업자**: 김동준 (팀원), 정영식 (팀장)
+* **분류**: 프론트엔드/백엔드 데이터 파이프라인 무결성 & LBS 거리 계산
+* **문제 상황**:
+  * 둔촌동 등 특정 지역 검색 후 `result.html` 병원 카드를 클릭하여 `hospital_detail.html` 진입 시, 병원 고유 식별자가 아닌 배열 인덱스가 전달되어 API 404가 발생하거나, 동일 명칭 다지점 병원(`24시열린의원` 자양점 vs 잠실점)의 지점이 역전되는 현상 발생.
+  * API 실패 시 프론트엔드 폴백에서 `dist_km`이 미계산되어 하드코딩 기본값(`1.8 km (차 6분)`)이 그대로 노출되고, URL 좌표 파라미터를 읽지 않아 문정동 기본 좌표로 거리가 계산되는 복합 결함 발견.
+* **원인 분석**:
+  1. `result.html`의 카드 데이터 생성 시 일부 항목에서 고유 `기관코드` 누락으로 인덱스 `0`이 전달됨.
+  2. 서버 `/facility-detail` API에서 숫자 인덱스를 ID로 오인하여 404를 반환하고, 이름 검색 시 지점별 고유 코드가 없어 최근접 지점으로 잘못 분기.
+  3. `hospital_details.json` 정적 데이터에는 사용자 위치가 없어 `dist_km`이 정의되지 않았는데, 프론트엔드 폴백에서 실시간 하버사인 계산 없이 기본 객체값을 렌더링.
+  4. URL 쿼리의 `lat`, `lon` 파라미터를 파싱하지 않고 `localStorage`만 참조하여 좌표가 유실됨.
+* **해결 방안 및 조치**:
+  1. `data/nationwide_pairings.json` 156개 페어링 전수 고유 `기관코드` 부여 및 JS 데이터셋 동기화.
+  2. 백엔드 `facility_db_service.py` 및 `emergency.py`에서 영숫자 기관코드 최우선 매칭 및 정제된 이름 폴백 구현.
+  3. `hospital_detail.html` 및 `pharmacy_detail.html`에 URL 좌표 우선 파싱, 4단계 캐스케이딩 폴백, 클라이언트 실시간 하버사인 거리 및 요일별 마감시간 자동 연산 엔진 탑재.
+  4. 연계 약국/병원 상호 이동 링크에 `id`, `name`, `lat`, `lon` 완전 전달 보장.
+* **적용 파일**:
+  * `data/nationwide_pairings.json`
+  * `frontend/js/nationwide_pairings.js`, `app/static/js/nationwide_pairings.js`, `app/templates/js/nationwide_pairings.js`
+  * `frontend/js/hospital_details_data.js`, `app/static/js/hospital_details_data.js`
+  * `frontend/js/pharmacy_details_data.js`, `app/static/js/pharmacy_details_data.js`
+  * `app/api/v1/emergency.py`, `app/services/facility_db_service.py`
+  * `app/templates/result.html`, `frontend/templates/result.html`
+  * `app/templates/hospital_detail.html`, `frontend/templates/hospital_detail.html`
+  * `app/templates/pharmacy_detail.html`, `frontend/templates/pharmacy_detail.html`

@@ -1301,22 +1301,60 @@
       paired_hospital_dist_m: 50
     };
 
+    // Helper: Haversine distance in km
+    function calcHaversine(lat1, lon1, lat2, lon2) {
+      if (!lat1 || !lon1 || !lat2 || !lon2) return 1.5;
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
     // 1. Fetch from Database API and Hydrate UI
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const qName = urlParams.get('name') || '';
         const qId = urlParams.get('id') || '';
+        const urlLat = parseFloat(urlParams.get('lat') || '');
+        const urlLon = parseFloat(urlParams.get('lon') || '');
 
-        const userLat = parseFloat(localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || '37.4858');
-        const userLon = parseFloat(localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || '127.1225');
+        // 1. Determine effective user coordinates (URL > localStorage > sessionStorage > Dunchon-dong default)
+        const sLat = parseFloat(localStorage.getItem('aisum_user_lat') || localStorage.getItem('user_lat') || sessionStorage.getItem('aisum_user_lat') || sessionStorage.getItem('user_lat') || '0');
+        const sLon = parseFloat(localStorage.getItem('aisum_user_lon') || localStorage.getItem('user_lon') || sessionStorage.getItem('aisum_user_lon') || sessionStorage.getItem('user_lon') || '0');
+
+        const userLat = (!isNaN(urlLat) && urlLat > 0) ? urlLat : (sLat > 0 ? sLat : 37.5270);
+        const userLon = (!isNaN(urlLon) && urlLon > 0) ? urlLon : (sLon > 0 ? sLon : 127.1360);
+
+        const cleanQ = (qName || '').replace(/\s*\((?:연계\s*안심약국|연계안심약국|연계약국|안심약국|달빛약국)\)/gi, '').trim();
+        const validId = (qId && !qId.match(/^\d+$/)) ? qId : '';
+
+        // 2. Check sessionStorage payload for instant card hydration
+        let sessionPharm = null;
+        try {
+          const stored = sessionStorage.getItem('selected_pharmacy');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            const pId = parsed.기관코드 || parsed.id || parsed.hpid || '';
+            const pName = (parsed.약국명 || parsed.name || '').replace(/\s*\((?:연계\s*안심약국|연계안심약국|연계약국|안심약국|달빛약국)\)/gi, '').trim();
+            if (!validId || !pId || validId === pId || pName.includes(cleanQ) || cleanQ.includes(pName)) {
+              sessionPharm = parsed;
+            }
+          }
+        } catch (e) {
+          console.warn('[PharmacyDetail] Session parse error:', e);
+        }
 
         let fetchedData = null;
 
-        // 1. Try Dataset API first
-        if (qName || qId) {
+        // 3. Try Backend Facility Detail API first
+        if (cleanQ || validId) {
           try {
-            const apiTarget = `/api/v1/emergency/facility-detail?type=pharmacy&name=${encodeURIComponent(qName)}&id=${encodeURIComponent(qId)}&lat=${userLat}&lon=${userLon}`;
+            const apiTarget = `/api/v1/emergency/facility-detail?type=pharmacy&name=${encodeURIComponent(cleanQ)}&id=${encodeURIComponent(validId)}&lat=${userLat}&lon=${userLon}`;
             const res = await fetch(apiTarget);
             if (res.ok) {
               const resJson = await res.json();
@@ -1329,12 +1367,11 @@
           }
         }
 
-        // 2. Local JS Dataset Fallback (window.PHARMACY_DETAILS_DATA from 24h sync)
+        // 4. Local JS Dataset Fallback (window.PHARMACY_DETAILS_DATA)
         if (!fetchedData && window.PHARMACY_DETAILS_DATA && window.PHARMACY_DETAILS_DATA.length) {
-          const cleanQ = (qName || '').replace(' (연계 안심약국)', '').trim();
           let found = null;
-          if (qId) {
-            found = window.PHARMACY_DETAILS_DATA.find(item => item.id === qId);
+          if (validId) {
+            found = window.PHARMACY_DETAILS_DATA.find(item => item.id === validId);
           }
           if (!found && cleanQ) {
             const matches = window.PHARMACY_DETAILS_DATA.filter(item =>
@@ -1344,23 +1381,122 @@
               found = matches[0];
             } else if (matches.length > 1) {
               found = matches.slice().sort((a, b) => {
-                const distA = Math.hypot((a.lat || 0) - userLat, (a.lon || 0) - userLon);
-                const distB = Math.hypot((b.lat || 0) - userLat, (b.lon || 0) - userLon);
+                const distA = calcHaversine(userLat, userLon, parseFloat(a.lat) || 0, parseFloat(a.lon) || 0);
+                const distB = calcHaversine(userLat, userLon, parseFloat(b.lat) || 0, parseFloat(b.lon) || 0);
                 return distA - distB;
               })[0];
             }
           }
           if (found) {
             fetchedData = Object.assign({}, found);
-            console.info('[PharmacyDetail] Successfully resolved from window.PHARMACY_DETAILS_DATA:', found.name, found.address);
           }
         }
 
+        // 5. Fallback to window.NATIONWIDE_PAIRINGS_DATA
+        if (!fetchedData && window.NATIONWIDE_PAIRINGS_DATA && window.NATIONWIDE_PAIRINGS_DATA.length) {
+          let pFound = null;
+          if (validId) {
+            pFound = window.NATIONWIDE_PAIRINGS_DATA.find(p => (p.약국코드 === validId || p.기관코드 === validId));
+          }
+          if (!pFound && cleanQ) {
+            const pMatches = window.NATIONWIDE_PAIRINGS_DATA.filter(p =>
+              p.약국명 && (p.약국명.includes(cleanQ) || cleanQ.includes(p.약국명.replace(/\s*\(.*?\)/, '')))
+            );
+            if (pMatches.length === 1 || !(userLat && userLon)) {
+              pFound = pMatches[0];
+            } else if (pMatches.length > 1) {
+              pFound = pMatches.slice().sort((a, b) => {
+                const distA = calcHaversine(userLat, userLon, parseFloat(a.약국위도 || a.위도) || 0, parseFloat(a.약국경도 || a.경도) || 0);
+                const distB = calcHaversine(userLat, userLon, parseFloat(b.약국위도 || b.위도) || 0, parseFloat(b.약국경도 || b.경도) || 0);
+                return distA - distB;
+              })[0];
+            }
+          }
+          if (pFound) {
+            fetchedData = {
+              id: pFound.약국코드 || validId,
+              name: (pFound.약국명 || '').replace(/\s*\((?:연계\s*안심약국|연계안심약국|연계약국|안심약국|달빛약국)\)/gi, '').trim(),
+              phone: pFound.약국전화 || '',
+              address: pFound.약국주소 || '',
+              lat: parseFloat(pFound.약국위도) || userLat,
+              lon: parseFloat(pFound.약국경도) || userLon,
+              hours_weekday: pFound.약국_평일운영 || '09:00 ~ 23:00',
+              hours_saturday: pFound.약국_토요운영 || '09:00 ~ 23:00',
+              hours_sunday: pFound.약국_일공운영 || '09:00 ~ 23:00',
+              safety_margin_min: pFound.안전마진_분 || 30,
+              paired_hospital_name: (pFound.병원명 || '').replace(/\s*\((?:달빛어린이병원|달빛어린이|달빛)\)/gi, '').trim(),
+              paired_hospital_phone: pFound.병원전화 || pFound.대표전화 || '',
+              paired_hospital_address: pFound.병원주소 || '',
+              paired_hospital_closing: pFound.병원_평일마감 ? pFound.병원_평일마감 + ' 마감' : '23:00 마감',
+              paired_hospital_dist_m: 50
+            };
+          }
+        }
+
+        // Apply fetched data
         if (fetchedData) {
           activePharmacy = Object.assign(activePharmacy, fetchedData);
         }
 
-        // 2. Render Pharmacy Metadata to DOM
+        // Supplement from sessionPharm if present
+        if (sessionPharm) {
+          activePharmacy.name = sessionPharm.name || sessionPharm.약국명 || activePharmacy.name;
+          activePharmacy.phone = sessionPharm.tel || sessionPharm.phone || sessionPharm.약국전화 || activePharmacy.phone;
+          activePharmacy.address = sessionPharm.address || sessionPharm.약국주소 || activePharmacy.address;
+          if (sessionPharm.dist !== undefined || sessionPharm.거리_km !== undefined) {
+            activePharmacy.dist_km = Number(sessionPharm.dist || sessionPharm.거리_km);
+          }
+          if (sessionPharm.drive_min !== undefined) {
+            activePharmacy.drive_min = Number(sessionPharm.drive_min);
+          }
+          if (sessionPharm.margin || sessionPharm.안전마진_분) {
+            activePharmacy.safety_margin_min = Number(sessionPharm.margin || sessionPharm.안전마진_분);
+          }
+        }
+
+        // Clean any residual suffixes in pharmacy name
+        if (activePharmacy.name) {
+          activePharmacy.name = activePharmacy.name.replace(/\s*\((?:연계\s*안심약국|연계안심약국|연계약국|안심약국|달빛약국)\)/gi, '').trim();
+        }
+
+        // Compute dynamic distance & drive/walk times if not set from API or if default 1.2
+        const pLat = parseFloat(activePharmacy.lat) || 0;
+        const pLon = parseFloat(activePharmacy.lon) || 0;
+        if ((!activePharmacy.dist_km || activePharmacy.dist_km === 1.2) && pLat > 0 && pLon > 0) {
+          const calculatedDist = calcHaversine(userLat, userLon, pLat, pLon);
+          activePharmacy.dist_km = Number(calculatedDist.toFixed(1));
+          activePharmacy.drive_min = Math.max(2, Math.round(activePharmacy.dist_km * 2.3));
+          activePharmacy.walk_min = Math.max(3, Math.round(activePharmacy.dist_km * 14));
+        } else if (activePharmacy.dist_km && !activePharmacy.drive_min) {
+          activePharmacy.drive_min = Math.max(2, Math.round(activePharmacy.dist_km * 2.3));
+          activePharmacy.walk_min = Math.max(3, Math.round(activePharmacy.dist_km * 14));
+        }
+
+        // Compute dynamic today's hours if not provided
+        const now = new Date();
+        const day = now.getDay();
+        if (!activePharmacy.today_hours || activePharmacy.today_hours.includes('문정스타')) {
+          if (day === 6) {
+            activePharmacy.today_hours = activePharmacy.hours_saturday || '09:00 ~ 23:00';
+          } else if (day === 0) {
+            activePharmacy.today_hours = activePharmacy.hours_sunday || '09:00 ~ 23:00 (심야 운영)';
+          } else {
+            activePharmacy.today_hours = activePharmacy.hours_weekday || '09:00 ~ 23:00';
+          }
+        }
+
+        // Compute closing time
+        let closingTime = '23:00';
+        if (activePharmacy.today_hours && activePharmacy.today_hours.includes('~')) {
+          const parts = activePharmacy.today_hours.split('~');
+          const lastPart = parts[parts.length - 1];
+          const m = lastPart.match(/(\d{2}:\d{2})/);
+          if (m) closingTime = m[1];
+        }
+        activePharmacy.closing_time = closingTime;
+        activePharmacy.status_badge = `오늘 심야영업 중 (~${closingTime})`;
+
+        // 6. Render Pharmacy Metadata to DOM
         document.title = `${activePharmacy.name} 상세 - 아이숨(i-Soom)`;
 
         // Title & Badges
@@ -1368,7 +1504,7 @@
         if (nameEl) nameEl.innerText = activePharmacy.name;
 
         const liveBadgeEl = document.getElementById('pharmacy-live-time');
-        if (liveBadgeEl) liveBadgeEl.innerText = activePharmacy.status_badge || `오늘 심야영업 중 (~${activePharmacy.closing_time || '23:00'})`;
+        if (liveBadgeEl) liveBadgeEl.innerText = activePharmacy.status_badge;
 
         // 3-Column Metrics
         const marginEl = document.getElementById('metric-margin');
@@ -1394,7 +1530,7 @@
 
         // Operating Hours
         const todayHoursEl = document.getElementById('detail-today-hours');
-        if (todayHoursEl) todayHoursEl.innerText = activePharmacy.today_hours || '09:00 ~ 23:00';
+        if (todayHoursEl) todayHoursEl.innerText = activePharmacy.today_hours;
 
         const satHoursEl = document.getElementById('detail-sat-hours');
         if (satHoursEl) satHoursEl.innerText = activePharmacy.hours_saturday || '09:00 ~ 23:00';
@@ -1408,8 +1544,9 @@
 
         const hDescEl = document.getElementById('hospital-desc');
         if (hDescEl) {
-          const distM = activePharmacy.paired_hospital_dist_m || 100;
-          hDescEl.innerHTML = `약국 인근 <strong>도보 ${Math.max(1, Math.round(distM / 65))}분 (${distM}m)</strong> · 오늘 야간진료 <strong>${activePharmacy.paired_hospital_closing || '23:00 마감'}</strong>`;
+          const distM = activePharmacy.paired_hospital_dist_m || 80;
+          const walkMin = Math.max(1, Math.round(distM / 65));
+          hDescEl.innerHTML = `약국 인근 <strong>도보 ${walkMin}분 (${distM}m)</strong> · 오늘 야간진료 <strong>${activePharmacy.paired_hospital_closing || '23:00 마감'}</strong>`;
         }
 
         const hCallEl = document.getElementById('btn-hospital-call');
@@ -1423,7 +1560,10 @@
           const isHtml = window.location.pathname.endsWith('.html');
           const targetHospitalPage = (isHtml || isFile) ? 'hospital_detail.html' : '/hospital_detail';
           const curReturn = (isFile || isHtml) ? ('pharmacy_detail.html' + window.location.search) : (window.location.pathname + window.location.search);
-          hDetailEl.href = `${targetHospitalPage}?name=${encodeURIComponent(activePharmacy.paired_hospital_name)}&from=${encodeURIComponent(curReturn)}`;
+          const hospId = activePharmacy.paired_hospital_id || '';
+          const idParam = hospId ? `&id=${encodeURIComponent(hospId)}` : '';
+          const coordParam = `&lat=${encodeURIComponent(userLat)}&lon=${encodeURIComponent(userLon)}`;
+          hDetailEl.href = `${targetHospitalPage}?name=${encodeURIComponent(activePharmacy.paired_hospital_name)}${idParam}${coordParam}&from=${encodeURIComponent(curReturn)}`;
         }
 
         // Location & Parking
@@ -1450,16 +1590,11 @@
           callBottomBtn.href = `tel:${activePharmacy.phone.replace(/[^0-9]/g, '')}`;
         }
 
-        const naviBottomBtn = document.getElementById('btn-bottom-navi');
-        if (naviBottomBtn) {
-          naviBottomBtn.href = `https://map.kakao.com/link/to/${encodeURIComponent(activePharmacy.name)},${activePharmacy.lat},${activePharmacy.lon}`;
-        }
-
-        // 3. Render Interactive In-Page Map
-        renderPharmacyMap(activePharmacy.lat, activePharmacy.lon, activePharmacy.name);
+        // 7. Render Interactive In-Page Map
+        renderInPageMap(activePharmacy.lat, activePharmacy.lon, activePharmacy.name);
 
       } catch (err) {
-        console.warn('[PharmacyDetail] Init error:', err);
+        console.warn('[PharmacyDetail] Initialization error:', err);
       }
     });
 
