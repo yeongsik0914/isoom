@@ -1,5 +1,6 @@
 <div align="center">
-  <img src="images/aisum_official_app_icon.png" width="100" height="100" alt="아이숨 로고" style="border-radius: 20px;" />
+  <a href="https://isoom-service-108335720396.asia-northeast3.run.app/">
+  <img src="images/aisum_official_app_icon.png" width="100" height="100" alt="아이숨 로고" style="border-radius: 20px;" /></a>
   <h1>아이숨 (i-Soom)</h1>
   <p><strong>야간·공휴일 소아 의료 공백 해소를 위한 지능형 사전 문진(KTAS) 및 의료기관 매칭 시스템</strong></p>
   <p><em>Intelligent Pediatric Triage & Emergency Healthcare Matching System</em></p>
