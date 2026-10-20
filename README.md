@@ -6,7 +6,7 @@
   <p><em>Intelligent Pediatric Triage & Emergency Healthcare Matching System</em></p>
 
   <p>
-    <a href="https://isoom-service-920380215419.asia-northeast3.run.app"><img src="https://img.shields.io/badge/Google_Cloud_Run-Live_Service-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Live Service" /></a>
+    <a href="https://isoom-service-920380215419.asia-northeast3.run.app/"><img src="https://img.shields.io/badge/Google_Cloud_Run-Live_Service-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Live Service" /></a>
     <img src="https://img.shields.io/badge/Tests-128_Passed-10B981?style=flat-square&logo=pytest&logoColor=white" alt="Tests 128 Passed" />
     <img src="https://img.shields.io/badge/KTAS_Evals-40%2F40_(100%25)-6366F1?style=flat-square" alt="KTAS Evals 100%" />
     <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.11+" />
@@ -16,7 +16,7 @@
   </p>
 
   <p>
-    <a href="https://isoom-service-920380215419.asia-northeast3.run.app"><strong>프로덕션 라이브 데모</strong></a> &nbsp;|&nbsp;
+    <a href="https://isoom-service-920380215419.asia-northeast3.run.app/"><strong>프로덕션 라이브 데모</strong></a> &nbsp;|&nbsp;
     <a href="docs/README.md"><strong>기술 문서고</strong></a> &nbsp;|&nbsp;
     <a href="docs/project-core/PLAN.md"><strong>개발 백서 (PLAN)</strong></a> &nbsp;|&nbsp;
     <a href="docs/project-core/log.md"><strong>엔지니어링 로그</strong></a> &nbsp;|&nbsp;

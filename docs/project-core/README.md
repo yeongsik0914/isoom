@@ -28,6 +28,16 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.33-cloud-run-live-deployment-verified] 2026-10-20: Google Cloud Run 실서버 프로덕션 라이브 배포 완결 및 전수 검증 (정영식 팀장 총괄)
+* **🌐 Google Cloud Run 프로덕션 실서버 100% 무중단 라이브 배포 완결**:
+  - 활성 서비스 URL: [https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app)
+  - 서울 리전(`asia-northeast3`) 리비전 `isoom-service-00004-sbq` 100% 트래픽 서빙 활성화.
+  - 컨테이너 임포트 장애(`ContainerImageImportFailed`) 원천 해결: Dockerfile `HEALTHCHECK` 제거 및 Exec form `CMD ["python", "main.py"]` 적용.
+  - 전용 Artifact Registry 저장소 `isoom-repo` 구축 및 `requirements.txt` 런타임 최적화를 통해 빌드 타임 1분대, 배포 타임 25.8초 달성.
+* **🏥 실서버 헬스체크 및 3대 연동 무결점 실측 검증**:
+  - `GET /health` 호출 검증: `public_data_api_configured: true`, `gemini_api_configured: true`, `firebase_configured: true`, `scheduler.running: true` (5분 간격 병상 폴러 가동).
+  - PWA 모바일 웹앱([/home](https://isoom-service-920380215419.asia-northeast3.run.app/home)) 정상 서빙 확인.
+
 ### 🌟 [v2.9.32-cloud-run-deployment-pipeline-sync] 2026-10-20: Google Cloud Run 원클릭 프로덕션 배포 파이프라인 수립 및 .env 보안 키 연동 (정영식 팀장 총괄)
 * **🚀 원클릭 프로덕션 배포 파이프라인 수립 (`scripts/deploy_cloud_run.py`, `scripts/deploy_cloud_run.bat`)**:
   - `.env`에 정의된 5대 핵심 API 키(`DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `FIRESTORE_DATABASE_ID`, `FIREBASE_KEY_PATH`)를 자동 로드·검증하는 파이프라인 구축.

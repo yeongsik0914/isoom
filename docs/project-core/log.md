@@ -7593,6 +7593,42 @@
 * **조치 결과**:
   * 로컬 gcloud SDK 환경과 API 키 검증이 완료되었으며, 팀장님의 `gcloud.cmd auth login` 1회 수행 후 `python scripts/deploy_cloud_run.py` 실행만으로 서울 리전 Cloud Run에 완벽한 무중단 실서버 배포가 가능하도록 준비 완료됨.
 
+### [ISSUE-220] Cloud Run 프로덕션 실서버 배포 완결 및 ContainerImageImportFailed 해결
+
+* **발생 일자**: 2026-10-20
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **분류**: Google Cloud Run 실서버 배포 완결
+* **문제 상황**:
+  * 팀장님의 `gcloud.cmd auth login` 승인 후 `gcloud run deploy --source .`를 실행하였으나, 컨테이너 빌드 후 리비전 생성 단계에서 `ERROR: (gcloud.run.deploy) Container import failed (reason: ContainerImageImportFailed)` 발생.
+  * 신규 리비전 생성이 중단되고 서비스 배포가 실패함.
+* **원인 분석**:
+  1. `Dockerfile` 내부에 선언된 `HEALTHCHECK` 명령어가 Knative / Cloud Run의 컨테이너 샌드박스 규격과 비호환되어 컨테이너 임포트 검증기에서 인제스천이 거부됨.
+  2. `CMD ["sh", "-c", "uvicorn ..."]` 셸 래퍼 형식으로 인해 Cloud Run 인프라의 OS 시그널 및 PORT 바인딩 핸들링이 불필요하게 셸 프로세스를 경유함.
+  3. `requirements.txt`에 주피터 노트북용 데이터 분석 패키지(matplotlib, seaborn, scikit-learn, scipy, ipykernel, jupyter)가 포함되어 컨테이너 빌드가 2분 이상 소요되고 이미지 크기가 비대해짐.
+* **구체적 해결 방안**:
+  1. **`Dockerfile` 최적화**:
+     - Cloud Run과 비호환되는 `HEALTHCHECK` 명령어 완전 제거 (Cloud Run 인프라 네이티브 프로브 위임).
+     - `CMD ["python", "main.py"]` 직접 실행(Exec form)으로 단순화하여 `os.getenv("PORT", 8080)` 동적 바인딩 및 시그널 안정성 확보.
+  2. **의존성 분리 및 빌드 슬림화**:
+     - `requirements.txt`를 런타임 필수 패키지(FastAPI, Uvicorn, Firebase-Admin, google-genai, apscheduler, requests, xmltodict, pydantic)로 슬림화.
+     - 노트북용 패키지는 `requirements-dev.txt`로 안전 분리.
+  3. **전용 Artifact Registry 저장소 구축 (`isoom-repo`)**:
+     - 서울 리전(`asia-northeast3`)에 `isoom-repo` Docker 저장소를 신규 생성하고 1.1분 만에 초경량 빌드/푸시 성공.
+  4. **Cloud Run 실서버 배포 완결 (`isoom-service-00004-sbq`)**:
+     - `scripts/deploy_cloud_run.py`를 통해 서울 리전에 25.8초 만에 무중단 배포 완료.
+     - 배포 직후 `/health` 엔드포인트 호출을 통해 공공데이터포털, Gemini 3.8 Flash, Firebase Firestore 3대 연동 및 APScheduler 백그라운드 병상 폴러 가동을 100% 실측 검증.
+* **적용 파일**:
+  * [Dockerfile](file:///e:/isoom/Dockerfile)
+  * [requirements.txt](file:///e:/isoom/requirements.txt)
+  * [requirements-dev.txt](file:///e:/isoom/requirements-dev.txt)
+  * [scripts/deploy_cloud_run.py](file:///e:/isoom/scripts/deploy_cloud_run.py)
+  * [README.md](file:///e:/isoom/README.md)
+  * [docs/project-core/PLAN.md](file:///e:/isoom/docs/project-core/PLAN.md)
+  * [docs/project-core/log.md](file:///e:/isoom/docs/project-core/log.md)
+  * [docs/qa-logs/Answer-영식.md](file:///e:/isoom/docs/qa-logs/Answer-영식.md)
+* **조치 결과**:
+  * 리비전 `isoom-service-00004-sbq`가 100% 트래픽을 서빙하며, 라이브 URL([https://isoom-service-920380215419.asia-northeast3.run.app](https://isoom-service-920380215419.asia-northeast3.run.app))에서 PWA 및 API가 정상 작동함을 확인 완료.
+
 
 
 
