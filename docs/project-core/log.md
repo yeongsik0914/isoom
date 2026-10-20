@@ -1,4 +1,4 @@
-﻿# [ISOOM] 트러블슈팅 & 문제 해결 엔지니어링 로그 (log.md)
+# [ISOOM] 트러블슈팅 & 문제 해결 엔지니어링 로그 (log.md)
 
 본 문서는 ISOOM 프로젝트의 기획, 데이터 파이프라인, 멀티 에이전트, 백엔드 및 웹 프론트엔드 개발 과정에서 발생하는 **모든 오류(Errors), 데이터 결함(Data Pitfalls), 컴플라이언스 위험, 그리고 구체적인 해결 방안(Solutions)**을 기록하고 지속 관리하는 공식 엔지니어링 로그입니다.
 
@@ -224,6 +224,7 @@
 | **[ISSUE-215]** | 공식 3D 앱 아이콘·파비콘 탑재 버전 Cloud Run 프로덕션 무중단 배포 및 실서버 라이브 검증 완료 | 최신 리비전(isoom-service-00026-nhs) 100% 트래픽 활성화, /favicon.ico(5KB), /img/icon-192.png(29KB), /img/icon-512.png(197KB) 전수 200 OK 실서버 라이브 검증 완결 | **해결 완료 (Resolved)** | 2026-10-18 |
 | **[ISSUE-216]** | GCP Secret Manager 5대 비밀 키 암호화 연동 및 Google Cloud Run 실서버 프로덕션 무중단 배포 | .env 5대 핵심 API Key Secret Manager 등록, IAM 시크릿 접근자/저장소 권한 부여, GCR 컨테이너 빌드 및 Cloud Run(isoom-service-00010-qct) 100% 트래픽 배포·실서버 검증 완결 | **해결 완료 (Resolved)** | 2026-10-19 |
 | **[ISSUE-217]** | 응급실 결과 페이지 가용 응급실 알약 배지(er-list-completed-pill) 전면 삭제 및 Cloud Run 실서버 재배포 | result.html 정적 목업 및 동적 JS 배지 완전 소독, Cloud Build(28a8ab73) 패키징 및 Cloud Run(isoom-service-00011-htj) 100% 무중단 릴리스·실서버 검증 완결 | **해결 완료 (Resolved)** | 2026-10-19 |
+| **[ISSUE-218]** | 리포지토리 공식 브랜딩 & GitHub 랜딩 페이지 구축 | 깃허브 공식 랜딩 README.md 신규 구축 및 클린 & 프리미엄 디자인 시스템 수립 | **해결 완료 (Resolved)** | 2026-10-20 |
 
 
 
@@ -7516,6 +7517,40 @@
   * [PLAN.md](file:///c:/AI-Native-Agent/isoom/PLAN.md)
 * **조치 결과**:
   * 응급실 결과 화면 하단의 불필요한 배지가 완벽히 제거되어 병원 목록 가독성이 대폭 향상되었으며, Google Cloud Run 실서버에 최신 리비전(`00011-htj`)으로 무중단 배포 및 정상 동작이 완료됨.
+
+---
+
+### [ISSUE-218] 깃허브 공식 랜딩 README.md 신규 구축 및 클린 & 프리미엄 디자인 시스템 수립
+
+* **발생 일자**: 2026-10-20
+* **작업자**: 정영식 (팀장), 김동준 (팀원)
+* **분류**: 리포지토리 공식 브랜딩 & GitHub 랜딩 페이지 구축
+* **문제 상황**:
+  * 기존에는 `docs/project-core/README.md`에 기술 스펙 및 누적 체인지로그가 분산되어 있었으나, GitHub 원격 저장소 루트(`/README.md`)가 부재하여 방문자, 동료 개발자, 채용 담당자가 저장소 첫 페이지에서 프로젝트의 사회적 가치, 핵심 아키텍처, 실서비스 현황을 파악하기 어려웠음.
+  * 과도하고 난잡한 이모티콘 남발을 지양하고, 신뢰성 있고 완성도 높은 엔터프라이즈 오픈소스 수준의 단정하고 우아한 디자인 체계 수립 요청 접수.
+* **원인 분석**:
+  * 프로젝트 코어 문서가 `docs/` 하위 계층으로 체계화되는 과정에서 GitHub 플랫폼의 공식 진입점인 루트 `README.md`가 배치되지 않았음.
+* **구체적 해결 방안**:
+  1. **저장소 루트 `README.md` 신규 구축**:
+     - 중앙 정렬 히어로 섹션: 공식 3D 스퀘어클 앱 아이콘, 서비스 명칭, 슬로건, 플랫스퀘어 통일 뱃지 7종(Cloud Run Live, Tests 128 Passed, KTAS Evals 100%, Python 3.11+, FastAPI, Gemini 3.8 Flash, Firestore FinOps 93% Save) 및 핵심 퀵 링크 배치.
+     - 실제 서비스 모바일 뷰 프리뷰(`images/screen.png`)를 중앙에 배치하여 시각적 신뢰도 극대화.
+  2. **문제 정의 및 솔루션 구조화**:
+     - 74% 경증 과밀화, 소아 진료 제한 공지 누락, 심야 약국 40% 조기 마감, AI 언더트리아제 4대 난제와 아이숨의 6대 해결 방안 비교표 명시.
+  3. **핵심 기능 및 시스템 아키텍처 수록**:
+     - 2-트랙 라우팅(Track A 소아 응급실 vs Track B 달빛병원+심야약국), 2계층 안전 감시망(26µs 정규식 인터셉터 + 한국어 복합 부정문 감별 엔진 `has_affirmative_match` + 의료법 제27조 소독 게이트웨이), 3-State 서킷 브레이커 & 3-Tier Multi-Storage Fallback, In-Memory Hash Diffing 93% 비용 절감 명세.
+     - 최신 시스템 데이터 흐름을 Mermaid 다이어그램으로 가각화.
+  4. **빠른 시작 및 품질 검증 지표 안내**:
+     - 의존성 설치, 환경 변수(`.env`), 서버 구동(`python main.py`), pytest 테스트 실행법 및 128개 테스트 전수 통과, 40대 임상 골든 케이스 100% 일치, 언더트리아제 0% 지표 명시.
+  5. **팀원 및 역할, 4대 거버넌스 문서 링크 완비**:
+     - 정영식 팀장, 김동준 팀원 역할 명시 및 기술 문서고(`docs/`), 개발 백서(`PLAN.md`), 로그(`log.md`), 질의응답(`Answer-영식.md`) 링크 연동.
+* **적용 파일**:
+  * [README.md](file:///e:/isoom/README.md)
+  * [docs/project-core/README.md](file:///e:/isoom/docs/project-core/README.md)
+  * [docs/project-core/PLAN.md](file:///e:/isoom/docs/project-core/PLAN.md)
+  * [docs/project-core/log.md](file:///e:/isoom/docs/project-core/log.md)
+  * [docs/qa-logs/Answer-영식.md](file:///e:/isoom/docs/qa-logs/Answer-영식.md)
+* **조치 결과**:
+  * 깃허브 저장소 방문 시 누구나 프로젝트의 가치와 엔지니어링 수준을 한눈에 확인할 수 있는 깔끔하고 아름다운 공식 랜딩 페이지가 구축되었으며, 4대 프로젝트 거버넌스 규율에 따른 동기화가 완결됨.
 
 
 
