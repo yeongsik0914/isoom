@@ -1,4 +1,4 @@
-# 🏥 MoonlightCare 40대 임상 골든 케이스 Evals 종합 평가 성적표
+﻿# 🏥 ISOOM 40대 임상 골든 케이스 Evals 종합 평가 성적표
 
 > **평가 일시**: 2026-10-13 | **평가 엔진**: Zero-LLM Heuristic & Deterministic
 

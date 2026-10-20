@@ -1,6 +1,6 @@
-# 🌙 MoonlightCare 업데이트 & 릴리즈 노트 (Reamme.md)
+﻿# 🌙 ISOOM 업데이트 & 릴리즈 노트 (Reamme.md)
 
-> 본 문서는 [README.md](file:///e:/monnlight/README.md)와 함께 동기화되며, MoonlightCare 프로젝트에서 개발된 **모든 업데이트 내용, 기능 추가, 정책 변경 사항을 사용자가 이해하기 쉽고 직관적으로 파악할 수 있도록 지속 관리하는 사용자 친화적 업데이트 일지**입니다.
+> 본 문서는 [README.md](file:///e:/monnlight/README.md)와 함께 동기화되며, ISOOM 프로젝트에서 개발된 **모든 업데이트 내용, 기능 추가, 정책 변경 사항을 사용자가 이해하기 쉽고 직관적으로 파악할 수 있도록 지속 관리하는 사용자 친화적 업데이트 일지**입니다.
 
 ---
 

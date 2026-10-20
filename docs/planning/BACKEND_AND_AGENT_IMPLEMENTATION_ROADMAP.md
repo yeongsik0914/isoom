@@ -1,7 +1,7 @@
-# [실전 가이드] 테스트 완료 파이프라인 기반 백엔드 & 멀티 에이전트 단계별 구현 로드맵
+﻿# [실전 가이드] 테스트 완료 파이프라인 기반 백엔드 & 멀티 에이전트 단계별 구현 로드맵
 
 > **기반 문서**:
-> * [MoonlightCare 종합 기획안 (docs/PROJECT_PLAN.md)](file:///e:/monnlight/docs/PROJECT_PLAN.md)
+> * [ISOOM 종합 기획안 (docs/PROJECT_PLAN.md)](file:///e:/monnlight/docs/PROJECT_PLAN.md)
 > * [질의응답 아카이브 (Answer.md)](file:///e:/monnlight/Answer.md)
 > * [검증 완료 노트북 (notebooks/emergency_bed_firebase_sync.ipynb)](file:///e:/monnlight/notebooks/emergency_bed_firebase_sync.ipynb)
 >

@@ -1,4 +1,4 @@
-# 🏥 [MoonlightCare] gemini_ktas_v2 기반 레드 플래그(Red Flag) 모듈 고도화 설계서
+﻿# 🏥 [ISOOM] gemini_ktas_v2 기반 레드 플래그(Red Flag) 모듈 고도화 설계서
 ### (Direct Grounding + Thinking High 추론을 접목한 차세대 소아 응급 감별 아키텍처)
 
 > **기준 파일**: [`notebooks/gemini_ktas_v2.ipynb`](file:///e:/monnlight/notebooks/gemini_ktas_v2.ipynb)  

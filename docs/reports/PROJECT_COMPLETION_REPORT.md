@@ -1,4 +1,4 @@
-# 📊 [아이숨 (Aisum)] 프로젝트 종합 완성률 분석 보고서 (Project Completion Report)
+﻿# 📊 [아이숨 (Aisum)] 프로젝트 종합 완성률 분석 보고서 (Project Completion Report)
 
 > **문서 버전**: v1.0.0  
 > **분석 기준 일자**: 2026-10-17  
@@ -9,7 +9,7 @@
 
 ## 🎯 1. 종합 완성률 요약 대시보드 (Executive Summary)
 
-현재 아이숨(Aisum, 구 MoonlightCare) 프로젝트는 **기획안에 정의된 상용 론칭 필수 코어 기능(Core MVP & Advanced Features) 기준 100% 완성**, **향후 장기 고도화 백로그(Phase 4~6)를 포함한 종합 기획 로드맵 기준 92.5% 완성률**을 달성하고 있습니다.
+현재 아이숨(Aisum, 구 ISOOM) 프로젝트는 **기획안에 정의된 상용 론칭 필수 코어 기능(Core MVP & Advanced Features) 기준 100% 완성**, **향후 장기 고도화 백로그(Phase 4~6)를 포함한 종합 기획 로드맵 기준 92.5% 완성률**을 달성하고 있습니다.
 
 ```
 [종합 기획 로드맵 완성률]

@@ -40,3 +40,7 @@ Thumbs.db
 # MS Office Temporary Lock Files
 ~$*
 
+# Large Presentation Files
+*중간프로젝트*.pptx
+
+
