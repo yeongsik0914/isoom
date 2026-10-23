@@ -67,7 +67,18 @@ class LogisticsAgent:
 
                 self._client = genai.Client(api_key=self.api_key)
             except Exception as e:
-                logger.warning(f"[LogisticsAgent] Failed to initialize Google GenAI Client: {e}")
+                logger.warning(f"[LogisticsAgent] Failed to initialize Google GenAI Client with API Key: {e}")
+                self._client = None
+        elif os.getenv("K_SERVICE") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("USE_VERTEX_AI", "").lower() == "true":
+            try:
+                import google.genai as genai
+
+                project_id = os.getenv("GOOGLE_CLOUD_PROJECT") or os.getenv("GCP_PROJECT") or "iceu-songpa10"
+                location = os.getenv("GOOGLE_CLOUD_LOCATION", "asia-northeast3")
+                self._client = genai.Client(vertexai=True, project=project_id, location=location)
+                logger.info(f"[LogisticsAgent] Initialized Vertex AI ADC Client (Project: {project_id}, Region: {location})")
+            except Exception as e:
+                logger.warning(f"[LogisticsAgent] Failed to initialize Vertex AI ADC Client: {e}")
                 self._client = None
 
     async def generate_logistics(

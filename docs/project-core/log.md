@@ -7828,3 +7828,48 @@
   - `scripts/deploy_cloud_run.py`
   - `app/config.py`
   - `docs/qa-logs/Answer-영식.md` (Q234)
+
+
+---
+
+### [ISSUE-228] .env 내 5대 보안 키의 Google ADC 적용 가능성 분석 및 외부 API 분리 관리 아키텍처 수립
+
+* **발생 일자**: 2026-10-23
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **영역**: 클라우드 보안 & API 인증 아키텍처 (Google ADC / Secret Manager / Third-party APIs)
+* **문제 현상 및 질의**:
+  - Cloud Run 배포 시 `.env`의 모든 API 키(공공데이터포털, 카카오맵, Gemini, Firebase 등)를 Google ADC(Application Default Credentials) 로직으로 일원화 가능한지에 대한 기술적 검토 필요.
+* **원인 및 아키텍처 분석**:
+  1. **Google 네이티브 리소스 (Firestore, Vertex AI)**: GCP IAM 서비스 계정 토큰 메타데이터를 사용하므로 ADC 100% 무키 인증 가능.
+  2. **외부 제3자 리소스 (data.go.kr, kakao.com)**: 대한민국 정부 및 카카오 고유 인증 규격(HTTP 쿼리 파라미터/헤더)을 사용하므로 Google IAM/ADC 인식 불가.
+* **해결 및 표준 지침 (하이브리드 보안 아키텍처)**:
+  1. **Firestore**: Cloud Run 서비스 계정에 `roles/datastore.user` IAM 권한을 부여하여 ADC 무키 인증 적용.
+  2. **Gemini**: 필요 시 Vertex AI SDK 모드로 전환하여 `roles/aiplatform.user` 기반 ADC 무키 인증 적용 가능.
+  3. **공공데이터포털 & 카카오맵**: `setup_gcp_secrets.py`를 통해 GCP Secret Manager에 영구 보관 후 컨테이너 기동 시 환경변수로 주입하는 표준 절차 확립.
+* **적용 파일**:
+  - `docs/qa-logs/Answer-영식.md` (Q235)
+  - `docs/qa-logs/q_a.md` (Q155)
+  - `app/config.py`
+
+
+---
+
+### [ISSUE-229] Secret Manager 외부 키 바인딩 및 Firestore/Gemini ADC 무키 인증 하이브리드 파이프라인 구축
+
+* **발생 일자**: 2026-10-23
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **영역**: 클라우드 인프라 (Google Cloud Run / Secret Manager / Firebase Firestore ADC / Vertex AI)
+* **문제 현상 및 요구사항**:
+  - `DATA_GO_API_KEY`와 `KAKAO_REST_API_KEY`를 GCP Secret Manager에 등록 완료함에 따라, Cloud Run 배포 시 해당 시크릿을 자동 바인딩하고, Firestore 등 Google 리소스는 인라인 키 주입 없이 ADC로 동작하도록 시스템 고도화 요청.
+* **원인 및 아키텍처 조치**:
+  1. `app/config.py`: Cloud Run 환경(`K_SERVICE` 또는 `USE_ADC=true`)에서 `FIREBASE_KEY_JSON`이 없더라도 `firebase_admin.initialize_app(options={"projectId": "iceu-songpa10"})`으로 ADC 무키 인증 활성화.
+  2. `app/agents/triage_agent.py` & `app/agents/logistics_agent.py`: API Key 미제공 시 Vertex AI ADC 클라이언트로 자동 스위칭하는 폴백 추가.
+  3. `scripts/deploy_cloud_run.py`: 배포 시 Secret Manager의 `DATA_GO_API_KEY`, `KAKAO_REST_API_KEY`, `GEMINI_API_KEY`를 `--set-secrets` 플래그로 연동하고 `FIREBASE_KEY_JSON` 환경변수 주입을 완전 배제.
+  4. `scripts/grant_adc_and_secret_iam.py`: Cloud Run 기본 서비스 계정에 `roles/secretmanager.secretAccessor`, `roles/datastore.user`, `roles/aiplatform.user` 권한을 부여하는 원클릭 도구 구축.
+* **적용 파일**:
+  - `app/config.py`
+  - `app/agents/triage_agent.py`
+  - `app/agents/logistics_agent.py`
+  - `scripts/deploy_cloud_run.py`
+  - `scripts/grant_adc_and_secret_iam.py`
+  - `docs/qa-logs/Answer-영식.md` (Q236)

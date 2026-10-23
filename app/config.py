@@ -157,7 +157,8 @@ class Settings:
         has_file = bool(self.firebase_key_path and os.path.exists(self.firebase_key_path))
         has_json_env = bool(os.getenv("FIREBASE_KEY_JSON"))
         is_cloud_run = bool(os.getenv("K_SERVICE"))
-        return has_file or has_json_env or is_cloud_run
+        has_adc = bool(os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("USE_ADC", "").lower() == "true")
+        return has_file or has_json_env or is_cloud_run or has_adc
 
 
 # Singleton instance
@@ -194,9 +195,10 @@ def get_firestore_client():
             settings.firebase_key_path = key_path
             cred = credentials.Certificate(key_path)
             firebase_admin.initialize_app(cred)
-        elif os.getenv("K_SERVICE") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+        elif os.getenv("K_SERVICE") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("USE_ADC", "").lower() == "true":
             # 3. Google Application Default Credentials (ADC / Cloud Run IAM Keyless)
-            firebase_admin.initialize_app()
+            project_id = os.getenv("GOOGLE_CLOUD_PROJECT") or os.getenv("GCP_PROJECT") or "iceu-songpa10"
+            firebase_admin.initialize_app(options={"projectId": project_id})
         else:
             raise FileNotFoundError(
                 f"Firebase service account key not found at {key_path}. "

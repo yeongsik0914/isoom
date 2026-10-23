@@ -28,6 +28,20 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.39-hybrid-cloud-run-adc-and-secret-manager-pipeline] 2026-10-23: Secret Manager 외부 키 바인딩 & Cloud Firestore 무키 ADC 배포 파이프라인 가동 (정영식 팀장, 김동준 팀원)
+* **🔐 Secret Manager 자동 바인딩 & 완전한 ADC 무키 인증 체계 완성**:
+  - Secret Manager 등록 키(`DATA_GO_API_KEY`, `KAKAO_REST_API_KEY`, `GEMINI_API_KEY`)를 Cloud Run `--set-secrets`로 자동 연동.
+  - `FIREBASE_KEY_JSON` 환경변수 인라인 주입을 완전히 제거하고 Cloud Run 서비스 계정의 `roles/datastore.user` IAM 역할을 통한 Google ADC(Application Default Credentials) 100% 무키 인증 가동.
+  - `app/agents/triage_agent.py` 및 `app/agents/logistics_agent.py`에 Vertex AI ADC 자동 스위칭 로직 탑재.
+  - 서비스 계정 IAM 권한 원클릭 부여 도구(`scripts/grant_adc_and_secret_iam.py`) 구축.
+* **📜 4대 거버넌스 문서 지속 누적 동기화**: `Answer-영식.md` Q236 등록, `q_a.md` Q156 등록, `log.md` [ISSUE-229] 등록, `PLAN.md` 최신 배포 명세 동기화.
+
+### 🌟 [v2.9.38-hybrid-adc-and-secret-architecture] 2026-10-23: .env 내 5대 보안 키의 Google ADC 적용 가능성 분석 & 하이브리드 보안 아키텍처 가이드라인 정립 (정영식 팀장, 김동준 팀원)
+* **🔐 Google ADC vs 외부 API(공공데이터·카카오) 인증 경계 명확화**:
+  - Google Cloud 네이티브 리소스(Firestore, Vertex AI)의 ADC 무키(Keyless) 인증 메커니즘과 외부 제3자 서비스(data.go.kr, kakao.com)의 문자열 API Key 인증 필수성 분석.
+  - Google 내부 리소스는 ADC(IAM 기반), 외부 API는 Secret Manager를 활용하는 엔터프라이즈 하이브리드 보안 모델 표준화.
+* **📜 4대 거버넌스 문서 지속 누적 동기화**: `Answer-영식.md` Q235 등록, `q_a.md` Q155 등록, `log.md` [ISSUE-228] 등록, `PLAN.md` 하이브리드 보안 절차 동기화.
+
 ### 🌟 [v2.9.37-cloud-run-secret-lifecycle] 2026-10-23: Cloud Run 서비스 삭제 시 환경변수 수명주기 진단 & Secret Manager 영구 보존 및 Keyless ADC 무키 인증 체계 정립 (정영식 팀장, 김동준 팀원)
 * **🔐 Cloud Run 환경변수 vs Secret Manager 수명주기 아키텍처 규명**:
   - Cloud Run 서비스 삭제 시 인라인 주입(--env-vars-file)된 컨테이너 환경변수(FIREBASE_KEY_JSON, API 키 3종 등)가 동반 소멸되는 원인을 분석하고, 로컬 .env 및 serviceAccountKey.json의 100% 무결성 보존 상태 확인.

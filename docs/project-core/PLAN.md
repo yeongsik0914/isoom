@@ -1,6 +1,16 @@
 # 🌙 ISOOM 종합 기획안 & 개발 백서 (PLAN.md)
 
 
+> **[2026-10-23 배포 파이프라인 고도화] 하이브리드 Secret Manager 바인딩 & 무키 ADC 프로덕션 배포 가동**  
+> `DATA_GO_API_KEY`와 `KAKAO_REST_API_KEY`를 GCP Secret Manager에서 `--set-secrets`로 자동 마운트하고, Cloud Firestore는 `serviceAccountKey.json` 없이 `roles/datastore.user` IAM 기반 ADC로 직결하는 고도화 배포 파이프라인(`deploy_cloud_run.py`) 구축 완료.
+
+
+
+> **[2026-10-23 보안 백서 업데이트] 하이브리드 API 인증 아키텍처 (ADC + Secret Manager)**  
+> Google 네이티브 리소스(Firestore, Vertex AI)는 IAM 기반 무키 ADC(Application Default Credentials)를 적용하고, 외부 타사 서비스(공공데이터포털, 카카오맵)는 GCP Secret Manager를 통해 주입하는 2-트랙 하이브리드 보안 체계를 공식 표준으로 명세함.
+
+
+
 > **[2026-10-23 인프라 보안 업데이트] Cloud Run 시크릿 수명주기 & ADC 무키 인증 체계**  
 > Cloud Run 서비스 삭제 시 인라인 환경변수 동반 소멸을 방지하기 위해, Secret Manager 독립 시크릿 등록 파이프라인(`setup_gcp_secrets.py`) 및 Cloud Datastore 사용자(`roles/datastore.user`) IAM 바인딩을 통한 무키(Keyless) Firebase Firestore 인증 체계를 표준 백서에 반영함.
 

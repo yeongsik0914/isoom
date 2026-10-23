@@ -3816,3 +3816,32 @@ function renderMoonlightPairingCards() {
   2. **Secret Manager 잔존 이유**: `GEMINI_API_KEY`만 과거에 Secret Manager 독립 시크릿으로 등록되었고 나머지 키들은 Cloud Run 환경변수로만 존재했었습니다.
   3. **Firebase 인증 원리**: 컨테이너에 파일이 없어도 `deploy_cloud_run.py`가 JSON을 문자열(`FIREBASE_KEY_JSON`)로 압축 주입하여 메모리에서 `credentials.Certificate(json.loads(...))`로 인증했습니다.
   4. **향후 가이드**: `python scripts/deploy_cloud_run.py`로 즉시 재배포 가능하며, 영구 보존을 원할 시 `python scripts/setup_gcp_secrets.py`로 Secret Manager에 등록하거나, IAM `roles/datastore.user` 권한을 부여해 JSON 키 없는 무키(Keyless ADC) 인증을 적용할 수 있습니다.
+
+
+---
+
+### Q155. [.env 내 5대 API Key의 Google ADC(Application Default Credentials) 적용 가능성 심층 진단] GCP 네이티브 vs 외부 제3자(공공데이터포털, 카카오) API의 인증 메커니즘 차이 분석 및 하이브리드 엔터프라이즈 보안 아키텍처 가이드
+
+* **기록 일시**: 2026-10-23 14:22
+* **질문 내용**:
+  > 그러면 .env에 있는 api key들은 다 adc 로직으로 할 수 있어?
+
+* **핵심 답변 및 결론**:
+  1. **지원 가능 여부**: Google 내부 리소스인 **Firebase Firestore(100% 가능)**와 **Gemini(Vertex AI 전환 시 가능)**는 ADC 적용이 가능하나, 외부 제3자 기관인 **공공데이터포털(E-Gen)**과 **카카오맵**은 구조적으로 ADC 적용이 불가능합니다.
+  2. **동작 차이**: ADC는 Google IAM 서비스 계정의 OAuth 토큰을 기반으로 하므로, 자체 API Key 규격을 요구하는 정부/카카오 외부 서버는 Google IAM 토큰을 인식할 수 없습니다.
+  3. **엔터프라이즈 권장 표준**: Google 리소스는 **ADC(무키 Keyless)**로 처리하고, 외부 타사 API 키는 **GCP Secret Manager**에 영구 보관하여 주입하는 **하이브리드 보안 아키텍처**를 적용하는 것이 가장 안전합니다.
+
+
+---
+
+### Q156. [Secret Manager 외부 키 바인딩 및 Firestore/Gemini ADC 무키 인증 연동 설정 완결 보고] DATA_GO_API_KEY & KAKAO_REST_API_KEY 시크릿 자동 매핑, Firestore serviceAccountKey.json 의존성 완전 제거, Vertex AI ADC 폴백 구축 및 배포 파이프라인 업그레이드
+
+* **기록 일시**: 2026-10-23 14:30
+* **질문 내용**:
+  > DATA_GO_API_KEY, KAKAO_REST_API_KEY 는 secret manager에 키를 똑같은 이름으로 넣어뒀어. 나머지들은 ADC를 이용해서 접근 할 수 있도록 설정해줘
+
+* **핵심 답변 및 결론**:
+  1. **Firestore ADC 전환**: `app/config.py`의 `get_firestore_client()`가 `FIREBASE_KEY_JSON` 없이 Cloud Run IAM 기본 서비스 계정의 ADC로 자동 인증되도록 설정 완료.
+  2. **Gemini ADC 폴백**: `triage_agent.py` 및 `logistics_agent.py`에 Vertex AI ADC 자동 초기화 로직 탑재.
+  3. **Secret Manager 바인딩**: `scripts/deploy_cloud_run.py`에서 `--set-secrets` 플래그로 `DATA_GO_API_KEY`, `KAKAO_REST_API_KEY`를 자동 마운트하고 일반 환경변수에서 보안 키를 완전 제거.
+  4. **IAM 권한 부여 도구**: `scripts/grant_adc_and_secret_iam.py`를 신설하여 Cloud Run 서비스 계정에 Secret Accessor, Datastore User, Vertex AI User 역할을 원클릭 부여 가능하도록 구성.
