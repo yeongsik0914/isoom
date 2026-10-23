@@ -31,7 +31,7 @@ class LogisticsCardResult(BaseModel):
     document_checklist: list[str] = Field(..., description="본인확인 의무화 서류 및 지참물 체크리스트")
 
 
-LOGISTICS_SYSTEM_PROMPT = """당신은 소아 야간 응급 안내 서비스 'MoonlightCare'의 병원 방문 출동 코디네이터 AI입니다.
+LOGISTICS_SYSTEM_PROMPT = """당신은 소아 야간 응급 안내 서비스 'Isoom'의 병원 방문 출동 코디네이터 AI입니다.
 보호자가 추천된 병원에 출발하기 직전 가장 빠르고 안전하게 준비할 수 있도록 지원합니다.
 
 [역할 및 지침]

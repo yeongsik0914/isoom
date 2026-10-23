@@ -1,5 +1,10 @@
 # 🌙 ISOOM 종합 기획안 & 개발 백서 (PLAN.md)
 
+
+> **[2026-10-23 인프라 보안 업데이트] Cloud Run 시크릿 수명주기 & ADC 무키 인증 체계**  
+> Cloud Run 서비스 삭제 시 인라인 환경변수 동반 소멸을 방지하기 위해, Secret Manager 독립 시크릿 등록 파이프라인(`setup_gcp_secrets.py`) 및 Cloud Datastore 사용자(`roles/datastore.user`) IAM 바인딩을 통한 무키(Keyless) Firebase Firestore 인증 체계를 표준 백서에 반영함.
+
+
 > **문서 버전**: v3.40 (hospital_detail 및 pharmacy_detail 4대 결함 전수 해결 & LBS 하버사인 무결성 동기화)
 > **최종 갱신 일자**: 2026-10-20
 > **핵심 슬로건**: *"야간 소아 응급실 뺑뺑이를 막는 0ms 세이프티 가드레일 & 데이터 기반 2-트랙 지능형 라우터"*

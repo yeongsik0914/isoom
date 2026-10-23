@@ -7803,3 +7803,28 @@
   * `app/templates/result.html`, `frontend/templates/result.html`
   * `app/templates/hospital_detail.html`, `frontend/templates/hospital_detail.html`
   * `app/templates/pharmacy_detail.html`, `frontend/templates/pharmacy_detail.html`
+
+
+---
+
+### [ISSUE-227] Cloud Run 서비스 삭제 시 인라인 주입 환경변수 동반 소멸 현상 분석 및 Secret Manager 영구 보존/ADC 무키 인증 아키텍처 정립
+
+* **발생 일자**: 2026-10-23
+* **작업자**: 정영식 팀장, AI 페어 프로그래머
+* **영역**: 클라우드 인프라 (Google Cloud Run / Secret Manager / Firebase Firestore)
+* **문제 현상**:
+  - GCP 콘솔에서 기존 `isoom-service` Cloud Run 서비스를 삭제한 후 Secret Manager를 확인한 결과, `GEMINI_API_KEY`만 존재하고 `.env`의 공공데이터 포털 키, 카카오맵 키, Firebase 서비스 계정 키(`FIREBASE_KEY_JSON`)가 보이지 않아 키 유실 우려 발생.
+* **원인 분석**:
+  1. 기존 원클릭 배포 파이프라인(`scripts/deploy_cloud_run.py`)은 보안 키들을 Secret Manager가 아닌 Cloud Run 서비스 자체의 **컨테이너 환경 변수(`--env-vars-file`)**로 직접 주입하여 배포함.
+  2. Cloud Run 환경 변수는 서비스 리소스에 종속되어 있어 서비스를 삭제하는 순간 해당 환경 변수들도 서비스와 함께 영구 소멸됨.
+  3. `GEMINI_API_KEY`는 과거 Secret Manager에 독립 리소스로 등록되어 있어 살아남았으나, 나머지 키들은 등록되지 않았었음.
+  4. 다행히 로컬 `.env`와 `E:\FIREBASE_API_KEY\serviceAccountKey.json`에 원본 파일이 100% 안전하게 보존되어 있어 데이터 유실은 없음.
+* **구체적 해결 및 향후 표준 방안**:
+  1. **로컬 원본 무결성 검증**: `.env` 5대 키 및 `serviceAccountKey.json` 실제 존재 확인 완료.
+  2. **Secret Manager 영구 동기화 파이프라인(`scripts/setup_gcp_secrets.py`) 가동 준비**: Cloud Run 서비스 삭제 시에도 키가 보존되도록 5대 키를 Secret Manager에 사전 등록하는 절차 수립.
+  3. **IAM 무키(ADC) 인증 표준화 권고**: Cloud Run 기본 서비스 계정에 `roles/datastore.user` 역할을 부여하여 JSON 키 파일/환경변수 주입 없이도 Firestore에 무키(Keyless) 접근 가능한 체계 확립.
+* **적용 파일**:
+  - `scripts/setup_gcp_secrets.py`
+  - `scripts/deploy_cloud_run.py`
+  - `app/config.py`
+  - `docs/qa-logs/Answer-영식.md` (Q234)

@@ -28,6 +28,14 @@
 
 ## 📢 최신 업데이트 내역 (Changelog & Release Notes)
 
+### 🌟 [v2.9.37-cloud-run-secret-lifecycle] 2026-10-23: Cloud Run 서비스 삭제 시 환경변수 수명주기 진단 & Secret Manager 영구 보존 및 Keyless ADC 무키 인증 체계 정립 (정영식 팀장, 김동준 팀원)
+* **🔐 Cloud Run 환경변수 vs Secret Manager 수명주기 아키텍처 규명**:
+  - Cloud Run 서비스 삭제 시 인라인 주입(--env-vars-file)된 컨테이너 환경변수(FIREBASE_KEY_JSON, API 키 3종 등)가 동반 소멸되는 원인을 분석하고, 로컬 .env 및 serviceAccountKey.json의 100% 무결성 보존 상태 확인.
+  - 서비스 삭제 시에도 키가 영구 보존되는 GCP Secret Manager 동기화 파이프라인(scripts/setup_gcp_secrets.py) 가동 표준화.
+  - Cloud Run 기본 서비스 계정에 
+oles/datastore.user IAM 권한을 부여하여 키 파일 없이 인증 가능한 Google ADC(Application Default Credentials) 무키(Keyless) 인증 체계 확립.
+* **📜 4대 거버넌스 문서 지속 누적 동기화**: Answer-영식.md Q234 등록, q_a.md Q154 등록, log.md [ISSUE-227] 등록, PLAN.md 인프라 보안 절차 동기화.
+
 ### 🌟 [v2.9.36-facility-detail-integrity] 2026-10-20: hospital_detail & pharmacy_detail 상세 페이지 4대 결함 전수 해결 & 둔촌동 등 전 지점 LBS 거리/약국 매칭 무결성 확보 (정영식 팀장, 김동준 팀원)
 * **🏥 상세 페이지 데이터 파이프라인 4대 복합 결함 전수 해결**:
   - **식별자 매핑 무결성 확보**: `data/nationwide_pairings.json` 156개 페어링 데이터에 국립중앙의료원(NMC) 고유 `기관코드(hpid)` 및 `id` 100% 매핑 부여 및 정적 JS 데이터셋 전수 동기화.

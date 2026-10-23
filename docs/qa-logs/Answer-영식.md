@@ -237,6 +237,9 @@
 237. [Q229. [아이숨 중간프로젝트 발표 PPT 전면 고도화 & 15단계 엔지니어링 로드맵 및 백엔드 로직 시각화 수립] 15대 핵심 개발 로드맵 완벽 반영, 백엔드 오케스트레이션 고해상도 아키텍처 다이어그램 삽입, 토스 디자인 시스템(TDS) 기반 16:9 슬라이드 정렬 및 레이아웃 완결 보고](#q229-아이숨-중간프로젝트-발표-ppt-전면-고도화--15단계-엔지니어링-로드맵-및-백엔드-로직-시각화-수립-15대-핵심-개발-로드맵-완벽-반영-백엔드-오케스트레이션-고해상도-아키텍처-다이어그램-삽입-토스-디자인-시스템tds-기반-169-슬라이드-정렬-및-레이아웃-완결-보고)
 238. [Q230. [원격 저장소 브랜치 다이버전스 및 5개 핵심 파일 충돌(Merge Conflict) 원인 분석과 무충돌 Push 완결 보고] Git Diverged 구조 진단, 스테이징 파일의 의미 해석, 5개 파일 충돌 수기 병합 및 GitHub 원격 push 완결](#q230-원격-저장소-브랜치-다이버전스-및-5개-핵심-파일-충돌merge-conflict-원인-분석과-무충돌-push-완결-보고-git-diverged-구조-진단-스테이징-파일의-의미-해석-5개-파일-충돌-수기-병합-및-github-원격-push-완결)
 239. [Q231. [Google Cloud Run 프로덕션 실서버 신규 리비전(isoom-service-00005-7r8) 100% 무중단 라이브 배포 및 전수 검증 보고] Cloud Build 컨테이너 자동 패키징, 5대 보안 키 인라인 주입, 실서버 /health, /home, /emergency API 200 OK 실측 완결 보고](#q231-google-cloud-run-프로덕션-실서버-신규-리비전isoom-service-00005-7r8-100-무중단-라이브-배포-및-전수-검증-보고-cloud-build-컨테이너-자동-패키징-5대-보안-키-인라인-주입-실서버-health-home-emergency-api-200-ok-실측-완결-보고)
+240. [Q232. [hospital_detail.html & pharmacy_detail.html 상세 페이지 정보 로드 결함 및 4대 복합 원인 전수 근본 해결 보고] ① 기관코드 매핑 무결성 확보, ② 서버 API 식별자 우선순위 및 다지점 병원(24시열린의원 잠실/자양) 역전 해소, ③ 프론트엔드 폴백 기본값(1.8km/문정스타약국) 노출 차단 및 실시간 하버사인 계산 탑재, ④ 화면 데이터 파이프라인 전주기 동기화 완료](#q232-hospital_detailhtml--pharmacy_detailhtml-상세-페이지-정보-로드-결함-및-4대-복합-원인-전수-근본-해결-보고-기관코드-매핑-무결성-확보-서버-api-식별자-우선순위-및-다지점-병원24시열린의원-잠실자양-역전-해소-프론트엔드-폴백-기본값18km문정스타약국-노출-차단-및-실시간-하버사인-계산-탑재-화면-데이터-파이프라인-전주기-동기화-완료)
+241. [Q233. [Google Cloud Run 프로덕션 실서버 배포 상태 및 GitHub git push 최종 동기화 실측 검증 보고] 신규 리비전(isoom-service-00006-pmd) 100% 라이브 서빙 및 main 브랜치 커밋(bc43ede) 원격 푸시 상태 전수 확인](#q233-google-cloud-run-프로덕션-실서버-배포-상태-및-github-git-push-최종-동기화-실측-검증-보고-신규-리비전isoom-service-00006-pmd-100-라이브-서빙-및-main-브랜치-커밋bc43ede-원격-푸시-상태-전수-확인)
+242. [Q234. [Google Cloud Run 삭제 시 환경변수 소멸 원인 분석 및 Secret Manager vs Cloud Run 환경변수 저장 위치 및 Firebase 인증 아키텍처 안내] Secret Manager에 GEMINI_API_KEY만 남아있던 이유, Cloud Run 서비스 환경변수 인라인 주입 메커니즘, 로컬 원본 보존 상태 확인 및 재배포/ADC 무키 인증 가이드](#q234-google-cloud-run-삭제-시-환경변수-소멸-원인-분석-및-secret-manager-vs-cloud-run-환경변수-저장-위치-및-firebase-인증-아키텍처-안내-secret-manager에-gemini_api_key만-남아있던-이유-cloud-run-서비스-환경변수-인라인-주입-메커니즘-로컬-원본-보존-상태-확인-및-재배포adc-무키-인증-가이드)
 
 
 
@@ -13651,3 +13654,95 @@ Google Cloud SDK는 이미 준비되어 있으며, `.env` 및 Firebase 서비스
   1. `bc43ede` (HEAD -> main, origin/main) - `docs: sync Q232 in Answer-영식.md, Q152 in q_a.md, ISSUE-226 in log.md, v2.9.36 in README.md, v3.40 in PLAN.md`
   2. `47c7faf` - `fix(detail): resolve hospital_detail & pharmacy_detail multi-cause defects and deploy Cloud Run revision 00006-pmd`
   3. `1bb556b` - `feat(deploy): update Cloud Run pipeline with auto build and record Q231, ISSUE-225, v2.9.35`
+
+
+---
+
+### Q234. [Google Cloud Run 삭제 시 환경변수 소멸 원인 분석 및 Secret Manager vs Cloud Run 환경변수 저장 위치 및 Firebase 인증 아키텍처 안내] Secret Manager에 GEMINI_API_KEY만 남아있던 이유, Cloud Run 서비스 환경변수 인라인 주입 메커니즘, 로컬 원본 보존 상태 확인 및 재배포/ADC 무키 인증 가이드
+
+* **기록 일시**: 2026-10-23 14:15
+* **질문 내용**:
+  > cloud run 배포하고 파이어베이스에서 정보를 가져올때 serviceAccountKey.json을 읽어서 접근권한을 얻어야 하는데 내가 이전에 secretmanager에 .env 파일들을 다 올려달라고 했었단 말이야. 근데 secretmanager 들어가서 확인해보니까 geminikey만 등록되어있는데 나머지들은 어디에 저장되어 있는 거야? 내가 클라우드런을 오늘 삭제하긴 했는데 그러면서 다 사라진 건가?
+
+---
+
+#### 💡 답변 및 엔지니어링 리포트
+
+팀장님께서 질의하신 **Google Cloud Run 서비스 삭제 시 환경 변수의 소멸 여부**, **GCP Secret Manager에 `GEMINI_API_KEY`만 남아있었던 이유**, 그리고 **Cloud Run에서 Firebase Firestore(`serviceAccountKey.json`) 연동 권한을 획득하는 내부 동작 메커니즘**에 대한 정밀 진단 및 인프라 아키텍처 분석 결과를 명확히 보고드립니다.
+
+---
+
+#### 1. 📌 핵심 진단 결론 요약 (Key Findings)
+
+1. **로컬 원본 키는 100% 안전하게 보존되어 있습니다**:
+   - `e:\isoom\.env`: `DATA_GO_API_KEY`, `GEMINI_API_KEY`, `KAKAO_REST_API_KEY`, `FIRESTORE_DATABASE_ID`, `FIREBASE_KEY_PATH` 등 핵심 환경 변수가 완전하게 보존되어 있습니다.
+   - `E:\FIREBASE_API_KEY\serviceAccountKey.json`: Firebase Admin SDK 서비스 계정 비공개 키 원본 파일도 로컬 드라이브에 안전하게 존재합니다.
+2. **Cloud Run 서비스를 삭제하면서 키들이 함께 사라진 것이 맞습니다**:
+   - 이전 배포(`scripts/deploy_cloud_run.py`) 시 보안 키들을 GCP Secret Manager에 올린 것이 아니라, **Cloud Run 서비스 자체의 "컨테이너 환경 변수(Environment Variables)"**로 인라인 주입(`--env-vars-file`)하여 배포했었습니다.
+   - Cloud Run의 환경 변수는 **해당 서비스(`isoom-service`) 리소스에 종속**되어 있으므로, GCP 콘솔에서 Cloud Run 서비스를 삭제(`Delete`)하는 순간 해당 서비스에 묶여있던 모든 환경 변수도 서비스와 함께 영구 삭제됩니다.
+3. **Secret Manager에 `GEMINI_API_KEY`만 남아있었던 이유**:
+   - `GEMINI_API_KEY`는 이전 초기 개발 단계에서 Secret Manager에 독립 리소스로 직접 등록해둔 적이 있었기 때문에 삭제되지 않고 남아있었던 것입니다.
+   - 반면 `DATA_GO_API_KEY`, `KAKAO_REST_API_KEY`, `FIREBASE_KEY_JSON` 등은 Secret Manager가 아닌 Cloud Run 서비스 환경 변수로만 주입되었기 때문에 Secret Manager 목록에 나타나지 않았던 것입니다.
+
+---
+
+#### 2. 🔍 이전 배포 시 `serviceAccountKey.json`이 어떻게 작동했는가? (인라인 주입 메커니즘)
+
+Cloud Run 배포 시 컨테이너 내부 파일시스템에는 로컬 드라이브 경로(`E:\FIREBASE_API_KEY\serviceAccountKey.json`)가 존재하지 않습니다. 따라서 `scripts/deploy_cloud_run.py`와 `app/config.py`는 다음과 같은 **무손실 JSON 문자열 직렬화 파이프라인**으로 작동했습니다:
+
+```mermaid
+flowchart TD
+    A["로컬 파일: E:\FIREBASE_API_KEY\serviceAccountKey.json"] -->|deploy_cloud_run.py에서 파싱| B["JSON 문자열 직렬화: json.dumps()"]
+    B -->|임시 .cloud_run_env.yaml 생성| C["gcloud run deploy --env-vars-file"]
+    C -->|Cloud Run 서비스 환경변수 주입| D["FIREBASE_KEY_JSON (환경변수)"]
+    D -->|임시 YAML 파일 즉시 로컬 삭제| E["Cloud Run 실행 컨테이너"]
+    E -->|app/config.py: get_firestore_client| F["json.loads(os.getenv('FIREBASE_KEY_JSON'))"]
+    F -->|credentials.Certificate(cert_dict)| G["Firebase Firestore 'isoom' DB 정상 연결"]
+```
+
+* **동작 원리**:
+  - `serviceAccountKey.json` 파일의 전체 내용을 1줄짜리 JSON 문자열로 압축하여 Cloud Run의 `FIREBASE_KEY_JSON` 환경 변수로 주입했습니다.
+  - 서버 구동 시 `app/config.py`의 `get_firestore_client()`가 `os.getenv("FIREBASE_KEY_JSON")` 환경 변수를 메모리에서 읽어 `credentials.Certificate(cert_dict)`로 파싱하여 Firebase Admin SDK를 초기화했습니다.
+  - 따라서 컨테이너 내부에 물리적 JSON 파일이 없어도 완벽히 인증되었습니다.
+  - 하지만 이 설정이 **Cloud Run 서비스 환경 변수**로만 존재했기 때문에, 서비스를 삭제하자 함께 사라졌던 것입니다.
+
+---
+
+#### 3. 🛡️ 향후 배포 및 시크릿 관리 3대 전략 가이드
+
+| 전략 | 저장 위치 | 동작 방식 | Cloud Run 삭제 시 | 장단점 및 권장 대상 |
+| :--- | :--- | :--- | :--- | :--- |
+| **방법 1 (기존 방식)**<br>원클릭 환경변수 주입 | Cloud Run 환경변수 | `python scripts/deploy_cloud_run.py` 실행 시 로컬 `.env`와 키 파일을 읽어 즉시 배포 | 환경변수 함께 삭제됨 (로컬 원본은 보존) | **가장 빠르고 간편함** (추가 설정 없이 즉시 재배포 가능) |
+| **방법 2 (시크릿 전용)**<br>Secret Manager 영구 보존 | GCP Secret Manager | `python scripts/setup_gcp_secrets.py`로 5대 키를 시크릿에 등록 후 `--set-secrets` 연동 | **시크릿 영구 보존** (Cloud Run 삭제해도 안전) | **팀장님께서 원하셨던 표준 보안 체계** (GCP 콘솔에서 모든 키 시각적 관리) |
+| **방법 3 (🥇 Best Practice)**<br>IAM 무키(Keyless) ADC | GCP IAM 역할 부여 | Cloud Run 서비스 계정에 `roles/datastore.user` 권한 부여 | **키 유출 위험 0%** (키 파일 자체가 불필요) | **Google Cloud 엔터프라이즈 권장 규격** (`app/config.py`에 이미 ADC 코드 탑재 완료) |
+
+---
+
+#### 4. 🚀 즉시 재배포 가이드
+
+현재 언제든지 Cloud Run을 다시 프로덕션 상태로 되살릴 수 있습니다:
+
+1. **간편 재배포 (방법 1)**:
+   ```powershell
+   # gcloud 로그인 확인 후 원클릭 배포 스크립트 실행
+   gcloud.cmd auth login
+   python scripts/deploy_cloud_run.py
+   ```
+2. **Secret Manager 정식 등록 후 배포 (방법 2)**:
+   ```powershell
+   # 1. 5대 키를 GCP Secret Manager에 영구 등록
+   python scripts/setup_gcp_secrets.py
+   
+   # 2. 배포 스크립트 실행
+   python scripts/deploy_cloud_run.py
+   ```
+3. **IAM 무키(ADC) 인증 적용 시 (방법 3)**:
+   - Cloud Run 기본 서비스 계정(`{PROJECT_NUMBER}-compute@developer.gserviceaccount.com`)에 `Cloud Datastore 사용자 (roles/datastore.user)` 권한을 부여하면, `serviceAccountKey.json` 없이도 `firebase_admin.initialize_app()`으로 0초 만에 Firestore에 자동 연결됩니다.
+
+---
+
+#### 📌 요약 결론
+팀장님, 키들이 영구적으로 손실된 것이 아니니 안심하셔도 됩니다!  
+1. 이전에 배포할 때는 Secret Manager 대신 **Cloud Run 서비스 자체의 환경 변수**로 전달했었기 때문에, Cloud Run 서비스를 삭제하시면서 해당 환경 변수들이 서비스와 함께 삭제된 것입니다.
+2. 로컬 머신의 `.env`와 `E:\FIREBASE_API_KEY\serviceAccountKey.json`에 원본 키들이 100% 안전하게 살아있으므로 언제든지 `python scripts/deploy_cloud_run.py`를 실행하여 1~2분 안에 완벽히 복구 및 재배포할 수 있습니다.
+3. 향후 Cloud Run을 삭제하더라도 키들을 영구 보존하고 싶으시다면 준비되어 있는 `python scripts/setup_gcp_secrets.py`를 실행하여 Secret Manager에 일괄 동기화해 두시면 됩니다.

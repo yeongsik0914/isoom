@@ -3801,3 +3801,18 @@ function renderMoonlightPairingCards() {
   1. `bc43ede` (HEAD -> main, origin/main) - `docs: sync Q232 in Answer-영식.md, Q152 in q_a.md, ISSUE-226 in log.md, v2.9.36 in README.md, v3.40 in PLAN.md`
   2. `47c7faf` - `fix(detail): resolve hospital_detail & pharmacy_detail multi-cause defects and deploy Cloud Run revision 00006-pmd`
   3. `1bb556b` - `feat(deploy): update Cloud Run pipeline with auto build and record Q231, ISSUE-225, v2.9.35`
+
+
+---
+
+### Q154. [Google Cloud Run 삭제 시 환경변수 소멸 원인 분석 및 Secret Manager vs Cloud Run 환경변수 저장 위치 및 Firebase 인증 아키텍처 안내] Secret Manager에 GEMINI_API_KEY만 남아있던 이유, Cloud Run 서비스 환경변수 인라인 주입 메커니즘, 로컬 원본 보존 상태 확인 및 재배포/ADC 무키 인증 가이드
+
+* **기록 일시**: 2026-10-23 14:15
+* **질문 내용**:
+  > cloud run 배포하고 파이어베이스에서 정보를 가져올때 serviceAccountKey.json을 읽어서 접근권한을 얻어야 하는데 내가 이전에 secretmanager에 .env 파일들을 다 올려달라고 했었단 말이야. 근데 secretmanager 들어가서 확인해보니까 geminikey만 등록되어있는데 나머지들은 어디에 저장되어 있는 거야? 내가 클라우드런을 오늘 삭제하긴 했는데 그러면서 다 사라진 건가?
+
+* **핵심 답변 및 결론**:
+  1. **원인 규명**: 로컬의 `.env`와 `serviceAccountKey.json`은 100% 안전하게 보존되어 있으나, 이전 배포 시 Secret Manager가 아닌 Cloud Run 서비스 자체의 "컨테이너 환경 변수"로 인라인 주입(`--env-vars-file`)되었기 때문에 Cloud Run 서비스를 삭제하면서 해당 환경 변수들도 서비스와 함께 삭제된 것입니다.
+  2. **Secret Manager 잔존 이유**: `GEMINI_API_KEY`만 과거에 Secret Manager 독립 시크릿으로 등록되었고 나머지 키들은 Cloud Run 환경변수로만 존재했었습니다.
+  3. **Firebase 인증 원리**: 컨테이너에 파일이 없어도 `deploy_cloud_run.py`가 JSON을 문자열(`FIREBASE_KEY_JSON`)로 압축 주입하여 메모리에서 `credentials.Certificate(json.loads(...))`로 인증했습니다.
+  4. **향후 가이드**: `python scripts/deploy_cloud_run.py`로 즉시 재배포 가능하며, 영구 보존을 원할 시 `python scripts/setup_gcp_secrets.py`로 Secret Manager에 등록하거나, IAM `roles/datastore.user` 권한을 부여해 JSON 키 없는 무키(Keyless ADC) 인증을 적용할 수 있습니다.
