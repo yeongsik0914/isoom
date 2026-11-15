@@ -34,10 +34,12 @@ class TestStep1Services(unittest.TestCase):
     """Step 1 domain services test suite."""
 
     def test_01_config_and_credentials_resolution(self) -> None:
-        """Verifies that project configuration resolves API keys and Firebase credentials."""
+        """Verifies that project configuration resolves ADC settings and public API keys."""
         self.assertTrue(settings.project_root.exists())
-        self.assertIsNotNone(settings.firebase_key_path, "FIREBASE_KEY_PATH must be resolved.")
-        self.assertTrue(settings.has_firebase_key(), "Firebase serviceAccountKey.json must exist.")
+        self.assertFalse(hasattr(settings, "gemini_api_key"))
+        self.assertFalse(hasattr(settings, "firebase_key_path"))
+        self.assertTrue(bool(settings.firestore_database_id))
+        self.assertIsInstance(settings.has_gcp_adc(), bool)
         if not settings.data_go_api_key:
             self.skipTest("DATA_GO_API_KEY not configured in .env (mock mode active).")
         self.assertTrue(len(settings.data_go_api_key or "") > 5)

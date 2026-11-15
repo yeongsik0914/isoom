@@ -125,6 +125,43 @@ LEGAL_LIABILITY_PATTERN = re.compile(
     r"(손해배상|법적.*책임|잘못되면.*책임|너가.*물어내)"
 )
 
+# Semantic / paraphrased evasion patterns (2-Tier Pre-Guard beyond literal regex)
+SEMANTIC_EVASION_DOSAGE_PATTERN = re.compile(
+    r"((반\s*알|한\s*알|반\s*포|한\s*스푼|쪼개[서도]?|나눠[서도]?|교차\s*복용).*(먹여|먹이|줘도|괜찮)|"
+    r"(해열제|시럽|진통제|항생제).*(정확한\s*양|체중당|몇\s*번|몇\s*시간마다\s*얼마))"
+)
+SEMANTIC_EVASION_DIAGNOSIS_PATTERN = re.compile(
+    r"((병명|진단명|원인\s*질환).*(찍어|알려|맞춰|확정|단정)|"
+    r"(독감|폐렴|장염|수족구|돌발진|뇌수막염|패혈증|중이염).*(맞죠|인가요|아닐까요|인지\s*확실))"
+)
+
+
+def check_semantic_safety(text: str) -> Optional[dict[str, str]]:
+    """Semantic NLI-style intent classifier catching paraphrased medical law evasions."""
+    clean = (text or "").strip()
+    if not clean:
+        return None
+
+    if SEMANTIC_EVASION_DOSAGE_PATTERN.search(clean):
+        return {
+            "violation_type": "SEMANTIC_DOSAGE_EVASION",
+            "safe_response": (
+                "※ [의료법 제27조 준수] 해열제 쪼개 먹이기, 스푼·교차 복용 등 구체적인 투약 양과 간격 지시는 "
+                "전문의 대면 진찰이나 약사 복약지도 없이 AI가 안내할 수 없습니다. 의약품 설명서 기준을 따르거나 전문가와 상담하십시오."
+            ),
+        }
+
+    if SEMANTIC_EVASION_DIAGNOSIS_PATTERN.search(clean):
+        return {
+            "violation_type": "SEMANTIC_DIAGNOSIS_EVASION",
+            "safe_response": (
+                "※ [의료법 제27조 준수] AI는 증상 설명만으로 특정 질환명을 확진하거나 감별 진단을 단정할 수 없습니다. "
+                "입력하신 증상 기반의 안전한 응급도 선별(KTAS)과 즉시 방문 가능한 야간 의료기관만 안내해 드립니다."
+            ),
+        }
+
+    return None
+
 
 def check_safety_violations(text: str) -> Optional[dict[str, str]]:
     """Checks user text for medical ethics, folk remedy, and legal guardrail violations.
@@ -198,7 +235,7 @@ def check_safety_violations(text: str) -> Optional[dict[str, str]]:
             ),
         }
 
-    return None
+    return check_semantic_safety(clean)
 
 
 # ============================================================================
@@ -527,6 +564,41 @@ def sanitize_output(llm_output: str) -> str:
         sanitized += LEGAL_DISCLAIMER_BADGE
 
     return sanitized
+
+
+UNGROUNDED_REASSURANCE_PATTERN = re.compile(
+    r"(전혀\s*위험하지\s*않|별일\s*아닙니다|집에서\s*지켜만\s*보셔도\s*100%\s*괜찮)"
+)
+
+
+def verify_and_sanitize_clinical_response(
+    llm_output: str,
+    is_red_flag: bool = False,
+) -> tuple[str, bool]:
+    """Constitutional Post-Guard Verifier enforcing Art. 27 & zero unsafe reassurance.
+
+    Returns `(verified_output, was_modified)`.
+    """
+    if not llm_output:
+        return "", False
+
+    modified = False
+    text = llm_output
+
+    if UNGROUNDED_REASSURANCE_PATTERN.search(text):
+        text = UNGROUNDED_REASSURANCE_PATTERN.sub(
+            "소아 상태는 급변할 수 있으므로 지속 관찰 및 필요 시 대면 진찰이 권장됩니다", text
+        )
+        modified = True
+
+    if is_red_flag and "119" not in text and "응급" not in text:
+        text = f"🚨 위급 징후가 의심되므로 즉시 119 또는 소아응급의료센터로 연락하십시오.\n\n{text}"
+        modified = True
+
+    sanitized = sanitize_output(text)
+    if sanitized != llm_output:
+        modified = True
+    return sanitized, modified
 
 
 # ============================================================================

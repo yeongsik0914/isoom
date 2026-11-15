@@ -59,6 +59,10 @@ class PatientSessionState(BaseModel):
     matched_symptom_name: Optional[str] = Field(default=None, description="매핑된 KTAS 공식 주증상명")
     clinical_rationale: Optional[str] = Field(default=None, description="비정형 문맥 완독 및 임상 감별 근거")
     time_trajectory_assessment: Optional[str] = Field(default=None, description="시간 경과 및 가역성 평가")
+    uncertainty_score: Optional[float] = Field(default=None, description="Conformal 트리아제 불확실성 점수 (0~1)")
+    prediction_set: list[int] = Field(default_factory=list, description="Conformal 예측 KTAS 등급 집합")
+    crag_triggered: bool = Field(default=False, description="KTAS CRAG 재검색 발동 여부")
+    pipeline_trace: list[str] = Field(default_factory=list, description="에이전트 그래프 실행 경로 추적")
 
     # 5. Matching & Logistics Results
     matched_hospitals: list[dict[str, Any]] = Field(
@@ -107,3 +111,31 @@ class PatientSessionState(BaseModel):
             and self.temperature is not None
             and bool(self.symptoms)
         )
+
+    def reset_for_new_consultation(self) -> None:
+        """Resets clinical triage, matching, and logistics fields for a new round in the same session."""
+        self.current_step = "TRIAGE"
+        self.turn_count = 0
+        self.age_months = None
+        self.age_days = None
+        self.temperature = None
+        self.duration_hours = None
+        self.symptoms = []
+        self.is_red_flag = False
+        self.red_flag_reason = None
+        self.emergency_action_guide = None
+        self.ktas_level = None
+        self.ktas_level_name = None
+        self.matched_nacrs_code = None
+        self.matched_symptom_name = None
+        self.clinical_rationale = None
+        self.time_trajectory_assessment = None
+        self.uncertainty_score = None
+        self.prediction_set = []
+        self.crag_triggered = False
+        self.pipeline_trace = []
+        self.matched_hospitals = []
+        self.matched_pharmacies = []
+        self.call_script = None
+        self.document_checklist = []
+        self.updated_at = datetime.datetime.now(KST).isoformat()

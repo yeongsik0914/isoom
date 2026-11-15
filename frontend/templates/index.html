@@ -19,8 +19,8 @@
     rel="stylesheet" />
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="../css/style.css?v=1.8.9" />
-  <link rel="stylesheet" href="/css/style.css?v=1.8.9" />
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
 
   <!-- Mobile App / PWA Standalone Meta Tags -->
   <link rel="manifest" href="/manifest.json" />
@@ -29,169 +29,11 @@
   <meta name="apple-mobile-web-app-title" content="아이숨" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#0066ff" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/img/icon-192.png" />
 
-  <!-- 0ms FOUC Prevention Theme Script -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-  <style>
-    /* Location Sheet & Notification Sheet Dark Overrides */
-    html[data-theme="dark"] .location-bottom-sheet {
-      background: #202027 !important;
-      color: #f9fafb !important;
-      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-    html[data-theme="dark"] .current-address-bar {
-      background: #2c2c34 !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      color: #d1d6db !important;
-    }
-    html[data-theme="dark"] .current-address-bar .current-bar-icon {
-      color: #3182f6 !important;
-    }
-    html[data-theme="dark"] .current-address-bar .current-bar-text {
-      color: #8b95a1 !important;
-    }
-    html[data-theme="dark"] .current-address-bar strong,
-    html[data-theme="dark"] .current-address-bar #modal-current-address-val,
-    html[data-theme="dark"] .current-address-bar .current-address-val,
-    html[data-theme="dark"] #modal-current-address-val {
-      color: #f9fafb !important;
-    }
-    html[data-theme="dark"] .loc-mode-tab {
-      background: #2c2c34 !important;
-      border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
-      color: #8b95a1 !important;
-    }
-    html[data-theme="dark"] .loc-mode-tab.active {
-      background: rgba(49, 130, 246, 0.16) !important;
-      border-color: #3182f6 !important;
-      color: #3182f6 !important;
-    }
-    html[data-theme="dark"] .location-search-box {
-      background: #2c2c34 !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-    html[data-theme="dark"] .location-search-input {
-      color: #f9fafb !important;
-      background: transparent !important;
-    }
-    html[data-theme="dark"] .btn-gps-refresh {
-      background: #2c2c34 !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      color: #f9fafb !important;
-    }
-    html[data-theme="dark"] .sheet-dialog-card {
-      background: #202027 !important;
-      color: #f9fafb !important;
-      border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-    html[data-theme="dark"] .watch-status-banner {
-      background: #2c2c34 !important;
-      border: 1px solid rgba(255, 255, 255, 0.06) !important;
-      color: #f9fafb !important;
-    }
-  
-    /* Section 20 Index Notif Sheet Dark */
-    html[data-theme="dark"] .sheet-header {
-      background: #202027 !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-    html[data-theme="dark"] .sheet-title {
-      color: #f9fafb !important;
-    }
-    html[data-theme="dark"] .close-icon-btn {
-      background: #2c2c34 !important;
-      color: #d1d6db !important;
-    }
-    html[data-theme="dark"] .close-icon-btn:hover {
-      background: #363640 !important;
-      color: #ffffff !important;
-    }
-    html[data-theme="dark"] .sheet-body {
-      background: #17171c !important;
-    }
-    html[data-theme="dark"] .notif-card-wrapper {
-      background: rgba(239, 68, 68, 0.15) !important;
-    }
-    html[data-theme="dark"] .notif-card {
-      background: #202027 !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      color: #f9fafb !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
-    }
-    html[data-theme="dark"] .notif-card.unread {
-      background: #24242d !important;
-      border-color: rgba(49, 130, 246, 0.4) !important;
-    }
-    html[data-theme="dark"] .notif-title {
-      color: #f9fafb !important;
-    }
-    html[data-theme="dark"] .notif-message {
-      color: #d1d6db !important;
-    }
-    html[data-theme="dark"] .btn-notif-call {
-      background: #2c2c34 !important;
-      color: #f9fafb !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-    html[data-theme="dark"] .btn-notif-call:hover {
-      background: #363640 !important;
-      color: #3182f6 !important;
-    }
-    html[data-theme="dark"] .primary-cta-btn {
-      background: #3182f6 !important;
-      color: #ffffff !important;
-      box-shadow: 0 4px 20px rgba(49, 130, 246, 0.35) !important;
-    }
-    html[data-theme="dark"] .primary-cta-btn span,
-    html[data-theme="dark"] .primary-cta-btn .cta-arrow {
-      color: #ffffff !important;
-    }
-
-  
-    /* Location Sheet Chips & Header Dark */
-    html[data-theme="dark"] .sheet-close-btn {
-      background: #2c2c34 !important;
-      color: #d1d6db !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-    html[data-theme="dark"] .current-bar-text,
-    html[data-theme="dark"] #modal-current-address-val {
-      color: #f9fafb !important;
-    }
-    html[data-theme="dark"] .loc-chip-btn {
-      background: #2c2c34 !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      color: #f9fafb !important;
-    }
-    html[data-theme="dark"] .loc-chip-btn .chip-name {
-      color: #f9fafb !important;
-    }
-    html[data-theme="dark"] .loc-chip-btn .chip-gu {
-      color: #8b95a1 !important;
-    }
-    html[data-theme="dark"] .loc-chip-btn.active {
-      background: #3182f6 !important;
-      border-color: #3182f6 !important;
-    }
-    html[data-theme="dark"] .loc-chip-btn.active .chip-name,
-    html[data-theme="dark"] .loc-chip-btn.active .chip-gu {
-      color: #ffffff !important;
-    }
-
-  </style>
+  <!-- 0ms FOUC Prevention Theme Manager -->
+  <script src="/js/theme.js"></script>
 </head>
 
 <body class="main-home-body">
@@ -203,7 +45,10 @@
     <header class="app-header">
       <div class="header-left">
         <a href="#" class="brand-logo" aria-label="아이숨 홈">
-          아이숨
+          <span class="brand-logo-mark" aria-hidden="true">
+            <span class="material-symbols-outlined">ecg_heart</span>
+          </span>
+          <span>아이숨</span>
         </a>
         <button type="button" class="location-pill" id="current-location-pill" aria-label="현재 위치 변경"
           onclick="if(typeof window.openLocationModal==='function') window.openLocationModal();">
@@ -289,13 +134,25 @@
 
       <!-- 1. Symptom Triage Hero Section -->
       <section class="hero-card" aria-labelledby="hero-title-heading">
+        <div class="stitch-hero-top-row">
+          <span class="stitch-live-pill">
+            <span class="stitch-live-dot" aria-hidden="true"></span>
+            <span>실시간 전국 달빛·응급망 연동</span>
+          </span>
+          <span class="stitch-trust-tag">
+            <span class="material-symbols-outlined" aria-hidden="true">verified</span>
+            <span>KTAS 소아 기준</span>
+          </span>
+        </div>
 
-
-        <!-- Headline & Toddler Care Badge Art -->
+        <!-- Headline & Subtitle -->
         <div class="hero-body">
           <h1 class="hero-title" id="hero-title-heading">
             아이가 어디가 아픈가요?
           </h1>
+          <p class="stitch-hero-subtitle">
+            야간·휴일 소아 증상 10초 AI 트리아제 · 수용 가능 병원 &amp; 안심약국 실시간 매칭
+          </p>
         </div>
 
         <!-- Primary High-Contrast Full-Width CTA -->
@@ -549,14 +406,10 @@
   </div>
 
   <!-- Single Source JavaScript Modules -->
-  <script src="../js/national_moonlight_hospitals_156.js"></script>
-  <script src="../js/national_night_pharmacies_2028.js"></script>
-  <script src="../js/nationwide_pairings.js"></script>
-  <script src="../js/public_night_pharmacies.js"></script>
-  <script src="../js/national_emergency_hospitals.js"></script>
-  <script src="../js/theme.js"></script>
-  <script src="/js/theme.js"></script>
-  <script src="../js/main.js?v=20261020_v4"></script>
+  <script src="/js/national_moonlight_hospitals_156.js"></script>
+  <script src="/js/national_night_pharmacies_2028.js"></script>
+  <script src="/js/nationwide_pairings.js"></script>
+  <script src="/js/national_emergency_hospitals.js"></script>
   <script src="/js/main.js?v=20261020_v4"></script>
   <script>
     // 🔔 알림 센터 및 📋 이전 결과 기록 모달 인터랙션 컨트롤러

@@ -2,21 +2,7 @@
 <html lang="ko">
 
 <head>
-  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>병원 상세 및 실시간 접수 - 아이숨(i-Soom)</title>
@@ -40,16 +26,11 @@
   <!-- Leaflet Interactive Map Engine CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
-  <!-- Dual CSS Loader (Safari & Chrome Cross-Browsing Support) -->
-  <link rel="stylesheet" href="../css/style.css">
+  <!-- Canonical CSS Stylesheet -->
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
   <script>
-    (function () {
-      var link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = (window.location.protocol === 'file:') ? '../css/style.css' : '/css/style.css';
-      document.head.appendChild(link);
-    })();
-
     // 0. Smart History Navigation Engine (어떤 환경에서도 이전 페이지 100% 무결점 복귀)
     window.handleSmartGoBack = function (event) {
       if (event) {
@@ -1901,9 +1882,9 @@
   <!-- Leaflet Interactive Map Engine JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
-  <script src="../js/hospital_details_data.js?v=20261020_v4"></script>
-  <script src="../js/nationwide_pairings.js"></script>
-  <script src="../js/main.js?v=20261020_v4"></script>
+  <script src="/js/hospital_details_data.js?v=20261020_v4"></script>
+  <script src="/js/nationwide_pairings.js"></script>
+  <script src="/js/main.js?v=20261020_v4"></script>
 </body>
 
 </html>

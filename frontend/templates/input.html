@@ -28,23 +28,10 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/img/icon-192.png" />
 
-  <!-- 0ms FOUC Prevention Theme Script -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="/css/style.css" />
+<!-- Stylesheet -->
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
 
   <style>
     /* ==========================================================================
@@ -1644,7 +1631,10 @@
         <h1 class="header-page-title">소아 전문 문진</h1>
         <p class="header-page-sub">원스톱 야간 소아 진료 선별</p>
       </div>
-      <div style="width: 40px;"></div>
+      <span class="stitch-triage-pill" aria-label="KTAS 선별 지원">
+        <span class="material-symbols-outlined" style="font-size: 13px;">verified_user</span>
+        <span>KTAS 선별</span>
+      </span>
     </header>
 
     <!-- Progress Indicator Bar -->
@@ -3702,9 +3692,6 @@
     });
   </script>
 
-  <script src="../js/theme.js"></script>
-  <script src="/js/theme.js"></script>
-  <script src="../js/main.js?v=20261020_v4"></script>
   <script src="/js/main.js?v=20261020_v4"></script>
 </body>
 

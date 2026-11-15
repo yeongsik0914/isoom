@@ -2,21 +2,7 @@
 <html lang="ko">
 
 <head>
-  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>접근 권한 안내 - 아이숨 (i-Soom)</title>
   <meta name="description" content="아이숨 서비스 이용을 위한 필수 및 선택 접근 권한 안내" />
@@ -40,11 +26,10 @@
   <meta name="theme-color" content="#ffffff" />
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
-
-  <style>
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
+<style>
     /* Reset & Viewport Container */
     *, *::before, *::after {
       box-sizing: border-box;

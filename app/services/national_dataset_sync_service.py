@@ -11,15 +11,14 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-import math
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime
-from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from app.config import settings
+from app.services.spatial_service import haversine_distance
 
 logger = logging.getLogger("dataset_sync")
 
@@ -58,19 +57,6 @@ REGION_CONFIGS = [
 ]
 
 REGION_MAP = {r[0]: r[1] for r in REGION_CONFIGS}
-
-
-def calculate_haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    """Calculates spherical distance in km between two WGS84 coordinates."""
-    r = 6371.0
-    phi1 = math.radians(lat1)
-    phi2 = math.radians(lat2)
-    delta_phi = math.radians(lat2 - lat1)
-    delta_lambda = math.radians(lon2 - lon1)
-
-    a = math.sin(delta_phi / 2.0) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2.0) ** 2
-    c = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1.0 - a))
-    return r * c
 
 
 def fmt_time(s: str) -> str:
@@ -524,7 +510,7 @@ def build_facility_detail_records(
             min_d = float("inf")
             for p_lat, p_lon, p_obj in pharm_lookup:
                 if p_lat > 0 and p_lon > 0:
-                    d = calculate_haversine_distance(lat, lon, p_lat, p_lon)
+                    d = haversine_distance(lat, lon, p_lat, p_lon)
                     if d < min_d:
                         min_d = d
                         nearest_p = p_obj
@@ -615,7 +601,7 @@ def build_facility_detail_records(
             min_d = float("inf")
             for h_lat, h_lon, h_obj in hosp_lookup:
                 if h_lat > 0 and h_lon > 0:
-                    d = calculate_haversine_distance(lat, lon, h_lat, h_lon)
+                    d = haversine_distance(lat, lon, h_lat, h_lon)
                     if d < min_d:
                         min_d = d
                         nearest_h = h_obj
@@ -699,12 +685,7 @@ def rebuild_frontend_js_bundles(
         f.write(pharm_js_content)
     logger.info(f"✅ Rebuilt {pharm_out} ({len(pharmacies)} records)")
 
-    # 3. Synchronize public_night_pharmacies.js for backward-compatibility
-    legacy_out = JS_DIR / "public_night_pharmacies.js"
-    with open(legacy_out, "w", encoding="utf-8") as f:
-        f.write(pharm_js_content)
-
-    # 4. Hospital Details Bundle (for hospital_detail.html client-side instant load & offline fallback)
+    # 3. Hospital Details Bundle (for hospital_detail.html client-side instant load & offline fallback)
     if hosp_details is not None:
         hosp_detail_js = (
             "// 🌙 전국 달빛어린이병원 상세페이지 전용 데이터셋 (의료진/주차/연계약국 메타 완벽 포함)\n"

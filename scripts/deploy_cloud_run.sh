@@ -31,18 +31,14 @@ echo -e "${GREEN}[1/5] .env 파일에서 API Key 로드 중...${NC}"
 # .env 파일에서 주석 제외하고 환경변수 읽기
 export $(grep -v '^#' .env | grep -v '^\s*$' | xargs)
 
-# 변수 매핑 및 검증
+# 변수 매핑 및 검증 (비-GCP 외부 API 키 + GCP ADC 설정)
 DATA_GO_KEY="${DATA_GO_API_KEY:-$DATA_GO_KR_API_KEY}"
-GEMINI_KEY="${GEMINI_API_KEY}"
 KAKAO_KEY="${KAKAO_REST_API_KEY}"
 DB_ID="${FIRESTORE_DATABASE_ID:-isoom}"
+GCP_LOCATION="${GOOGLE_CLOUD_LOCATION:-global}"
 
 if [ -z "$DATA_GO_KEY" ]; then
   echo -e "${YELLOW}[경고] DATA_GO_API_KEY가 비어 있습니다. 공공데이터 실시간 연동이 제한될 수 있습니다.${NC}"
-fi
-
-if [ -z "$GEMINI_KEY" ]; then
-  echo -e "${YELLOW}[경고] GEMINI_API_KEY가 비어 있습니다. AI 트리아제 기능이 제한될 수 있습니다.${NC}"
 fi
 
 if [ -z "$KAKAO_KEY" ]; then
@@ -50,50 +46,17 @@ if [ -z "$KAKAO_KEY" ]; then
 fi
 
 echo -e "  • DATA_GO_API_KEY: ${DATA_GO_KEY:0:8}..."
-echo -e "  • GEMINI_API_KEY: ${GEMINI_KEY:0:8}..."
 echo -e "  • KAKAO_REST_API_KEY: ${KAKAO_KEY:0:8}..."
+echo -e "  • Vertex AI / Firestore: GCP ADC (무키 IAM 자동 인증)"
+echo -e "  • GOOGLE_CLOUD_LOCATION: $GCP_LOCATION"
 echo -e "  • FIRESTORE_DATABASE_ID: $DB_ID"
 
-# 2. Firebase serviceAccountKey.json 탐색 및 번들링 준비
-echo -e "\n${GREEN}[2/5] Firebase 서비스 계정 키 파일 점검 중...${NC}"
-KEY_PATH="${FIREBASE_KEY_PATH}"
-if [ -z "$KEY_PATH" ] || [ ! -f "$KEY_PATH" ]; then
-  CANDIDATE_PATHS=(
-    "serviceAccountKey.json"
-    "../serviceAccountKey.json"
-    "$HOME/Desktop/Project/serviceAccountKey.json"
-  )
-  for p in "${CANDIDATE_PATHS[@]}"; do
-    if [ -f "$p" ]; then
-      KEY_PATH="$p"
-      break
-    fi
-  done
-fi
+# 2. Cloud Run 무키(ADC) 인증 안내
+echo -e "\n${GREEN}[2/4] Cloud Run ADC(무키 IAM) 인증 모드 확인...${NC}"
+echo -e "  • 서비스 계정 키 파일 복사 없이 Cloud Run 서비스 계정 ADC로 Firestore/Vertex AI를 인증합니다."
 
-if [ -f "$KEY_PATH" ]; then
-  echo -e "  • 서비스 계정 키 발견: $KEY_PATH"
-  # 컨테이너 빌드를 위해 프로젝트 루트에 안전 복사
-  cp "$KEY_PATH" ./serviceAccountKey.json
-  echo -e "  • 빌드용 키 복사 완료 (./serviceAccountKey.json)"
-else
-  echo -e "${YELLOW}[안내] 로컬 serviceAccountKey.json 파일이 없습니다. Cloud Run IAM 무키(ADC) 인증 모드로 진행합니다.${NC}"
-fi
-
-# 3. 정적 자산 및 PWA 매니페스트 동기화 점검
-echo -e "\n${GREEN}[3/5] PWA 정적 자산(manifest, sw.js, icons, js) 동기화 점검...${NC}"
-mkdir -p app/static/img app/static/css app/static/js app/templates app/templates/js
-cp frontend/manifest.json app/static/manifest.json 2>/dev/null || true
-cp frontend/sw.js app/static/sw.js 2>/dev/null || true
-cp -r frontend/img/* app/static/img/ 2>/dev/null || true
-cp frontend/templates/*.html app/templates/ 2>/dev/null || true
-cp frontend/css/style.css app/static/css/style.css 2>/dev/null || true
-cp -r frontend/js/* app/static/js/ 2>/dev/null || true
-cp -r frontend/js/* app/templates/js/ 2>/dev/null || true
-echo -e "  • PWA 및 템플릿/JS 동기화 완료"
-
-# 4. gcloud CLI 설치 및 인증 확인
-echo -e "\n${GREEN}[4/5] Google Cloud CLI (gcloud) 상태 확인...${NC}"
+# 3. gcloud CLI 설치 및 인증 확인
+echo -e "\n${GREEN}[3/4] Google Cloud CLI (gcloud) 상태 확인...${NC}"
 if ! command -v gcloud &> /dev/null; then
   echo -e "${YELLOW}[알림] 'gcloud' 명령어가 설치되어 있지 않거나 PATH에 등록되지 않았습니다.${NC}"
   echo -e "${BLUE}------------------------------------------------------------------------------${NC}"
@@ -112,7 +75,7 @@ if ! command -v gcloud &> /dev/null; then
   echo "  --port 8080 \\"
   echo "  --memory 1Gi \\"
   echo "  --cpu 1 \\"
-  echo "  --set-env-vars=\"DATA_GO_API_KEY=\$DATA_GO_KEY,DATA_GO_KR_API_KEY=\$DATA_GO_KEY,GEMINI_API_KEY=\$GEMINI_KEY,KAKAO_REST_API_KEY=\$KAKAO_KEY,FIRESTORE_DATABASE_ID=\$DB_ID,FIREBASE_KEY_PATH=/app/serviceAccountKey.json,APP_ENV=production\""
+  echo "  --set-env-vars=\"DATA_GO_API_KEY=\$DATA_GO_KEY,DATA_GO_KR_API_KEY=\$DATA_GO_KEY,KAKAO_REST_API_KEY=\$KAKAO_KEY,FIRESTORE_DATABASE_ID=\$DB_ID,GOOGLE_CLOUD_PROJECT=\$CURRENT_PROJECT,GOOGLE_CLOUD_LOCATION=\$GCP_LOCATION,GOOGLE_GENAI_USE_VERTEXAI=true,APP_ENV=production\""
   echo ""
   exit 0
 fi
@@ -130,14 +93,15 @@ fi
 SERVICE_NAME="isoom-service"
 REGION="asia-northeast3" # 서울 리전
 
-echo -e "\n${GREEN}[5/5] Cloud Run 서비스 배포 실행 ($SERVICE_NAME, $REGION)...${NC}"
+echo -e "\n${GREEN}[4/4] Cloud Run 서비스 배포 실행 ($SERVICE_NAME, $REGION)...${NC}"
 
 ENV_VARS="DATA_GO_API_KEY=$DATA_GO_KEY"
 ENV_VARS="$ENV_VARS,DATA_GO_KR_API_KEY=$DATA_GO_KEY"
-ENV_VARS="$ENV_VARS,GEMINI_API_KEY=$GEMINI_KEY"
 ENV_VARS="$ENV_VARS,KAKAO_REST_API_KEY=$KAKAO_KEY"
 ENV_VARS="$ENV_VARS,FIRESTORE_DATABASE_ID=$DB_ID"
-ENV_VARS="$ENV_VARS,FIREBASE_KEY_PATH=/app/serviceAccountKey.json"
+ENV_VARS="$ENV_VARS,GOOGLE_CLOUD_PROJECT=$CURRENT_PROJECT"
+ENV_VARS="$ENV_VARS,GOOGLE_CLOUD_LOCATION=$GCP_LOCATION"
+ENV_VARS="$ENV_VARS,GOOGLE_GENAI_USE_VERTEXAI=true"
 ENV_VARS="$ENV_VARS,APP_ENV=production"
 
 gcloud run deploy "$SERVICE_NAME" \

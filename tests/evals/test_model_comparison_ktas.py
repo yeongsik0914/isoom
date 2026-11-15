@@ -260,8 +260,13 @@ def run_model_inference(
     return parsed
 
 def main():
-    api_key = settings.gemini_api_key
-    client = genai.Client(api_key=api_key)
+    from app.services.genai_client import build_genai_client
+
+    client = build_genai_client(agent_label="KTASBenchmark")
+    if client is None:
+        raise RuntimeError(
+            "Vertex AI ADC credentials not ready. Run `gcloud auth application-default login`."
+        )
 
     print("=" * 90)
     print("🏥 [MoonlightCare] Gemini 3.8 Flash vs Frontier Pro/Argon 임상 Triage 비교 벤치마크")

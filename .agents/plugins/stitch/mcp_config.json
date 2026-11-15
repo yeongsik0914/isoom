@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "stitch": {
+      "command": "/Users/jeong-yeongsig/Desktop/Project/isoom/.venv/bin/python",
+      "args": [
+        "/Users/jeong-yeongsig/Desktop/Project/isoom/.agents/plugins/stitch/stitch_adc_proxy.py"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}

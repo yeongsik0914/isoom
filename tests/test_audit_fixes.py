@@ -113,7 +113,7 @@ class TestPreAuditIssueFixes(unittest.IsolatedAsyncioTestCase):
 
     def test_fix_05_fallback_triage_extended_parsing(self) -> None:
         """TC-FIX-05: Parses '만 4세', '3일 전부터', and complex pediatric symptoms."""
-        agent = TriageAgent(api_key="mock_no_api_key")
+        agent = TriageAgent(enable_gemini=False)
         agent._client = None  # Force fallback parsing
 
         # Case A: 만 4세, 3일 전, 콧물/기침

@@ -2,21 +2,7 @@
 <html lang="ko">
 
 <head>
-  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>스마트폰으로 앱 열기 (QR) - 아이숨 (Aisum)</title>
   <meta name="description" content="카메라로 QR코드를 스캔하여 스마트폰에서 아이숨 PWA 앱을 즉시 실행하세요." />
@@ -33,8 +19,9 @@
     rel="stylesheet" />
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
 
   <!-- Mobile App / PWA Standalone Meta Tags -->
   <link rel="manifest" href="/manifest.json" />

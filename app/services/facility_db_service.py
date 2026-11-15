@@ -18,13 +18,11 @@ from __future__ import annotations
 import datetime
 import json
 import logging
-import math
-import os
 import re
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 from app.config import settings
+from app.services.spatial_service import haversine_distance
 
 logger = logging.getLogger("facility_detail_service")
 
@@ -46,19 +44,6 @@ _pharmacies_by_name: Dict[str, Dict[str, Any]] = {}
 _all_hospitals: List[Dict[str, Any]] = []
 _all_pharmacies: List[Dict[str, Any]] = []
 _is_loaded: bool = False
-
-
-def calculate_haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    """Calculates spherical distance in km between two WGS84 coordinates."""
-    r = 6371.0
-    phi1 = math.radians(lat1)
-    phi2 = math.radians(lat2)
-    delta_phi = math.radians(lat2 - lat1)
-    delta_lambda = math.radians(lon2 - lon1)
-
-    a = math.sin(delta_phi / 2.0) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(delta_lambda / 2.0) ** 2
-    c = 2.0 * math.atan2(math.sqrt(a), math.sqrt(1.0 - a))
-    return r * c
 
 
 def _ensure_data_loaded(force: bool = False) -> None:
@@ -169,7 +154,7 @@ def get_facility_detail(
         # Pick branch with minimum Haversine distance to user
         return min(
             candidates,
-            key=lambda c: calculate_haversine_distance(
+            key=lambda c: haversine_distance(
                 user_lat, user_lon,
                 float(c.get("lat") or 0.0),
                 float(c.get("lon") or 0.0)
@@ -219,7 +204,7 @@ def get_facility_detail(
     walk_min = 20
 
     if user_lat and user_lon and f_lat > 0 and f_lon > 0:
-        dist_km = round(calculate_haversine_distance(user_lat, user_lon, f_lat, f_lon), 1)
+        dist_km = round(haversine_distance(user_lat, user_lon, f_lat, f_lon), 1)
         drive_min = max(2, round(dist_km * 2.3))
         walk_min = max(3, round(dist_km * 14))
 

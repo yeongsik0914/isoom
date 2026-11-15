@@ -14,20 +14,23 @@ import contextlib
 import datetime
 import logging
 import os
+from pathlib import Path
 from typing import AsyncGenerator
 
 import uvicorn
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.api import api_v1_router
 from app.api.v1.chat import get_supervisor
 from app.config import settings
 from app.services.emergency_sync_service import fetch_hospital_coordinates
+from app.services.genai_client import is_genai_configured
 from app.services.pairing_service import load_nationwide_pairings
 from app.services.scheduler import background_daemon
+from app.services.telemetry import telemetry
 
 # Configure standard logging
 logging.basicConfig(
@@ -54,17 +57,21 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     except Exception as e:
         logger.warning(f"⚠️ Cache pre-warming warning: {e}")
 
-    # 2. Start APScheduler background daemon (3-Track)
-    try:
-        background_daemon.start(
-            bed_interval_minutes=5,
-            static_cron_hour=4,
-            static_cron_minute=0,
-            session_eviction_interval_minutes=15,
-        )
-        logger.info("✅ APScheduler 3-Track background worker (Beds, Static, Sessions) started.")
-    except Exception as e:
-        logger.warning(f"⚠️ Background scheduler startup warning: {e}")
+    # 2. Start APScheduler background daemon (3-Track) unless disabled for external Cloud Scheduler
+    enable_scheduler = os.getenv("ENABLE_IN_PROCESS_SCHEDULER", "true").strip().lower() == "true"
+    if enable_scheduler:
+        try:
+            background_daemon.start(
+                bed_interval_minutes=5,
+                static_cron_hour=4,
+                static_cron_minute=0,
+                session_eviction_interval_minutes=15,
+            )
+            logger.info("✅ APScheduler 3-Track background worker (Beds, Static, Sessions) started.")
+        except Exception as e:
+            logger.warning(f"⚠️ Background scheduler startup warning: {e}")
+    else:
+        logger.info("ℹ️ In-process scheduler disabled (ENABLE_IN_PROCESS_SCHEDULER=false).")
 
     yield
 
@@ -90,10 +97,16 @@ app = FastAPI(
 )
 
 # CORS Middleware for Web & Mobile Clients
+_allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "*").strip()
+_allowed_origins = (
+    [o.strip() for o in _allowed_origins_env.split(",") if o.strip()]
+    if _allowed_origins_env != "*"
+    else ["*"]
+)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=_allowed_origins,
+    allow_credentials=(_allowed_origins != ["*"]),
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -101,7 +114,7 @@ app.add_middleware(
 # Mount API Routers
 app.include_router(api_v1_router, prefix="/api/v1")
 
-# Mount Static and Frontend Directories
+# Mount Static and Frontend Directories (Single Source of Truth: frontend/)
 if os.path.exists("frontend"):
     app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
     if os.path.exists("frontend/css"):
@@ -113,9 +126,6 @@ if os.path.exists("frontend"):
 
 if os.path.exists("frontend/templates"):
     app.mount("/templates", StaticFiles(directory="frontend/templates"), name="templates")
-
-if os.path.exists("app/static"):
-    app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 if os.path.exists("data"):
     app.mount("/data", StaticFiles(directory="data"), name="data")
@@ -168,14 +178,12 @@ async def get_ktas_viewer():
 
 
 def find_frontend_html(category: str, filename: str) -> str | None:
-    """Finds HTML file from unified templates directory with backward compatibility."""
+    """Finds HTML file from unified frontend templates directory."""
     candidates = [
         f"frontend/templates/{filename}",
         f"frontend/templates/{category}/{filename}" if category else None,
         f"frontend/{category}/{filename}" if category else None,
         f"frontend/{filename}",
-        f"app/templates/{filename}",
-        f"app/static/{filename}",
     ]
     for c in candidates:
         if c and os.path.exists(c):
@@ -400,8 +408,7 @@ async def get_aisum_style():
     """Serves the Aisum CSS stylesheet."""
     if os.path.exists("frontend/css/style.css"):
         return FileResponse("frontend/css/style.css", media_type="text/css")
-    return FileResponse("app/static/css/style.css", media_type="text/css")
-
+    return JSONResponse(status_code=404, content={"detail": "CSS not found"})
 
 
 @app.get("/js/main.js", include_in_schema=False)
@@ -417,15 +424,13 @@ async def get_pwa_manifest():
     """Serves PWA Web App Manifest."""
     if os.path.exists("frontend/manifest.json"):
         return FileResponse("frontend/manifest.json", media_type="application/manifest+json")
-    if os.path.exists("app/static/manifest.json"):
-        return FileResponse("app/static/manifest.json", media_type="application/manifest+json")
     return JSONResponse(status_code=404, content={"detail": "Manifest not found"})
 
 
 @app.get("/sw.js", tags=["PWA"], response_class=FileResponse)
 async def get_pwa_service_worker():
     """Serves PWA Service Worker script with no-cache headers for instant updates."""
-    target = "frontend/sw.js" if os.path.exists("frontend/sw.js") else "app/static/sw.js"
+    target = "frontend/sw.js"
     if os.path.exists(target):
         return FileResponse(
             target,
@@ -437,18 +442,19 @@ async def get_pwa_service_worker():
 
 @app.get("/img/{filename}", tags=["PWA"], response_class=FileResponse)
 async def get_pwa_image(filename: str):
-    """Serves PWA icons and image assets."""
-    for root in ["frontend/img", "app/static/img", "frontend/assets"]:
-        p = os.path.join(root, filename)
-        if os.path.exists(p):
-            return FileResponse(p)
+    """Serves PWA icons and image assets safely within frontend directories."""
+    for root in ["frontend/img", "frontend/assets"]:
+        root_path = Path(root).resolve()
+        candidate = (root_path / filename).resolve()
+        if candidate.parent == root_path and candidate.is_file():
+            return FileResponse(str(candidate))
     return JSONResponse(status_code=404, content={"detail": f"Image {filename} not found"})
 
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def get_favicon():
     """Serves official Aisum favicon."""
-    for root in ["frontend/img", "app/static/img", "frontend", "app/static"]:
+    for root in ["frontend/img", "frontend"]:
         p = os.path.join(root, "favicon.ico")
         if os.path.exists(p):
             return FileResponse(p, media_type="image/x-icon")
@@ -494,10 +500,17 @@ async def health_check():
         },
         "integrations": {
             "public_data_api_configured": settings.has_public_api_key(),
-            "gemini_api_configured": bool(settings.gemini_api_key),
-            "firebase_configured": settings.has_firebase_key(),
+            "gemini_api_configured": is_genai_configured(),
+            "firebase_configured": settings.has_gcp_adc(),
+            "gcp_adc_configured": settings.has_gcp_adc(),
         },
     }
+
+
+@app.get("/metrics", tags=["System"])
+async def prometheus_metrics():
+    """Exposes LLMOps latency, cost, RAG, and safety telemetry in Prometheus text format."""
+    return PlainTextResponse(telemetry.render_prometheus(), media_type="text/plain; version=0.0.4")
 
 
 if __name__ == "__main__":

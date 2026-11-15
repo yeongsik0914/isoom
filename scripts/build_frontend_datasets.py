@@ -40,9 +40,3 @@ pharm_out = JS_DIR / "national_night_pharmacies_2028.js"
 with open(pharm_out, "w", encoding="utf-8") as f:
     f.write(pharm_js_content)
 print(f"[OK] Created {pharm_out} ({len(pharmacies)} pharmacies)")
-
-# Also synchronize public_night_pharmacies.js for backward-compatibility
-legacy_pharm_out = JS_DIR / "public_night_pharmacies.js"
-with open(legacy_pharm_out, "w", encoding="utf-8") as f:
-    f.write(pharm_js_content)
-print(f"[OK] Synchronized {legacy_pharm_out}")

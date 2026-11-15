@@ -7,7 +7,7 @@ pediatric patient surge risk levels (NORMAL / HIGH / CRITICAL).
 from __future__ import annotations
 
 import datetime
-from typing import Optional
+from typing import Optional, Union
 
 import requests
 import xmltodict

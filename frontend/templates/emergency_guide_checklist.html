@@ -2,21 +2,7 @@
 <html lang="ko">
 
 <head>
-  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>아이숨 (Aisum) - 응급실 가이드 (출발 전 필수 체크리스트 &amp; 실시간 병상)</title>
   <meta name="description" content="응급실 출발 전 필수 지참물 포토 체크리스트 및 실시간 소아전문응급센터 병상 대시보드" />
@@ -34,11 +20,11 @@
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 CSS 로더 -->
   <!-- 1. Safari file:// 샌드박스 호환: 동일/하위 폴더 우선 로드 -->
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
-  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
   <!-- 2. Chrome 및 상위 폴더 구조 호환 폴백 로드 -->
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 </head>
 
 <body class="app-shell-body">
@@ -275,7 +261,7 @@
 
   </div>
 
-  <script src="../js/main.js?v=20261020_v4"></script>
+  <script src="/js/main.js?v=20261020_v4"></script>
 </body>
 
 </html>

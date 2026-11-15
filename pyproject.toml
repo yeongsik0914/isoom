@@ -1,0 +1,14 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--ignore=tests/evals"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+exclude = ["scratch", "notebooks", ".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]

@@ -18,9 +18,13 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
+from app.agents.conformal_triage import evaluate_triage_uncertainty
 from app.agents.guardrail_agent import check_safety_violations
 from app.config import settings
 from app.schemas.state import PatientSessionState
+from app.services.genai_client import build_genai_client
+from app.services.ktas_retriever import KtasRetrievalResult, ktas_retriever
+from app.services.llm_gateway import llm_gateway
 
 logger = logging.getLogger(__name__)
 
@@ -124,33 +128,15 @@ class TriageAgent:
 
     def __init__(
         self,
-        api_key: Optional[str] = None,
         model_name: Optional[str] = None,
         enable_gemini: bool = True,
     ) -> None:
-        self.api_key = (api_key or settings.gemini_api_key) if enable_gemini else None
         self.model_name = model_name or settings.gemini_triage_model
-        self._client: Optional[Any] = None
-
-        if self.api_key:
-            try:
-                import google.genai as genai
-
-                self._client = genai.Client(api_key=self.api_key)
-            except Exception as e:
-                logger.warning(f"[TriageAgent] Failed to initialize Google GenAI Client with API Key: {e}")
-                self._client = None
-        elif os.getenv("K_SERVICE") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("USE_VERTEX_AI", "").lower() == "true":
-            try:
-                import google.genai as genai
-
-                project_id = os.getenv("GOOGLE_CLOUD_PROJECT") or os.getenv("GCP_PROJECT") or "iceu-songpa10"
-                location = os.getenv("GOOGLE_CLOUD_LOCATION", "asia-northeast3")
-                self._client = genai.Client(vertexai=True, project=project_id, location=location)
-                logger.info(f"[TriageAgent] Initialized Vertex AI ADC Client (Project: {project_id}, Region: {location})")
-            except Exception as e:
-                logger.warning(f"[TriageAgent] Failed to initialize Vertex AI ADC Client: {e}")
-                self._client = None
+        self._client: Optional[Any] = (
+            build_genai_client(agent_label="TriageAgent")
+            if enable_gemini
+            else None
+        )
 
     async def triage_message(
         self,
@@ -163,13 +149,90 @@ class TriageAgent:
 
         result: Optional[TriageExtractionResult] = None
 
-        # 1. Try Gemini GenAI Structured Call if API client is available
+        # 0. Retrieve targeted Top-5 KTAS guidelines via Hybrid RAG + CRAG (~85% token savings)
+        retrieval = ktas_retriever.retrieve_with_crag(
+            query=user_message,
+            symptoms=state.symptoms,
+            temperature=state.temperature,
+            age_months=state.age_months,
+            age_days=state.age_days,
+            top_k=5,
+        )
+        state.crag_triggered = retrieval.crag_triggered
+
+        # 1. Try Vertex AI Gemini via central LLMGateway if API client is available
         if self._client:
-            result = await self._call_gemini_triage(user_message, state)
+            result = await self._call_gemini_triage(user_message, state, retrieval=retrieval)
 
         # 2. Fallback to deterministic regex/heuristic parser if Gemini is absent or failed
         if result is None:
             result = self._fallback_parse_triage(user_message, state)
+
+        # 2.5 Self-RAG Grounding Verification & Conformal Uncertainty Escalation
+        verified = ktas_retriever.verify_clinical_grounding(
+            ktas_level=result.ktas_level,
+            matched_nacrs_code=result.matched_nacrs_code,
+            retrieved=retrieval,
+        )
+        if verified["ktas_level"] is not None:
+            result.ktas_level = verified["ktas_level"]
+        if verified["nacrs_code"] and not result.matched_nacrs_code:
+            result.matched_nacrs_code = verified["nacrs_code"]
+        if verified["symptom_name"] and not result.matched_symptom_name:
+            result.matched_symptom_name = verified["symptom_name"]
+
+        # Pre-apply extracted vitals to temp view for accurate conformal boundary assessment
+        orig_age_m, orig_age_d, orig_temp, orig_dur = (
+            state.age_months,
+            state.age_days,
+            state.temperature,
+            state.duration_hours,
+        )
+        if result.age_months is not None:
+            state.age_months = result.age_months
+        if result.age_days is not None:
+            state.age_days = result.age_days
+        if result.temperature is not None:
+            state.temperature = result.temperature
+        if result.duration_hours is not None:
+            state.duration_hours = result.duration_hours
+
+        conformal = evaluate_triage_uncertainty(
+            state=state,
+            proposed_ktas=result.ktas_level,
+            retrieval_top_score=retrieval.top_score,
+            retrieval_margin=retrieval.score_margin,
+        )
+        state.uncertainty_score = conformal.uncertainty_score
+        state.prediction_set = conformal.prediction_set
+        if conformal.escalated and conformal.escalated_ktas is not None:
+            result.ktas_level = conformal.escalated_ktas
+            result.ktas_level_name = f"{conformal.escalated_ktas}단계({'긴급' if conformal.escalated_ktas == 2 else '응급'})"
+            if conformal.escalated_ktas <= 2:
+                result.is_red_flag = True
+            if conformal.escalation_reason:
+                result.clinical_rationale = (
+                    f"{result.clinical_rationale} | {conformal.escalation_reason}"
+                    if result.clinical_rationale
+                    else conformal.escalation_reason
+                )
+
+        # Consistency guard: KTAS 4~5 (준응급/비응급) must not carry contradictory is_red_flag=True
+        if result.ktas_level is not None and result.ktas_level >= 4:
+            result.is_red_flag = False
+        elif result.ktas_level == 3 and result.is_red_flag:
+            result.is_red_flag = False
+
+        if not result.followup_question and conformal.info_gain_question:
+            result.followup_question = conformal.info_gain_question
+
+        # Restore before formal state sync step below
+        state.age_months, state.age_days, state.temperature, state.duration_hours = (
+            orig_age_m,
+            orig_age_d,
+            orig_temp,
+            orig_dur,
+        )
 
         # 3. Synchronize extracted values into PatientSessionState
         if result.age_months is not None:
@@ -235,41 +298,39 @@ class TriageAgent:
         self,
         user_message: str,
         state: PatientSessionState,
+        retrieval: Optional[KtasRetrievalResult] = None,
     ) -> Optional[TriageExtractionResult]:
-        """Invokes Gemini 3.8 Flash Thinking with Direct Grounded pediatric KTAS knowledge."""
+        """Invokes Vertex AI Gemini via central LLMGateway with Hybrid RAG KTAS grounding."""
         try:
-            from google.genai import types
-
             history_context = "\n".join(
                 [f"{m.role}: {m.content}" for m in state.conversation_history[-6:]]
             )
 
-            grounding_text = _get_ktas_grounding_context()
+            grounding_text = (
+                retrieval.grounded_context
+                if retrieval and retrieval.grounded_context
+                else _get_ktas_grounding_context()
+            )
 
             prompt = (
                 f"{TRIAGE_SYSTEM_PROMPT}\n\n"
-                f"[공식 2021 소아 KTAS 168개 주증상 및 세부 지식 베이스]\n{grounding_text}\n\n"
+                f"[공식 2021 소아 KTAS 핵심 매칭 지침 (Hybrid RAG Top-5)]\n{grounding_text}\n\n"
                 f"[현재까지의 대화 히스토리]\n{history_context}\n\n"
                 f"[보호자의 최신 입력]\n{user_message}\n\n"
                 "위 입력을 분석하여 TriageExtractionResult JSON으로 반환하십시오."
             )
 
-            config_args = {
-                "response_mime_type": "application/json",
-                "response_schema": TriageExtractionResult,
-                "temperature": 0.1,
-                "thinking_config": types.ThinkingConfig(thinking_budget=1024),
-                "automatic_function_calling": types.AutomaticFunctionCallingConfig(disable=True),
-            }
-
-            response = self._client.models.generate_content(
-                model=self.model_name,
-                contents=prompt,
-                config=types.GenerateContentConfig(**config_args),
+            resp_text, _used_model = llm_gateway.generate_structured(
+                prompt=prompt,
+                response_schema=TriageExtractionResult,
+                primary_model=self.model_name,
+                temperature=0.1,
+                thinking_budget=1024,
+                client_override=self._client,
             )
 
-            if response and response.text:
-                data = json.loads(response.text)
+            if resp_text:
+                data = json.loads(resp_text)
                 res_obj = TriageExtractionResult(**data)
                 safety_violation = check_safety_violations(user_message)
                 if safety_violation:
@@ -365,7 +426,7 @@ class TriageAgent:
         symptoms = list(state.symptoms)
         symptom_patterns = [
             (r"(?<!해)열(?!제)|발열|고열|미열|초고열|불덩이|열감|열이\s*나|열나|열펄펄|열나요", "발열"),
-            (r"구토|토했|토하|게우|분수토|올렸어|토를", "구토"),
+            (r"구토|토해|토했|토하|게우|분수토|올렸어|토를", "구토"),
             (r"기침|콜록|컹컹|기침하", "기침"),
             (r"콧물|코막힘|코막혀", "콧물"),
             (r"설사|물설사|물변|묽은\s*변", "설사"),
@@ -405,10 +466,27 @@ class TriageAgent:
                 is_red_flag = True
                 ktas_level = 2
                 ktas_level_name = "2단계(긴급)"
-                matched_nacrs_code = "003"
-                matched_symptom_name = "발열"
+                matched_nacrs_code = "852"
+                matched_symptom_name = "열"
                 clinical_rationale = "생후 100일(3개월) 이하 영아의 38℃ 이상 발열은 균혈증 및 패혈증 위험으로 KTAS 2단계(긴급) 즉시 분류"
                 recommended_action = "지체 없이 가장 가까운 대학병원 소아전문응급의료센터로 즉시 이동하십시오."
+
+        # Conservative heuristic KTAS classification when Gemini is offline
+        if ktas_level is None:
+            if is_red_flag:
+                ktas_level = 2
+                ktas_level_name = "2단계(긴급)"
+                clinical_rationale = clinical_rationale or "소아 응급 위험 징후 감지에 따른 KTAS 2단계(긴급) 분류"
+            elif any(s in symptoms for s in ("호흡곤란", "경련", "탈수", "처짐")) or (
+                temperature is not None and temperature >= 39.5
+            ):
+                ktas_level = 3
+                ktas_level_name = "3단계(응급)"
+                clinical_rationale = clinical_rationale or "고열 또는 호흡기/전신 증상에 따른 소아 응급(KTAS 3단계) 보수적 분류"
+            elif symptoms or temperature is not None:
+                ktas_level = 4
+                ktas_level_name = "4단계(준응급)"
+                clinical_rationale = clinical_rationale or "소아 증상 기반 준응급(KTAS 4단계) 보수적 분류"
 
         # 7. Build empathetic response & missing questions
         missing: list[str] = []

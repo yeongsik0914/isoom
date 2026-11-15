@@ -19,8 +19,9 @@
     rel="stylesheet" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="../css/style.css?v=1.8.9" />
-  <link rel="stylesheet" href="/css/style.css?v=1.8.9" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
 
   <!-- Mobile App / PWA Standalone Meta Tags -->
   <link rel="manifest" href="/manifest.json" />
@@ -32,21 +33,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/img/icon-192.png" />
 
-  <!-- 0ms FOUC Prevention Theme Script -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-
-  <style>
+<style>
     /* ==========================================================================
        History Page Custom Aesthetics (Aisum Calm Harbor Design)
        ========================================================================== */
@@ -728,9 +715,6 @@
   </div>
 
   <!-- Single Source JavaScript Modules -->
-  <script src="../js/theme.js"></script>
-  <script src="/js/theme.js"></script>
-  <script src="../js/main.js?v=20261020_v4"></script>
   <script src="/js/main.js?v=20261020_v4"></script>
 
   <script>

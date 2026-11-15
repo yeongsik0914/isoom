@@ -19,8 +19,9 @@
     rel="stylesheet" />
 
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
 
   <!-- Mobile App / PWA Standalone Meta Tags -->
   <link rel="manifest" href="/manifest.json" />
@@ -32,20 +33,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/img/icon-192.png" />
 
-  <!-- 0ms FOUC Prevention Theme Script -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-  <style>
+<style>
     html[data-theme="dark"] .settings-section-divider {
       height: 12px !important;
       background-color: transparent !important;
@@ -408,9 +396,6 @@
   </div>
 
   <!-- Safari & Chrome 크로스 브라우징 완벽 호환 듀얼 JS 로더 -->
-  <script src="../js/theme.js"></script>
-  <script src="/js/theme.js"></script>
-  <script src="../js/main.js?v=20261020_v4"></script>
   <script src="/js/main.js?v=20261020_v4"></script>
 
   <!-- 테마 변경 모달 및 PWA 스크립트 -->

@@ -10,6 +10,7 @@ class SupervisorResponse(BaseModel):
     """Standardized response object returned by SupervisorOrchestrator to API / Frontend."""
 
     session_id: str = Field(..., description="고유 세션 식별자")
+    session_token: Optional[str] = Field(default=None, description="세션 조회/삭제 인증용 서명 토큰")
     current_step: str = Field(..., description="FSM 현재 상태 ('TRIAGE' | 'MATCHING' | 'LOGISTICS' | 'EMERGENCY_ESCALATION' | 'COMPLETED')")
     turn_count: int = Field(..., description="현재 세션 대화 턴 수 (최대 3턴)")
     is_emergency: bool = Field(default=False, description="0ms Red Flag 긴급 감지 여부")
@@ -32,4 +33,7 @@ class SupervisorResponse(BaseModel):
         default="※ 본 서비스는 의료법 제27조를 준수하며 의학적 진단을 제공하지 않습니다. 대면 진료를 권장합니다.",
         description="의료법 제27조 준수 법적 면책 고지문",
     )
+    uncertainty_score: Optional[float] = Field(default=None, description="Conformal 트리아제 불확실성 점수 (0~1)")
+    prediction_set: list[int] = Field(default_factory=list, description="Conformal 예측 KTAS 등급 집합")
+    pipeline_trace: list[str] = Field(default_factory=list, description="에이전트 그래프 실행 경로 추적")
 

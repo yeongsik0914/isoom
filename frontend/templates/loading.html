@@ -2,21 +2,7 @@
 <html lang="ko">
 
 <head>
-  <!-- 0ms FOUC Prevention Theme Script (Toss TDS Dark Theme) -->
-  <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch(e) {}
-    })();
-  </script>
-
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>소아 증상 분석 중 - 아이숨 (Aisum)</title>
   <meta name="description" content="소아 KTAS 임상 지침 및 0ms Red Flag 안전 가드레일 실시간 정밀 분석" />
@@ -41,8 +27,9 @@
   <meta name="theme-color" content="#ffffff" />
 
   <!-- Pure Vanilla CSS Stylesheet -->
-  <link rel="stylesheet" href="../css/style.css" id="aisum-css-parent" />
-  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
 <style>
     /* Standalone Fullscreen Center */
     body {

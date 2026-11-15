@@ -13,15 +13,15 @@ import datetime
 import time
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
-from app.schemas.emergency import RankedEmergencyHospital
 from app.schemas.emergency_api import (
     NearbyEmergencyResponse,
     PairingSearchResponse,
     SchedulerStatusResponse,
     SyncTriggerResponse,
 )
+from app.services.auth import require_admin_token
 from app.services.emergency_sync_service import fetch_emergency_beds
 from app.services.holiday_service import HolidayService
 from app.services.pairing_service import find_nearby_pairings
@@ -134,6 +134,7 @@ async def get_nearby_moonlight_pairings(
 @router.post(
     "/sync",
     response_model=SyncTriggerResponse,
+    dependencies=[Depends(require_admin_token)],
     summary="실시간 병상 즉시 수집 및 Firestore Hash Diffing 동기화",
     description="E-Gen 실시간 병상을 수집하고 In-Memory Hash Diffing을 거쳐 변경분만 Firestore에 반영합니다.",
 )
@@ -162,6 +163,7 @@ async def trigger_emergency_bed_sync():
 
 @router.post(
     "/sync-static",
+    dependencies=[Depends(require_admin_token)],
     summary="전국 달빛병원 & 야간약국 24시간 증분 동기화 즉시 실행",
     description="공공데이터포털 NMC API를 호출하고 In-Memory Hash Diffing을 통해 변경된 병원/약국만 선택적으로 갱신합니다.",
 )

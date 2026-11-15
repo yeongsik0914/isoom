@@ -1,0 +1,513 @@
+@charset "UTF-8";
+/* ==========================================================================
+   아이숨 (Aisum) - Stitch "Clinical Clarity" UI Elevation Layer
+   Generated & harmonized via Google Stitch MCP (Design System: Clinical Clarity)
+   - Supports Light (Porcelain Canvas) & Dark (Toss Deep Obsidian) themes
+   ========================================================================== */
+
+:root {
+  --stitch-canvas: #f6f8fc;
+  --stitch-surface: #ffffff;
+  --stitch-surface-low: #f2f5fc;
+  --stitch-surface-tint: #eff5ff;
+  --stitch-primary: #0050cb;
+  --stitch-primary-vivid: #0066ff;
+  --stitch-teal: #0d9488;
+  --stitch-teal-bg: #f0fdfa;
+  --stitch-teal-border: #99f6e4;
+  --stitch-urgent: #dc2626;
+  --stitch-urgent-bg: #fef2f2;
+  --stitch-urgent-border: #fecaca;
+  --stitch-outline-soft: rgba(194, 198, 216, 0.5);
+  --stitch-shadow-ambient: 0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 20px rgba(15, 23, 42, 0.045);
+  --stitch-shadow-elevated: 0 10px 28px rgba(0, 80, 203, 0.08), 0 2px 8px rgba(15, 23, 42, 0.04);
+  --stitch-cta-shadow: 0 8px 22px rgba(0, 102, 255, 0.28);
+}
+
+/* Global typography & numeric legibility */
+body {
+  background-color: var(--canvas-bg, #edf2f7);
+  font-feature-settings: "tnum" 1, "cv05" 1;
+}
+
+.mobile-viewport,
+.main-home-shell {
+  background-color: var(--app-bg, var(--stitch-canvas));
+}
+
+.count-badge,
+.metric-value,
+.dist-badge,
+.temp-val {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sticky Glassmorphic App Header */
+.app-header {
+  background: rgba(255, 255, 255, 0.86) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.72) !important;
+  box-shadow: 0 1px 10px rgba(15, 23, 42, 0.03);
+}
+
+html[data-theme="dark"] .app-header {
+  background: rgba(23, 23, 28, 0.86) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.brand-logo {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.brand-logo-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid rgba(0, 102, 255, 0.16);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--stitch-primary-vivid);
+}
+
+.brand-logo-mark .material-symbols-outlined {
+  font-size: 16px;
+}
+
+html[data-theme="dark"] .brand-logo-mark {
+  background: rgba(49, 130, 246, 0.16);
+  border-color: rgba(49, 130, 246, 0.32);
+  color: #60a5fa;
+}
+
+.location-pill {
+  background: #ffffff;
+  border: 1px solid var(--stitch-outline-soft);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  padding: 5px 11px;
+  font-size: 12.5px;
+}
+
+html[data-theme="dark"] .location-pill {
+  background: #202027;
+  border-color: rgba(255, 255, 255, 0.09);
+  color: #f9fafb;
+}
+
+/* Stitch Hero Card with Ambient Radial Clinical Glow */
+.hero-card {
+  border-radius: 24px !important;
+  padding: 22px 20px !important;
+  background: linear-gradient(150deg, #ffffff 0%, #f5f9ff 62%, #eaf2ff 100%) !important;
+  border: 1px solid rgba(191, 219, 254, 0.72) !important;
+  box-shadow: var(--stitch-shadow-elevated) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card::before {
+  content: "";
+  position: absolute;
+  top: -48px;
+  right: -36px;
+  width: 156px;
+  height: 156px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(0, 102, 255, 0.14) 0%, rgba(13, 148, 136, 0.06) 55%, transparent 72%);
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .hero-card {
+  background: linear-gradient(150deg, #202027 0%, #1d2230 68%, #1a2336 100%) !important;
+  border: 1px solid rgba(49, 130, 246, 0.25) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32) !important;
+}
+
+.stitch-hero-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.stitch-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: var(--stitch-teal-bg);
+  border: 1px solid var(--stitch-teal-border);
+  color: var(--stitch-teal);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+html[data-theme="dark"] .stitch-live-pill {
+  background: rgba(16, 185, 129, 0.14);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+
+.stitch-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
+  animation: pulse-ring-soft 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ring-soft {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.22); }
+  50% { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.08); }
+}
+
+.stitch-trust-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--stitch-primary);
+}
+
+.stitch-trust-tag .material-symbols-outlined {
+  font-size: 15px;
+}
+
+html[data-theme="dark"] .stitch-trust-tag {
+  color: #60a5fa;
+}
+
+.hero-body {
+  flex-direction: column;
+  gap: 6px !important;
+  margin-bottom: 16px !important;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.025em !important;
+  line-height: 1.32 !important;
+}
+
+.stitch-hero-subtitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--slate-600, #475569);
+  line-height: 1.45;
+  text-align: center;
+}
+
+html[data-theme="dark"] .stitch-hero-subtitle {
+  color: #9ca3af;
+}
+
+.primary-cta-btn {
+  height: 52px !important;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, #0066ff 0%, #0050cb 100%) !important;
+  box-shadow: var(--stitch-cta-shadow) !important;
+  font-weight: 700 !important;
+  position: relative;
+  z-index: 1;
+}
+
+.primary-cta-btn:active {
+  transform: scale(0.985) !important;
+}
+
+/* Segmented Tabs & Cards (Level 1 Clinical Clarity) */
+.filter-tabs {
+  background: rgba(241, 245, 249, 0.85);
+  padding: 4px;
+  border-radius: 14px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+html[data-theme="dark"] .filter-tabs {
+  background: #202027;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.filter-tab {
+  border-radius: 10px !important;
+  border: none !important;
+  font-weight: 600;
+}
+
+.filter-tab.active {
+  background: #ffffff !important;
+  color: var(--stitch-primary) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
+}
+
+html[data-theme="dark"] .filter-tab.active {
+  background: #3182f6 !important;
+  color: #ffffff !important;
+}
+
+.facility-card,
+.result-card,
+.triage-section-card,
+.briefing-card,
+.history-card,
+.setting-card,
+.guide-card {
+  border-radius: 22px !important;
+  border: 1px solid var(--stitch-outline-soft) !important;
+  box-shadow: var(--stitch-shadow-ambient) !important;
+  transition: transform 0.18s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.facility-card:hover,
+.result-card:hover {
+  box-shadow: var(--stitch-shadow-elevated) !important;
+}
+
+html[data-theme="dark"] .facility-card,
+html[data-theme="dark"] .result-card,
+html[data-theme="dark"] .triage-section-card,
+html[data-theme="dark"] .briefing-card,
+html[data-theme="dark"] .history-card,
+html[data-theme="dark"] .setting-card,
+html[data-theme="dark"] .guide-card {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28) !important;
+}
+
+/* Frosted Floating Bottom Navigation */
+.bottom-nav {
+  background: rgba(255, 255, 255, 0.9) !important;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border-top: 1px solid rgba(226, 232, 240, 0.85) !important;
+  box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="dark"] .bottom-nav {
+  background: rgba(23, 23, 28, 0.9) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.bottom-nav .nav-item.active {
+  color: var(--stitch-primary-vivid);
+}
+
+/* Consolidated Dark-Mode Location & Notification Bottom Sheet Overrides */
+html[data-theme="dark"] .location-bottom-sheet,
+html[data-theme="dark"] .sheet-dialog-card {
+  background: #202027 !important;
+  color: #f9fafb !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html[data-theme="dark"] .current-address-bar,
+html[data-theme="dark"] .btn-gps-refresh,
+html[data-theme="dark"] .watch-status-banner,
+html[data-theme="dark"] .location-search-box,
+html[data-theme="dark"] .sheet-close-btn,
+html[data-theme="dark"] .close-icon-btn,
+html[data-theme="dark"] .btn-notif-call,
+html[data-theme="dark"] .loc-chip-btn {
+  background: #2c2c34 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .current-address-bar .current-bar-icon {
+  color: #3182f6 !important;
+}
+
+html[data-theme="dark"] .current-address-bar .current-bar-text,
+html[data-theme="dark"] .loc-chip-btn .chip-gu,
+html[data-theme="dark"] .loc-mode-tab {
+  color: #8b95a1 !important;
+}
+
+html[data-theme="dark"] .current-address-bar strong,
+html[data-theme="dark"] #modal-current-address-val,
+html[data-theme="dark"] .sheet-title,
+html[data-theme="dark"] .notif-title,
+html[data-theme="dark"] .loc-chip-btn .chip-name,
+html[data-theme="dark"] .location-search-input {
+  color: #f9fafb !important;
+}
+
+html[data-theme="dark"] .loc-mode-tab {
+  background: #2c2c34 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+html[data-theme="dark"] .loc-mode-tab.active {
+  background: rgba(49, 130, 246, 0.16) !important;
+  border-color: #3182f6 !important;
+  color: #3182f6 !important;
+}
+
+html[data-theme="dark"] .loc-chip-btn.active {
+  background: #3182f6 !important;
+  border-color: #3182f6 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .loc-chip-btn.active .chip-name,
+html[data-theme="dark"] .loc-chip-btn.active .chip-gu {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .location-search-input {
+  background: transparent !important;
+}
+
+html[data-theme="dark"] .sheet-header {
+  background: #202027 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html[data-theme="dark"] .sheet-body {
+  background: #17171c !important;
+}
+
+html[data-theme="dark"] .notif-card {
+  background: #202027 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f9fafb !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+}
+
+html[data-theme="dark"] .notif-card.unread {
+  background: #24242d !important;
+  border-color: rgba(49, 130, 246, 0.4) !important;
+}
+
+html[data-theme="dark"] .notif-message {
+  color: #d1d6db !important;
+}
+
+/* ==========================================================================
+   Level 2/3 Clinical Clarity Extensions (Input Triage / Result / Briefing)
+   ========================================================================== */
+
+/* Frosted Sub-page Headers */
+.triage-header,
+.result-header,
+.briefing-header {
+  background: rgba(255, 255, 255, 0.88) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.78) !important;
+}
+
+html[data-theme="dark"] .triage-header,
+html[data-theme="dark"] .result-header,
+html[data-theme="dark"] .briefing-header {
+  background: rgba(23, 23, 28, 0.88) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Triage Input Page */
+.stitch-triage-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: var(--stitch-surface-tint);
+  border: 1px solid rgba(0, 102, 255, 0.16);
+  color: var(--stitch-primary);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+html[data-theme="dark"] .stitch-triage-pill {
+  background: rgba(49, 130, 246, 0.16);
+  border-color: rgba(49, 130, 246, 0.3);
+  color: #60a5fa;
+}
+
+.triage-progress-fill {
+  background: linear-gradient(90deg, #0066ff 0%, #0d9488 100%) !important;
+  border-radius: 0 999px 999px 0;
+}
+
+.triage-section-card.active-card {
+  border-color: rgba(0, 102, 255, 0.34) !important;
+  box-shadow: 0 8px 26px rgba(0, 80, 203, 0.09) !important;
+}
+
+html[data-theme="dark"] .triage-section-card.active-card {
+  border-color: rgba(49, 130, 246, 0.45) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36) !important;
+}
+
+.triage-bottom-action-bar {
+  background: rgba(255, 255, 255, 0.92) !important;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border-top: 1px solid rgba(226, 232, 240, 0.85) !important;
+}
+
+html[data-theme="dark"] .triage-bottom-action-bar {
+  background: rgba(23, 23, 28, 0.92) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.triage-submit-btn {
+  background: linear-gradient(135deg, #0066ff 0%, #0050cb 100%) !important;
+  box-shadow: var(--stitch-cta-shadow) !important;
+  border-radius: 16px !important;
+}
+
+/* Result Page Clinical Summary */
+.triage-summary-card {
+  background: linear-gradient(160deg, #ffffff 0%, #f4f8ff 100%) !important;
+  border: 1px solid rgba(0, 102, 255, 0.16) !important;
+  border-radius: 22px !important;
+  box-shadow: var(--stitch-shadow-elevated) !important;
+}
+
+html[data-theme="dark"] .triage-summary-card {
+  background: linear-gradient(160deg, #202027 0%, #1a2130 100%) !important;
+  border-color: rgba(49, 130, 246, 0.25) !important;
+}
+
+.triage-summary-card .vital-chip {
+  border-radius: 10px !important;
+  border: 1px solid rgba(203, 213, 225, 0.65);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+html[data-theme="dark"] .triage-summary-card .vital-chip {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Briefing Card Refinements */
+.blood-badge-hero {
+  border-radius: 16px !important;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.1);
+}
+
+.emergency-contact-box {
+  border-radius: 16px !important;
+  border: 1px solid rgba(226, 232, 240, 0.85) !important;
+}
+
+html[data-theme="dark"] .emergency-contact-box {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}

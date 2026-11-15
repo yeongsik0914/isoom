@@ -22,7 +22,6 @@ from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 
 from app.config import settings
-from app.schemas.emergency import HolidayInfo
 from app.services.emergency_sync_service import (
     default_hash_cache,
     fetch_emergency_beds,
@@ -51,6 +50,18 @@ class BackgroundDaemon:
         self.static_sync_count: int = 0
         self.eviction_count: int = 0
         self._is_running: bool = False
+        self._bed_poll_lock: Optional[asyncio.Lock] = None
+        self._static_sync_lock: Optional[asyncio.Lock] = None
+
+    def _get_bed_poll_lock(self) -> asyncio.Lock:
+        if self._bed_poll_lock is None:
+            self._bed_poll_lock = asyncio.Lock()
+        return self._bed_poll_lock
+
+    def _get_static_sync_lock(self) -> asyncio.Lock:
+        if self._static_sync_lock is None:
+            self._static_sync_lock = asyncio.Lock()
+        return self._static_sync_lock
 
     def is_running(self) -> bool:
         """Returns True if scheduler is active and running."""
@@ -85,6 +96,15 @@ class BackgroundDaemon:
 
     async def poll_realtime_beds(self) -> dict[str, Any]:
         """Polls real-time emergency beds and updates Firestore via Hash Diffing."""
+        lock = self._get_bed_poll_lock()
+        if lock.locked():
+            logger.info("[Scheduler] Real-time bed poll already in progress; skipping overlapping run.")
+            return self.last_bed_poll_stats or {"status": "SKIPPED_OVERLAP"}
+
+        async with lock:
+            return await self._poll_realtime_beds_locked()
+
+    async def _poll_realtime_beds_locked(self) -> dict[str, Any]:
         now_str = datetime.datetime.now(KST).isoformat()
         self.poll_count += 1
         self.last_bed_poll_time = now_str
@@ -102,8 +122,8 @@ class BackgroundDaemon:
                 )
 
             stats: dict[str, Any]
-            # 2. Synchronize to Firestore if credentials exist
-            if settings.has_firebase_key():
+            # 2. Synchronize to Firestore if GCP ADC credentials exist
+            if settings.has_gcp_adc():
                 try:
                     stats = sync_to_firestore(
                         hospitals=beds,
@@ -154,6 +174,15 @@ class BackgroundDaemon:
 
     async def sync_static_datasets(self, force: bool = False) -> dict[str, Any]:
         """Refreshes hospital coordinates, pairings, and national datasets with Hash Diffing (24-hour cycle)."""
+        lock = self._get_static_sync_lock()
+        if lock.locked():
+            logger.info("[Scheduler] Static dataset sync already in progress; skipping overlapping run.")
+            return {"status": "SKIPPED_OVERLAP"}
+
+        async with lock:
+            return await self._sync_static_datasets_locked(force=force)
+
+    async def _sync_static_datasets_locked(self, force: bool = False) -> dict[str, Any]:
         now_str = datetime.datetime.now(KST).isoformat()
         self.static_sync_count += 1
         self.last_static_sync_time = now_str

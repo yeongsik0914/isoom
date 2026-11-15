@@ -3,7 +3,6 @@ Google Cloud Secret Manager Sync & Setup Script for Aisum Cloud Run Deployment
 .env 파일 및 서비스 계정 키를 GCP Secret Manager에 안전하게 동기화하고 Cloud Run IAM 권한을 부여합니다.
 """
 
-import json
 import os
 import subprocess
 import sys
@@ -124,49 +123,25 @@ def main():
 
     env_vars = parse_env_file()
 
-    # 1. DATA_GO_API_KEY
+    # 1. DATA_GO_API_KEY (비-GCP 공공데이터포털)
     data_go_key = env_vars.get("DATA_GO_API_KEY")
     if data_go_key:
         ensure_secret("DATA_GO_API_KEY", data_go_key, project_id)
 
-    # 2. GEMINI_API_KEY
-    gemini_key = env_vars.get("GEMINI_API_KEY")
-    if gemini_key:
-        ensure_secret("GEMINI_API_KEY", gemini_key, project_id)
-
-    # 3. KAKAO_REST_API_KEY
+    # 2. KAKAO_REST_API_KEY (비-GCP 카카오 로컬)
     kakao_key = env_vars.get("KAKAO_REST_API_KEY")
     if kakao_key:
         ensure_secret("KAKAO_REST_API_KEY", kakao_key, project_id)
 
-    # 4. FIRESTORE_DATABASE_ID
+    # 3. FIRESTORE_DATABASE_ID
     firestore_db = env_vars.get("FIRESTORE_DATABASE_ID", "isoom")
     if firestore_db:
         ensure_secret("FIRESTORE_DATABASE_ID", firestore_db, project_id)
 
-    # 5. FIREBASE_KEY_JSON
-    firebase_json_content = None
-    candidate_paths = [
-        env_vars.get("FIREBASE_KEY_PATH"),
-        r"E:\FIREBASE_API_KEY\serviceAccountKey.json",
-        str(PROJECT_ROOT / "serviceAccountKey.json"),
-        r"C:\AI-Native-Agent\backup\serviceAccountKey.json.json",
-    ]
-
-    for p in candidate_paths:
-        if p and os.path.exists(p):
-            try:
-                with open(p, "r", encoding="utf-8") as f:
-                    firebase_json_content = f.read()
-                    print(f"  • Firebase 키 파일 발견 및 로드: {p}")
-                    break
-            except Exception as e:
-                print(f"  ⚠️ {p} 읽기 오류: {e}")
-
-    if firebase_json_content:
-        ensure_secret("FIREBASE_KEY_JSON", firebase_json_content, project_id)
-    else:
-        print("\n⚠️ [NOTICE] Firebase 서비스 계정 JSON 파일을 찾지 못했습니다.")
+    print("\nℹ️ [ADC 정책 안내]")
+    print("  • Vertex AI Gemini 및 Cloud Firestore는 API Key / serviceAccountKey.json 없이")
+    print("    GCP ADC(Application Default Credentials) IAM 권한으로 인증합니다.")
+    print("  • Cloud Run 서비스 계정 IAM 권한 부여: `python scripts/grant_adc_and_secret_iam.py`")
 
     # 6. IAM Secret Accessor 권한 부여
     grant_secret_accessor_iam(project_id)

@@ -1,0 +1,5 @@
+{
+  "name": "stitch",
+  "author": "isoom",
+  "description": "Google Stitch UI/UX Design MCP server authenticated strictly via GCP ADC (Application Default Credentials)."
+}

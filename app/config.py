@@ -1,7 +1,7 @@
 """Application configuration and credentials loader.
 
-Handles environment variables, Windows Registry fallback for API keys,
-and Firebase Admin SDK singleton client initialization.
+Handles environment variables, Windows Registry fallback for non-GCP public API keys,
+and GCP Application Default Credentials (ADC) client initialization.
 """
 
 from __future__ import annotations
@@ -18,9 +18,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
 
 
+def _is_development() -> bool:
+    return os.getenv("APP_ENV", "development").strip().lower() == "development"
+
+
 def _scan_windows_registry_for_key(target_patterns: list[str]) -> Optional[str]:
-    """Scans HKCU and HKLM Windows registry for keys if environment variable is not yet visible in shell."""
-    if sys.platform != "win32":
+    """Scans HKCU and HKLM Windows registry in local development when env vars are missing."""
+    if sys.platform != "win32" or not _is_development():
         return None
 
     try:
@@ -71,61 +75,62 @@ def resolve_public_data_api_key() -> Optional[str]:
     return _scan_windows_registry_for_key(["DATA_GO", "EGEN", "KASI", "PUBLIC_DATA", "SERVICE_KEY"])
 
 
-def resolve_gemini_api_key() -> Optional[str]:
-    """Resolves GEMINI_API_KEY from os.environ, .env, or Windows Registry."""
-    candidates = ["GEMINI_API_KEY", "GOOGLE_API_KEY"]
-    for key in candidates:
+def resolve_gcp_project_id() -> Optional[str]:
+    """Resolves GCP project ID from environment variables or ADC default project."""
+    for key in ("GOOGLE_CLOUD_PROJECT", "GCP_PROJECT", "GCLOUD_PROJECT"):
         val = os.getenv(key)
-        if val and len(val.strip()) > 5:
+        if val and val.strip():
             return val.strip()
 
-    return _scan_windows_registry_for_key(["GEMINI", "GOOGLE_API_KEY"])
+    try:
+        import google.auth
+        from google.auth.exceptions import DefaultCredentialsError
 
-
-def resolve_firebase_key_path() -> Optional[str]:
-    """Finds serviceAccountKey.json path by checking candidates, container secret paths, and Windows Registry."""
-    env_path = os.getenv("FIREBASE_KEY_PATH")
-    candidates = [
-        env_path,
-        "/secrets/serviceAccountKey.json",
-        "/app/serviceAccountKey.json",
-        str(PROJECT_ROOT / "serviceAccountKey.json"),
-        str(PROJECT_ROOT.parent / "serviceAccountKey.json"),
-        "serviceAccountKey.json",
-        "../serviceAccountKey.json",
-        r"C:\AI-Native-Agent\key\serviceAccountKey.json",
-        r"C:\AI-Native-Agent\key\serviceAccountKey.json.json",
-        r"E:\FIREBASE_API_KEY\serviceAccountKey.json",
-    ]
-
-    for p in candidates:
-        if p and os.path.exists(p):
-            return str(Path(p).resolve())
-
-    # Fallback to Windows Registry scan
-    reg_val = _scan_windows_registry_for_key(["FIREBASE_KEY_PATH", "FIREBASE_KEY", "FIREBASE_SERVICE_ACCOUNT"])
-    if reg_val and os.path.exists(reg_val):
-        return str(Path(reg_val).resolve())
+        try:
+            _, default_project = google.auth.default()
+            if default_project and default_project.strip():
+                return default_project.strip()
+        except DefaultCredentialsError:
+            pass
+    except Exception:
+        pass
 
     return None
 
 
-def resolve_firestore_database_id(key_path: Optional[str] = None) -> Optional[str]:
-    """Resolves Firestore database ID from FIRESTORE_DATABASE_ID env or auto-detects from GCP project."""
+def has_gcp_adc_credentials() -> bool:
+    """Returns True when GCP Application Default Credentials (or Cloud Run runtime) are available."""
+    if os.getenv("K_SERVICE"):
+        return True
+    try:
+        import google.auth
+        from google.auth.exceptions import DefaultCredentialsError
+
+        try:
+            creds, _ = google.auth.default()
+            return creds is not None
+        except DefaultCredentialsError:
+            return False
+    except Exception:
+        return False
+
+
+def resolve_firestore_database_id(
+    project_id: Optional[str] = None,
+    credentials: Optional[object] = None,
+    detect_via_adc: bool = False,
+) -> str:
+    """Resolves Firestore database ID from env or (when requested) via ADC FirestoreAdminClient."""
     env_db = os.getenv("FIRESTORE_DATABASE_ID")
-    if env_db:
+    if env_db and env_db.strip():
         return env_db.strip()
 
-    # If key_path is valid, attempt auto-detect via FirestoreAdminClient
-    target_key = key_path or resolve_firebase_key_path()
-    if target_key and os.path.exists(target_key):
+    if detect_via_adc and project_id:
         try:
             from google.cloud import firestore_admin_v1
-            from google.oauth2 import service_account
 
-            creds = service_account.Credentials.from_service_account_file(target_key)
-            admin_client = firestore_admin_v1.FirestoreAdminClient(credentials=creds)
-            parent = f"projects/{creds.project_id}"
+            admin_client = firestore_admin_v1.FirestoreAdminClient(credentials=credentials)
+            parent = f"projects/{project_id}"
             resp = admin_client.list_databases(parent=parent)
             db_names = [db.name.split("/")[-1] for db in resp.databases]
             if "(default)" in db_names:
@@ -135,7 +140,7 @@ def resolve_firestore_database_id(key_path: Optional[str] = None) -> Optional[st
         except Exception:
             pass
 
-    return "data-test01"
+    return "(default)"
 
 
 class Settings:
@@ -143,22 +148,19 @@ class Settings:
 
     def __init__(self) -> None:
         self.project_root: Path = PROJECT_ROOT
+        self.app_env: str = os.getenv("APP_ENV", "development").strip().lower()
         self.data_go_api_key: Optional[str] = resolve_public_data_api_key()
-        self.gemini_api_key: Optional[str] = resolve_gemini_api_key()
-        self.firebase_key_path: Optional[str] = resolve_firebase_key_path()
-        self.firestore_database_id: Optional[str] = resolve_firestore_database_id(self.firebase_key_path)
+        self.gcp_project_id: Optional[str] = resolve_gcp_project_id()
+        self.gcp_location: str = (os.getenv("GOOGLE_CLOUD_LOCATION") or "global").strip()
+        self.firestore_database_id: str = resolve_firestore_database_id()
         self.gemini_triage_model: str = os.getenv("GEMINI_TRIAGE_MODEL", "gemini-3.8-flash")
         self.gemini_logistics_model: str = os.getenv("GEMINI_LOGISTICS_MODEL", "gemini-3.5-flash-lite")
 
     def has_public_api_key(self) -> bool:
         return bool(self.data_go_api_key)
 
-    def has_firebase_key(self) -> bool:
-        has_file = bool(self.firebase_key_path and os.path.exists(self.firebase_key_path))
-        has_json_env = bool(os.getenv("FIREBASE_KEY_JSON"))
-        is_cloud_run = bool(os.getenv("K_SERVICE"))
-        has_adc = bool(os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("USE_ADC", "").lower() == "true")
-        return has_file or has_json_env or is_cloud_run or has_adc
+    def has_gcp_adc(self) -> bool:
+        return has_gcp_adc_credentials()
 
 
 # Singleton instance
@@ -169,43 +171,52 @@ _firestore_client = None
 
 
 def get_firestore_client():
-    """Returns singleton Firebase Cloud Firestore client with dynamic key resolution (File, JSON Env, or ADC)."""
+    """Returns singleton Cloud Firestore client authenticated strictly via GCP ADC."""
     global _firestore_client
     if _firestore_client is not None:
         return _firestore_client
 
-    import json
     import firebase_admin
-    from firebase_admin import credentials, firestore
+    import google.auth
+    from firebase_admin import firestore
+    from google.auth.exceptions import DefaultCredentialsError
 
-    key_json_str = os.getenv("FIREBASE_KEY_JSON")
-    key_path = settings.firebase_key_path or resolve_firebase_key_path()
+    credentials = None
+    project_id = settings.gcp_project_id
+    if not os.getenv("K_SERVICE"):
+        try:
+            credentials, default_project = google.auth.default()
+            project_id = project_id or default_project
+        except DefaultCredentialsError as e:
+            raise RuntimeError(
+                "GCP Application Default Credentials (ADC) not found for Firestore. "
+                "Run `gcloud auth application-default login` locally or attach a Cloud Run service account."
+            ) from e
+    else:
+        try:
+            credentials, default_project = google.auth.default()
+            project_id = project_id or default_project
+        except Exception:
+            pass
 
     if not firebase_admin._apps:
-        if key_json_str and len(key_json_str.strip()) > 10:
-            # 1. Environment Variable JSON String (Cloud Run Secret Manager)
-            try:
-                cert_dict = json.loads(key_json_str)
-                cred = credentials.Certificate(cert_dict)
-                firebase_admin.initialize_app(cred)
-            except Exception as e:
-                raise ValueError(f"Failed to parse FIREBASE_KEY_JSON: {e}")
-        elif key_path and os.path.exists(key_path):
-            # 2. Key File path (Local development or Volume Mount)
-            settings.firebase_key_path = key_path
-            cred = credentials.Certificate(key_path)
-            firebase_admin.initialize_app(cred)
-        elif os.getenv("K_SERVICE") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("USE_ADC", "").lower() == "true":
-            # 3. Google Application Default Credentials (ADC / Cloud Run IAM Keyless)
-            project_id = os.getenv("GOOGLE_CLOUD_PROJECT") or os.getenv("GCP_PROJECT") or "iceu-songpa10"
+        if project_id:
             firebase_admin.initialize_app(options={"projectId": project_id})
         else:
-            raise FileNotFoundError(
-                f"Firebase service account key not found at {key_path}. "
-                "Please ensure FIREBASE_KEY_PATH is set in .env or FIREBASE_KEY_JSON is provided."
-            )
+            firebase_admin.initialize_app()
 
-    db_id = settings.firestore_database_id or resolve_firestore_database_id(key_path)
+    db_id = os.getenv("FIRESTORE_DATABASE_ID", "").strip()
+    if not db_id:
+        if settings.firestore_database_id and settings.firestore_database_id != "(default)":
+            db_id = settings.firestore_database_id
+        else:
+            db_id = resolve_firestore_database_id(
+                project_id=project_id,
+                credentials=credentials,
+                detect_via_adc=True,
+            )
+            settings.firestore_database_id = db_id
+
     if db_id and db_id != "(default)":
         _firestore_client = firestore.client(database_id=db_id)
     else:

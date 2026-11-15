@@ -28,33 +28,17 @@
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/img/icon-192.png" />
 
-  <!-- 0ms FOUC Prevention Theme Script -->
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem('aisum_theme') || 'light';
-        var eff = t;
-        if (t === 'system') {
-          eff = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', eff);
-      } catch (e) { }
-    })();
-  </script>
-
   <!-- Pure Vanilla CSS Stylesheet -->
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/theme.js"></script>
+  <link rel="stylesheet" href="/css/style.css?v=2.0.0" />
+  <link rel="stylesheet" href="/css/stitch-aisum.css?v=1.0.0" />
 
   <!-- Single Source JavaScript Datasets & Modules (Zero Latency Cache) -->
-  <script src="../js/theme.js"></script>
-  <script src="/js/theme.js"></script>
-  <script src="../js/national_moonlight_hospitals_156.js"></script>
-  <script src="../js/national_night_pharmacies_2028.js"></script>
-  <script src="../js/nationwide_pairings.js"></script>
-  <script src="../js/national_emergency_hospitals.js"></script>
-  <script src="../js/public_night_pharmacies.js"></script>
-  <script src="../js/main.js?v=20261020_v4"></script>
+  <script src="/js/national_moonlight_hospitals_156.js"></script>
+  <script src="/js/national_night_pharmacies_2028.js"></script>
+  <script src="/js/nationwide_pairings.js"></script>
+  <script src="/js/national_emergency_hospitals.js"></script>
+  <script src="/js/main.js?v=20261020_v4"></script>
 
   <style>
     /* ==========================================================================
@@ -1319,9 +1303,15 @@
         </a>
         <h1 class="result-header-title">맞춤 의료기관 안내</h1>
       </div>
-      <a href="index.html" class="result-home-btn" aria-label="메인 홈으로 이동">
-        <span class="material-symbols-outlined" style="font-size: 24px;">home</span>
-      </a>
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span class="stitch-triage-pill" aria-label="실시간 병상 및 운영 동기화">
+          <span class="material-symbols-outlined" style="font-size: 13px;">clinical_notes</span>
+          <span>실시간 선별</span>
+        </span>
+        <a href="index.html" class="result-home-btn" aria-label="메인 홈으로 이동">
+          <span class="material-symbols-outlined" style="font-size: 24px;">home</span>
+        </a>
+      </div>
     </header>
 
     <!-- Main Content Area -->
@@ -3285,11 +3275,6 @@
     }
   </script>
 
-  <!-- Single Source JavaScript Modules -->
-  <script src="../js/nationwide_pairings.js"></script>
-  <script src="../js/national_emergency_hospitals.js"></script>
-  <script src="../js/public_night_pharmacies.js"></script>
-  <script src="../js/main.js?v=20261020_v4"></script>
 </body>
 
 </html>

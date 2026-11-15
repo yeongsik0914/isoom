@@ -11,15 +11,18 @@ from __future__ import annotations
 
 import asyncio
 import json
-from typing import AsyncGenerator, Optional
+import logging
+from typing import AsyncGenerator
 
-from fastapi import APIRouter, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 
 from app.orchestrator.supervisor import SupervisorOrchestrator
 from app.schemas.chat import ChatRequest, SessionDetailResponse
 from app.schemas.supervisor import SupervisorResponse
+from app.services.auth import require_admin_token, verify_session_access
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 # Singleton supervisor orchestrator instance for API serving
@@ -82,8 +85,12 @@ async def _sse_event_generator(
 
         # Emit completion indicator
         yield "event: done\ndata: [DONE]\n\n"
-    except Exception as e:
-        err_payload = json.dumps({"error": str(e)}, ensure_ascii=False)
+    except Exception:
+        logger.exception("[ChatAPI] Error during SSE streaming")
+        err_payload = json.dumps(
+            {"error": "상담 처리 중 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."},
+            ensure_ascii=False,
+        )
         yield f"event: error\ndata: {err_payload}\n\n"
 
 
@@ -136,6 +143,7 @@ async def chat_stream(req: ChatRequest):
 @router.get(
     "/session/{session_id}",
     response_model=SessionDetailResponse,
+    dependencies=[Depends(verify_session_access)],
     summary="세션 상태 및 대화 이력 조회",
     description="특정 session_id의 현재 임상 변수 및 FSM 진행 상태를 조회합니다.",
 )
@@ -167,6 +175,7 @@ async def get_session_detail(session_id: str):
 
 @router.delete(
     "/session/{session_id}",
+    dependencies=[Depends(verify_session_access)],
     summary="세션 삭제 및 초기화",
     description="지정된 session_id의 메모리 세션을 즉시 삭제합니다.",
 )
@@ -184,6 +193,7 @@ async def reset_session(session_id: str):
 
 @router.get(
     "/sessions",
+    dependencies=[Depends(require_admin_token)],
     summary="활성 세션 통계",
     description="현재 메모리에 유지 중인 활성 세션 총 개수를 반환합니다.",
 )

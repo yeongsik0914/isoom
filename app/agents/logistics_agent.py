@@ -20,6 +20,7 @@ from pydantic import BaseModel, Field
 
 from app.config import settings
 from app.schemas.state import PatientSessionState
+from app.services.genai_client import build_genai_client
 
 logger = logging.getLogger(__name__)
 
@@ -53,33 +54,15 @@ class LogisticsAgent:
 
     def __init__(
         self,
-        api_key: Optional[str] = None,
         model_name: Optional[str] = None,
         enable_gemini: bool = True,
     ) -> None:
-        self.api_key = (api_key or settings.gemini_api_key) if enable_gemini else None
         self.model_name = model_name or settings.gemini_logistics_model
-        self._client: Optional[Any] = None
-
-        if self.api_key:
-            try:
-                import google.genai as genai
-
-                self._client = genai.Client(api_key=self.api_key)
-            except Exception as e:
-                logger.warning(f"[LogisticsAgent] Failed to initialize Google GenAI Client with API Key: {e}")
-                self._client = None
-        elif os.getenv("K_SERVICE") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS") or os.getenv("USE_VERTEX_AI", "").lower() == "true":
-            try:
-                import google.genai as genai
-
-                project_id = os.getenv("GOOGLE_CLOUD_PROJECT") or os.getenv("GCP_PROJECT") or "iceu-songpa10"
-                location = os.getenv("GOOGLE_CLOUD_LOCATION", "asia-northeast3")
-                self._client = genai.Client(vertexai=True, project=project_id, location=location)
-                logger.info(f"[LogisticsAgent] Initialized Vertex AI ADC Client (Project: {project_id}, Region: {location})")
-            except Exception as e:
-                logger.warning(f"[LogisticsAgent] Failed to initialize Vertex AI ADC Client: {e}")
-                self._client = None
+        self._client: Optional[Any] = (
+            build_genai_client(agent_label="LogisticsAgent")
+            if enable_gemini
+            else None
+        )
 
     async def generate_logistics(
         self,

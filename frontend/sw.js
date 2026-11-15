@@ -7,7 +7,7 @@
  *   3) 음영지역 오프라인 대응
  */
 
-const CACHE_NAME = 'aisum-pwa-cache-v4';
+const CACHE_NAME = 'aisum-pwa-cache-v5';
 
 const STATIC_ASSETS = [
   '/',
@@ -24,6 +24,8 @@ const STATIC_ASSETS = [
   '/terms.html',
   '/permission.html',
   '/css/style.css',
+  '/css/stitch-aisum.css',
+  '/js/theme.js',
   '/js/main.js',
   '/manifest.json',
   '/img/icon-192.png',

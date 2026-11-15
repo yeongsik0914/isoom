@@ -1,7 +1,7 @@
 """
-🚀 아이숨 (Aisum) - Google Cloud Run 원클릭 프로덕션 배포 파이프라인 (v2.9.39 하이브리드 ADC & Secret Manager 지원)
-- GCP Secret Manager에 등록된 API 키(DATA_GO_API_KEY, KAKAO_REST_API_KEY, GEMINI_API_KEY)를 --set-secrets로 안전하게 주입
-- Cloud Firestore는 키 파일/문자열 없이 Cloud Run 서비스 계정의 ADC(Application Default Credentials)로 100% 무키 자동 인증
+🚀 아이숨 (Aisum) - Google Cloud Run 원클릭 프로덕션 배포 파이프라인 (100% GCP ADC & 외부 API Secret Manager 지원)
+- 비-GCP 외부 API 키(DATA_GO_API_KEY, KAKAO_REST_API_KEY)만 Secret Manager --set-secrets로 안전하게 주입
+- Vertex AI Gemini 및 Cloud Firestore는 API Key/키 파일 없이 Cloud Run 서비스 계정의 ADC(Application Default Credentials)로 100% 무키 자동 인증
 - Cloud Run 서비스 계정에 Secret Accessor, Datastore User, Vertex AI User IAM 역할을 자동 점검 및 부여
 """
 
@@ -24,7 +24,6 @@ ENV_FILE = PROJECT_ROOT / ".env"
 GCLOUD_CMD = "gcloud.cmd" if os.name == "nt" else "gcloud"
 SERVICE_NAME = "isoom-service"
 DEFAULT_REGION = "asia-northeast3"  # 서울 리전
-FALLBACK_PROJECT_NUMBER = "920380215419"
 
 
 def run_command(cmd_list, check=False, capture=True):
@@ -133,8 +132,12 @@ def check_gcloud_auth():
     code, project_id, _ = run_command([GCLOUD_CMD, "config", "get-value", "project"])
     project_id = project_id.strip() if code == 0 else ""
     if not project_id or "(unset)" in project_id:
-        project_id = "iceu-songpa10"
-        print(f"  ⚠️ 활성 프로젝트가 설정되지 않아 기본값 '{project_id}'을(를) 적용합니다.")
+        project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "").strip()
+    if not project_id:
+        print("  ❌ GCP 프로젝트 ID가 설정되지 않았습니다.")
+        print("     다음 명령어로 설정하거나 GOOGLE_CLOUD_PROJECT 환경변수를 지정해주세요:")
+        print(f"     {GCLOUD_CMD} config set project <YOUR_GCP_PROJECT_ID>")
+        return False, None
 
     code, auth_out, _ = run_command([GCLOUD_CMD, "auth", "print-access-token"])
     if code != 0 or not auth_out:
@@ -166,7 +169,8 @@ def grant_cloud_run_iam_permissions(project_id):
         GCLOUD_CMD, "projects", "describe", project_id, "--format=value(projectNumber)"
     ])
     if code != 0 or not project_number:
-        project_number = FALLBACK_PROJECT_NUMBER
+        print("  ⚠️ 프로젝트 번호를 조회하지 못해 IAM 바인딩을 건너뜁니다.")
+        return
 
     service_account = f"{project_number}-compute@developer.gserviceaccount.com"
     print(f"  • 타겟 서비스 계정: {service_account}")
@@ -260,44 +264,38 @@ def deploy_to_cloud_run(project_id, region=DEFAULT_REGION):
     else:
         print("  ⚠️ KAKAO_REST_API_KEY: Secret Manager에 미등록됨")
 
-    # Check GEMINI_API_KEY or geminikey
-    if check_secret_exists("GEMINI_API_KEY", project_id):
-        secrets_to_bind.append("GEMINI_API_KEY=GEMINI_API_KEY:latest")
-        print("  • GEMINI_API_KEY: Secret Manager 바인딩 적용")
-    elif check_secret_exists("geminikey", project_id):
-        secrets_to_bind.append("GEMINI_API_KEY=geminikey:latest")
-        print("  • GEMINI_API_KEY: Secret Manager ('geminikey') 바인딩 적용")
-    else:
-        print("  ℹ️ GEMINI_API_KEY: Vertex AI ADC 모드 자동 적용")
-
-    print("  • Firebase Cloud Firestore: 100% 무키(Keyless) ADC 모드 적용 (인라인 키 주입 불필요)")
+    print("  • Vertex AI Gemini: 100% 무키(Keyless) ADC 모드 적용 (API Key 불필요)")
+    print("  • Cloud Firestore: 100% 무키(Keyless) ADC 모드 적용 (서비스 계정 키 파일 불필요)")
 
     # 3. Environment variables (Non-secret configs only)
     env_data = load_env_vars()
     firestore_db = env_data.get("FIRESTORE_DATABASE_ID", "isoom")
+    gcp_location = env_data.get("GOOGLE_CLOUD_LOCATION", "global")
 
     deploy_env = {
         "APP_ENV": "production",
         "LOG_LEVEL": env_data.get("LOG_LEVEL", "INFO"),
         "FIRESTORE_DATABASE_ID": firestore_db,
         "GOOGLE_CLOUD_PROJECT": project_id,
-        "USE_ADC": "true",
+        "GOOGLE_CLOUD_LOCATION": gcp_location,
+        "GOOGLE_GENAI_USE_VERTEXAI": "true",
     }
 
-    # Fallback to local .env if secret not in Secret Manager
+    # Fallback to local .env for non-GCP external keys if not in Secret Manager
     if "DATA_GO_API_KEY" not in str(secrets_to_bind) and env_data.get("DATA_GO_API_KEY"):
         deploy_env["DATA_GO_API_KEY"] = env_data["DATA_GO_API_KEY"]
         deploy_env["DATA_GO_KR_API_KEY"] = env_data["DATA_GO_API_KEY"]
     if "KAKAO_REST_API_KEY" not in str(secrets_to_bind) and env_data.get("KAKAO_REST_API_KEY"):
         deploy_env["KAKAO_REST_API_KEY"] = env_data["KAKAO_REST_API_KEY"]
-    if "GEMINI_API_KEY" not in str(secrets_to_bind) and env_data.get("GEMINI_API_KEY"):
-        deploy_env["GEMINI_API_KEY"] = env_data["GEMINI_API_KEY"]
 
     print(f"\n🚀 [4/4] Cloud Run 프로덕션 배포 시작 ({SERVICE_NAME}, {region})...")
 
     temp_env_yaml = PROJECT_ROOT / ".cloud_run_env.yaml"
     try:
-        yaml_lines = [f"{k}: '{v.replace('\'', '\'\'')}'" for k, v in deploy_env.items()]
+        yaml_lines = []
+        for k, v in deploy_env.items():
+            escaped_v = str(v).replace("'", "''")
+            yaml_lines.append(f"{k}: '{escaped_v}'")
         with open(temp_env_yaml, "w", encoding="utf-8") as f:
             f.write("\n".join(yaml_lines) + "\n")
 
@@ -375,11 +373,9 @@ def main():
     print("  (하이브리드 Secret Manager & 무키 ADC 인증 파이프라인)")
     print("=" * 75)
 
-    sync_frontend_assets()
-
     is_authed, project_id = check_gcloud_auth()
-    if not is_authed:
-        print("배포를 계속하려면 위의 안내에 따라 gcloud auth login을 수행한 후 다시 실행해주세요.")
+    if not is_authed or not project_id:
+        print("배포를 계속하려면 위의 안내에 따라 gcloud auth login 및 프로젝트 설정을 수행한 후 다시 실행해주세요.")
         sys.exit(1)
 
     deploy_to_cloud_run(project_id)

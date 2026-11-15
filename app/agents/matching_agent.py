@@ -27,6 +27,7 @@ from app.schemas.state import PatientSessionState
 from app.services.emergency_sync_service import fetch_emergency_beds
 from app.services.holiday_service import HolidayService
 from app.services.pairing_service import find_nearby_pairings
+from app.services.ranking_service import apply_mmr_diversity_reranking
 from app.services.spatial_service import rank_emergency_hospitals
 
 KST = datetime.timezone(datetime.timedelta(hours=9))
@@ -290,6 +291,14 @@ class MatchingAgent:
                     "lat": b.lat,
                     "lon": b.lon,
                 })
+
+        # Multi-Objective Pareto & Safety-Constrained MMR Enrichment
+        matched_hospitals = apply_mmr_diversity_reranking(
+            hospitals=matched_hospitals,
+            ktas_level=state.ktas_level,
+            is_red_flag=state.is_red_flag,
+            pharmacies=matched_pharmacies,
+        )
 
         # Save to state
         state.matched_hospitals = matched_hospitals
